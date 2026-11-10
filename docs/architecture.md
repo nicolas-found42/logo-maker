@@ -230,6 +230,8 @@ model `typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/syst
 `TypeSafe-Danger-Zone-Images: true`. Every request is logged to `qa/jev/requests/` with each image
 replaced by its sha256, and each image is stored once in `qa/jev/assets/`. 429/5xx retry with
 backoff; any other failure raises `JevError` and never reads as "no".
+Mixed image dimensions require center padding to a shared canvas. Padding copies RGBA pixels
+without using their alpha as a second mask; translucency must not change during this step.
 
 ### Adapters
 

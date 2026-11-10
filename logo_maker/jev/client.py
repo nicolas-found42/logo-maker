@@ -110,7 +110,6 @@ def _pad_to(im: Any, size: tuple[int, int]) -> Any:
     canvas.paste(
         im,
         ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2),
-        im if "A" in im.mode else None,
     )
     return canvas
 

@@ -1,0 +1,51 @@
+{
+  "seq": 2,
+  "label": "diagnose-no_small_views",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "b79f0e5aad284801b9aaf8353e66cce0",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant that remembers the meeting so you make the call.",
+      "tone": [
+        "deliberate",
+        "clear"
+      ],
+      "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A serif C whose opening holds a check stroke; Chief of Staff remembers the meeting, you make the call.",
+      "treatment": "wax seal with ring legend and crossed ribbons"
+    },
+    "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons."
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    }
+  },
+  "assets": {
+    "b79f0e5aad284801b9aaf8353e66cce0": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.31
+    }
+  },
+  "usage": {
+    "input_tokens": 3297,
+    "output_tokens": 20,
+    "cost": 0.000138474
+  }
+}

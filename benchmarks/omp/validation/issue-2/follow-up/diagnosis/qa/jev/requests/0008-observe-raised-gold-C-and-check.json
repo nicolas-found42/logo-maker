@@ -1,0 +1,78 @@
+{
+  "seq": 8,
+  "label": "observe-raised gold C and check",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "c237694cf29c441d8dcb8b9e83ef32e4",
+    "surface_to_inspect": "raised gold C and check"
+  },
+  "questions": {
+    "observed_sheen": {
+      "type": "choice",
+      "instructions": "What surface sheen is visible on `surface_to_inspect` in `candidate`?",
+      "criteria": {
+        "matte": "Diffuse shading without distinct specular highlights.",
+        "satin": "Broad soft specular highlights.",
+        "glossy": "Distinct bright specular highlights.",
+        "mirror": "Sharp reflected environment imagery."
+      }
+    },
+    "observed_edges": {
+      "type": "choice",
+      "instructions": "What edge character is visible on `surface_to_inspect` in `candidate`?",
+      "criteria": {
+        "sharp_cut": "Crisp abrupt cut edges.",
+        "beveled": "Small chamfered or softly beveled transitions.",
+        "rounded": "Broadly rounded or rolled transitions."
+      }
+    },
+    "surface_visible": {
+      "type": "noul",
+      "instructions": "Is `surface_to_inspect` visible clearly in `candidate`?",
+      "criteria": {
+        "true": "The named surface is present with readable shading and edges.",
+        "false": "The named surface is absent or obscured."
+      }
+    }
+  },
+  "assets": {
+    "c237694cf29c441d8dcb8b9e83ef32e4": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "observed_sheen": {
+      "type": "choice",
+      "choice": "glossy",
+      "probabilities": {
+        "matte": 0.01,
+        "satin": 0.22,
+        "glossy": 0.74,
+        "mirror": 0.03
+      },
+      "confidence": 0.65
+    },
+    "observed_edges": {
+      "type": "choice",
+      "choice": "beveled",
+      "probabilities": {
+        "sharp_cut": 0.18,
+        "beveled": 0.51,
+        "rounded": 0.31
+      },
+      "confidence": 0.26
+    },
+    "surface_visible": {
+      "type": "noul",
+      "noul": 0.97
+    }
+  },
+  "usage": {
+    "input_tokens": 3311,
+    "output_tokens": 116,
+    "cost": 0.000139062
+  }
+}

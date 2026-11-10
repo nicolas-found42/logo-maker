@@ -1,0 +1,284 @@
+{
+  "seq": 16,
+  "label": "relation-and-resolved-original",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "4ab12fd346994d489421fee015d8ae7f",
+    "reference": "c1d83f2890ef42d6926d995a2304a104",
+    "intended_appearances": {
+      "candidate": "Blue clear-coated wax seal with raised reflective gold and matte green ribbons.",
+      "reference": "A finished dimensional blue wax seal with gold relief and green ribbons."
+    }
+  },
+  "questions": {
+    "form_finish_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of contours and joins in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "form_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the contours and joins in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Contours follow intentional shapes and joins meet cleanly.",
+        "false": "Unintended pinches, gaps, collisions or floating pieces interrupt the intended construction."
+      }
+    },
+    "surface_finish_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of surface transitions in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "surface_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the surface transitions in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Shading transitions follow the intended surfaces cleanly.",
+        "false": "Accidental blotches, seams or shading breaks interrupt the intended surface."
+      }
+    },
+    "detail_finish_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of visible details in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "detail_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the visible details in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The intended details remain individually resolved.",
+        "false": "Intended details are merged, damaged or left unfinished."
+      }
+    },
+    "edge_refinement_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of designed edge transitions in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "edge_refinement_resolved": {
+      "type": "noul",
+      "instructions": "Are the designed edge transitions in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The intended edge profile runs consistently around the forms.",
+        "false": "Accidental bevel ends, spikes or sudden thickness changes break the edge profile."
+      }
+    },
+    "material_construction_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of material construction in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "material_construction_resolved": {
+      "type": "noul",
+      "instructions": "Are the material construction in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Thickness, surface texture and shading coherently realize the intended material.",
+        "false": "Thickness, texture or shading contradict the intended material construction."
+      }
+    },
+    "proportion_control_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of relative masses and negative space in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "proportion_control_resolved": {
+      "type": "noul",
+      "instructions": "Are the relative masses and negative space in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Masses, spacing and negative spaces form a deliberate balanced composition.",
+        "false": "Accidental spacing or clumsy masses leave the composition unresolved."
+      }
+    },
+    "visual_hierarchy_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of primary and supporting forms in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "visual_hierarchy_resolved": {
+      "type": "noul",
+      "instructions": "Are the primary and supporting forms in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The core motif is clear and supporting detail serves it.",
+        "false": "Competing incidental forms obscure the core motif."
+      }
+    },
+    "lighting_control_relation": {
+      "type": "choice",
+      "instructions": "How does the execution of lighting of the intended form in `candidate` relate to the floor demonstrated by `reference`, for their respective `intended_appearances`?",
+      "criteria": {
+        "below_floor": "Visible execution is unfinished or less controlled than the demonstrated standard.",
+        "meets_floor": "Visible execution meets the same finished standard, including equally accomplished work in a different treatment.",
+        "exceeds_floor": "Visible execution is demonstrably more controlled than the demonstrated standard."
+      }
+    },
+    "lighting_control_resolved": {
+      "type": "noul",
+      "instructions": "Are the lighting of the intended form in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Light makes the intended depth and material readable.",
+        "false": "Clipped, misplaced or confusing shading hides important intended forms."
+      }
+    }
+  },
+  "assets": {
+    "4ab12fd346994d489421fee015d8ae7f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "c1d83f2890ef42d6926d995a2304a104": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    }
+  },
+  "answers": {
+    "form_finish_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.73,
+        "meets_floor": 0.25,
+        "exceeds_floor": 0.02
+      },
+      "confidence": 0.6
+    },
+    "form_finish_resolved": {
+      "type": "noul",
+      "noul": 0.45
+    },
+    "surface_finish_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.83,
+        "meets_floor": 0.16,
+        "exceeds_floor": 0.01
+      },
+      "confidence": 0.74
+    },
+    "surface_finish_resolved": {
+      "type": "noul",
+      "noul": 0.62
+    },
+    "detail_finish_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.81,
+        "meets_floor": 0.18,
+        "exceeds_floor": 0.01
+      },
+      "confidence": 0.72
+    },
+    "detail_finish_resolved": {
+      "type": "noul",
+      "noul": 0.42
+    },
+    "edge_refinement_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.75,
+        "meets_floor": 0.23,
+        "exceeds_floor": 0.02
+      },
+      "confidence": 0.62
+    },
+    "edge_refinement_resolved": {
+      "type": "noul",
+      "noul": 0.47
+    },
+    "material_construction_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.77,
+        "meets_floor": 0.22,
+        "exceeds_floor": 0.01
+      },
+      "confidence": 0.66
+    },
+    "material_construction_resolved": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "proportion_control_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.7,
+        "meets_floor": 0.28,
+        "exceeds_floor": 0.02
+      },
+      "confidence": 0.55
+    },
+    "proportion_control_resolved": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "visual_hierarchy_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.8,
+        "meets_floor": 0.19,
+        "exceeds_floor": 0.01
+      },
+      "confidence": 0.7
+    },
+    "visual_hierarchy_resolved": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "lighting_control_relation": {
+      "type": "choice",
+      "choice": "below_floor",
+      "probabilities": {
+        "below_floor": 0.84,
+        "meets_floor": 0.15,
+        "exceeds_floor": 0.01
+      },
+      "confidence": 0.76
+    },
+    "lighting_control_resolved": {
+      "type": "noul",
+      "noul": 0.75
+    }
+  },
+  "usage": {
+    "input_tokens": 7485,
+    "output_tokens": 528,
+    "cost": 0.00031437
+  }
+}

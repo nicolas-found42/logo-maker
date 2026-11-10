@@ -11,3 +11,5 @@ vor = "vor"
 threed = "threed"
 PN = "PN"
 PNGs = "PNGs"
+# NumPy API retained in exact measured Python-source snapshots (.py.txt).
+arange = "arange"
