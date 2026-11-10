@@ -1,0 +1,600 @@
+{
+  "baseline_revision": "38ba86b9ccff305cb453c46920824509ae989f76",
+  "rows": [
+    {
+      "name": "glass-baseline-seed0-t0.01-run2",
+      "seconds": 63.71846316600568,
+      "render_seconds": 59.777841499992064,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 57.78555229199992,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "glass-baseline-seed0-t0.01-run3",
+      "seconds": 65.32768029200088,
+      "render_seconds": 61.32471375000023,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 58.91841700000805,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "glass-current-seed0-t0.01-run2",
+      "seconds": 64.56794837501366,
+      "render_seconds": 60.460318875004305,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 56.53680420899764,
+      "diagnostic_write_seconds": 0.5313328750053188,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 304.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.015606993855609071,
+        "at_cap_fraction": 0.013746211510984171
+      },
+      "diagnostic_bytes": 299041512
+    },
+    {
+      "name": "glass-current-seed0-t0.01-run3",
+      "seconds": 63.50850591600465,
+      "render_seconds": 59.252700791999814,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 55.5694711249962,
+      "diagnostic_write_seconds": 0.48274166700139176,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 304.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.01560714441652376,
+        "at_cap_fraction": 0.013746211510984171
+      },
+      "diagnostic_bytes": 299017878
+    },
+    {
+      "name": "glass-current-seed0-t0.02-run2",
+      "seconds": 47.88215274999675,
+      "render_seconds": 43.85512575000757,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 39.24939245899441,
+      "diagnostic_write_seconds": 0.49186375000863336,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 96.0,
+        "p99": 1760.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0010849283933710063,
+        "at_cap_fraction": 0.000780799146270058
+      },
+      "diagnostic_bytes": 298283579
+    },
+    {
+      "name": "glass-current-seed43-t0.02-run3",
+      "seconds": 47.96826041699387,
+      "render_seconds": 43.92416466600844,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 43,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 40.2327185000031,
+      "diagnostic_write_seconds": 0.5080952499993145,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641925,
+        "p50": 64.0,
+        "p90": 96.0,
+        "p99": 1776.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0011105214226297345,
+        "at_cap_fraction": 0.0008113611641203416
+      },
+      "diagnostic_bytes": 298341689
+    },
+    {
+      "name": "matte-baseline-seed0-t0.01-run1",
+      "seconds": 22.190317750006216,
+      "render_seconds": 18.191727915997035,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 16.107222582999384,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "matte-baseline-seed0-t0.01-run2",
+      "seconds": 27.784590708004544,
+      "render_seconds": 23.998042708990397,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 21.23934454099799,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "matte-baseline-seed0-t0.01-run3",
+      "seconds": 21.232233499991708,
+      "render_seconds": 17.257437874999596,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 15.06694887499907,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "matte-current-seed0-t0.01-run1",
+      "seconds": 27.4069434159901,
+      "render_seconds": 23.424384375000955,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 19.262937708001118,
+      "diagnostic_write_seconds": 0.4948983340000268,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 96.0,
+        "p99": 160.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 279453853
+    },
+    {
+      "name": "matte-current-seed0-t0.01-run2",
+      "seconds": 23.702076290996047,
+      "render_seconds": 19.53157283300243,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 16.009122165996814,
+      "diagnostic_write_seconds": 0.4863974159961799,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 96.0,
+        "p99": 160.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 279491019
+    },
+    {
+      "name": "matte-current-seed0-t0.01-run3",
+      "seconds": 23.672024416999193,
+      "render_seconds": 19.57644445799815,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 15.975216582999565,
+      "diagnostic_write_seconds": 0.5045337499905145,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 96.0,
+        "p99": 160.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 279490898
+    },
+    {
+      "name": "matte-current-seed0-t0.02-run2",
+      "seconds": 22.602246375012328,
+      "render_seconds": 18.324767666999833,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 14.65057329100091,
+      "diagnostic_write_seconds": 0.5856665419996716,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 256.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 279464586
+    },
+    {
+      "name": "matte-current-seed43-t0.02-run3",
+      "seconds": 18.78463675000239,
+      "render_seconds": 14.518904041004134,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 43,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 10.744784374997835,
+      "diagnostic_write_seconds": 0.4985379580029985,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641925,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 224.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 279370813
+    },
+    {
+      "name": "metal-baseline-seed0-t0.01-run2",
+      "seconds": 35.04021187500621,
+      "render_seconds": 31.122992208998767,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 28.99291300000914,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "metal-baseline-seed0-t0.01-run3",
+      "seconds": 38.84138462500414,
+      "render_seconds": 34.60460554200108,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 32.35679837499629,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "metal-current-seed0-t0.01-run2",
+      "seconds": 49.30363070900785,
+      "render_seconds": 45.20662270800676,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 41.18913466700178,
+      "diagnostic_write_seconds": 0.6516302919917507,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 6.760185069476334e-05,
+        "at_cap_fraction": 4.6071639894426685e-05
+      },
+      "diagnostic_bytes": 288755540
+    },
+    {
+      "name": "metal-current-seed0-t0.01-run3",
+      "seconds": 40.91213420800341,
+      "render_seconds": 36.855626707998454,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 32.70569245799561,
+      "diagnostic_write_seconds": 0.5727059580094647,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 6.760185069476334e-05,
+        "at_cap_fraction": 4.6071639894426685e-05
+      },
+      "diagnostic_bytes": 288726485
+    },
+    {
+      "name": "metal-current-seed0-t0.02-run2",
+      "seconds": 25.30021608399693,
+      "render_seconds": 21.311087791997124,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 17.204609584005084,
+      "diagnostic_write_seconds": 0.5538440420059487,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 1984.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 289322544
+    },
+    {
+      "name": "metal-current-seed43-t0.02-run3",
+      "seconds": 23.833845957997255,
+      "render_seconds": 19.747735291006393,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 43,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 16.168207541006268,
+      "diagnostic_write_seconds": 0.5347639579995302,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641925,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 1952.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "diagnostic_bytes": 289408045
+    },
+    {
+      "name": "typography-baseline-seed0-t0.01-runfinal",
+      "seconds": 47.62143895801273,
+      "render_seconds": 43.60672920801153,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 41.04447458300274,
+      "diagnostic_write_seconds": null
+    },
+    {
+      "name": "typography-current-seed0-t0.01-rundegraded",
+      "seconds": 13.76860487498925,
+      "render_seconds": 9.731908083005692,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 16,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 6.105623374998686,
+      "diagnostic_write_seconds": 0.4493896250060061,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6639872,
+        "p50": 16.0,
+        "p90": 16.0,
+        "p99": 16.0,
+        "max": 16.0,
+        "near_cap_fraction": 1.0,
+        "at_cap_fraction": 1.0
+      },
+      "diagnostic_bytes": 295687773
+    },
+    {
+      "name": "typography-current-seed0-t0.01-runfinal",
+      "seconds": 49.26467941599549,
+      "render_seconds": 45.173270208004396,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.009999999776482582,
+      "native_seconds": 41.661655542004155,
+      "diagnostic_write_seconds": 0.46060491699608974,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 256.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0007205845376951834,
+        "at_cap_fraction": 0.0005498484604393669
+      },
+      "diagnostic_bytes": 292397058
+    },
+    {
+      "name": "typography-current-seed0-t0.02-runfinal",
+      "seconds": 46.286452083993936,
+      "render_seconds": 42.200864625003305,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 0,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 38.412730249998276,
+      "diagnostic_write_seconds": 0.48077350000676233,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 80.0,
+        "max": 4096.0,
+        "near_cap_fraction": 4.516770996548735e-05,
+        "at_cap_fraction": 3.5080254739861844e-05
+      },
+      "diagnostic_bytes": 293135708
+    },
+    {
+      "name": "typography-current-seed43-t0.02-runfinal",
+      "seconds": 44.991001292000874,
+      "render_seconds": 40.86294487499981,
+      "verified": true,
+      "effective_denoiser": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "seed": 43,
+      "cap": 4096,
+      "threshold": 0.019999999552965164,
+      "native_seconds": 37.15659804099414,
+      "diagnostic_write_seconds": 0.5089497090084478,
+      "diagnostics": "available",
+      "foreground": {
+        "pixels": 6641925,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 80.0,
+        "max": 4096.0,
+        "near_cap_fraction": 4.396315827113375e-05,
+        "at_cap_fraction": 2.9057840912084977e-05
+      },
+      "diagnostic_bytes": 293057047
+    }
+  ],
+  "measured_job_seconds_total": 955.5116802070261,
+  "timing_scope": "per-job measurement scope; parent launch and later visual review excluded",
+  "qualification": "incomplete; no owner sampling review or calibrated automatic quality tolerances",
+  "kernel_cache_state": "unknown",
+  "fixture_gap": "matte/metal/glass initial ring text was occluded by plate; not typography qualification. Separate typography fixture places type above plate.",
+  "local_full_artifacts": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5",
+  "large_exrs_in_git": false,
+  "original_working_root": "/tmp/logo-maker-sampling-validation"
+}

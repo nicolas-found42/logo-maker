@@ -1,0 +1,4 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+116 files already formatted
