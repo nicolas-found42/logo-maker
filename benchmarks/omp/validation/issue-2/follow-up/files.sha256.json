@@ -1,8 +1,8 @@
 {
-  "captures/capture-padding.cjs.txt": "5729f9a765a690c931e42f2ff03a959f5529a1f613e9020725ba3c5cda07376c",
-  "captures/padding-after.png": "a352d3d03d97cb0d0446f34498326a233e0458fc94978b167ce313d81dcdc259",
+  "captures/capture-padding.cjs.txt": "5d89f49c148550600381de308b8bcf5922223acbf10cfd0aa959992e6a82df62",
+  "captures/padding-after.png": "ab43626ecd7c618d8c479b0f27156a2b00ede9d998be8d1bb03b5f38a94d9244",
   "captures/padding-after.txt": "052c74990c622d2463b63de0841ab8f3c067e42a3cf7ccecfa67bef2400a3db6",
-  "captures/padding-before.png": "06e0a2dadd78bbb67370e029b9f80c0a3f3fdea5c7885fae399d25859a2dad6c",
+  "captures/padding-before.png": "d32501d05378208ca0d3003122b4f08f17a32fff3ecbd979213633fb23215d77",
   "captures/padding-before.txt": "2e89268f2ac3d97281603f0e2d82b0f7711a98ff40b2cbdf4c775f1a2d59c376",
   "captures/padding-reproduce.py.txt": "3b17a6bc96e397e0a1c77e145baa14710734939afbd60cee9ad28be09f452db7",
   "diagnosis/qa/jev/answers.jsonl": "eeb8dbce1d7bf5a17ba456f46aef817b60deb17ea15b81a89c7a6ab710971c42",
