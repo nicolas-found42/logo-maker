@@ -1,8 +1,6 @@
 name: ci
 
-# Every test runs here: offline tests, then the Blender render tests (`-m render`). Hosted macOS
-# runners expose no Metal GPU, so Cycles renders on CPU. `live` jev tests need an API key and
-# stay local.
+# Offline checks only: no GPU, no jev key. The render tests run locally (`just render-example`).
 on:
   push:
     branches: [main]
@@ -50,8 +48,6 @@ jobs:
   test:
     name: test
     runs-on: macos-latest
-    # bpy renders run up to 900 s each (render.RENDER_TIMEOUT); leave room for both.
-    timeout-minutes: 60
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -73,5 +69,3 @@ jobs:
         run: uv run --no-sync ty check
       - name: Offline tests
         run: uv run --no-sync python -m pytest -q -m "not render and not live"
-      - name: Render tests
-        run: uv run --no-sync python -m pytest -q -m render
