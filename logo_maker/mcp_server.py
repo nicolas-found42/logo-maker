@@ -38,7 +38,7 @@ def _jsonable(value: Any) -> Any:
 
 
 async def _stage(fn: Callable[..., Any], target: str, out: str | None) -> dict[str, Any]:
-    from logo_maker.pipeline import AuthoringNeeded
+    from logo_maker.pipeline import AuthoringNeeded, status
 
     logo = resolve_logo(target, Path(out) if out else None)
 
@@ -55,6 +55,10 @@ async def _stage(fn: Callable[..., Any], target: str, out: str | None) -> dict[s
             "message": str(exc).splitlines()[0],
             "files": [str(f) for f in exc.files],
             "logo_dir": str(logo.root),
+            "details": exc.details,
+            "counts": {
+                k: v for k, v in status(logo).items() if k not in {"revisions", "comparisons"}
+            },
         }
     return {"status": "done", "result": _jsonable(result), "logo_dir": str(logo.root)}
 
@@ -98,6 +102,22 @@ async def logo_motifs(target: str, out: str | None = None) -> dict[str, Any]:
 
 
 @server.tool()
+async def logo_refine(target: str, out: str | None = None) -> dict[str, Any]:
+    """Retain GPU previews; return inspection/creative authoring work and image comparisons."""
+    from logo_maker import pipeline
+
+    return await _stage(pipeline.refine, target, out)
+
+
+@server.tool()
+async def logo_status(target: str, out: str | None = None) -> dict[str, Any]:
+    """Report text combinations, authored motifs, renders and completed refinement comparisons."""
+    from logo_maker import pipeline
+
+    return await _stage(pipeline.status, target, out)
+
+
+@server.tool()
 async def logo_preview(target: str, out: str | None = None) -> dict[str, Any]:
     """Render GPU previews of the shortlisted concepts and keep 3 finalists judged on the images."""
     from logo_maker import pipeline
@@ -107,7 +127,7 @@ async def logo_preview(target: str, out: str | None = None) -> dict[str, Any]:
 
 @server.tool()
 async def logo_finalize(target: str, out: str | None = None) -> dict[str, Any]:
-    """Final renders with the QA loop (up to 5 rounds), then a head-to-head picks the winner."""
+    """Retained final renders with scoped technical/creative QA, then a head-to-head picks the winner."""
     from logo_maker import pipeline
 
     return await _stage(pipeline.finalize, target, out)

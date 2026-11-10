@@ -10,7 +10,18 @@ from pathlib import Path
 from logo_maker import __version__
 from logo_maker.paths import LogoDir, slugify
 
-STAGES = ("intake", "ideate", "motifs", "preview", "finalize", "export", "run", "improve")
+STAGES = (
+    "intake",
+    "ideate",
+    "motifs",
+    "refine",
+    "status",
+    "preview",
+    "finalize",
+    "export",
+    "run",
+    "improve",
+)
 
 
 def resolve_logo(target: str, out: Path | None = None) -> LogoDir:
@@ -80,6 +91,8 @@ def cmd_stage(args: argparse.Namespace) -> int:
                 "ideate": pipeline.ideate,
                 "motifs": pipeline.motifs,
                 "preview": pipeline.preview,
+                "refine": pipeline.refine,
+                "status": pipeline.status,
                 "finalize": pipeline.finalize,
                 "run": pipeline.run,
                 "improve": pipeline.improve,
@@ -87,6 +100,21 @@ def cmd_stage(args: argparse.Namespace) -> int:
             result = fn(logo)
     except pipeline.AuthoringNeeded as exc:
         print(f"AUTHORING NEEDED: {exc}", file=sys.stderr)
+        if exc.details:
+            print(json.dumps(exc.details, indent=2), file=sys.stderr)
+        print(
+            json.dumps(
+                {
+                    "counts": {
+                        k: v
+                        for k, v in pipeline.status(logo).items()
+                        if k not in {"revisions", "comparisons"}
+                    }
+                },
+                default=str,
+            ),
+            file=sys.stderr,
+        )
         return 3
     _print(result)
     return 0
@@ -107,8 +135,10 @@ def build_parser() -> argparse.ArgumentParser:
         "intake": "judge references; pick palette and fonts when the brief lacks them",
         "ideate": "build the concept pool and run the judging chain to a shortlist of 8",
         "motifs": "build each shortlisted motif and its size sheet; write starter scenes once",
+        "refine": "retain previews, inspect, judge and compare creative revisions",
+        "status": "report text combinations, authored motifs, renders and refinement rounds",
         "preview": "render previews on the GPU, keep 3 finalists",
-        "finalize": "final renders, QA loop (up to 5 rounds), pick the winner",
+        "finalize": "retained final renders, scoped diagnosis and creative QA, pick the winner",
         "export": "write the export set for the winner",
         "run": "run every remaining stage",
         "improve": "new round of ideas; replace the logo only if a new winner beats it",

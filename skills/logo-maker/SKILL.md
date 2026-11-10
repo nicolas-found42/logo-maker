@@ -62,8 +62,7 @@ For every listed folder, read `concept.json` (metaphor, treatment, material, and
 descriptions), then:
 
 1. **Motif.** Write `motif.py` with the motif API
-   ([references/motif-api.md](references/motif-api.md)). Build the mark from two or three bold
-   shapes with a clear silhouette; let negative space carry a second meaning where the metaphor
+   ([references/motif-api.md](references/motif-api.md)). Use two or three bold shapes for core-symbol legibility, while allowing secondary hero craft; let negative space carry a second meaning where the metaphor
    allows; use one to three palette roles, one role per part that should read as its own color or
    material. Shape it for the treatment: solids and extrusions want chunky shapes, plates want the
    mark well inside the rim. Read "How a treatment consumes the motif" in
@@ -82,20 +81,44 @@ descriptions), then:
    `logo_maker/catalog/materials.toml`; tuning ranges (tilt, framing, tube radius): the grammar's
    "Tuning ranges" section. Write `scene.py` only when the components cannot express the concept.
 
-Done when `logo-maker motifs <slug>` exits 0 and every scene names only catalog materials and lighting
-rigs.
+4. **Construction intent.** Write `construction.json` for each concept using the contract in
+   [references/refinement.md](references/refinement.md). Name its meaning, brand-specific geometry,
+   material construction, intended appearance and visual disproof. Keep `concept.json.description`
+   equal to the current description. Declare external dependencies read by bespoke code.
 
-## 6. Run to the end
+Done when `logo-maker motifs <slug>` exits 0 and every concept has its own construction intent.
 
-`logo-maker run <slug>` again. It renders GPU previews, keeps 3 finalists judged on the images,
-renders finals at 4000 px, and runs up to five QA rounds per finalist (readable, nothing cut off,
-clean edges, no veil or box, recognizable at 32 px), fixing scenes after a clear fail (Jev P < 0.3
-on a check, or a code-detected veil, cut-off, or aliased edges). A head-to-head picks the winner and
-the export set lands in `exports/`.
+## 6. Inspect, critique, revise and compare
 
-When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl`: a `needs_simpler_motif` result
-means the mark lost its shape at 32 px. Simplify that motif (fewer, larger shapes; thicker strokes)
-and run again.
+Run `logo-maker refine <slug>`. It retains GPU previews and returns an inspection stop. Open every
+listed image and prior revision, then write the current `inspection.json` per
+[references/refinement.md](references/refinement.md). Classify critique as craftsmanship, brief fit,
+aesthetic preference or technical diagnosis. Record user feedback and the intended comparison.
+
+Rerun refinement. Jev independently judges dimensions; code returns failing or uncertain dimensions,
+probabilities and artifacts as scoped authoring work. You perform structural revisions in motif/scene
+sources and update descriptions. For paper, inspect changes of plane, fold/edge behavior, layering and
+the brand idea. Repeated sheets or a valid starter scene need deliberate visual justification.
+
+Compare retained before/after renders to resolve critique. Explore genuinely distinct symbol or
+construction alternatives; text/material combinations do not establish visual exploration. There is
+no ritual number of edits. Both muted and reflective finishes can succeed when intended; record a
+preference between successful finishes as direction rather than a defect. Preserve ADR-0001's shared
+motif so the flat mark and hero remain recognizable as the same symbol.
+
+Once refinement passes, `logo-maker run <slug>` selects finalists and renders 4000→2000 px finals.
+Inspect `inspection-final.json` when requested; final creative readiness is checked independently.
+Technical failures return a diagnosis stop rather than guessing repairs. Generic jaggies/halos/smears
+do not prove sampling noise. Use #5's bounded diagnostic policy for stochastic noise or cap limitation;
+keep scene/material intent fixed during sampling comparisons. Persistent geometry, typography,
+material, filtering/resolution, alpha or denoiser-detail problems need their own revision/probe.
+Preserve explicit render overrides; no blind 8192/threshold-halving repair is performed.
+
+All new refinement renders require Cycles Metal-only tracing and runtime-verified GPU OIDN. Device
+failure is operational work, separate from creative critique. CPU scene construction, synchronization,
+submission, analysis and file I/O are permitted. Reuse retained evidence only while content hashes
+remain current. `logo-maker status <slug>` reports text combinations, motifs, renders and completed
+comparisons separately. Finalize/export reject stale eligibility even when run.json says done.
 
 ## 7. Report
 
@@ -115,5 +138,5 @@ the exports only when it beats the floor head-to-head on images; otherwise the c
 ## MCP
 
 `logo-maker mcp` serves each stage as a tool (`logo_new`, `logo_intake`, `logo_ideate`,
-`logo_motifs`, `logo_preview`, `logo_finalize`, `logo_export`, `logo_run`, `logo_improve`,
+`logo_motifs`, `logo_refine`, `logo_status`, `logo_preview`, `logo_finalize`, `logo_export`, `logo_run`, `logo_improve`,
 `logo_doctor`). A tool that needs files from you returns `authoring_needed` with the exact paths.

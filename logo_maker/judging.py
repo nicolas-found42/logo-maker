@@ -47,20 +47,42 @@ def _image_state(brief: Brief, extra: dict[str, Any]) -> dict[str, Any]:
 
 
 def _concept_states(logo: LogoDir, brief: Brief) -> dict[str, dict[str, Any]]:
-    """Full concept states for preview screening, looked up from pool.jsonl."""
-    from logo_maker.ideate import load_pool_concepts
+    """Use current authored intent; the text pool remains historical ideation."""
+    from logo_maker.pipeline import shortlist
 
-    return {
-        c.id: concept_state(
-            brief,
-            metaphor=c.metaphor_text,
-            treatment=c.treatment_desc,
-            material=c.material_desc,
-            treatment_id=c.treatment,
-            material_id=c.material,
-        )
-        for c in load_pool_concepts(logo, brief)
-    }
+    states = {}
+    ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
+    for cid in ids:
+        folder = logo.concept(cid)
+        path = folder / "construction.json"
+        if path.exists():
+            construction = json.loads(path.read_text())
+            info = json.loads((folder / "concept.json").read_text())
+            states[cid] = {
+                "brief": brief.as_state(),
+                "concept": construction["current_description"],
+                "construction": construction,
+                "authored_concept": {
+                    "id": info["id"],
+                    "description": construction["current_description"],
+                },
+            }
+    # Legacy direct judging callers without authored files still use original pool concepts.
+    if not states:
+        from logo_maker.ideate import load_pool_concepts
+
+        states = {
+            c.id: concept_state(
+                brief,
+                metaphor=c.metaphor_text,
+                treatment=c.treatment_desc,
+                material=c.material_desc,
+                treatment_id=c.treatment,
+                material_id=c.material,
+            )
+            for c in load_pool_concepts(logo, brief)
+        }
+    return states
 
 
 def screen_previews(

@@ -31,3 +31,9 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `clean_edges` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |
 | `no_veil_or_box` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |
 | `recognizable_at_32px` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |
+| `craftsmanship` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | creative_ready -> scoped refinement authoring stop |
+| `brief_fit` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | creative_ready -> scoped refinement authoring stop |
+| `material_intent` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | creative_ready -> scoped refinement authoring stop |
+| `description_match` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | creative_ready -> scoped refinement authoring stop |
+| `visually_distinct` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | image alternatives gate -> qa/comparisons.json |
+| `critique_resolved` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | revision comparison -> retained comparison.json |

@@ -17,8 +17,9 @@ No stage generates images with an AI model. Every pixel comes from geometry, fon
 flowchart LR
   intake[intake: brief.toml + references] --> ideate[ideate: pool -> screen -> score -> tournament -> top 8]
   ideate --> author[agent authors motif + scene for 8]
-  author --> preview[preview: GPU 256 spp, jev picks 3]
-  preview --> finalize[finalize: 4000 px adaptive, QA loop <= 5 rounds, final head-to-head]
+  author --> refine[refine: retain image, inspect, judge, revise, compare]
+  refine --> preview[preview: qualified GPU previews, jev picks 3]
+  preview --> finalize[finalize: 4000 px adaptive, scoped QA, final head-to-head]
   finalize --> export[export set]
   export --> improve[improve: new round must beat the floor]
 ```
@@ -30,12 +31,13 @@ flowchart LR
 | author motifs | (agent) | `concept.json` | `concepts/<slug>/motif.py` or `motif.svg` |
 | motifs | `motifs` | motif sources | `motif.svg`, `motif.json`, `motif-sizes.png`; starter `scene.toml` once (layer-aware, one material per motif role) |
 | author scenes | (agent) | starter `scene.toml` | tuned `scene.toml`, optional `scene.py` |
-| preview | `preview` | concepts | `preview.png`, `ideation/finalists.json` |
+| refine | `refine`, `status` | construction, motif, scene, inspection | retained revisions, judgments, comparisons and separate counts |
+| preview | `preview` | current creative eligibility | `preview.png`, `ideation/finalists.json` |
 | finalize | `finalize` | finalists | `final.png`, `scene.blend`, `model.glb`, `qa/rounds.jsonl`, `ideation/winner.json` |
 | export | `export` | winner | `exports/*` |
 
-Every stage records its status in `run.json` and skips work whose outputs exist, so any stage can be
-resumed. `run` chains the stages and stops with a clear message where agent authoring is needed.
+Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
+rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains the stages and stops with a clear message where agent authoring is needed.
 
 ## Logo folder
 
@@ -188,3 +190,52 @@ checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns 
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
 Every check is required: there are no optional tools.
+
+### Creative refinement (#3)
+
+Before preview, each concept requires `construction.json`: `symbol`, `brand_geometry`,
+`material_construction`, `intended_appearance`, `disproof`, `current_description` (nonempty strings),
+and `dependencies` (paths relative to the concept, including external files read by bespoke code).
+This is the current design intent; update it and `concept.json` when the symbol changes. The original
+text pool remains historical ideation, never the description used to judge a revised image.
+
+`refine` renders previews sequentially through the verified Cycles Metal/OIDN path. Each source/image
+revision is retained under `qa/revisions/<concept>/<revision>/`: source copies and hashes, delivered
+PNG/hash, compiled inputs, device/settings sidecar and native log. Old evidence survives reauthoring.
+`inspection.json` is agent-written after opening that image: it names the revision, observations,
+user feedback and critiques (`kind`: craftsmanship, brief_fit, preference, or technical; `dimension`,
+`artifact`, `evidence`, `action`, `comparison`, `resolved`). An unresolved preference asks for direction;
+it is never converted into a technical defect. No fixed number of revision rounds establishes craft.
+
+Jev judges craftsmanship, brief fit, construction/material intent and current-description match
+independently. Clear failures and uncertainty return scoped `authoring_needed` work with artifacts,
+probabilities and the next comparison. Jev supplies judgments, never geometry or art direction.
+A finalist needs current inspection, resolved critique and positive creative readiness. A brand also
+needs image-backed distinct alternatives: pairwise visual comparison across retained revisions or
+concepts must establish a meaningful difference in symbol or construction, beyond finish/text swaps.
+Comparison is against each revision's own intent; glossy and muted treatments can both succeed.
+The two/three-bold-shapes guidance governs core-symbol legibility, not secondary hero craft.
+
+Fingerprints include brief/references, concept/intent, motif sources and derived geometry, scene,
+local assets, declared dependencies, rendering code/catalog and question definitions. Content changes
+invalidate render reuse, creative judgments, comparison results, sampling calibration and downstream
+finalist/winner/export eligibility, including direct finalize/export and `run` resumes. Undeclared
+external reads by custom Python are outside automatic dependency discovery: declare them explicitly.
+Execution failures are operational errors; their absence is never a creative pass.
+
+Generic edge failures no longer edit sampling. Technical uncertainty returns a diagnosis stop:
+stochastic/cap noise goes to #5's bounded policy; persistent design, geometry, material, typography,
+filtering, resolution, alpha or denoising concerns return to the corresponding authoring/probe path.
+Explicit sampling overrides survive. No profile is claimed qualified by this creative workflow.
+Normal jobs retain baseline settings until #5 supplies qualified profiles and diagnosed actions.
+CLI/MCP `status` reports text combinations, authored motifs, rendered variants and completed
+refinement comparisons separately; none is a proxy for quality.
+
+Technical stops can consume `diagnosis.json` bound to a retained `revision`, with a `cause` from
+`sampling_noise`, `cap_limitation`, `design`, `geometry`, `material`, `typography`, `denoising`,
+`filtering`, `resolution`, `alpha`, `unknown`, and nonempty `evidence` entries (`artifact`, `sha256`,
+`observation`). Changed/missing evidence or a stale revision returns unknown. Sampling causes route
+to #5; other causes route to authoring or a diagnostic probe. This record supplies diagnosis evidence,
+not a second sampling policy or a claimed convergence result. The workflow performs one render per
+unchanged revision and stops for unresolved work; there is no automatic numeric escalation loop.
+Final inspection uses `inspection-final.json`; editing it also revokes winner/export eligibility.

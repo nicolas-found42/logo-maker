@@ -69,9 +69,10 @@ accept `height_scale`, a multiplier on their vertical params
 `mode = "cut"` or `"through"` punches the target plate and lays a floor;
 `recess` punches a round (`radius`) or motif-shaped (`layers`) pocket.
 
-The QA loop may only adjust `camera.framing`, `[render]` `adaptive_threshold`
-and `max_samples`, `height_scale` on mark components, `render.alpha_cleanup`,
-and `lighting.rig`. Anything structural means re-authoring the scene.
+Technical QA returns scoped diagnosis work; it does not guess sampling, lighting or height changes.
+Use [refinement.md](refinement.md) to retain critique and comparisons. Structural authoring may change
+motif geometry, component topology and bespoke `scene.py`, while preserving the shared motif contract.
+Sampling actions belong to #5's bounded policy and preserve explicit user settings.
 
 ## How a treatment consumes the motif
 
@@ -103,8 +104,7 @@ Per-kind component fields and their defaults live in
 `logo_maker/catalog/materials.toml`. Both are reference reading.
 
 - `camera.tilt_deg`: 15–35 reads as a product shot; past 45 the mark foreshortens.
-- `camera.framing`: 0.8–0.9 leaves margin for shadows; the QA loop only ever
-  tightens it (never below 0.6).
+- `camera.framing`: 0.8–0.9 usually leaves margin for shadows; revise it after inspecting crop/margin evidence.
 - `[mark] scale`: 0.7–1.0 for plates and rims; smaller only when a ring of text
   needs room.
 - `tube.radius`: default 0.035; 0.02 is hairline, 0.06 is heavy cable. Tubes

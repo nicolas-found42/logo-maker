@@ -46,15 +46,14 @@ PROPOSALS_TEMPLATE = """# Proposals for whatever brief.toml leaves out. logo-mak
 # text = "Family:wght=400"
 """
 
-MAX_QA_ROUNDS = 5
-
 
 class AuthoringNeeded(RuntimeError):
     """The agent must write files before the stage can continue. `files` lists them."""
 
-    def __init__(self, message: str, files: list[Path]):
+    def __init__(self, message: str, files: list[Path], *, details: dict | None = None):
         super().__init__(message + "\n" + "\n".join(f"  - {f}" for f in files))
         self.files = files
+        self.details = details or {}
 
 
 @dataclass(frozen=True)
@@ -224,12 +223,43 @@ def prepare_motif(concept_dir: Path) -> Path:
         concept_dir / "motif.svg",
         concept_dir / "motif.json",
     )
-    newest_source = max((p.stat().st_mtime for p in (script, svg) if p.exists()), default=None)
-    if newest_source is None:
+    from logo_maker.refinement import OUTPUT_NAMES, digest
+
+    if not script.exists() and not svg.exists():
         raise AuthoringNeeded("author a motif", [script])
-    if flat.exists() and flat.stat().st_mtime >= newest_source:
+    receipt = concept_dir / ".motif-state.json"
+    previous = _read_json(receipt) if receipt.exists() else {}
+    dependencies = {
+        str(p.relative_to(concept_dir)): digest(p)
+        for p in concept_dir.rglob("*")
+        if p.is_file()
+        and not any(
+            part.startswith(".") or part == "__pycache__"
+            for part in p.relative_to(concept_dir).parts
+        )
+        and p.name not in OUTPUT_NAMES | {"motif.json", "motif.svg"}
+        and p.suffix not in {".blend1", ".pyc"}
+        and p.relative_to(concept_dir).parts[0] != "meshes"
+    }
+    intent = concept_dir / "construction.json"
+    if intent.exists():
+        for name in _read_json(intent).get("dependencies", []):
+            path = concept_dir / name
+            if path.is_file():
+                dependencies[f"external/{name}"] = digest(path)
+    source_hashes = {p.name: digest(p) for p in (script, svg) if p.exists()}
+    if (
+        flat.exists()
+        and previous.get("sources") == source_hashes
+        and previous.get("flat") == digest(flat)
+        and previous.get("dependencies") == dependencies
+    ):
         return flat
-    if script.exists() and (not svg.exists() or script.stat().st_mtime > svg.stat().st_mtime):
+    if script.exists() and (
+        not svg.exists()
+        or previous.get("sources", {}).get("motif.py") != digest(script)
+        or previous.get("dependencies") != dependencies
+    ):
         motif.run_motif_script(concept_dir)
     problems = motif.validate(svg)
     if problems:
@@ -238,6 +268,14 @@ def prepare_motif(concept_dir: Path) -> Path:
             [script if script.exists() else svg],
         )
     motif.flatten(svg, flat)
+    _write_json(
+        receipt,
+        {
+            "sources": {p.name: digest(p) for p in (script, svg) if p.exists()},
+            "flat": digest(flat),
+            "dependencies": dependencies,
+        },
+    )
     return flat
 
 
@@ -291,8 +329,16 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     out: dict[str, dict[str, str]] = {}
     for cid, folder in dirs.items():
         svg, sizes = folder / "motif.svg", folder / "motif-sizes.png"
-        if not sizes.exists() or sizes.stat().st_mtime < svg.stat().st_mtime:
+        from logo_maker.refinement import digest
+
+        receipt = folder / ".sizes-state.json"
+        if (
+            not sizes.exists()
+            or not receipt.exists()
+            or _read_json(receipt).get("svg") != digest(svg)
+        ):
             motif.size_sheet(svg, sizes)
+            _write_json(receipt, {"svg": digest(svg)})
         if not (folder / "scene.toml").exists():
             new_scenes.append(_starter_scene(logo, cid, folder))
         out[cid] = {"motif": str(svg), "sizes": str(sizes), "scene": str(folder / "scene.toml")}
@@ -318,15 +364,41 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     return out
 
 
-def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
-    from logo_maker import judging, render
+def refine(logo: LogoDir, client=None) -> dict[str, Any]:
+    """Inspect image-backed creative readiness before presenting finalists."""
+    from logo_maker import refinement
 
     ids = shortlist(logo)
-    dirs = [logo.concept(cid) for cid in ids]
+    for cid in ids:
+        refinement.construction(logo.concept(cid))
     motifs(logo)
-    todo = [d for d in dirs if not _fresh(d / "preview.png", d)]
-    if todo:
-        render.render_many(todo, "preview")
+    records = []
+    for cid in ids:
+        record = refinement.capture(logo, cid, "preview")
+        inspection = refinement.inspected(logo, cid, record)
+        refinement.judge_revision(logo, cid, record, inspection, client or _client(logo))
+        records.append(record)
+    refinement.alternatives(logo, records, client or _client(logo))
+    return status(logo)
+
+
+def status(logo: LogoDir) -> dict[str, Any]:
+    """Separate ideation combinations, authored motifs, renders and refinement evidence."""
+    from logo_maker import refinement
+
+    ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
+    return refinement.report(logo, ids)
+
+
+def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
+    from logo_maker import judging, refinement
+
+    ids = shortlist(logo)
+    refine(logo, client)
+    binding = refinement.campaign_key(logo, ids)
+    existing = logo.ideation / "finalists.json"
+    if existing.exists() and _read_json(existing).get("binding") == binding:
+        return list(_read_json(existing)["ids"])
     log = runlog(logo.run_json)
     client = client or _client(logo)
     brief = brief_mod.load(logo.brief)
@@ -337,113 +409,69 @@ def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
         raise AuthoringNeeded(
             f"revise the motifs and scenes: {exc}", [logo.concept(cid) / "motif.py" for cid in ids]
         ) from exc
+    doc = _read_json(logo.ideation / "finalists.json")
+    doc["binding"] = binding
+    _write_json(logo.ideation / "finalists.json", doc)
     log.stage("preview", "done", finalists=finalists)
     return finalists
 
 
-def _fresh(output: Path, concept_dir: Path) -> bool:
-    """True when `output` is newer than every input that shapes it."""
-    if not output.exists():
-        return False
-    inputs = [
-        concept_dir / n
-        for n in ("scene.toml", "motif.json", "scene.py")
-        if (concept_dir / n).exists()
-    ]
-    return all(output.stat().st_mtime >= p.stat().st_mtime for p in inputs)
-
-
-# ---------------------------------------------------------------- finalize + QA loop
-
-
-def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
-    """Map each failed check to one concrete scene edit. Returns what changed."""
-    doc = tomlkit.parse(scene_path.read_text())
-    changes: list[str] = []
-    camera = doc.setdefault("camera", tomlkit.table())
-    render_tbl = doc.setdefault("render", tomlkit.table())
-    lighting = doc.setdefault("lighting", tomlkit.table())
-    if failures & {"nothing_cut_off", "margin"}:
-        framing = max(round(float(camera.get("framing", 0.84)) * 0.9, 3), 0.6)
-        camera["framing"] = framing
-        changes.append(f"camera.framing -> {framing}")
-    if failures & {"clean_edges", "edges"}:
-        # Set once to the stricter preset; never keep halving across rounds.
-        threshold = min(round(float(render_tbl.get("adaptive_threshold", 0.01)) / 2, 5), 0.005)
-        render_tbl["adaptive_threshold"] = max(threshold, 0.001)
-        render_tbl["max_samples"] = 8192
-        changes.append(
-            f"render.adaptive_threshold -> {render_tbl['adaptive_threshold']}, max_samples -> 8192"
-        )
-    if "motif_readable" in failures:
-        for component in doc.get("components", []):
-            if component.get("kind") in {"relief", "layers", "extrude", "inflate"}:
-                height = min(round(float(component.get("height_scale", 1.0)) * 1.4, 3), 2.0)
-                component["height_scale"] = height
-                changes.append(f"{component.get('kind')}.height_scale -> {height}")
-        if lighting.get("rig") != "raking":
-            lighting["rig"] = "raking"
-            changes.append("lighting.rig -> raking")
-    if failures & {"no_veil_or_box", "veil"}:
-        render_tbl["alpha_cleanup"] = True
-        changes.append("render.alpha_cleanup -> true")
-    scene_path.write_text(tomlkit.dumps(doc))
-    return changes
+# ---------------------------------------------------------------- finalize + diagnosis
 
 
 def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[str, Any]:
-    """Render final, judge, fix, re-render: up to MAX_QA_ROUNDS. Returns the last round's record."""
-    from logo_maker import checks, judging, render
+    """One retained final per revision; diagnosis returns work rather than guessing repairs."""
+    from logo_maker import checks, judging, refinement
 
     brief = brief_mod.load(logo.brief)
     folder = logo.concept(concept_id)
-    rounds_path = logo.qa / "rounds.jsonl"
-    log = runlog(logo.run_json)
-    record: dict[str, Any] = {}
-    for round_no in range(1, MAX_QA_ROUNDS + 1):
-        if not _fresh(folder / "final.png", folder):
-            render.render(folder, "final")
-        final = folder / "final.png"
-        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
-        code = {
-            "alpha": checks.alpha_report(final),
-            "margin": checks.margin_report(final),
-            "edges": checks.edge_report(final),
-            "colors": checks.color_report(final, brand_.palette),
-        }
-        # Only clear fails block and get fixed (questions.qa_blocks); unsettled is recorded.
-        failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
-        failures |= {"veil"} if code["alpha"]["veil"] else set()
-        failures |= {"margin"} if code["margin"]["cut_off"] else set()
-        failures |= {"edges"} if code["edges"]["aliased"] else set()
-        unsettled = sorted(name for name, v in verdicts.items() if v.status == "unsettled")
-        record = {
-            "concept": concept_id,
-            "round": round_no,
-            "failures": sorted(failures),
-            "unsettled": unsettled,
-            "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
-            "code": code,
-            "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-        }
-        fixable = failures - {"recognizable_at_32px"}
-        if not failures:
-            record["result"] = "pass"
-        elif not fixable:
-            record["result"] = "needs_simpler_motif"
-        else:
-            record["changes"] = _apply_fixes(folder / "scene.toml", fixable)
-            record["result"] = "fixing"
-        with rounds_path.open("a") as fh:
-            fh.write(json.dumps(record) + "\n")
-        log.event(
-            f"qa {concept_id} round {round_no}: {record['result']}", failures=sorted(failures)
+    record = refinement.capture(logo, concept_id, "final")
+    final = folder / "final.png"
+    verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
+    code = {
+        "alpha": checks.alpha_report(final),
+        "margin": checks.margin_report(final),
+        "edges": checks.edge_report(final),
+        "colors": checks.color_report(final, brand_.palette),
+    }
+    failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
+    failures |= {"veil"} if code["alpha"]["veil"] else set()
+    failures |= {"margin"} if code["margin"]["cut_off"] else set()
+    failures |= {"edges"} if code["edges"]["aliased"] else set()
+    result = {
+        "concept": concept_id,
+        "revision": record["revision"],
+        "artifact": record["image"],
+        "failures": sorted(failures),
+        "unsettled": sorted(n for n, v in verdicts.items() if v.status == "unsettled"),
+        "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
+        "code": code,
+        "result": "authoring_needed" if failures else "pass",
+        "diagnosis": {
+            "cause": "unknown",
+            "sampling_action": "none",
+            "next_comparison": "independent-seed noisy/denoised detail for stochastic noise (#5); inspect persistent geometry, material, typography, filtering/resolution and alpha separately",
+        },
+    }
+    result["diagnosis"] = refinement.diagnosis(logo, concept_id, record, result["diagnosis"])
+    with (logo.qa / "rounds.jsonl").open("a") as fh:
+        fh.write(json.dumps(result) + "\n")
+    refinement.write(logo.root / record["evidence"] / "qa.json", result)
+    if failures:
+        raise AuthoringNeeded(
+            "technical diagnosis required; generic edge failure does not establish sampling noise",
+            [
+                folder / "diagnosis.json",
+                folder / "inspection-final.json",
+                folder / "scene.toml",
+                folder / "construction.json",
+            ],
+            details=result,
         )
-        if record["result"] != "fixing":
-            break
-    if record.get("result") == "fixing":
-        record["result"] = "failed"
-    return record
+    # The production image must also demonstrate the intended construction, independently of preview.
+    inspection = refinement.inspected(logo, concept_id, record)
+    refinement.judge_revision(logo, concept_id, record, inspection, client)
+    return result
 
 
 def finalize(logo: LogoDir, client=None) -> str:
@@ -452,7 +480,10 @@ def finalize(logo: LogoDir, client=None) -> str:
     finalists_path = logo.ideation / "finalists.json"
     if not finalists_path.exists():
         raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
+    from logo_maker import refinement
+
     data = _read_json(finalists_path)
+    refinement.require_binding(logo, data, "preview")
     finalists = list(data["ids"])
     client = client or _client(logo)
     brand_ = brand(logo)
@@ -476,6 +507,13 @@ def finalize(logo: LogoDir, client=None) -> str:
         winner = judging.final_tournament(
             logo, brief, {cid: logo.concept(cid) / "final.png" for cid in passed}, client
         )
+    winner_doc = _read_json(logo.ideation / "winner.json")
+    winner_doc["binding"] = refinement.campaign_key(logo, shortlist(logo))
+    winner_doc["final_sha256"] = refinement.digest(logo.concept(winner) / "final.png")
+    winner_doc["final_inspection_sha256"] = refinement.digest(
+        logo.concept(winner) / "inspection-final.json"
+    )
+    _write_json(logo.ideation / "winner.json", winner_doc)
     log.stage("finalize", "done", winner=winner, qa={k: v["result"] for k, v in results.items()})
     return winner
 
@@ -492,7 +530,19 @@ def winner(logo: LogoDir) -> str:
 
 def export(logo: LogoDir) -> dict[str, Path]:
     from logo_maker import export as export_mod
+    from logo_maker import refinement
 
+    winner_doc = _read_json(logo.ideation / "winner.json")
+    refinement.require_binding(logo, winner_doc, "finalize")
+    final = logo.concept(winner_doc["winner"]) / "final.png"
+    inspection = final.parent / "inspection-final.json"
+    if (
+        not final.exists()
+        or winner_doc.get("final_sha256") != refinement.digest(final)
+        or not inspection.exists()
+        or winner_doc.get("final_inspection_sha256") != refinement.digest(inspection)
+    ):
+        raise AuthoringNeeded("stale final image; rerun finalize", [final])
     brief = brief_mod.load(logo.brief)
     folder = logo.concept(winner(logo))
     manifest = export_mod.export_all(
@@ -513,10 +563,8 @@ def run(logo: LogoDir, client=None) -> dict[str, Path]:
         intake(logo, client)
     if log.stage_status("ideate") != "done":
         ideate(logo, client)
-    if log.stage_status("preview") != "done":
-        preview(logo, client)
-    if log.stage_status("finalize") != "done":
-        finalize(logo, client)
+    preview(logo, client)
+    finalize(logo, client)
     return export(logo)
 
 
@@ -560,9 +608,10 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
         for stage in ("ideate", "preview", "finalize"):
             log.stage(stage, "reset", by="improve")
         log.event("improve: archived current round as the floor", archive=str(archive))
-    for stage, fn in (("ideate", ideate), ("preview", preview), ("finalize", finalize)):
-        if log.stage_status(stage) != "done":
-            fn(logo, client)
+    if log.stage_status("ideate") != "done":
+        ideate(logo, client)
+    preview(logo, client)
+    finalize(logo, client)
     candidate = logo.concept(winner(logo)) / "final.png"
     brief = brief_mod.load(logo.brief)
     won, detail = judging.beats_floor(logo, brief, candidate, floor_png, client)
