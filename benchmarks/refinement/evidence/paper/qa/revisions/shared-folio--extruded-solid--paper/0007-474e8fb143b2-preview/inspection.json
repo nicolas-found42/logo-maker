@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Added binding geometry and matched flap hinge elevation to the leaf surface.",
+      "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+      "comparison": "Compare against the disconnected v2 folio and original S ribbon; confirm shared-library reading and flat/hero match.",
+      "dimension": "binding and corner connection",
+      "evidence": "A continuous recessed binding joins the leaves, and the raised triangular flap is attached along the outer diagonal of the right leaf.",
+      "kind": "craftsmanship",
+      "resolved": true
+    }
+  ],
+  "observations": "Integrated sampling-renderer replay inspected: the matte facing folio leaves, recessed spine and attached turned corner remain visible. This reopens retained preview evidence, with complete custom dependency inventory still unknown; it is not production qualification. The renderer now honors the recipe seed 1820117 (the older renderer used effective seed 0).",
+  "revision": "0007-474e8fb143b2-preview",
+  "user_feedback": "Retain the paper brief; no additional finish preference inferred."
+}

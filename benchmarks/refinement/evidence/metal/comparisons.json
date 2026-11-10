@@ -58,5 +58,20 @@
     },
     "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0005-beb3a51d28c7-preview/render.png",
     "binding": "a47e0ceb2b19a780f2dcf1c0414be11db9c0e07605a21fd56b3bad6adb81ac51"
+  },
+  {
+    "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0007-90eaefb82fef-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.61,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.01,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0006-c6dd703a3bc2-preview/render.png",
+    "binding": "8ee81dc115846f4f731e1909600079ea995f2b15d1fd4c37bddaadd4d8b8cf98"
   }
 ]
