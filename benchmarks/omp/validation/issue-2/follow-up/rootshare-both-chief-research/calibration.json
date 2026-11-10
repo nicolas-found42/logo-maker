@@ -1,0 +1,345 @@
+{
+  "craft": [
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "candidate",
+        "reference"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.45
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.43
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.44
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.8
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.68
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "reference",
+        "candidate"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.56
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.59
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.48
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.62
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.8
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.65
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "candidate",
+        "reference"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.47
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.34
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.78
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.7
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "pass"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "reference",
+        "candidate"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.45
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.54
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.58
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.31
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.59
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.79
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.61
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    }
+  ],
+  "fit": {
+    "symbol": "pass",
+    "appearance": "unsettled",
+    "brand_specificity": "pass",
+    "meaningful_synthesis": "pass",
+    "constraint_fidelity": "unsettled",
+    "communicative_clarity": "pass",
+    "small_flat": "unsettled",
+    "small_hero": "pass"
+  },
+  "technical": {
+    "noise_free": "pass",
+    "detail_preserved": "unsettled",
+    "aliasing_free": "pass",
+    "structure_correct": "pass"
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.53
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.6
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.72
+    },
+    "small_flat": {
+      "type": "noul",
+      "noul": 0.47
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.82
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.59
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.87
+    }
+  },
+  "view_sha256": {
+    "reference-1-1000-1000.png": "9cf57e6d801003a46d814b80c9b75d4b988485d9c778612c82f1baa42091d508",
+    "reference-1-1000-0.png": "e284917807bea285072f6a2328939b41e0de7b41d911a949201b1b1f876b20cf",
+    "reference-1-0-1000.png": "da89f3507f6e6ed46f01781d572c061f9ee2ec52ef511ab1270e14fb061576b2",
+    "reference-0-0-0.png": "53cbdccc73b69f24b31ceb212f03a910c72befc114f024781e4dce149ad303e6",
+    "reference-1-0-0.png": "87e985d5c01f40eee619c5632bdae7e5dbcfb0b6df5d279f23578c14035e60c4",
+    "candidate-1000-1000.png": "ddb6b7939d35e9284fdf1f1f0624cdd4b0d69a54c4fb7cf0fa5a85c35f471ce6",
+    "reference-0-0-1000.png": "281eb8c33dd59c7eefed59781e15edb2695cf68aa23b022c504109860bee81e4",
+    "candidate-0-0.png": "e282c7baa4350b52f816381f381c0a5c2a79f69137ec1521e35cdc246837822c",
+    "candidate-1000-0.png": "a6aa3075777f43c0750b4785f87f811f10829e1b587c6a84936c75f383eaf3f0",
+    "flat-small.png": "6977e0276b8069cae2605e6ffc9f708f878dd9c3568c7137a3abcc9cb9c11064",
+    "candidate-0-1000.png": "51f1c1f7896a84c4290298dd4966cc03d4c5cfc4fc394a0fc9858ad018a3e92b",
+    "reference-0-1000-0.png": "a28d40d153ce55dee68f47095fb3d5ee6d68aa4b177aaf935657ab767ff9f5f2",
+    "reference-0-1000-1000.png": "8f4ee4258e104ff734ca22ec53baba85252ca932151fd71d606cb16be54e2606",
+    "hero-small.png": "8e841f517155ac3177acf91800c50a58d433ad26f3ce63cc2e7a3a91954a2cb5"
+  },
+  "flat_source_sha256": "023e7049289fd208678759808928e989683c648210e022561cfc4ca0098c2ba9",
+  "status": "unsettled",
+  "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+  "brief": {
+    "name": "Rootshare",
+    "summary": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection. A bespoke R shelters a seed-shaped counter: the identity's initial and the seed it keeps form one inseparable mark.",
+    "tone": [
+      "grounded",
+      "welcoming",
+      "careful"
+    ],
+    "audience": "Neighborhood gardeners borrowing and contributing seeds.",
+    "initials": "R",
+    "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+    "uses": [
+      "favicon",
+      "app_icon",
+      "social_avatar"
+    ],
+    "avoid": [
+      "wax seals",
+      "metallic lettering",
+      "ribbons",
+      "generic sprout icons"
+    ],
+    "palette": {
+      "primary": "#B95E3F",
+      "accent": "#E4CBA7",
+      "background": "#F8F2E8",
+      "ink": "#422D24"
+    },
+    "fonts": {
+      "display": "Manrope:wght=700",
+      "text": "Manrope:wght=400"
+    }
+  },
+  "concept": {
+    "metaphor": "Rootshare initial R with a seed-shaped counter as one inseparable mark",
+    "treatment": "Freestanding terracotta solid with softened ceramic edges and pale inlay around the seed opening",
+    "material": "Unglazed terracotta and pale ceramic inlay"
+  },
+  "owner_overall": "fail",
+  "owner_statement": "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.",
+  "owner_craftsmanship": "unknown",
+  "owner_brief_fit": "unknown",
+  "preference": "unranked",
+  "rubric_sha256": "a28117cfafee8f6352eb5b9229ec1c27ccc91ce07b3432a609f93b1103c7ad42"
+}

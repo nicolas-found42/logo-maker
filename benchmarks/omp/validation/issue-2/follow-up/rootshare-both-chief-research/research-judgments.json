@@ -1,0 +1,26 @@
+{
+  "owner_feedback_verification": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_verify\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"auto_accept\": 0.8,\n  \"subject_at\": 0.5,\n  \"summary\": {\n    \"verified\": 2,\n    \"contradicted\": 0,\n    \"unsupported\": 1,\n    \"needs_review\": 1\n  },\n  \"results\": [\n    {\n      \"id\": \"claim0\",\n      \"claim\": \"The owner rejected the revised Rootshare final overall.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.89,\n        \"contradicts\": 0.03,\n        \"says_nothing\": 0.08\n      },\n      \"confidence\": 0.83,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"exact-owner-reply\",\n      \"same_subject\": 0.73\n    },\n    {\n      \"id\": \"claim1\",\n      \"claim\": \"The owner asked for a more specific brief, more detail, and comparison with both Chief craft logos.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.98,\n        \"contradicts\": 0.01,\n        \"says_nothing\": 0.01\n      },\n      \"confidence\": 0.97,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"exact-owner-reply\",\n      \"same_subject\": 0.91\n    },\n    {\n      \"id\": \"claim2\",\n      \"claim\": \"The owner explicitly supplied separate fail labels for craftsmanship and brief fit.\",\n      \"verdict\": \"unsupported\",\n      \"relation_verdict\": \"contradicted\",\n      \"probabilities\": {\n        \"supports\": 0.22,\n        \"contradicts\": 0.47,\n        \"says_nothing\": 0.31\n      },\n      \"confidence\": 0.2,\n      \"action\": \"review\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.42\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 1549,\n    \"output_tokens\": 317\n  }\n}"
+      }
+    ]
+  },
+  "work_sequence_advice": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_decide\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"recommendation\": {\n    \"selected\": \"brief_then_structural_studies\",\n    \"escaped\": false,\n    \"confidence\": 1,\n    \"probabilities\": {\n      \"brief_then_structural_studies\": 1,\n      \"decorate_existing_r\": 0,\n      \"relax_acceptance\": 0,\n      \"wait_for_more_brand_facts\": 0,\n      \"ask_user\": 0,\n      \"investigate\": 0,\n      \"none\": 0\n    },\n    \"contradicted_requirements\": []\n  },\n  \"requirements_checked\": 3,\n  \"checks\": [\n    {\n      \"candidate\": \"brief_then_structural_studies\",\n      \"requirement\": 0,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"brief_then_structural_studies\",\n      \"requirement\": 1,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"brief_then_structural_studies\",\n      \"requirement\": 2,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"decorate_existing_r\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"decorate_existing_r\",\n      \"requirement\": 1,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"decorate_existing_r\",\n      \"requirement\": 2,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"relax_acceptance\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"relax_acceptance\",\n      \"requirement\": 1,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"relax_acceptance\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"wait_for_more_brand_facts\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"wait_for_more_brand_facts\",\n      \"requirement\": 1,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"wait_for_more_brand_facts\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    }\n  ],\n  \"warnings\": [],\n  \"usage\": {\n    \"input_tokens\": 2658,\n    \"output_tokens\": 608\n  }\n}"
+      }
+    ]
+  },
+  "typesafe_source_screen": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_screen\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"probabilities\": {\n    \"injection\": 0.23,\n    \"substance\": 0.99,\n    \"relevance\": 0.97\n  },\n  \"thresholds\": {\n    \"block_at\": 0.75,\n    \"review_at\": 0.25\n  },\n  \"recommendation\": {\n    \"action\": \"pass\",\n    \"reason\": \"no signals above thresholds\"\n  },\n  \"usage\": {\n    \"input_tokens\": 6959,\n    \"output_tokens\": 57\n  }\n}"
+      }
+    ]
+  }
+}

@@ -16,7 +16,8 @@ the revised R, or to the failed spiky intermediate shown during authoring.
 Mixed image sizes need a shared canvas. The former alpha-mask paste applied transparency twice:
 source RGBA `(20, 40, 60, 128)` became `(10, 20, 30, 64)` in the transmitted PNG. A public
 `JevClient.ask` test decodes the actual HTTP image asset. It fails against the isolated previous
-client at `b3790a476ca4b288227768076abd55eac4823707` and passes after copying source pixels directly.
+client at `b3790a476ca4b288227768076abd55eac4823707` and passes after copying source pixels
+directly.
 This is an evidence-integrity repair; it does not establish a cause for every calibration failure.
 
 `padding-calibration/` retains a fresh production-rubric run after the pixel fix: seven cases,
@@ -61,9 +62,11 @@ source recipe shows clearcoat on wax and reflective gold; the original's relativ
 must not be silently rewritten as a universal matte requirement. The aggregate appearance
 question and per-surface intent remain areas for further calibration.
 
-## Revised held-out different-material artifact
+## Revised different-material development artifact
 
 `rootshare-v2/final.png` is the revised Rootshare R with a seed counter, clay body and pale inlay.
+It began as a held-out case; after iterative owner feedback it is a development case for future
+brief/authoring experiments, not an untouched validation sample.
 Its exact SHA-256 is `27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081`.
 The portable source is `../../../qualification/rootshare-v2/`. Its geometry comes from the shared
 flat master. Closed offset-ring meshes replace the failed bevel modifier; CPU mesh construction
@@ -79,7 +82,9 @@ unknown. No sampling setting changed and no generic edge failure raised samples.
 `rootshare-v2/calibration.json` and `qa/` retain four production-rubric requests. Craft is unsettled
 in both orders; symbol, brand specificity and synthesis pass, while appearance, constraints,
 clarity, flat small-size and preserved detail remain unsettled. Overall: **unsettled**. No finalist,
-winner or export eligibility is claimed. `owner-labels.json` records pending review as unknown.
+winner or export eligibility is claimed. `owner-labels.json` now records the owner’s overall
+rejection and requests for a more specific brief, more detail and comparison with both Chief
+finishes. Separate craft/fit labels remain unknown; preference remains unranked.
 Owner review must concern this exact final; approval/rejection of another image cannot substitute.
 
 Exact measured Python sources have `.py.txt` suffixes. The portable Python fixture is formatted
@@ -101,6 +106,7 @@ scene preserves original local paths as historical data, not as portable command
 
 Remaining: resolve the Chief cross-treatment craft and original appearance disagreement without
 fitting probabilities to these examples; obtain exact-image owner labels for a held-out material;
-validate any future rubric on untouched positive and negative cases. There is currently no
+validate any future rubric on untouched positive and negative cases. The revised R has now been
+owner-reviewed and rejected overall. There is currently no
 owner-reviewed different-material success. The strict model gates continue to block uncertainty.
 `files.sha256.json` indexes retained measurement/source assets, excluding itself and this narrative.

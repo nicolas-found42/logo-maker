@@ -1,10 +1,13 @@
 # Research notes
 
-Background for improving logo-maker. Notes are kept as written during research; they cover free and
-open-source tools only. Dates and star counts are as of 2026-11-09/10.
+Background for improving logo-maker. Notes cover design practice, first-party documentation and
+free/open-source tooling. Each note records its date and evidence limits; older star counts are as of 2026-11-09/10.
 
 | Note | Topic |
 | --- | --- |
+| `brief-creation-design.md` | Design-process research, a staged briefing conversation and reusable worksheet |
+| `brief-creation-pipeline.md` | Current intake gaps, proposed evidence contracts and held-out evaluation |
+| `rootshare-brief-and-craft.md` | Rootshare brief specificity, purposeful detail and comparison with both Chief craft references |
 | `github-issue-pr-templates.md` | Peer issue/PR templates, GitHub form constraints and local field design |
 | `logo-design-principles.md` | Logo types, negative space, scalability and monochrome tests |
 | `logo-3d.md` | 3D logo approaches and a recommended headless chain |

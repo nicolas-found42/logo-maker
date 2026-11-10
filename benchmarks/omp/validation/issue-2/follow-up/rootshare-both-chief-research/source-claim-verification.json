@@ -1,0 +1,54 @@
+{
+  "purpose": "Supporting provenance for docs/research/rootshare-brief-and-craft.md, not a second findings note",
+  "evidence_note": "These are the compact paraphrased evidence excerpts supplied to Jev_verify, not a raw webpage archive. Official fetched text was screened before interpretation.",
+  "claims": [
+    "Design Council describes discovering the problem, defining it, developing different answers and testing small-scale solutions.",
+    "Pentagram's Mastercard case study connects interlocking geometry to connection and describes color testing across backgrounds.",
+    "Blender's Bevel modifier provides width, segments, custom profiles and intersection controls.",
+    "Blender's Bump node perturbs surface normals from a height texture.",
+    "The Principled BSDF supports dielectric and metallic responses, layered coat, and roughness controlling reflection spread."
+  ],
+  "evidence": [
+    {
+      "id": "design",
+      "url": "https://www.designcouncil.org.uk/resources/the-double-diamond/",
+      "text": "DISCOVER: understand rather than assume what the problem is. DEFINE: insight gathered can help define the challenge differently. DEVELOP: give different answers to clearly defined problem. DELIVER: testing different solutions at small scale, rejecting those that will not work and improving others."
+    },
+    {
+      "id": "pentagram",
+      "url": "https://www.pentagram.com/work/mastercard",
+      "text": "The overlapping forms effortlessly express the idea of connection. The entire identity is built using core elements found in the logo: geometry and color. Getting the three colors right required hundreds of tests for different backgrounds."
+    },
+    {
+      "id": "bevel",
+      "url": "https://docs.blender.org/manual/en/5.1/modeling/modifiers/generate/bevel.html",
+      "text": "Width: size of bevel effect. Segments: number of edge loops added along bevel face. Custom Profile allows user-defined profile. Intersections controls method to complete intersection mesh."
+    },
+    {
+      "id": "bump",
+      "url": "https://docs.blender.org/manual/en/5.1/render/shader_nodes/displacement/bump.html",
+      "text": "The Bump node generates a perturbed normal from a height texture, for bump mapping."
+    },
+    {
+      "id": "principled",
+      "url": "https://docs.blender.org/manual/en/dev/render/shader_nodes/shader/principled.html",
+      "text": "Base layer mixes metal, diffuse, subsurface and transmission components; diffuse sits below specular layer. Roughness specifies microfacet roughness for specular reflection and transmission, from sharp to diffuse reflection. Coat simulates clearcoat or lacquer on top."
+    }
+  ],
+  "result": {
+    "tool": "jev_verify",
+    "model": "typesafe/jev-1.14-20261014",
+    "provider": "openrouter",
+    "auto_accept": 0.8,
+    "subject_at": 0.5,
+    "summary": {"verified": 5, "contradicted": 0, "unsupported": 0, "needs_review": 0},
+    "results": [
+      {"id":"claim0","claim":"Design Council describes discovering the problem, defining it, developing different answers and testing small-scale solutions.","verdict":"verified","probabilities":{"supports":0.89,"contradicts":0.01,"says_nothing":0.1},"confidence":0.83,"action":"auto","supporting_evidence":"design","same_subject":0.74},
+      {"id":"claim1","claim":"Pentagram's Mastercard case study connects interlocking geometry to connection and describes color testing across backgrounds.","verdict":"verified","probabilities":{"supports":0.93,"contradicts":0.02,"says_nothing":0.05},"confidence":0.89,"action":"auto","supporting_evidence":"pentagram","same_subject":0.71},
+      {"id":"claim2","claim":"Blender's Bevel modifier provides width, segments, custom profiles and intersection controls.","verdict":"verified","probabilities":{"supports":1,"contradicts":0,"says_nothing":0},"confidence":1,"action":"auto","supporting_evidence":"bevel","same_subject":0.74},
+      {"id":"claim3","claim":"Blender's Bump node perturbs surface normals from a height texture.","verdict":"verified","probabilities":{"supports":1,"contradicts":0,"says_nothing":0},"confidence":1,"action":"auto","supporting_evidence":"bump","same_subject":0.83},
+      {"id":"claim4","claim":"The Principled BSDF supports dielectric and metallic responses, layered coat, and roughness controlling reflection spread.","verdict":"verified","probabilities":{"supports":0.91,"contradicts":0.03,"says_nothing":0.06},"confidence":0.86,"action":"auto","supporting_evidence":"principled","same_subject":0.66}
+    ],
+    "usage": {"input_tokens":2546,"output_tokens":634}
+  }
+}
