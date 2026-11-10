@@ -132,3 +132,10 @@ Final selection freezes the approved campaign/image/inspection bindings before o
 judgments and rechecks them afterward. In-flight edits roll back winner publication. Policy profile
 and diagnosis files are hashed as controls, outside their own image source key, preventing circular
 diagnosis binding. No numeric sampling policy is copied into the creative module.
+
+The integrated final Jev gate verified all five completion claims (confidence 0.80–0.98) with no
+contradicted or unsupported claims. Its patch review still escalated diffuse correctness/test-gap/
+blast-radius uncertainty (`safe_to_apply` 0.23, composite 0.6625). Both reasoning reviewers rechecked
+that escalation against the unchanged reviewed source and found no concrete blocker to stacked draft
+publication. This is not an automatic patch approval or an artistic/production qualification.
+The full result is retained in `evidence/jev-gate-integrated.json`.
