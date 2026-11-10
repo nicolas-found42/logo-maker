@@ -80,3 +80,13 @@ the quality work. No current experimental artwork is a qualified finalist. #5 ow
 actions, profiles, budgets, independent-seed/noisy/denoised probes and production 4000→2000 qualification.
 The 4096 / 0.01 adaptive final comparator and explicit overrides are unchanged. Missing diagnosis stays
 unknown; generic edge failures do not cause 8192/threshold-halving retries.
+
+## Completion review limits
+
+The final Jev patch gate escalated broad test/blast-radius uncertainty (`safe_to_apply` 0.29,
+composite 0.6965); it reported no contradicted completion claims. Its generic pytest-log attribution
+was also uncertain. Both reasoning reviewers audited the exact test selection, real renderer path,
+source/evidence verifier and corrected orchestration tests. They found no concrete blocker to draft
+PR publication. The gate was not rerun or presented as automatic approval. Its complete result is
+retained in `evidence/jev-gate.json`. Draft publication is reviewable implementation, not artistic or
+production qualification.
