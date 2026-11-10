@@ -142,3 +142,11 @@ the exports only when it beats the floor head-to-head on images; otherwise the c
 `logo_motifs`, `logo_refine`, `logo_status`, `logo_preview`, `logo_finalize`, `logo_export`,
 `logo_run`, `logo_improve`,
 `logo_doctor`). A tool that needs files from you returns `authoring_needed` with the exact paths.
+
+## Sampling qualification
+
+Read [the sampling policy](../../docs/automatic-sampling.md) when diagnosing noise or a sampling
+profile/budget stop. The shared bounded renderer owns settings, diagnostics and comparison attempts.
+Creative intent and inspection do not qualify its machine profile. A final/export needs both current
+creative eligibility and sampling qualification. Preserve all explicit overrides and reported unknown,
+device, cap, time and memory outcomes; use the returned sampling sidecar for technical work.

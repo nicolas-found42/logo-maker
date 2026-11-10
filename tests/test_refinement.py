@@ -63,11 +63,15 @@ def construction(folder):
     )
 
 
-def fake_gpu(monkeypatch, image_path=None):
+def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True):
     from PIL import Image
 
     from logo_maker import render
+    from logo_maker.refinement import digest
     from logo_maker.render import RenderResult
+    from logo_maker.sampling import Budget
+
+    monkeypatch.setattr(render, "machine_context", lambda *args: {"machine": "offline"})
 
     def draw(folder, quality="preview", **kw):
         png = folder / f"{quality}.png"
@@ -90,8 +94,31 @@ def fake_gpu(monkeypatch, image_path=None):
             )
         )
         execution.with_suffix(".log").write_text("GPU runtime evidence")
+        if kw.get("budget"):
+            kw["budget"].begin_attempt()
+        sampling = folder / ".build" / f"{quality}.sampling.json"
+        deps = {str(p): digest(p) for p in render.source_files(folder)}
+        sampling.write_text(
+            json.dumps(
+                {
+                    "published": True,
+                    "delivered_sha256": digest(png),
+                    "source_key": render.content_key(deps),
+                    "dependencies": deps,
+                    "execution": str(execution),
+                    "execution_sha256": digest(execution),
+                    "context": render.machine_context(kw.get("budget") or Budget()),
+                    "profile": {
+                        "state": "qualified" if sampling_qualified else "profile_unqualified"
+                    },
+                    "outcomes": {
+                        "sampling": "profile_baseline" if sampling_qualified else "review_needed"
+                    },
+                }
+            )
+        )
         return RenderResult(
-            png, folder / "scene.blend", folder / "model.glb", 1, quality, execution
+            png, folder / "scene.blend", folder / "model.glb", 1, quality, execution, sampling
         )
 
     monkeypatch.setattr(render, "render", draw)
@@ -408,3 +435,54 @@ def test_current_owner_direction_invalidates_unresolved_comparison(tmp_path, mon
     )
     (folder / "inspection.json").write_text(json.dumps(inspection))
     assert pipeline.refine(logo, judge)["rendered_variants"] == 2
+
+
+def test_creative_final_cannot_bypass_unqualified_sampling(tmp_path, monkeypatch):
+    from logo_maker.paths import REPO_ROOT
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    pipeline.motifs(logo)
+    fake_gpu(
+        monkeypatch,
+        REPO_ROOT / "examples/chief-of-staff/reference-256.png",
+        sampling_qualified=False,
+    )
+    judge = Judge()
+    with pytest.raises(pipeline.AuthoringNeeded, match="sampling qualification") as stop:
+        pipeline.qa_concept(logo, cid, judge, pipeline.Brand({"primary": "#123456"}, {}))
+    assert stop.value.details["dimension"] == "sampling_profile"
+    assert all("construction" not in state for state in judge.states)
+
+
+def test_sampling_budget_failure_stays_operational_and_preserves_prior_image(tmp_path, monkeypatch):
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    prior = folder / "final.png"
+    prior.write_bytes(b"usable prior image")
+    clock = [0.0]
+    budget = Budget(wall_seconds=1, clock=lambda: clock[0])
+    clock[0] = 2.0
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        pipeline.qa_concept(logo, cid, Judge(), pipeline.Brand({}, {}), budget=budget)
+    assert prior.read_bytes() == b"usable prior image"
+
+
+def test_machine_context_drift_invalidates_creative_render_reuse(tmp_path, monkeypatch):
+    from logo_maker import render
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+    monkeypatch.setattr(
+        render, "machine_context", lambda *args: {"machine": "changed-device-build"}
+    )
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo, Judge())
+    assert pipeline.status(logo)["rendered_variants"] == 2

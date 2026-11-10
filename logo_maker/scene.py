@@ -9,6 +9,7 @@ the field. `from_treatment` emits a starting recipe from a catalog preset.
 from __future__ import annotations
 
 import json
+import math
 import tomllib
 from contextlib import suppress
 from pathlib import Path
@@ -104,7 +105,7 @@ def _num(
     bad = (lo is not None and value < lo) or (
         hi is not None and (value >= hi if hi_open else value > hi)
     )
-    if bad:
+    if bad or not math.isfinite(value):
         raise SceneError(f"scene.toml: [{where}] {name}={value} out of range")
     return value
 
@@ -179,9 +180,31 @@ def load_scene(path: Path) -> dict:
         "glare": _num("render", render, "glare", 0.0, lo=0.0, hi=1.0),
         "dof_fstop": _num("render", render, "dof_fstop", 0.0, lo=0.0, hi=22.0),
         "adaptive_threshold": _num("render", render, "adaptive_threshold", None, lo=0.0, hi=1.0),
-        "max_samples": _num("render", render, "max_samples", None, lo=1.0),
+        "max_samples": _num("render", render, "max_samples", None, lo=1.0, hi=1048576),
+        "min_samples": _num("render", render, "min_samples", None, lo=0.0, hi=1048576),
+        "seed": _num("render", render, "seed", None, lo=0.0, hi=2147483647),
+        "adaptive": _field("render", render, "adaptive", bool, None),
         "alpha_cleanup": _field("render", render, "alpha_cleanup", bool, False),
     }
+
+    for name in ("max_samples", "min_samples", "seed"):
+        value = scene["render"][name]
+        if value is not None and (type(render[name]) is not int):
+            raise SceneError(f"scene.toml: [render] {name} must be an integer")
+    sampling = raw.get("sampling", {})
+    if not isinstance(sampling, dict):
+        raise SceneError("scene.toml: [sampling] must be a table")
+    scene["sampling"] = {
+        "profile": _field("sampling", sampling, "profile", str, None),
+        "diagnosis": _field("sampling", sampling, "diagnosis", str, None),
+        "wall_seconds": _num("sampling", sampling, "wall_seconds", 1800, lo=0.001),
+        "attempt_limit": _field("sampling", sampling, "attempt_limit", int, 2),
+        "diagnostic_bytes": _field("sampling", sampling, "diagnostic_bytes", int, 2147483648),
+    }
+    if not 1 <= scene["sampling"]["attempt_limit"] <= 4:
+        raise SceneError("scene.toml: [sampling] attempt_limit must be 1..4")
+    if not 0 <= scene["sampling"]["diagnostic_bytes"] <= 2147483648:
+        raise SceneError("scene.toml: [sampling] diagnostic_bytes must be 0..2147483648")
 
     materials = raw.get("materials", {})
     if not isinstance(materials, dict) or not materials:
@@ -670,17 +693,12 @@ def compile(concept_dir: Path | str, quality: str, on_asset: Any | None = None) 
         for obj in _build_cut(cut, scene, motif, mesh_dir):
             objects.append(obj)
 
-    quality_spec = {"name": quality, **QUALITY[quality]}
-    if scene["render"].get("max_samples") is not None:
-        quality_spec["samples"] = int(scene["render"]["max_samples"])
-        quality_spec["adaptive"] = True
-    if scene["render"].get("adaptive_threshold") is not None:
-        quality_spec["adaptive_threshold"] = float(scene["render"]["adaptive_threshold"])
-        quality_spec["adaptive"] = True
+    quality_spec = sampling_quality(scene, quality)
 
     scene_json = {
         "meta": scene["meta"],
         "quality": quality_spec,
+        "sampling": scene["sampling"],
         "camera": scene["camera"],
         "lighting": {
             "rig": scene["lighting"]["rig"],
@@ -696,6 +714,30 @@ def compile(concept_dir: Path | str, quality: str, on_asset: Any | None = None) 
     out = build_dir / "scene.json"
     out.write_text(json.dumps(scene_json, indent=2))
     return out
+
+
+def sampling_quality(scene: dict, quality: str) -> dict:
+    """Resolve effective controls without losing explicit false/zero overrides."""
+    from logo_maker.sampling import Settings, validate_settings
+
+    spec = {"name": quality, **QUALITY[quality], "min_samples": 0, "seed": scene["meta"]["seed"]}
+    overrides = {
+        k: v
+        for k, v in scene["render"].items()
+        if k in {"max_samples", "adaptive_threshold", "min_samples", "seed", "adaptive"}
+        and v is not None
+    }
+    if "max_samples" in overrides or "adaptive_threshold" in overrides:
+        spec["adaptive"] = True
+    for name, value in overrides.items():
+        key = "samples" if name == "max_samples" else name
+        spec[key] = int(value) if key in {"samples", "min_samples", "seed"} else value
+    spec["overrides"] = overrides
+    try:
+        validate_settings(Settings.from_quality(spec))
+    except ValueError as exc:
+        raise SceneError(f"scene.toml: [render] {exc}") from exc
+    return spec
 
 
 def _resolve_material(name: str, preset: str, base_hex: str, params: dict) -> dict:

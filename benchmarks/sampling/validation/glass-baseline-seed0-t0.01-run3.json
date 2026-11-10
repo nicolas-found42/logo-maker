@@ -1,0 +1,81 @@
+{
+  "name": "glass-baseline-seed0-t0.01-run3",
+  "measurement": {
+    "seconds": 65.32768029200088,
+    "render_seconds": 61.32471375000023,
+    "execution": "/private/tmp/logo-maker-sampling-validation/glass-baseline-seed0-t0.01-run3/.build/final.execution.json",
+    "png": "/private/tmp/logo-maker-sampling-validation/glass-baseline-seed0-t0.01-run3/final.png",
+    "sampling": "None",
+    "export_manifest": "/private/tmp/logo-maker-sampling-validation/glass-baseline-seed0-t0.01-run3/exports/manifest.json",
+    "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+    "kernel_cache_state": "unknown",
+    "owner_review": "pending",
+    "qualification": "incomplete"
+  },
+  "execution": {
+    "schema": 1,
+    "policy": "metal-gpu-only",
+    "status": "verified",
+    "inputs_sha256": {
+      "compiled_scene": "296331058b31532d79253a9f6199ef7f3495e9ae1feb388b4de5ce1c3e5717a5",
+      "meshes/ring_text_2.ply": "5f6845fa581afe4a6ba6e3f3302fac4850f9245f950a0eee8d7b2934fc77ee54",
+      "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+      "meshes/relief_1.ply": "c07ed04ade70caaa1930f368a6947c007b8e9d25fcae74cc65290fe5a2d64cc8"
+    },
+    "blender": "5.2.3 LTS",
+    "build": "e13b728c6880",
+    "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "devices": [
+      {
+        "name": "Apple M5 Pro",
+        "id": "CPU",
+        "type": "CPU",
+        "use": false
+      },
+      {
+        "name": "Apple M5 Pro (GPU - 20 cores)",
+        "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+        "type": "METAL",
+        "use": true
+      }
+    ],
+    "device_override": "METAL",
+    "metalrt": "AUTO",
+    "sampling": {
+      "samples": 4096,
+      "use_adaptive_sampling": true,
+      "adaptive_threshold": 0.009999999776482582,
+      "adaptive_min_samples": 0,
+      "seed": 0,
+      "use_animated_seed": false
+    },
+    "resolution": [
+      4000,
+      4000
+    ],
+    "resolution_percentage": 100,
+    "denoiser_requested": {
+      "name": "OPENIMAGEDENOISE",
+      "gpu": true,
+      "input_passes": "RGB_ALBEDO_NORMAL"
+    },
+    "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+    "kernel_cache_state": "unknown",
+    "log": "final.execution.log",
+    "seconds": 58.91841700000805,
+    "process_cpu_seconds": 16.308139,
+    "log_sha256": "28ca25a7ae795bcd6636b9223d074b9a2dfa57e246d27b3db083b81782713b1e",
+    "denoiser_effective": {
+      "device_type": "Metal",
+      "oidn_version": "2.5.0",
+      "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+    },
+    "png_sha256": "3d0a0d5e7c8203edfa5ce2554d2d67522d86e5b22d3e5dea6bdf0ed2a021d724"
+  },
+  "sampling": null,
+  "final_sha256": "c38dcb430830488e97fd84d209b206e30c96f47f49d9fe365534fd33c83f9311",
+  "export_manifest_sha256": "e3b262316924d764c33032755a6f8f9f6e439b33b150c1a1b0f8aaccffc69f0f",
+  "source_scene_sha256": "162e62c0c141372c89d550b093be0c838a7f4bc52b6ddf73f500fae8c7f550ae",
+  "owner_review": "pending"
+}

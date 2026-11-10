@@ -1,0 +1,37 @@
+
+Intel(R) Open Image Denoise 2.5.0
+  Compiler  : Clang 21.0.0 (clang-2100.1.1.101)
+  Build     : Release
+  OS        : macOS (ARM64)
+  Device    : Apple M5 Pro
+    Type    : Metal
+    Arch    : applegpu_g17s
+
+Filter: RT
+Filter: RT
+Filter: RT
+Quality: high
+Inputs: alb:f3
+Output: f3
+Memory usage: 1376447366
+Image size: 4000x4000
+Tile size : 2144x2144
+Tile count: 2x2
+In-place  : true
+Quality: high
+Inputs: nrm:f3
+Output: f3
+Memory usage: 1376447366
+Image size: 4000x4000
+Tile size : 2144x2144
+Tile count: 2x2
+In-place  : true
+Quality: high
+Inputs: hdr:f3 alb:f3 nrm:f3
+Output: f3
+Memory usage: 1376461446
+Image size: 4000x4000
+Tile size : 2144x2144
+Tile count: 2x2
+In-place  : true
+00:56.694  render           | Saved: '/private/tmp/logo-maker-sampling-validation/glass-current-seed0-t0.01-run2/.build/attempt-73c782c383254cc098047f4b7b9ecfc7/final.execution.unverified.png'

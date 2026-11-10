@@ -115,3 +115,10 @@ Per-kind component fields and their defaults live in
   multiplies that for readability fixes.
 - `Motif.regular_polygon(cx, cy, r, n, rotation_deg=-90)` puts a vertex at the
   top; pass `rotation_deg=0` for a flat top edge.
+
+## Bounded sampling controls
+
+The `[sampling]` profile, diagnosis, diagnostic-storage, attempt and wall-clock controls are documented
+in [the sampling policy](../../../docs/automatic-sampling.md). Use that policy's source/image-bound
+diagnosis for numeric changes. `construction.json` and creative inspection supply brand intent and
+revision evidence; they do not replace a qualified machine profile or independent-seed noise review.

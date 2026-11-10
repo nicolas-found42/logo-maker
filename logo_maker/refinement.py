@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from logo_maker.paths import REPO_ROOT, LogoDir, concept_slug
+from logo_maker.sampling import Budget
 
 CONSTRUCTION_FIELDS = (
     "symbol",
@@ -119,7 +120,9 @@ def history(logo: LogoDir, cid: str) -> list[dict]:
     return [read(p) for p in sorted(root.glob("*/revision.json"))]
 
 
-def current(logo: LogoDir, cid: str, quality: str = "preview") -> dict | None:
+def current(
+    logo: LogoDir, cid: str, quality: str = "preview", *, budget: Budget | None = None
+) -> dict | None:
     folder = logo.concept(cid)
     state = folder / "render-state.json"
     if not state.exists():
@@ -130,15 +133,19 @@ def current(logo: LogoDir, cid: str, quality: str = "preview") -> dict | None:
     image = folder / f"{quality}.png"
     if not image.exists() or record["image_sha256"] != digest(image):
         return None
-    return record
+    from logo_maker.render import artifact_current
+
+    return record if artifact_current(folder, quality, budget=budget) else None
 
 
-def capture(logo: LogoDir, cid: str, quality: str) -> dict:
+def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = None) -> dict:
     """Render a new revision once; archive provenance before another render can overwrite it."""
     from logo_maker import render
     from logo_maker.proc import ToolError
 
-    cached = current(logo, cid, quality)
+    if budget:
+        budget.check()
+    cached = current(logo, cid, quality, budget=budget)
     if cached:
         return cached
     folder = logo.concept(cid)
@@ -149,7 +156,7 @@ def capture(logo: LogoDir, cid: str, quality: str) -> dict:
             "creative refinement requires Cycles Metal GPU-only rendering; alternate renderer is unverified"
         )
     hashes = source_hashes(logo, folder)
-    result = render.render(folder, quality)
+    result = render.render(folder, quality, budget=budget)
     if not result.execution or not result.execution.is_file():
         raise ToolError("creative rendering requires verified Metal GPU execution evidence")
     execution = read(result.execution)
@@ -177,7 +184,16 @@ def capture(logo: LogoDir, cid: str, quality: str) -> dict:
     if native_log.exists():
         shutil.copy2(native_log, dest / "execution.log")
     if (folder / ".build").exists():
-        shutil.copytree(folder / ".build", dest / "build", ignore=shutil.ignore_patterns("*.png"))
+        shutil.copytree(
+            folder / ".build",
+            dest / "build",
+            ignore=shutil.ignore_patterns("*.png", "*.exr", "attempt-*", "*.prior-*"),
+        )
+    if (result.execution.parent / "scene.json").exists():
+        shutil.copy2(result.execution.parent / "scene.json", dest / "build" / "selected-scene.json")
+    sampling = read(result.sampling) if result.sampling and result.sampling.exists() else {}
+    if sampling:
+        write(dest / "sampling.json", sampling)
     record = {
         "revision": revision,
         "concept": cid,
@@ -191,7 +207,8 @@ def capture(logo: LogoDir, cid: str, quality: str) -> dict:
         "construction": construction(folder),
         "execution": execution,
         "host_total_seconds": result.seconds,
-        "sampling_calibration": "invalidated: revision changed; #5 owns qualification",
+        "sampling": sampling,
+        "sampling_calibration": sampling.get("profile", {"state": "profile_unqualified"}),
     }
     write(dest / "revision.json", record)
     state = read(folder / "render-state.json") if (folder / "render-state.json").exists() else {}

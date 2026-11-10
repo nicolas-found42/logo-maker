@@ -115,3 +115,37 @@ def test_from_treatment_emits_valid_toml(tmp_path):
     assert parsed["meta"]["seed"] == 42
     assert parsed["materials"]["surface"]["color"] == "#112233"
     assert any(c["kind"] == "ring_text" for c in parsed["components"])
+
+
+def test_sampling_overrides_preserve_false_zero_and_explicit_seed(tmp_path):
+    from logo_maker import scene as scene_mod
+
+    text = (
+        MINIMAL
+        + """
+[render]
+adaptive = false
+adaptive_threshold = 0.0
+min_samples = 0
+max_samples = 128
+seed = 99
+[sampling]
+wall_seconds = 120
+attempt_limit = 1
+"""
+    )
+    path = write(tmp_path, text)
+    scene = load_scene(path)
+    quality = scene_mod.sampling_quality(scene, "final")
+    assert quality["adaptive"] is False
+    assert quality["adaptive_threshold"] == 0
+    assert quality["seed"] == 99
+    assert quality["samples"] == 128
+    assert quality["overrides"] == {
+        "adaptive": False,
+        "adaptive_threshold": 0.0,
+        "min_samples": 0,
+        "max_samples": 128,
+        "seed": 99,
+    }
+    assert scene["sampling"]["attempt_limit"] == 1
