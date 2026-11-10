@@ -46,6 +46,13 @@ cross-treatment quality ranking is claimed. All rejected controls fail to advanc
 Rootshare attempt additionally records the owner's hash-bound veto, with the model answers
 preserved separately. Owner approval cannot replace missing or unsettled essential evidence.
 
+Correction: the owner reviewed only the displayed Rootshare **final**. The agent incorrectly
+copied that verdict to the preview. The preview owner labels are withdrawn and remain unknown;
+its model judgments still independently withheld advancement. Current `owner-feedback.json`
+contains only the reviewed final hash. The superseded bytes and correction are retained under
+`rootshare/qa/` so historical source hashes remain auditable; the superseded file is not current
+owner authority. The file index includes both versions.
+
 The first exploratory image probe used incomplete Skill Swap concept descriptions. It is
 superseded by the retained authored brief/concept/SVG inputs under `qualification/skill-swap`;
 only the expanded, correctly sourced calibration above is used for acceptance evidence.
