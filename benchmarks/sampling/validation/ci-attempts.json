@@ -15,5 +15,12 @@
     "conclusion": "failure",
     "observed": "Both process lifecycle regressions hit macOS os.killpg(...,0) EPERM after termination. Local unreaped-group probe reproduces EPERM; reaped group ESRCH.",
     "fix": "On denied signals inspect process-group IDs/states under remaining budget. Empty/zombie-only groups have stopped; live denial/uninspectable group raises explicit cleanup-unconfirmed. New hosted validation pending."
+  },
+  "lifecycle_test_setup_followup": {
+    "run": 42912948288,
+    "head": "3790f35b5ebb374d948516ac4a5d3ac6929c64d2",
+    "conclusion": "failure",
+    "observed": "Process-state regressions pass. Lifecycle tests4s deadline expired before fakebrowserstart on slowrunner; heartbeat missing or wrongexpectedexception.",
+    "test_only_change": "Allow20s coldsetup; heartbeatfailsafe60s outlivesdeadline. Delayedhook/stoppedheartbeat/prioroutput assertions remain. Production code/budgets unchanged. Final hosted validation pending."
   }
 }

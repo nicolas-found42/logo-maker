@@ -186,3 +186,20 @@ automated merge approval is claimed. Final hosted validation remains separately 
 Owning platform sources: [Apple process-group signal handling](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/kern/kern_sig.c),
 [macOS ps license](https://github.com/apple-oss-distributions/adv_cmds/blob/main/ps/ps.c),
 and [Linux procps license](https://gitlab.com/procps-ng/procps/-/blob/master/COPYING).
+
+## Hosted lifecycle fixture timing
+
+The next hosted run passed both process-state regressions, but the lifecycle fixture’s
+four-second whole budget expired before its fake browser started. The test now allows
+20 seconds including cold imports/format setup; its fake browser lasts up to 60 seconds
+so natural exit cannot satisfy the cleanup assertion. Both reviewers confirmed that the
+heartbeat-start, delayed-hook, stopped-work and prior-output checks remain meaningful.
+Production code and budgets are unchanged. The final local suite still passes 228 tests;
+three actual render checks and the final M5 operational smoke remain valid for unchanged
+production source. Final hosted validation is tracked in the PR/issue.
+
+The tests-only Jev gate escalated (composite 0.82275, safe-to-apply 0.61) for low confidence.
+It verified the final local checks at 0.98 confidence, but classified the combined
+tests-only/pending-hosted claim unsupported: no new hosted run existed in the supplied
+evidence. The source diff shows only fixture timing edits; hosted results remain a
+separate pending check. Prior broader gate escalations remain retained.

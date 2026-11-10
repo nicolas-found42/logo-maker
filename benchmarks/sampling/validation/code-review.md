@@ -102,3 +102,11 @@ pending-hosted claim. The independent Spec reviewer then read the exact retained
 green logs and confirmed the claim: both parameter cases failed before; eight export
 tests passed afterward. This resolves the narrow factual question independently, without
 overruling the broad review escalation or asserting hosted success.
+
+## Lifecycle fixture timing re-review
+
+Both reviewers approved the tests-only allowance for slow hosted setup: 20-second test
+budget and 60-second fake-browser lifetime preserve the lifecycle regression. Production
+settings and budgets are unchanged. Final offline228, lint/types/hooks pass. The narrow
+test-timing gate remains escalated (composite0.82275, safe-to-apply0.61); local-check claim
+verified.98, tests-only/pending-hosted claim unsupported. No hosted pass is inferred.

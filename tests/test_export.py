@@ -118,7 +118,7 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
     pids = tmp_path / "pids.json"
     child_code = (
         "import sys,time; from pathlib import Path; p=Path(sys.argv[1]); "
-        "end=time.monotonic()+15\n"
+        "end=time.monotonic()+60\n"
         "while time.monotonic()<end:\n p.write_text('alive'); time.sleep(0.03)\n"
     )
     helper = bin_dir / "node"
@@ -161,7 +161,9 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
                 name="Sample",
                 palette=PALETTE,
                 motif_svg=motif,
-                budget=Budget(wall_seconds=4),
+                # Include cold imports/format setup on the slower hosted Mac before
+                # the external-tool lifecycle this regression is intended to reach.
+                budget=Budget(wall_seconds=20),
             )
         assert heartbeat.exists(), "did not reach external-tool/browser lifecycle"
         stamp = heartbeat.stat().st_mtime_ns
