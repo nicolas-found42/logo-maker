@@ -14,5 +14,4 @@ open-source tools only. Dates and star counts are as of 2026-11-09/10.
 | `logo-github-tools.md` | Open-source SVG, path, trace and optimize libraries |
 | `logo-github-topics.md` | GitHub topic sweeps for logo generators |
 | `logo-awesome-mined.md` | Libraries mined from awesome-lists |
-| `logo-concept-chain.md` | Three chained Jev stages from concept to mark |
 | `logo-maker-install-facts.md` | Verified install facts, licenses and plugin formats |

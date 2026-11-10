@@ -1,8 +1,6 @@
 # Logo 3D — Rendering Quality + Materials (slug: render)
 
-**Question:** beyond the current EEVEE floor (bpy 5.2.3 headless), which alternative/complementary renderers run headless on Apple Silicon, which CC0 sources feed them, and what material/post recipes lift the enamel disc beyond "nice raster"?
-
-**Brand anchor:** blue enamel disc (#1E4A7A), gold rim, raised ivory Playfair Display "C", polished gold check. Calm/capable/discreet. Palette and fonts as briefed.
+**Question:** beyond the current EEVEE floor (bpy 5.2.3 headless), which alternative/complementary renderers run headless on Apple Silicon, which CC0 sources feed them, and what material/post recipes lift a logo mark beyond "nice raster"?
 
 ## TL;DR recommendation
 
@@ -19,15 +17,15 @@
 ### Probe 1 — Blender EEVEE vs Cycles + Poly Haven HDRI (bpy 5.2.3, Python 3.13)
 
 - HDRI: `poly_haven_studio_1k.hdr` (1,682,195 bytes) from `https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/poly_haven_studio_1k.hdr` (200 OK; `file` reports Radiance HDR). File-listing JSON at `https://api.polyhaven.com/files/poly_haven_studio`.
-- Scene (`probe_cycles.py`): blue enamel cylinder (#1E4A7A, coat 1.0 / coat-rough 0.06), gold torus rim, Playfair Black "C" (`/tmp/logo3d/PlayfairDisplay-Black.ttf`), gold check bar, dark ground, sun light, world = HDRI envmap. Camera (2.2, −3.2, 1.4) looking at disc.
-- Output: **`C_eevee.png` (455,464 bytes) and `C_cycles.png` (475,967 bytes)**, both 640×640. EEVEE noted `BLENDER_EEVEE` (5.2.3 has no `BLENDER_EEVEE_NEXT` enum — first run failed on it, fixed and reran).
+- Scene (`probe_cycles.py`): coated blue cylinder disc (coat 1.0 / coat-rough 0.06), metal torus rim, extruded letterform from a static Black-weight instance of a serif variable font, a metal accent bar, dark ground, sun light, world = HDRI envmap. Camera (2.2, −3.2, 1.4) looking at disc.
+- Output: **`eevee.png` (455,464 bytes) and `cycles.png` (475,967 bytes)**, both 640×640. EEVEE noted `BLENDER_EEVEE` (5.2.3 has no `BLENDER_EEVEE_NEXT` enum — first run failed on it, fixed and reran).
 - **Cycles rendered headless in ~3 s wall total (CPU path)** — this is the trustworthy headless mode today. Center pixels: EEVEE (157,177,193) vs Cycles (149,168,183) — Cycles reads slightly deeper (path-traced env).
 - **Metal enumeration works, Metal headless render hangs:** `compute_device_type="METAL"` + `refresh_devices()` lists `("Apple M5 Pro (GPU - 20 cores)", "METAL", True)` in both pip-bpy and system Blender 5.2.2. But actual GPU renders hung across 3 attempts (full scene twice, once via system Blender, plus a minimal 256px/16-sample cube killed before completion) — no file after >3–5 min each. Likely first-run Metal kernel compilation or a headless Metal queue stall. **Conclusion:** keep Cycles Metal for interactive/GUI sessions where a kernel cache can warm; use Cycles CPU (fast enough at logo sizes) or Mitsuba Metal for headless finals until the warm-up is done once interactively.
 
 ### Probe 2 — Mitsuba 3 (mitsuba 3.9.1, drjit 1.5.0, uv venv)
 
 - Install: `uv pip install mitsuba==3.9.1` — clean install (49.9 MB + drjit 4.0 MB), Python 3.13. `mi.variants()` returns 13 variants including **`metal_ad_rgb`** — Metal AD is present on this Mac.
-- Scene (`scene.xml`): path integrator, 640×640 hdrfilm, 64 spp, `poly_haven_studio_1k.hdr` envmap emitter, two `Au` roughconductor spheres (alpha 0.1) + #1E4A7A roughplastic disc.
+- Scene (`scene.xml`): path integrator, 640×640 hdrfilm, 64 spp, `poly_haven_studio_1k.hdr` envmap emitter, two `Au` roughconductor spheres (alpha 0.1) + a roughplastic disc.
 - Output: **`mitsuba_scalar_rgb.png` (571 KB), `mitsuba_llvm_ad_rgb.png` (580 KB), `mitsuba_metal_ad_rgb.png` (580 KB)**, all valid 640×640 PNGs. Center pixel (the gold sphere) (141,110,61) — gold reads warm/orange as expected from spectral Au IOR.
 - Gotchas found and fixed (useful for the real scene): gold material key is **`Au`** (no `gold.eta.spd` in the wheel); roughplastic color key is **`diffuse_reflectance`**; sensor transform name is **`to_world`**; Mitsuba 3 XML parser is strict (unreferenced properties are errors); disk scene dicts need variant-specific transform types — **use XML** (`mi.load_file`). Note: `mi.util.write_bitmap` raised `FileNotFoundError` after writing in this probe, but the PNGs are valid — write with PIL/numpy for finals. License: repo LICENSE is BSD-3-Clause style ("Redistribution and use in source and binary forms…"); GitHub API reports NOASSERTION, so treat as BSD-3-Clause by text, not SPDX.
 
@@ -54,21 +52,21 @@
 
 ## Material recipes (Blender shader nodes, drop into current scene)
 
-All verified against Principled BSDF input names in Blender 5.2 (Coat Weight / Coat Roughness). Palette hex → linear in nodes where noted.
+All verified against Principled BSDF input names in Blender 5.2 (Coat Weight / Coat Roughness). Base colors are placeholders; convert hex → linear in nodes.
 
-1. **Enamel (primary disc)** — Principled: Base `#1E4A7A`, Metallic 0, Roughness 0.18, **Coat Weight 1.0, Coat Roughness 0.06**, Specular IOR 1.5. The coat is what separates enamel from matte plastic in Cycles.
-2. **Polished gold (rim/check)** — Principled: Base `#F2C14E`, Metallic 1.0, Roughness 0.12. For CG-chrome look; for leaf realism see #3.
-3. **Gold leaf** — Metallic 1.0, Base `#F2C14E`, Roughness 0.1 + Noise Texture (scale ~40) → Roughness for lap variation, faint Bump. Stops the "plastic trophy" read.
-4. **Brushed brass (warm alt)** — Metallic 1.0, Base mix `#B45309`/`#F2C14E`, Roughness 0.25–0.35, Anisotropic 0.6 with brushed Noise → Tangent rotation. Warmer, less mirror than polished gold.
-5. **Letterpress paper (wordmark ground)** — Base `#F8F6F1`, Roughness 0.9, Noise (scale 60, detail 4) → Bump 0.03, Subsurface 0.15. Behind wordmark only.
-6. **Porcelain (alt disc)** — Base `#F8F6F1`, Roughness 0.22, Coat 0.5, Subsurface 0.3 with `#E8DFC8` radius. If enamel reads too plastic in finals.
+1. **Glossy enamel (coated disc)** — Principled: Base = any saturated color, Metallic 0, Roughness 0.18, **Coat Weight 1.0, Coat Roughness 0.06**, Specular IOR 1.5. The coat is what separates enamel from matte plastic in Cycles.
+2. **Polished gold (rim/accent)** — Principled: warm yellow base, Metallic 1.0, Roughness 0.12. For CG-chrome look; for leaf realism see #3.
+3. **Gold leaf** — Metallic 1.0, warm yellow base, Roughness 0.1 + Noise Texture (scale ~40) → Roughness for lap variation, faint Bump. Stops the "plastic trophy" read.
+4. **Brushed brass (warm alt)** — Metallic 1.0, base mix of burnt orange / warm yellow, Roughness 0.25–0.35, Anisotropic 0.6 with brushed Noise → Tangent rotation. Warmer, less mirror than polished gold.
+5. **Letterpress paper (ground)** — Off-white base, Roughness 0.9, Noise (scale 60, detail 4) → Bump 0.03, Subsurface 0.15.
+6. **Porcelain (alt disc)** — Off-white base, Roughness 0.22, Coat 0.5, Subsurface 0.3 with a warm cream radius. If the coated look reads too plastic in finals.
 7. **Glass (alt dome)** — Transmission Weight 1.0, IOR 1.5, Roughness 0.02–0.05. Cycles-only (EEVEE transmission is fake).
-8. **Beeswax** — Subsurface 0.4, radius `#B45309`, Roughness 0.55, Sheen. Only if wax-seal direction returns.
+8. **Soft translucent material** — Subsurface 0.4, warm radius color, Roughness 0.55, Sheen. Subsurface scattering vs plain Principled is the lever for soft looks.
 
 ## Post pipeline (cheapest that lifts quality)
 
 1. **Cycles DOF** (camera `dof.use_dof`) — only true DOF in the chain.
-2. **Blender Compositor Glare** (Fog Glow, Threshold ~0.8, Size 7–9) for rim/check bloom — more controllable than oiiotool bloom.
+2. **Blender Compositor Glare** (Fog Glow, Threshold ~0.8, Size 7–9) for rim bloom — more controllable than oiiotool bloom.
 3. **OIDN** via Cycles denoising (CPU device) or standalone on EXR.
 4. **OpenImageIO oiiotool** via pip for tonemap/contact sheets/HDRI EXR conversion. No brew needed.
 
@@ -83,7 +81,6 @@ All verified against Principled BSDF input names in Blender 5.2 (Coat Weight / C
 
 ## Probe artifacts (for Main to view)
 
-- `/tmp/logo3d-render/C_eevee.png`, `/tmp/logo3d-render/C_cycles.png` (Cycles CPU + HDRI)
+- `/tmp/logo3d-render/eevee.png`, `/tmp/logo3d-render/cycles.png` (Cycles CPU + HDRI)
 - `/tmp/logo3d-render/mitsuba_{scalar_rgb,llvm_ad_rgb,metal_ad_rgb}.png`
 - Scripts: `probe_cycles.py` (scene), `mitsuba-probe/scene.xml` + `probe2.py`, `min_metal.py`
-- Full machine-readable list: `logo-3d-render.jsonl` (29 rows).

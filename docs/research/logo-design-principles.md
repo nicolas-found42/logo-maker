@@ -1,7 +1,7 @@
 # Logo design principles — types, negative space, scalability tests
 
 Name-agnostic background for judging and authoring marks. Sources are free editorial pieces;
-quotes are verbatim from the cited pages.
+quotes are verbatim from the cited pages. The 16 px checklist is a working synthesis.
 
 ## 1. Logo types
 
@@ -31,8 +31,7 @@ Source: The Next Scoop, <https://thenextscoop.com/negative-space-in-logo-design>
 
 ## 3. Simplicity and scalability tests
 
-**Design for 16 px first** (ikonra,
-<https://ikonra.com/journal/designing-a-logo-that-works-at-16px>):
+**Design for 16 px first** (working checklist, not a quoted source):
 
 - Test the mark at its smallest size first.
 - Keep to 2–3 shapes.

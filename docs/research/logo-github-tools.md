@@ -1,9 +1,9 @@
-# GitHub / Awesome-list tools for a creative local "Chief of Staff" logo
+# GitHub / Awesome-list tools for a creative local logo workflow
 
 Scope: open-source, locally runnable (macOS arm64, Python 3 + uv / Node + Bun / Homebrew,
 no API keys assumed) tools that help produce a more creative logo: programmatic
 SVG, glyph-outline work, boolean path ops, raster→vector, SVG raster/optimize, and permissive
-icon/font assets. Output must be PNG (SVG master preferred), commercially usable by the student.
+icon/font assets. Output must be PNG (SVG master preferred), commercially usable.
 Metadata (stars / pushed_at / license) via `gh api repos/<owner>/<repo>` and `gh search repos`
 on 2026-11-09/10; where GitHub reports `NOASSERTION` the LICENSE file text was read directly.
 
@@ -34,7 +34,7 @@ Note on "abandoned": flagged when `pushed_at` is 3+ years before 2026-11 (i.e. b
   SVG API. MIT, stars 8,703, pushed 2026-11-10. `npm i two.js`.
 - **rough.js** (`rough-stuff/rough`, https://github.com/rough-stuff/rough) — hand-drawn/sketchy
   SVG style on top of generated shapes. MIT, stars 21,370, pushed 2024-07-28. `npm i roughjs`.
-  Useful contrast to the current too-plain checkmark; pair with a serif wordmark.
+  Useful contrast to overly plain geometric marks; pair with a serif wordmark.
 - **svg.js** (`svgdotjs/svg.js`, https://github.com/svgdotjs/svg.js) — DOM SVG library.
   `NOASSERTION` on GitHub, but LICENSE.txt is MIT
   (https://github.com/svgdotjs/svg.js/blob/master/LICENSE.txt). Stars 11,911, pushed
@@ -51,7 +51,7 @@ Note on "abandoned": flagged when `pushed_at` is 3+ years before 2026-11 (i.e. b
 - **fonttools** (`fonttools/fonttools`, https://github.com/fonttools/fonttools) — the standard
   for TTF/OTF/WOFF manipulation: glyph outlines (Pen / GlyphRecorder), subsetting, merging.
   MIT, stars 5,314, pushed 2026-11-05. `uv pip install fonttools`. The right tool to turn
-  Playfair Display / Open Sans letters into outlined paths so the logo does not depend on font
+  serif / sans-serif font letters into outlined paths so the logo does not depend on font
   availability. Fetch the fonts from https://github.com/google/fonts (OFL-1.1 fonts; repo
   pushed 2026-11-10) or Fontsource (`fontsource/fontsource`, MIT, pushed 2026-11-09).
 - **opentype.js** (`opentypejs/opentype.js`, https://github.com/opentypejs/opentype.js) — JS
@@ -74,7 +74,7 @@ Note on "abandoned": flagged when `pushed_at` is 3+ years before 2026-11 (i.e. b
 - **skia-pathops** (`fonttools/skia-pathops`, https://github.com/fonttools/skia-pathops) —
   Skia path boolean ops (union/intersect/difference) as a Python package, BSD-3-Clause,
   stars 60, pushed 2026-02-16. `uv pip install skia-pathops`. Ideal for merging glyph
-  outlines with custom shapes (e.g. a harbor-wave cut into a "C").
+  outlines with custom shapes (e.g. a wave cut into a letterform).
 - **Clipper2** (`AngusJohnson/Clipper2`, https://github.com/AngusJohnson/Clipper2) — mature
   polygon clipping/offsetting (C++), Boost Software License 1.0, stars 2,517, pushed
   2026-10-28. Install via `git clone` + CMake build (or use its Python bindings if present).
@@ -90,7 +90,7 @@ Note on "abandoned": flagged when `pushed_at` is 3+ years before 2026-11 (i.e. b
   https://en.wikipedia.org/wiki/Potrace and http://potrace.sourceforge.net). `brew install
   potrace`. No maintained GitHub repo (mirrors are stale/abandoned flag); install via
   Homebrew from upstream. GPL applies to the tool, not to traced output [INFERENCE — check
-  with a tutor/lawyer if unsure; typically output is not encumbered].
+  with a lawyer if unsure; typically output is not encumbered].
 
 ## 5. SVG rasterizers / converters and optimizers
 
@@ -156,10 +156,10 @@ is allowed by their licenses (verify trademark/attribution practice for the fina
   range, pushed 2025-08-30. Treat as inspiration, not a dependency, and do not copy its
   code without a license.
 
-## 8. Recommended local pipeline for this brief
+## 8. Recommended local pipeline
 
 1. Generate mark variants with **drawsvg** or **paper.js** (or p5/two.js for generative
-   exploration); convert Playfair Display / Open Sans glyphs with **fonttools** (Python) or
+   exploration); convert serif / sans-serif font glyphs with **fonttools** (Python) or
    **opentype.js** (Node) so text becomes paths.
 2. Merge/cut shapes with **skia-pathops** (Python) or **Clipper2**; borrow a base motif from
    **Lucide / Tabler / Phosphor** (MIT/ISC) and redraw it rather than using it verbatim.

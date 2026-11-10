@@ -2,7 +2,7 @@
 
 **Machine:** MacBook Pro, Apple M5 Pro (20-core GPU), 48 GB unified memory, macOS 27.0.1 (26A434), Metal 4.
 **Software:** pip `bpy` 5.2.3 LTS (bundled Python 3.13, venv at `/tmp/logo3d/venv-bpy/bin/python`).
-**Scene:** `/tmp/logo/wax3d.py` — wax-seal logo, 2000×2000, HDRI `/tmp/logo3d-render/poly_haven_studio_1k.hdr`, gold relief.
+**Scene:** `/tmp/logo/scene3d.py` — 2000×2000 extruded-mark scene with Principled materials and a studio HDRI `/tmp/logo3d-render/poly_haven_studio_1k.hdr`.
 **Work dir:** `/tmp/logo-gpu/` (scripts, benchmark PNGs). Prior probes in `/tmp/logo3d-render/`.
 
 ## Verdict
@@ -140,7 +140,7 @@ sc.cycles.use_auto_tile = True
 bpy.ops.render.render(write_still=True)
 ```
 
-Measured on this machine (wax3d, 2000²): **GPU adaptive 4096 + OIDN = 38 s**; **GPU fixed 1024 + OIDN = 23 s**
+Measured on this machine (2000² scene): **GPU adaptive 4096 + OIDN = 38 s**; **GPU fixed 1024 + OIDN = 23 s**
 (identical pixels, MAE 0.01 vs CPU 1024); CPU 256 baseline was 41 s. GPU is ~3× CPU at equal samples and
 ~7× at fixed 1024 (23 s vs 162 s).
 
@@ -154,8 +154,8 @@ between renders. Set a generous timeout (≥ 300 s) for the first render of any 
 
 EEVEE headless (Metal backend) works fine — `eevee_64.png` rendered in **3.2 s** at 2000² with TAA 64.
 Quality vs Cycles CPU 1024 reference: MAE 2.11, 3.2% of pixels differ by >20/255. Visually the image is
-clean (no noise, no banding), but the material model visibly downgrades: the blue seal reads as glossy
-molded plastic / enamel (no wax translucency/SSS softness) and the gold relief is flatter and more uniform
+clean (no noise, no banding), but the material model visibly downgrades: the coated disc reads as glossy
+molded plastic / enamel (no soft translucency/SSS) and the metal relief is flatter and more uniform
 (no strong environmental reflections), with slight edge fringing against the transparent background.
 **Use EEVEE only for quick layout/iteration drafts; ship the logo from Cycles GPU.**
 
