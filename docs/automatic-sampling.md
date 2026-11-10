@@ -68,9 +68,12 @@ A schema-1 profile contains:
   profile seed describes calibration; production retains the job's seed).
 - `material_presets`: explicitly reviewed transfer scope. New material presets return
   `profile_out_of_scope`. Custom `bpy` components return `profile_out_of_scope` and cannot
-  reuse cached images: arbitrary Python can read undeclared files, so a source hash alone
+  reuse cached images for production: arbitrary Python can read undeclared files, so a source hash alone
   does not establish a complete dependency inventory. Direct inspection renders remain
-  available. Qualification/reuse requires a future explicit custom-dependency contract.
+  available. The creative workflow may reopen retained previews for inspection/critique using known
+  source, declared dependency, image and runtime bindings; it records the complete custom dependency
+  inventory as unknown. This does not qualify production or permit production reuse. Production
+  qualification/reuse requires a future complete custom-dependency contract.
 - `coverage`: matte, metal, glass, dark, typography and alpha.
 - `owner_review: "approved"`, plus `cases` with roles `positive`, `degraded`, `held_out`.
   Each case has an `evidence` object with `path` and `sha256` for its retained review record.

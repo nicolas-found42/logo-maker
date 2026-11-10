@@ -420,6 +420,19 @@ def preview(
         )
     doc = _read_json(logo.ideation / "finalists.json")
     doc["binding"] = binding
+    qualification = {}
+    for cid in finalists:
+        active = refinement.current(logo, cid, "preview", budget=budget)
+        if active is None:
+            raise AuthoringNeeded(
+                "inputs changed while judging previews; refresh refinement",
+                [logo.concept(cid) / "inspection.json"],
+            )
+        qualification[cid] = {
+            "creative": "ready",
+            "sampling": active.get("sampling", {}).get("profile", {"state": "unknown"}),
+        }
+    doc["qualification"] = qualification
     _write_json(logo.ideation / "finalists.json", doc)
     log.stage("preview", "done", finalists=finalists)
     return finalists

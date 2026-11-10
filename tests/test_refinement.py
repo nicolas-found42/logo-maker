@@ -63,7 +63,7 @@ def construction(folder):
     )
 
 
-def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True):
+def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True, custom_scope=False):
     from PIL import Image
 
     from logo_maker import render
@@ -98,6 +98,9 @@ def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True):
             kw["budget"].begin_attempt()
         sampling = folder / ".build" / f"{quality}.sampling.json"
         deps = {str(p): digest(p) for p in render.source_files(folder)}
+        context = render.machine_context(kw.get("budget") or Budget())
+        if custom_scope:
+            context["custom_scene_sha256"] = "custom-dependencies-remain-unknown"
         sampling.write_text(
             json.dumps(
                 {
@@ -107,7 +110,7 @@ def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True):
                     "dependencies": deps,
                     "execution": str(execution),
                     "execution_sha256": digest(execution),
-                    "context": render.machine_context(kw.get("budget") or Budget()),
+                    "context": context,
                     "profile": {
                         "state": "qualified" if sampling_qualified else "profile_unqualified"
                     },
@@ -578,3 +581,18 @@ def test_final_tournament_cannot_approve_in_flight_edits(tmp_path, monkeypatch, 
     with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
         pipeline.finalize(logo, EditingTournament())
     assert winner.read_text() == '{"winner":"approved-prior"}'
+
+
+def test_custom_preview_can_be_inspected_without_qualifying_production_reuse(tmp_path, monkeypatch):
+    from logo_maker import render
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch, custom_scope=True, sampling_qualified=False)
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+    with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+        pipeline.refine(logo, Judge())
+    assert pipeline.status(logo)["rendered_variants"] == 1
+    assert not render.artifact_current(folder, "preview", check_machine=False)

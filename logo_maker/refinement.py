@@ -133,9 +133,10 @@ def current(
     image = folder / f"{quality}.png"
     if not image.exists() or record["image_sha256"] != digest(image):
         return None
-    from logo_maker.render import artifact_current
+    from logo_maker.render import artifact_current, inspection_artifact_current
 
-    return record if artifact_current(folder, quality, budget=budget) else None
+    check = inspection_artifact_current if quality == "preview" else artifact_current
+    return record if check(folder, quality, budget=budget) else None
 
 
 def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = None) -> dict:
@@ -208,6 +209,12 @@ def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = No
         "execution": execution,
         "host_total_seconds": result.seconds,
         "sampling": sampling,
+        "reuse_scope": "retained_preview_only"
+        if quality == "preview" and "custom_scene_sha256" in sampling.get("context", {})
+        else "supported_runtime_scope",
+        "custom_dependency_inventory": "unknown"
+        if "custom_scene_sha256" in sampling.get("context", {})
+        else "catalog",
         "sampling_calibration": sampling.get("profile", {"state": "profile_unqualified"}),
     }
     write(dest / "revision.json", record)

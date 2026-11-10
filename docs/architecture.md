@@ -330,3 +330,12 @@ The creative `diagnosis.json` is not silently converted into sampling approval. 
 diagnosis must bind its actual `source_key`, delivered `image_sha256`, independent seeds and reviewed
 noisy/denoised detail. Its `kind=denoiser_detail_loss` is a scoped denoising probe; generic edges and
 missing evidence remain unknown. No duplicate sample-selection rule is added by this integration.
+
+Retained custom-bpy previews can be reopened for critique through
+`render.inspection_artifact_current`; their complete dependency inventory stays explicitly unknown.
+The known source/declared dependency/image/runtime bindings are checked, while normal
+`render.artifact_current` and sampling qualification still reject custom production reuse. This
+prevents a render→inspection→rerender loop without inventing a complete Python dependency inventory.
+Finalist metadata records creative readiness and sampling qualification separately. Active source and
+inspection bindings are frozen before online judgments and final tournaments; in-flight edits cannot
+be rebound as approved winner metadata and roll back to the prior winner.

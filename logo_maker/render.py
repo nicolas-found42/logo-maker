@@ -549,12 +549,33 @@ def render_many(
 def artifact_current(
     concept_dir: Path, quality: str, *, check_machine: bool = True, budget: Budget | None = None
 ) -> bool:
+    """Production reuse requires complete supported sampling/runtime scope."""
+    return _artifact_current(concept_dir, quality, check_machine=check_machine, budget=budget)
+
+
+def inspection_artifact_current(
+    concept_dir: Path, quality: str, *, budget: Budget | None = None
+) -> bool:
+    """Reopen retained previews for critique without granting production reuse/qualification."""
+    return _artifact_current(
+        concept_dir, quality, budget=budget, inspection_only=quality == "preview"
+    )
+
+
+def _artifact_current(
+    concept_dir: Path,
+    quality: str,
+    *,
+    check_machine: bool = True,
+    budget: Budget | None = None,
+    inspection_only: bool = False,
+) -> bool:
     """Content freshness includes source, code, devices, seed, execution and delivered bytes."""
     if budget:
         budget.check()
     try:
         record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
-        if "custom_scene_sha256" in record.get("context", {}):
+        if "custom_scene_sha256" in record.get("context", {}) and not inspection_only:
             return False
         if (
             not record["published"]
