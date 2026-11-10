@@ -13,10 +13,10 @@ live = False
         import subprocess
         import sys
         import time
-    
+
         from logo_maker.export import _stop_export_session
         from logo_maker.sampling import Budget, SamplingLimit
-    
+
         if os.name != "posix":
             pytest.skip("POSIX export lifecycle")
         worker = subprocess.Popen(
@@ -34,10 +34,10 @@ live = False
                         break
                     time.sleep(0.01)
                 assert state.startswith("Z"), "did not reach unreaped process state"
-    
+
             def denied(*args):
                 raise PermissionError("signal denied")
-    
+
             monkeypatch.setattr(os, "killpg", denied)
             if live:
                 with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
@@ -45,14 +45,14 @@ live = False
             else:
 >               _stop_export_session(worker, Budget(wall_seconds=2))
 
-tests/test_export.py:219: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_export.py:219:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 logo_maker/export.py:488: in _stop_export_session
     if active():
        ^^^^^^^^
 logo_maker/export.py:483: in active
     os.killpg(worker.pid, 0)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 args = (24899, 0)
 
@@ -74,10 +74,10 @@ live = True
         import subprocess
         import sys
         import time
-    
+
         from logo_maker.export import _stop_export_session
         from logo_maker.sampling import Budget, SamplingLimit
-    
+
         if os.name != "posix":
             pytest.skip("POSIX export lifecycle")
         worker = subprocess.Popen(
@@ -95,23 +95,23 @@ live = True
                         break
                     time.sleep(0.01)
                 assert state.startswith("Z"), "did not reach unreaped process state"
-    
+
             def denied(*args):
                 raise PermissionError("signal denied")
-    
+
             monkeypatch.setattr(os, "killpg", denied)
             if live:
                 with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
 >                   _stop_export_session(worker, Budget(wall_seconds=2))
 
-tests/test_export.py:217: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_export.py:217:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 logo_maker/export.py:488: in _stop_export_session
     if active():
        ^^^^^^^^
 logo_maker/export.py:483: in active
     os.killpg(worker.pid, 0)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 args = (24902, 0)
 
