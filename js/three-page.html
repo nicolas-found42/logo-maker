@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- Headless render target for logo_maker.renderers.three (served over local HTTP,
+     screenshotted by js/three-render.mjs). Loads the session glb, lights it from
+     the session config, and signals window.__renderDone when frames settle. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>html, body { margin: 0; background: transparent; } canvas { display: block; }</style>
+<script type="importmap">
+{"imports": {
+  "three": "/node_modules/three/build/three.module.js",
+  "three/addons/": "/node_modules/three/examples/jsm/",
+  "postprocessing": "/node_modules/postprocessing/build/index.js",
+  "n8ao": "/node_modules/n8ao/dist/index.js"
+}}
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const params = new URLSearchParams(location.search);
+const session = params.get('session');
+const done = (error) => {
+  if (error) window.__renderError = String(error && error.message || error);
+  else window.__renderDone = true;
+};
+
+try {
+  const cfg = await (await fetch(`/${session}/config.json`)).json();
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(cfg.width, cfg.height);
+  renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = cfg.exposure ?? 1.0;
+  document.body.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  scene.background = null;
+  const camera = new THREE.PerspectiveCamera(
+    cfg.camera.fov_deg, cfg.width / cfg.height, 0.01, 1000);
+  camera.position.fromArray(cfg.camera.location);
+  camera.up.fromArray(cfg.camera.up);
+  camera.lookAt(new THREE.Vector3().fromArray(cfg.camera.target));
+
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  if (cfg.hdri) {
+    const env = await new RGBELoader().loadAsync(`/${session}/${cfg.hdri}`);
+    scene.environment = pmrem.fromEquirectangular(env).texture;
+    scene.environmentIntensity = cfg.env_strength ?? 1.0;
+    env.dispose();
+  } else {
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environmentIntensity = 0.55;
+  }
+  pmrem.dispose();
+
+  RectAreaLightUniformsLib.init();
+  for (const light of cfg.lights) {
+    const c = light.color_linear;
+    const color = new THREE.Color().setRGB(c[0], c[1], c[2], THREE.LinearSRGBColorSpace);
+    if (light.type === 'area') {
+      const rect = new THREE.RectAreaLight(
+        color, light.power_w / Math.max(light.size * light.size, 1e-6),
+        light.size, light.size);
+      rect.position.fromArray(light.location);
+      rect.lookAt(new THREE.Vector3().fromArray(light.target));
+      scene.add(rect);
+    } else if (light.type === 'sun') {
+      const sun = new THREE.DirectionalLight(color, light.power_w);
+      sun.position.fromArray(light.location);
+      sun.target.position.fromArray(light.target);
+      scene.add(sun, sun.target);
+    } else {
+      const point = new THREE.PointLight(color, light.power_w, 0, 2);
+      point.position.fromArray(light.location);
+      scene.add(point);
+    }
+  }
+
+  const glb = await new GLTFLoader().loadAsync(`/${session}/model.glb`);
+  scene.add(glb.scene);
+
+  // EffectComposer + N8AO when available; plain rendering is the fallback.
+  let composer = null;
+  try {
+    const { EffectComposer, RenderPass, EffectPass } = await import('postprocessing');
+    composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const { N8AOPass } = await import('n8ao');
+    composer.addPass(new N8AOPass(scene, camera, cfg.width, cfg.height));
+    if (cfg.bloom) {
+      const { BloomEffect } = await import('postprocessing');
+      composer.addPass(new EffectPass(camera, new BloomEffect({ intensity: cfg.bloom })));
+    }
+  } catch (err) {
+    composer = null;
+  }
+
+  for (let i = 0; i < 30; i++) {
+    if (composer) composer.render();
+    else renderer.render(scene, camera);
+  }
+  done();
+} catch (err) {
+  done(err);
+}
+</script>
+</body>
+</html>

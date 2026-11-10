@@ -1,0 +1,20 @@
+# Regression fixture: a finished brief and one hand-built concept whose render must stay stable.
+name = "Chief of Staff"
+summary = "An AI meeting assistant for small teams: it remembers every meeting, drafts the follow-ups, and leaves every decision to you."
+audience = "Founders and team leads at small companies who run many meetings."
+tone = ["calm", "capable", "discreet"]
+initials = "C"
+uses = ["favicon", "social_avatar", "app_icon"]
+avoid = ["robots", "chat bubbles"]
+
+[palette]
+primary = "#1E4A7A"
+secondary = "#2F6B4F"
+accent = "#B45309"
+highlight = "#F2C14E"
+background = "#F8F6F1"
+ink = "#16232E"
+
+[fonts]
+display = "Playfair Display:wght=900"
+text = "Open Sans:wght=700"

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "logo-maker": {
+      "command": "logo-maker",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

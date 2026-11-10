@@ -1,0 +1,22 @@
+{
+  "name": "logo-maker-plugins",
+  "description": "Judged, rendered 3D logos with a full export set, from any brief.",
+  "plugins": [
+    {
+      "name": "logo-maker",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "description": "Turn an idea, reference, or project into a judged, rendered 3D logo with a full export set: motif + 3D treatment -> Blender GPU renders -> Jev judgments and QA -> favicons, avatar, SVG, PWA, glTF. No AI image generation.",
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    }
+  ],
+  "interface": {
+    "displayName": "Logo Maker Plugins"
+  }
+}

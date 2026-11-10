@@ -1,0 +1,17 @@
+{
+  "name": "logo-maker",
+  "version": "0.1.0",
+  "description": "Turn an idea, reference, or project into a judged, rendered 3D logo with a full export set: motif + 3D treatment -> Blender GPU renders -> Jev judgments and QA -> favicons, avatar, SVG, PWA, glTF. No AI image generation.",
+  "author": {
+    "name": "Nicolas Alexander"
+  },
+  "license": "MIT",
+  "keywords": [
+    "logo",
+    "brand",
+    "3d",
+    "blender",
+    "favicon",
+    "svg"
+  ]
+}

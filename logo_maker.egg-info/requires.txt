@@ -1,0 +1,23 @@
+bpy==5.2.3
+sdf @ git+https://github.com/fogleman/sdf@d58a6fc63b75fc1cf1ebb71e0b42bf552319c8f1
+manifold3d>=3.5.4
+trimesh>=5.2.0
+pymeshlab>=2025.7.post1
+build123d>=0.13.0
+mitsuba>=3.9.1
+pyluxcore>=2.11.2
+numpy>=2.2
+scikit-image>=0.26.0
+meshio>=5.3.5
+fonttools>=4.68.0
+skia-pathops>=0.9.2
+drawsvg>=2.4.2
+resvg-py>=0.5.0
+pillow>=13.0.0
+vtracer>=0.6.15
+vpype>=1.15.0
+coloraide>=8.14.1
+OpenImageIO>=3.2.2.0
+httpx>=0.28.1
+mcp>=2.3.0
+tomlkit>=0.13
