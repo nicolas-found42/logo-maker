@@ -8,14 +8,4 @@ trim trailing whitespace.................................................Passed
 ruff check...............................................................Passed
 ruff format..............................................................Passed
 typos....................................................................Passed
-rumdl check..............................................................Failed
-- hook id: rumdl
-- description: Lint Markdown files. Legacy alias for rumdl-check
-- exit code: 1
-
-  benchmarks/sampling/README.md:120:101: [MD013] Line length 130 exceeds 100 characters
-  benchmarks/sampling/README.md:168:1: [MD012] Multiple consecutive blank lines between content [*]
-
-  Issues: Found 2 issues in 1/23 files (8ms)
-  Run `rumdl fmt` to automatically fix 1 of the 2 issues
-error: recipe `hooks` failed on line 45 with exit code 1
+rumdl check..............................................................Passed

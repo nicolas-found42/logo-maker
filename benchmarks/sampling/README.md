@@ -117,7 +117,8 @@ fixes. [validation/offline.txt](validation/offline.txt) records 228 offline test
 render regression records 3 passing tests (Cycles image, explicit LuxCore image, actual profile
 library identity). The LuxCore image is an explicit legacy adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
-Doctor passed 47/47 (including the system process-status adapter); lint, types and hooks passed. The auxiliary Jev completion gate
+Doctor passed 47/47 (including the system process-status adapter); lint, types and hooks
+passed. The auxiliary Jev completion gate
 escalated for review; it is retained along with the subsequent 25-job mechanical artifact
 audit. The PR remains draft rather than claiming automated review acceptance.
 Jev questions/provider code are unchanged;
@@ -164,7 +165,6 @@ the immediate worker exits, then force-kills/reaps remaining session work. Regre
 cover both deadline expiry and an inner-tool error with a delayed detached-browser hook.
 Prior exports remain intact. Uncooperative processes escaping without supported cleanup
 hooks remain outside the adapter contract.
-
 
 ## Hosted macOS process-state correction
 
