@@ -112,11 +112,26 @@ uv run --locked python scripts/validate_sampling.py --root /tmp/new-sampling-run
 ```
 
 [validation/code-review.md](validation/code-review.md) records Standards and Spec reviews and
-fixes. [validation/offline.txt](validation/offline.txt) records 221 offline tests passing;
-render regression records 2 passing tests. The second is an explicit legacy LuxCore adapter
+fixes. [validation/offline.txt](validation/offline.txt) records 224 offline tests passing;
+render regression records 3 passing tests (Cycles image, explicit LuxCore image, actual profile
+library identity). The LuxCore image is an explicit legacy adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
 Doctor passed 46/46; lint, types and hooks passed. The auxiliary Jev completion gate
 escalated for review; it is retained along with the subsequent 25-job mechanical artifact
 audit. The PR remains draft rather than claiming automated review acceptance.
 Jev questions/provider code are unchanged;
 no product live-Jev qualification was run.
+
+## Final dependency and region audit
+
+Implementation `8797ced` also rejects custom bpy qualification/reuse until arbitrary input
+dependencies can be inventoried. A source hash alone is insufficient. Normal profile identity
+includes Python/image/geometry library versions and the project lockfile. Noise repair uses
+the explicitly reviewed region, so unrelated saturated pixels cannot choose the control.
+
+Two additional full production smoke jobs are retained in
+[validation/final-runtime-validation.json](validation/final-runtime-validation.json), separately
+from the original 25-job calibration cost matrix. Both have verified GPU render/denoise,
+4000→2000 delivery and 31 verified export-file hashes each. The final smoke's recorded source
+scope matches the current implementation and its runtime stack/lock identity is populated.
+Owner qualification remains pending; these are operational checks.
