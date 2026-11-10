@@ -223,30 +223,16 @@ def prepare_motif(concept_dir: Path) -> Path:
         concept_dir / "motif.svg",
         concept_dir / "motif.json",
     )
-    from logo_maker.refinement import OUTPUT_NAMES, digest
+    from logo_maker.refinement import concept_sources, digest
 
     if not script.exists() and not svg.exists():
         raise AuthoringNeeded("author a motif", [script])
     receipt = concept_dir / ".motif-state.json"
     previous = _read_json(receipt) if receipt.exists() else {}
     dependencies = {
-        str(p.relative_to(concept_dir)): digest(p)
-        for p in concept_dir.rglob("*")
-        if p.is_file()
-        and not any(
-            part.startswith(".") or part == "__pycache__"
-            for part in p.relative_to(concept_dir).parts
-        )
-        and p.name not in OUTPUT_NAMES | {"motif.json", "motif.svg"}
-        and p.suffix not in {".blend1", ".pyc"}
-        and p.relative_to(concept_dir).parts[0] != "meshes"
+        name: digest(path)
+        for name, path in concept_sources(concept_dir, exclude={"motif.json", "motif.svg"}).items()
     }
-    intent = concept_dir / "construction.json"
-    if intent.exists():
-        for name in _read_json(intent).get("dependencies", []):
-            path = concept_dir / name
-            if path.is_file():
-                dependencies[f"external/{name}"] = digest(path)
     source_hashes = {p.name: digest(p) for p in (script, svg) if p.exists()}
     if (
         flat.exists()

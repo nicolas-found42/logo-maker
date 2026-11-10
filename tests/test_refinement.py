@@ -63,7 +63,7 @@ def construction(folder):
     )
 
 
-def fake_gpu(monkeypatch):
+def fake_gpu(monkeypatch, image_path=None):
     from PIL import Image
 
     from logo_maker import render
@@ -72,7 +72,12 @@ def fake_gpu(monkeypatch):
     def draw(folder, quality="preview", **kw):
         png = folder / f"{quality}.png"
         color = "red" if "fold" in (folder / "scene.toml").read_text() else "blue"
-        Image.new("RGBA", (64, 64), color).save(png)
+        if image_path is None:
+            Image.new("RGBA", (64, 64), color).save(png)
+        else:
+            import shutil
+
+            shutil.copyfile(image_path, png)
         execution = folder / ".build" / f"{quality}.execution.json"
         execution.parent.mkdir(exist_ok=True)
         execution.write_text(
@@ -137,7 +142,8 @@ class Judge:
 
 def inspect_current(logo, cid, folder):
     latest = pipeline.status(logo)["revisions"][cid][-1]
-    (folder / "inspection.json").write_text(
+    inspection_name = "inspection-final.json" if latest["quality"] == "final" else "inspection.json"
+    (folder / inspection_name).write_text(
         json.dumps(
             {
                 "revision": latest["revision"],
@@ -338,3 +344,32 @@ def test_uncertain_dimensions_request_inspection_or_direction_without_forcing_an
         for value in stop.value.details["required_dimensions"].values()
     )
     assert "owner direction" in stop.value.details["next_comparison"]
+
+
+def test_final_revision_cannot_pass_with_unresolved_comparative_critique(tmp_path, monkeypatch):
+    from logo_maker.paths import REPO_ROOT
+
+    class UnresolvedComparison(Judge):
+        def ask(self, state, questions, *, label):
+            answers = super().ask(state, questions, label=label)
+            if "critique_resolved" in answers:
+                answers["critique_resolved"]["noul"] = 0.1
+            return answers
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    pipeline.motifs(logo)
+    fake_gpu(monkeypatch, REPO_ROOT / "examples/chief-of-staff/reference-256.png")
+    judge = UnresolvedComparison()
+    brand = pipeline.Brand({"primary": "#123456"}, {})
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.qa_concept(logo, cid, judge, brand)
+    inspect_current(logo, cid, folder)
+    assert pipeline.qa_concept(logo, cid, judge, brand)["result"] == "pass"
+    with (folder / "scene.toml").open("a") as stream:
+        stream.write("\n# substantive final revision")
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.qa_concept(logo, cid, judge, brand)
+    inspect_current(logo, cid, folder)
+    with pytest.raises(pipeline.AuthoringNeeded, match="comparison"):
+        pipeline.qa_concept(logo, cid, judge, brand)

@@ -72,21 +72,33 @@ def construction(folder: Path) -> dict:
     return data
 
 
-def inputs(logo: LogoDir, folder: Path) -> dict[str, Path]:
-    """Explicit custom dependencies plus local source/assets; generated build/output is excluded."""
-    files = {"brief.toml": logo.brief}
+def concept_sources(folder: Path, *, exclude: set[str] | None = None) -> dict[str, Path]:
+    """One source/asset inventory shared by motif derivation and render invalidation."""
+    files = {}
+    excluded = OUTPUT_NAMES | (exclude or set())
     for path in sorted(folder.rglob("*")):
         relative = path.relative_to(folder)
         if (
             path.is_file()
             and not any(part.startswith(".") or part == "__pycache__" for part in relative.parts)
             and relative.parts[0] != "meshes"
-            and path.name not in OUTPUT_NAMES
+            and path.name not in excluded
             and path.suffix not in {".blend1", ".pyc"}
         ):
             files[f"concept/{relative}"] = path
-    for i, name in enumerate(construction(folder)["dependencies"]):
-        files[f"dependency/{i}/{Path(name).name}"] = (folder / name).resolve()
+    intent = folder / "construction.json"
+    if intent.exists():
+        for i, name in enumerate(read(intent).get("dependencies", [])):
+            path = (folder / name).resolve()
+            if path.is_file():
+                files[f"dependency/{i}/{path.name}"] = path
+    return files
+
+
+def inputs(logo: LogoDir, folder: Path) -> dict[str, Path]:
+    """Explicit custom dependencies plus local sources and the owning tool's implementation."""
+    construction(folder)
+    files = {"brief.toml": logo.brief, **concept_sources(folder)}
     from logo_maker.brief import load
 
     for i, ref in enumerate(load(logo.brief).references):
@@ -337,6 +349,27 @@ def judge_revision(logo: LogoDir, cid: str, record: dict, inspection: dict, clie
                 "required_dimensions": dimensions,
                 "comparison": comparison,
                 "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision",
+            },
+        )
+    if (
+        comparison
+        and noul_status(float(comparison["answers"]["critique_resolved"]["noul"])) != "yes"
+    ):
+        raise AuthoringNeeded(
+            "revision comparison leaves critique unresolved; inspect or seek owner direction",
+            [
+                logo.concept(cid) / name
+                for name in (
+                    "construction.json",
+                    "scene.toml",
+                    "inspection-final.json" if record["quality"] == "final" else "inspection.json",
+                )
+            ],
+            details={
+                "dimension": "critique_resolution",
+                "artifact": record["image"],
+                "revision": record["revision"],
+                "comparison": comparison,
             },
         )
     return answers
