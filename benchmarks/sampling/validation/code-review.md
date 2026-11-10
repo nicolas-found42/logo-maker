@@ -29,7 +29,7 @@ Final focused review found the publication issue resolved and no other material 
 bug in that focused pass.
 
 External acceptance remains incomplete: owner sampling labels, calibrated tolerances,
-owner-reviewed held-out real briefs and a qualified profile. This PR uses Refs #5.
+owner-reviewed held-out briefs and a qualified profile. This PR uses Refs #5.
 
 Final unresolved implementation findings: Standards 0, Spec 0 in focused re-review;
 qualification gaps above remain open. Reviews were source inspection, not independent visual
@@ -54,3 +54,18 @@ An independent stronger-reasoner recheck also read the retained originals: all 2
 records and all 775 manifested export-file hashes match. There are 21 seed-0 jobs, four seed-43
 jobs, 24 cap-4096 jobs and one cap-16 typography control. This supports the operational claim
 without implying every job has an independent-seed counterpart or establishing quality approval.
+
+## Final dependency and region fixes
+
+Both reviewers found no material concern in the final focused fixes: custom bpy cannot
+qualify/reuse images from source identity alone; decisions use the named reviewed region;
+and runtime versions plus manifest/lock hashing invalidate stale contexts. New public-seam
+regressions were observed red then green, and the actual M5 runtime-profile test verifies
+image-processing library identity. Final offline tests passed 224; GPU/adapter/profile
+checks passed 3. The additional production smoke is retained separately from the cost matrix.
+
+The final Jev gate (`jev-gate-final.json`) rechecked the changed implementation and new
+evidence. All four limited completion claims were verified (none contradicted/unsupported),
+with low confidence remaining on the operational artifact claims. The broad patch review
+still escalated: composite 0.583640625, safe-to-apply 0.14. It remains a review-needed signal,
+not an automated acceptance or merge recommendation. Owner qualification remains open.

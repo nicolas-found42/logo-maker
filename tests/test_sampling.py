@@ -7,6 +7,7 @@ def test_cap_limited_noise_changes_only_cap():
     current = Settings(cap=4096, threshold=0.01, minimum=0, seed=42, adaptive=True)
     diagnosis = {
         "kind": "sampling_noise",
+        "region": "foreground",
         "independent_seeds": [42, 43],
         "noisy_and_denoised_reviewed": True,
         "source_key": "source-42",
@@ -60,6 +61,7 @@ def test_below_cap_noise_overrides_and_budget_are_distinct():
     current = Settings(seed=42)
     evidence = {
         "kind": "sampling_noise",
+        "region": "foreground",
         "source_key": "s",
         "image_sha256": "i",
         "independent_seeds": [42, 43],
@@ -157,3 +159,48 @@ def test_profile_transfer_is_limited_to_reviewed_materials():
     context = {"build": "same", "material_presets": ["clear_glass"]}
     profile = {"schema": 1, "context": {"build": "same"}, "material_presets": ["matte_plastic"]}
     assert qualify_profile(profile, context)[0] == "profile_out_of_scope"
+
+
+def test_custom_bpy_cannot_qualify_from_source_hash_alone():
+    from logo_maker.sampling import qualify_profile
+
+    context = {"build": "same", "custom_scene_sha256": "authored-source"}
+    profile = {
+        "schema": 1,
+        "context": {"build": "same"},
+        "custom_scenes_sha256": ["authored-source"],
+    }
+    state, reason = qualify_profile(profile, context)
+    assert state == "profile_out_of_scope"
+    assert "dependenc" in reason
+
+
+def test_noise_below_cap_uses_its_region_not_unrelated_saturated_pixels():
+    current = Settings(seed=42)
+    diagnosis = {
+        "kind": "sampling_noise",
+        "source_key": "s",
+        "image_sha256": "i",
+        "independent_seeds": [42, 43],
+        "noisy_and_denoised_reviewed": True,
+        "basis": "grain only in reviewed tile",
+        "region": "tile_1_1",
+    }
+    result = decide(
+        current,
+        diagnosis,
+        source_key="s",
+        image_sha256="i",
+        diagnostics={
+            "status": "available",
+            "regions": {
+                "foreground": {"near_cap_fraction": 0.4},
+                "tile_1_1": {"near_cap_fraction": 0.0},
+            },
+        },
+        overrides={},
+        attempts_left=1,
+        seconds_left=100,
+        estimated_seconds=20,
+    )
+    assert result.settings == Settings(cap=4096, threshold=0.005, seed=42)

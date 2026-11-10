@@ -58,7 +58,7 @@ def decide(
     """Select one bounded comparison from reviewed, revision-bound noise evidence.
 
     The 95%-of-cap boundary describes resource saturation, not a noise tolerance.
-    Any observed near-cap foreground warrants a cap hypothesis rather than changing
+    Observed near-cap pixels in the reviewed region warrant a cap hypothesis rather than changing
     threshold simultaneously. Visual acceptance is supplied independently.
     """
     if not diagnosis:
@@ -86,8 +86,11 @@ def decide(
     ):
         return Decision("unknown", "noise needs independent seeds and noisy/denoised detail review")
     regions = diagnostics.get("regions", {})
-    foreground = regions.get("foreground") or {}
-    saturation = foreground.get("near_cap_fraction")
+    region = diagnosis.get("region")
+    if not isinstance(region, str) or region not in regions:
+        return Decision("unknown", "noise diagnosis must name a reviewed diagnostic region")
+    reviewed_region = regions.get(region) or {}
+    saturation = reviewed_region.get("near_cap_fraction")
     if diagnostics.get("status") != "available" or saturation is None or not current.adaptive:
         return Decision("unknown", "adaptive sample diagnostics missing or unavailable")
     import math
@@ -140,9 +143,11 @@ def qualify_profile(profile: dict | None, context: dict) -> tuple[str, str]:
         return "profile_stale", "machine/build/stage/settings scope changed"
     if not set(context.get("material_presets", [])) <= set(profile.get("material_presets", [])):
         return "profile_out_of_scope", "material preset outside reviewed transfer scope"
-    custom = context.get("custom_scene_sha256")
-    if custom and custom not in profile.get("custom_scenes_sha256", []):
-        return "profile_out_of_scope", "custom bpy authoring requires source-specific qualification"
+    if "custom_scene_sha256" in context:
+        return (
+            "profile_out_of_scope",
+            "custom bpy dependency inventory is unknown; source hash alone is insufficient",
+        )
     if profile.get("owner_review") != "approved":
         return "profile_unqualified", "owner visual qualification pending"
     if not {"matte", "metal", "glass", "dark", "typography", "alpha"} <= set(
