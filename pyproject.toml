@@ -76,10 +76,10 @@ python-version = "3.13"
 [tool.ty.src]
 include = ["logo_maker", "tests", "scripts"]
 [[tool.ty.overrides]]
-include = ["logo_maker/blender/**"]
+include = ["logo_maker/blender/**", "scripts/validate_gpu.py"]
 
 [tool.ty.overrides.analysis]
-replace-imports-with-any = ["bpy", "mathutils"]
+replace-imports-with-any = ["bpy", "mathutils", "_cycles"]
 
 [[tool.ty.overrides]]
 include = ["logo_maker/renderers/luxcore.py"]

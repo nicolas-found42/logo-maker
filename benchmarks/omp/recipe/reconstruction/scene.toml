@@ -1,0 +1,101 @@
+# Regression fixture: rebuilds a past logo from generic components. Not a template.
+[meta]
+concept = "c-holds-check|medallion|wax"
+treatment = "medallion"
+seed = 7
+
+[camera]
+tilt_deg = 28.0
+lens_mm = 100.0
+framing = 0.9
+
+[mark]
+scale = 0.7
+
+[lighting]
+rig = "studio_soft"
+hdri = "polyhaven:poly_haven_studio"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+
+[materials.surface]
+preset = "wax"
+color = "#173C66"
+
+[materials.primary]
+preset = "polished_metal"
+color = "#F2C14E"
+
+[materials.secondary]
+preset = "polished_metal"
+color = "#F2C14E"
+
+[materials.ribbon]
+preset = "felt"
+color = "#24563F"
+
+[[components]]
+kind = "ribbon"
+material = "ribbon"
+angle_deg = -28.0
+phase = 0.0
+
+[[components]]
+kind = "ribbon"
+material = "ribbon"
+angle_deg = 56.0
+phase = 1.7
+
+[[components]]
+kind = "plate"
+material = "surface"
+radius = 1.0
+thickness = 0.17
+edge = "irregular"
+
+[[components]]
+kind = "recess"
+material = "surface"
+radius = 0.82
+depth = 0.06
+
+[[components]]
+kind = "rim"
+material = "surface"
+major = 0.85
+minor = 0.03
+
+[[components]]
+kind = "rim"
+material = "primary"
+major = 0.6
+minor = 0.007
+z = 0.114
+
+[[components]]
+kind = "ring_text"
+material = "primary"
+radius = 0.655
+cap_height = 0.074
+text = "REMEMBERS THE MEETING • YOU MAKE THE CALL • "
+font = "Open Sans:wght=700"
+base = 0.11
+
+[[components]]
+kind = "relief"
+material = "primary"
+layers = ["letter"]
+height = 0.022
+base = 0.108
+
+[[components]]
+kind = "relief"
+material = "secondary"
+layers = ["check"]
+height = 0.028
+base = 0.108

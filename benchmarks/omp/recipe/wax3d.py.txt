@@ -1,0 +1,237 @@
+"""Concept 'C-check wax seal' (winner of the jev concept chain): harbor-blue sealing wax pressed with the
+Chief of Staff C-check in gold leaf, a coin-style tagline legend, over a ledger-green ribbon with swallow-tail ends.
+Usage: python wax3d.py -- OUT.png [TILT_DEG] [HDRI] [LEGEND_MATERIAL: gold|wax]
+"""
+import json
+import math
+import sys
+import bpy
+import bmesh
+import mathutils
+
+ARGS = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+OUT = ARGS[0] if ARGS else "/tmp/logo/wax3d.png"
+TILT = float(ARGS[1]) if len(ARGS) > 1 else 28.0
+HDRI = ARGS[2] if len(ARGS) > 2 and ARGS[2] != "none" else None
+LEGEND_MAT = ARGS[3] if len(ARGS) > 3 else "gold"
+IMPRESSION = 0.82            # radius of the pressed seal face
+R = 470.0 / 0.66             # 2D master (1000-unit box, disc r=470) -> check tip at r~0.52, inside the 0.6 ring
+TOP = 0.17                   # wax top height
+FLOOR = TOP - 0.06           # impression floor
+
+
+def lin(h):
+    c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    return tuple(((v + 0.055) / 1.055) ** 2.4 if v > 0.04045 else v / 12.92 for v in c) + (1.0,)
+
+
+def to3(px, py):
+    return ((px - 500) / R, -(py - 500) / R)
+
+
+def material(name, hexstr, rough, metal=0.0, coat=0.0, sheen=0.0, sss=0.0, bump=0.0, bump_scale=40.0):
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree
+    b = nt.nodes["Principled BSDF"]
+    b.inputs["Base Color"].default_value = lin(hexstr)
+    b.inputs["Roughness"].default_value = rough
+    b.inputs["Metallic"].default_value = metal
+    b.inputs["Coat Weight"].default_value = coat
+    b.inputs["Coat Roughness"].default_value = 0.18
+    b.inputs["Sheen Weight"].default_value = sheen
+    b.inputs["Subsurface Weight"].default_value = sss
+    b.inputs["Subsurface Radius"].default_value = (0.02, 0.02, 0.04)
+    if bump:
+        noise = nt.nodes.new("ShaderNodeTexNoise")
+        noise.inputs["Scale"].default_value = bump_scale
+        noise.inputs["Detail"].default_value = 6.0
+        bn = nt.nodes.new("ShaderNodeBump")
+        bn.inputs["Strength"].default_value = bump
+        nt.links.new(noise.outputs["Fac"], bn.inputs["Height"])
+        nt.links.new(bn.outputs["Normal"], b.inputs["Normal"])
+    return m
+
+
+def aim(obj, target=(0, 0, 0)):
+    obj.rotation_euler = (mathutils.Vector(target) - obj.location).to_track_quat("-Z", "Y").to_euler()
+
+
+def mesh_obj(name, bm, mat):
+    me = bpy.data.meshes.new(name)
+    bm.to_mesh(me)
+    bm.free()
+    ob = bpy.data.objects.new(name, me)
+    bpy.context.collection.objects.link(ob)
+    ob.data.materials.append(mat)
+    return ob
+
+
+def text_obj(name, body, font, size, extrude, mat, loc, rot_z=0.0, center=False):
+    cu = bpy.data.curves.new(name, "FONT")
+    cu.body, cu.font, cu.size = body, font, size
+    cu.extrude, cu.bevel_depth, cu.bevel_resolution = extrude, extrude * 0.35, 3
+    if center:
+        cu.align_x = "CENTER"
+    ob = bpy.data.objects.new(name, cu)
+    bpy.context.collection.objects.link(ob)
+    ob.data.materials.append(mat)
+    ob.location = loc
+    ob.rotation_euler.z = rot_z
+    return ob
+
+
+bpy.ops.object.select_all(action="SELECT")
+bpy.ops.object.delete(use_global=False)
+
+wax = material("Wax", "#173C66", 0.26, coat=0.5, sss=0.06, bump=0.06, bump_scale=55.0)
+gold = material("GoldLeaf", "#F2C14E", 0.4, metal=1.0, bump=0.04, bump_scale=120.0)
+satin = material("Satin", "#24563F", 0.45, sheen=0.3)
+legend_mat = gold if LEGEND_MAT == "gold" else wax
+
+# --- ribbon: two satin strips crossing under the seal, swallow-tail ends ---------------------
+def ribbon(angle_deg, length=3.2, width=0.4, z=-0.02, phase=0.0):
+    bm = bmesh.new()
+    a = math.radians(angle_deg)
+    d = mathutils.Vector((math.cos(a), math.sin(a), 0))
+    n = mathutils.Vector((-d.y, d.x, 0))
+    steps = 64
+    rows = []
+    for i in range(steps + 1):
+        t = -length / 2 + length * i / steps
+        wave = 0.035 * math.sin(t * 2.6 + phase)
+        c = d * t + mathutils.Vector((0, 0, z + wave - 0.06 * max(0.0, abs(t) - 0.9)))
+        end = length / 2 - abs(t)
+        notch = width * 0.5 - end if end < width * 0.5 else 0.0  # swallow-tail
+        rows.append((bm.verts.new(c + n * width / 2), bm.verts.new(c - n * width / 2), bm.verts.new(c - d * math.copysign(notch, t))))
+    for i in range(steps):
+        l0, r0, m0 = rows[i]
+        l1, r1, m1 = rows[i + 1]
+        bm.faces.new((l0, m0, m1, l1))
+        bm.faces.new((m0, r0, r1, m1))
+    ob = mesh_obj(f"ribbon{angle_deg}", bm, satin)
+    ob.modifiers.new("solid", "SOLIDIFY").thickness = 0.012
+    ob.modifiers.new("sub", "SUBSURF").levels = 2
+    return ob
+
+
+ribbon(-28, phase=0.0)
+ribbon(56, phase=1.7)
+
+# --- wax body: irregular poured edge, extruded, rounded ---------------------------------------
+bm = bmesh.new()
+N = 360
+ring = []
+for i in range(N):
+    th = 2 * math.pi * i / N
+    r = 1.0 + 0.035 * math.sin(5 * th + 1.0) + 0.022 * math.sin(9 * th + 2.3) + 0.012 * math.sin(17 * th + 0.7) + 0.006 * math.sin(31 * th)
+    ring.append(bm.verts.new((r * math.cos(th), r * math.sin(th), 0.0)))
+top = bm.faces.new(ring)
+ext = bmesh.ops.extrude_face_region(bm, geom=[top])
+for v in [e for e in ext["geom"] if isinstance(e, bmesh.types.BMVert)]:
+    v.co.z = TOP
+body = mesh_obj("wax", bm, wax)
+bv = body.modifiers.new("round", "BEVEL")
+bv.width, bv.segments, bv.limit_method = 0.07, 10, "ANGLE"
+
+bpy.ops.mesh.primitive_cylinder_add(vertices=256, radius=IMPRESSION, depth=0.2, location=(0, 0, FLOOR + 0.1))
+cutter = bpy.context.active_object
+cutter.hide_render = True
+boo = body.modifiers.new("press", "BOOLEAN")
+boo.operation, boo.object, boo.solver = "DIFFERENCE", cutter, "EXACT"
+bv2 = body.modifiers.new("soft", "BEVEL")
+bv2.width, bv2.segments, bv2.limit_method = 0.012, 4, "ANGLE"
+bpy.context.view_layer.objects.active = body
+bpy.ops.object.shade_smooth()
+
+# raised lip where the stamp pushed wax outward, and a fine inner ring framing the legend
+for major, minor, z, mat in [(IMPRESSION + 0.03, 0.03, TOP - 0.005, wax), (0.6, 0.007, FLOOR + 0.004, legend_mat)]:
+    bpy.ops.mesh.primitive_torus_add(major_radius=major, minor_radius=minor, major_segments=256, minor_segments=24, location=(0, 0, z))
+    bpy.context.active_object.data.materials.append(mat)
+    bpy.ops.object.shade_smooth()
+
+# --- legend: tagline set around the impression like a coin, clockwise, tops outward ----------
+lg = json.load(open("/tmp/logo/legend.json"))
+r_text = 0.655
+cap = 0.074                                   # cap height in world units
+size = cap / 0.714                            # Open Sans cap height = 0.714 em
+scale = 2 * math.pi * r_text / (sum(lg["adv"]) * size)
+size *= min(1.0, scale)                       # fit the full ring
+track = (2 * math.pi * r_text - sum(lg["adv"]) * size) / len(lg["text"])
+sans = bpy.data.fonts.load("/tmp/logo/OpenSans-Bold-static.ttf")
+s_acc = 0.0
+for ch, a in zip(lg["text"], lg["adv"]):
+    w = a * size + track
+    if ch != " ":
+        th = math.pi / 2 - (s_acc + w / 2) / r_text
+        text_obj("lg", ch, sans, size, 0.012, legend_mat, (r_text * math.cos(th), r_text * math.sin(th), FLOOR), th - math.pi / 2, center=True)
+    s_acc += w
+
+# --- relief: Playfair Black 'C' (with the flat master's knockout gap) and the check, gold leaf --
+# outlines come from the 2D master via fontTools + skia-pathops (/tmp/logo/relief.json), so the
+# seal and the flat SVG share exact geometry.
+def relief(name, contours, extrude=0.022):
+    cu = bpy.data.curves.new(name, "CURVE")
+    cu.dimensions, cu.fill_mode = "2D", "BOTH"
+    cu.extrude, cu.bevel_depth, cu.bevel_resolution = extrude, extrude * 0.35, 3
+    for c in contours:
+        sp = cu.splines.new("POLY")
+        sp.points.add(len(c) - 1)
+        for p, (x, y) in zip(sp.points, c):
+            p.co = (*to3(x, y), 0.0, 1.0)
+        sp.use_cyclic_u = True
+    ob = bpy.data.objects.new(name, cu)
+    bpy.context.collection.objects.link(ob)
+    ob.data.materials.append(gold)
+    ob.location.z = FLOOR
+    return ob
+
+
+RELIEF = json.load(open("/tmp/logo/relief.json"))
+relief("C", RELIEF["C"])
+relief("check", RELIEF["check"], extrude=0.028)
+
+# --- camera, light, world --------------------------------------------------------------------
+cam = bpy.data.objects.new("Cam", bpy.data.cameras.new("Cam"))
+bpy.context.collection.objects.link(cam)
+bpy.context.scene.camera = cam
+cam.data.lens = 100
+t = math.radians(TILT)
+cam.location = (0, -12.0 * math.sin(t), 12.0 * math.cos(t))
+aim(cam, (0, 0, 0.05))
+
+for name, energy, loc, size_ in [("Key", 380, (-3.0, -2.5, 5.0), 3.0), ("Rim", 300, (3.2, 3.2, 2.6), 2.5), ("Fill", 60, (3.0, -4.0, 2.0), 6.0)]:
+    ld = bpy.data.lights.new(name, "AREA")
+    ld.energy, ld.size = energy, size_
+    lo = bpy.data.objects.new(name, ld)
+    bpy.context.collection.objects.link(lo)
+    lo.location = loc
+    aim(lo)
+
+world = bpy.data.worlds.new("W")
+world.use_nodes = True
+nt = world.node_tree
+bg = nt.nodes["Background"]
+if HDRI:
+    env = nt.nodes.new("ShaderNodeTexEnvironment")
+    env.image = bpy.data.images.load(HDRI)
+    nt.links.new(env.outputs["Color"], bg.inputs["Color"])
+    bg.inputs["Strength"].default_value = 0.45
+else:
+    bg.inputs["Color"].default_value = lin("#F8F6F1")
+    bg.inputs["Strength"].default_value = 0.25
+bpy.context.scene.world = world
+
+sc = bpy.context.scene
+sc.render.engine = "CYCLES" if len(ARGS) > 4 and ARGS[4] == "cycles" else "BLENDER_EEVEE"
+if sc.render.engine == "CYCLES":
+    sc.cycles.device, sc.cycles.samples, sc.cycles.use_denoising = "CPU", 256, True
+sc.view_settings.view_transform = "Standard"
+sc.view_settings.look = "None"
+sc.render.film_transparent = True
+sc.render.resolution_x = sc.render.resolution_y = 2000
+sc.render.image_settings.file_format = "PNG"
+sc.render.image_settings.color_mode = "RGBA"
+sc.render.filepath = OUT
+bpy.ops.render.render(write_still=True)
+print("OK", OUT)

@@ -1,6 +1,6 @@
 [files]
 # Research notes quote sources verbatim, typos included.
-extend-exclude = ["docs/research"]
+extend-exclude = ["docs/research", "benchmarks/omp/recipe"]
 
 # False positives: established local-variable names.
 [default.extend-identifiers]

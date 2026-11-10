@@ -50,7 +50,13 @@ def main(scene_json: str) -> None:
 
     png = concept_dir / f"{scene['quality']['name']}.png"
     bpy.context.scene.render.filepath = str(png)
-    bpy.ops.render.render(write_still=True)
+    from logo_maker.blender.execution import render_verified
+
+    inputs = {"compiled_scene": scene_path}
+    inputs.update(
+        {str(p.relative_to(build_dir)): p for p in (build_dir / "meshes").rglob("*") if p.is_file()}
+    )
+    render_verified(png, build_dir / f"{scene['quality']['name']}.execution.json", inputs=inputs)
 
     blend = concept_dir / "scene.blend"
     bpy.ops.wm.save_as_mainfile(filepath=str(blend))

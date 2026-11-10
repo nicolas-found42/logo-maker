@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "issue": "https://github.com/nicolas-found42/logo-maker/issues/4",
+  "assets": [
+    {
+      "path": "assets/original-seal-2000.png",
+      "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "origin": "chief-of-rust/assignments/Nicolas_Alexander_Chief_of_Staff_Seal_Transparent.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/original-lockup.png",
+      "sha256": "465f7aedfcca413cfe4ea871f7ec41a8dbd13d7ef0c4ed07dd065fc4fd87d995",
+      "origin": "chief-of-rust/assignments/Nicolas_Alexander_Chief_of_Staff_Logo_WaxSeal.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/original-mark.svg",
+      "sha256": "e5d8a7777e8b61669da21b8836cd6a67938c512a079813c62bb74e4abb774870",
+      "origin": "chief-of-rust/assignments/Nicolas_Alexander_Chief_of_Staff_Mark.svg",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/original-mark-mono.svg",
+      "sha256": "d8c69a9875986af38b02a2467807e39508d79bce98374e585283661c41a4e4b6",
+      "origin": "chief-of-rust/assignments/Nicolas_Alexander_Chief_of_Staff_Mark_Mono.svg",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/reconstruction-rendered-2000.png",
+      "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "origin": "skill-swap/design/evidence/logo-disparity/reconstruction-rendered-2000.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/matched-resolution-comparison.png",
+      "sha256": "4c27f0de8b79af88acf7d48b0d17b0c79c155b041a2f4f444401b8a9c22a26d6",
+      "origin": "skill-swap/design/evidence/logo-disparity/matched-resolution-comparison.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/gather-hero.png",
+      "sha256": "5dda72adc1541ab752e99148ac2a42b365dce59977bdc341e734e0468133a210",
+      "origin": "skill-swap/design/evidence/logo-disparity/gather-hero.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/fold-hero.png",
+      "sha256": "5aa045e9bd833cb6966a635914f8c3e927a53f62819f4420bd4ee757fac45af2",
+      "origin": "skill-swap/design/evidence/logo-disparity/fold-hero.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/commons-hero.png",
+      "sha256": "0021d4d34c5fc40756cab02a63349a41d4e070c8771749592478960e119ecbb8",
+      "origin": "skill-swap/design/evidence/logo-disparity/commons-hero.png",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "assets/reconstruction-golden-256.png",
+      "sha256": "d24728987e10202c6df8b48140efefca2162fe052830b3a86d2e10683babb774",
+      "origin": "logo-maker c45804d examples/chief-of-staff/reference-256.png",
+      "permitted_use": "MIT repository regression fixture; not the original final."
+    },
+    {
+      "path": "recipe/wax3d.py.txt",
+      "sha256": "3073b52546c889035ad73f2be71e99893b358d815cdcf8e48ea89ce7869757e1",
+      "origin": "chief-of-rust/assignments/logo-src/wax3d.py",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "recipe/legend.json",
+      "sha256": "76b54a00fdd40f4e64aa7cb4a1c71e4901dc2de4c3866ad54fd371e53376d996",
+      "origin": "chief-of-rust/assignments/logo-src/legend.json",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "recipe/relief.json",
+      "sha256": "3baf583a653a057c35bb51625475bfc408d1d04db70ec859c036deac3f243033",
+      "origin": "chief-of-rust/assignments/logo-src/relief.json",
+      "permitted_use": "Owner-supplied project artifact; retained as benchmark evidence under issue #4 authorization; no general trademark or asset license granted."
+    },
+    {
+      "path": "recipe/OpenSans-Bold-static.ttf",
+      "sha256": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+      "origin": "Historical static Open Sans Bold instance retained from the actual original recipe dependency; derived from Google Fonts Open Sans variable font.",
+      "permitted_use": "SIL Open Font License 1.1 (embedded font name metadata); see OpenSans-OFL.txt. Static Bold derivative retained from original."
+    },
+    {
+      "path": "recipe/poly_haven_studio_1k.hdr",
+      "sha256": "dfc8505761018d644997a803f332339328af2b53e82023fb3bec37cefdf43b83",
+      "origin": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/poly_haven_studio_1k.hdr",
+      "permitted_use": "CC0-1.0; assets from Poly Haven https://polyhaven.com/a/poly_haven_studio"
+    },
+    {
+      "path": "recipe/OpenSans-OFL.txt",
+      "sha256": "fbbbcfef55318de350562559b671360de6d597112ecc5c73881b05092db89602",
+      "origin": "https://github.com/google/fonts/tree/main/ofl/opensans",
+      "permitted_use": "SIL Open Font License 1.1; retained license text."
+    },
+    {
+      "path": "recipe/PlayfairDisplay-OFL.txt",
+      "sha256": "0bb2b43ffd21233963b5d0c0eb6f1abffa776ec53c56131b5818708f2730ffd6",
+      "origin": "https://github.com/google/fonts/tree/main/ofl/playfairdisplay",
+      "permitted_use": "SIL Open Font License 1.1; retained license text. Trailing whitespace normalized; license wording unchanged."
+    },
+    {
+      "path": "recipe/reconstruction/motif.json",
+      "sha256": "551cf0abf31dbd70342ceaae1c7fc448731844aef8c12d1aaa8506659a39fd31",
+      "origin": "logo-maker c45804d41af3c1ab1bbe32b7a72e1561f2f728f2 examples/chief-of-staff/concept/motif.json",
+      "permitted_use": "MIT repository recipe; benchmark only, never brand defaults."
+    },
+    {
+      "path": "recipe/reconstruction/motif.py",
+      "sha256": "c6fac84af3aa2ce2d20317b2c2ae4a3692fb5ae7c7d48b576cfb52c2dce2f0ae",
+      "origin": "logo-maker c45804d41af3c1ab1bbe32b7a72e1561f2f728f2 examples/chief-of-staff/concept/motif.py",
+      "permitted_use": "MIT repository recipe; benchmark only, never brand defaults."
+    },
+    {
+      "path": "recipe/reconstruction/motif.svg",
+      "sha256": "3a1de2c574ac0906cad28438904f6d005cb1edc97ff7688cef7c42bd15307ef4",
+      "origin": "logo-maker c45804d41af3c1ab1bbe32b7a72e1561f2f728f2 examples/chief-of-staff/concept/motif.svg",
+      "permitted_use": "MIT repository recipe; benchmark only, never brand defaults."
+    },
+    {
+      "path": "recipe/reconstruction/scene.toml",
+      "sha256": "59e19d2c9237e55d19da4a3eaa7b678ee23677ac626f8b6207f444ca58f818d7",
+      "origin": "logo-maker c45804d41af3c1ab1bbe32b7a72e1561f2f728f2 examples/chief-of-staff/concept/scene.toml",
+      "permitted_use": "MIT repository recipe; benchmark only, never brand defaults."
+    }
+  ],
+  "cases": [
+    {
+      "id": "chief-original",
+      "asset": "assets/original-seal-2000.png",
+      "role": "owner-approved original",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "approved",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "historical_render": {
+        "engine": "Cycles",
+        "device": "CPU",
+        "resolution": 2000,
+        "samples": 256,
+        "actual_invocation": "wax3d.py -- OUT 28 HDRI gold cycles",
+        "build": "not historically pinned"
+      }
+    },
+    {
+      "id": "chief-reconstruction-2000",
+      "asset": "assets/reconstruction-rendered-2000.png",
+      "role": "owner-approved different finish",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "approved",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "recipe": "examples/chief-of-staff/concept at c45804d41af3c1ab1bbe32b7a72e1561f2f728f2",
+      "historical_render": {
+        "engine": "Cycles/Metal",
+        "resolution": 2000,
+        "samples": 256
+      }
+    },
+    {
+      "id": "chief-regression-256",
+      "asset": "assets/reconstruction-golden-256.png",
+      "role": "renderer regression only",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "unknown",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      }
+    },
+    {
+      "id": "skill-swap-gather",
+      "asset": "assets/gather-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "rejected",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+    },
+    {
+      "id": "skill-swap-fold",
+      "asset": "assets/fold-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "rejected",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+    },
+    {
+      "id": "skill-swap-commons",
+      "asset": "assets/commons-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "rejected",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+    }
+  ],
+  "remaining_gaps": [
+    "Owner-reviewed successful different-material brief examples and held-out cases are not yet supplied/qualified.",
+    "Separate full-resolution fidelity, craft and own-brief fit judgments, self-controls and presentation-order checks remain pending.",
+    "Owner review of new packaged GPU replay and end-to-end new-brand flow is pending.",
+    "#5 production 4000\u21922000 sampling/profile qualification remains separate and incomplete."
+  ],
+  "provenance_notes": [
+    "Original PNG bytes are retained separately; no historical hash-chain to temporary render bytes is asserted.",
+    "Original flat family and wax hero share contours but are different treatments; SVGs are not wax renderings.",
+    "Both 2000 px Chief finishes are owner-approved high quality, with no universal preference ranking.",
+    "Historical judgments from the Skill Swap investigation are not fresh validation and are not imported as new model labels."
+  ]
+}
