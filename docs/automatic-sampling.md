@@ -16,7 +16,8 @@ and `seed`. An explicit false/zero survives compilation. A cap/threshold overrid
 adaptation unless `adaptive` explicitly says false. Minimum 0 delegates to Cycles. Threshold
 0 invokes Cycles automatic semantics; it is not an error of zero percent. A minimum above
 the cap is invalid. Profile settings fill only controls the user did not specify. A repair
-that needs to change an explicit control returns `override_conflict`.
+that needs to change an explicit control returns `override_conflict`. Overrides differing from a
+profile’s reviewed settings retain their values and require independent qualification.
 
 Optional `[sampling]` fields:
 
@@ -83,7 +84,8 @@ this schema does not prove a global optimum or automatically synthesize a profil
 
 Timing scope deliberately excludes random seed; image identity includes seed and complete
 source/compiled settings/dependency hashes. Image-result caching is not timing-profile reuse.
-`artifact_current` verifies source/code/assets/control-file hashes, delivered bytes, execution
+`artifact_current` verifies source/code/catalog/assets/control-file and retained review hashes,
+delivered bytes, execution
 sidecar and current machine. Newly added source files invalidate a prior image. The compiled
 scene plus resolved meshes/fonts/HDRI/texture files bind the execution; runtime native logs
 also carry their own hashes. Changed profiles or diagnosis files invalidate reuse. Previous

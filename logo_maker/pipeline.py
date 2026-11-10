@@ -390,10 +390,10 @@ def qa_concept(
     rounds_path = logo.qa / "rounds.jsonl"
     log = runlog(logo.run_json)
     record: dict[str, Any] = {}
-    budget = budget or Budget()
+    budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
     for round_no in range(1, MAX_QA_ROUNDS + 1):
         budget.check()
-        if not render.artifact_current(folder, "final"):
+        if not render.artifact_current(folder, "final", budget=budget):
             render.render(folder, "final", budget=budget)
         final = folder / "final.png"
         verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
@@ -512,7 +512,7 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     folder = logo.concept(winner(logo))
     from logo_maker.render import artifact_current
 
-    if not artifact_current(folder, "final"):
+    if not artifact_current(folder, "final", budget=budget):
         raise AuthoringNeeded("final provenance changed; finalize again", [folder / "scene.toml"])
     sampling = _read_json(folder / ".build/final.sampling.json")
     if (

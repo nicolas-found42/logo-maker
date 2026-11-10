@@ -7,7 +7,7 @@ generated [adapter registry](adapters.md) has no room for.
 ## Alternate renderers (`logo_maker/renderers/`)
 
 Each renderer implements `render(export_json, out_png, *, quality, resolution)`:
-`quality` maps to sample controls (`test` 64 fixed, `preview` 256 fixed, `final` adaptive 4096 / 0.01),
+`quality` maps to alternate-renderer sample counts (`test` 64, `preview` 256, `final` 1024+),
 `resolution` is the long edge in px, output is RGBA PNG, transparent when
 `world.transparent`. `renderers.render(name, ...)` dispatches. Shared helpers
 (`load_export`, `resolve`, `scaled_size`, `spp_for`) live in `__init__.py`.
@@ -107,3 +107,7 @@ Sampling profiles, image-bound diagnosis, diagnostic EXRs, explicit controls and
 defined in [automatic-sampling.md](automatic-sampling.md). `RenderResult.sampling` points to the
 job record; its delivered-image hash describes the post-downsample PNG. Exports stage under the
 remaining job deadline and retain sampling provenance plus complete output hashes in their manifest.
+
+Explicit alternate renderers retain their adapter execution behavior and return
+`outside_cycles_policy`; their intermediate Cycles report cannot attest their delivered pixels.
+They cannot inherit a qualified Cycles sampling state or become qualified pipeline winners.

@@ -174,6 +174,11 @@ def _enable_diagnostics(max_bytes: int) -> dict:
         and p.identifier not in {"use_pass_combined", "use_pass_cryptomatte_accurate"}
         and getattr(layer, p.identifier, False)
     ]
+    extra += [
+        p.identifier
+        for p in layer.cycles.bl_rna.properties
+        if p.identifier.startswith("use_pass_") and getattr(layer.cycles, p.identifier, False)
+    ]
     pixels = (
         sc.render.resolution_x
         * sc.render.resolution_y
@@ -211,11 +216,13 @@ def _save_diagnostics(path: Path, max_bytes: int, capability: dict) -> dict:
         if path.stat().st_size > max_bytes:
             path.unlink()
             return {"status": "unknown", "reason": "EXR exceeded diagnostic storage budget"}
+        from logo_maker.sampling_diagnostics import sha256
+
         return {
             "status": "retained",
             "path": str(path),
             "bytes": path.stat().st_size,
-            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "sha256": sha256(path),
             "seconds": time.monotonic() - started,
             "scope": "lossless 32-bit multilayer EXR write and hash, after render",
         }

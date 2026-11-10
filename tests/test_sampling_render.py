@@ -84,6 +84,10 @@ def test_successful_final_binds_delivered_hash_after_real_downsample(tmp_path, m
     assert report["profile"]["state"] == "profile_unqualified"
     assert report["outcomes"]["noise"] == "unknown"
     assert render.artifact_current(tmp_path, "final", check_machine=False)
+    (tmp_path / "scene.py").write_text("# new authored source\n")
+    assert not render.artifact_current(tmp_path, "final", check_machine=False)
+    (tmp_path / "scene.py").unlink()
+    assert render.artifact_current(tmp_path, "final", check_machine=False)
     result.png.write_bytes(b"changed exported image")
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
 
@@ -116,3 +120,52 @@ def test_generic_edge_failure_returns_scoped_refinement_without_changing_samplin
     assert result["refinement"]["dimension"] == "edges_unknown_cause"
     assert (folder / "scene.toml").read_text() == recipe
     assert result["round"] == 1
+
+
+def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
+    tmp_path, monkeypatch
+):
+    source = compiled(tmp_path)
+    data = json.loads(source.read_text())
+    data["quality"].update(samples=1, overrides={"max_samples": 1})
+    source.write_text(json.dumps(data))
+    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+    monkeypatch.setattr(
+        render, "qualify_profile", lambda *a: ("qualified", "test reviewed profile")
+    )
+    profile = {
+        "settings": {
+            "samples": 4096,
+            "adaptive_threshold": 0.01,
+            "min_samples": 0,
+            "adaptive": True,
+        }
+    }
+    monkeypatch.setattr(
+        render, "_load_optional", lambda folder, name: profile if name == "profile" else None
+    )
+    review = tmp_path / "owner-reviewed-case.json"
+    review.write_text('{"sampling":"approved"}')
+    profile["cases"] = [{"evidence": {"path": str(review)}}]
+    data["sampling"]["profile"] = "profile"
+    source.write_text(json.dumps(data))
+    (tmp_path / "profile").write_text("test profile")
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        spec = json.loads(path.read_text())
+        assert spec["quality"]["samples"] == 1
+        folder = Path(spec["output_dir"])
+        Image.new("RGBA", (64, 64), (1, 2, 3, 255)).save(folder / "final.png")
+        (folder / "final.execution.json").write_text('{"status":"verified"}')
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    result = render.render(tmp_path, "final", budget=Budget())
+    assert result.sampling is not None
+    report = json.loads(result.sampling.read_text())
+    assert report["profile"]["state"] == "override_conflict"
+    assert report["outcomes"]["sampling"] == "review_needed"
+    assert render.artifact_current(tmp_path, "final", check_machine=False)
+    review.unlink()
+    assert not render.artifact_current(tmp_path, "final", check_machine=False)

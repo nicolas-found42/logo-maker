@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import time
@@ -78,21 +79,19 @@ def machine_context(budget: Budget) -> dict:
     return json.loads(proc.stdout.strip().splitlines()[-1])
 
 
+def source_files(concept_dir: Path) -> set[Path]:
+    names = ("scene.toml", "motif.json", "motif.svg", "concept.json")
+    paths = {concept_dir / name for name in names if (concept_dir / name).is_file()}
+    paths.update(concept_dir.glob("*.py"))
+    package = Path(__file__).parent
+    paths.update(package.rglob("*.py"))
+    paths.update(package.rglob("*.toml"))
+    return {p.resolve() for p in paths}
+
+
 def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
     """Bind source, compiled scene, meshes and resolved external assets by content."""
-    paths = {
-        concept_dir / name
-        for name in (
-            "scene.toml",
-            "motif.json",
-            "motif.svg",
-            "motif.py",
-            "scene.py",
-            "concept.json",
-        )
-        if (concept_dir / name).is_file()
-    }
-    paths.update(Path(__file__).parent.rglob("*.py"))
+    paths = source_files(concept_dir)
     paths.update(p.resolve() for p in (concept_dir / ".build/meshes").rglob("*") if p.is_file())
 
     # Compiled JSON contains resolved font/HDRI/texture/mesh paths.
@@ -118,7 +117,15 @@ def _load_optional(folder: Path, name: str | None) -> dict | None:
     path = Path(name)
     if not path.is_absolute():
         path = folder / path
-    return json.loads(path.read_text())
+    data = json.loads(path.read_text())
+    for case in data.get("cases", []):
+        evidence = case.get("evidence", {})
+        if evidence.get("path"):
+            review = Path(evidence["path"])
+            evidence["path"] = str(
+                review if review.is_absolute() else (path.parent / review).resolve()
+            )
+    return data
 
 
 def render(
@@ -210,6 +217,21 @@ def render(
                 override_name = "max_samples" if key == "samples" else key
                 if override_name not in overrides:
                     effective[key] = selected[key]
+            conflicts = [
+                k
+                for k in ("samples", "adaptive_threshold", "min_samples", "adaptive")
+                if effective.get(k, 0 if k == "min_samples" else None)
+                != selected.get(k, 0 if k == "min_samples" else None)
+            ]
+            if conflicts:
+                profile_state, reason = (
+                    "override_conflict",
+                    "explicit controls outside qualified settings: " + ", ".join(conflicts),
+                )
+            for case in profile.get("cases", []):
+                evidence = case.get("evidence", {})
+                if evidence.get("path"):
+                    controls[evidence["path"]] = sha256(Path(evidence["path"]))
         from logo_maker.sampling import validate_settings
 
         validate_settings(Settings.from_quality(effective))
@@ -227,8 +249,17 @@ def render(
             attempt_dir = build / ("attempt-" + uuid.uuid4().hex)
             attempt_dir.mkdir()
             scene_data["output_dir"] = str(attempt_dir)
+            image_scene = {
+                k: v
+                for k, v in scene_data.items()
+                if k not in {"sampling", "output_dir", "build_dir"}
+            }
             source_key = content_key(
-                {"quality": effective, "dependencies": deps, "context": context}
+                {
+                    "compiled_scene": image_scene,
+                    "dependencies": {k: v for k, v in deps.items() if Path(k).name != "scene.toml"},
+                    "context": context,
+                }
             )
             candidate_json = attempt_dir / "scene.json"
             # Meshes are relative to the original build directory; keep that explicit.
@@ -240,17 +271,39 @@ def render(
             if execution.get("status") != "verified":
                 raise ToolError("GPU-only rendering/denoising unverified")
             png = attempt_dir / f"{quality}.png"
-            if scene_data["render"].get("renderer", "cycles") != "cycles":
-                raise ToolError("bounded sampling requires verified Cycles Metal output")
+            renderer = scene_data["render"].get("renderer", "cycles")
+            if renderer != "cycles":
+                budget.begin_attempt()
+                command = [
+                    sys.executable,
+                    "-c",
+                    "from pathlib import Path; from logo_maker.render import _run_alternate; "
+                    "import sys; print(_run_alternate(sys.argv[1], Path(sys.argv[2]), sys.argv[3], int(sys.argv[4])))",
+                    renderer,
+                    str(attempt_dir),
+                    quality,
+                    str(effective["resolution"]),
+                ]
+                proc = subprocess.run(
+                    command, capture_output=True, text=True, timeout=budget.remaining, check=False
+                )
+                if proc.returncode:
+                    raise ToolError(f"explicit alternate renderer failed: {proc.stderr[-2000:]}")
+                png = attempt_dir / f"{quality}.png"
             if quality == "final":
                 _downsample_final(png)
             if scene_data["render"].get("alpha_cleanup"):
                 _alpha_cleanup_png(png)
-            diagnostics = analyze_exr(
+            diagnostics: dict = analyze_exr(
                 evidence_path.with_suffix(".exr"),
                 cap=effective["samples"],
                 max_bytes=config.get("diagnostic_bytes", 2147483648),
             )
+            if renderer != "cycles":
+                diagnostics = {
+                    "status": "unknown",
+                    "reason": "explicit alternate output outside Cycles sampling qualification",
+                }
             budget.check()
             delivered_hash = sha256(png)
             elapsed = time.monotonic() - candidate_started
@@ -273,7 +326,7 @@ def render(
                 )
             foreground = diagnostics.get("regions", {}).get("foreground") or {}
             job["outcomes"].update(
-                device="verified",
+                device="verified" if renderer == "cycles" else "outside_cycles_policy",
                 cap=(
                     "capped"
                     if foreground.get("near_cap_fraction", 0) > 0
@@ -308,10 +361,12 @@ def render(
                 effective.update(decision.settings.quality())
                 diagnosis = None
                 continue
-            for name in (f"{quality}.png", "scene.blend", "model.glb"):
+            for name in ("scene.blend", "model.glb", f"{quality}.png"):
                 path = attempt_dir / name
                 if path.exists():
-                    path.replace(concept_dir / name)
+                    staged = concept_dir / (".publishing-" + uuid.uuid4().hex + "-" + name)
+                    shutil.copyfile(path, staged)
+                    staged.replace(concept_dir / name)
             job.update(
                 published=True,
                 delivered_sha256=delivered_hash,
@@ -333,14 +388,14 @@ def render(
             job["outcomes"]["memory"] = "failed"
         raise
     finally:
+        if budget.remaining <= 0:
+            job["outcomes"]["time"] = "time_limit"
         job["budget"] = budget.record()
         job["seconds"] = time.monotonic() - started
         job["timing_scope"] = (
             "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
         )
         if job_path.exists():
-            import shutil
-
             shutil.copyfile(
                 job_path, build / (quality + ".prior-" + uuid.uuid4().hex + ".sampling.json")
             )
@@ -351,7 +406,9 @@ def render(
         concept_dir / "model.glb",
         time.monotonic() - started,
         quality,
-        Path(job["execution"]),
+        Path(job["execution"])
+        if scene_data["render"].get("renderer", "cycles") == "cycles"
+        else None,
         job_path,
     )
 
@@ -437,8 +494,12 @@ def render_many(
     return [render(d, quality) for d in dirs]
 
 
-def artifact_current(concept_dir: Path, quality: str, *, check_machine: bool = True) -> bool:
+def artifact_current(
+    concept_dir: Path, quality: str, *, check_machine: bool = True, budget: Budget | None = None
+) -> bool:
     """Content freshness includes source, code, devices, seed, execution and delivered bytes."""
+    if budget:
+        budget.check()
     try:
         record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
         if (
@@ -451,19 +512,7 @@ def artifact_current(concept_dir: Path, quality: str, *, check_machine: bool = T
             for p, digest in record["dependencies"].items()
         ):
             return False
-        source_names = {
-            "scene.toml",
-            "motif.json",
-            "motif.svg",
-            "motif.py",
-            "scene.py",
-            "concept.json",
-        }
-        if any(
-            (concept_dir / name).is_file()
-            and str((concept_dir / name).resolve()) not in record["dependencies"]
-            for name in source_names
-        ):
+        if not {str(p) for p in source_files(concept_dir)} <= set(record["dependencies"]):
             return False
         if any(
             not Path(p).is_file() or sha256(Path(p)) != digest
@@ -476,7 +525,7 @@ def artifact_current(concept_dir: Path, quality: str, *, check_machine: bool = T
         if json.loads(evidence.read_text()).get("status") != "verified":
             return False
         if check_machine:
-            env = machine_context(Budget())
+            env = machine_context(budget or Budget())
             if any(record["context"].get(k) != v for k, v in env.items()):
                 return False
         return True
