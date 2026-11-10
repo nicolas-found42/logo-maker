@@ -29,7 +29,7 @@ Final focused review found the publication issue resolved and no other material 
 bug in that focused pass.
 
 External acceptance remains incomplete: owner sampling labels, calibrated tolerances,
-owner-reviewed held-out real briefs and a qualified profile. This PR uses Refs #5.
+owner-reviewed held-out briefs and a qualified profile. This PR uses Refs #5.
 
 Final unresolved implementation findings: Standards 0, Spec 0 in focused re-review;
 qualification gaps above remain open. Reviews were source inspection, not independent visual

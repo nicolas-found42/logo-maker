@@ -85,8 +85,8 @@ runs are retained rather than relabeled as successful text validation.
 Final-image glyph/counter crops, original-resolution noisy/denoised crops, tiny flat exports,
 and alpha composites on light, dark and saturated backgrounds were inspected by the agent.
 Matte, metal and glass have different intended appearances; the reports make no craft ranking
-based on gloss. The optics motif is a materially different synthetic brief, not an owner-reviewed
-held-out real brand. Owner labels remain pending.
+based on gloss. The optics motif is a materially different synthetic brief. Owner-reviewed held-out
+qualification and owner labels remain pending.
 
 ## Retained artifacts and reproduction
 
