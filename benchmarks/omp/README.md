@@ -67,9 +67,10 @@ when replaying that snapshot: its `motif.json`/SVG already preserve the authored
 | Preference | Personal material/finish/style choice | Unranked, independent of quality |
 | Cross-brief transfer | Rejected Skill Swap controls, successful different materials, held-out briefs | Incomplete |
 
-The Skill Swap Gather, Fold and Commons paper studies retain the owner's overall rejection label;
-that label does not identify a particular causal defect. Missing per-feature, brief-fit and style
-labels stay unknown. The foundation verifier always reports qualification **incomplete**. It never
+The Skill Swap Gather, Fold and Commons paper studies retain the owner's overall rejection in
+`owner_overall_verdict`; craftsmanship, fidelity, brief-fit and preference labels stay unknown or
+unranked. Overall rejection does not identify a craft defect or a particular causal defect.
+The foundation verifier always reports qualification **incomplete**. It never
 converts a passed hash check or approved fixture into evidence that a fresh workflow transfers.
 
 Later qualification must add owner-reviewed successful different-material examples and held-out

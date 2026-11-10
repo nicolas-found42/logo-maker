@@ -183,11 +183,12 @@
       "role": "owner-rejected paper study",
       "owner_labels": {
         "fidelity": "not-evaluated",
-        "craftsmanship": "rejected",
+        "craftsmanship": "unknown",
         "brief_fit": "unknown",
         "preference": "unranked"
       },
-      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
     },
     {
       "id": "skill-swap-fold",
@@ -195,11 +196,12 @@
       "role": "owner-rejected paper study",
       "owner_labels": {
         "fidelity": "not-evaluated",
-        "craftsmanship": "rejected",
+        "craftsmanship": "unknown",
         "brief_fit": "unknown",
         "preference": "unranked"
       },
-      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
     },
     {
       "id": "skill-swap-commons",
@@ -207,11 +209,12 @@
       "role": "owner-rejected paper study",
       "owner_labels": {
         "fidelity": "not-evaluated",
-        "craftsmanship": "rejected",
+        "craftsmanship": "unknown",
         "brief_fit": "unknown",
         "preference": "unranked"
       },
-      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown."
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
     }
   ],
   "remaining_gaps": [
