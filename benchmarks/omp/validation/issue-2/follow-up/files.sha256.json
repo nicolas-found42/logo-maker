@@ -1,4 +1,10 @@
 {
+  "captures/capture-padding.cjs.txt": "5729f9a765a690c931e42f2ff03a959f5529a1f613e9020725ba3c5cda07376c",
+  "captures/padding-after.png": "a352d3d03d97cb0d0446f34498326a233e0458fc94978b167ce313d81dcdc259",
+  "captures/padding-after.txt": "052c74990c622d2463b63de0841ab8f3c067e42a3cf7ccecfa67bef2400a3db6",
+  "captures/padding-before.png": "06e0a2dadd78bbb67370e029b9f80c0a3f3fdea5c7885fae399d25859a2dad6c",
+  "captures/padding-before.txt": "2e89268f2ac3d97281603f0e2d82b0f7711a98ff40b2cbdf4c775f1a2d59c376",
+  "captures/padding-reproduce.py.txt": "3b17a6bc96e397e0a1c77e145baa14710734939afbd60cee9ad28be09f452db7",
   "diagnosis/qa/jev/answers.jsonl": "eeb8dbce1d7bf5a17ba456f46aef817b60deb17ea15b81a89c7a6ab710971c42",
   "diagnosis/qa/jev/assets/068c5fb912a0fe89e4006d12f1fd915d342b8fd3a41c6ee783952f96e21e630a.png": "068c5fb912a0fe89e4006d12f1fd915d342b8fd3a41c6ee783952f96e21e630a",
   "diagnosis/qa/jev/assets/32109bc2a9085249fe1b9619bba2a3d2f4aa87969ab3de90e40ee73dec4901fd.png": "32109bc2a9085249fe1b9619bba2a3d2f4aa87969ab3de90e40ee73dec4901fd",
@@ -127,6 +133,7 @@
   "padding-calibration/qa/jev/requests/0027-skill-swap-commons-fit.json": "dcb179db5d1bb72ca74ad97acbbc854aac67b54a8d96e8606a28cb1d68feccae",
   "padding-calibration/qa/jev/requests/0028-skill-swap-commons-technical.json": "f2e4fa66df87919a81d5bc4e3d1b9777b4a5884a2e39179f3d58a251217ecb66",
   "padding-calibration/run.json": "9f084203cfcb64b448070544bc97153473ffe30ac10301816d14fcffb1720bac",
+  "review.md": "0915ec8d178f896c846394178708c9105cd19834474ac0cd2242eecaf4a6cb1d",
   "rootshare-v2/.build/final.execution.json": "39864046093d3ca6da2029069511e81a72e559ad901c4cc4619fba31d75ce4d5",
   "rootshare-v2/.build/final.execution.log": "d1e8af9800f5ec5f7359a47ee76a0d4a56a1dc08317fc6a475dccf393858d9b5",
   "rootshare-v2/.build/final.json": "41d0fd748ca2e4b2c62879965b474df0cef974d740eeabf4562a59242459566c",

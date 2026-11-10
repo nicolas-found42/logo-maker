@@ -1,0 +1,14 @@
+Jev image padding: transmitted translucent source pixels
+Source revision: b3790a476ca4b288227768076abd55eac4823707
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_mixed_image_dimensions_preserve_translucent_source_pixels ________
+tests/test_jev_client.py:102: in test_mixed_image_dimensions_preserve_translucent_source_pixels
+    assert actual.getpixel((200, 200)) == (20, 40, 60, 128)
+E   assert (10, 20, 30, 64) == (20, 40, 60, 128)
+E     
+E     At index 0 diff: 10 != 20
+E     Use -v to get more diff
+=========================== short test summary info ============================
+FAILED tests/test_jev_client.py::test_mixed_image_dimensions_preserve_translucent_source_pixels
+1 failed in 0.07s
