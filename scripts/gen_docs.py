@@ -22,7 +22,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 
 
 def adapters_md() -> str:
-    lines = [ADAPTERS_HEADER]
+    lines = [ADAPTERS_HEADER.rstrip("\n")]
     adapters = all_adapters()
     for stage in STAGES:
         rows = [a for a in adapters if a.stage == stage]

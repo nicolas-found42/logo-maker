@@ -139,16 +139,12 @@ async def logo_improve(target: str, out: str | None = None) -> dict[str, Any]:
 
 @server.tool()
 async def logo_doctor() -> dict[str, Any]:
-    """Check every adapter, the GPU, Node, and the jev API key."""
-    from logo_maker.adapters import doctor
+    """Check the jev API key, Node, the Metal GPU and kernel cache, and every adapter; same rows as `logo-maker doctor`."""
+    from logo_maker.doctor import checks
 
-    rows = await anyio.to_thread.run_sync(doctor)
-    return {
-        "checks": [
-            {"name": a.name, "stage": a.stage, "ok": p is None, "problem": p, "fix": a.fix}
-            for a, p in rows
-        ]
-    }
+    rows = await anyio.to_thread.run_sync(checks)
+    failed = sum(not row["ok"] for row in rows)
+    return {"passed": len(rows) - failed, "failed": failed, "checks": rows}
 
 
 def serve() -> None:

@@ -16,9 +16,8 @@ logo is designed fresh for its owner.
 ## 1. Check the toolchain
 
 Run `logo-maker doctor`. Done when it exits 0 (no `FAIL` lines). A `FAIL` line prints its fix
-command; run it. A `warn` line marks an alternate tool this machine cannot run; leave it and pick
-another. When `logo-maker` itself is missing, run `just setup` in the logo-maker repository, then
-`uv run python scripts/install.py --agent <host>`.
+command; run it. When `logo-maker` itself is missing, run `just setup` in the logo-maker
+repository, then `uv run python scripts/install.py --agent <host>`.
 
 ## 2. Write the brief
 

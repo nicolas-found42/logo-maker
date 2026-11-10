@@ -16,12 +16,6 @@ def _chrome() -> str | None:
     return "chrome not found (checked PATH and /Applications)"
 
 
-def _luxcore() -> str | None:
-    from logo_maker.renderers.luxcore import unavailable
-
-    return unavailable()
-
-
 def _playwright_chrome() -> str | None:
     from logo_maker.paths import JS_DIR
 
@@ -46,9 +40,8 @@ ADAPTERS: list[Adapter] = [
         "Apache-2.0",
         "alternate unbiased renderer (disney, PATHCPU, alpha film output)",
         "logo_maker.renderers.luxcore:render",
-        _luxcore,
-        "use the mitsuba or three.js renderer on macOS arm64",
-        required=False,
+        python_module("pyluxcore"),
+        "uv sync",
     ),
     Adapter(
         "three.js",

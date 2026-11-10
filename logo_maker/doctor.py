@@ -69,23 +69,45 @@ ENV_CHECKS: list[tuple[str, Callable[[], str | None], str]] = [
 ]
 
 
-def report() -> int:
-    rows: list[tuple[str, str, str | None, str, bool]] = []
+def checks() -> list[dict[str, str | bool | None]]:
+    """One row per environment and adapter check: stage, name, ok, problem, fix."""
+    rows: list[dict[str, str | bool | None]] = []
     for name, check, fix in ENV_CHECKS:
-        rows.append(("environment", name, check(), fix, name != "Metal kernel cache"))
+        try:
+            problem = check()
+        except Exception as exc:  # a broken check is itself a problem worth showing
+            problem = f"check raised {type(exc).__name__}: {exc}"
+        rows.append(
+            {
+                "stage": "environment",
+                "name": name,
+                "ok": problem is None,
+                "problem": problem,
+                "fix": fix,
+            }
+        )
     for adapter, problem in adapter_doctor():
-        rows.append((adapter.stage, adapter.name, problem, adapter.fix, adapter.required))
-    width = max(len(r[1]) for r in rows)
-    failed = warned = 0
-    for stage, name, problem, fix, required in rows:
-        mark = "ok  " if problem is None else ("FAIL" if required else "warn")
-        failed += problem is not None and required
-        warned += problem is not None and not required
-        line = f"{mark} {stage:<18} {name:<{width}}"
-        if problem:
-            line += f"  {problem}  -> {fix}"
+        rows.append(
+            {
+                "stage": adapter.stage,
+                "name": adapter.name,
+                "ok": problem is None,
+                "problem": problem,
+                "fix": adapter.fix,
+            }
+        )
+    return rows
+
+
+def report() -> int:
+    rows = checks()
+    width = max(len(str(r["name"])) for r in rows)
+    failed = 0
+    for row in rows:
+        failed += not row["ok"]
+        line = f"{'ok  ' if row['ok'] else 'FAIL'} {row['stage']:<18} {row['name']:<{width}}"
+        if not row["ok"]:
+            line += f"  {row['problem']}  -> {row['fix']}"
         print(line)
-    print(
-        f"\n{len(rows) - failed - warned}/{len(rows)} checks passed, {failed} failed, {warned} optional warnings"
-    )
+    print(f"\n{len(rows) - failed}/{len(rows)} checks passed, {failed} failed")
     return 0 if failed == 0 else 1

@@ -8,9 +8,7 @@ RGBA film output, which stays transparent where nothing is hit.
 
 from __future__ import annotations
 
-import os
-import subprocess
-import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -100,68 +98,8 @@ def _emissive_ball(path: Path, loc: np.ndarray, diameter: float) -> None:
     mesh.export(path)
 
 
-def unavailable() -> str | None:
-    """Why LuxCore cannot render on this machine, or None.
-
-    pyluxcore imports on macOS arm64 but its bundled OpenMP barrier deadlocks
-    there (every engine, even an empty 16 px frame), so it is ruled out up front.
-    """
-    import importlib.util
-    import platform
-
-    if importlib.util.find_spec("pyluxcore") is None:
-        return "python module pyluxcore not installed"
-    if platform.system() == "Darwin" and platform.machine() == "arm64":
-        return (
-            "pyluxcore bundles an OpenMP runtime that deadlocks on macOS arm64; "
-            "use the cycles, mitsuba, or three renderer"
-        )
-    return None
-
-
 def render(export_json: Path, out_png: Path, *, quality: str, resolution: int) -> Path:
-    """Render the scene export with LuxCore to an RGBA PNG.
-
-    The session runs in a child process: pyluxcore cannot be re-initialised in
-    one interpreter, and a wedged session (a deadlock inside the bundled
-    OpenMP runtime blocks `WaitForDone` forever) must not take the CLI with it.
-    A child that overruns its deadline is killed and reported as a ToolError.
-    """
-    from logo_maker.proc import ToolError
-
-    problem = unavailable()
-    if problem:
-        raise ToolError(f"luxcore: {problem}")
-
-    out_png = Path(out_png).absolute()
-    out_png.parent.mkdir(parents=True, exist_ok=True)
-    deadline = float(os.environ.get("LOGO_MAKER_LUXCORE_TIMEOUT", "1800"))
-    cmd = [
-        sys.executable,
-        "-m",
-        "logo_maker.renderers.luxcore",
-        str(Path(export_json).absolute()),
-        str(out_png),
-        quality,
-        str(resolution),
-    ]
-    try:
-        done = subprocess.run(cmd, timeout=deadline, capture_output=True, text=True)
-    except subprocess.TimeoutExpired:
-        raise ToolError(
-            f"luxcore produced no frame within {deadline:.0f}s and was killed; "
-            "the bundled pyluxcore deadlocks inside its OpenMP barrier on this "
-            "platform (WaitForDone never returns, every engine). Use the mitsuba "
-            "or three.js renderer here."
-        ) from None
-    if done.returncode != 0 or not out_png.is_file():
-        tail = (done.stderr or done.stdout or "").strip().splitlines()[-3:]
-        raise ToolError(f"luxcore failed (exit {done.returncode}): " + " | ".join(tail))
-    return out_png
-
-
-def _render_here(export_json: Path, out_png: Path, *, quality: str, resolution: int) -> Path:
-    """Render in this process; only ever called from the module entry point."""
+    """Render the scene export with LuxCore to an RGBA PNG."""
     import pyluxcore
 
     pyluxcore.Init()
@@ -240,16 +178,14 @@ def _render_here(export_json: Path, out_png: Path, *, quality: str, resolution: 
     out_png.parent.mkdir(parents=True, exist_ok=True)
     session.Start()
     try:
-        session.WaitForDone()
+        # LuxCore checks batch.haltspp/halttime only inside UpdateStats() (Film::RunTests);
+        # WaitForDone() just joins the render threads, which never stop on their own.
+        while not session.HasDone():
+            time.sleep(0.05)
+            session.UpdateStats()
     finally:
         session.Stop()
     session.GetFilm().SaveOutputs()
     if not out_png.is_file():
         raise RuntimeError(f"luxcore finished without writing {out_png}")
     return out_png
-
-
-if __name__ == "__main__":  # pragma: no cover - exercised as a subprocess
-    _render_here(
-        Path(sys.argv[1]), Path(sys.argv[2]), quality=sys.argv[3], resolution=int(sys.argv[4])
-    )

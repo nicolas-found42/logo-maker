@@ -21,6 +21,20 @@ def step(cmd: list[str], *, cwd: Path = ROOT, timeout: float | None = None) -> N
     subprocess.run(cmd, cwd=cwd, check=True, timeout=timeout)
 
 
+# canvas@2.11.2 (via trianglify) has no prebuilt binary for Node 24, so `npm ci` compiles it;
+# these are its documented macOS build libraries (github.com/Automattic/node-canvas README).
+CANVAS_BUILD_LIBS = (
+    "pkgconf",
+    "cairo",
+    "pango",
+    "libpng",
+    "jpeg-turbo",
+    "giflib",
+    "librsvg",
+    "pixman",
+)
+
+
 def main() -> int:
     if sys.platform != "darwin":
         print(
@@ -33,6 +47,10 @@ def main() -> int:
                 for pkg, binary in (("go", "go"), ("fontforge", "fontforge"))
                 if shutil.which(binary) is None
             ]
+            installed = subprocess.run(
+                ["brew", "list", "--formula"], capture_output=True, text=True, check=True
+            ).stdout.split()
+            missing += [pkg for pkg in CANVAS_BUILD_LIBS if pkg not in installed]
             if missing:
                 step(["brew", "install", *missing])
         elif shutil.which("go") is None or shutil.which("fontforge") is None:

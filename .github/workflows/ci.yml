@@ -57,6 +57,9 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
+      # canvas@2.11.2 (via trianglify) has no Node 24 prebuild; npm ci compiles it against these.
+      - name: Install node-canvas build libraries
+        run: brew install pkgconf cairo pango libpng jpeg-turbo giflib librsvg pixman
       - name: Install npm packages
         run: npm ci --prefix js
       - name: Install Python packages

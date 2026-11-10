@@ -22,18 +22,18 @@ Each renderer implements `render(export_json, out_png, *, quality, resolution)`:
   transparent renders **omit** the env emitter (HDRI applies to opaque
   renders only); direct lights still illuminate. Film `hdrfilm` rgba float32,
   converted to uint8 sRGB for PNG (alpha stays linear).
-- **luxcore** (`luxcore.py`): unavailable on macOS arm64, where pyluxcore's
-  bundled OpenMP barrier deadlocks (`WaitForDone` never returns, every engine);
-  `luxcore.unavailable()` says so, `render()` raises at once, and `doctor`
-  shows a `warn` line. Elsewhere each render runs in a child process killed
-  after `LOGO_MAKER_LUXCORE_TIMEOUT` seconds (default 1800). Materials →
+- **luxcore** (`luxcore.py`): renders in-process (`pyluxcore.Init()` per
+  render; repeat renders in one interpreter work). Materials →
   `disney` (`clearcoatgloss` = 1 − coat_roughness; transmission/subsurface not
   mapped). Area/point lights
   become emissive world-space meshes (quad facing the target, icosphere
   ball); sun is a native `sun` source. Engine PATHCPU (set
   `LOGO_MAKER_LUXCORE_ENGINE=PATHOCL` to try OpenCL). Film
   `RGBA_IMAGEPIPELINE` (index 0) through `TONEMAP_LINEAR` + `GAMMA_CORRECTION
-  2.2`, halted by `batch.haltspp`. Transparent backgrounds stay transparent
+  2.2`, halted by `batch.haltspp` (`batch.halttime` 1200 s cap). LuxCore tests
+  halt conditions only inside `RenderSession.UpdateStats()` (`Film::RunTests`),
+  so the renderer polls `HasDone()` + `UpdateStats()`; a bare `WaitForDone()`
+  never returns. Transparent backgrounds stay transparent
   because no background source is defined.
 - **three** (`three.py` + `js/three-page.html` + `js/three-render.mjs`):
   serves the repo `js/` dir over local HTTP, stages a session dir with the

@@ -33,9 +33,6 @@ class Adapter:
     entry: str  # the logo_maker callable that runs it, "module:function"
     check: Callable[[], str | None]  # None when usable; otherwise the problem
     fix: str  # exact command that makes check pass
-    required: bool = (
-        True  # False: an alternate tool; doctor warns instead of failing when it is unusable
-    )
 
 
 def python_module(module: str) -> Callable[[], str | None]:

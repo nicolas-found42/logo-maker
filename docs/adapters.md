@@ -62,7 +62,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | Line Art | GPL-3.0-or-later | Outline strokes for toon and lineart looks (Freestyle fallback) | `logo_maker.blender.components:setup_outlines` | `uv sync (ships with bpy)` |
 | compositor glare/DOF | GPL-3.0-or-later | Bloom glare mix and camera depth of field when the scene asks | `logo_maker.blender.components:setup_compositor` | `uv sync (ships with bpy)` |
 | Mitsuba 3 | BSD-3-Clause | alternate PBR renderer (principled BSDF, rect/point/sun lights) | `logo_maker.renderers.mitsuba:render` | `uv sync` |
-| LuxCoreRender | Apache-2.0 | alternate unbiased renderer (disney, PATHCPU, alpha film output) | `logo_maker.renderers.luxcore:render` | `use the mitsuba or three.js renderer on macOS arm64` |
+| LuxCoreRender | Apache-2.0 | alternate unbiased renderer (disney, PATHCPU, alpha film output) | `logo_maker.renderers.luxcore:render` | `uv sync` |
 | three.js | MIT | WebGL renderer for the glb (RoomEnvironment/HDRI, physical lights) | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
 | postprocessing | MIT | EffectComposer grading for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
 | N8AO | MIT | screen-space ambient occlusion pass for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |

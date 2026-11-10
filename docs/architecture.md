@@ -157,5 +157,9 @@ backoff; any other failure raises `JevError` and never reads as "no".
 ### Adapters
 
 Every external tool is an `Adapter` (`logo_maker/adapters/__init__.py`): name, stage, license, one-line
-summary, the callable that runs it, a health check, and the exact fix command. `logo-maker doctor` runs
-every check. See [adapters.md](adapters.md).
+summary, the callable that runs it, a health check, and the exact fix command. See
+[adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the environment
+checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns one row per check:
+`stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
+row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
+Every check is required: there are no optional tools.

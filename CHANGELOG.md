@@ -8,11 +8,30 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
-- `scripts/install.py` registers the MCP server on every host as `uv run --quiet --project <checkout> logo-maker mcp`
-  (live source, no `logo-maker` on PATH needed): `~/.omp/agent/mcp.json`, `claude mcp add-json --scope user`,
-  and `[mcp_servers.logo-maker]` in `~/.codex/config.toml`. Claude now gets a linked skill instead of a plugin copy.
-  Run it with `uv run python scripts/install.py` (it imports `tomlkit`). The root `.mcp.json` uses the same command,
-  and the Codex plugin ships the skill only.
+- `scripts/install.py` registers the MCP server on every host as
+  `uv run --quiet --project <checkout> logo-maker mcp` (live source, no `logo-maker` on PATH
+  needed): `~/.omp/agent/mcp.json`, `claude mcp add-json --scope user`, and
+  `[mcp_servers.logo-maker]` in `~/.codex/config.toml`. Claude now gets a linked skill instead of
+  a plugin copy. Run it with `uv run python scripts/install.py` (it imports `tomlkit`). The root
+  `.mcp.json` uses the same command, and the Codex plugin ships the skill only.
+- The MCP `logo_doctor` tool returns the same rows as `logo-maker doctor` (environment checks
+  included) plus `passed`/`failed` counts; both come from `logo_maker.doctor.checks()`. Every
+  check is required: `Adapter.required` and the `warn` state are gone, and a cold Metal kernel
+  cache now fails with its fix (`just warm-gpu`).
+
+### Fixed
+
+- LuxCoreRender renders on macOS arm64. The hang blamed on pyluxcore's OpenMP runtime was
+  logo-maker calling `RenderSession.WaitForDone()` without `UpdateStats()`: LuxCore checks
+  `batch.haltspp`/`batch.halttime` only inside `UpdateStats()`, so the render never halted. The
+  renderer now polls `HasDone()` + `UpdateStats()` in-process; the macOS arm64 guard, child
+  process, and `LOGO_MAKER_LUXCORE_TIMEOUT` are gone.
+- The Blender builder's scene export (used by the mitsuba, luxcore, and three renderers) called the
+  nonexistent `bpy.context.evaluated_depsgraph()`; it now calls `evaluated_depsgraph_get()`.
+- LuxCore materials and lights receive RGB instead of the export's RGBA (LuxCore rejected the
+  4-value color).
+- `just setup` and CI install node-canvas's Homebrew build libraries (cairo, pango, and friends):
+  `canvas@2.11.2` (via trianglify) has no Node 24 prebuild, so `npm ci` failed without them.
 
 ## [0.1.0] - 2026-11-10
 
