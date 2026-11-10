@@ -86,6 +86,9 @@ def source_files(concept_dir: Path) -> set[Path]:
     package = Path(__file__).parent
     paths.update(package.rglob("*.py"))
     paths.update(package.rglob("*.toml"))
+    paths.update(
+        p for name in ("uv.lock", "pyproject.toml") if (p := package.parent / name).is_file()
+    )
     return {p.resolve() for p in paths}
 
 
@@ -537,6 +540,8 @@ def artifact_current(
         budget.check()
     try:
         record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
+        if "custom_scene_sha256" in record.get("context", {}):
+            return False
         if (
             not record["published"]
             or sha256(concept_dir / f"{quality}.png") != record["delivered_sha256"]

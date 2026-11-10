@@ -60,14 +60,17 @@ A schema-1 profile contains:
 - `context`: the actual environment fields from `.build/final.sampling.json` except
   `material_presets` and `custom_scene_sha256`. It includes hardware model/core/memory,
   OS/build, Blender build, all OIDN library hashes, backend/device/MetalRT, denoiser guides,
-  stage/resolution, render/postprocessing settings key, and package-source hashes. Paths
+  stage/resolution, Python/image/geometry library versions, the project lockfile hash,
+  render/postprocessing settings key, and package-source hashes. Paths
   inside `code_sha256` are package-relative. OIDN's version string is independently recorded
   in each runtime execution log; binary hashes invalidate versions before rendering.
 - `settings`: `samples`, `adaptive`, `adaptive_threshold`, `min_samples`, `seed` (the
   profile seed describes calibration; production retains the job's seed).
 - `material_presets`: explicitly reviewed transfer scope. New material presets return
-  `profile_out_of_scope`. Custom `bpy` components additionally require their source hash in
-  `custom_scenes_sha256`; arbitrary authored code cannot inherit generic qualification.
+  `profile_out_of_scope`. Custom `bpy` components return `profile_out_of_scope` and cannot
+  reuse cached images: arbitrary Python can read undeclared files, so a source hash alone
+  does not establish a complete dependency inventory. Direct inspection renders remain
+  available. Qualification/reuse requires a future explicit custom-dependency contract.
 - `coverage`: matte, metal, glass, dark, typography and alpha.
 - `owner_review: "approved"`, plus `cases` with roles `positive`, `degraded`, `held_out`.
   Each case has an `evidence` object with `path` and `sha256` for its retained review record.
@@ -109,15 +112,18 @@ An empty region is null. Foreground saturation is never diluted by transparent b
 Native denoiser diagnostics must verify actual Metal filter execution, as #4 requires.
 
 A diagnosis JSON binds `source_key` and `image_sha256` from an attempt record, with `kind`,
-`basis`, `independent_seeds`, and `noisy_and_denoised_reviewed`. For `sampling_noise`, retain
+`basis`, `region`, `independent_seeds`, and `noisy_and_denoised_reviewed`. `region` names
+the reviewed foreground/dark/alpha-boundary/tile entry; missing region evidence is unknown.
+Sampling uses that region’s counts rather than saturation in unrelated pixels. For `sampling_noise`,
+retain
 at least two distinct seeds including the current seed and the actual supporting crops.
 This declaration is review input, not a model confidence score. Generic `clean_edges` or
 aliasing failure alone returns `edges_unknown_cause` to authoring without sampling changes.
 
 | Evidence | Outcome |
 | --- | --- |
-| Reviewed stochastic noise with near-cap foreground | Compare a doubled cap, threshold held; ceiling 8192 |
-| Reviewed stochastic noise with no near-cap foreground | Compare half threshold, cap held; floor 0.001 |
+| Reviewed stochastic noise with near-cap reviewed region | Compare a doubled cap, threshold held; ceiling 8192 |
+| Reviewed stochastic noise with no near-cap reviewed region | Compare half threshold, cap held; floor 0.001 |
 | Geometry, typography, resolution, filtering, alpha, denoiser detail loss | Scoped `refinement_needed` |
 | Stale/uncertain diagnosis, missing samples, duplicate seeds | `unknown` |
 | Explicit conflicting control | `override_conflict` |

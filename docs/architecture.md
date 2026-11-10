@@ -180,12 +180,17 @@ not zero error. `meta.seed` supplies the deterministic seed unless explicitly ov
 No replacement profile is shipped as qualified. Missing/stale/out-of-scope profiles retain the
 4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
 A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,
+Python and image/geometry library versions plus the project lockfile,
 stage, resolution, render configuration and dependency scope. Owner-reviewed controls and held-out
 cases are required. Profile timing distributions exclude seed; image/diagnosis identity includes
 seed.
-No image result is reused solely on an mtime or a machine timing key.
+No image result is reused solely on an mtime or a machine timing key. Custom `bpy` components
+remain outside profile qualification and image reuse until their arbitrary file dependencies
+can be inventoried; direct inspection renders retain an unresolved state.
 
-`sampling.decide` consumes an image-bound diagnosis plus actual sample statistics. Generic edge QA
+`sampling.decide` consumes an image-bound diagnosis naming the reviewed diagnostic region
+plus that region’s sample statistics. Saturation elsewhere cannot select a cap repair. Generic edge
+QA
 alone never increases sampling. Verified cap-limited stochastic noise can increase only the cap;
 verified below-cap noise can tighten only the threshold. Structural, typography, resolution,
 filtering, alpha and denoiser-detail defects return `refinement_needed` for #3; missing/uncertain

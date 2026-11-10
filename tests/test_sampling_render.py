@@ -217,3 +217,35 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
         pipeline.finalize(logo, client=object())
     assert logo.concept("a|b|c") / ".build/final.sampling.json" in caught.value.files
     assert prior.read_text() == '{"winner":"approved-prior"}'
+
+
+def test_custom_bpy_cache_without_dependency_inventory_is_unknown(tmp_path, monkeypatch):
+    source = compiled(tmp_path)
+    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        spec = json.loads(path.read_text())
+        folder = Path(spec["output_dir"])
+        Image.new("RGBA", (64, 64), (1, 2, 3, 255)).save(folder / "final.png")
+        (folder / "final.execution.json").write_text('{"status":"verified"}')
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    result = render.render(tmp_path, "final", budget=Budget())
+    assert result.sampling is not None
+    assert render.artifact_current(tmp_path, "final", check_machine=False)
+    record = json.loads(result.sampling.read_text())
+    record["context"]["custom_scene_sha256"] = "custom source can read unlisted files"
+    result.sampling.write_text(json.dumps(record))
+    assert not render.artifact_current(tmp_path, "final", check_machine=False)
+
+
+@pytest.mark.render
+def test_actual_machine_profile_identifies_final_image_processing_libraries():
+    from importlib.metadata import version
+
+    context = render.machine_context(Budget(wall_seconds=30))
+    assert context["render_stack"]["OpenImageIO"] == version("OpenImageIO")
+    assert context["render_stack"]["Pillow"] == version("Pillow")
+    assert context["render_stack"]["numpy"] == version("numpy")

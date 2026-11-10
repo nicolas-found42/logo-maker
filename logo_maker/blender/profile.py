@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import platform
 import subprocess
-from importlib.metadata import distribution
+from importlib.metadata import distribution, version
 from pathlib import Path
 
 from logo_maker.sampling_diagnostics import sha256
@@ -30,7 +30,25 @@ def environment() -> dict:
     for key in ("hw.model", "hw.memsize", "hw.ncpu", "machdep.cpu.brand_string", "kern.osversion"):
         proc = subprocess.run(["sysctl", "-n", key], capture_output=True, text=True, check=False)
         hardware[key] = proc.stdout.strip() if proc.returncode == 0 else "unknown"
+    lockfile = Path(__file__).resolve().parents[2] / "uv.lock"
     return {
+        "python": platform.python_version(),
+        "render_stack": {
+            name: version(name)
+            for name in (
+                "OpenImageIO",
+                "Pillow",
+                "numpy",
+                "trimesh",
+                "manifold3d",
+                "fonttools",
+                "skia-pathops",
+                "build123d",
+                "sdf",
+                "pymeshlab",
+            )
+        },
+        "lockfile_sha256": sha256(lockfile) if lockfile.is_file() else None,
         "blender": bpy.app.version_string,
         "build": bpy.app.build_hash.decode(),
         "os": platform.platform(),
