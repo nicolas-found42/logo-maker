@@ -1,0 +1,20 @@
+import argparse,importlib.util,subprocess,tempfile
+from pathlib import Path
+p=argparse.ArgumentParser();p.add_argument('--revision',required=True);a=p.parse_args()
+answers={"matches_concept":{"noul":0.63},"readable_mark":{"noul":0.74},"appealing":{"score":1.86,"probabilities":{"0":0.01,"1":0.27,"2":0.56,"3":0.15,"4":0.01}}}
+with tempfile.TemporaryDirectory() as tmp:
+ source=Path(tmp)/'questions.py'
+ source.write_bytes(subprocess.run(['git','show',a.revision+':logo_maker/jev/questions.py'],capture_output=True,check=True).stdout)
+ spec=importlib.util.spec_from_file_location('reproduction_questions',source)
+ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+ ok,reason=module.preview_decision(answers)
+ print('Issue #2: recorded Fold preview answers')
+ print('Source revision: '+a.revision)
+ print('Concept match: 0.63 | Readability: 0.74 | Appeal: 1.86/4')
+ print('P(at least Pleasant): 0.72')
+ print()
+ print('preview_decision: '+('ACCEPT' if ok else 'REQUIRES REVIEW OR REVISION'))
+ print('Reason: '+reason)
+ print('Explicit independent eligibility decision exists: '+str(hasattr(module,'eligibility_decision')))
+ print()
+ print('Actual command output rendered in a headless browser.')

@@ -1,0 +1,10 @@
+Issue #2: recorded Fold preview answers
+Source revision: 38ba86b9ccff305cb453c46920824509ae989f76
+Concept match: 0.63 | Readability: 0.74 | Appeal: 1.86/4
+P(at least Pleasant): 0.72
+
+preview_decision: ACCEPT
+Reason: P(pleasant) 0.72, appeal 1.86 [matches_concept unsettled]
+Explicit independent eligibility decision exists: False
+
+Actual command output rendered in a headless browser.

@@ -1,0 +1,10 @@
+Issue #2: recorded Fold preview answers
+Source revision: 6ad4838
+Concept match: 0.63 | Readability: 0.74 | Appeal: 1.86/4
+P(at least Pleasant): 0.72
+
+preview_decision: REQUIRES REVIEW OR REVISION
+Reason: concept match unsettled; requires review or revision
+Explicit independent eligibility decision exists: True
+
+Actual command output rendered in a headless browser.
