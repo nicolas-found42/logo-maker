@@ -1,0 +1,170 @@
+[
+  {
+    "case": "original",
+    "order": [
+      "candidate",
+      "reference"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.6
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.64
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.56
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.64
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.65
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.83
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.74
+      }
+    },
+    "all_essential_pass": false
+  },
+  {
+    "case": "original",
+    "order": [
+      "reference",
+      "candidate"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.51
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.74
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.63
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.69
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.78
+      }
+    },
+    "all_essential_pass": false
+  },
+  {
+    "case": "glossy",
+    "order": [
+      "candidate",
+      "reference"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.31
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.56
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.64
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.41
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.68
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.63
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.85
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.64
+      }
+    },
+    "all_essential_pass": false
+  },
+  {
+    "case": "glossy",
+    "order": [
+      "reference",
+      "candidate"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.47
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.54
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.74
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.49
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.65
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.63
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.67
+      }
+    },
+    "all_essential_pass": false
+  }
+]
