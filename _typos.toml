@@ -1,3 +1,7 @@
+[files]
+# Research notes quote sources verbatim, typos included.
+extend-exclude = ["docs/research"]
+
 # False positives: established local-variable names.
 [default.extend-identifiers]
 pick_ba = "pick_ba"

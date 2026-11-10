@@ -1,3 +1,7 @@
+[global]
+# Verbatim research notes keep their long source lines.
+exclude = ["docs/research"]
+
 [MD013]
 # Match the repo's ruff line-length; prose wraps at 100.
 line-length = 100
