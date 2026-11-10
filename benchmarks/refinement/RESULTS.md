@@ -94,7 +94,7 @@ PR publication. The gate was not rerun or presented as automatic approval. Its c
 retained in `evidence/jev-gate.json`. Draft publication is reviewable implementation, not artistic or
 production qualification.
 
-## Final combined validation with #5
+## Combined validation with #5 at f3d0f15
 
 The creative branch now includes the bounded sampling foundation from PR #9, pinned at
 `f3d0f151963aedaa59b6819b1c44bbe6ce62bbf6`. It will be reviewed as a stacked PR against that branch.
@@ -109,8 +109,8 @@ Standards and Spec reviews found no remaining actionable findings in the reviewe
 
 The public bundle now retains **14 render revisions and 110 exact authored-source files**. Seven
 actual designs remain: three paper and four metal; the extra source-only replays are not new ideas.
-Both latest snapshots match the current core source hashes. Full local jobs, including raw sampling
-attempts and diagnostics, remain in the ignored `local/` folder.
+At that checkpoint both latest snapshots matched the core source hashes. Full local jobs, including
+raw sampling attempts and diagnostics, remain in the ignored `local/` folder.
 
 | Integrated case | Latest revision | Effective seed | Current live probabilities | Sampling status |
 | --- | --- | ---: | --- | --- |
@@ -139,3 +139,38 @@ blast-radius uncertainty (`safe_to_apply` 0.23, composite 0.6625). Both reasonin
 that escalation against the unchanged reviewed source and found no concrete blocker to stacked draft
 publication. This is not an automatic patch approval or an artistic/production qualification.
 The full result is retained in `evidence/jev-gate-integrated.json`.
+
+## Owned-host-worker integration with #5
+
+The subsequent integration merges PR #9 at `ced0ecd` into the creative branch, with core
+`7e8a02c`. The previous f3d0f15 integration results do not establish this newer worker boundary.
+The clean merge reproduced two custom-cache failures: the worker-local checker had lost the
+`inspection_only` argument. The fix threads that argument through the host payload and limits its
+exception explicitly to previews. A custom final remains ineligible even through the inspection API.
+The shared creative dependency inventory and exclusion of sampling policy files from image identity
+remain in the worker path; numeric `sampling.decide()` is unchanged.
+
+The combined refinement/sampling tests passed **39 tests**; an independent Spec review reproduced
+that result. The full offline suite passed **257 tests**, with 3 render/profile tests deselected and
+49 upstream deprecation warnings. Lint/types passed, and the selected actual Cycles regression passed
+in 3.86 seconds. Standards and Spec follow-up reviews found no new actionable integration findings.
+
+Fresh paper/metal GPU previews were opened, inspected and resumed into actual live creative/comparison
+judgments without another render. Both remain `authoring_needed`. Each replay's distinctness probability
+against its predecessor is 0.01, so neither counts as a new visual alternative. The bundle now retains
+**16 revisions / 126 exact authored-source files**, verified against image/native-log hashes, exclusive
+Metal tracing and actual GPU OIDN execution. Full worker/runtime/tool snapshots remain in ignored local
+evidence. These are preview-workflow checks, not qualified sampling or owner-approved artwork.
+
+| Case | Latest revision | Effective seed | Live craft / fit / material / description |
+| --- | --- | ---: | --- |
+| Paper | `0008-caf909a8a193-preview` | 1820117 | 0.54 / 0.66 / 0.68 / 0.72 |
+| Metal | `0008-8f8b2899d811-preview` | 42 | 0.39 / 0.74 / 0.40 / 0.44 |
+
+Owned CPU workers bound render configuration, compilation/dependency hashing, image processing and
+cache validation, including process cleanup. Refinement's caller-side construction validation,
+source/image hashing and revision archival remain cooperative and can overrun during an operation.
+There is no hard whole-refinement deadline claim. GPU tracing/denoising policy is unchanged; CPU host
+work remains necessary and permitted. Complete custom dependency discovery, qualified profiles,
+owner artistic approval and production final/export acceptance remain open. The historical Jev gate
+records above cover their stated revisions; they are not a new gate result for this worker delta.

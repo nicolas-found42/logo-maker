@@ -3,52 +3,52 @@
   "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/concept.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/construction.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/inspection.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/motif.py\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/motif.svg\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.py\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.toml",
   "details": {
     "dimension": "creative_readiness",
-    "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0007-474e8fb143b2-preview/render.png",
-    "revision": "0007-474e8fb143b2-preview",
+    "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0008-caf909a8a193-preview/render.png",
+    "revision": "0008-caf909a8a193-preview",
     "verdicts": {
       "craftsmanship": {
         "type": "noul",
-        "noul": 0.56
+        "noul": 0.54
       },
       "brief_fit": {
         "type": "noul",
-        "noul": 0.67
+        "noul": 0.66
       },
       "material_intent": {
         "type": "noul",
-        "noul": 0.69
+        "noul": 0.68
       },
       "description_match": {
         "type": "noul",
-        "noul": 0.76
+        "noul": 0.72
       }
     },
     "required_dimensions": {
       "craftsmanship": {
-        "p": 0.56,
+        "p": 0.54,
         "status": "unsettled"
       },
       "brief_fit": {
-        "p": 0.67,
+        "p": 0.66,
         "status": "unsettled"
       },
       "material_intent": {
-        "p": 0.69,
+        "p": 0.68,
         "status": "unsettled"
       }
     },
     "comparison": {
-      "binding": "935e21cdff6ba0a3247b721f7e3d4c1c1266e811d114ee95d8a764d56a5f8cee",
-      "before": "qa/revisions/shared-folio--extruded-solid--paper/0006-449f1296e9ed-preview/render.png",
-      "after": "qa/revisions/shared-folio--extruded-solid--paper/0007-474e8fb143b2-preview/render.png",
+      "binding": "d932be5eeafee21f164f5b636b5a3280db3960a9746dea4d6db4cec21e95a373",
+      "before": "qa/revisions/shared-folio--extruded-solid--paper/0007-474e8fb143b2-preview/render.png",
+      "after": "qa/revisions/shared-folio--extruded-solid--paper/0008-caf909a8a193-preview/render.png",
       "answers": {
         "visually_distinct": {
           "type": "noul",
-          "noul": 0.03
+          "noul": 0.01
         },
         "critique_resolved": {
           "type": "noul",
-          "noul": 0.42
+          "noul": 0.57
         }
       }
     },

@@ -58,5 +58,20 @@
     },
     "before": "qa/revisions/shared-folio--extruded-solid--paper/0006-449f1296e9ed-preview/render.png",
     "binding": "935e21cdff6ba0a3247b721f7e3d4c1c1266e811d114ee95d8a764d56a5f8cee"
+  },
+  {
+    "after": "qa/revisions/shared-folio--extruded-solid--paper/0008-caf909a8a193-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.57,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.01,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/shared-folio--extruded-solid--paper/0007-474e8fb143b2-preview/render.png",
+    "binding": "d932be5eeafee21f164f5b636b5a3280db3960a9746dea4d6db4cec21e95a373"
   }
 ]

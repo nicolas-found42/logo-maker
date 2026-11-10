@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Authored a common material tangent; retained roughness, lighting, seed and sample settings.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0004-f846d30a559a-preview/render.png",
+      "comparison": "Compare planar highlights to v3 and structural specificity to the generic gate.",
+      "dimension": "anisotropic tangent",
+      "evidence": "The starburst visible in v3 is absent after a shared straight brushing tangent was authored.",
+      "kind": "technical",
+      "resolved": true
+    }
+  ],
+  "observations": "Owned-host-worker replay inspected: a seated copper keystone bridges the blue metal arch; the large faces show even shading without the earlier radial starburst. This source-only replay uses seed 42 and is not a new design alternative or artistic approval. Full custom dependency inventory and production sampling qualification remain unknown.",
+  "revision": "0008-8f8b2899d811-preview",
+  "user_feedback": "No owner approval or extra aesthetic preference inferred."
+}

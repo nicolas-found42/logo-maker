@@ -2,21 +2,21 @@
   "assets": {},
   "events": [],
   "jev": {
-    "cost_usd": 0.003102,
-    "input_tokens": 73877,
-    "output_tokens": 676,
-    "requests": 11
+    "cost_usd": 0.003686,
+    "input_tokens": 87776,
+    "output_tokens": 796,
+    "requests": 13
   },
   "seeds": {},
   "stages": {
     "export": {
-      "at": "2026-11-10T16:38:41",
-      "revision": "0007-90eaefb82fef-preview",
+      "at": "2026-11-10T18:23:05",
+      "revision": "0008-8f8b2899d811-preview",
       "status": "stale"
     },
     "finalize": {
-      "at": "2026-11-10T16:38:41",
-      "revision": "0007-90eaefb82fef-preview",
+      "at": "2026-11-10T18:23:05",
+      "revision": "0008-8f8b2899d811-preview",
       "status": "stale"
     },
     "new": {
@@ -24,8 +24,8 @@
       "status": "done"
     },
     "preview": {
-      "at": "2026-11-10T16:38:41",
-      "revision": "0007-90eaefb82fef-preview",
+      "at": "2026-11-10T18:23:05",
+      "revision": "0008-8f8b2899d811-preview",
       "status": "stale"
     }
   },

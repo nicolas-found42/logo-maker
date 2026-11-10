@@ -2,6 +2,10 @@
 # Research notes quote sources verbatim, typos included.
 extend-exclude = ["docs/research", "benchmarks/omp/recipe"]
 
+[default]
+# Revision IDs contain generated hexadecimal source hashes, not prose.
+extend-ignore-re = ['\b[0-9]{4}-[0-9a-f]{12}-(?:preview|final)\b']
+
 # False positives: established local-variable names.
 [default.extend-identifiers]
 pick_ba = "pick_ba"
