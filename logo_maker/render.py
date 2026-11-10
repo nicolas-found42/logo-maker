@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import time
+import tomllib
 import uuid
 from collections.abc import Sequence
 from concurrent.futures import ProcessPoolExecutor
@@ -79,6 +80,15 @@ def machine_context(budget: Budget) -> dict:
     return json.loads(proc.stdout.strip().splitlines()[-1])
 
 
+def control_paths(concept_dir: Path, config: dict) -> dict[str, Path]:
+    """Policy records bind image evidence; they are not inputs to their own image key."""
+    return {
+        field: (concept_dir / config[field]).resolve()
+        for field in ("profile", "diagnosis")
+        if config.get(field)
+    }
+
+
 def source_files(concept_dir: Path) -> set[Path]:
     from logo_maker.refinement import concept_sources
 
@@ -92,7 +102,9 @@ def source_files(concept_dir: Path) -> set[Path]:
     package = Path(__file__).parent
     paths.update(package.rglob("*.py"))
     paths.update(package.rglob("*.toml"))
-    return {p.resolve() for p in paths}
+    recipe = concept_dir / "scene.toml"
+    config = tomllib.loads(recipe.read_text()).get("sampling", {}) if recipe.exists() else {}
+    return {p.resolve() for p in paths} - set(control_paths(concept_dir, config).values())
 
 
 def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
@@ -113,7 +125,7 @@ def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
             if path.is_absolute() and path.is_file():
                 paths.add(path.resolve())
 
-    collect(scene_data)
+    collect({k: v for k, v in scene_data.items() if k != "sampling"})
     return {str(p): sha256(p) for p in sorted(paths)}
 
 
@@ -183,12 +195,8 @@ def render(
         env = machine_context(budget)
         deps = dependency_hashes(concept_dir, scene_data)
         controls = {}
-        for field in ("profile", "diagnosis"):
-            if config.get(field):
-                control = Path(config[field])
-                if not control.is_absolute():
-                    control = concept_dir / control
-                controls[str(control.resolve())] = sha256(control)
+        for control in control_paths(concept_dir, config).values():
+            controls[str(control)] = sha256(control)
         job["control_files_sha256"] = controls
         render_scope = {
             k: v

@@ -364,8 +364,11 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
         record = refinement.capture(logo, cid, "preview", budget=budget)
         inspection = refinement.inspected(logo, cid, record)
         refinement.judge_revision(logo, cid, record, inspection, client or _client(logo))
+        refinement.require_current(logo, cid, record, budget=budget)
         records.append(record)
     refinement.alternatives(logo, records, client or _client(logo))
+    for record in records:
+        refinement.require_current(logo, record["concept"], record, budget=budget)
     return status(logo)
 
 
@@ -398,6 +401,11 @@ def preview(
         raise AuthoringNeeded(
             f"revise the motifs and scenes: {exc}", [logo.concept(cid) / "motif.py" for cid in ids]
         ) from exc
+    if refinement.campaign_key(logo, ids) != binding:
+        raise AuthoringNeeded(
+            "inputs changed while judging previews; refresh refinement",
+            [logo.ideation / "finalists.json"],
+        )
     doc = _read_json(logo.ideation / "finalists.json")
     doc["binding"] = binding
     _write_json(logo.ideation / "finalists.json", doc)
@@ -483,6 +491,7 @@ def qa_concept(
         budget.check()
         inspection = refinement.inspected(logo, concept_id, record)
         refinement.judge_revision(logo, concept_id, record, inspection, client)
+        refinement.require_current(logo, concept_id, record, budget=budget)
         budget.check()
     except AuthoringNeeded:
         result["result"] = "creative_review_needed"

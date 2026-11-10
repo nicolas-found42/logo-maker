@@ -225,6 +225,22 @@ def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = No
     return record
 
 
+def require_current(logo: LogoDir, cid: str, record: dict, *, budget: Budget | None = None) -> None:
+    from logo_maker.pipeline import AuthoringNeeded
+
+    active = current(logo, cid, record["quality"], budget=budget)
+    if not active or active["revision"] != record["revision"]:
+        raise AuthoringNeeded(
+            "inputs or device context changed while judging; refresh and inspect the render",
+            [logo.concept(cid) / "scene.toml", logo.concept(cid) / "construction.json"],
+            details={
+                "dimension": "stale_judgment",
+                "artifact": record["image"],
+                "revision": record["revision"],
+            },
+        )
+
+
 def inspected(logo: LogoDir, cid: str, record: dict) -> dict:
     from logo_maker.pipeline import AuthoringNeeded
 

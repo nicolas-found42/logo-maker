@@ -222,3 +222,25 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
         pipeline.finalize(logo, client=Judge())
     assert folder / ".build/final.sampling.json" in stop.value.files
     assert prior.read_text() == '{"winner":"approved-prior"}'
+
+
+def test_creative_sources_join_sampling_keys_without_diagnosis_self_dependency(tmp_path):
+    import tomlkit
+    from test_refinement import construction, job
+
+    logo, _, folder = job(tmp_path)
+    construction(folder)
+    geometry = folder / "fold-geometry.json"
+    geometry.write_text('{"crease":12}')
+    diagnosis = folder / "sampling-diagnosis.json"
+    diagnosis.write_text('{"kind":"sampling_noise","source_key":"bind-to-output"}')
+    profile = folder / "machine-profile.json"
+    profile.write_text('{"schema":1}')
+    doc = tomlkit.parse((folder / "scene.toml").read_text())
+    doc["sampling"] = {"diagnosis": str(diagnosis), "profile": str(profile)}
+    (folder / "scene.toml").write_text(tomlkit.dumps(doc))
+    deps = render.dependency_hashes(folder, {"sampling": dict(doc["sampling"])})
+    assert str(geometry.resolve()) in deps
+    assert str(logo.brief.resolve()) in deps
+    assert str(diagnosis.resolve()) not in deps
+    assert str(profile.resolve()) not in deps

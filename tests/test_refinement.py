@@ -486,3 +486,23 @@ def test_machine_context_drift_invalidates_creative_render_reuse(tmp_path, monke
     with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
         pipeline.refine(logo, Judge())
     assert pipeline.status(logo)["rendered_variants"] == 2
+
+
+def test_source_edit_during_judgment_cannot_become_current_eligibility(tmp_path, monkeypatch):
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+
+    class EditingJudge(Judge):
+        def ask(self, state, questions, *, label):
+            if "craftsmanship" in questions:
+                with (folder / "scene.toml").open("a") as stream:
+                    stream.write("\n# edit while judgment request is in flight")
+            return super().ask(state, questions, label=label)
+
+    with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
+        pipeline.refine(logo, EditingJudge())
+    assert not (logo.ideation / "finalists.json").exists()
