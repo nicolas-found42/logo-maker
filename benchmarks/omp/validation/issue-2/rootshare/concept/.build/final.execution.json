@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "3f37edac5f671c30b60df3d46ba50a08e4c6f235cd6108eece5200ad5b743ad5",
+    "meshes/extrude_0.ply": "ec10ef8a685d7b41328d520df390c21945327ef95b07fbcdda555706bee59af6"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 4096,
+    "use_adaptive_sampling": true,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    4000,
+    4000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "final.execution.log",
+  "seconds": 37.973136417000205,
+  "process_cpu_seconds": 11.726542,
+  "log_sha256": "f7497e47e2c320818f12e969424fecf53be2a9e16738cfc4f29ae588cca881c3",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "a9bb7fde2570ab6c79bbba4ecfea5931b8057743746826f2308e584d86a6e3b1",
+  "delivered_sha256": "05a6d175ad9fc072420bf1cecfa9d055ce2d4ea4c022fd10e8d1254adde13d50",
+  "host_sources_sha256": {
+    "scene.toml": "c235f30c0eb8d0b037bd686b309f940ce8a478af5c34f853769ec092951cd219",
+    "motif.json": "685a7917717b24d160f33d47461711b5e11ce28c2c9fbcca4eef58b78a7a198e"
+  }
+}

@@ -25,7 +25,27 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `preferred_mark` | choice | `sample_alpha`, `sample_beta` | top choice wins (a companion Noul guards the null case where one exists) | head_to_head_table -> tournament.jsonl / winner.json |
 | `matches_concept` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | preview_decision -> finalists.json |
 | `readable_mark` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | preview_decision -> finalists.json |
-| `appealing` | score | `0-4`, `Unappealing: unpleasant to look at.`, `Plain: inoffensive but forgettable.`, `Pleasant: well-crafted and nice to look at.`, `Beautiful: striking craft and finish.`, `Gorgeous: a mark worth keeping for years.` | P(level >= 2) >= 0.5; expected value ranks survivors | preview_decision -> finalists.json |
+| `appealing` | score | `0-4`, `Unappealing: unpleasant to look at.`, `Plain: inoffensive but forgettable.`, `Pleasant: nice to look at.`, `Beautiful: visually striking.`, `Gorgeous: a mark worth keeping for years.` | P(level >= 2) >= 0.5; expected value ranks survivors | preview_decision -> finalists.json |
+| `form_finish` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `surface_finish` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `detail_finish` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `edge_refinement` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `material_construction` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `proportion_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `visual_hierarchy` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `lighting_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `symbol` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `appearance` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | intake.json brand_colors (brand p >= 0.7) |
+| `meaningful_synthesis` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `constraint_fidelity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `communicative_clarity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `small_flat` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `small_hero` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `noise_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `detail_preserved` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `aliasing_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `structure_correct` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `motif_readable` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |
 | `nothing_cut_off` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |
 | `clean_edges` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled; only no (< 0.3) blocks | qa_blocks -> qa/rounds.jsonl (fail triggers that check's fix) |

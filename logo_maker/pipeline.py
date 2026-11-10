@@ -334,8 +334,10 @@ def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
     try:
         finalists = judging.screen_previews(logo, brief, previews, client, keep=keep)
     except ValueError as exc:  # no preview survived screening
+        log.stage("preview", "review_needed", reason=str(exc))
         raise AuthoringNeeded(
-            f"revise the motifs and scenes: {exc}", [logo.concept(cid) / "motif.py" for cid in ids]
+            f"review qa/eligibility.jsonl and revise the brief, references, motifs or scenes: {exc}",
+            [logo.brief, *(logo.concept(cid) / "motif.py" for cid in ids)],
         ) from exc
     log.stage("preview", "done", finalists=finalists)
     return finalists
@@ -367,14 +369,6 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
         framing = max(round(float(camera.get("framing", 0.84)) * 0.9, 3), 0.6)
         camera["framing"] = framing
         changes.append(f"camera.framing -> {framing}")
-    if failures & {"clean_edges", "edges"}:
-        # Set once to the stricter preset; never keep halving across rounds.
-        threshold = min(round(float(render_tbl.get("adaptive_threshold", 0.01)) / 2, 5), 0.005)
-        render_tbl["adaptive_threshold"] = max(threshold, 0.001)
-        render_tbl["max_samples"] = 8192
-        changes.append(
-            f"render.adaptive_threshold -> {render_tbl['adaptive_threshold']}, max_samples -> 8192"
-        )
     if "motif_readable" in failures:
         for component in doc.get("components", []):
             if component.get("kind") in {"relief", "layers", "extrude", "inflate"}:
@@ -403,6 +397,7 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
     for round_no in range(1, MAX_QA_ROUNDS + 1):
         if not _fresh(folder / "final.png", folder):
             render.render(folder, "final")
+        execution = render.verify_execution(folder, "final")
         final = folder / "final.png"
         verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
         code = {
@@ -425,15 +420,21 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
             "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
             "code": code,
             "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "sampling": {
+                "settings": execution["sampling"],
+                "limit": "unknown",
+                "convergence": "unknown",
+                "device": "verified",
+            },
         }
-        fixable = failures - {"recognizable_at_32px"}
+        fixable = failures - {"recognizable_at_32px", "clean_edges", "edges"}
         if not failures:
             record["result"] = "pass"
         elif not fixable:
-            record["result"] = "needs_simpler_motif"
+            record["result"] = "needs_diagnosis"
         else:
             record["changes"] = _apply_fixes(folder / "scene.toml", fixable)
-            record["result"] = "fixing"
+            record["result"] = "fixing" if record["changes"] else "needs_diagnosis"
         with rounds_path.open("a") as fh:
             fh.write(json.dumps(record) + "\n")
         log.event(
@@ -467,15 +468,15 @@ def finalize(logo: LogoDir, client=None) -> str:
             [logo.concept(cid) / "motif.py" for cid in finalists],
         )
     brief = brief_mod.load(logo.brief)
-    if len(passed) == 1:
-        winner = passed[0]
-        _write_json(
-            logo.ideation / "winner.json", {"winner": winner, "reason": "only finalist to pass QA"}
-        )
-    else:
+    try:
         winner = judging.final_tournament(
             logo, brief, {cid: logo.concept(cid) / "final.png" for cid in passed}, client
         )
+    except ValueError as exc:
+        log.stage("finalize", "review_needed", reason=str(exc))
+        raise AuthoringNeeded(
+            str(exc), [logo.brief, *(logo.concept(cid) / "scene.toml" for cid in passed)]
+        ) from exc
     log.stage("finalize", "done", winner=winner, qa={k: v["result"] for k, v in results.items()})
     return winner
 
@@ -492,9 +493,13 @@ def winner(logo: LogoDir) -> str:
 
 def export(logo: LogoDir) -> dict[str, Path]:
     from logo_maker import export as export_mod
+    from logo_maker.eligibility import require_current
 
     brief = brief_mod.load(logo.brief)
-    folder = logo.concept(winner(logo))
+    cid = winner(logo)
+    proof = _read_json(logo.ideation / "winner.json").get("eligibility", {})
+    require_current(logo, brief, cid, proof)
+    folder = logo.concept(cid)
     manifest = export_mod.export_all(
         folder,
         logo.exports,

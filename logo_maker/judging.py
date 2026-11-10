@@ -67,6 +67,15 @@ def screen_previews(
     logo: LogoDir, brief: Brief, previews: dict[str, Path], client: JevAsker, *, keep: int = 3
 ) -> list[str]:
     """Screen preview renders down to finalists; writes `ideation/finalists.json`."""
+    from logo_maker.eligibility import assess
+
+    eligibility = {
+        cid: assess(logo, brief, cid, p, client, stage="preview") for cid, p in previews.items()
+    }
+    previews = {cid: p for cid, p in previews.items() if eligibility[cid]["status"] == "pass"}
+    if not previews:
+        detail = "; ".join(f"{cid}: {r['status']}" for cid, r in eligibility.items())
+        raise ValueError(f"no preview survived eligibility: {detail}")
     questions = preview_screen_questions()
     states = _concept_states(logo, brief)
     jobs = [
@@ -95,10 +104,15 @@ def screen_previews(
         ),
     )
     finalists = ranked[: max(1, min(keep, len(ranked)))]
+    from logo_maker.eligibility import require_current
+
+    for cid in finalists:
+        require_current(logo, brief, cid, eligibility[cid], stage="preview")
     doc = {
         "ids": finalists,
         "reasons": {cid: decisions[cid][1] for cid in finalists},
         "pleasant_cutoff": PREVIEW_MIN_PLEASANT,
+        "eligibility": eligibility,
     }
     (logo.ideation / "finalists.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
     return finalists
@@ -187,6 +201,16 @@ def final_tournament(
     logo: LogoDir, brief: Brief, finalists: dict[str, Path], client: JevAsker
 ) -> str:
     """Full round-robin over final renders, both orders; writes `ideation/winner.json`."""
+    from logo_maker.eligibility import assess
+
+    eligibility = {
+        cid: assess(logo, brief, cid, path, client, stage="final")
+        for cid, path in finalists.items()
+    }
+    finalists = {cid: p for cid, p in finalists.items() if eligibility[cid]["status"] == "pass"}
+    if not finalists:
+        detail = "; ".join(f"{cid}: {r['status']}" for cid, r in eligibility.items())
+        raise ValueError(f"no final candidate meets the floor: {detail}")
     slugs = {cid: concept_slug(cid) for cid in finalists}
     images = {slugs[cid]: Image(p) for cid, p in finalists.items()}
     descs = {slugs[cid]: f"The final render of {cid}." for cid in finalists}
@@ -202,6 +226,9 @@ def final_tournament(
             f"; tied with {', '.join(s for s in tied if s != winner_slug)} on wins, "
             "decided by deterministic slug ordering"
         )
+    from logo_maker.eligibility import require_current
+
+    require_current(logo, brief, by_slug[winner_slug], eligibility[by_slug[winner_slug]])
     (logo.ideation / "winner.json").write_text(
         json.dumps(
             {
@@ -210,6 +237,9 @@ def final_tournament(
                 "reason": reason,
                 "wins": wins,
                 "matches": rows,
+                "ranking_dimension": "aesthetic preference among eligible candidates",
+                "eligibility": eligibility[by_slug[winner_slug]],
+                "candidate_eligibility": eligibility,
             },
             indent=2,
             sort_keys=True,

@@ -10,6 +10,57 @@ from __future__ import annotations
 
 from typing import Any
 
+
+def eligibility_decision(
+    *, craft: list[str], fit: dict[str, str], technical: str, evidence: str
+) -> str:
+    """Essential visual gates; preference and execution policy are deliberately absent.
+
+    API errors stay errors; missing evidence cannot pass. Equality to the reference
+    is a pass supplied by the craft judgment, never a forced preference win.
+    """
+    rows = [*craft, *fit.values(), technical, evidence]
+    if "api_error" in rows:
+        return "api_error"
+    if not craft or set(fit) != set(fit_questions()) or "missing_evidence" in rows:
+        return "missing_evidence"
+    if "fail" in rows:
+        return "fail"
+    if evidence != "complete" or any(s != "pass" for s in [*craft, *fit.values(), technical]):
+        return "unsettled"
+    return "pass"
+
+
+def sampling_decision(checks: dict[str, str], *, limit: str, device: str) -> str:
+    """Visual acceptance and sampling stop reason remain separate from craft/fit.
+
+    #5 supplies diagnostics when qualified. Until then the limit is unknown.
+    This table diagnoses; it never prescribes repeated sample escalation.
+    """
+    if device != "verified":
+        return "device_error"
+    if set(checks) != set(technical_questions()):
+        return "unknown"
+    for qid, diagnosis in (
+        ("structure_correct", "structural_error"),
+        ("detail_preserved", "detail_loss"),
+        ("aliasing_free", "persistent_aliasing"),
+    ):
+        if checks[qid] == "fail":
+            return diagnosis
+    if checks["noise_free"] == "fail":
+        return (
+            "cap_limited_noise"
+            if limit == "capped"
+            else ("sampling_noise" if limit == "below_cap" else "noise_limit_unknown")
+        )
+    if any(status != "pass" for status in checks.values()):
+        return "unknown"
+    return {"capped": "visual_pass_capped", "below_cap": "visual_pass_below_cap"}.get(
+        limit, "visual_pass_limit_unknown"
+    )
+
+
 #: Noul bands: >= YES reads as yes, < NO reads as no, between is unsettled
 #: and gets its own row in every truth table.
 NOUL_YES = 0.7
@@ -370,6 +421,164 @@ def head_to_head_table(pick_ab: str, pick_ba: str, name_a: str, name_b: str) -> 
 
 # -- preview screen -------------------------------------------------------------------
 
+
+def craft_questions() -> dict[str, dict[str, Any]]:
+    """Execution only, in both image orders; equal execution meets the floor."""
+    specs = {
+        "form_finish": (
+            "Are the candidate's contours and joins at least as deliberately finished as the reference's?",
+            "Contours and joins have comparable or better control for each object's intended treatment.",
+            "The candidate has visibly accidental joins, malformed contours or unfinished intersections compared with the reference.",
+        ),
+        "surface_finish": (
+            "Is the candidate's surface execution at least as controlled as the reference's for their respective intended appearances?",
+            "Each treatment has intentional surface transitions; muted and glossy finishes can be equally well executed.",
+            "The candidate has uncontrolled surface artifacts or poorly resolved shading compared with the reference.",
+        ),
+        "detail_finish": (
+            "Is the candidate's visible detail resolved at least as carefully as the reference's?",
+            "The candidate's own details are deliberate and resolved at the demonstrated execution level, including simpler designs.",
+            "The candidate's details look crude, damaged, merged or unfinished relative to the demonstrated execution level.",
+        ),
+        "edge_refinement": (
+            "Are the candidate's designed edge transitions as resolved as the reference's for their intended treatments?",
+            "Sharp, folded, cut, rounded or beveled edges each have deliberate consistent transitions; equality meets the floor.",
+            "Unintended pinching, crude bevel ends, abrupt thickness changes or unfinished rims weaken the candidate.",
+        ),
+        "material_construction": (
+            "Is the candidate's intended material realized with execution control comparable to the reference's intended material?",
+            "Thickness, surface response and transitions convincingly form the stated material, including deliberately matte or restrained materials.",
+            "The candidate looks like an unrefined generic extrusion or has inconsistent material behavior for its intended treatment.",
+        ),
+        "proportion_control": (
+            "Are the candidate's proportions as deliberately resolved as the reference's?",
+            "Relative masses, spacing and negative space look intentional and balanced at the demonstrated execution level.",
+            "The candidate has accidental spacing, clumsy relative masses or unresolved negative spaces.",
+        ),
+        "visual_hierarchy": (
+            "Does the candidate organize its primary and supporting forms with control comparable to the reference?",
+            "The core motif dominates clearly and supporting detail serves it; a simple design can fully meet this standard.",
+            "Competing forms, weak focal structure or incidental detail obscure the core motif.",
+        ),
+        "lighting_control": (
+            "Does the candidate's lighting articulate its intended form with control comparable to the reference?",
+            "Light reveals intended depth and material without obscuring important shapes, in either a restrained or high-contrast treatment.",
+            "Flat, confusing, clipped or misplaced shading obscures the form or destroys the intended material response.",
+        ),
+    }
+    return {
+        qid: {
+            "type": "noul",
+            "instructions": instructions,
+            "criteria": {
+                "true": yes
+                + " Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+                "false": no,
+            },
+        }
+        for qid, (instructions, yes, no) in specs.items()
+    }
+
+
+def fit_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "symbol": {
+            "type": "noul",
+            "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+            "criteria": {
+                "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+                "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation.",
+            },
+        },
+        "appearance": {
+            "type": "noul",
+            "instructions": "Does `candidate` match `intended_appearance`?",
+            "criteria": {
+                "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+                "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style.",
+            },
+        },
+        "brand_specificity": {
+            "type": "noul",
+            "instructions": "Does `candidate` contain a developed visual idea specific to the purpose or identity in `brief`?",
+            "criteria": {
+                "true": "Authored relationships, negative space, letterform integration or distinctive construction connect this mark to the brand beyond its broad category.",
+                "false": "A stock category icon or arrangement of generic primitives could be reassigned to many brands without meaningful change; the explanation supplies the specificity.",
+            },
+        },
+        "meaningful_synthesis": {
+            "type": "noul",
+            "instructions": "Do the visible shape relationships in `candidate` express the brand promise in `brief`?",
+            "criteria": {
+                "true": "The actual construction communicates a purposeful relationship, action or visual idea grounded in the brand promise, with a coherent shared core motif.",
+                "false": "The shapes merely illustrate a category object or sit together decoratively while the claimed brand relationship remains in the prose.",
+            },
+        },
+        "constraint_fidelity": {
+            "type": "noul",
+            "instructions": "Does `candidate` honor the explicit direction and avoid-list in `brief`?",
+            "criteria": {
+                "true": "The visible design follows the actual user constraints, including required materials, topology and identity.",
+                "false": "The design contradicts a stated user constraint, despite being attractive or competently rendered.",
+            },
+        },
+        "communicative_clarity": {
+            "type": "noul",
+            "instructions": "Can the intended audience in `brief` read the core visual idea in `candidate` without the concept explanation?",
+            "criteria": {
+                "true": "The intended relationship is perceptible from the mark itself and supports the brand's purpose.",
+                "false": "A viewer needs the written concept explanation to discover the claimed meaning, or reads a conflicting idea.",
+            },
+        },
+        "small_flat": {
+            "type": "noul",
+            "instructions": "Does `flat_32px` preserve the intended core motif shown in `candidate`?",
+            "criteria": {
+                "true": "The flat master preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
+                "false": "The shared core collapses, merges or becomes a different mark at 32 px.",
+            },
+        },
+        "small_hero": {
+            "type": "noul",
+            "instructions": "Does `hero_32px` retain the core motif's identity from `candidate`?",
+            "criteria": {
+                "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
+                "false": "The core motif becomes unreadable or loses its identity at 32 px.",
+            },
+        },
+    }
+
+
+def technical_questions() -> dict[str, dict[str, Any]]:
+    """Independent image acceptance, never a diagnosis prescribing more samples."""
+    specs = {
+        "noise_free": (
+            "Is `candidate` free of distracting stochastic grain?",
+            "Gradients and shadows are visually clean.",
+            "Distracting random grain remains in gradients or shadows.",
+        ),
+        "detail_preserved": (
+            "Are the intended fine details in `candidate` preserved?",
+            "Strokes, counters and fine relief remain distinct.",
+            "Fine details are smeared, erased or merged, including by denoising.",
+        ),
+        "aliasing_free": (
+            "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+            "Edges have clean transitions at the delivered size.",
+            "Edges have visible jaggies, ringing or halos.",
+        ),
+        "structure_correct": (
+            "Does `candidate` have the intended structure described in `concept`?",
+            "The actual geometry and any lettering have the intended shapes and spelling.",
+            "Geometry or lettering is structurally wrong even if smooth and noise-free.",
+        ),
+    }
+    return {
+        qid: {"type": "noul", "instructions": ins, "criteria": {"true": yes, "false": no}}
+        for qid, (ins, yes, no) in specs.items()
+    }
+
+
 #: Minimum probability that a preview is at least "Pleasant" (level 2 of `appealing`).
 #: Jev's appeal levels run compressed: a hand-finished, owner-approved 3D mark scored
 #: an expected 1.8 of 4 with P(>= Pleasant) of 0.64-0.69, so an expected-value floor
@@ -410,8 +619,8 @@ def preview_screen_questions() -> dict[str, dict[str, Any]]:
             "criteria": [
                 "Unappealing: unpleasant to look at.",
                 "Plain: inoffensive but forgettable.",
-                "Pleasant: well-crafted and nice to look at.",
-                "Beautiful: striking craft and finish.",
+                "Pleasant: nice to look at.",
+                "Beautiful: visually striking.",
                 "Gorgeous: a mark worth keeping for years.",
             ],
         },
@@ -424,10 +633,10 @@ def preview_decision(answers: dict[str, dict[str, Any]]) -> tuple[bool, str]:
     read = noul_status(answers["readable_mark"]["noul"])
     appeal = float(answers["appealing"]["score"])
     pleasant = pleasant_probability(answers["appealing"])
-    if match == "no":
-        return False, "does not match its concept"
-    if read == "no":
-        return False, "mark unreadable"
+    if match != "yes":
+        return False, f"concept match {match}; requires review or revision"
+    if read != "yes":
+        return False, f"readability {read}; requires review or revision"
     if pleasant < PREVIEW_MIN_PLEASANT:
         return (
             False,
@@ -537,6 +746,9 @@ def describe() -> list[dict[str, Any]]:
         )
     )
     built.update(preview_screen_questions())
+    built.update(craft_questions())
+    built.update(fit_questions())
+    built.update(technical_questions())
     built.update(qa_questions())
 
     feeds = {
@@ -558,6 +770,10 @@ def describe() -> list[dict[str, Any]]:
         "matches_concept": "preview_decision -> finalists.json",
         "readable_mark": "preview_decision -> finalists.json",
         "appealing": "preview_decision -> finalists.json",
+        **dict.fromkeys(
+            (*craft_questions(), *fit_questions(), *technical_questions()),
+            "eligibility_decision -> qa/eligibility.jsonl (only pass advances)",
+        ),
     }
     thresholds = {
         "noul": f"yes >= {NOUL_YES}, no < {NOUL_NO}, else unsettled",

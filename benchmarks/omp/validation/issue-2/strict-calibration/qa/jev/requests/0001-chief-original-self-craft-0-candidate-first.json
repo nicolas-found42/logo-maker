@@ -1,0 +1,194 @@
+{
+  "seq": 1,
+  "label": "chief-original-self-craft-0-candidate-first",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "0613b5c900e24a53acb346d118b377d4",
+    "reference": "729c34056fe74e51bf107272cfc44b12",
+    "intended_appearances": {
+      "candidate": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons.",
+      "reference": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons."
+    },
+    "native_detail_views": {
+      "candidate": {
+        "x0_y0": "e2c528c342c94437a3047aca03c502b4",
+        "x1000_y0": "9c300fa801da40b18f00e42835907162",
+        "x0_y1000": "b956f10796c6448590da7fb111e0d15f",
+        "x1000_y1000": "8487ce38d8b343249817c19461a8c780"
+      },
+      "reference": {
+        "x0_y0": "fc21461e3342420f9080b7be9f8ec8b5",
+        "x1000_y0": "6621895e18b34e2daf4b6dc1cfbee5a8",
+        "x0_y1000": "1bff50d40aa44dd7887eeb2442a0d350",
+        "x1000_y1000": "8afc1fc508b7443fa84f158e71aecc46"
+      }
+    }
+  },
+  "questions": {
+    "form_finish": {
+      "type": "noul",
+      "instructions": "Are the candidate's contours and joins at least as deliberately finished as the reference's?",
+      "criteria": {
+        "true": "Contours and joins have comparable or better control for each object's intended treatment. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate has visibly accidental joins, malformed contours or unfinished intersections compared with the reference."
+      }
+    },
+    "surface_finish": {
+      "type": "noul",
+      "instructions": "Is the candidate's surface execution at least as controlled as the reference's for their respective intended appearances?",
+      "criteria": {
+        "true": "Each treatment has intentional surface transitions; muted and glossy finishes can be equally well executed. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate has uncontrolled surface artifacts or poorly resolved shading compared with the reference."
+      }
+    },
+    "detail_finish": {
+      "type": "noul",
+      "instructions": "Is the candidate's visible detail resolved at least as carefully as the reference's?",
+      "criteria": {
+        "true": "The candidate's own details are deliberate and resolved at the demonstrated execution level, including simpler designs. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate's details look crude, damaged, merged or unfinished relative to the demonstrated execution level."
+      }
+    },
+    "edge_refinement": {
+      "type": "noul",
+      "instructions": "Are the candidate's designed edge transitions as resolved as the reference's for their intended treatments?",
+      "criteria": {
+        "true": "Sharp, folded, cut, rounded or beveled edges each have deliberate consistent transitions; equality meets the floor. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "Unintended pinching, crude bevel ends, abrupt thickness changes or unfinished rims weaken the candidate."
+      }
+    },
+    "material_construction": {
+      "type": "noul",
+      "instructions": "Is the candidate's intended material realized with execution control comparable to the reference's intended material?",
+      "criteria": {
+        "true": "Thickness, surface response and transitions convincingly form the stated material, including deliberately matte or restrained materials. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate looks like an unrefined generic extrusion or has inconsistent material behavior for its intended treatment."
+      }
+    },
+    "proportion_control": {
+      "type": "noul",
+      "instructions": "Are the candidate's proportions as deliberately resolved as the reference's?",
+      "criteria": {
+        "true": "Relative masses, spacing and negative space look intentional and balanced at the demonstrated execution level. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate has accidental spacing, clumsy relative masses or unresolved negative spaces."
+      }
+    },
+    "visual_hierarchy": {
+      "type": "noul",
+      "instructions": "Does the candidate organize its primary and supporting forms with control comparable to the reference?",
+      "criteria": {
+        "true": "The core motif dominates clearly and supporting detail serves it; a simple design can fully meet this standard. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "Competing forms, weak focal structure or incidental detail obscure the core motif."
+      }
+    },
+    "lighting_control": {
+      "type": "noul",
+      "instructions": "Does the candidate's lighting articulate its intended form with control comparable to the reference?",
+      "criteria": {
+        "true": "Light reveals intended depth and material without obscuring important shapes, in either a restrained or high-contrast treatment. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "Flat, confusing, clipped or misplaced shading obscures the form or destroys the intended material response."
+      }
+    }
+  },
+  "assets": {
+    "0613b5c900e24a53acb346d118b377d4": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "729c34056fe74e51bf107272cfc44b12": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "e2c528c342c94437a3047aca03c502b4": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0089424981e0e64e7eb8132c10bae1cdabaae5843b0c8f22dd611c03c0fd925c",
+      "bytes": 243191
+    },
+    "9c300fa801da40b18f00e42835907162": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8a0368eebe1eec66f0fb6c3bc00ef09d77282ddcacc2990c47081f57791a7129",
+      "bytes": 274545
+    },
+    "b956f10796c6448590da7fb111e0d15f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "38387590b60520ef309ffbe810f5ba954aba2a029d211ceff659857edb331036",
+      "bytes": 284385
+    },
+    "8487ce38d8b343249817c19461a8c780": {
+      "type": "image",
+      "format": "png",
+      "sha256": "308415bcfb03a441a717cddc2d8d2192f919b730565c77d409671c885a5a4d56",
+      "bytes": 281532
+    },
+    "fc21461e3342420f9080b7be9f8ec8b5": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0089424981e0e64e7eb8132c10bae1cdabaae5843b0c8f22dd611c03c0fd925c",
+      "bytes": 243191
+    },
+    "6621895e18b34e2daf4b6dc1cfbee5a8": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8a0368eebe1eec66f0fb6c3bc00ef09d77282ddcacc2990c47081f57791a7129",
+      "bytes": 274545
+    },
+    "1bff50d40aa44dd7887eeb2442a0d350": {
+      "type": "image",
+      "format": "png",
+      "sha256": "38387590b60520ef309ffbe810f5ba954aba2a029d211ceff659857edb331036",
+      "bytes": 284385
+    },
+    "8afc1fc508b7443fa84f158e71aecc46": {
+      "type": "image",
+      "format": "png",
+      "sha256": "308415bcfb03a441a717cddc2d8d2192f919b730565c77d409671c885a5a4d56",
+      "bytes": 281532
+    }
+  },
+  "answers": {
+    "form_finish": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "surface_finish": {
+      "type": "noul",
+      "noul": 0.78
+    },
+    "detail_finish": {
+      "type": "noul",
+      "noul": 0.87
+    },
+    "edge_refinement": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "material_construction": {
+      "type": "noul",
+      "noul": 0.8
+    },
+    "proportion_control": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "visual_hierarchy": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "lighting_control": {
+      "type": "noul",
+      "noul": 0.83
+    }
+  },
+  "usage": {
+    "input_tokens": 29045,
+    "output_tokens": 150,
+    "cost": 0.00121989
+  }
+}

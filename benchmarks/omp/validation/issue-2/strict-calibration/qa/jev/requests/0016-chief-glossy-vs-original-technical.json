@@ -1,0 +1,117 @@
+{
+  "seq": 16,
+  "label": "chief-glossy-vs-original-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "9c10d8b1b3bc4058a00a3cbe4174dc91",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant that remembers the meeting so you make the call.",
+      "tone": [
+        "deliberate",
+        "clear"
+      ],
+      "intended_appearance": "A blue wax seal with highly reflective gold lettering and C/check, strong highlights and rounded edges; folded green ribbon tips."
+    },
+    "concept": {
+      "metaphor": "A serif C whose opening holds a check stroke; Chief of Staff remembers the meeting, you make the call.",
+      "treatment": "wax seal with ring legend and crossed ribbons"
+    },
+    "intended_appearance": "A blue wax seal with highly reflective gold lettering and C/check, strong highlights and rounded edges; folded green ribbon tips.",
+    "native_details": {
+      "x0_y0": "141ca280cfed45dd9d2b032ad2420320",
+      "x1000_y0": "b4bc91c184e7432a92d634cd6bde2ce1",
+      "x0_y1000": "3e1cd54c2e864df9b4cf86c4a6957821",
+      "x1000_y1000": "7949d391152e4caea87174630e91d52a"
+    }
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "9c10d8b1b3bc4058a00a3cbe4174dc91": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    },
+    "141ca280cfed45dd9d2b032ad2420320": {
+      "type": "image",
+      "format": "png",
+      "sha256": "1b96875d30b4a1100e583e24b1a290b86bba982f5d71aef4ab0dfcde53be3995",
+      "bytes": 405861
+    },
+    "b4bc91c184e7432a92d634cd6bde2ce1": {
+      "type": "image",
+      "format": "png",
+      "sha256": "ee8320043411c68339aa014aaf2be131842956e3b0f393463b5817e952c11c2d",
+      "bytes": 441535
+    },
+    "3e1cd54c2e864df9b4cf86c4a6957821": {
+      "type": "image",
+      "format": "png",
+      "sha256": "092ea8159d3889bc5fda27de8f4b4304ba5933c6675cd908b8ed451b3ead828a",
+      "bytes": 493748
+    },
+    "7949d391152e4caea87174630e91d52a": {
+      "type": "image",
+      "format": "png",
+      "sha256": "7e922db61260f008e8960a71d7bae92ce0f31e9a4fbb03e723224f767adcd2bf",
+      "bytes": 443427
+    }
+  },
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.87
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.82
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.7
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.77
+    }
+  },
+  "usage": {
+    "input_tokens": 14593,
+    "output_tokens": 75,
+    "cost": 0.000612906
+  }
+}

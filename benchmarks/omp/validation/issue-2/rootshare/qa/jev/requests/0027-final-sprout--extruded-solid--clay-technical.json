@@ -1,0 +1,140 @@
+{
+  "seq": 27,
+  "label": "final-sprout--extruded-solid--clay-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "c12623f5c9614351a717c77ac34dce32",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners share seeds and grow local biodiversity. The mark shows a sprout with two broad leaves on a central stem.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "practical"
+      ],
+      "intended_appearance": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A sprout with two broad leaves and a central stem: shared seeds growing in a neighborhood seed library.",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Soft modeling clay with a matte, hand-made look.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc.",
+    "native_details": {
+      "x0_y0": "ca3bab01df0c4b299d5e3811f3c81f8b",
+      "x1000_y0": "b0c1fd7c89b746f3b56b17373248be68",
+      "x0_y1000": "1e4f9787f2a4433191094dce5f147dc4",
+      "x1000_y1000": "8d5fda52c61c4cadaee532f21e6b9b7a"
+    }
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "c12623f5c9614351a717c77ac34dce32": {
+      "type": "image",
+      "format": "png",
+      "sha256": "fa33c37f8fb57024460f658d01cfe05459f5cbf3d6f2b98644d5b1adf26c972f",
+      "bytes": 195900
+    },
+    "ca3bab01df0c4b299d5e3811f3c81f8b": {
+      "type": "image",
+      "format": "png",
+      "sha256": "cc3fce6414789d20495784b2138bf23686ffe5d0f16a0c3340118b2c2f151d6a",
+      "bytes": 303846
+    },
+    "b0c1fd7c89b746f3b56b17373248be68": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e0041e7242df95cc90c80d6c780e516fe01ce345608d9b348ec928276f29b01f",
+      "bytes": 305849
+    },
+    "1e4f9787f2a4433191094dce5f147dc4": {
+      "type": "image",
+      "format": "png",
+      "sha256": "48606eb93605b2775b3b7a4b8baa49cb4a3f25f7e21d913e5bca999288806f97",
+      "bytes": 74749
+    },
+    "8d5fda52c61c4cadaee532f21e6b9b7a": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e496d57a30e4f270f6f88b8839846d1b8ed2f91c7b0e18eb9d8d5d7efcc6b8a5",
+      "bytes": 74710
+    }
+  },
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.82
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.65
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.92
+    }
+  },
+  "usage": {
+    "input_tokens": 14825,
+    "output_tokens": 75,
+    "cost": 0.00062265
+  }
+}

@@ -34,6 +34,13 @@ Create the folder: `logo-maker new <slug> --name "<Brand Name>"` (`--out DIR` pu
 Leave `[palette]` and `[fonts]` out unless the user or the brand already has them. Done when
 `logo-maker intake <slug>` gets past the brief check.
 
+Before selection, fill `intended_appearance` with the desired material response, gloss/reflection
+strength and edge character. Add an owner-supplied execution-quality floor with
+`[[references]]`, `use = "craft"`, its image `path`, and a `note` describing that reference's own
+intended finish. Obtain this evidence if absent. A craft reference demonstrates execution quality;
+the candidate's design, palette, lettering and material still come from its own brief.
+Style and geometry references have separate roles. Bundled examples never become an implicit floor.
+
 When the brief lacks a palette or fonts, intake asks for proposals in
 `ideation/proposals.toml`: write six `[[palette]]` entries with contrasting characters (each
 with `primary`, `secondary`, `accent`, `background`, `ink`) and six `[[fonts]]` pairings of real
@@ -90,12 +97,14 @@ rigs.
 `logo-maker run <slug>` again. It renders GPU previews, keeps 3 finalists judged on the images,
 renders finals at 4000 px, and runs up to five QA rounds per finalist (readable, nothing cut off,
 clean edges, no veil or box, recognizable at 32 px), fixing scenes after a clear fail (Jev P < 0.3
-on a check, or a code-detected veil, cut-off, or aliased edges). A head-to-head picks the winner and
+on a repairable check, or a code-detected veil or cut-off). Edge failures require diagnosis before
+changing sampling. A head-to-head among eligible final images picks the winner and
 the export set lands in `exports/`.
 
-When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl`: a `needs_simpler_motif` result
-means the mark lost its shape at 32 px. Simplify that motif (fewer, larger shapes; thicker strokes)
-and run again.
+When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl` and `qa/eligibility.jsonl`.
+For `needs_diagnosis`, inspect the failed checks and actual pixels. A 32 px recognition failure
+calls for simpler geometry; edge failures may involve resolution, filtering, alpha, denoising or
+geometry. Choose the repair from the observed cause and run again.
 
 ## 7. Report
 
@@ -111,6 +120,30 @@ Also report the export folder and the Jev cost from `run.json`.
 `logo-maker improve <slug>` archives the current round under `history/` and keeps the current logo
 as the floor. Write fresh metaphors (step 3) and motifs (step 5) as it asks. The new winner replaces
 the exports only when it beats the floor head-to-head on images; otherwise the current logo stays.
+
+## Visual eligibility
+
+Selection records independent craft, symbol fit, intended-appearance fit, technical acceptance
+and preference. Only settled craft/fit/technical passes can advance; equality meets the craft
+floor. Inspect `qa/eligibility.jsonl` and the retained request pixels in `qa/jev/` when the tool
+requests review. Missing evidence needs authoring; uncertainty needs review or revision; provider
+errors remain errors. A forced relative winner never supplies a missing eligibility pass.
+The strict rubric checks eight execution dimensions and eight brief/use dimensions, including a
+developed brand-specific idea and purposeful synthesis. A generic category symbol that merely
+matches its description is insufficient. Small-size views preserve the shared core; secondary
+hero lettering can disappear. Native-resolution detail tiles supplement the whole-image judgment.
+Record explicit owner rejection in `qa/owner-feedback.json` using the current image and brief
+hashes and concept ID; it vetoes advancement without relabeling model judgments or preference.
+Final selection repeats these checks on final pixels, including for a lone finalist. Export
+rejects stale evidence after changes to the brief, concept, recipe, reference or final image.
+Keep existing exports and the same-brand improvement floor when no candidate qualifies.
+
+Render-policy errors concern GPU tracing/denoising, independently of visual quality. CPU host
+construction, submission, analysis and file I/O are permitted. Report sampling limit/convergence
+as unknown when diagnostics are absent. Independent visual acceptance can pass a capped or
+unknown-limit image, with that limitation recorded; smooth denoised pixels alone do not prove
+detail preservation or correct structure. Generic edge failures request diagnosis rather than
+repeated sample increases. #5 owns qualified diagnosis-driven sampling profiles.
 
 ## MCP
 

@@ -1,0 +1,35 @@
+{
+  "assets": {},
+  "events": [
+    {
+      "at": "2026-11-10T15:37:40",
+      "failures": [],
+      "text": "qa sprout|extruded_solid|clay round 1: pass"
+    },
+    {
+      "at": "2026-11-10T15:43:15",
+      "failures": [],
+      "text": "qa sprout|extruded_solid|clay round 1: pass"
+    },
+    {
+      "at": "2026-11-10T15:45:14",
+      "failures": [],
+      "text": "qa sprout|extruded_solid|clay round 1: pass"
+    }
+  ],
+  "jev": {
+    "cost_usd": 0.012512,
+    "input_tokens": 297883,
+    "output_tokens": 2758,
+    "requests": 27
+  },
+  "seeds": {},
+  "stages": {
+    "finalize": {
+      "at": "2026-11-10T15:45:17",
+      "reason": "no final candidate meets the floor: sprout|extruded_solid|clay: fail",
+      "status": "review_needed"
+    }
+  },
+  "versions": {}
+}

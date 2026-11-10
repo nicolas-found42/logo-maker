@@ -208,6 +208,10 @@ def _screen_answers(match, read, appeal):
 
 
 def test_screen_previews_rank_and_keep(tmp_path):
+    from test_eligibility import attest, qualified_brief
+
+    from logo_maker.jev.questions import craft_questions, fit_questions, technical_questions
+
     logo = _logo(tmp_path)
     previews = {
         "m|embossed_plate|clay": tmp_path / "a.png",
@@ -217,16 +221,31 @@ def test_screen_previews_rank_and_keep(tmp_path):
     }
     _write_pool(logo, list(previews))
     for p in previews.values():
+        p.parent.mkdir(exist_ok=True)
         _PILImage.new("RGB", (32, 32), (10, 20, 30)).save(p)
+    previews = {cid: logo.concept(cid) / "preview.png" for cid in previews}
+    for p in previews.values():
+        _PILImage.new("RGB", (32, 32), (10, 20, 30)).save(p)
+        (p.parent / "motif.svg").write_text(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path id="mark" fill="#646464" d="M250 250 L750 250 L750 750 L250 750 Z"/></svg>'
+        )
+        attest(p.parent, "preview")
+    eligibility = [
+        {qid: {"noul": 0.9} for qid in craft_questions()},
+        {qid: {"noul": 0.9} for qid in craft_questions()},
+        {qid: {"noul": 0.9} for qid in fit_questions()},
+        {qid: {"noul": 0.9} for qid in technical_questions()},
+    ]
     client = FakeClient(
-        [
+        eligibility * len(previews)
+        + [
             _screen_answers(0.9, 0.9, 2.5),
             _screen_answers(0.9, 0.9, 3.5),
             _screen_answers(0.1, 0.9, 4.0),
             _screen_answers(0.9, 0.9, 1.0),
         ]
     )
-    finalists = screen_previews(logo, _brief(), previews, client, keep=2)
+    finalists = screen_previews(logo, qualified_brief(tmp_path / "a.png"), previews, client, keep=2)
     assert finalists == ["m|medallion|enamel", "m|embossed_plate|clay"]
     doc = json.loads((logo.ideation / "finalists.json").read_text())
     assert doc["ids"] == finalists

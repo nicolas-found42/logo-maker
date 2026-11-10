@@ -132,8 +132,9 @@ centerline as a swept tube), `voxels` (motif rasterized to cubes), `cad` (build1
 `logo_maker.render.render(concept_dir, quality)` runs `python -m logo_maker.blender.build` in a
 subprocess with the current interpreter and returns a `RenderResult` (png, blend, glb, seconds,
 execution). `execution` points to `.build/<quality>.execution.json` for the builder's Cycles
-render; its adjacent `.log` retains native denoiser diagnostics. Alternate renderer output is
-outside this Cycles execution attestation.
+render; its adjacent `.log` retains native denoiser diagnostics. Host postprocessing binds the
+delivered pixels and source files to that evidence. Alternate renderers currently lack equivalent
+verified GPU tracing/denoising and are rejected operationally at the public render boundary.
 
 | quality | resolution | samples | use |
 |---|---|---|---|
@@ -153,9 +154,8 @@ on a crash.
 Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
 Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
 timing scope; #5 can consume it without changing numeric defaults.
-When the scene asks for `mitsuba`, `luxcore`, or `three`, the builder exports meshes, materials,
-camera, and lights to `concepts/<slug>/meshes/scene_export.json`, and the matching renderer in
-`logo_maker/renderers/` renders from that.
+The alternate renderer modules remain available for development, but cannot supply production
+eligibility under the GPU-only contract until they have equivalent independent execution evidence.
 
 ### Qualification fixtures
 
@@ -170,6 +170,58 @@ different-material successes and held-out briefs, plus rejected Skill Swap contr
 leave qualification open. The small SSIM check covers renderer regression only.
 
 ### Jev
+
+### Visual eligibility (#2)
+
+`brief.toml` declares `intended_appearance` and repeatable `[[references]]` with
+`use = "craft"`. Each craft reference's `note` describes its intended treatment.
+These references demonstrate execution quality only: they do not supply the candidate's
+palette, geometry, lettering, material, symbolism or preferred finish. Style and geometry
+references retain their separate meanings. No bundled example is an implicit craft floor.
+
+Before preview finalists and again before the final tournament (including a lone survivor),
+compare the actual candidate and every craft reference in both presentation orders. Separate
+requests judge execution against the reference's demonstrated floor, symbol/concept fit,
+intended appearance, and technical image acceptance. The stricter rubric requires controlled
+contours/joins, surfaces, details, edge refinement, material construction, proportions, hierarchy
+and lighting. Own-brief fit additionally requires a developed brand-specific idea, purposeful
+visual synthesis, constraint fidelity and communicative clarity: merely depicting a category
+icon is insufficient. Every criterion is essential; appeal cannot compensate for one failure.
+Preference ranks only eligible candidates.
+Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
+position cannot establish eligibility. Fit requests receive the candidate's brief and concept,
+never the unrelated reference's design. Gloss, reflections and roundness are assessed relative
+to the two intended treatments, without a universal preference for either finish.
+
+Small-size judgments receive the actual flat master and the hero reduced to 32 px and enlarged
+with nearest-neighbor pixels; secondary hero lettering is not required at favicon size. Images
+larger than the provider's whole-image limit additionally supply every native-pixel tile for
+craft and technical checks. Separate sequential calls cover each reference/order, own-brief fit,
+and technical detail. `view_sha256` binds derived evidence; the transport retains the sent bytes.
+
+Every essential Noul uses the named bands in `questions.py`: yes passes, no fails, and
+unsettled requires review. Missing inputs produce `missing_evidence`; malformed answers and
+provider failures produce `api_error` and remain exceptions. `qa/eligibility.jsonl` retains
+per-dimension outcomes, both orders, source-image SHA-256s, brief/concept/recipe revision,
+rubric hash and sampling/execution evidence. The transport additionally retains the exact
+encoded pixels/model/questions. Render-policy failures are operational errors and never craft
+labels. Final eligibility must bind the current pixels and inputs; export rejects stale winner
+evidence. Failed selection leaves existing winner, exports and same-brand improvement floor
+untouched. `improve` still separately requires beating that brand's previous winner.
+An optional `qa/owner-feedback.json` array binds explicit owner feedback to candidate image,
+brief SHA-256 and concept ID. A craft or fit rejection vetoes advancement while preserving model
+answers. Owner approval does not replace any essential model/evidence gate. Changed feedback
+invalidates export proof, and unranked preference remains independent.
+
+Sampling evidence has separate noise, resource-limit, detail/structure and device fields.
+Absent sample-count diagnostics remain unknown, never convergence. A capped or diagnostically
+unknown image can qualify only through independently recorded full-image visual acceptance,
+with its limit/unknown state retained. Denoiser smoothing, persistent aliasing and wrong structure
+cannot be cured by passing craft/preference judgments. A generic edge failure requests diagnosis;
+it never automatically raises samples or changes the threshold. #5 owns future qualified
+profiles and bounded diagnosis-driven adjustments; baseline settings remain unchanged here.
+
+### Jev transport
 
 All wording and thresholds live in `logo_maker/jev/questions.py`. `logo_maker.jev.client.JevClient`
 sends requests to OpenRouter `POST https://openrouter.ai/api/alpha/decisions` (`OPENROUTER_API_KEY`,

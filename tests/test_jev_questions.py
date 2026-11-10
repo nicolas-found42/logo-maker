@@ -62,7 +62,7 @@ def test_preview_rows():
     # A compressed-but-pleasant answer (expected 1.8 < 2) still passes.
     assert Q.preview_decision(pv(0.9, 0.9, (0.08, 0.26, 0.47, 0.18, 0.01)))[0] is True
     keep, reason = Q.preview_decision(pv(0.5, 0.9, pleasant))
-    assert keep is True
+    assert keep is False
     assert "unsettled" in reason
 
 

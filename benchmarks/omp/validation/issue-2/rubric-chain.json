@@ -1,0 +1,77 @@
+{
+  "decision": {
+    "arguments": {
+      "decision": "Which extension best closes the observed eligibility gap while preserving treatment-neutral craftsmanship and independent dimensions?",
+      "candidates": [
+        {
+          "id": "more_strict_narrow_gates",
+          "description": "Add essential narrow reference-relative craft gates for controlled construction, edge refinement, material realization, hierarchy, proportion and lighting; separate semantic fit gates for brand specificity, meaningful visual synthesis, constraint fidelity and concept strength. Require all settled passes, inspect small flat/hero views and native detail crops. Keep preference and GPU policy separate."
+        },
+        {
+          "id": "raise_global_score",
+          "description": "Raise pleasantness and the overall quality probability threshold without changing the current question set."
+        },
+        {
+          "id": "mandatory_rich_finish",
+          "description": "Require complex geometry, highly glossy materials and many decorative details to match the Chief examples."
+        },
+        {
+          "id": "retain_current",
+          "description": "Keep the current craft form/surface/detail checks and literal symbol/appearance checks, with uncertainty blocked."
+        }
+      ],
+      "evidence": "Owner approved both restrained/muted and glossy/reflective/rounder Chief treatments as high craft; neither is universally preferred. Owner rejected Skill Swap studies. New held-out Rootshare matte terracotta sprout rendered with verified Metal-only tracing and OIDN Metal denoising at 4000->2000. Current actual image judgments: literal symbol pass and appearance pass; craft unsettled; aliasing unsettled. Owner explicitly judged Rootshare both below craft floor and below brief fit. The user now asks for more and stricter criteria, and a chain of several Jev calls to help extend them.",
+      "priorities": "Demand reference-level execution and meaningful fit for each brand's own brief. Avoid default copying of palette, geometry, material or finish. No aggregate compensations for essential failures. Missing/uncertain/API/device outcomes must remain explicit. GPUs are operational, not aesthetic. More gloss/complexity is not automatically better.",
+      "requirements": [
+        "Reject generic literal depiction when it lacks a developed brand-specific visual idea.",
+        "Permit restrained and glossy treatments of equally accomplished execution.",
+        "Keep craftsmanship independent from semantic/appearance fit and preference."
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"tool\": \"jev_decide\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"recommendation\": {\n    \"selected\": \"more_strict_narrow_gates\",\n    \"escaped\": false,\n    \"confidence\": 1,\n    \"probabilities\": {\n      \"more_strict_narrow_gates\": 1,\n      \"raise_global_score\": 0,\n      \"mandatory_rich_finish\": 0,\n      \"retain_current\": 0,\n      \"ask_user\": 0,\n      \"investigate\": 0,\n      \"none\": 0\n    },\n    \"contradicted_requirements\": []\n  },\n  \"requirements_checked\": 3,\n  \"checks\": [\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 0,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 1,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 2,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 1,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 1,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 0,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 1,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 2,\n      \"answer\": \"unknown\"\n    }\n  ],\n  \"warnings\": [],\n  \"usage\": {\n    \"input_tokens\": 2585,\n    \"output_tokens\": 602\n  }\n}"
+        }
+      ]
+    }
+  },
+  "criteria_review": {
+    "arguments": {
+      "context": [
+        {
+          "id": "decision",
+          "text": "{\n  \"tool\": \"jev_decide\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"recommendation\": {\n    \"selected\": \"more_strict_narrow_gates\",\n    \"escaped\": false,\n    \"confidence\": 1,\n    \"probabilities\": {\n      \"more_strict_narrow_gates\": 1,\n      \"raise_global_score\": 0,\n      \"mandatory_rich_finish\": 0,\n      \"retain_current\": 0,\n      \"ask_user\": 0,\n      \"investigate\": 0,\n      \"none\": 0\n    },\n    \"contradicted_requirements\": []\n  },\n  \"requirements_checked\": 3,\n  \"checks\": [\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 0,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 1,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"more_strict_narrow_gates\",\n      \"requirement\": 2,\n      \"answer\": \"supported\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 1,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"raise_global_score\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 0,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 1,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"mandatory_rich_finish\",\n      \"requirement\": 2,\n      \"answer\": \"contradicted\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 0,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 1,\n      \"answer\": \"unknown\"\n    },\n    {\n      \"candidate\": \"retain_current\",\n      \"requirement\": 2,\n      \"answer\": \"unknown\"\n    }\n  ],\n  \"warnings\": [],\n  \"usage\": {\n    \"input_tokens\": 2585,\n    \"output_tokens\": 602\n  }\n}"
+        },
+        {
+          "id": "proposed_criteria",
+          "text": "Craft, all essential and reference-relative: contours/joins, controlled surfaces, resolved detail, intentional proportion, visual hierarchy, clean edge transitions, convincing intended-material construction, readable controlled lighting. Fit, all essential and own-brief-only: visible symbol match, intended appearance, a developed brand-specific visual idea beyond a stock category icon, purposeful synthesis of shapes into the brand promise, compliance with avoid/direction, immediate communicative clarity. Small-size evidence: recognizable shared core motif in flat 32px and hero 32px; secondary hero lettering need not remain readable at favicon size. Technical image judgment receives full image plus four delivered-resolution quadrants (not downscaled thumbnails alone). Each Noul is independent; essential uncertain stays review-needed; a failed criterion cannot be compensated by appeal. Same existing yes/no bands, more substantive requirements. Both presentation orders, model/source/rubric hashes, owner labels recorded separately."
+        },
+        {
+          "id": "observed_failure",
+          "text": "Rootshare literal sprout and terracotta appearance passed under the earlier rubric, but owner judged both craftsmanship and brief fit below floor. Both Chief finishes are owner-approved craft positives; Skill Swap overall rejection does not identify every per-dimension defect."
+        }
+      ],
+      "propositions": [
+        "The proposed brand-specific-idea check addresses the observed gap where literal motif match passed but the owner rejected brief fit.",
+        "The proposed craftsmanship checks permit a restrained matte treatment to pass without copying the glossy reference material.",
+        "Native-resolution quadrant evidence supplies detail that a downscaled whole image alone may conceal.",
+        "The proposed small-size rule preserves the distinction between the core motif and secondary hero lettering.",
+        "The proposed all-essential-pass rule can still choose a candidate solely because a forced preference Choice favors it."
+      ]
+    },
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"tool\": \"jev_noul\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"status\": \"ok\",\n  \"results\": [\n    {\n      \"id\": \"proposition0\",\n      \"proposition\": \"The proposed brand-specific-idea check addresses the observed gap where literal motif match passed but the owner rejected brief fit.\",\n      \"probability\": 0.94,\n      \"label\": \"likely\",\n      \"auto\": true\n    },\n    {\n      \"id\": \"proposition1\",\n      \"proposition\": \"The proposed craftsmanship checks permit a restrained matte treatment to pass without copying the glossy reference material.\",\n      \"probability\": 0.73,\n      \"label\": \"uncertain\",\n      \"auto\": false\n    },\n    {\n      \"id\": \"proposition2\",\n      \"proposition\": \"Native-resolution quadrant evidence supplies detail that a downscaled whole image alone may conceal.\",\n      \"probability\": 0.94,\n      \"label\": \"likely\",\n      \"auto\": true\n    },\n    {\n      \"id\": \"proposition3\",\n      \"proposition\": \"The proposed small-size rule preserves the distinction between the core motif and secondary hero lettering.\",\n      \"probability\": 0.9,\n      \"label\": \"likely\",\n      \"auto\": true\n    },\n    {\n      \"id\": \"proposition4\",\n      \"proposition\": \"The proposed all-essential-pass rule can still choose a candidate solely because a forced preference Choice favors it.\",\n      \"probability\": 0.12,\n      \"label\": \"unlikely\",\n      \"auto\": true\n    }\n  ],\n  \"thresholds\": {\n    \"auto_accept\": 0.85\n  },\n  \"usage\": {\n    \"input_tokens\": 1764,\n    \"output_tokens\": 109\n  }\n}"
+        }
+      ]
+    }
+  },
+  "notes": [
+    "Exploratory rubric-design judgments, not actual-image qualification or owner approval.",
+    "The 0.73 treatment-neutrality judgment remained uncertain; expanded image calibration is retained separately."
+  ]
+}

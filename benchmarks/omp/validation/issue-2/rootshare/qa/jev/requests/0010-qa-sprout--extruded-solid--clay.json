@@ -1,0 +1,122 @@
+{
+  "seq": 10,
+  "label": "qa-sprout--extruded-solid--clay",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners share seeds and grow local biodiversity. The mark shows a sprout with two broad leaves on a central stem.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "practical"
+      ],
+      "intended_appearance": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept_id": "sprout|extruded_solid|clay",
+    "render": "ed81270c41a849b68eeb6349c4cab7b9",
+    "tiny": "ce240b66ca1049aea66702205bbc5e9f"
+  },
+  "questions": {
+    "motif_readable": {
+      "type": "noul",
+      "instructions": "Does the mark in `render` read as one clear motif?",
+      "criteria": {
+        "true": "The mark reads as a single clear shape.",
+        "false": "The mark is muddled, doubled, or falls apart visually."
+      }
+    },
+    "nothing_cut_off": {
+      "type": "noul",
+      "instructions": "Is the whole mark in `render` inside the frame with margin to spare?",
+      "criteria": {
+        "true": "The full mark is visible with clear margin around it.",
+        "false": "An edge of the mark is cropped by the frame."
+      }
+    },
+    "clean_edges": {
+      "type": "noul",
+      "instructions": "Are the mark's edges in `render` clean?",
+      "criteria": {
+        "true": "Edges are crisp with no jaggies, halos, or smears.",
+        "false": "Edges show jaggies, halos, noise, or compression smears."
+      }
+    },
+    "no_veil_or_box": {
+      "type": "noul",
+      "instructions": "Is the render in `render` free of fog, veils, dark boxes, and backdrop seams over the mark?",
+      "criteria": {
+        "true": "The mark sits cleanly with no veil, box, or seam across it.",
+        "false": "A fog patch, dark box, or seam crosses or frames the mark."
+      }
+    },
+    "recognizable_at_32px": {
+      "type": "noul",
+      "instructions": "Is the mark in `tiny` still recognizable as the same mark?",
+      "criteria": {
+        "true": "The tiny mark is still recognizable as the same design.",
+        "false": "The tiny mark is an unrecognizable blur or blob."
+      }
+    }
+  },
+  "assets": {
+    "ed81270c41a849b68eeb6349c4cab7b9": {
+      "type": "image",
+      "format": "png",
+      "sha256": "fa33c37f8fb57024460f658d01cfe05459f5cbf3d6f2b98644d5b1adf26c972f",
+      "bytes": 195900
+    },
+    "ce240b66ca1049aea66702205bbc5e9f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "235ff8df7152bb6dba4a58b6b675a948adad20e2fb0d199d7eb6ab920b3cbae1",
+      "bytes": 15552
+    }
+  },
+  "answers": {
+    "motif_readable": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "nothing_cut_off": {
+      "type": "noul",
+      "noul": 0.89
+    },
+    "clean_edges": {
+      "type": "noul",
+      "noul": 0.7
+    },
+    "no_veil_or_box": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "recognizable_at_32px": {
+      "type": "noul",
+      "noul": 0.91
+    }
+  },
+  "usage": {
+    "input_tokens": 6408,
+    "output_tokens": 103,
+    "cost": 0.000269136
+  }
+}

@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import shutil
-import subprocess
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -45,9 +43,11 @@ def test_example_concept_matches_reference(tmp_path: Path) -> None:
     )
 
 
-@pytest.mark.render
-def test_example_concept_renders_with_luxcore(tmp_path: Path) -> None:
-    """The scene export path plus LuxCore halts at its sample count and leaves a transparent background."""
+def test_unverified_alternate_renderer_is_operational_error(tmp_path: Path) -> None:
+    """An alternate engine cannot borrow the builder's Cycles GPU attestation."""
+    from logo_maker import pipeline, render
+    from logo_maker.proc import ToolError
+
     concept = tmp_path / "concept"
     shutil.copytree(
         EXAMPLE / "concept",
@@ -56,23 +56,6 @@ def test_example_concept_renders_with_luxcore(tmp_path: Path) -> None:
     )
     scene = concept / "scene.toml"
     scene.write_text(scene.read_text().replace('renderer = "cycles"', 'renderer = "luxcore"'))
-    script = (
-        "import sys\n"
-        "from pathlib import Path\n"
-        "from logo_maker import pipeline, render\n"
-        "pipeline.prepare_motif(Path(sys.argv[1]))\n"
-        "print(render.render(Path(sys.argv[1]), 'test').png)\n"
-    )
-    # A subprocess with a deadline: a LuxCore session that never halts blocks inside C++,
-    # so only killing the process turns that regression into a failure instead of a hung run.
-    done = subprocess.run(
-        [sys.executable, "-c", script, str(concept)],
-        capture_output=True,
-        text=True,
-        timeout=900,
-    )
-    assert done.returncode == 0, done.stderr[-2000:]
-    image = Image.open(done.stdout.strip().splitlines()[-1])
-    assert image.mode == "RGBA"
-    assert image.size == (256, 256)
-    assert image.getchannel("A").getextrema() == (0, 255)
+    pipeline.prepare_motif(concept)
+    with pytest.raises(ToolError, match="GPU-only policy"):
+        render.render(concept, "test")
