@@ -78,7 +78,7 @@ signal and did not disqualify its pixels from craft comparison.
 
 | Command | Observed result |
 | --- | --- |
-| `just test` | 245 offline tests passed; 4 GPU/live checks deselected |
+| `just test` | 246 offline tests passed after the reviewer-found remainder-tile fix; 4 GPU/live checks deselected |
 | `just type` | Passed |
 | `just lint` | Passed |
 | `just hooks` | Passed before evidence packaging; final packaged check recorded in the PR |

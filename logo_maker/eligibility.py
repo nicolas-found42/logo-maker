@@ -100,9 +100,14 @@ def _native_details(path: Path, dest: Path, name: str) -> dict[str, Image]:
         for y in range(0, source.height, 1000):
             for x in range(0, source.width, 1000):
                 tile = dest / f"{name}-{x}-{y}.png"
-                source.crop((x, y, min(x + 1000, source.width), min(y + 1000, source.height))).save(
-                    tile
-                )
+                crop = source.crop(
+                    (x, y, min(x + 1000, source.width), min(y + 1000, source.height))
+                ).convert("RGBA")
+                # Pad thin remainder strips so the transport's minimum side never
+                # upscales or filters their native detail pixels.
+                canvas = PILImage.new("RGBA", (1000, 1000))
+                canvas.paste(crop, (0, 0))
+                canvas.save(tile)
                 details[f"x{x}_y{y}"] = Image(tile)
         return details
 

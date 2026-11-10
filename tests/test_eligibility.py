@@ -425,3 +425,27 @@ def test_owner_rejection_vetoes_model_pass_without_relabeling_answers(tmp_path):
     assert record["decision_basis"] == "owner_rejection"
     assert record["fit"]["symbol"] == "pass"
     assert not (logo.ideation / "winner.json").exists()
+
+
+def test_reference_remainder_tiles_retain_native_pixels_without_upscaling(tmp_path):
+    from dataclasses import replace
+
+    from logo_maker.brief import Reference
+    from logo_maker.eligibility import assess
+
+    class InspectViews(EligibilityClient):
+        def ask(self, state, questions, *, label):
+            for tile in state.get("native_detail_views", {}).get("reference", {}).values():
+                with Image.open(tile.path) as pixels:
+                    assert pixels.size == (1000, 1000)
+                    assert pixels.getpixel((0, 0)) == (40, 80, 120, 255)
+            return super().ask(state, questions, label=label)
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    reference = tmp_path / "reference-1200.png"
+    Image.new("RGBA", (1200, 1200), (40, 80, 120, 255)).save(reference)
+    brief = replace(brief, references=(Reference(reference, "craft", "Matte finish"),))
+    result = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", InspectViews(), stage="final"
+    )
+    assert result["status"] == "pass"
