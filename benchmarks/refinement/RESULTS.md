@@ -154,6 +154,9 @@ The combined refinement/sampling tests passed **39 tests**; an independent Spec 
 that result. The full offline suite passed **257 tests**, with 3 render/profile tests deselected and
 49 upstream deprecation warnings. Lint/types passed, and the selected actual Cycles regression passed
 in 3.86 seconds. Standards and Spec follow-up reviews found no new actionable integration findings.
+Doctor was rerun by importing the package from this reconciled checkout and printing
+`logo_maker.__file__` before invoking `cli.main(["doctor"])`: **47/47 passed**, including the
+inherited `system-ps` adapter. The earlier 46/46 result belongs to the f3d0f15 checkpoint.
 
 Fresh paper/metal GPU previews were opened, inspected and resumed into actual live creative/comparison
 judgments without another render. Both remain `authoring_needed`. Each replay's distinctness probability
