@@ -237,9 +237,11 @@ not calibrated image-quality acceptance. The owner's 0.02 rejection remains unch
 A separate 1.57 s live CPU compilation probe verified Poly Haven asset-event transport;
 it is not another GPU render or a visual qualification case.
 
-Whole-job hard-bound acceptance remains **partial**: profile/control JSON and hashes,
-light publication/export provenance, and QA/provider work retain cooperative parent
-boundaries. Positive/held-out owner qualification and a qualified profile remain absent.
+At that source revision, whole-job hard-bound acceptance remained **partial**:
+profile/control JSON and hashes, publication/export provenance, and QA/provider work
+retained cooperative parent boundaries. The control/provenance follow-up below
+supersedes those two read-path gaps. Positive/held-out owner qualification and a qualified
+profile remain absent.
 
 ## Coordination with refinement and acceptance
 
@@ -259,3 +261,52 @@ confidence to test counts and questioned the first measurement pair at 0.14 conf
 An independent reviewer checked the original logs/images/native evidence and all 62 export
 hashes, supporting those narrow observations. The broad escalation remains unresolved;
 there is no automated merge recommendation.
+
+## Owned sampling controls and export provenance
+
+Profile/diagnosis loading and profile qualification evidence reads now run in the
+owned host worker. Effective settings and explicit overrides cross the worker as
+JSON, along with qualification, diagnosis and hashes of the exact control bytes.
+The override regression uses a real synthetic profile instead of mocking internal
+qualification functions. Its synthetic review labels are test inputs only.
+
+Export now reads and hashes provenance and the delivered image inside its existing
+owned worker. The manifest embeds the exact provenance bytes that were parsed,
+without a later independent provenance read in the parent. Public-seam FIFO checks
+reproduced blocked profile and export provenance calls taking 10.665 / 10.015 seconds
+under six-second budgets. Their green single-test suites finished in 5.12 / 5.22 seconds;
+these are test-suite durations, not precise render timings. The tests preserve prior
+outputs and start no render attempt; diagnosis loading uses the same boundary.
+The formerly undocumented macOS sysctl dependency now has an adapter and source-linked
+BSD-3-Clause notice. Local checks passed **235 offline / 3 render / 48 doctor**,
+plus lint and types. Final hooks and current-head CI are reported separately.
+
+Whole-job hard bounds are still **partial**. Parent publication/manifest bookkeeping,
+QA/provider work and #3 caller-side hashing/archival remain cooperative. Export also
+has a pre-existing concurrent-input race between final-image hash verification and
+its later image read; qualification does not cover concurrent edits to that source.
+Owner-reviewed positive/degraded/held-out qualification remains incomplete. Nothing
+in these operational fixes approves 0.02 or rates the cap-16 control.
+
+Three additional production jobs are retained in
+[controls-provenance-production.json](validation/controls-provenance-production.json).
+One baseline overlapped offline tests and is excluded from comparison. The other
+baseline/current pair ran sequentially after tests, at unchanged 4096 / 0.01, seed 0.
+Complete invocation times were **46.44 / 48.91 s**; body times were **46.19 / 48.72 s**.
+Each arm has actual Metal-only tracing, executed Metal OIDN, 4000→2000 delivery and
+31 verified export hashes. The current manifest embeds the exact final sampling
+record and matches its hash. Current dependency hashes match the measured source.
+Module fingerprints bind the baseline to the starting revision and current to this source. One
+observation per arm, unknown other machine load/cache and unmeasured later review
+prevent distribution, speedup or visual-quality conclusions.
+
+The control/provenance Jev gate escalated (composite 0.336, safe-to-apply 0.09),
+questioning test counts and red/green claims at confidences 0.44 / 0.48, and labeling
+the override claim unsupported at 0.67. An independent reviewer then read raw logs
+and current source: counts are supported; exact failing-call durations differ from
+the green suite durations as clarified above; override behavior is supported by the
+real synthetic-profile test with mocked GPU execution. These narrow factual questions
+are resolved by direct evidence; the broad escalation remains unresolved, without
+automatic merge approval. See
+[the raw gate](validation/jev-gate-controls-provenance.json) and
+[review record](validation/code-review.md).

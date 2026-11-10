@@ -17,7 +17,7 @@ from pathlib import Path
 
 from logo_maker import owned_process
 from logo_maker.proc import ToolError
-from logo_maker.sampling import Budget, SamplingLimit, Settings, decide, qualify_profile
+from logo_maker.sampling import Budget, SamplingLimit, Settings, decide
 from logo_maker.sampling_diagnostics import sha256
 
 #: Seconds before a GPU render is declared stuck. Never kill earlier: the first
@@ -123,23 +123,6 @@ def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
     return {str(p): sha256(p) for p in sorted(paths)}
 
 
-def _load_optional(folder: Path, name: str | None) -> dict | None:
-    if not name:
-        return None
-    path = Path(name)
-    if not path.is_absolute():
-        path = folder / path
-    data = json.loads(path.read_text())
-    for case in data.get("cases", []):
-        evidence = case.get("evidence", {})
-        if evidence.get("path"):
-            review = Path(evidence["path"])
-            evidence["path"] = str(
-                review if review.is_absolute() else (path.parent / review).resolve()
-            )
-    return data
-
-
 def _host_work(payload: dict, budget: Budget, stages: list[dict]) -> dict:
     started = time.monotonic()
     status = "failed"
@@ -241,14 +224,6 @@ def render(
         )
         env = machine_context(budget)
         deps = compiled["dependencies"]
-        controls = {}
-        for field in ("profile", "diagnosis"):
-            if config.get(field):
-                control = Path(config[field])
-                if not control.is_absolute():
-                    control = concept_dir / control
-                controls[str(control.resolve())] = sha256(control)
-        job["control_files_sha256"] = controls
         render_scope = {
             k: v
             for k, v in scene_data["render"].items()
@@ -272,34 +247,22 @@ def render(
         }
         if any(o.get("kind") == "bpy" for o in scene_data.get("objects", [])):
             context["custom_scene_sha256"] = deps.get(str(concept_dir / "scene.py"), "unknown")
-        profile = _load_optional(concept_dir, config.get("profile"))
-        profile_state, reason = qualify_profile(profile, context)
-        effective = scene_data["quality"]
+        controls = _host_work(
+            {
+                "operation": "sampling_controls",
+                "concept_dir": str(concept_dir),
+                "config": config,
+                "context": context,
+                "quality": scene_data["quality"],
+            },
+            budget,
+            job["host_stages"],
+        )
+        effective = controls["quality"]
+        scene_data["quality"] = effective
         overrides = effective.get("overrides", {})
-        if profile_state == "qualified" and profile:
-            selected = profile["settings"]
-            for key in ("samples", "adaptive_threshold", "min_samples", "adaptive"):
-                override_name = "max_samples" if key == "samples" else key
-                if override_name not in overrides:
-                    effective[key] = selected[key]
-            conflicts = [
-                k
-                for k in ("samples", "adaptive_threshold", "min_samples", "adaptive")
-                if effective.get(k, 0 if k == "min_samples" else None)
-                != selected.get(k, 0 if k == "min_samples" else None)
-            ]
-            if conflicts:
-                profile_state, reason = (
-                    "override_conflict",
-                    "explicit controls outside qualified settings: " + ", ".join(conflicts),
-                )
-            for case in profile.get("cases", []):
-                evidence = case.get("evidence", {})
-                if evidence.get("path"):
-                    controls[evidence["path"]] = sha256(Path(evidence["path"]))
-        from logo_maker.sampling import validate_settings
-
-        validate_settings(Settings.from_quality(effective))
+        profile_state, reason = controls["profile"]
+        job["control_files_sha256"] = controls["hashes"]
         job.update(
             context=context,
             profile={"state": profile_state, "reason": reason},
@@ -307,7 +270,7 @@ def render(
             overrides=overrides,
             source_key=content_key({"scene": scene_data, "dependencies": deps}),
         )
-        diagnosis = _load_optional(concept_dir, config.get("diagnosis"))
+        diagnosis = controls["diagnosis"]
         while True:
             budget.check()
             candidate_started = time.monotonic()
