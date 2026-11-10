@@ -1,0 +1,60 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final ______
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-225/test_stalled_compilation_stops0')
+
+    def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(tmp_path):
+        """A blocked source read cannot keep the render caller waiting indefinitely."""
+        import contextlib
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded host workers target macOS/Linux")
+        (tmp_path / "scene.toml").write_text(
+            '[meta]\nconcept="test|plate|wax"\ntreatment="embossed_plate"\nseed=0\n'
+            '[lighting]\nhdri="none"\n[materials.surface]\npreset="wax"\n'
+            '[[components]]\nkind="plate"\nmaterial="surface"\n'
+        )
+        source = tmp_path / "motif.json"
+        os.mkfifo(source)
+        prior = tmp_path / "final.png"
+        prior.write_bytes(b"approved prior final")
+        stop = threading.Event()
+
+        def release_old_unbounded_call():
+            descriptor = None
+            try:
+                while not stop.is_set():
+                    try:
+                        descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                        break
+                    except OSError:
+                        stop.wait(0.01)
+                if descriptor is not None and not stop.wait(10):
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b'{"layers":[]}')
+            finally:
+                if descriptor is not None:
+                    os.close(descriptor)
+
+        releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        releaser.start()
+        started = time.monotonic()
+        try:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+                render.render(tmp_path, "final", budget=Budget(wall_seconds=6))
+>           assert time.monotonic() - started < 9, "compile overran the caller's wall budget"
+E           AssertionError: compile overran the caller's wall budget
+E           assert (101505.548327875 - 101495.523599416) < 9
+E            +  where 101505.548327875 = <built-in function monotonic>()
+E            +    where <built-in function monotonic> = <module 'time' (built-in)>.monotonic
+
+tests/test_sampling_render.py:108: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final
+1 failed, 9 deselected in 10.33s

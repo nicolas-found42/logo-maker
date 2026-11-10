@@ -69,3 +69,70 @@ evidence. All four limited completion claims were verified (none contradicted/un
 with low confidence remaining on the operational artifact claims. The broad patch review
 still escalated: composite 0.583640625, safe-to-apply 0.14. It remains a review-needed signal,
 not an automated acceptance or merge recommendation. Owner qualification remains open.
+
+## Export cleanup and owner feedback follow-up
+
+Both reviewers rechecked the owned-process cleanup change. Standards found that grace must
+follow group liveness after Python exits; Spec found cleanup must also run on inner-tool
+failure. Both findings were fixed. The delayed launcher-hook regressions failed before the
+fix and pass afterward for timeout and inner failure, preserving prior exports. Both final
+focused reviews report no further actionable findings. Claims remain limited to owned
+POSIX sessions and supported launcher cleanup hooks. The earlier hosted PWA timeout has
+unknown root cause; an unchanged successful rerun does not prove this fix resolved it.
+
+Final checks: 226 offline tests and 3 render/adapter/runtime checks pass; lint, types and
+hooks pass. Four later production smokes remain separate from the original cost matrix.
+The owner rejected threshold 0.02 in the shown typography/glass comparisons. This replaces
+the agent's provisional visual assessment. The cap-16 control is unrated; no positive or
+held-out profile qualification is inferred. The prior broad Jev escalation remains retained.
+
+The narrow final cleanup Jev gate also escalated (composite 0.63125, safe-to-apply 0.19).
+All three limited claims were verified; the test-count claim confidence was 0.79, below
+its 0.8 automatic threshold. No claim was contradicted or unsupported. This does not
+replace the broad gate or establish automatic acceptance. See `jev-gate-cleanup.json`.
+
+## Hosted macOS process-state correction
+
+Both independent reviewers found no actionable issue in the focused EPERM correction.
+The adapter, docs, notices and bounded ID/state inspection follow the contract. Real
+zombie/live process regressions were observed red then green. Offline 228 / render 3 /
+doctor47 checks pass. The Jev gate-process-state result escalated composite0.56225,
+safe-to-apply0.24; it also returned a low-confidence contradiction on the red/green and
+pending-hosted claim. The independent Spec reviewer then read the exact retained red and
+green logs and confirmed the claim: both parameter cases failed before; eight export
+tests passed afterward. This resolves the narrow factual question independently, without
+overruling the broad review escalation or asserting hosted success.
+
+## Lifecycle fixture timing re-review
+
+Both reviewers approved the tests-only allowance for slow hosted setup: 20-second test
+budget and 60-second fake-browser lifetime preserve the lifecycle regression. Production
+settings and budgets are unchanged. Final offline228, lint/types/hooks pass. The narrow
+test-timing gate remains escalated (composite0.82275, safe-to-apply0.61); local-check claim
+verified.98, tests-only/pending-hosted claim unsupported. No hosted pass is inferred.
+
+## Owned host stages: fresh Standards and Spec reviews
+
+Fresh independent agents reviewed the approved starting revision plus the current host
+delta. Standards: no hard documented violation; optional typed RPC records if the small
+protocol grows. Spec: no new actionable mismatch in owned config/compile/dependency/image/
+cache work; whole-pipeline and qualification requirements remain partial. Both endorse
+explicit callback conflict with returned asset records, rather than pickling side effects.
+
+The new gate escalated composite0.580431818, safe-to-apply0.14. Test-count confidence.26;
+the first M5 pair was questioned at confidence.14. The independent Spec reviewer then
+read original logs:232offline/3render/47doctor, observed48.762266417/51.067629958s, Metal
+only/MetalOIDN4k, delivered2k and all62export hashes match. This resolves the narrow factual
+question, not the broad review signal, timing reconstruction or visual qualification.
+A second instrumented pair binds the baseline module to the starting revision and measures outer
+invocations; details and scope are retained separately.
+
+PR #8 integration was checked in a temporary merged archive, without branch mutation:
+2failed/255passed/3deselected. Inspection mode must be carried into the cache worker, and
+creative dependency/policy-file semantics preserved. #3 current/capture archival remains
+unbounded. These are explicit integration gaps, not a passing combined-stack claim.
+
+The separate invocation-measurement delta gate verified its narrow claim at confidence0.64
+but escalated (composite0.85875, safe-to-apply0.58) for low-confidence test coverage. Its
+actual measurement files, source fingerprints and timer scope are retained. It does not
+replace any earlier gate or supply performance/visual qualification.

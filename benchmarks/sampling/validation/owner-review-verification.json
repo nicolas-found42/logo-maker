@@ -1,0 +1,61 @@
+{
+  "tool": "jev_verify",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "auto_accept": 0.8,
+  "subject_at": 0.5,
+  "summary": {
+    "verified": 3,
+    "contradicted": 0,
+    "unsupported": 0,
+    "needs_review": 0
+  },
+  "results": [
+    {
+      "id": "claim0",
+      "claim": "The owner rejected threshold 0.02 at cap4096 in the shown typography and glass comparisons for loss of needed detail.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 0.94,
+        "contradicts": 0.06,
+        "says_nothing": 0
+      },
+      "confidence": 0.91,
+      "action": "auto",
+      "supporting_evidence": "owner-response",
+      "same_subject": 0.97
+    },
+    {
+      "id": "claim1",
+      "claim": "The cap16 control remains owner-unrated; no absolute positive or transfer approval of the 0.01 baseline is inferred.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 1,
+        "contradicts": 0,
+        "says_nothing": 0
+      },
+      "confidence": 1,
+      "action": "auto",
+      "supporting_evidence": "owner-response",
+      "same_subject": 0.95
+    },
+    {
+      "id": "claim2",
+      "claim": "Hosted CI attempt1 failed at a 300-second PWA helper timeout; attempt2 on the unchanged head passed. The underlying cause remains unknown.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 0.99,
+        "contradicts": 0.01,
+        "says_nothing": 0
+      },
+      "confidence": 0.98,
+      "action": "auto",
+      "supporting_evidence": "ci-observed",
+      "same_subject": 0.99
+    }
+  ],
+  "usage": {
+    "input_tokens": 1703,
+    "output_tokens": 314
+  }
+}

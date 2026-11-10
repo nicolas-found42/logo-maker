@@ -1,0 +1,115 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "review_escalated",
+    "claims_unsupported",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.61,
+    "scores": {
+      "correctness": {
+        "score": 1.56,
+        "confidence": 0.32,
+        "probabilities": {
+          "0": 0.09,
+          "1": 0.27,
+          "2": 0.64
+        }
+      },
+      "spec_match": {
+        "score": 1.67,
+        "confidence": 0.51,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.29,
+          "2": 0.69
+        }
+      },
+      "test_gap": {
+        "score": 0.49,
+        "confidence": 0.26,
+        "probabilities": {
+          "0": 0.67,
+          "1": 0.17,
+          "2": 0.16
+        }
+      },
+      "blast_radius": {
+        "score": 0.04,
+        "confidence": 0.94,
+        "probabilities": {
+          "0": 0.97,
+          "1": 0.02,
+          "2": 0.01
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.82275,
+    "reason_codes": [
+      "confidence_below_review"
+    ],
+    "limiting_rubrics": [
+      "test_gap"
+    ]
+  },
+  "verification": {
+    "action": "review",
+    "summary": {
+      "verified": 1,
+      "contradicted": 0,
+      "unsupported": 1,
+      "needs_review": 1,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "The final local offline suite passes228; lint/types/hooks pass.",
+        "verdict": "verified",
+        "confidence": 0.98,
+        "probabilities": {
+          "verified": 0.99,
+          "contradicted": 0,
+          "unsupported": 0.01
+        },
+        "action": "auto"
+      },
+      {
+        "claim": "This delta changes test timing only; production budgets are unchanged, and hosted validation of this delta remains pending.",
+        "verdict": "unsupported",
+        "confidence": 0.56,
+        "probabilities": {
+          "verified": 0.23,
+          "contradicted": 0.06,
+          "unsupported": 0.71
+        },
+        "action": "review"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 2424,
+    "output_tokens": 158
+  }
+}

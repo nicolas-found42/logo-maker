@@ -12,7 +12,6 @@ import hashlib
 import json
 import re
 import shutil
-import subprocess
 import sys
 import time
 import uuid
@@ -21,6 +20,7 @@ from tempfile import TemporaryDirectory
 
 from PIL import Image, ImageDraw
 
+from logo_maker import owned_process
 from logo_maker.checks import OBJECT_ALPHA, alpha_report, margin_report
 from logo_maker.imageops import downsample, pad_square, soft_shadow
 from logo_maker.proc import node
@@ -407,19 +407,12 @@ def export_all(
             "palette": palette,
             "motif_svg": str(Path(motif_svg).resolve()),
         }
-        try:
-            proc = subprocess.run(
-                [sys.executable, "-m", "logo_maker.export"],
-                input=json.dumps(payload),
-                text=True,
-                capture_output=True,
-                timeout=budget.remaining,
-                check=False,
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise SamplingLimit(
-                "time_limit: export deadline exhausted; prior exports retained"
-            ) from exc
+        proc = owned_process.run(
+            [sys.executable, "-m", "logo_maker.export"],
+            input_text=json.dumps(payload),
+            budget=budget,
+            label="export",
+        )
         if proc.returncode:
             raise ExportError((proc.stderr or proc.stdout)[-2000:])
         budget.check()

@@ -1,0 +1,103 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "review_escalated",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.58,
+    "scores": {
+      "correctness": {
+        "score": 1.8,
+        "confidence": 0.7,
+        "probabilities": {
+          "0": 0.04,
+          "1": 0.12,
+          "2": 0.84
+        }
+      },
+      "spec_match": {
+        "score": 1.9,
+        "confidence": 0.85,
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.08,
+          "2": 0.91
+        }
+      },
+      "test_gap": {
+        "score": 0.58,
+        "confidence": 0.15,
+        "probabilities": {
+          "0": 0.61,
+          "1": 0.21,
+          "2": 0.18
+        }
+      },
+      "blast_radius": {
+        "score": 0.57,
+        "confidence": 0.16,
+        "probabilities": {
+          "0": 0.55,
+          "1": 0.34,
+          "2": 0.11
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.8587500000000001,
+    "reason_codes": [
+      "confidence_below_review"
+    ],
+    "limiting_rubrics": [
+      "test_gap"
+    ]
+  },
+  "verification": {
+    "action": "review",
+    "summary": {
+      "verified": 1,
+      "contradicted": 0,
+      "unsupported": 0,
+      "needs_review": 1,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "The two new measurement files report outer invocation times of 47.6144655 seconds for baseline and 49.2399103 seconds for current. They separately retain body times and excluded post-run evidence work.",
+        "verdict": "verified",
+        "confidence": 0.64,
+        "probabilities": {
+          "verified": 0.76,
+          "contradicted": 0.2,
+          "unsupported": 0.04
+        },
+        "action": "review"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 3661,
+    "output_tokens": 118
+  }
+}

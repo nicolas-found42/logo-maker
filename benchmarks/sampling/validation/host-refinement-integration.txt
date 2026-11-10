@@ -1,0 +1,154 @@
+........................................................................ [ 28%]
+........................................................................ [ 56%]
+....F............................F...................................... [ 84%]
+.........................................                                [100%]
+=================================== FAILURES ===================================
+___ test_custom_preview_can_be_inspected_without_qualifying_production_reuse ___
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-245/test_custom_preview_can_be_ins0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e7a2120>
+
+    def test_custom_preview_can_be_inspected_without_qualifying_production_reuse(tmp_path, monkeypatch):
+        from logo_maker import render
+
+        logo, cid, folder = job(tmp_path)
+        construction(folder)
+        fake_gpu(monkeypatch, custom_scope=True, sampling_qualified=False)
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+        with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+>           pipeline.refine(logo, Judge())
+
+tests/test_refinement.py:596:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+logo_maker/pipeline.py:365: in refine
+    record = refinement.capture(logo, cid, "preview", budget=budget)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/refinement.py:149: in capture
+    cached = current(logo, cid, quality, budget=budget)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/refinement.py:139: in current
+    return record if check(folder, quality, budget=budget) else None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/render.py:627: in inspection_artifact_current
+    return _artifact_current(
+logo_maker/render.py:643: in _artifact_current
+    snapshot = _host_work(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'operation': 'artifact_current', 'concept_dir': '/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-245/test_custom_preview_can_be_ins0/logo/concepts/exchange--paper--paper', 'quality': 'preview'}
+budget = <logo_maker.sampling.Budget object at 0x122ee2d50>
+stages = [{'operation': 'artifact_current', 'status': 'failed', 'seconds': 0.05028362500888761, 'execution': 'owned_cpu_worker', ...}]
+
+    def _host_work(payload: dict, budget: Budget, stages: list[dict]) -> dict:
+        started = time.monotonic()
+        status = "failed"
+        try:
+            proc = owned_process.run(
+                [sys.executable, "-m", "logo_maker.host"],
+                input_text=json.dumps(payload),
+                budget=budget,
+                label=payload["operation"],
+            )
+            if proc.returncode:
+>               raise ToolError(
+                    f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
+                )
+E               logo_maker.proc.ToolError: host artifact_current failed: Traceback (most recent call last):
+E                 File "<frozen runpy>", line 203, in _run_module_as_main
+E                 File "<frozen runpy>", line 88, in _run_code
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/host.py", line 65, in <module>
+E                   print(json.dumps(main(json.loads(sys.stdin.read()))), flush=True)
+E                                    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/host.py", line 54, in main
+E                   current = _artifact_current_local(folder, payload["quality"])
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/render.py", line 662, in _artifact_current_local
+E                   if "custom_scene_sha256" in record.get("context", {}) and not inspection_only:
+E                                                                                 ^^^^^^^^^^^^^^^
+E               NameError: name 'inspection_only' is not defined
+
+logo_maker/render.py:172: ToolError
+________ test_custom_bpy_cache_without_dependency_inventory_is_unknown _________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-245/test_custom_bpy_cache_without_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x122fa0360>
+
+    def test_custom_bpy_cache_without_dependency_inventory_is_unknown(tmp_path, monkeypatch):
+        compiled(tmp_path)
+        monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+        def builder(path, *args, budget):
+            budget.begin_attempt()
+            spec = json.loads(path.read_text())
+            folder = Path(spec["output_dir"])
+            Image.new("RGBA", (64, 64), (1, 2, 3, 255)).save(folder / "final.png")
+            (folder / "final.execution.json").write_text('{"status":"verified"}')
+
+        monkeypatch.setattr(render, "_run_builder", builder)
+        result = render.render(tmp_path, "final", budget=Budget())
+        assert result.sampling is not None
+        assert render.artifact_current(tmp_path, "final", check_machine=False)
+        record = json.loads(result.sampling.read_text())
+        record["context"]["custom_scene_sha256"] = "custom source can read unlisted files"
+        result.sampling.write_text(json.dumps(record))
+>       assert not render.artifact_current(tmp_path, "final", check_machine=False)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_sampling_render.py:378:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+logo_maker/render.py:620: in artifact_current
+    return _artifact_current(concept_dir, quality, check_machine=check_machine, budget=budget)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/render.py:643: in _artifact_current
+    snapshot = _host_work(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'operation': 'artifact_current', 'concept_dir': '/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-245/test_custom_bpy_cache_without_0', 'quality': 'final'}
+budget = <logo_maker.sampling.Budget object at 0x122ee3f50>
+stages = [{'operation': 'artifact_current', 'status': 'failed', 'seconds': 0.0522876670002006, 'execution': 'owned_cpu_worker', ...}]
+
+    def _host_work(payload: dict, budget: Budget, stages: list[dict]) -> dict:
+        started = time.monotonic()
+        status = "failed"
+        try:
+            proc = owned_process.run(
+                [sys.executable, "-m", "logo_maker.host"],
+                input_text=json.dumps(payload),
+                budget=budget,
+                label=payload["operation"],
+            )
+            if proc.returncode:
+>               raise ToolError(
+                    f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
+                )
+E               logo_maker.proc.ToolError: host artifact_current failed: Traceback (most recent call last):
+E                 File "<frozen runpy>", line 203, in _run_module_as_main
+E                 File "<frozen runpy>", line 88, in _run_code
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/host.py", line 65, in <module>
+E                   print(json.dumps(main(json.loads(sys.stdin.read()))), flush=True)
+E                                    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/host.py", line 54, in main
+E                   current = _artifact_current_local(folder, payload["quality"])
+E                 File "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-host-integration-ss_8qmaz/logo_maker/render.py", line 662, in _artifact_current_local
+E                   if "custom_scene_sha256" in record.get("context", {}) and not inspection_only:
+E                                                                                 ^^^^^^^^^^^^^^^
+E               NameError: name 'inspection_only' is not defined
+
+logo_maker/render.py:172: ToolError
+=============================== warnings summary ===============================
+tests/test_geometry.py: 48 warnings
+  /Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    ar.shape = shape
+
+tests/test_geometry.py::test_sweeps_and_solids_watertight
+  /Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    faces.shape = -1, 3
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_refinement.py::test_custom_preview_can_be_inspected_without_qualifying_production_reuse
+FAILED tests/test_sampling_render.py::test_custom_bpy_cache_without_dependency_inventory_is_unknown
+2 failed, 255 passed, 3 deselected, 49 warnings in 78.05s (0:01:18)

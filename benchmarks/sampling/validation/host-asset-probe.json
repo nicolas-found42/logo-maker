@@ -1,0 +1,22 @@
+{
+  "status": "verified",
+  "purpose": "live CPU host asset-event transport only; no GPU render or quality qualification",
+  "assets": [
+    {
+      "key": "hdri:poly_haven_studio",
+      "source": "https://polyhaven.com/a/poly_haven_studio",
+      "license": "CC0-1.0",
+      "path": "/Users/nicolas/.cache/logo-maker/hdri/polyhaven_poly_haven_studio.hdr"
+    }
+  ],
+  "host_stages": [
+    {
+      "operation": "compile",
+      "status": "completed",
+      "seconds": 1.5729042500024661,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    }
+  ],
+  "seconds": 1.5729239590000361
+}

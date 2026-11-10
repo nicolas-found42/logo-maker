@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 from pathlib import Path
@@ -96,3 +97,103 @@ def test_export_deadline_keeps_prior_exports(tmp_path):
     with pytest.raises(SamplingLimit, match="time_limit"):
         export_all(concept, out, name="Sample", palette=PALETTE, motif_svg=motif, budget=budget)
     assert (out / "prior.txt").read_text() == "last approved export"
+
+
+@pytest.mark.parametrize("failure", ["deadline", "inner_error", "denied_live"])
+def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypatch, failure):
+    """A browser launcher cleans its detached child only when it receives termination."""
+    import os
+    import signal
+    import sys
+    import time
+
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("production process-session cleanup targets macOS/Linux")
+    real_killpg = os.killpg
+
+    def denied_signals(group, sig):
+        if failure == "denied_live" or sig == 0:
+            raise PermissionError("simulated signal denial")
+        return real_killpg(group, sig)
+
+    if failure in {"inner_error", "denied_live"}:
+        monkeypatch.setattr(os, "killpg", denied_signals)
+    concept, motif = _concept(tmp_path, _disc)
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    heartbeat = tmp_path / "heartbeat"
+    pids = tmp_path / "pids.json"
+    child_code = (
+        "import sys,time; from pathlib import Path; p=Path(sys.argv[1]); "
+        "end=time.monotonic()+60\n"
+        "while time.monotonic()<end:\n p.write_text('alive'); time.sleep(0.03)\n"
+    )
+    helper = bin_dir / "node"
+    launcher_code = (
+        "import json,os,signal,subprocess,sys,time\n"
+        "from pathlib import Path\n"
+        f"child=subprocess.Popen([sys.executable,'-c',{child_code!r},{str(heartbeat)!r}],start_new_session=True)\n"
+        "def stop(*args):\n"
+        " time.sleep(0.3)\n"
+        " try: os.killpg(child.pid,signal.SIGKILL)\n"
+        " except ProcessLookupError: pass\n"
+        " child.wait(); sys.exit(143)\n"
+        "signal.signal(signal.SIGTERM,stop)\n"
+        f"Path({str(pids)!r}).write_text(json.dumps({{'tool':os.getpid(),'browser':child.pid}}))\n"
+        "child.wait()\n"
+    )
+    launcher = tmp_path / "launcher.py"
+    launcher.write_text(launcher_code)
+    driver_code = (
+        "import subprocess,sys,time\nfrom pathlib import Path\n"
+        f"subprocess.Popen([sys.executable,{str(launcher)!r}],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n"
+        "end=time.monotonic()+2\n"
+        f"while not Path({str(heartbeat)!r}).exists() and time.monotonic()<end: time.sleep(0.01)\n"
+        "sys.exit(2)\n"
+    )
+    helper.write_text(
+        f"#!{sys.executable}\n" + (driver_code if failure == "inner_error" else launcher_code)
+    )
+    helper.chmod(0o755)
+    monkeypatch.setenv("PATH", str(bin_dir) + os.pathsep + os.environ["PATH"])
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("approved prior export")
+    try:
+        expected_error = ExportError if failure == "inner_error" else SamplingLimit
+        with pytest.raises(
+            expected_error, match="cleanup unconfirmed" if failure == "denied_live" else None
+        ):
+            export_all(
+                concept,
+                out,
+                name="Sample",
+                palette=PALETTE,
+                motif_svg=motif,
+                # Include cold imports/format setup on the slower hosted Mac before
+                # the external-tool lifecycle this regression is intended to reach.
+                budget=Budget(wall_seconds=20),
+            )
+        assert heartbeat.exists(), "did not reach external-tool/browser lifecycle"
+        if failure != "denied_live":
+            stamp = heartbeat.stat().st_mtime_ns
+            time.sleep(0.2)
+            assert heartbeat.stat().st_mtime_ns == stamp, (
+                "browser still performs work after export deadline"
+            )
+        assert (out / "prior.txt").read_text() == "approved prior export"
+    finally:
+        if pids.exists():
+            spawned = json.loads(pids.read_text())
+            group = None
+            with contextlib.suppress(ProcessLookupError):
+                group = os.getpgid(spawned["tool"])
+                real_killpg(group, signal.SIGTERM)
+            for pid in spawned.values():
+                with contextlib.suppress(ProcessLookupError):
+                    os.kill(pid, signal.SIGTERM)
+            if group is not None:
+                with contextlib.suppress(ChildProcessError):
+                    os.waitpid(group, 0)

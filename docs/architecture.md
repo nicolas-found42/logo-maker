@@ -215,8 +215,28 @@ wall
 time, execution/denoiser evidence and distinct profile/noise/cap/time/memory/device/quality
 outcomes.
 Cold/kernel state remains unknown unless observed. Calibration and confirmations are part of cost,
-not a free prelude. CPU host stages check deadlines before and after work; an overrun is reported,
-not accepted as success. Native render work is interrupted at the remaining deadline.
+not a free prelude. Heavy CPU host stages (compilation and image processing/diagnostics) run
+in owned workers, interrupted at the remaining deadline, including startup and cleanup.
+Workers may perform required CPU host work; GPU tracing and denoising still use #4.
+Asset-use records return as typed `RenderResult.assets` and in the sampling sidecar.
+An arbitrary `on_asset`
+callback conflicts with bounded rendering: its in-process effects cannot be preserved in
+a killable worker. Rendering reports that conflict before invoking it. Direct `scene.compile`
+still supports callbacks for caller-managed work. Light
+orchestration checks the shared deadline between operations. Native render work is interrupted
+at the remaining deadline.
+Configuration loading and cached-image/dependency validation also run in owned workers.
+Configuration uses the caller's deadline or the default 1800 s bootstrap ceiling until
+its settings are known; the scene deadline then includes that elapsed setup time.
+`render_many` has no compilation prepass outside those concept budgets. Host-phase timings
+and the execution paths of interrupted attempts remain available in the sampling record.
+Profile/control JSON work, light publication/orchestration and QA/provider work remain
+cooperative and are not yet qualified as a hard whole-job bound.
+Creative refinement's caller-side source/image hashing, construction validation and revision
+archival also remain cooperative. They can overrun the shared deadline during an operation;
+the owned render/cache workers do not establish a hard deadline for the entire refinement loop.
+Retained custom previews pass the inspection-only flag through the cache worker; this exception
+is restricted to previews and never permits custom final or production reuse.
 
 Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
 Standalone export starts its own explicit budget and retains the final's sampling provenance in the
@@ -224,6 +244,16 @@ export manifest. Unqualified sampling returns an authoring/review stop and canno
 Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a
 technically
 accepted or capped image. A capped image is never described as proven convergence.
+
+Bounded export on macOS/Linux starts the worker in its own process session. One second
+of the remaining budget is reserved for termination/reaping: SIGTERM reaches Node/Chrome
+launcher cleanup hooks, followed by SIGKILL for remaining session members. Insufficient
+cleanup reserve rejects the attempt before launch. Arbitrary uncooperative processes that
+escape that session are outside the supported adapter contract.
+macOS can report EPERM for a group containing only exited, unreaped processes. On this
+error, bounded `/bin/ps` inspection checks only group IDs and process states. An empty or
+all-zombie group has stopped work; a live member or failed inspection is an explicit
+unconfirmed-cleanup failure. Permission errors are never silently treated as success.
 
 ### Qualification fixtures
 
