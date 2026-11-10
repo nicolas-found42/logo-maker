@@ -1,0 +1,63 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_stalled_cached_image_check_stops_at_its_shared_budget __________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-234/test_stalled_cached_image_chec0')
+
+    def test_stalled_cached_image_check_stops_at_its_shared_budget(tmp_path):
+        import contextlib
+        import hashlib
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded host workers target macOS/Linux")
+        build = tmp_path / ".build"
+        build.mkdir()
+        record = build / "final.sampling.json"
+        record.write_text(
+            json.dumps(
+                {
+                    "published": True,
+                    "context": {},
+                    "dependencies": {},
+                    "delivered_sha256": hashlib.sha256(b"prior image bytes").hexdigest(),
+                }
+            )
+        )
+        prior_record = record.read_bytes()
+        image = tmp_path / "final.png"
+        os.mkfifo(image)
+        stop = threading.Event()
+
+        def release_old_unbounded_call():
+            descriptor = None
+            try:
+                while not stop.is_set():
+                    try:
+                        descriptor = os.open(image, os.O_WRONLY | os.O_NONBLOCK)
+                        break
+                    except OSError:
+                        stop.wait(0.01)
+                if descriptor is not None and not stop.wait(10):
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b"prior image bytes")
+            finally:
+                if descriptor is not None:
+                    os.close(descriptor)
+
+        releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        releaser.start()
+        started = time.monotonic()
+        try:
+>           with pytest.raises(SamplingLimit, match="time_limit"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE SamplingLimit
+
+tests/test_sampling_render.py:413: Failed
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_stalled_cached_image_check_stops_at_its_shared_budget
+1 failed, 12 deselected in 10.10s

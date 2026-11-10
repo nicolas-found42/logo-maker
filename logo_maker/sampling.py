@@ -210,6 +210,7 @@ class Budget:
         *,
         clock=None,
         parent: Budget | None = None,
+        started_at: float | None = None,
     ):
         import math
         import time
@@ -218,7 +219,9 @@ class Budget:
             raise ValueError("sampling budget requires positive seconds and 1..64 attempts")
         self.parent = parent
         self.clock = clock or (parent.clock if parent else time.monotonic)
-        self.started = self.clock()
+        if started_at is not None and not math.isfinite(started_at):
+            raise ValueError("sampling budget requires a finite start time")
+        self.started = self.clock() if started_at is None else started_at
         self.deadline = (
             min(self.started + wall_seconds, parent.deadline)
             if parent

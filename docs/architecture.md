@@ -212,8 +212,23 @@ wall
 time, execution/denoiser evidence and distinct profile/noise/cap/time/memory/device/quality
 outcomes.
 Cold/kernel state remains unknown unless observed. Calibration and confirmations are part of cost,
-not a free prelude. CPU host stages check deadlines before and after work; an overrun is reported,
-not accepted as success. Native render work is interrupted at the remaining deadline.
+not a free prelude. Heavy CPU host stages (compilation and image processing/diagnostics) run
+in owned workers, interrupted at the remaining deadline, including startup and cleanup.
+Workers may perform required CPU host work; GPU tracing and denoising still use #4.
+Asset-use records return as typed `RenderResult.assets` and in the sampling sidecar.
+An arbitrary `on_asset`
+callback conflicts with bounded rendering: its in-process effects cannot be preserved in
+a killable worker. Rendering reports that conflict before invoking it. Direct `scene.compile`
+still supports callbacks for caller-managed work. Light
+orchestration checks the shared deadline between operations. Native render work is interrupted
+at the remaining deadline.
+Configuration loading and cached-image/dependency validation also run in owned workers.
+Configuration uses the caller's deadline or the default 1800 s bootstrap ceiling until
+its settings are known; the scene deadline then includes that elapsed setup time.
+`render_many` has no compilation prepass outside those concept budgets. Host-phase timings
+and the execution paths of interrupted attempts remain available in the sampling record.
+Profile/control JSON work, light publication/orchestration and QA/provider work remain
+cooperative and are not yet qualified as a hard whole-job bound.
 
 Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
 Standalone export starts its own explicit budget and retains the final's sampling provenance in the

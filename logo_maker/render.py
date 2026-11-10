@@ -12,13 +12,13 @@ import sys
 import time
 import uuid
 from collections.abc import Sequence
-from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
+from logo_maker import owned_process
 from logo_maker.proc import ToolError
 from logo_maker.sampling import Budget, SamplingLimit, Settings, decide, qualify_profile
-from logo_maker.sampling_diagnostics import analyze_exr, sha256
+from logo_maker.sampling_diagnostics import sha256
 
 #: Seconds before a GPU render is declared stuck. Never kill earlier: the first
 #: run compiles Metal kernels for 1.5-5 minutes with no output.
@@ -30,6 +30,14 @@ _CRASH_HINTS = ("SIGABRT", "Segmentation fault", "abort")
 
 
 @dataclass(frozen=True)
+class AssetUse:
+    key: str
+    source: str
+    license: str
+    path: str
+
+
+@dataclass(frozen=True)
 class RenderResult:
     png: Path
     blend: Path
@@ -38,6 +46,7 @@ class RenderResult:
     quality: str
     execution: Path | None = None
     sampling: Path | None = None
+    assets: tuple[AssetUse, ...] = ()
 
 
 def _alpha_cleanup_png(png: Path) -> Path:
@@ -131,6 +140,35 @@ def _load_optional(folder: Path, name: str | None) -> dict | None:
     return data
 
 
+def _host_work(payload: dict, budget: Budget, stages: list[dict]) -> dict:
+    started = time.monotonic()
+    status = "failed"
+    try:
+        proc = owned_process.run(
+            [sys.executable, "-m", "logo_maker.host"],
+            input_text=json.dumps(payload),
+            budget=budget,
+            label=payload["operation"],
+        )
+        if proc.returncode:
+            raise ToolError(
+                f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
+            )
+        result = json.loads(proc.stdout.strip().splitlines()[-1])
+        status = "completed"
+        return result
+    finally:
+        stages.append(
+            {
+                "operation": payload["operation"],
+                "status": status,
+                "seconds": time.monotonic() - started,
+                "execution": "owned_cpu_worker",
+                "timing_scope": "startup, CPU host work, output transfer and cleanup",
+            }
+        )
+
+
 def render(
     concept_dir: Path | str,
     quality: str = "preview",
@@ -143,15 +181,12 @@ def render(
     An unqualified baseline may be inspected, but is explicitly not a sampling
     acceptance. Finalize cannot call it a qualified winner.
     """
-    from logo_maker import scene as scene_mod
-
     concept_dir = Path(concept_dir).resolve()
     started = time.monotonic()
-    if budget:
-        budget.check()
-    else:
-        config = scene_mod.load_scene(concept_dir / "scene.toml")["sampling"]
-        budget = Budget(config["wall_seconds"], config["attempt_limit"])
+    caller_budget = budget
+    budget = budget or Budget()
+    job_started = budget.clock()
+    budget.check()
     build = concept_dir / ".build"
     build.mkdir(exist_ok=True)
     job_path = build / f"{quality}.sampling.json"
@@ -160,6 +195,7 @@ def render(
         "quality": quality,
         "published": False,
         "attempts": [],
+        "host_stages": [],
         "outcomes": {
             "device": "unknown",
             "noise": "unknown",
@@ -170,15 +206,41 @@ def render(
         },
     }
     try:
-        scene_json = scene_mod.compile(concept_dir, quality, on_asset=on_asset)
+        if on_asset is not None:
+            raise ToolError(
+                "budget_conflict: arbitrary on_asset callbacks cannot preserve parent-side effects "
+                "inside a bounded worker; use the returned RenderResult.assets records instead"
+            )
+        config = _host_work(
+            {"operation": "load_config", "concept_dir": str(concept_dir)},
+            budget,
+            job["host_stages"],
+        )["sampling"]
+        budget = Budget(
+            config["wall_seconds"],
+            config["attempt_limit"],
+            parent=caller_budget,
+            clock=budget.clock,
+            started_at=job_started,
+        )
         budget.check()
-        scene_data = json.loads(scene_json.read_text())
+        compiled = _host_work(
+            {"operation": "compile", "concept_dir": str(concept_dir), "quality": quality},
+            budget,
+            job["host_stages"],
+        )
+        job["assets"] = compiled["assets"]
+        budget.check()
+        scene_data = compiled["scene"]
         config = scene_data.get("sampling", {})
         budget = Budget(
-            config.get("wall_seconds", 1800), config.get("attempt_limit", 2), parent=budget
+            config.get("wall_seconds", 1800),
+            config.get("attempt_limit", 2),
+            parent=budget,
+            started_at=job_started,
         )
         env = machine_context(budget)
-        deps = dependency_hashes(concept_dir, scene_data)
+        deps = compiled["dependencies"]
         controls = {}
         for field in ("profile", "diagnosis"):
             if config.get(field):
@@ -268,6 +330,11 @@ def render(
             # Meshes are relative to the original build directory; keep that explicit.
             scene_data["build_dir"] = str(build)
             candidate_json.write_text(json.dumps(scene_data, indent=2))
+            job["active_attempt"] = {
+                "directory": str(attempt_dir),
+                "compiled_scene": str(candidate_json),
+                "execution": str(attempt_dir / f"{quality}.execution.json"),
+            }
             _run_builder(candidate_json, concept_dir, quality, budget=budget)
             evidence_path = attempt_dir / f"{quality}.execution.json"
             execution = json.loads(evidence_path.read_text())
@@ -293,22 +360,27 @@ def render(
                 if proc.returncode:
                     raise ToolError(f"explicit alternate renderer failed: {proc.stderr[-2000:]}")
                 png = attempt_dir / f"{quality}.png"
-            if quality == "final":
-                _downsample_final(png)
-            if scene_data["render"].get("alpha_cleanup"):
-                _alpha_cleanup_png(png)
-            diagnostics: dict = analyze_exr(
-                evidence_path.with_suffix(".exr"),
-                cap=effective["samples"],
-                max_bytes=config.get("diagnostic_bytes", 2147483648),
+            processed = _host_work(
+                {
+                    "operation": "process_image",
+                    "png": str(png),
+                    "quality": quality,
+                    "alpha_cleanup": bool(scene_data["render"].get("alpha_cleanup")),
+                    "exr": str(evidence_path.with_suffix(".exr")),
+                    "cap": effective["samples"],
+                    "max_bytes": config.get("diagnostic_bytes", 2147483648),
+                },
+                budget,
+                job["host_stages"],
             )
+            diagnostics: dict = processed["diagnostics"]
             if renderer != "cycles":
                 diagnostics = {
                     "status": "unknown",
                     "reason": "explicit alternate output outside Cycles sampling qualification",
                 }
             budget.check()
-            delivered_hash = sha256(png)
+            delivered_hash = processed["delivered_sha256"]
             elapsed = time.monotonic() - candidate_started
             decision = decide(
                 Settings.from_quality(effective),
@@ -349,6 +421,7 @@ def render(
                 "decision": decision.record(),
             }
             job["attempts"].append(attempt)
+            job.pop("active_attempt", None)
             job["outcomes"]["noise"] = decision.state
             job["outcomes"]["sampling"] = (
                 "profile_baseline"
@@ -376,7 +449,9 @@ def render(
     except Exception as exc:
         message = str(exc)
         job["error"] = message
-        if isinstance(exc, (SamplingLimit, subprocess.TimeoutExpired)):
+        if "budget_conflict" in message:
+            job["outcomes"]["time"] = "budget_conflict"
+        elif isinstance(exc, (SamplingLimit, subprocess.TimeoutExpired)):
             job["outcomes"]["time"] = (
                 "time_limit" if "attempt_limit" not in message else "attempt_limit"
             )
@@ -391,7 +466,7 @@ def render(
         job["budget"] = budget.record()
         job["seconds"] = time.monotonic() - started
         job["timing_scope"] = (
-            "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+            "configuration, compile/dependency hashes, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
         )
         if job_path.exists():
             shutil.copyfile(
@@ -408,6 +483,7 @@ def render(
         if scene_data["render"].get("renderer", "cycles") == "cycles"
         else None,
         job_path,
+        tuple(AssetUse(**asset) for asset in job.get("assets", [])),
     )
 
 
@@ -512,23 +588,14 @@ def _downsample_final(png: Path) -> Path:
     return png
 
 
-def _compile_one(args: tuple[str, str]) -> str:
-    from logo_maker import scene as scene_mod
-
-    concept_dir, quality = args
-    return str(scene_mod.compile(Path(concept_dir), quality))
-
-
 def render_many(
     concept_dirs: Sequence[Path | str], quality: str = "preview", workers: int | None = None
 ) -> list[RenderResult]:
-    """Compile every concept across CPU cores first, then render on the GPU in turn."""
-    import multiprocessing as mp
+    """Run one bounded concept job at a time; workers remains a compatibility argument.
 
-    ctx = mp.get_context("fork") if "fork" in mp.get_all_start_methods() else None
+    Compilation belongs to each job's deadline, rather than an unbounded prepass.
+    """
     dirs = [Path(d) for d in concept_dirs]
-    with ProcessPoolExecutor(max_workers=workers, mp_context=ctx) as pool:
-        list(pool.map(_compile_one, [(str(d), quality) for d in dirs]))
     return [render(d, quality) for d in dirs]
 
 
@@ -536,8 +603,25 @@ def artifact_current(
     concept_dir: Path, quality: str, *, check_machine: bool = True, budget: Budget | None = None
 ) -> bool:
     """Content freshness includes source, code, devices, seed, execution and delivered bytes."""
-    if budget:
-        budget.check()
+    budget = budget or Budget()
+    budget.check()
+    snapshot = _host_work(
+        {"operation": "artifact_current", "concept_dir": str(concept_dir), "quality": quality},
+        budget,
+        [],
+    )
+    if not snapshot["current"]:
+        return False
+    if check_machine:
+        env = machine_context(budget)
+        if any(snapshot["context"].get(k) != v for k, v in env.items()):
+            return False
+    budget.check()
+    return True
+
+
+def _artifact_current_local(concept_dir: Path, quality: str) -> bool:
+    """Disk/hash work only; called by the owned host worker."""
     try:
         record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
         if "custom_scene_sha256" in record.get("context", {}):
@@ -562,12 +646,6 @@ def artifact_current(
         evidence = Path(record["execution"])
         if sha256(evidence) != record["execution_sha256"]:
             return False
-        if json.loads(evidence.read_text()).get("status") != "verified":
-            return False
-        if check_machine:
-            env = machine_context(budget or Budget())
-            if any(record["context"].get(k) != v for k, v in env.items()):
-                return False
-        return True
+        return json.loads(evidence.read_text()).get("status") == "verified"
     except (OSError, KeyError, ValueError, ToolError):
         return False

@@ -39,10 +39,25 @@ the worker owns a process session and reserves one second of the job budget for 
 launcher cleanup and final SIGKILL/reaping. A budget too small for that reserve does not
 launch the worker. The supported browser launchers use termination hooks to close detached
 browsers; arbitrary processes escaping the session without cleanup are unsupported. Render
-subprocesses
-get min(900 s, remaining deadline). Compilation/host analyses check before and after work;
-an overrun prevents publication but a long native host call can exceed the deadline before
-returning. This cooperative-host limitation remains explicit.
+subprocesses get min(900 s, remaining deadline). Configuration loading, compilation and
+dependency hashing, final downsampling/alpha cleanup/EXR analysis/image hashing, and cache
+validation now run in owned CPU workers using the same process cleanup. Their startup,
+output transfer and cleanup count toward the deadline. Normal CPU host work is permitted;
+the verified GPU rendering/denoising boundary is unchanged.
+
+Configuration initially uses the caller's budget, or a bounded default 1800 s bootstrap
+when no caller budget exists. Once read, the scene's wall limit includes elapsed bootstrap
+time; it does not start a fresh clock after compilation. `render_many` runs each bounded
+job in turn instead of an unbounded parallel compilation prepass; its `workers` argument
+is retained for source compatibility. Host phase timings and interrupted attempt paths
+are retained in the sampling report.
+
+Asset-use events return as `RenderResult.assets` records and in the sampling sidecar.
+An arbitrary `on_asset` callback now returns an explicit `budget_conflict`, because it
+cannot both retain parent-process side effects and run in a killable worker. Direct
+`scene.compile` still supports caller-managed callbacks. Profile/control JSON handling,
+light publication/orchestration and final QA/provider work still use cooperative checks;
+complete whole-job hard-bound qualification remains open.
 
 Job timing includes scene compilation, environment probing, attempts, denoise, diagnostic
 EXR writing/reading/hashing, PNG output, downsampling and cleanup. The export manifest adds

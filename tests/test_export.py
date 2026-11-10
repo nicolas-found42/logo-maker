@@ -99,7 +99,7 @@ def test_export_deadline_keeps_prior_exports(tmp_path):
     assert (out / "prior.txt").read_text() == "last approved export"
 
 
-@pytest.mark.parametrize("failure", ["deadline", "inner_error"])
+@pytest.mark.parametrize("failure", ["deadline", "inner_error", "denied_live"])
 def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypatch, failure):
     """A browser launcher cleans its detached child only when it receives termination."""
     import os
@@ -111,6 +111,15 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
 
     if os.name != "posix":
         pytest.skip("production process-session cleanup targets macOS/Linux")
+    real_killpg = os.killpg
+
+    def denied_signals(group, sig):
+        if failure == "denied_live" or sig == 0:
+            raise PermissionError("simulated signal denial")
+        return real_killpg(group, sig)
+
+    if failure in {"inner_error", "denied_live"}:
+        monkeypatch.setattr(os, "killpg", denied_signals)
     concept, motif = _concept(tmp_path, _disc)
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
@@ -145,7 +154,7 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
         "sys.exit(2)\n"
     )
     helper.write_text(
-        f"#!{sys.executable}\n" + (launcher_code if failure == "deadline" else driver_code)
+        f"#!{sys.executable}\n" + (driver_code if failure == "inner_error" else launcher_code)
     )
     helper.chmod(0o755)
     monkeypatch.setenv("PATH", str(bin_dir) + os.pathsep + os.environ["PATH"])
@@ -153,8 +162,10 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
     out.mkdir()
     (out / "prior.txt").write_text("approved prior export")
     try:
-        expected_error = SamplingLimit if failure == "deadline" else ExportError
-        with pytest.raises(expected_error):
+        expected_error = ExportError if failure == "inner_error" else SamplingLimit
+        with pytest.raises(
+            expected_error, match="cleanup unconfirmed" if failure == "denied_live" else None
+        ):
             export_all(
                 concept,
                 out,
@@ -166,61 +177,23 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
                 budget=Budget(wall_seconds=20),
             )
         assert heartbeat.exists(), "did not reach external-tool/browser lifecycle"
-        stamp = heartbeat.stat().st_mtime_ns
-        time.sleep(0.2)
-        assert heartbeat.stat().st_mtime_ns == stamp, (
-            "browser still performs work after export deadline"
-        )
+        if failure != "denied_live":
+            stamp = heartbeat.stat().st_mtime_ns
+            time.sleep(0.2)
+            assert heartbeat.stat().st_mtime_ns == stamp, (
+                "browser still performs work after export deadline"
+            )
         assert (out / "prior.txt").read_text() == "approved prior export"
     finally:
         if pids.exists():
             spawned = json.loads(pids.read_text())
+            group = None
+            with contextlib.suppress(ProcessLookupError):
+                group = os.getpgid(spawned["tool"])
+                real_killpg(group, signal.SIGTERM)
             for pid in spawned.values():
                 with contextlib.suppress(ProcessLookupError):
                     os.kill(pid, signal.SIGTERM)
-
-
-@pytest.mark.parametrize("live", [False, True])
-def test_export_cleanup_checks_permission_error_group_state(monkeypatch, live):
-    """Darwin's zombie-only EPERM differs from denial while work is still running."""
-    import os
-    import signal
-    import subprocess
-    import sys
-    import time
-
-    from logo_maker.export import _stop_export_session
-    from logo_maker.sampling import Budget, SamplingLimit
-
-    if os.name != "posix":
-        pytest.skip("POSIX export lifecycle")
-    worker = subprocess.Popen(
-        [sys.executable, "-c", "import time; time.sleep(15)" if live else "pass"],
-        start_new_session=True,
-    )
-    try:
-        if not live:
-            deadline = time.monotonic() + 2
-            while time.monotonic() < deadline:
-                state = subprocess.check_output(
-                    ["/bin/ps", "-p", str(worker.pid), "-o", "stat="], text=True
-                ).strip()
-                if state.startswith("Z"):
-                    break
-                time.sleep(0.01)
-            assert state.startswith("Z"), "did not reach unreaped process state"
-
-        def denied(*args):
-            raise PermissionError("signal denied")
-
-        monkeypatch.setattr(os, "killpg", denied)
-        if live:
-            with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
-                _stop_export_session(worker, Budget(wall_seconds=2))
-        else:
-            _stop_export_session(worker, Budget(wall_seconds=2))
-            assert worker.returncode == 0
-    finally:
-        with contextlib.suppress(ProcessLookupError):
-            os.kill(worker.pid, signal.SIGKILL)
-        worker.wait()
+            if group is not None:
+                with contextlib.suppress(ChildProcessError):
+                    os.waitpid(group, 0)

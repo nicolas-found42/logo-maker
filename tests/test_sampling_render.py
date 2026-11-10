@@ -6,39 +6,24 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-from logo_maker import render, scene
+from logo_maker import render
 from logo_maker.sampling import Budget
 
 
 def compiled(tmp_path):
-    build = tmp_path / ".build"
-    build.mkdir()
-    source = build / "scene.json"
-    source.write_text(
-        json.dumps(
-            {
-                "quality": {
-                    "name": "final",
-                    "resolution": 4000,
-                    "samples": 4096,
-                    "adaptive": True,
-                    "adaptive_threshold": 0.01,
-                    "seed": 42,
-                    "overrides": {},
-                },
-                "render": {"renderer": "cycles"},
-                "sampling": {"diagnostic_bytes": 0},
-            }
-        )
+    (tmp_path / "scene.toml").write_text(
+        '[meta]\nconcept="test|plate|wax"\ntreatment="embossed_plate"\nseed=42\n'
+        '[lighting]\nhdri="none"\n[sampling]\ndiagnostic_bytes=0\n'
+        '[materials.surface]\npreset="wax"\n'
+        '[[components]]\nkind="plate"\nmaterial="surface"\n'
     )
-    return source
+    (tmp_path / "motif.json").write_text('{"layers":[]}')
 
 
 def test_failed_builder_keeps_prior_final_and_records_operational_failure(tmp_path, monkeypatch):
-    source = compiled(tmp_path)
+    compiled(tmp_path)
     prior = tmp_path / "final.png"
     prior.write_bytes(b"usable prior result")
-    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
     monkeypatch.setattr(render, "machine_context", lambda *a: {"machine": "test"})
 
     def fail(*args, **kwargs):
@@ -61,11 +46,76 @@ def test_budget_exhausted_before_compile_cannot_replace_output(tmp_path):
         render.render(tmp_path, "final", budget=budget)
 
 
+@pytest.mark.parametrize("explicit_budget", [True, False])
+def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(
+    tmp_path, monkeypatch, explicit_budget
+):
+    """A blocked source read cannot keep the render caller waiting indefinitely."""
+    import contextlib
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded host workers target macOS/Linux")
+    (tmp_path / "scene.toml").write_text(
+        '[meta]\nconcept="test|plate|wax"\ntreatment="embossed_plate"\nseed=0\n'
+        '[lighting]\nhdri="none"\n[sampling]\nwall_seconds=6\n'
+        '[materials.surface]\npreset="wax"\n'
+        '[[components]]\nkind="plate"\nmaterial="surface"\n'
+    )
+    source = tmp_path / "motif.json"
+    os.mkfifo(source)
+    prior = tmp_path / "final.png"
+    prior.write_bytes(b"approved prior final")
+    stop = threading.Event()
+
+    def release_old_unbounded_call():
+        descriptor = None
+        try:
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                    break
+                except OSError:
+                    stop.wait(0.01)
+            if descriptor is not None and not stop.wait(10):
+                with contextlib.suppress(BrokenPipeError):
+                    os.write(descriptor, b'{"layers":[]}')
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+
+    releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+    releaser.start()
+    monkeypatch.setattr(
+        render,
+        "machine_context",
+        lambda *args: pytest.fail("GPU preflight started after compilation exhausted the budget"),
+    )
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            render.render(
+                tmp_path, "final", budget=Budget(wall_seconds=6) if explicit_budget else None
+            )
+        assert time.monotonic() - started < 9, "compile overran the caller's wall budget"
+        assert prior.read_bytes() == b"approved prior final"
+        report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
+        assert report["published"] is False
+        assert report["outcomes"]["time"] == "time_limit"
+        assert not report["attempts"], "host timeout must not start a GPU attempt"
+    finally:
+        stop.set()
+        releaser.join(timeout=1)
+
+
 def test_successful_final_binds_delivered_hash_after_real_downsample(tmp_path, monkeypatch):
     from logo_maker.sampling_diagnostics import sha256
 
-    source = compiled(tmp_path)
-    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    compiled(tmp_path)
     monkeypatch.setattr(render, "machine_context", lambda *a: {"machine": "test"})
 
     def builder(path, *args, budget):
@@ -90,6 +140,69 @@ def test_successful_final_binds_delivered_hash_after_real_downsample(tmp_path, m
     assert render.artifact_current(tmp_path, "final", check_machine=False)
     result.png.write_bytes(b"changed exported image")
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
+
+
+def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path, monkeypatch):
+    import contextlib
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded host workers target macOS/Linux")
+    compiled(tmp_path)
+    prior = tmp_path / "preview.png"
+    prior.write_bytes(b"approved prior preview")
+    stop = threading.Event()
+    writers = []
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        folder = Path(json.loads(path.read_text())["output_dir"])
+        image = folder / "preview.png"
+        os.mkfifo(image)
+        (folder / "preview.execution.json").write_text('{"status":"verified"}')
+
+        def release_old_unbounded_call():
+            descriptor = None
+            try:
+                while not stop.is_set():
+                    try:
+                        descriptor = os.open(image, os.O_WRONLY | os.O_NONBLOCK)
+                        break
+                    except OSError:
+                        stop.wait(0.01)
+                if descriptor is not None and not stop.wait(10):
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b"rendered preview bytes")
+            finally:
+                if descriptor is not None:
+                    os.close(descriptor)
+
+        writer = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        writer.start()
+        writers.append(writer)
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            render.render(tmp_path, "preview", budget=Budget(wall_seconds=6))
+        assert time.monotonic() - started < 9, "image hash overran the wall budget"
+        assert prior.read_bytes() == b"approved prior preview"
+        report = json.loads((tmp_path / ".build/preview.sampling.json").read_text())
+        assert report["published"] is False
+        assert report["outcomes"]["time"] == "time_limit"
+        assert report["budget"]["attempts"] == 1
+        execution = Path(report["active_attempt"]["execution"])
+        assert json.loads(execution.read_text())["status"] == "verified"
+    finally:
+        stop.set()
+        for writer in writers:
+            writer.join(timeout=1)
 
 
 def test_generic_edge_failure_returns_scoped_refinement_without_changing_sampling(
@@ -125,11 +238,12 @@ def test_generic_edge_failure_returns_scoped_refinement_without_changing_samplin
 def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
     tmp_path, monkeypatch
 ):
-    source = compiled(tmp_path)
-    data = json.loads(source.read_text())
-    data["quality"].update(samples=1, overrides={"max_samples": 1})
-    source.write_text(json.dumps(data))
-    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    compiled(tmp_path)
+    recipe = tmp_path / "scene.toml"
+    recipe.write_text(
+        recipe.read_text().replace("diagnostic_bytes=0", 'diagnostic_bytes=0\nprofile="profile"')
+        + "\n[render]\nmax_samples=1\n"
+    )
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
     monkeypatch.setattr(
         render, "qualify_profile", lambda *a: ("qualified", "test reviewed profile")
@@ -148,8 +262,6 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
     review = tmp_path / "owner-reviewed-case.json"
     review.write_text('{"sampling":"approved"}')
     profile["cases"] = [{"evidence": {"path": str(review)}}]
-    data["sampling"]["profile"] = "profile"
-    source.write_text(json.dumps(data))
     (tmp_path / "profile").write_text("test profile")
 
     def builder(path, *args, budget):
@@ -172,12 +284,11 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
 
 
 def test_deadline_during_publication_keeps_prior_final(tmp_path, monkeypatch):
-    source = compiled(tmp_path)
+    compiled(tmp_path)
     clock = [0.0]
     budget = Budget(wall_seconds=10, clock=lambda: clock[0])
     prior = tmp_path / "final.png"
     prior.write_bytes(b"approved prior image")
-    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
 
     def builder(path, *args, budget):
@@ -220,8 +331,7 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
 
 
 def test_custom_bpy_cache_without_dependency_inventory_is_unknown(tmp_path, monkeypatch):
-    source = compiled(tmp_path)
-    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    compiled(tmp_path)
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
 
     def builder(path, *args, budget):
@@ -249,3 +359,84 @@ def test_actual_machine_profile_identifies_final_image_processing_libraries():
     assert context["render_stack"]["OpenImageIO"] == version("OpenImageIO")
     assert context["render_stack"]["Pillow"] == version("Pillow")
     assert context["render_stack"]["numpy"] == version("numpy")
+
+
+def test_stalled_cached_image_check_stops_at_its_shared_budget(tmp_path):
+    import contextlib
+    import hashlib
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded host workers target macOS/Linux")
+    build = tmp_path / ".build"
+    build.mkdir()
+    record = build / "final.sampling.json"
+    record.write_text(
+        json.dumps(
+            {
+                "published": True,
+                "context": {},
+                "dependencies": {},
+                "delivered_sha256": hashlib.sha256(b"prior image bytes").hexdigest(),
+            }
+        )
+    )
+    prior_record = record.read_bytes()
+    image = tmp_path / "final.png"
+    os.mkfifo(image)
+    stop = threading.Event()
+
+    def release_old_unbounded_call():
+        descriptor = None
+        try:
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(image, os.O_WRONLY | os.O_NONBLOCK)
+                    break
+                except OSError:
+                    stop.wait(0.01)
+            if descriptor is not None and not stop.wait(10):
+                with contextlib.suppress(BrokenPipeError):
+                    os.write(descriptor, b"prior image bytes")
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+
+    releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+    releaser.start()
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            render.artifact_current(
+                tmp_path, "final", check_machine=False, budget=Budget(wall_seconds=6)
+            )
+        assert time.monotonic() - started < 9
+        assert record.read_bytes() == prior_record
+    finally:
+        stop.set()
+        releaser.join(timeout=1)
+
+
+def test_unbounded_asset_callback_is_an_explicit_budget_conflict(tmp_path, monkeypatch):
+    from logo_maker.proc import ToolError
+
+    compiled(tmp_path)
+    prior = tmp_path / "final.png"
+    prior.write_bytes(b"approved prior final")
+    called = []
+    monkeypatch.setattr(
+        render, "machine_context", lambda *args: pytest.fail("callback conflict started GPU work")
+    )
+    with pytest.raises(ToolError, match="budget_conflict"):
+        render.render(
+            tmp_path, "final", on_asset=lambda *args: called.append(args), budget=Budget()
+        )
+    assert not called
+    assert prior.read_bytes() == b"approved prior final"
+    report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
+    assert report["published"] is False
+    assert report["outcomes"]["time"] == "budget_conflict"

@@ -1,0 +1,82 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final[False] __
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-232/test_stalled_compilation_stops0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b1468b0>
+explicit_budget = False
+
+    @pytest.mark.parametrize("explicit_budget", [True, False])
+    def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(
+        tmp_path, monkeypatch, explicit_budget
+    ):
+        """A blocked source read cannot keep the render caller waiting indefinitely."""
+        import contextlib
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded host workers target macOS/Linux")
+        (tmp_path / "scene.toml").write_text(
+            '[meta]\nconcept="test|plate|wax"\ntreatment="embossed_plate"\nseed=0\n'
+            '[lighting]\nhdri="none"\n[sampling]\nwall_seconds=6\n'
+            '[materials.surface]\npreset="wax"\n'
+            '[[components]]\nkind="plate"\nmaterial="surface"\n'
+        )
+        source = tmp_path / "motif.json"
+        os.mkfifo(source)
+        prior = tmp_path / "final.png"
+        prior.write_bytes(b"approved prior final")
+        stop = threading.Event()
+
+        def release_old_unbounded_call():
+            descriptor = None
+            try:
+                while not stop.is_set():
+                    try:
+                        descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                        break
+                    except OSError:
+                        stop.wait(0.01)
+                if descriptor is not None and not stop.wait(10):
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b'{"layers":[]}')
+            finally:
+                if descriptor is not None:
+                    os.close(descriptor)
+
+        releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        releaser.start()
+        monkeypatch.setattr(
+            render,
+            "machine_context",
+            lambda *args: pytest.fail("GPU preflight started after compilation exhausted the budget"),
+        )
+        started = time.monotonic()
+        try:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+>               render.render(
+                    tmp_path, "final", budget=Budget(wall_seconds=6) if explicit_budget else None
+                )
+
+tests/test_sampling_render.py:101:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+logo_maker/render.py:198: in render
+    env = machine_context(budget)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+args = (<logo_maker.sampling.Budget object at 0x10b85ad50>,)
+
+>       lambda *args: pytest.fail("GPU preflight started after compilation exhausted the budget"),
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+E   Failed: GPU preflight started after compilation exhausted the budget
+
+tests/test_sampling_render.py:96: Failed
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final[False]
+1 failed, 11 deselected in 10.38s

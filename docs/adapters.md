@@ -72,7 +72,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 
 | Tool | License | Use | Entry | Fix |
 |---|---|---|---|---|
-| ps (system process status) | BSD-3-Clause OR GPL-2.0-or-later | distinguishes stopped zombie groups from denied live export work | `logo_maker.export:_export_group_has_live_members` | `restore /bin/ps from macOS system tools or Linux procps` |
+| ps (system process status) | BSD-3-Clause OR GPL-2.0-or-later | distinguishes stopped zombie groups from denied live export work | `logo_maker.owned_process:_group_has_live_members` | `restore /bin/ps from macOS system tools or Linux procps` |
 | OpenImageIO | Apache-2.0 | lanczos3 premultiplied-alpha-correct downsampling | `logo_maker.imageops:downsample` | `uv sync` |
 | SVGO | MIT | SVG optimization for the mark exports | `logo_maker.export:optimize_svg` | `just setup (runs npm ci in js/)` |
 | favicons | MIT | installability meta: manifest icons, ms tiles, browserconfig | `logo_maker.export:favicons_meta` | `just setup (runs npm ci in js/)` |

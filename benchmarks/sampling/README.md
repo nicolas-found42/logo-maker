@@ -113,7 +113,7 @@ uv run --locked python scripts/validate_sampling.py --root /tmp/new-sampling-run
 ```
 
 [validation/code-review.md](validation/code-review.md) records Standards and Spec reviews and
-fixes. [validation/offline.txt](validation/offline.txt) records 228 offline tests passing;
+fixes. [validation/offline.txt](validation/offline.txt) records 232 offline tests passing;
 render regression records 3 passing tests (Cycles image, explicit LuxCore image, actual profile
 library identity). The LuxCore image is an explicit legacy adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
@@ -134,8 +134,9 @@ the explicitly reviewed region, so unrelated saturated pixels cannot choose the 
 Five additional full production smoke jobs are retained in
 [validation/final-runtime-validation.json](validation/final-runtime-validation.json), separately
 from the original 25-job calibration cost matrix. All have verified GPU render/denoise,
-4000→2000 delivery and 31 verified export-file hashes each. The final smoke’s recorded source
-scope matches the current implementation and its runtime stack/lock identity is populated.
+4000→2000 delivery and 31 verified export-file hashes each. The final historical smoke’s recorded source
+scope matched the then-current implementation (before the host-worker changes below).
+Its runtime stack/lock identity is populated.
 Owner qualification remains pending; these are operational checks.
 
 ## Owner review outcome
@@ -203,3 +204,58 @@ It verified the final local checks at 0.98 confidence, but classified the combin
 tests-only/pending-hosted claim unsupported: no new hosted run existed in the supplied
 evidence. The source diff shows only fixture timing edits; hosted results remain a
 separate pending check. Prior broader gate escalations remain retained.
+
+## Owned host stages and new production measurements
+
+Heavy configuration/compilation/dependency hashing, image processing/EXR/hash and cache
+verification now run in owned CPU workers sharing export's neutral process-session module.
+Scene wall limits include initial configuration time. There is no unbounded `render_many`
+compilation prepass. Interrupted attempts retain execution paths. Asset events return as
+typed records; arbitrary `on_asset` callbacks report a budget conflict rather than running
+unbounded or losing parent-process effects.
+
+Public-seam FIFO regressions reproduced six-second budgets returning after ten seconds
+for compilation, image hashing and cache validation; an implicit scene-only budget also
+started preflight after expiry. Those checks now pass inside the wall bound and retain
+prior results. Final local checks: **232 offline / 3 render / 47 doctor**, lint/types/hooks pass.
+
+[host-budget-production.json](validation/host-budget-production.json) retains two separate
+additional baseline/current typography pairs, outside the original calibration matrix.
+Both use 4096 / 0.01, seed 0 and the real 4000→2000/full-export path. Each arm has verified
+exclusive Metal tracing, executed Metal OIDN and 31 verified export hashes. The first pair
+records body times 48.76 / 51.07 s. The second also records complete outer invocation times
+**47.61 / 49.24 s**, with body times 47.40 / 49.02 s and launch/import/shutdown/reporting
+overhead 0.21 / 0.22 s. Source-module paths and hashes bind the second baseline to
+`38ba86b9ccff305cb453c46920824509ae989f76`
+and current to the measured worker implementation. Each pair has one observation per arm;
+cache/kernel state is unknown. No speedup, quality equivalence or amortized profile benefit
+is inferred. Validation-copy/review work and measurement annotation are outside that timer.
+
+The matched second pair has identical alpha. Opaque RGB differences are at most 2/255;
+a 255/255 RGB outlier has alpha 1/255 in both images. These are supporting diagnostics,
+not calibrated image-quality acceptance. The owner's 0.02 rejection remains unchanged.
+A separate 1.57 s live CPU compilation probe verified Poly Haven asset-event transport;
+it is not another GPU render or a visual qualification case.
+
+Whole-job hard-bound acceptance remains **partial**: profile/control JSON and hashes,
+light publication/export provenance, and QA/provider work retain cooperative parent
+boundaries. Positive/held-out owner qualification and a qualified profile remain absent.
+
+## Coordination with refinement and acceptance
+
+A temporary clean three-way merge with #3 PR #8's 9cb556b snapshot compiled but failed
+**2 tests / 255 passed / 3 deselected**. No branch was changed. The failures are custom
+preview inspection and custom production-cache rejection: the merged local cache checker
+refers to `inspection_only` without receiving it. Its flag must cross the worker protocol,
+while production remains denied. Preserve #3's expanded creative source inventory and
+policy-file identity exclusions inside owned workers. `refinement.current/capture` also
+need bounded hashing/archival work. These are concrete integration dependencies; the
+earlier #3 integration claim only covered f3d0f15. See
+[the test log](validation/host-refinement-integration.txt). #2 must retain separate
+technical/operational versus craft/fit/preference outcomes.
+
+The host-worker Jev gate escalated (composite 0.580431818, safe-to-apply 0.14). It gave low
+confidence to test counts and questioned the first measurement pair at 0.14 confidence.
+An independent reviewer checked the original logs/images/native evidence and all 62 export
+hashes, supporting those narrow observations. The broad escalation remains unresolved;
+there is no automated merge recommendation.

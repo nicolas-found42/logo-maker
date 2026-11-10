@@ -30,7 +30,7 @@ ADAPTERS: list[Adapter] = [
         "post_export",
         "BSD-3-Clause OR GPL-2.0-or-later",
         "distinguishes stopped zombie groups from denied live export work",
-        "logo_maker.export:_export_group_has_live_members",
+        "logo_maker.owned_process:_group_has_live_members",
         binary("/bin/ps"),
         "restore /bin/ps from macOS system tools or Linux procps",
     ),

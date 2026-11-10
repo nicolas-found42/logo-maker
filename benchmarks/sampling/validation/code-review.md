@@ -110,3 +110,29 @@ budget and 60-second fake-browser lifetime preserve the lifecycle regression. Pr
 settings and budgets are unchanged. Final offline228, lint/types/hooks pass. The narrow
 test-timing gate remains escalated (composite0.82275, safe-to-apply0.61); local-check claim
 verified.98, tests-only/pending-hosted claim unsupported. No hosted pass is inferred.
+
+## Owned host stages: fresh Standards and Spec reviews
+
+Fresh independent agents reviewed the approved starting revision plus the current host
+delta. Standards: no hard documented violation; optional typed RPC records if the small
+protocol grows. Spec: no new actionable mismatch in owned config/compile/dependency/image/
+cache work; whole-pipeline and qualification requirements remain partial. Both endorse
+explicit callback conflict with returned asset records, rather than pickling side effects.
+
+The new gate escalated composite0.580431818, safe-to-apply0.14. Test-count confidence.26;
+the first M5 pair was questioned at confidence.14. The independent Spec reviewer then
+read original logs:232offline/3render/47doctor, observed48.762266417/51.067629958s, Metal
+only/MetalOIDN4k, delivered2k and all62export hashes match. This resolves the narrow factual
+question, not the broad review signal, timing reconstruction or visual qualification.
+A second instrumented pair binds the baseline module to the starting revision and measures outer
+invocations; details and scope are retained separately.
+
+PR #8 integration was checked in a temporary merged archive, without branch mutation:
+2failed/255passed/3deselected. Inspection mode must be carried into the cache worker, and
+creative dependency/policy-file semantics preserved. #3 current/capture archival remains
+unbounded. These are explicit integration gaps, not a passing combined-stack claim.
+
+The separate invocation-measurement delta gate verified its narrow claim at confidence0.64
+but escalated (composite0.85875, safe-to-apply0.58) for low-confidence test coverage. Its
+actual measurement files, source fingerprints and timer scope are retained. It does not
+replace any earlier gate or supply performance/visual qualification.

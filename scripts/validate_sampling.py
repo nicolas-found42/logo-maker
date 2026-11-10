@@ -12,12 +12,13 @@ import json
 import subprocess
 import sys
 import tarfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 WORKER = """
-import json, time, sys
+import hashlib, json, time, sys
 from pathlib import Path
 from logo_maker import pipeline, render, export
 started = time.monotonic()
@@ -28,6 +29,9 @@ paths = export.export_all(folder, folder / "exports", name="Sampling fixture",
     palette={"primary":"#245846", "background":"#F4F1EA", "ink":"#131D18"},
     motif_svg=folder / "motif.svg")
 report = {"seconds":time.monotonic()-started, "render_seconds":result.seconds,
+          "render_module":str(Path(render.__file__).resolve()),
+          "render_module_sha256":hashlib.sha256(Path(render.__file__).read_bytes()).hexdigest(),
+          "interpreter":sys.executable,
           "execution":str(result.execution), "png":str(result.png),
           "sampling":str(getattr(result,"sampling",None)),
           "export_manifest":str(folder / "exports/manifest.json"),
@@ -161,6 +165,7 @@ def main() -> None:
     )
     fixture(folder, args.case, args.seed, args.threshold, args.cap)
     cwd = baseline if args.arm == "baseline" else ROOT
+    invocation_started = time.monotonic()
     with (folder / "host.log").open("w") as log:
         proc = subprocess.run(
             [sys.executable, "-c", WORKER, str(folder.resolve())],
@@ -170,10 +175,23 @@ def main() -> None:
             timeout=1000,
             check=False,
         )
+    invocation_seconds = time.monotonic() - invocation_started
     if proc.returncode:
         print((folder / "host.log").read_text()[-3000:])
         raise SystemExit(proc.returncode)
-    print((folder / "measurement.json").read_text())
+    measurement_path = folder / "measurement.json"
+    measurement = json.loads(measurement_path.read_text())
+    measurement.update(
+        invocation_seconds=invocation_seconds,
+        startup_and_reporting_seconds=invocation_seconds - measurement["seconds"],
+        invocation_scope=(
+            "outer launch, worker imports, complete render/export body, native shutdown and log IO; "
+            "excludes later evidence-copy/review and this measurement annotation"
+        ),
+        launch_cwd=str(cwd.resolve()),
+    )
+    measurement_path.write_text(json.dumps(measurement, indent=2) + "\n")
+    print(measurement_path.read_text())
 
 
 if __name__ == "__main__":
