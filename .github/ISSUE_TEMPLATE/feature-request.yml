@@ -1,0 +1,41 @@
+name: Feature request
+description: Propose a new capability or improvement to logo-maker.
+title: "feat: "
+labels: [needs-triage, enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the result you need and why it matters. Implementation design is
+        optional. Keep private client material and credentials out of examples.
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What are you trying to accomplish, and what is missing or difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired behavior and success example
+      description: |
+        Describe the observable result you want and an example that would show it
+        works. Mention the relevant stage, command, scene field or export if known.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Possible approach
+      description: Optionally suggest a command, field, treatment, material, renderer or export.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and constraints
+      description: What workarounds have you tried? Include relevant compatibility or format needs.
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or references
+      description: Attach shareable examples, links or images that clarify the requested result.

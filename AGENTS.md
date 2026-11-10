@@ -23,3 +23,26 @@ adapters) live in [docs/architecture.md](docs/architecture.md); change the contr
   (SSIM >= 0.90 against `examples/`). `just lint` and `just type` before committing.
 - `logo-maker doctor` must be all `ok` after any dependency change.
 - Live jev tests are marked `live` and run only with `-m live` and an API key.
+
+## Agent skills
+
+### Issue tracker
+
+Track issues and specs in GitHub Issues; before reading or publishing tickets, read
+`docs/agents/issue-tracker.md`.
+
+### Pull requests
+
+Before creating or updating a PR body, use the installed `pr` skill and read
+`.github/pull_request_template.md`. Follow the template submission checks in
+`docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Before triaging or changing labels, read the role mapping and label rules in
+`docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Use a single-context glossary and ADR layout; before exploring domain behavior, read
+`docs/agents/domain.md`.

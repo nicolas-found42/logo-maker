@@ -5,6 +5,7 @@ open-source tools only. Dates and star counts are as of 2026-11-09/10.
 
 | Note | Topic |
 | --- | --- |
+| `github-issue-pr-templates.md` | Peer issue/PR templates, GitHub form constraints and local field design |
 | `logo-design-principles.md` | Logo types, negative space, scalability and monochrome tests |
 | `logo-3d.md` | 3D logo approaches and a recommended headless chain |
 | `logo-3d-form.md` | Form-making beyond extrusion: SDF, CSG, physics, voxel, origami |

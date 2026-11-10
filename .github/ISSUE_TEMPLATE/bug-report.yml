@@ -1,0 +1,99 @@
+name: Bug report
+description: Report a failure in setup, logo generation, rendering or exports.
+title: "fix: "
+labels: [needs-triage, bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share the smallest example that shows the failure. Use inputs you can publish;
+        redact API keys and private client material. Explain when requested evidence
+        is unavailable, such as when installation fails before the CLI can start.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What command or action fails, and what do you observe?
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where does it fail?
+      description: Choose the closest stage; maintainers will apply component labels after triage.
+      options:
+        - Not sure
+        - Installation or doctor
+        - Intake or new logo
+        - Ideation
+        - Motifs or geometry
+        - Preview or rendering
+        - Finalize or QA
+        - Exports
+        - Run, resume or improve
+        - CLI, MCP or agent-skill integration
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps and minimal inputs
+      description: |
+        Include exact commands and steps. Paste or attach a minimal brief.toml and,
+        when relevant, motif.py/motif.svg or scene.toml. For installation failures,
+        include the install command. For MCP or skill failures, include the tool
+        call or action and client name. Avoid uploading an entire logo folder.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What output or behavior did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Include the error message or visible difference.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Use logo-maker --version or the commit. If neither is available, explain why.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and installation method
+      description: |
+        Include OS version, chip/architecture and installation method. Add Python
+        and Node versions if known. For render failures, include the GPU and
+        renderer; for integration failures, include the client version.
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Paste logo-maker doctor output, or explain why it cannot run.
+      render: text
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        Paste the traceback or full installation output. For stage failures, add
+        relevant excerpts from run.json and qa/rounds.jsonl when available.
+        Redact credentials before posting.
+      render: text
+  - type: textarea
+    id: visual-evidence
+    attributes:
+      label: Images or additional evidence
+      description: |
+        For visual failures, attach the actual PNG, contact sheet or failing export
+        and an expected/reference image if available. Identify the command, inputs
+        and revision that produced each image. Explain if an image cannot be shared.
