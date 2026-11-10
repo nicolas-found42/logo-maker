@@ -9,6 +9,7 @@ from __future__ import annotations
 
 def apply_cycles_gpu() -> None:
     """Enable Metal GPU rendering with the verified settings (order matters)."""
+    import _cycles
     import bpy
 
     # --- device setup (order matters) ---
@@ -16,13 +17,25 @@ def apply_cycles_gpu() -> None:
     cp.compute_device_type = "METAL"
     cp.refresh_devices()  # GPU device appears with use=True
     cp.metalrt = "AUTO"  # hardware ray tracing when beneficial
+    available = {d[2] for d in _cycles.available_devices("METAL") if d[1] == "METAL"}
+    selected = next((d for d in cp.devices if d.type == "METAL" and d.id in available), None)
     for d in cp.devices:
-        if d.type == "METAL":
-            d.use = True
+        d.use = d == selected
+    if (
+        len(available) != 1
+        or selected is None
+        or not selected.use
+        or any(d.use and d.type != "METAL" for d in cp.devices)
+    ):
+        raise RuntimeError(
+            "GPU-only policy: no enabled exclusive Metal GPU; CPU fallback forbidden"
+        )
 
     sc = bpy.context.scene
     sc.render.engine = "CYCLES"
     sc.cycles.device = "GPU"
+    # Also override inherited command-line/session device masks in the native session.
+    _cycles.set_device_override("METAL")
 
 
 def apply_quality(quality: dict) -> None:

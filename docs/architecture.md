@@ -130,7 +130,10 @@ centerline as a swept tube), `voxels` (motif rasterized to cubes), `cad` (build1
 ### Render
 
 `logo_maker.render.render(concept_dir, quality)` runs `python -m logo_maker.blender.build` in a
-subprocess with the current interpreter and returns a `RenderResult` (png, blend, glb, seconds).
+subprocess with the current interpreter and returns a `RenderResult` (png, blend, glb, seconds,
+execution). `execution` points to `.build/<quality>.execution.json` for the builder's Cycles
+render; its adjacent `.log` retains native denoiser diagnostics. Alternate renderer output is
+outside this Cycles execution attestation.
 
 | quality | resolution | samples | use |
 |---|---|---|---|
@@ -138,11 +141,33 @@ subprocess with the current interpreter and returns a `RenderResult` (png, blend
 | `preview` | 1000 px | 256 + denoise | jev preview screen |
 | `final` | 4000 px, downsampled to 2000 px | adaptive 0.01, max 4096, denoise | finals and exports |
 
-GPU: Metal with `refresh_devices()` before `device = "GPU"`, MetalRT `AUTO`, OIDN on GPU. First runs
-compile Metal kernels (1.5-5 min, no output); renders time out at 600 s and retry once on a crash.
+GPU contract (#4, shared with #5): the actual bpy process refreshes devices, disables all CPU
+tracing selections, selects one available Metal device, and forces the Cycles Metal device override.
+MetalRT stays `AUTO`. GPU denoising is a separate requirement: support/request flags alone do not
+prove execution. Each render must retain effective OIDN Metal runtime evidence or fail operationally;
+CPU/hybrid tracing and CPU denoising are never accepted. Normal CPU scene construction, synchronization,
+Metal submission, image analysis and file I/O remain permitted. Execution verification is independent
+of craftsmanship, fidelity, brief fit and aesthetic preference.
+First runs compile Metal kernels (1.5-5 min, no output); renders time out at 900 s and retry once
+on a crash.
+Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
+Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
+timing scope; #5 can consume it without changing numeric defaults.
 When the scene asks for `mitsuba`, `luxcore`, or `three`, the builder exports meshes, materials,
 camera, and lights to `concepts/<slug>/meshes/scene_export.json`, and the matching renderer in
 `logo_maker/renderers/` renders from that.
+
+### Qualification fixtures
+
+`benchmarks/omp/` is a provenance bundle, never a brand-default source. Its manifest binds each
+retained image, flat mark and recipe dependency to a SHA-256, origin and permitted-use note.
+Historical CPU-rendered originals, the 256 px renderer golden, the fresh 2000 px reconstruction,
+and new GPU replays retain separate identities. Replays do not replace original bytes.
+The verifier rejects missing/changed assets and reports owner labels per dimension: reproduction
+fidelity, craftsmanship, brief fit and preference. Unknown/missing labels remain unknown. No aggregate
+quality winner is inferred from SSIM, gloss or hardware. Transfer qualification needs owner-reviewed
+different-material successes and held-out briefs, plus rejected Skill Swap controls; missing cases
+leave qualification open. The small SSIM check covers renderer regression only.
 
 ### Jev
 

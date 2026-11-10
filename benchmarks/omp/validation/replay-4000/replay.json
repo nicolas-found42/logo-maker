@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "fixture_manifest": "0118815aa7121351260687b87c06cef5ad174662dbe8454538dcc0f748e9ff47"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 42,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    4000,
+    4000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "execution.log",
+  "seconds": 22.820360583005822,
+  "process_cpu_seconds": 6.043559999999999,
+  "log_sha256": "57371c72c773b0cb0211d22287e97a29a1233db6a893e7ee30464fc2799ead49",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "467e67785a8bd85cdb45efac80d3c1f47235defb9288590934a96e6870300598",
+  "fixture_manifest_sha256": "0118815aa7121351260687b87c06cef5ad174662dbe8454538dcc0f748e9ff47",
+  "scene_setup_seconds": 0.6295620830060216,
+  "replay_kind": "new GPU reference replay",
+  "total_seconds": 23.95052595800371,
+  "delivered_png_sha256": "38dc4d42e97d1d49f66b4bebad52ae114fd22260f4a1e5edf65f8e5b66e4c475",
+  "owner_review": "pending",
+  "qualification": "incomplete"
+}

@@ -20,7 +20,7 @@ RENDER_TIMEOUT = 900.0
 
 #: Blender 5.2.3 aborts intermittently on first Metal kernel load (issue #165570);
 #: the cache it already wrote usually makes the retry succeed.
-_CRASH_HINTS = ("SIGABRT", "Segmentation fault", "abort", "Traceback (most recent call last)")
+_CRASH_HINTS = ("SIGABRT", "Segmentation fault", "abort")
 
 
 @dataclass(frozen=True)
@@ -30,6 +30,7 @@ class RenderResult:
     glb: Path
     seconds: float
     quality: str
+    execution: Path | None = None
 
 
 def _alpha_cleanup_png(png: Path) -> Path:
@@ -76,6 +77,7 @@ def render(
         glb=concept_dir / "model.glb",
         seconds=seconds,
         quality=quality,
+        execution=concept_dir / ".build" / f"{name}.execution.json",
     )
 
 
