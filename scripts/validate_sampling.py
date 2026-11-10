@@ -49,7 +49,12 @@ def fixture(folder: Path, case: str, seed: int, threshold: float | None, cap: in
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">'
         f'<path id="symbol" fill="#245846" d="{motif}"/></svg>'
     )
-    material = {"matte": "matte_plastic", "metal": "polished_metal", "glass": "clear_glass"}[case]
+    material = {
+        "matte": "matte_plastic",
+        "metal": "polished_metal",
+        "glass": "clear_glass",
+        "typography": "polished_metal",
+    }[case]
     font = ROOT / "benchmarks/omp/recipe/OpenSans-Bold-static.ttf"
     render_fields = ""
     if threshold is not None:
@@ -102,7 +107,7 @@ text = "OPTICS • 08 BETA • OPTICS • 08 BETA • "
 font = "{font}"
 radius = 0.78
 cap_height = 0.045
-base = 0.105
+base = {0.172 if case == "typography" else 0.105}
 ''')
     (folder / "brief.json").write_text(
         json.dumps(
@@ -125,7 +130,9 @@ def main() -> None:
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--prepare-baseline")
     parser.add_argument("--arm", choices=["baseline", "current"], default="current")
-    parser.add_argument("--case", choices=["matte", "metal", "glass"], default="matte")
+    parser.add_argument(
+        "--case", choices=["matte", "metal", "glass", "typography"], default="matte"
+    )
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--threshold", type=float)
     parser.add_argument("--cap", type=int)
