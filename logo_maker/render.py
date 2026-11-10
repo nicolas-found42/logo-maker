@@ -361,12 +361,7 @@ def render(
                 effective.update(decision.settings.quality())
                 diagnosis = None
                 continue
-            for name in ("scene.blend", "model.glb", f"{quality}.png"):
-                path = attempt_dir / name
-                if path.exists():
-                    staged = concept_dir / (".publishing-" + uuid.uuid4().hex + "-" + name)
-                    shutil.copyfile(path, staged)
-                    staged.replace(concept_dir / name)
+            publish_artifacts(attempt_dir, concept_dir, quality, budget)
             job.update(
                 published=True,
                 delivered_sha256=delivered_hash,
@@ -411,6 +406,46 @@ def render(
         else None,
         job_path,
     )
+
+
+def publish_artifacts(attempt_dir: Path, concept_dir: Path, quality: str, budget: Budget) -> None:
+    """Stage all I/O before committing, with rollback if publication hits its limit."""
+    token = uuid.uuid4().hex
+    staged = {}
+    backups = {}
+    committed = []
+    succeeded = False
+    try:
+        for name in ("scene.blend", "model.glb", f"{quality}.png"):
+            source = attempt_dir / name
+            if source.exists():
+                budget.check()
+                target = concept_dir / name
+                temp = concept_dir / (".publishing-" + token + "-" + name)
+                staged[target] = temp
+                shutil.copyfile(source, temp)
+        budget.check()
+        for target, temp in staged.items():
+            if target.exists():
+                backup = target.with_name(".prior-" + token + "-" + target.name)
+                target.replace(backup)
+                backups[target] = backup
+            temp.replace(target)
+            committed.append(target)
+            budget.check()
+        succeeded = True
+    except BaseException:
+        for target in committed:
+            target.unlink(missing_ok=True)
+        for target, backup in backups.items():
+            backup.replace(target)
+        raise
+    finally:
+        for path in staged.values():
+            path.unlink(missing_ok=True)
+        if succeeded:
+            for path in backups.values():
+                path.unlink(missing_ok=True)
 
 
 def _run_builder(scene_json: Path, concept_dir: Path, quality: str, *, budget: Budget) -> None:

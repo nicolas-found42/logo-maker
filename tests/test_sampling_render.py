@@ -169,3 +169,51 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
     assert render.artifact_current(tmp_path, "final", check_machine=False)
     review.unlink()
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
+
+
+def test_deadline_during_publication_keeps_prior_final(tmp_path, monkeypatch):
+    source = compiled(tmp_path)
+    clock = [0.0]
+    budget = Budget(wall_seconds=10, clock=lambda: clock[0])
+    prior = tmp_path / "final.png"
+    prior.write_bytes(b"approved prior image")
+    monkeypatch.setattr(scene, "compile", lambda *a, **k: source)
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        spec = json.loads(path.read_text())
+        folder = Path(spec["output_dir"])
+        Image.new("RGBA", (64, 64), (1, 2, 3, 255)).save(folder / "final.png")
+        (folder / "final.execution.json").write_text('{"status":"verified"}')
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    copy = render.shutil.copyfile
+
+    def slow_copy(src, dst, *args, **kwargs):
+        result = copy(src, dst, *args, **kwargs)
+        clock[0] = 11
+        return result
+
+    monkeypatch.setattr(render.shutil, "copyfile", slow_copy)
+    with pytest.raises(RuntimeError, match="time_limit"):
+        render.render(tmp_path, "final", budget=budget)
+    assert prior.read_bytes() == b"approved prior image"
+
+
+def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp_path, monkeypatch):
+    from logo_maker import pipeline
+    from logo_maker.paths import LogoDir
+
+    logo = LogoDir(tmp_path / "logo")
+    (logo.ideation / "finalists.json").write_text('{"ids":["a|b|c"]}')
+    prior = logo.ideation / "winner.json"
+    prior.write_text('{"winner":"approved-prior"}')
+    monkeypatch.setattr(pipeline, "brand", lambda logo: pipeline.Brand({}, {}))
+    monkeypatch.setattr(
+        pipeline, "qa_concept", lambda *a, **k: {"result": "sampling_review_needed"}
+    )
+    with pytest.raises(pipeline.AuthoringNeeded) as caught:
+        pipeline.finalize(logo, client=object())
+    assert logo.concept("a|b|c") / ".build/final.sampling.json" in caught.value.files
+    assert prior.read_text() == '{"winner":"approved-prior"}'

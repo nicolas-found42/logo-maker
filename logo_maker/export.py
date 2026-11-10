@@ -438,7 +438,10 @@ def export_all(
             out_dir.rename(backup)
         try:
             pending.rename(out_dir)
-        except OSError:
+            budget.check()
+        except (OSError, SamplingLimit):
+            if out_dir.exists():
+                shutil.rmtree(out_dir)
             if backup.exists():
                 backup.rename(out_dir)
             raise

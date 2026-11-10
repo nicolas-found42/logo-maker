@@ -475,9 +475,18 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
     log = runlog(logo.run_json)
     if not passed:
         log.stage("finalize", "failed", qa={k: v["result"] for k, v in results.items()})
+        files = []
+        for cid, result in results.items():
+            folder = logo.concept(cid)
+            if result["result"] == "sampling_review_needed":
+                files.extend([folder / ".build/final.sampling.json", folder / "scene.toml"])
+            elif result["result"] == "refinement_needed":
+                files.extend([folder / "scene.toml", folder / ".build/final.sampling.json"])
+            else:
+                files.append(folder / "motif.py")
         raise AuthoringNeeded(
             "no finalist qualified; inspect sampling/refinement outcomes in qa/rounds.jsonl",
-            [logo.concept(cid) / "motif.py" for cid in finalists],
+            files,
         )
     brief = brief_mod.load(logo.brief)
     if len(passed) == 1:
