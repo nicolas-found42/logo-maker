@@ -1,5 +1,9 @@
 # Logo folders are per-user work, not source.
 /logos/
+
+# Coursework and assignment files are not part of the tool.
+/assignments/
+
 .venv/
 __pycache__/
 *.pyc
