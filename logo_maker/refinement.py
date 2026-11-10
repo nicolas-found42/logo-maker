@@ -388,11 +388,17 @@ def compare(logo: LogoDir, before: dict, after: dict, client) -> dict:
         for name in ("inspection.json", "judgment.json")
         if (before_dir / name).exists()
     }
+    current_review = {
+        name.removesuffix(".json"): read(after_dir / name)
+        for name in ("inspection.json", "judgment.json")
+        if (after_dir / name).exists()
+    }
     binding = key(
         {
             "before": before,
             "after": after,
             "prior": prior,
+            "current_review": current_review,
             "questions": revision_questions(),
             "judge": [
                 getattr(client, "model", type(client).__name__),
@@ -412,6 +418,7 @@ def compare(logo: LogoDir, before: dict, after: dict, client) -> dict:
         "before_intent": before["construction"],
         "after_intent": after["construction"],
         "prior_critique": prior,
+        "current_review": current_review,
     }
     answers = client.ask(state, revision_questions(), label=f"compare-{after['revision']}")
     if before["image_sha256"] == after["image_sha256"]:

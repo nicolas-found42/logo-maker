@@ -373,3 +373,38 @@ def test_final_revision_cannot_pass_with_unresolved_comparative_critique(tmp_pat
     inspect_current(logo, cid, folder)
     with pytest.raises(pipeline.AuthoringNeeded, match="comparison"):
         pipeline.qa_concept(logo, cid, judge, brand)
+
+
+def test_current_owner_direction_invalidates_unresolved_comparison(tmp_path, monkeypatch):
+    class DirectionJudge(Judge):
+        def ask(self, state, questions, *, label):
+            answers = super().ask(state, questions, label=label)
+            if "critique_resolved" in answers:
+                direction = (
+                    state.get("current_review", {}).get("inspection", {}).get("user_feedback", "")
+                )
+                answers["critique_resolved"]["noul"] = 0.95 if "Owner prefers" in direction else 0.1
+            return answers
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    judge = DirectionJudge()
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+    with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+        pipeline.refine(logo, judge)
+    with (folder / "scene.toml").open("a") as stream:
+        stream.write("\n# fold")
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo, judge)
+    inspect_current(logo, cid, folder)
+    with pytest.raises(pipeline.AuthoringNeeded, match="comparison"):
+        pipeline.refine(logo, judge)
+    inspection = json.loads((folder / "inspection.json").read_text())
+    inspection["user_feedback"] = (
+        "Owner prefers this restrained finish between successful treatments"
+    )
+    (folder / "inspection.json").write_text(json.dumps(inspection))
+    assert pipeline.refine(logo, judge)["rendered_variants"] == 2
