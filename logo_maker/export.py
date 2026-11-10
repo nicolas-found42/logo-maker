@@ -8,10 +8,13 @@ always match. Raises `ExportError` when the hero fails its alpha check.
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
+import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -407,21 +410,9 @@ def export_all(
             "palette": palette,
             "motif_svg": str(Path(motif_svg).resolve()),
         }
-        try:
-            proc = subprocess.run(
-                [sys.executable, "-m", "logo_maker.export"],
-                input=json.dumps(payload),
-                text=True,
-                capture_output=True,
-                timeout=budget.remaining,
-                check=False,
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise SamplingLimit(
-                "time_limit: export deadline exhausted; prior exports retained"
-            ) from exc
-        if proc.returncode:
-            raise ExportError((proc.stderr or proc.stdout)[-2000:])
+        stdout, stderr, returncode = _export_worker(payload, budget)
+        if returncode:
+            raise ExportError((stderr or stdout)[-2000:])
         budget.check()
         record = json.loads((pending / "manifest.json").read_text())
         record["sampling"] = (
@@ -448,6 +439,65 @@ def export_all(
         if backup.exists():
             shutil.rmtree(backup)
     return {key: out_dir / entry["path"] for key, entry in record["files"].items()}
+
+
+def _export_worker(payload: dict, budget: Budget) -> tuple[str, str, int]:
+    """Own the subprocess session; reserve cleanup time inside the job deadline."""
+    cleanup_seconds = 1.0
+    if os.name != "posix":
+        raise ExportError("bounded export requires macOS/Linux process-session cleanup")
+    if budget.remaining <= cleanup_seconds:
+        raise SamplingLimit("time_limit: insufficient export budget including process cleanup")
+    worker = subprocess.Popen(
+        [sys.executable, "-m", "logo_maker.export"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        start_new_session=True,
+    )
+    try:
+        try:
+            stdout, stderr = worker.communicate(
+                json.dumps(payload), timeout=max(0.001, budget.remaining - cleanup_seconds)
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise SamplingLimit(
+                "time_limit: export deadline exhausted; prior exports retained"
+            ) from exc
+        return stdout, stderr, worker.returncode
+    finally:
+        try:
+            _stop_export_session(worker, budget)
+        finally:
+            for stream in (worker.stdin, worker.stdout, worker.stderr):
+                if stream:
+                    stream.close()
+
+
+def _stop_export_session(worker: subprocess.Popen, budget: Budget) -> None:
+    """Give launcher hooks time even after the immediate worker has exited."""
+
+    def active() -> bool:
+        try:
+            os.killpg(worker.pid, 0)
+        except ProcessLookupError:
+            return False
+        return True
+
+    if active():
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(worker.pid, signal.SIGTERM)
+        grace_end = time.monotonic() + max(0, min(0.8, budget.remaining - 0.2))
+        while active() and time.monotonic() < grace_end:
+            time.sleep(min(0.01, max(0, grace_end - time.monotonic())))
+        if active():
+            with contextlib.suppress(ProcessLookupError):
+                os.killpg(worker.pid, signal.SIGKILL)
+    try:
+        worker.wait(timeout=max(0.001, min(0.2, budget.remaining)))
+    except subprocess.TimeoutExpired as exc:
+        raise SamplingLimit("time_limit: export worker cleanup unconfirmed") from exc
 
 
 if __name__ == "__main__":

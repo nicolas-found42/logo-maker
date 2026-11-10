@@ -222,6 +222,12 @@ Issue #2 must independently enforce craftsmanship, brief fit and preference, inc
 technically
 accepted or capped image. A capped image is never described as proven convergence.
 
+Bounded export on macOS/Linux starts the worker in its own process session. One second
+of the remaining budget is reserved for termination/reaping: SIGTERM reaches Node/Chrome
+launcher cleanup hooks, followed by SIGKILL for remaining session members. Insufficient
+cleanup reserve rejects the attempt before launch. Arbitrary uncooperative processes that
+escape that session are outside the supported adapter contract.
+
 ### Qualification fixtures
 
 `benchmarks/omp/` is a provenance bundle, never a brand-default source. Its manifest binds each

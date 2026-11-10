@@ -1,0 +1,127 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "safe_to_apply_below_review",
+    "review_escalated",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.19,
+    "scores": {
+      "correctness": {
+        "score": 1.33,
+        "confidence": 0.22,
+        "probabilities": {
+          "0": 0.09,
+          "1": 0.48,
+          "2": 0.43
+        }
+      },
+      "spec_match": {
+        "score": 1.77,
+        "confidence": 0.66,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.19,
+          "2": 0.79
+        }
+      },
+      "test_gap": {
+        "score": 0.96,
+        "confidence": 0.34,
+        "probabilities": {
+          "0": 0.24,
+          "1": 0.56,
+          "2": 0.2
+        }
+      },
+      "blast_radius": {
+        "score": 1.71,
+        "confidence": 0.56,
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.27,
+          "2": 0.72
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.6312500000000001,
+    "reason_codes": [
+      "confidence_below_review",
+      "safe_to_apply_below_review"
+    ],
+    "limiting_rubrics": [
+      "correctness"
+    ]
+  },
+  "verification": {
+    "action": "review",
+    "summary": {
+      "verified": 3,
+      "contradicted": 0,
+      "unsupported": 0,
+      "needs_review": 1,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "Final offline checks pass 226 tests; 3 actual render/adapter/runtime checks pass.",
+        "verdict": "verified",
+        "confidence": 0.79,
+        "probabilities": {
+          "verified": 0.86,
+          "contradicted": 0.09,
+          "unsupported": 0.05
+        },
+        "action": "review"
+      },
+      {
+        "claim": "Owner rejects threshold0.02 at cap4096 for lost needed detail in shown typography/glass comparisons; cap16 remains unrated and no replacement profile is qualified.",
+        "verdict": "verified",
+        "confidence": 1,
+        "probabilities": {
+          "verified": 1,
+          "contradicted": 0,
+          "unsupported": 0
+        },
+        "action": "auto"
+      },
+      {
+        "claim": "The old hosted timeout's cause remains unknown despite unchanged rerun passing; this patch fixes a separately reproduced export process-lifecycle bug.",
+        "verdict": "verified",
+        "confidence": 0.85,
+        "probabilities": {
+          "verified": 0.9,
+          "contradicted": 0.02,
+          "unsupported": 0.08
+        },
+        "action": "auto"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 7117,
+    "output_tokens": 198
+  }
+}

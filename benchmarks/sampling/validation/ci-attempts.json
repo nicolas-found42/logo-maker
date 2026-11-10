@@ -1,0 +1,12 @@
+{
+  "attempt": 2,
+  "conclusion": "success",
+  "headSha": "f3d0f151963aedaa59b6819b1c44bbe6ce62bbf6",
+  "status": "completed",
+  "first_attempt": {
+    "conclusion": "failure",
+    "failure": "tests/test_export.py::test_export_set_sizes_and_manifest: node js/pwa.mjs exceeded300s"
+  },
+  "cause": "unknown; unchanged rerun success is not a root-cause diagnosis",
+  "separate_budget_bug": "Child work survived export timeout; independent local heartbeat reproduction drove process-session cleanup fix."
+}

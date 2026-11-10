@@ -2,8 +2,9 @@
 
 This is technical evidence for [#5](https://github.com/nicolas-found42/logo-maker/issues/5),
 not a catalog/default design reference. No qualified replacement profile is shipped.
-Owner sampling review, tolerance calibration and owner-reviewed held-out brief qualification
-remain open. Both Chief finishes retain their existing positive craftsmanship labels;
+The owner rejected 0.02 detail in the shown typography/glass comparisons. Positive and
+held-out qualification, and the unrated cap-16 control, remain open. Both Chief finishes retain
+their existing positive craftsmanship labels;
 these synthetic fixtures do not redefine that standard.
 
 ## Machine and method
@@ -112,7 +113,7 @@ uv run --locked python scripts/validate_sampling.py --root /tmp/new-sampling-run
 ```
 
 [validation/code-review.md](validation/code-review.md) records Standards and Spec reviews and
-fixes. [validation/offline.txt](validation/offline.txt) records 224 offline tests passing;
+fixes. [validation/offline.txt](validation/offline.txt) records 226 offline tests passing;
 render regression records 3 passing tests (Cycles image, explicit LuxCore image, actual profile
 library identity). The LuxCore image is an explicit legacy adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
@@ -129,9 +130,37 @@ dependencies can be inventoried. A source hash alone is insufficient. Normal pro
 includes Python/image/geometry library versions and the project lockfile. Noise repair uses
 the explicitly reviewed region, so unrelated saturated pixels cannot choose the control.
 
-Two additional full production smoke jobs are retained in
+Four additional full production smoke jobs are retained in
 [validation/final-runtime-validation.json](validation/final-runtime-validation.json), separately
-from the original 25-job calibration cost matrix. Both have verified GPU render/denoise,
-4000→2000 delivery and 31 verified export-file hashes each. The final smoke's recorded source
+from the original 25-job calibration cost matrix. All have verified GPU render/denoise,
+4000→2000 delivery and 31 verified export-file hashes each. The final smoke’s recorded source
 scope matches the current implementation and its runtime stack/lock identity is populated.
 Owner qualification remains pending; these are operational checks.
+
+## Owner review outcome
+
+The owner rejected threshold **0.02 at cap 4096** in the shown typography and glass
+comparisons: “No, 0.02 loses needed detail.” The faster numeric candidate therefore fails
+its demonstrated detail requirement and is not qualified or selected. Keep the unchanged
+**4096 / 0.01** comparator. The agent’s earlier provisional assessment is superseded by
+this owner feedback. This is a sampling-detail verdict, not a craft or preference ranking.
+
+The cap-16 control remains owner-unrated: the response requested clarification, not a quality
+label. The comparison does not imply absolute/transfer approval of the 0.01 baseline.
+[validation/owner-review.json](validation/owner-review.json) binds the exact owner response
+to shown figure/source image hashes. No qualified replacement or automatic noise/detail
+tolerance is enabled. Additional positive/held-out qualification remains open.
+
+## Export deadline follow-up
+
+The first hosted test attempt on `f3d0f15` timed out in the existing PWA helper at 300 s.
+The unchanged failed-job rerun passed; the root cause remains unknown. This is retained in
+[validation/ci-attempts.json](validation/ci-attempts.json), not described as a proven browser fix.
+
+Separately, a local heartbeat regression proved that tool/browser work could survive the
+outer export timeout. The fix owns a POSIX process session, reserves cleanup time within
+the budget, signals launcher cleanup hooks, gives the group its grace period even after
+the immediate worker exits, then force-kills/reaps remaining session work. Regression cases
+cover both deadline expiry and an inner-tool error with a delayed detached-browser hook.
+Prior exports remain intact. Uncooperative processes escaping without supported cleanup
+hooks remain outside the adapter contract.

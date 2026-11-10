@@ -69,3 +69,24 @@ evidence. All four limited completion claims were verified (none contradicted/un
 with low confidence remaining on the operational artifact claims. The broad patch review
 still escalated: composite 0.583640625, safe-to-apply 0.14. It remains a review-needed signal,
 not an automated acceptance or merge recommendation. Owner qualification remains open.
+
+## Export cleanup and owner feedback follow-up
+
+Both reviewers rechecked the owned-process cleanup change. Standards found that grace must
+follow group liveness after Python exits; Spec found cleanup must also run on inner-tool
+failure. Both findings were fixed. The delayed launcher-hook regressions failed before the
+fix and pass afterward for timeout and inner failure, preserving prior exports. Both final
+focused reviews report no further actionable findings. Claims remain limited to owned
+POSIX sessions and supported launcher cleanup hooks. The earlier hosted PWA timeout has
+unknown root cause; an unchanged successful rerun does not prove this fix resolved it.
+
+Final checks: 226 offline tests and 3 render/adapter/runtime checks pass; lint, types and
+hooks pass. Four later production smokes remain separate from the original cost matrix.
+The owner rejected threshold 0.02 in the shown typography/glass comparisons. This replaces
+the agent's provisional visual assessment. The cap-16 control is unrated; no positive or
+held-out profile qualification is inferred. The prior broad Jev escalation remains retained.
+
+The narrow final cleanup Jev gate also escalated (composite 0.63125, safe-to-apply 0.19).
+All three limited claims were verified; the test-count claim confidence was 0.79, below
+its 0.8 automatic threshold. No claim was contradicted or unsupported. This does not
+replace the broad gate or establish automatic acceptance. See `jev-gate-cleanup.json`.

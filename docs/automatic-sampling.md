@@ -34,7 +34,12 @@ Finalize and `run` share a 1800 s deadline across final QA, candidates and expor
 native ceiling is four attempts per finalist (12 in `run`), with the tighter scene ceiling
 still applied within each render call. Standalone export starts a fresh explicit budget.
 QA rounds are separately limited to five. Exports run in a subprocess capped by remaining
-wall time, and publish a complete staged directory only after success. Render subprocesses
+wall time, and publish a complete staged directory only after success. On macOS/Linux,
+the worker owns a process session and reserves one second of the job budget for SIGTERM
+launcher cleanup and final SIGKILL/reaping. A budget too small for that reserve does not
+launch the worker. The supported browser launchers use termination hooks to close detached
+browsers; arbitrary processes escaping the session without cleanup are unsupported. Render
+subprocesses
 get min(900 s, remaining deadline). Compilation/host analyses check before and after work;
 an overrun prevents publication but a long native host call can exceed the deadline before
 returning. This cooperative-host limitation remains explicit.
