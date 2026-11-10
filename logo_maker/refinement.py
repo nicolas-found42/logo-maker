@@ -225,11 +225,24 @@ def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = No
     return record
 
 
-def require_current(logo: LogoDir, cid: str, record: dict, *, budget: Budget | None = None) -> None:
+def require_current(
+    logo: LogoDir,
+    cid: str,
+    record: dict,
+    *,
+    budget: Budget | None = None,
+    inspection_sha256: str | None = None,
+) -> None:
     from logo_maker.pipeline import AuthoringNeeded
 
     active = current(logo, cid, record["quality"], budget=budget)
-    if not active or active["revision"] != record["revision"]:
+    inspection = logo.concept(cid) / (
+        "inspection-final.json" if record["quality"] == "final" else "inspection.json"
+    )
+    inspection_changed = inspection_sha256 is not None and (
+        not inspection.exists() or digest(inspection) != inspection_sha256
+    )
+    if not active or active["revision"] != record["revision"] or inspection_changed:
         raise AuthoringNeeded(
             "inputs or device context changed while judging; refresh and inspect the render",
             [logo.concept(cid) / "scene.toml", logo.concept(cid) / "construction.json"],

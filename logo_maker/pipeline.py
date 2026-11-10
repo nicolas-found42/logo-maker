@@ -360,15 +360,27 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
         refinement.construction(logo.concept(cid))
     motifs(logo)
     records = []
+    inspection_bindings = {}
     for cid in ids:
         record = refinement.capture(logo, cid, "preview", budget=budget)
+        inspection_path = logo.concept(cid) / "inspection.json"
+        inspection_binding = refinement.digest(inspection_path) if inspection_path.exists() else ""
         inspection = refinement.inspected(logo, cid, record)
         refinement.judge_revision(logo, cid, record, inspection, client or _client(logo))
-        refinement.require_current(logo, cid, record, budget=budget)
+        refinement.require_current(
+            logo, cid, record, budget=budget, inspection_sha256=inspection_binding
+        )
+        inspection_bindings[cid] = inspection_binding
         records.append(record)
     refinement.alternatives(logo, records, client or _client(logo))
     for record in records:
-        refinement.require_current(logo, record["concept"], record, budget=budget)
+        refinement.require_current(
+            logo,
+            record["concept"],
+            record,
+            budget=budget,
+            inspection_sha256=inspection_bindings[record["concept"]],
+        )
     return status(logo)
 
 
@@ -443,6 +455,7 @@ def qa_concept(
         "concept": concept_id,
         "revision": record["revision"],
         "artifact": record["image"],
+        "image_sha256": record["image_sha256"],
         "failures": sorted(failures),
         "unsettled": sorted(n for n, v in verdicts.items() if v.status == "unsettled"),
         "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
@@ -489,9 +502,14 @@ def qa_concept(
         )
     try:
         budget.check()
+        inspection_path = folder / "inspection-final.json"
+        inspection_binding = refinement.digest(inspection_path) if inspection_path.exists() else ""
         inspection = refinement.inspected(logo, concept_id, record)
         refinement.judge_revision(logo, concept_id, record, inspection, client)
-        refinement.require_current(logo, concept_id, record, budget=budget)
+        refinement.require_current(
+            logo, concept_id, record, budget=budget, inspection_sha256=inspection_binding
+        )
+        result["inspection_sha256"] = inspection_binding
         budget.check()
     except AuthoringNeeded:
         result["result"] = "creative_review_needed"
@@ -512,6 +530,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
 
     data = _read_json(finalists_path)
     refinement.require_binding(logo, data, "preview")
+    campaign_binding = data["binding"]
     finalists = list(data["ids"])
     client = client or _client(logo)
     brand_ = brand(logo)
@@ -527,9 +546,31 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             "no finalist passed QA; simplify the motifs named in qa/rounds.jsonl",
             [logo.concept(cid) / "motif.py" for cid in finalists],
         )
+
+    def require_final_bindings() -> None:
+        stale = refinement.campaign_key(logo, shortlist(logo)) != campaign_binding
+        for cid in passed:
+            active = refinement.current(logo, cid, "final", budget=budget)
+            inspection = logo.concept(cid) / "inspection-final.json"
+            if (
+                not active
+                or active["revision"] != results[cid]["revision"]
+                or active["image_sha256"] != results[cid]["image_sha256"]
+                or not inspection.exists()
+                or refinement.digest(inspection) != results[cid]["inspection_sha256"]
+            ):
+                stale = True
+        if stale:
+            raise AuthoringNeeded(
+                "final eligibility changed while judging; refresh the affected renders/inspections",
+                [logo.concept(cid) / "inspection-final.json" for cid in passed],
+                details={"dimension": "stale_final_judgment"},
+            )
+
     winner_path = logo.ideation / "winner.json"
     prior_winner = winner_path.read_bytes() if winner_path.exists() else None
     try:
+        require_final_bindings()
         brief = brief_mod.load(logo.brief)
         if len(passed) == 1:
             winner = passed[0]
@@ -541,12 +582,11 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             winner = judging.final_tournament(
                 logo, brief, {cid: logo.concept(cid) / "final.png" for cid in passed}, client
             )
+        require_final_bindings()
         winner_doc = _read_json(logo.ideation / "winner.json")
-        winner_doc["binding"] = refinement.campaign_key(logo, shortlist(logo))
-        winner_doc["final_sha256"] = refinement.digest(logo.concept(winner) / "final.png")
-        winner_doc["final_inspection_sha256"] = refinement.digest(
-            logo.concept(winner) / "inspection-final.json"
-        )
+        winner_doc["binding"] = campaign_binding
+        winner_doc["final_sha256"] = results[winner]["image_sha256"]
+        winner_doc["final_inspection_sha256"] = results[winner]["inspection_sha256"]
         _write_json(logo.ideation / "winner.json", winner_doc)
         budget.check()
         log.stage(

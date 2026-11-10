@@ -506,3 +506,75 @@ def test_source_edit_during_judgment_cannot_become_current_eligibility(tmp_path,
     with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
         pipeline.refine(logo, EditingJudge())
     assert not (logo.ideation / "finalists.json").exists()
+
+
+@pytest.mark.parametrize("edit", ["scene", "inspection"])
+def test_final_tournament_cannot_approve_in_flight_edits(tmp_path, monkeypatch, edit):
+    import shutil
+
+    from logo_maker import refinement
+    from logo_maker.paths import REPO_ROOT
+
+    logo, cid, folder = job(tmp_path)
+    with logo.brief.open("a") as stream:
+        stream.write('\n[palette]\nprimary="#123456"\n[fonts]\ndisplay="Manrope:wght=700"\n')
+    construction(folder)
+    other = "other|paper|paper"
+    other_folder = logo.concept(other)
+    shutil.copytree(folder, other_folder, dirs_exist_ok=True)
+    info = json.loads((other_folder / "concept.json").read_text())
+    info["id"] = other
+    (other_folder / "concept.json").write_text(json.dumps(info))
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": [cid, other]}))
+    pipeline.motifs(logo)
+    reference = REPO_ROOT / "examples/chief-of-staff/reference-256.png"
+    fake_gpu(monkeypatch, reference)
+    brand = pipeline.Brand({"primary": "#123456"}, {"display": "Manrope:wght=700"})
+    for current_id in (cid, other):
+        current_folder = logo.concept(current_id)
+        shutil.copyfile(reference, current_folder / "preview.png")
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.qa_concept(logo, current_id, Judge(), brand)
+        inspect_current(logo, current_id, current_folder)
+        assert pipeline.qa_concept(logo, current_id, Judge(), brand)["result"] == "pass"
+    (logo.ideation / "finalists.json").write_text(
+        json.dumps({"ids": [cid, other], "binding": refinement.campaign_key(logo, [cid, other])})
+    )
+    winner = logo.ideation / "winner.json"
+    winner.write_text('{"winner":"approved-prior"}')
+
+    class EditingTournament(Judge):
+        edited = False
+
+        def ask(self, state, questions, *, label):
+            if "preferred_mark" in questions:
+                if not self.edited:
+                    self.edited = True
+                    if edit == "scene":
+                        with (folder / "scene.toml").open("a") as stream:
+                            stream.write("\n# source edit during final tournament")
+                    else:
+                        path = folder / "inspection-final.json"
+                        data = json.loads(path.read_text())
+                        data["critiques"] = [
+                            {
+                                "kind": "preference",
+                                "dimension": "finish",
+                                "artifact": "final.png",
+                                "evidence": "New unresolved owner direction",
+                                "action": "Review direction",
+                                "comparison": "Compare finishes",
+                                "resolved": False,
+                            }
+                        ]
+                        path.write_text(json.dumps(data))
+                return {
+                    "preferred_mark": {
+                        "choice": next(iter(questions["preferred_mark"]["criteria"]))
+                    }
+                }
+            return super().ask(state, questions, label=label)
+
+    with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
+        pipeline.finalize(logo, EditingTournament())
+    assert winner.read_text() == '{"winner":"approved-prior"}'
