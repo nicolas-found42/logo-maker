@@ -115,5 +115,8 @@ uv run --locked python scripts/validate_sampling.py --root /tmp/new-sampling-run
 fixes. [validation/offline.txt](validation/offline.txt) records 221 offline tests passing;
 render regression records 2 passing tests. The second is an explicit legacy LuxCore adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
-Doctor passed 46/46; lint, types and hooks passed. Jev questions/provider code are unchanged;
+Doctor passed 46/46; lint, types and hooks passed. The auxiliary Jev completion gate
+escalated for review; it is retained along with the subsequent 25-job mechanical artifact
+audit. The PR remains draft rather than claiming automated review acceptance.
+Jev questions/provider code are unchanged;
 no product live-Jev qualification was run.

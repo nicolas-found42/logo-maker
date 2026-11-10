@@ -1,0 +1,532 @@
+{
+  "audited_jobs": 25,
+  "all_assertions_passed": true,
+  "rows": [
+    {
+      "job": "glass-baseline-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "glass-baseline-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "glass-current-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "glass-current-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "glass-current-seed0-t0.02-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "glass-current-seed43-t0.02-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 43,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-baseline-seed0-t0.01-run1",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-baseline-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-baseline-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-current-seed0-t0.01-run1",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-current-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-current-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-current-seed0-t0.02-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "matte-current-seed43-t0.02-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 43,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-baseline-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-baseline-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-current-seed0-t0.01-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-current-seed0-t0.01-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-current-seed0-t0.02-run2",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "metal-current-seed43-t0.02-run3",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 43,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "typography-baseline-seed0-t0.01-runfinal",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "typography-current-seed0-t0.01-rundegraded",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 16,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "typography-current-seed0-t0.01-runfinal",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "typography-current-seed0-t0.02-runfinal",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 0,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    },
+    {
+      "job": "typography-current-seed43-t0.02-runfinal",
+      "enabled_tracing_types": [
+        "METAL"
+      ],
+      "oidn_runtime": "Metal",
+      "source_resolution": [
+        4000,
+        4000
+      ],
+      "delivered_resolution": [
+        2000,
+        2000
+      ],
+      "seed": 43,
+      "cap": 4096,
+      "native_log_sha256_verified": true,
+      "delivered_sha256_verified": true,
+      "all_export_hashes_verified": true,
+      "export_files": 31
+    }
+  ],
+  "scope": "mechanical retained artifact audit; not visual qualification or a merge approval"
+}

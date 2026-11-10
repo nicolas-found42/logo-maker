@@ -34,3 +34,23 @@ owner-reviewed held-out real briefs and a qualified profile. This PR uses Refs #
 Final unresolved implementation findings: Standards 0, Spec 0 in focused re-review;
 qualification gaps above remain open. Reviews were source inspection, not independent visual
 sign-off or proof that every issue acceptance criterion is satisfied.
+
+## Auxiliary completion gate
+
+`jev-gate.json` retains a separate Jev gate that escalated rather than accepted automatically.
+The review composite was 0.5685, safe-to-apply 0.18, with low confidence/test-gap and blast-radius
+signals. It verified the test-count claim (0.98 confidence), but returned a low-confidence
+contradiction on the 25-job GPU claim (verified .39 / contradicted .44 / unsupported .17).
+This is not an automated review pass or a merge recommendation. The PR stays draft.
+
+A subsequent deterministic audit (`artifact-audit.json`) read all 25 retained final images,
+native logs, execution selections, and every exported file. All assertions passed: exclusive
+Metal selection with CPU tracing off, Metal override, actual OIDN Metal logs matching their
+hashes, 4000 px rendering, delivered 2000 px hashes, and full export-file hashes. Seeds 0/43
+and the cap-16 control are present. This resolves the narrow operational fact mechanically;
+it does not establish owner visual approval or overrule the broad automated review escalation.
+
+An independent stronger-reasoner recheck also read the retained originals: all 25 operational
+records and all 775 manifested export-file hashes match. There are 21 seed-0 jobs, four seed-43
+jobs, 24 cap-4096 jobs and one cap-16 typography control. This supports the operational claim
+without implying every job has an independent-seed counterpart or establishing quality approval.
