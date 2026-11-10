@@ -90,3 +90,15 @@ The narrow final cleanup Jev gate also escalated (composite 0.63125, safe-to-app
 All three limited claims were verified; the test-count claim confidence was 0.79, below
 its 0.8 automatic threshold. No claim was contradicted or unsupported. This does not
 replace the broad gate or establish automatic acceptance. See `jev-gate-cleanup.json`.
+
+## Hosted macOS process-state correction
+
+Both independent reviewers found no actionable issue in the focused EPERM correction.
+The adapter, docs, notices and bounded ID/state inspection follow the contract. Real
+zombie/live process regressions were observed red then green. Offline 228 / render 3 /
+doctor47 checks pass. The Jev gate-process-state result escalated composite0.56225,
+safe-to-apply0.24; it also returned a low-confidence contradiction on the red/green and
+pending-hosted claim. The independent Spec reviewer then read the exact retained red and
+green logs and confirmed the claim: both parameter cases failed before; eight export
+tests passed afterward. This resolves the narrow factual question independently, without
+overruling the broad review escalation or asserting hosted success.

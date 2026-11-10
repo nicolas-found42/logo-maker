@@ -113,11 +113,11 @@ uv run --locked python scripts/validate_sampling.py --root /tmp/new-sampling-run
 ```
 
 [validation/code-review.md](validation/code-review.md) records Standards and Spec reviews and
-fixes. [validation/offline.txt](validation/offline.txt) records 226 offline tests passing;
+fixes. [validation/offline.txt](validation/offline.txt) records 228 offline tests passing;
 render regression records 3 passing tests (Cycles image, explicit LuxCore image, actual profile
 library identity). The LuxCore image is an explicit legacy adapter
 regression outside Cycles sampling qualification, not a CPU fallback for these experiments.
-Doctor passed 46/46; lint, types and hooks passed. The auxiliary Jev completion gate
+Doctor passed 47/47 (including the system process-status adapter); lint, types and hooks passed. The auxiliary Jev completion gate
 escalated for review; it is retained along with the subsequent 25-job mechanical artifact
 audit. The PR remains draft rather than claiming automated review acceptance.
 Jev questions/provider code are unchanged;
@@ -130,7 +130,7 @@ dependencies can be inventoried. A source hash alone is insufficient. Normal pro
 includes Python/image/geometry library versions and the project lockfile. Noise repair uses
 the explicitly reviewed region, so unrelated saturated pixels cannot choose the control.
 
-Four additional full production smoke jobs are retained in
+Five additional full production smoke jobs are retained in
 [validation/final-runtime-validation.json](validation/final-runtime-validation.json), separately
 from the original 25-job calibration cost matrix. All have verified GPU render/denoise,
 4000→2000 delivery and 31 verified export-file hashes each. The final smoke’s recorded source
@@ -164,3 +164,25 @@ the immediate worker exits, then force-kills/reaps remaining session work. Regre
 cover both deadline expiry and an inner-tool error with a delayed detached-browser hook.
 Prior exports remain intact. Uncooperative processes escaping without supported cleanup
 hooks remain outside the adapter contract.
+
+
+## Hosted macOS process-state correction
+
+Final-head hosted tests exposed EPERM when inspecting an exited, unreaped process group.
+A minimal local zombie-group probe reproduced it; reaping changed the response to ESRCH.
+The fix uses bounded `/bin/ps` ID/state inspection only on denied group signals. Empty or
+zombie-only groups have stopped work; live denied groups and failed inspection return
+explicit cleanup-unconfirmed states. No command lines or process environments are read.
+The platform utility is registered as an adapter and included in third-party notices.
+
+Two deterministic regressions inject EPERM on real dead/live processes. Both were red
+before the fix; all eight export tests now pass, with 228 offline / 3 render checks and
+47/47 doctor checks. A fifth later full production smoke verifies the final source scope.
+The narrow Jev gate escalated (composite 0.56225, safe-to-apply 0.24) and questioned the
+red/green claim at low confidence. The independent Spec reviewer checked the exact logs
+and confirmed both failures-before/eight-passes-after. The escalation is retained; no
+automated merge approval is claimed. Final hosted validation remains separately tracked.
+
+Owning platform sources: [Apple process-group signal handling](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/kern/kern_sig.c),
+[macOS ps license](https://github.com/apple-oss-distributions/adv_cmds/blob/main/ps/ps.c),
+and [Linux procps license](https://gitlab.com/procps-ng/procps/-/blob/master/COPYING).

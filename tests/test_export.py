@@ -176,3 +176,49 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
             for pid in spawned.values():
                 with contextlib.suppress(ProcessLookupError):
                     os.kill(pid, signal.SIGTERM)
+
+
+@pytest.mark.parametrize("live", [False, True])
+def test_export_cleanup_checks_permission_error_group_state(monkeypatch, live):
+    """Darwin's zombie-only EPERM differs from denial while work is still running."""
+    import os
+    import signal
+    import subprocess
+    import sys
+    import time
+
+    from logo_maker.export import _stop_export_session
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("POSIX export lifecycle")
+    worker = subprocess.Popen(
+        [sys.executable, "-c", "import time; time.sleep(15)" if live else "pass"],
+        start_new_session=True,
+    )
+    try:
+        if not live:
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline:
+                state = subprocess.check_output(
+                    ["/bin/ps", "-p", str(worker.pid), "-o", "stat="], text=True
+                ).strip()
+                if state.startswith("Z"):
+                    break
+                time.sleep(0.01)
+            assert state.startswith("Z"), "did not reach unreaped process state"
+
+        def denied(*args):
+            raise PermissionError("signal denied")
+
+        monkeypatch.setattr(os, "killpg", denied)
+        if live:
+            with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
+                _stop_export_session(worker, Budget(wall_seconds=2))
+        else:
+            _stop_export_session(worker, Budget(wall_seconds=2))
+            assert worker.returncode == 0
+    finally:
+        with contextlib.suppress(ProcessLookupError):
+            os.kill(worker.pid, signal.SIGKILL)
+        worker.wait()

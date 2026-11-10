@@ -31,6 +31,7 @@ ok   geometry_3d        build123d
 ok   geometry_3d        fogleman/sdf
 ok   materials_lighting Poly Haven
 ok   materials_lighting ambientCG
+ok   post_export        ps (system process status)
 ok   rendering          Mitsuba 3
 ok   rendering          LuxCoreRender
 ok   rendering          three.js
@@ -45,4 +46,4 @@ ok   post_export        gltf-transform
 ok   post_export        Draco
 ok   post_export        Chrome
 
-46/46 checks passed, 0 failed
+47/47 checks passed, 0 failed

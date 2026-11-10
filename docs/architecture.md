@@ -227,6 +227,10 @@ of the remaining budget is reserved for termination/reaping: SIGTERM reaches Nod
 launcher cleanup hooks, followed by SIGKILL for remaining session members. Insufficient
 cleanup reserve rejects the attempt before launch. Arbitrary uncooperative processes that
 escape that session are outside the supported adapter contract.
+macOS can report EPERM for a group containing only exited, unreaped processes. On this
+error, bounded `/bin/ps` inspection checks only group IDs and process states. An empty or
+all-zombie group has stopped work; a live member or failed inspection is an explicit
+unconfirmed-cleanup failure. Permission errors are never silently treated as success.
 
 ### Qualification fixtures
 

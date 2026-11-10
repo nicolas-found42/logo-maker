@@ -1,0 +1,126 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_export_cleanup_checks_permission_error_group_state[False] ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c8a8b0>
+live = False
+
+    @pytest.mark.parametrize("live", [False, True])
+    def test_export_cleanup_checks_permission_error_group_state(monkeypatch, live):
+        """Darwin's zombie-only EPERM differs from denial while work is still running."""
+        import os
+        import signal
+        import subprocess
+        import sys
+        import time
+    
+        from logo_maker.export import _stop_export_session
+        from logo_maker.sampling import Budget, SamplingLimit
+    
+        if os.name != "posix":
+            pytest.skip("POSIX export lifecycle")
+        worker = subprocess.Popen(
+            [sys.executable, "-c", "import time; time.sleep(15)" if live else "pass"],
+            start_new_session=True,
+        )
+        try:
+            if not live:
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    state = subprocess.check_output(
+                        ["/bin/ps", "-p", str(worker.pid), "-o", "stat="], text=True
+                    ).strip()
+                    if state.startswith("Z"):
+                        break
+                    time.sleep(0.01)
+                assert state.startswith("Z"), "did not reach unreaped process state"
+    
+            def denied(*args):
+                raise PermissionError("signal denied")
+    
+            monkeypatch.setattr(os, "killpg", denied)
+            if live:
+                with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
+                    _stop_export_session(worker, Budget(wall_seconds=2))
+            else:
+>               _stop_export_session(worker, Budget(wall_seconds=2))
+
+tests/test_export.py:219: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+logo_maker/export.py:488: in _stop_export_session
+    if active():
+       ^^^^^^^^
+logo_maker/export.py:483: in active
+    os.killpg(worker.pid, 0)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (24899, 0)
+
+    def denied(*args):
+>       raise PermissionError("signal denied")
+E       PermissionError: signal denied
+
+tests/test_export.py:212: PermissionError
+________ test_export_cleanup_checks_permission_error_group_state[True] _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1082f0050>
+live = True
+
+    @pytest.mark.parametrize("live", [False, True])
+    def test_export_cleanup_checks_permission_error_group_state(monkeypatch, live):
+        """Darwin's zombie-only EPERM differs from denial while work is still running."""
+        import os
+        import signal
+        import subprocess
+        import sys
+        import time
+    
+        from logo_maker.export import _stop_export_session
+        from logo_maker.sampling import Budget, SamplingLimit
+    
+        if os.name != "posix":
+            pytest.skip("POSIX export lifecycle")
+        worker = subprocess.Popen(
+            [sys.executable, "-c", "import time; time.sleep(15)" if live else "pass"],
+            start_new_session=True,
+        )
+        try:
+            if not live:
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    state = subprocess.check_output(
+                        ["/bin/ps", "-p", str(worker.pid), "-o", "stat="], text=True
+                    ).strip()
+                    if state.startswith("Z"):
+                        break
+                    time.sleep(0.01)
+                assert state.startswith("Z"), "did not reach unreaped process state"
+    
+            def denied(*args):
+                raise PermissionError("signal denied")
+    
+            monkeypatch.setattr(os, "killpg", denied)
+            if live:
+                with pytest.raises(SamplingLimit, match="cleanup unconfirmed"):
+>                   _stop_export_session(worker, Budget(wall_seconds=2))
+
+tests/test_export.py:217: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+logo_maker/export.py:488: in _stop_export_session
+    if active():
+       ^^^^^^^^
+logo_maker/export.py:483: in active
+    os.killpg(worker.pid, 0)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (24902, 0)
+
+    def denied(*args):
+>       raise PermissionError("signal denied")
+E       PermissionError: signal denied
+
+tests/test_export.py:212: PermissionError
+=========================== short test summary info ============================
+FAILED tests/test_export.py::test_export_cleanup_checks_permission_error_group_state[False]
+FAILED tests/test_export.py::test_export_cleanup_checks_permission_error_group_state[True]
+2 failed, 6 deselected in 0.11s
