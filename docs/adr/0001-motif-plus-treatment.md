@@ -4,17 +4,18 @@ Status: accepted, 2026-11-10
 
 ## Context
 
-A logo has to work as a flat favicon at 16 px and as a lit 3D object at 2000 px, and every export must show
-the same mark. Free-form 3D modeling per concept gives each render its own geometry, so the flat exports
-drift from the hero and agents spend their effort on Blender code instead of the idea.
+A logo has to work as a flat favicon at 16 px and as a lit 3D object at 2000 px, and every export must
+show the same mark. Free-form 3D modeling per concept gives each render its own geometry, so the flat
+exports drift from the hero and agents spend their effort on Blender code instead of the idea.
 
 ## Decision
 
-Every concept is a **motif**, one 2D master in a fixed SVG contract (`motif.svg` -> `motif.json`), plus a
-**treatment**, a 3D recipe composed from shared, parameterized components in `scene.toml`. Flat exports
-come straight from the motif; every 3D component reads the same contours. The agent authors motifs with a
-small Python API and edits scene parameters; raw `bpy` (`scene.py`) remains a fallback for concepts the
-components cannot express.
+Every concept is a **motif**, one 2D master in a fixed SVG contract (`motif.svg` -> `motif.json`),
+plus a **treatment**, a 3D recipe composed from shared, parameterized components in `scene.toml`.
+Flat exports come straight from the motif; every 3D component reads the same contours. The agent
+authors motifs with
+a small Python API and edits scene parameters; raw `bpy` (`scene.py`) remains a fallback for concepts
+the components cannot express.
 
 ## Consequences
 

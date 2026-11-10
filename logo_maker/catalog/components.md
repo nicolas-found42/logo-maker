@@ -12,6 +12,7 @@ component (`relief`, `extrude`, `inflate`, `tube`, `voxels`, `layers`) with no
 explicit `layers` builds every role group at once; `layers = [<ids>]` with
 `material = <role>` restricts one copy to one group (that is how multi-color
 marks are built: one copy per role, each in its own material).
+
 - `plate` — a solid disc; the base everything else sits on.
   `shape` circle (more shapes later), `radius` 1.0, `thickness` 0.17,
   `top` 0.17, `edge` smooth|irregular, `seed` 0, `bevel` 0.0.

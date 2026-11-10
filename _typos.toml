@@ -1,0 +1,9 @@
+# False positives: established local-variable names.
+[default.extend-identifiers]
+pick_ba = "pick_ba"
+ser_state = "ser_state"
+ser_questions = "ser_questions"
+vor = "vor"
+threed = "threed"
+PN = "PN"
+PNGs = "PNGs"

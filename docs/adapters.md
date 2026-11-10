@@ -3,7 +3,6 @@
 Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `scripts/gen_docs.py`.
 `logo-maker doctor` runs each check; the fix column is what it prints when a check fails.
 
-
 ## Judgment
 
 | Tool | License | Use | Entry | Fix |

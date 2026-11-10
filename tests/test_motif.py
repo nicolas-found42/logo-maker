@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
+from PIL import Image as _PILImage
 
 from logo_maker import motif as M
 
@@ -159,6 +160,9 @@ def test_rasterize_mono_silhouette_size_sheet(tmp_path):
     assert abs(sum(M.poly_area(c) for c in sil) - math.pi * 300**2) / (math.pi * 300**2) < 0.02
     sheet = M.size_sheet(svg, tmp_path / "sheet.png")
     assert sheet.stat().st_size > 0
+    im = _PILImage.open(sheet).convert("RGB")
+    present = {c for _, c in im.getcolors(maxcolors=1_000_000) or []}
+    assert {(250, 250, 250), (205, 205, 205)} <= present  # checkerboard shows light and dark ink
 
 
 def test_run_motif_script(tmp_path):

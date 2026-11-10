@@ -1,7 +1,8 @@
 # logo-maker
 
 Turn an idea, a reference image, a repository, or a brainstorm into a rendered 3D logo and a complete
-export set. An agent writes the brief, metaphors, and each concept's motif; logo-maker builds up to 1000
+export set. An agent writes the brief, metaphors, and each concept's motif;
+logo-maker builds up to 1000
 concepts, judges them with [Jev](https://docs.typesafe.ai), renders the best on the GPU with Blender Cycles,
 runs a QA loop, and exports everything a brand needs. No AI image generation: every pixel comes from
 geometry, fonts, materials, and light.
@@ -25,7 +26,8 @@ logo-maker run acme                 # runs every stage; stops where the agent mu
 logo-maker improve acme             # new round; replaces the logo only if it wins head-to-head
 ```
 
-Stages: `intake`, `ideate`, `motifs`, `preview`, `finalize`, `export` (each resumable), `run`, `improve`, `doctor`,
+Stages: `intake`, `ideate`, `motifs`, `preview`, `finalize`, `export` (each resumable), `run`,
+`improve`, `doctor`,
 `mcp`. The skill in [skills/logo-maker/SKILL.md](skills/logo-maker/SKILL.md) walks an agent through the
 authoring steps.
 

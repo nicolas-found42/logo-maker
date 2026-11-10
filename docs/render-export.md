@@ -26,8 +26,9 @@ Each renderer implements `render(export_json, out_png, *, quality, resolution)`:
   bundled OpenMP barrier deadlocks (`WaitForDone` never returns, every engine);
   `luxcore.unavailable()` says so, `render()` raises at once, and `doctor`
   shows a `warn` line. Elsewhere each render runs in a child process killed
-  after `LOGO_MAKER_LUXCORE_TIMEOUT` seconds (default 1800). Materials → `disney` (`clearcoatgloss` =
-  1 − coat_roughness; transmission/subsurface not mapped). Area/point lights
+  after `LOGO_MAKER_LUXCORE_TIMEOUT` seconds (default 1800). Materials →
+  `disney` (`clearcoatgloss` = 1 − coat_roughness; transmission/subsurface not
+  mapped). Area/point lights
   become emissive world-space meshes (quad facing the target, icosphere
   ball); sun is a native `sun` source. Engine PATHCPU (set
   `LOGO_MAKER_LUXCORE_ENGINE=PATHOCL` to try OpenCL). Film
@@ -72,7 +73,8 @@ Pure functions over PNG paths; thresholds are module constants.
 exactly: `hero-transparent.png` (2000², veil/margin-checked, else
 `ExportError`), `hero-paper.png` (paper bg + soft shadow), `avatar-1024.png`
 (bbox fit to 88% of the inscribed circle, on bg), `favicon-16/32/48/180/512.png`
-+ `favicon.ico` (16/32/48, from the flat motif via `motif.rasterize` with a
+
+- `favicon.ico` (16/32/48, from the flat motif via `motif.rasterize` with a
 resvg fallback), `mark-color.svg` + `mark-mono.svg` (SVGO; mono recolors every
 fill to ink via `motif.mono` with a regex fallback), `pwa/` (icons + splash +
 `manifest.json` via `js/pwa.mjs`; manifest srcs rewritten relative),

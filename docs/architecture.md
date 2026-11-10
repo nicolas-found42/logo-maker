@@ -2,12 +2,12 @@
 
 logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the work:
 
-- **The agent** (guided by `skills/logo-maker/SKILL.md`) writes the brief, drafts metaphors, and authors a
-  motif and a scene for each shortlisted concept.
+- **The agent** (guided by `skills/logo-maker/SKILL.md`) writes the brief, drafts metaphors, and
+  authors a motif and a scene for each shortlisted concept.
 - **Jev** (TypeSafe's System One model) answers typed questions about text and images. It never decides;
   code turns its answers into actions through truth tables.
-- **The tool** does everything else: builds the concept pool, runs the judging chain, renders, runs the QA
-  loop, exports, and logs.
+- **The tool** does everything else: builds the concept pool, runs the judging chain, renders, runs
+  the QA loop, exports, and logs.
 
 No stage generates images with an AI model. Every pixel comes from geometry, fonts, materials, and renderers.
 
@@ -57,8 +57,8 @@ Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment-
 
 ### Motif (2D master)
 
-`concepts/<slug>/motif.svg` is the single source of 2D geometry. The flat SVG exports, the favicons, and
-every 3D relief come from it, so flat and 3D always match.
+`concepts/<slug>/motif.svg` is the single source of 2D geometry. The flat SVG exports, the favicons,
+and every 3D relief come from it, so flat and 3D always match.
 
 - `viewBox="0 0 1000 1000"`, y down. The mark fits inside a centered circle of radius 470.
 - Only `<path>` elements, absolute coordinates, no transforms, no strokes (strokes are outlined first).
@@ -67,8 +67,8 @@ every 3D relief come from it, so flat and 3D always match.
     recolors every role to one ink.
   - `data-height`: relief height multiplier for 3D (default `1`).
   - `data-layer`: integer stacking order for layered treatments (default `0`).
-- The agent writes `motif.py` (preferred; uses `logo_maker.motif` to place glyphs, shapes, booleans, and
-  2D tool output, then calls `save()`), or writes `motif.svg` directly in this format.
+- The agent writes `motif.py` (preferred; uses `logo_maker.motif` to place glyphs, shapes, booleans,
+  and 2D tool output, then calls `save()`), or writes `motif.svg` directly in this format.
 
 `motif.json` is derived by `logo_maker.motif.flatten()`:
 
@@ -78,14 +78,14 @@ every 3D relief come from it, so flat and 3D always match.
              "contours": [[[x, y], ...], ...]}]}
 ```
 
-Contours are closed polylines (curves flattened at 12 steps), overlaps removed with skia-pathops, holes as
-separate contours (even-odd fill).
+Contours are closed polylines (curves flattened at 12 steps), overlaps removed with skia-pathops,
+holes as separate contours (even-odd fill).
 
 ### Scene (3D recipe)
 
-`concepts/<slug>/scene.toml` composes components from the catalog. `logo_maker.scene` validates it; the
-Blender builder (`logo_maker/blender/`) runs it inside a `bpy` subprocess. Units: the motif's 1000-unit
-box maps to 2.0 scene units (the radius-470 circle becomes radius 0.94).
+`concepts/<slug>/scene.toml` composes components from the catalog. `logo_maker.scene` validates it;
+the Blender builder (`logo_maker/blender/`) runs it inside a `bpy` subprocess. Units: the motif's
+1000-unit box maps to 2.0 scene units (the radius-470 circle becomes radius 0.94).
 
 ```toml
 [meta]
@@ -118,10 +118,11 @@ kind = "plate"                   # see catalog/components.md for every kind and 
 material = "surface"
 ```
 
-Component kinds (each documented in `logo_maker/catalog/components.md`): `plate` (outline from a shape or
-the motif silhouette, optional irregular edge, bevel), `recess` (pressed or cut area in a plate), `rim`
-(torus or raised border), `relief` (motif layers raised or cut), `extrude` (freestanding motif solid),
-`inflate` (soft rounded motif via signed distance fields), `layers` (stacked cut-outs by `data-layer`),
+Component kinds (each documented in `logo_maker/catalog/components.md`): `plate` (outline from a
+shape or the motif silhouette, optional irregular edge, bevel), `recess` (pressed or cut area in a
+plate), `rim` (torus or raised border), `relief` (motif layers raised or cut), `extrude`
+(freestanding motif solid), `inflate` (soft rounded motif via signed distance fields), `layers`
+(stacked cut-outs by `data-layer`),
 `ring_text` (text set on a circle), `ribbon` (cloth strip, optionally physics-draped), `tube` (motif
 centerline as a swept tube), `voxels` (motif rasterized to cubes), `cad` (build123d solid), `mesh`
 (imported OBJ/STL/PLY/GLB), `bpy` (agent-written `scene.py` fallback with a `build(ctx)` function).
@@ -137,20 +138,21 @@ subprocess with the current interpreter and returns a `RenderResult` (png, blend
 | `preview` | 1000 px | 256 + denoise | jev preview screen |
 | `final` | 4000 px, downsampled to 2000 px | adaptive 0.01, max 4096, denoise | finals and exports |
 
-GPU: Metal with `refresh_devices()` before `device = "GPU"`, MetalRT `AUTO`, OIDN on GPU. First runs compile
-Metal kernels (1.5-5 min, no output); renders time out at 600 s and retry once on a crash. When the scene
-asks for `mitsuba`, `luxcore`, or `three`, the builder exports meshes, materials, camera, and lights to
-`concepts/<slug>/meshes/scene_export.json`, and the matching renderer in `logo_maker/renderers/` renders
-from that.
+GPU: Metal with `refresh_devices()` before `device = "GPU"`, MetalRT `AUTO`, OIDN on GPU. First runs
+compile Metal kernels (1.5-5 min, no output); renders time out at 600 s and retry once on a crash.
+When the scene asks for `mitsuba`, `luxcore`, or `three`, the builder exports meshes, materials,
+camera, and lights to `concepts/<slug>/meshes/scene_export.json`, and the matching renderer in
+`logo_maker/renderers/` renders from that.
 
 ### Jev
 
-All wording and thresholds live in `logo_maker/jev/questions.py`. `logo_maker.jev.client.JevClient` sends
-requests to OpenRouter `POST https://openrouter.ai/api/alpha/decisions` (`OPENROUTER_API_KEY`, model
-`typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/systemone` when `TYPESAFE_API_KEY` is
-set. Requests with images send base64 assets with `TypeSafe-Danger-Zone-Images: true`. Every request is
-logged to `qa/jev/requests/` with each image replaced by its sha256, and each image is stored once in
-`qa/jev/assets/`. 429/5xx retry with backoff; any other failure raises `JevError` and never reads as "no".
+All wording and thresholds live in `logo_maker/jev/questions.py`. `logo_maker.jev.client.JevClient`
+sends requests to OpenRouter `POST https://openrouter.ai/api/alpha/decisions` (`OPENROUTER_API_KEY`,
+model `typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/systemone` when
+`TYPESAFE_API_KEY` is set. Requests with images send base64 assets with
+`TypeSafe-Danger-Zone-Images: true`. Every request is logged to `qa/jev/requests/` with each image
+replaced by its sha256, and each image is stored once in `qa/jev/assets/`. 429/5xx retry with
+backoff; any other failure raises `JevError` and never reads as "no".
 
 ### Adapters
 

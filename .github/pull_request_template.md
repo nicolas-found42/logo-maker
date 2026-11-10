@@ -1,3 +1,4 @@
+<!-- rumdl-disable MD041 -->
 ## Summary
 
 <!-- The problem and why it matters; the resulting behavior; the linked issue (Closes #N). -->

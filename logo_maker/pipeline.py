@@ -282,7 +282,9 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     ]
     if missing:
         raise AuthoringNeeded(
-            "author a motif for each shortlisted concept (see concept.json in each folder)", missing
+            "create each listed motif.py from its folder's concept.json "
+            "(or drop a motif.svg beside it), then run again",
+            missing,
         )
     _parallel(prepare_motif, list(dirs.values()))
     new_scenes: list[Path] = []
@@ -299,6 +301,19 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
             "tune each starter scene.toml to its concept (references/scene-grammar.md), "
             "then run again",
             new_scenes,
+        )
+    from logo_maker import scene as scene_mod
+
+    broken = []
+    for folder in dirs.values():
+        try:
+            scene_mod.load_scene(folder / "scene.toml")
+        except scene_mod.SceneError as exc:
+            broken.append((folder / "scene.toml", str(exc)))
+    if broken:
+        raise AuthoringNeeded(
+            "fix scene.toml: " + "; ".join(f"{p.name}: {e}" for p, e in broken),
+            [p for p, _ in broken],
         )
     return out
 
@@ -349,11 +364,12 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
     render_tbl = doc.setdefault("render", tomlkit.table())
     lighting = doc.setdefault("lighting", tomlkit.table())
     if failures & {"nothing_cut_off", "margin"}:
-        framing = round(float(camera.get("framing", 0.84)) * 0.9, 3)
+        framing = max(round(float(camera.get("framing", 0.84)) * 0.9, 3), 0.6)
         camera["framing"] = framing
         changes.append(f"camera.framing -> {framing}")
     if failures & {"clean_edges", "edges"}:
-        threshold = round(float(render_tbl.get("adaptive_threshold", 0.01)) / 2, 5)
+        # Set once to the stricter preset; never keep halving across rounds.
+        threshold = min(round(float(render_tbl.get("adaptive_threshold", 0.01)) / 2, 5), 0.005)
         render_tbl["adaptive_threshold"] = max(threshold, 0.001)
         render_tbl["max_samples"] = 8192
         changes.append(
@@ -362,7 +378,7 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
     if "motif_readable" in failures:
         for component in doc.get("components", []):
             if component.get("kind") in {"relief", "layers", "extrude", "inflate"}:
-                height = round(float(component.get("height_scale", 1.0)) * 1.4, 3)
+                height = min(round(float(component.get("height_scale", 1.0)) * 1.4, 3), 2.0)
                 component["height_scale"] = height
                 changes.append(f"{component.get('kind')}.height_scale -> {height}")
         if lighting.get("rig") != "raking":

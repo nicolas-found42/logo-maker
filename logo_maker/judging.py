@@ -195,9 +195,22 @@ def final_tournament(
     ranked = sorted(contenders, key=lambda s: (-wins[s], s))
     winner_slug = ranked[0]
     by_slug = {slug: cid for cid, slug in slugs.items()}
+    tied = sorted(s for s in contenders if wins[s] == wins[winner_slug])
+    reason = f"{wins[winner_slug]:g} wins of {len(contenders) - 1} matches"
+    if len(tied) > 1:
+        reason += (
+            f"; tied with {', '.join(s for s in tied if s != winner_slug)} on wins, "
+            "decided by deterministic slug ordering"
+        )
     (logo.ideation / "winner.json").write_text(
         json.dumps(
-            {"winner": by_slug[winner_slug], "slug": winner_slug, "wins": wins, "matches": rows},
+            {
+                "winner": by_slug[winner_slug],
+                "slug": winner_slug,
+                "reason": reason,
+                "wins": wins,
+                "matches": rows,
+            },
             indent=2,
             sort_keys=True,
         )

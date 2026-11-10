@@ -1,7 +1,7 @@
 # Third-party notices
 
-logo-maker is MIT-licensed. It installs and runs these components under their own licenses; none of their
-source is vendored here.
+logo-maker is MIT-licensed. It installs and runs these components under their own licenses; none of
+their source is vendored here.
 
 | Component | License | How logo-maker uses it |
 |---|---|---|
@@ -17,5 +17,5 @@ source is vendored here.
 | Poly Haven and ambientCG assets | CC0-1.0 | HDRIs and textures downloaded to the cache on use; recorded in run.json |
 | Jev (TypeSafe) | Proprietary API | Judgments; requests and answers logged per logo |
 
-Exports a logo-maker run produces belong to the brief's owner. Fonts embedded as outlines in exported SVGs
-remain under their font licenses, which permit this use.
+Exports a logo-maker run produces belong to the brief's owner. Fonts embedded as outlines in exported
+SVGs remain under their font licenses, which permit this use.

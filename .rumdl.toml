@@ -1,0 +1,6 @@
+[MD013]
+# Match the repo's ruff line-length; prose wraps at 100.
+line-length = 100
+# Tables and fenced code stay single-line (URLs, command lines, file trees).
+tables = false
+code-blocks = false

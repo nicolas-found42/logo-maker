@@ -59,8 +59,9 @@ depth = 0.44                  # preset depth scaled by the group's layer height
 
 Component kinds: `plate`, `recess`, `rim`, `relief`, `extrude`, `inflate`,
 `layers`, `ring_text`, `ribbon`, `tube`, `voxels`, `cad`, `mesh`, `bpy`.
-`ring_text` needs `text` and `font` (a font spec like the brief's, e.g. `"Inter:wght=700"`, or a TTF path); `from_treatment`
-leaves both blank for the agent to fill. A mark component with no `layers`
+`ring_text` needs `text` and `font` (a font spec like the brief's, e.g.
+`"Inter:wght=700"`, or a TTF path); `from_treatment` leaves both blank for the
+agent to fill. A mark component with no `layers`
 builds every role group (height-0 and empty layers skipped); role-less motifs
 keep the topmost-layer rule. `relief`, `layers`, `extrude`, and `inflate`
 accept `height_scale`, a multiplier on their vertical params
@@ -71,3 +72,45 @@ accept `height_scale`, a multiplier on their vertical params
 The QA loop may only adjust `camera.framing`, `[render]` `adaptive_threshold`
 and `max_samples`, `height_scale` on mark components, `render.alpha_cleanup`,
 and `lighting.rig`. Anything structural means re-authoring the scene.
+
+## How a treatment consumes the motif
+
+The starter scene already wires the treatment; this is what each one does with
+the motif's filled shapes (from `catalog/treatments.toml`):
+
+- `extruded_solid`: the mark itself as a solid object with depth and beveled
+  edges, free-standing.
+- `embossed_plate`: the mark raised in relief from a flat plate or tile.
+- `debossed_plate`: the mark pressed or carved into a plate, below the surface.
+- `stencil_plate`: the mark cut all the way through a plate.
+- `layered_cutout`: the mark as stacked flat cut-out layers at different
+  heights, with visible steps.
+- `inflated_soft`: the mark as a rounded, puffy form.
+- `medallion`: the mark in relief inside a round disc with a raised rim; room
+  for `ring_text` around the edge.
+- `shaped_badge`: the mark on a shaped badge (shield, hexagon, rounded square)
+  with a raised border.
+- `tube_lines`: the outline of each filled shape swept as a continuous round
+  tube (wire/neon look). Draw filled shapes; it traces them for you.
+- `voxel_build`: the mark assembled from small cubes.
+- `engraved_lines`: the mark as fine engraved lines read through line art.
+- `toon_object`: the mark as a solid object with flat cel shading.
+
+## Tuning ranges
+
+Per-kind component fields and their defaults live in
+`logo_maker/catalog/components.md`; material presets and their parameters in
+`logo_maker/catalog/materials.toml`. Both are reference reading.
+
+- `camera.tilt_deg`: 15–35 reads as a product shot; past 45 the mark foreshortens.
+- `camera.framing`: 0.8–0.9 leaves margin for shadows; the QA loop only ever
+  tightens it (never below 0.6).
+- `[mark] scale`: 0.7–1.0 for plates and rims; smaller only when a ring of text
+  needs room.
+- `tube.radius`: default 0.035; 0.02 is hairline, 0.06 is heavy cable. Tubes
+  ride at `z` above the plate (default 0.1); raise `z` to clear rims.
+- Mark heights come from the motif layer heights; a component's `height` /
+  `depth` is scaled by the group's layer height, and `height_scale`
+  multiplies that for readability fixes.
+- `Motif.regular_polygon(cx, cy, r, n, rotation_deg=-90)` puts a vertex at the
+  top; pass `rotation_deg=0` for a flat top edge.

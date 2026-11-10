@@ -496,8 +496,9 @@ def qa_blocks(status: str) -> bool:
     Unsettled passes with a flag. Calibration: an owner-approved 3D mark scored
     0.61-0.66 (unsettled) on motif_readable, clean_edges, and recognizable_at_32px,
     while copies degraded for one check scored 0.04-0.05 on that check (blurred and
-    jaggy edges, a cropped mark). Veils and boxes are caught by code too
-    (checks.alpha_report, checks.margin_report).
+    jaggy edges, a cropped mark). Veils, cut-offs, and aliasing are also caught by
+    code (checks.alpha_report, checks.margin_report, checks.edge_report); a backdrop
+    box or seam relies on this judge alone.
     """
     return status == "fail"
 

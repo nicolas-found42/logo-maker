@@ -962,9 +962,17 @@ def size_sheet(svg: Path, out: Path) -> Path:
     sheet = Image.new(
         "RGBA",
         (sum(widths) + pad * (len(thumbs) + 1), max(t.height for t in thumbs) + pad * 2 + label_h),
-        (242, 242, 242, 255),
+        (255, 255, 255, 255),
     )
     draw = ImageDraw.Draw(sheet)
+    # Checkerboard so near-white and near-black ink both stay visible at this gate.
+    cell = 10
+    for yy in range(0, sheet.height, cell):
+        for xx in range(0, sheet.width, cell):
+            shade = (
+                (250, 250, 250, 255) if (xx // cell + yy // cell) % 2 == 0 else (205, 205, 205, 255)
+            )
+            draw.rectangle([xx, yy, xx + cell - 1, yy + cell - 1], fill=shade)
     x = pad
     for size, thumb in zip(sizes, thumbs, strict=True):
         y = pad + (max(t.height for t in thumbs) - thumb.height)

@@ -255,19 +255,26 @@ def _svgs(motif_svg: Path, out_dir: Path, ink: str) -> dict[str, Path]:
     return {"mark-color": color, "mark-mono": mono}
 
 
-def _contact_sheet(entries: list[tuple[str, Path]], dst: Path) -> Path:
-    """One labeled sheet of the export set (thumbs at 384 px, three columns)."""
+def _contact_sheet(
+    entries: list[tuple[str, Path]], dst: Path, *, mono_background: str = "#FFFFFF"
+) -> Path:
+    """One labeled sheet of the export set (thumbs at 384 px, three columns).
+
+    The mono mark is a one-color silhouette in the brand ink, so its chip uses
+    the brand background — the surface the ink is designed for.
+    """
     thumbs: list[tuple[str, Image.Image]] = []
     for label, path in entries:
+        background = mono_background if label == "mark-mono" else "#FFFFFF"
         if path.suffix.lower() == ".svg":
             tmp = dst.parent / f".sheet-{len(thumbs)}.png"
-            _rasterize_flat(path, 384, tmp, background="#FFFFFF")
+            _rasterize_flat(path, 384, tmp, background=background)
             thumb = Image.open(tmp).convert("RGB")
             tmp.unlink(missing_ok=True)
         else:
             with Image.open(path) as im:
                 rgba = im.convert("RGBA")
-            thumb = Image.alpha_composite(Image.new("RGBA", rgba.size, "#FFFFFF"), rgba).convert(
+            thumb = Image.alpha_composite(Image.new("RGBA", rgba.size, background), rgba).convert(
                 "RGB"
             )
         thumb.thumbnail((384, 384), Image.Resampling.LANCZOS)
@@ -334,7 +341,9 @@ def export_all(
     sheet_entries += [
         (key, path) for key, path in manifest.items() if key in ("favicon-512", "favicon-180")
     ]
-    manifest["contact-sheet"] = _contact_sheet(sheet_entries, out / "contact-sheet.png")
+    manifest["contact-sheet"] = _contact_sheet(
+        sheet_entries, out / "contact-sheet.png", mono_background=paper
+    )
 
     files: dict[str, dict] = {}
     for key, path in manifest.items():
