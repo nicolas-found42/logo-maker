@@ -37,7 +37,8 @@ flowchart LR
 | export | `export` | winner | `exports/*` |
 
 Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
-rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains the stages and stops with a clear message where agent authoring is needed.
+rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains
+the stages and stops with a clear message where agent authoring is needed.
 
 ## Logo folder
 

@@ -62,7 +62,9 @@ For every listed folder, read `concept.json` (metaphor, treatment, material, and
 descriptions), then:
 
 1. **Motif.** Write `motif.py` with the motif API
-   ([references/motif-api.md](references/motif-api.md)). Use two or three bold shapes for core-symbol legibility, while allowing secondary hero craft; let negative space carry a second meaning where the metaphor
+   ([references/motif-api.md](references/motif-api.md)). Use two or three bold shapes for
+   core-symbol legibility, while allowing secondary hero craft; let negative space carry a second
+   meaning where the metaphor
    allows; use one to three palette roles, one role per part that should read as its own color or
    material. Shape it for the treatment: solids and extrusions want chunky shapes, plates want the
    mark well inside the rim. Read "How a treatment consumes the motif" in
@@ -80,7 +82,6 @@ descriptions), then:
    `logo_maker/catalog/components.md`; material presets and their parameters:
    `logo_maker/catalog/materials.toml`; tuning ranges (tilt, framing, tube radius): the grammar's
    "Tuning ranges" section. Write `scene.py` only when the components cannot express the concept.
-
 4. **Construction intent.** Write `construction.json` for each concept using the contract in
    [references/refinement.md](references/refinement.md). Name its meaning, brand-specific geometry,
    material construction, intended appearance and visual disproof. Keep `concept.json.description`
@@ -138,5 +139,6 @@ the exports only when it beats the floor head-to-head on images; otherwise the c
 ## MCP
 
 `logo-maker mcp` serves each stage as a tool (`logo_new`, `logo_intake`, `logo_ideate`,
-`logo_motifs`, `logo_refine`, `logo_status`, `logo_preview`, `logo_finalize`, `logo_export`, `logo_run`, `logo_improve`,
+`logo_motifs`, `logo_refine`, `logo_status`, `logo_preview`, `logo_finalize`, `logo_export`,
+`logo_run`, `logo_improve`,
 `logo_doctor`). A tool that needs files from you returns `authoring_needed` with the exact paths.

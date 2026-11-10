@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Authored a common material tangent; retained roughness, lighting, seed and sample settings.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0004-f846d30a559a-preview/render.png",
+      "comparison": "Compare planar highlights to v3 and structural specificity to the generic gate.",
+      "dimension": "anisotropic tangent",
+      "evidence": "The starburst visible in v3 is absent after a shared straight brushing tangent was authored.",
+      "kind": "technical",
+      "resolved": true
+    }
+  ],
+  "observations": "The blue steel shoulders and copper keystone have even planar highlights with no radial starburst. The key seats into the crown and the piers meet the arch; the recognizable load-bearing silhouette matches the flat motif. Reflections remain restrained rather than requiring greater gloss.",
+  "revision": "0004-f846d30a559a-preview",
+  "user_feedback": "No owner approval or extra aesthetic preference inferred."
+}

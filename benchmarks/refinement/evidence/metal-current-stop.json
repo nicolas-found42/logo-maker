@@ -1,0 +1,53 @@
+{
+  "status": "authoring_needed",
+  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/construction.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/inspection.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.py\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.toml",
+  "details": {
+    "dimension": "creative_readiness",
+    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0006-c6dd703a3bc2-preview/render.png",
+    "revision": "0006-c6dd703a3bc2-preview",
+    "verdicts": {
+      "craftsmanship": {
+        "type": "noul",
+        "noul": 0.56
+      },
+      "brief_fit": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "material_intent": {
+        "type": "noul",
+        "noul": 0.56
+      },
+      "description_match": {
+        "type": "noul",
+        "noul": 0.75
+      }
+    },
+    "required_dimensions": {
+      "craftsmanship": {
+        "p": 0.56,
+        "status": "unsettled"
+      },
+      "material_intent": {
+        "p": 0.56,
+        "status": "unsettled"
+      }
+    },
+    "comparison": {
+      "binding": "a47e0ceb2b19a780f2dcf1c0414be11db9c0e07605a21fd56b3bad6adb81ac51",
+      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0005-beb3a51d28c7-preview/render.png",
+      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0006-c6dd703a3bc2-preview/render.png",
+      "answers": {
+        "visually_distinct": {
+          "type": "noul",
+          "noul": 0.02
+        },
+        "critique_resolved": {
+          "type": "noul",
+          "noul": 0.61
+        }
+      }
+    },
+    "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  }
+}

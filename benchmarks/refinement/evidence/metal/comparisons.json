@@ -1,0 +1,62 @@
+[
+  {
+    "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0002-9a3fe392e06d-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.82,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.99,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0001-deab6b417da4-preview/render.png",
+    "binding": "47769dd3e9817af0700dc4b764cfd9d826bcdfb6b40734ffb94066c8c01b4d59"
+  },
+  {
+    "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0003-25394af3aabd-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.52,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.41,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0002-9a3fe392e06d-preview/render.png",
+    "binding": "200e970244606da3dc5daf776d36f260896b8128093916ef3a5d701c8787c846"
+  },
+  {
+    "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0004-f846d30a559a-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.27,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.04,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0003-25394af3aabd-preview/render.png",
+    "binding": "b2fe9384762161a464703936feae75c5f5582fc7ac838b94f4dc644f04d84e3f"
+  },
+  {
+    "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0006-c6dd703a3bc2-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.61,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.02,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0005-beb3a51d28c7-preview/render.png",
+    "binding": "a47e0ceb2b19a780f2dcf1c0414be11db9c0e07605a21fd56b3bad6adb81ac51"
+  }
+]

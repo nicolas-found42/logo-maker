@@ -1,0 +1,49 @@
+{
+  "status": "authoring_needed",
+  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/construction.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/inspection.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.py\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.toml",
+  "details": {
+    "dimension": "creative_readiness",
+    "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0005-15b6d06455c7-preview/render.png",
+    "revision": "0005-15b6d06455c7-preview",
+    "verdicts": {
+      "craftsmanship": {
+        "type": "noul",
+        "noul": 0.57
+      },
+      "brief_fit": {
+        "type": "noul",
+        "noul": 0.76
+      },
+      "material_intent": {
+        "type": "noul",
+        "noul": 0.7
+      },
+      "description_match": {
+        "type": "noul",
+        "noul": 0.83
+      }
+    },
+    "required_dimensions": {
+      "craftsmanship": {
+        "p": 0.57,
+        "status": "unsettled"
+      }
+    },
+    "comparison": {
+      "binding": "670628d89c4e829ef9e42810a2d10a1d89e92b32bf4a64da3d27be96f4294cdf",
+      "before": "qa/revisions/shared-folio--extruded-solid--paper/0004-c77356a53372-preview/render.png",
+      "after": "qa/revisions/shared-folio--extruded-solid--paper/0005-15b6d06455c7-preview/render.png",
+      "answers": {
+        "visually_distinct": {
+          "type": "noul",
+          "noul": 0.1
+        },
+        "critique_resolved": {
+          "type": "noul",
+          "noul": 0.53
+        }
+      }
+    },
+    "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  }
+}

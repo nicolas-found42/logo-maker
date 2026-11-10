@@ -104,7 +104,8 @@ Per-kind component fields and their defaults live in
 `logo_maker/catalog/materials.toml`. Both are reference reading.
 
 - `camera.tilt_deg`: 15–35 reads as a product shot; past 45 the mark foreshortens.
-- `camera.framing`: 0.8–0.9 usually leaves margin for shadows; revise it after inspecting crop/margin evidence.
+- `camera.framing`: 0.8–0.9 usually leaves margin for shadows; revise it after inspecting
+  crop/margin evidence.
 - `[mark] scale`: 0.7–1.0 for plates and rims; smaller only when a ring of text
   needs room.
 - `tube.radius`: default 0.035; 0.02 is hairline, 0.06 is heavy cable. Tubes

@@ -1,0 +1,47 @@
+[
+  {
+    "after": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.89,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.62,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/shared-folio--extruded-solid--paper/0002-8e920410535b-preview/render.png",
+    "binding": "b6e766ac5d7fb73f502c98c18874df7fbea5448e55de5f77cb40c722f8e1aa3c"
+  },
+  {
+    "after": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.84,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.98,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/shared-folio--extruded-solid--paper/0001-55e3055820c5-preview/render.png",
+    "binding": "56ec0eedaa67d439531414345659fcbe07de28bec48c630fc9a5cb408110918e"
+  },
+  {
+    "after": "qa/revisions/shared-folio--extruded-solid--paper/0005-15b6d06455c7-preview/render.png",
+    "answers": {
+      "critique_resolved": {
+        "noul": 0.53,
+        "type": "noul"
+      },
+      "visually_distinct": {
+        "noul": 0.1,
+        "type": "noul"
+      }
+    },
+    "before": "qa/revisions/shared-folio--extruded-solid--paper/0004-c77356a53372-preview/render.png",
+    "binding": "670628d89c4e829ef9e42810a2d10a1d89e92b32bf4a64da3d27be96f4294cdf"
+  }
+]

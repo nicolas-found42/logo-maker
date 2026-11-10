@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Use flat cap normals and seat the key against the arch shoulder boundaries; retain lighting, materials and samples.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0002-9a3fe392e06d-preview/render.png",
+      "comparison": "Compare cap highlights and load-bearing junctions against v2 and the generic gate.",
+      "dimension": "planar cap normals and key seating",
+      "evidence": "Pinwheel shading on flat caps and open gaps either side of the key.",
+      "kind": "craftsmanship",
+      "resolved": false
+    }
+  ],
+  "observations": "A visible copper keystone and blue curved shoulders now form an arch. Starburst highlights pinch on otherwise planar caps, and the keystone floats between large gaps instead of seating into the shoulders. These persist as geometric/shading concerns, not established stochastic noise.",
+  "revision": "0002-9a3fe392e06d-preview",
+  "user_feedback": "No owner finish preference supplied. Retain intended restrained brushed metal."
+}

@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Test one fixed brushing tangent, retaining roughness, lighting and samples.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0003-25394af3aabd-preview/render.png",
+      "comparison": "Compare v3 and v4 planar face highlights and key junctions.",
+      "dimension": "material tangent hypothesis",
+      "evidence": "Pinwheel highlights still appear after flat normals; anisotropic brushed material lacks an authored consistent tangent.",
+      "kind": "technical",
+      "resolved": false
+    }
+  ],
+  "observations": "The copper key now seats in the arch. Radial starburst highlights persist on planar faces after the normal change; the earlier observation claiming their removal was incorrect. This does not establish stochastic noise or denoising loss.",
+  "revision": "0003-25394af3aabd-preview",
+  "user_feedback": "No owner approval or additional finish preference inferred."
+}

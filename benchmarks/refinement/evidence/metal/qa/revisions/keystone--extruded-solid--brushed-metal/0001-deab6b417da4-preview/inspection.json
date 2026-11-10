@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Replace the lintel with two curved arch shoulders and a separate tapered copper keystone.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0001-deab6b417da4-preview/render.png",
+      "comparison": "Compare the gate against a segmented arch; keep sampling, lighting and material recipes fixed.",
+      "dimension": "load-bearing keystone idea",
+      "evidence": "The flat lintel is a generic gate, with no central key or assembled arch.",
+      "kind": "brief_fit",
+      "resolved": false
+    }
+  ],
+  "observations": "A solid blue metal rectangular arch/gate with two piers. Surface and bevels are restrained, but there is no distinct keystone or visibly assembled supporting shoulders.",
+  "revision": "0001-deab6b417da4-preview",
+  "user_feedback": "This is a separate validation brief, not owner-approved final brand artwork."
+}

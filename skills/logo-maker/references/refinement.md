@@ -55,7 +55,8 @@ rerun refinement and preview before finalize/export. Historical evidence stays a
 
 For a technical stop, record `diagnosis.json` with the returned `revision`, a `cause` (`sampling_noise`,
 `cap_limitation`, `design`, `geometry`, `material`, `typography`, `denoising`, `filtering`, `resolution`,
-`alpha`, `unknown`) and an `evidence` list of `{artifact, sha256, observation}`. Paths are relative to
+`alpha`, `unknown`) and an `evidence` list of `{artifact, sha256, observation}`. Paths are relative
+to
 the logo folder. Missing evidence stays unknown. Sampling diagnoses route to #5's bounded policy;
 this record does not authorize automatic sampling changes. Compare independent seeds and noisy/denoised
 detail to establish stochastic behavior. Keep geometry, materials and lighting fixed for that probe.

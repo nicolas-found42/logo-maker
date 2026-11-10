@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Add a recessed binding strip and attach the flap hinge to the right leaf plane.",
+      "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0002-8e920410535b-preview/render.png",
+      "comparison": "Compare physical connection and crease shadow against this open-folio revision, without changing lighting or samples.",
+      "dimension": "binding and turned-corner junction",
+      "evidence": "The two leaves are disconnected and the dark triangular tab stands above the right face.",
+      "kind": "craftsmanship",
+      "resolved": false
+    }
+  ],
+  "observations": "Two facing paper leaves now read as an open folio. The central gap separates them, and the dark dogear looks like a loose tab floating above the right leaf rather than a connected fold.",
+  "revision": "0002-8e920410535b-preview",
+  "user_feedback": "Retain the warm matte finish; no request for added gloss."
+}
