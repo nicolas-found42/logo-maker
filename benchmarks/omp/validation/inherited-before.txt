@@ -1,0 +1,6 @@
+Scenario: inherited CPU enabled, Metal disabled
+Revision: c45804d
+Blender: 5.2.3 LTS e13b728c6880
+CPU: Apple M5 Pro; enabled=True
+METAL: Apple M5 Pro (GPU - 20 cores); enabled=True
+CPU tracing disabled: False
