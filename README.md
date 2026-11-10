@@ -13,7 +13,7 @@ Requires macOS on Apple silicon (Metal GPU), [uv](https://docs.astral.sh/uv/), N
 
 ```sh
 just setup                                  # go, fontforge, primitive, Python env, npm, Metal kernels
-python3 scripts/install.py --agent claude   # or codex | omp | skills --destination DIR
+uv run python scripts/install.py --agent claude   # or codex | omp | skills --destination DIR
 logo-maker doctor
 export OPENROUTER_API_KEY=...               # Jev via OpenRouter (or TYPESAFE_API_KEY)
 ```

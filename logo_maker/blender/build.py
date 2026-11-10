@@ -130,7 +130,7 @@ def _write_export(scene: dict, visible: list, build_dir: Path, concept_dir: Path
     import numpy as np
     import trimesh
 
-    depsgraph = bpy.context.evaluated_depsgraph()
+    depsgraph = bpy.context.evaluated_depsgraph_get()
     mesh_dir = concept_dir / "meshes"
     mesh_dir.mkdir(exist_ok=True)
     objects = []

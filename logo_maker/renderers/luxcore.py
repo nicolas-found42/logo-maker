@@ -52,7 +52,8 @@ def _set(props, key: str, value) -> None:
 def _disney(props, name: str, mat: dict) -> None:
     """Export material dict -> LuxCore `disney` (documented approximations)."""
     base = f"scene.materials.{name}"
-    color = _vec(mat.get("base_color_linear", (0.8, 0.8, 0.8)))
+    # Export colors are linear RGBA; LuxCore constant textures take RGB.
+    color = _vec(mat.get("base_color_linear", (0.8, 0.8, 0.8)))[:3]
     _set(props, f"{base}.type", "disney")
     _set(props, f"{base}.basecolor", color)
     _set(props, f"{base}.metallic", float(mat.get("metallic", 0.0)))
@@ -188,7 +189,7 @@ def _render_here(export_json: Path, out_png: Path, *, quality: str, resolution: 
 
     for i, light in enumerate(data.get("lights", [])):
         kind = light.get("type", "point")
-        color = np.asarray(light.get("color_linear", (1.0, 1.0, 1.0)), dtype=float)
+        color = np.asarray(light.get("color_linear", (1.0, 1.0, 1.0)), dtype=float)[:3]
         power = float(light.get("power_w", 10.0))
         loc = np.asarray(light.get("location", (0, 0, 5)), dtype=float)
         tgt = np.asarray(light.get("target", (0, 0, 0)), dtype=float)

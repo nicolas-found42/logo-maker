@@ -15,7 +15,6 @@
     "svg"
   ],
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Logo Maker",
     "shortDescription": "Judged, rendered 3D logos with a full export set, from any brief.",

@@ -1,2 +1,0 @@
-[console_scripts]
-logo-maker = logo_maker.cli:main

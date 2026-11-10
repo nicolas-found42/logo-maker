@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- `scripts/install.py` registers the MCP server on every host as `uv run --quiet --project <checkout> logo-maker mcp`
+  (live source, no `logo-maker` on PATH needed): `~/.omp/agent/mcp.json`, `claude mcp add-json --scope user`,
+  and `[mcp_servers.logo-maker]` in `~/.codex/config.toml`. Claude now gets a linked skill instead of a plugin copy.
+  Run it with `uv run python scripts/install.py` (it imports `tomlkit`). The root `.mcp.json` uses the same command,
+  and the Codex plugin ships the skill only.
+
 ## [0.1.0] - 2026-11-10
 
 ### Added

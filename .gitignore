@@ -1,9 +1,6 @@
 # Logo folders are per-user work, not source.
 /logos/
 
-# Coursework and assignment files are not part of the tool.
-/assignments/
-
 .venv/
 __pycache__/
 *.pyc
@@ -12,3 +9,4 @@ __pycache__/
 js/node_modules/
 *.blend1
 .DS_Store
+*.egg-info/
