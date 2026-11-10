@@ -90,10 +90,20 @@ rigs.
 `logo-maker run <slug>` again. It renders GPU previews, keeps 3 finalists judged on the images,
 renders finals at 4000 px, and runs up to five QA rounds per finalist (readable, nothing cut off,
 clean edges, no veil or box, recognizable at 32 px), fixing scenes after a clear fail (Jev P < 0.3
-on a check, or a code-detected veil, cut-off, or aliased edges). A head-to-head picks the winner and
+on a check, or a code-detected veil or cut-off). An edge failure returns scoped diagnosis work.
+A head-to-head picks an eligible winner and
 the export set lands in `exports/`.
 
-When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl`: a `needs_simpler_motif` result
+When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl` and the concept’s
+`.build/final.sampling.json`. `sampling_review_needed` means the machine profile, diagnostics or
+comparison still needs qualification; `refinement_needed` names the artifact and dimension to
+repair. For sampling/profile/budget work, read [the sampling policy](../../docs/automatic-sampling.md)
+before editing controls. Retain user overrides and compare independent-seed noisy/denoised detail
+before changing one sampling control. Route geometry, typography, filtering, resolution, denoiser
+detail loss and alpha defects to scoped refinement. Report device, cap, noise and budget outcomes
+separately from craftsmanship, brief fit and preference.
+
+In `qa/rounds.jsonl`, a `needs_simpler_motif` result
 means the mark lost its shape at 32 px. Simplify that motif (fewer, larger shapes; thicker strokes)
 and run again.
 

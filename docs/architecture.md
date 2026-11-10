@@ -1,15 +1,18 @@
 # Architecture
 
-logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the work:
+logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the
+work:
 
 - **The agent** (guided by `skills/logo-maker/SKILL.md`) writes the brief, drafts metaphors, and
   authors a motif and a scene for each shortlisted concept.
-- **Jev** (TypeSafe's System One model) answers typed questions about text and images. It never decides;
+- **Jev** (TypeSafe's System One model) answers typed questions about text and images. It never
+  decides;
   code turns its answers into actions through truth tables.
 - **The tool** does everything else: builds the concept pool, runs the judging chain, renders, runs
   the QA loop, exports, and logs.
 
-No stage generates images with an AI model. Every pixel comes from geometry, fonts, materials, and renderers.
+No stage generates images with an AI model. Every pixel comes from geometry, fonts, materials, and
+renderers.
 
 ## Pipeline
 
@@ -61,9 +64,11 @@ Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment-
 and every 3D relief come from it, so flat and 3D always match.
 
 - `viewBox="0 0 1000 1000"`, y down. The mark fits inside a centered circle of radius 470.
-- Only `<path>` elements, absolute coordinates, no transforms, no strokes (strokes are outlined first).
+- Only `<path>` elements, absolute coordinates, no transforms, no strokes (strokes are outlined
+  first).
 - Each path has a unique `id`, a `fill="#RRGGBB"`, and optional attributes:
-  - `data-role`: palette role (`primary`, `secondary`, `accent`, `highlight`, `ink`); the mono export
+  - `data-role`: palette role (`primary`, `secondary`, `accent`, `highlight`, `ink`); the mono
+export
     recolors every role to one ink.
   - `data-height`: relief height multiplier for 3D (default `1`).
   - `data-layer`: integer stacking order for layered treatments (default `0`).
@@ -144,18 +149,73 @@ outside this Cycles execution attestation.
 GPU contract (#4, shared with #5): the actual bpy process refreshes devices, disables all CPU
 tracing selections, selects one available Metal device, and forces the Cycles Metal device override.
 MetalRT stays `AUTO`. GPU denoising is a separate requirement: support/request flags alone do not
-prove execution. Each render must retain effective OIDN Metal runtime evidence or fail operationally;
-CPU/hybrid tracing and CPU denoising are never accepted. Normal CPU scene construction, synchronization,
-Metal submission, image analysis and file I/O remain permitted. Execution verification is independent
+prove execution. Each render must retain effective OIDN Metal runtime evidence or fail
+operationally;
+CPU/hybrid tracing and CPU denoising are never accepted. Normal CPU scene construction,
+synchronization,
+Metal submission, image analysis and file I/O remain permitted. Execution verification is
+independent
 of craftsmanship, fidelity, brief fit and aesthetic preference.
-First runs compile Metal kernels (1.5-5 min, no output); renders time out at 900 s and retry once
-on a crash.
+First runs compile Metal kernels (1.5-5 min, no output); a builder attempt is limited to 900 s
+and the remaining job deadline. Crash retries consume the same attempt and wall-clock budget.
 Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
 Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
 timing scope; #5 can consume it without changing numeric defaults.
 When the scene asks for `mitsuba`, `luxcore`, or `three`, the builder exports meshes, materials,
 camera, and lights to `concepts/<slug>/meshes/scene_export.json`, and the matching renderer in
 `logo_maker/renderers/` renders from that.
+
+### Bounded sampling (#5)
+
+The sampling policy is a separate technical contract, not a craftsmanship gate. See
+[automatic-sampling.md](automatic-sampling.md) for the profile schema and qualification protocol.
+`[render]` exposes `adaptive`, `adaptive_threshold`, `min_samples`, `max_samples`, and `seed`.
+Explicit values (including false and zero) are retained in compiled `quality.overrides` and never
+rewritten by QA. Zero minimum delegates to Cycles; zero threshold means Cycles automatic threshold,
+not zero error. `meta.seed` supplies the deterministic seed unless explicitly overridden.
+
+`[sampling]` exposes `profile` (optional JSON path), `diagnosis` (optional JSON path),
+`wall_seconds` (default 1800), `attempt_limit` (default 2, maximum 4), and
+`diagnostic_bytes` (default 2147483648, maximum 2147483648 per attempt).
+No replacement profile is shipped as qualified. Missing/stale/out-of-scope profiles retain the
+4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
+A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,
+stage, resolution, render configuration and dependency scope. Owner-reviewed controls and held-out
+cases are required. Profile timing distributions exclude seed; image/diagnosis identity includes
+seed.
+No image result is reused solely on an mtime or a machine timing key.
+
+`sampling.decide` consumes an image-bound diagnosis plus actual sample statistics. Generic edge QA
+alone never increases sampling. Verified cap-limited stochastic noise can increase only the cap;
+verified below-cap noise can tighten only the threshold. Structural, typography, resolution,
+filtering, alpha and denoiser-detail defects return `refinement_needed` for #3; missing/uncertain
+sampling evidence returns `unknown`. Overrides that prevent a proposed repair return
+`override_conflict`. Every optional comparison needs remaining attempts and estimated whole-job
+cost; otherwise retain the prior artifact and report `attempt_limit` or `time_limit`.
+
+Each attempt runs through #4's `render_verified` boundary. Optional bounded multilayer EXR retains
+Combined, noisy image and normalized Debug Sample Count subimages. Summaries decode counts by
+multiplying by the cap, report foreground, dark, alpha-boundary and spatial difficult regions, and
+retain missing diagnostics as unknown. Summaries are diagnostics, never an automated quality
+verdict.
+The final passes through the real 4000→2000 Lanczos path and optional alpha cleanup before
+publication.
+A failed/device-unverified/over-budget attempt does not replace prior output.
+`RenderResult.sampling`
+points to a job record with full input/settings/image keys, delivered hash, attempts, total host
+wall
+time, execution/denoiser evidence and distinct profile/noise/cap/time/memory/device/quality
+outcomes.
+Cold/kernel state remains unknown unless observed. Calibration and confirmations are part of cost,
+not a free prelude. CPU host stages check deadlines before and after work; an overrun is reported,
+not accepted as success. Native render work is interrupted at the remaining deadline.
+
+Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
+Standalone export starts its own explicit budget and retains the final's sampling provenance in the
+export manifest. Unqualified sampling returns an authoring/review stop and cannot advance to winner.
+Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a
+technically
+accepted or capped image. A capped image is never described as proven convergence.
 
 ### Qualification fixtures
 
@@ -164,7 +224,8 @@ retained image, flat mark and recipe dependency to a SHA-256, origin and permitt
 Historical CPU-rendered originals, the 256 px renderer golden, the fresh 2000 px reconstruction,
 and new GPU replays retain separate identities. Replays do not replace original bytes.
 The verifier rejects missing/changed assets and reports owner labels per dimension: reproduction
-fidelity, craftsmanship, brief fit and preference. Unknown/missing labels remain unknown. No aggregate
+fidelity, craftsmanship, brief fit and preference. Unknown/missing labels remain unknown. No
+aggregate
 quality winner is inferred from SSIM, gloss or hardware. Transfer qualification needs owner-reviewed
 different-material successes and held-out briefs, plus rejected Skill Swap controls; missing cases
 leave qualification open. The small SSIM check covers renderer regression only.
@@ -181,9 +242,11 @@ backoff; any other failure raises `JevError` and never reads as "no".
 
 ### Adapters
 
-Every external tool is an `Adapter` (`logo_maker/adapters/__init__.py`): name, stage, license, one-line
+Every external tool is an `Adapter` (`logo_maker/adapters/__init__.py`): name, stage, license,
+one-line
 summary, the callable that runs it, a health check, and the exact fix command. See
-[adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the environment
+[adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the
+environment
 checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns one row per check:
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.

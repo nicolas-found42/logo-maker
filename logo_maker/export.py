@@ -12,13 +12,19 @@ import hashlib
 import json
 import re
 import shutil
+import subprocess
+import sys
+import time
+import uuid
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from PIL import Image, ImageDraw
 
 from logo_maker.checks import OBJECT_ALPHA, alpha_report, margin_report
 from logo_maker.imageops import downsample, pad_square, soft_shadow
 from logo_maker.proc import node
+from logo_maker.sampling import Budget, SamplingLimit
 
 HERO_SIZE = 2000
 AVATAR_SIZE = 1024
@@ -292,7 +298,7 @@ def _contact_sheet(
     return dst
 
 
-def export_all(
+def _export_all(
     concept_dir: Path, out_dir: Path, *, name: str, palette: dict[str, str], motif_svg: Path
 ) -> dict[str, Path]:
     """Build the full export set; return a manifest dict and write manifest.json."""
@@ -363,3 +369,83 @@ def export_all(
     for extra in (".mark-color.src.svg", ".mark-mono.src.svg"):
         (out / extra).unlink(missing_ok=True)
     return manifest
+
+
+def export_all(
+    concept_dir: Path,
+    out_dir: Path,
+    *,
+    name: str,
+    palette: dict[str, str],
+    motif_svg: Path,
+    budget: Budget | None = None,
+) -> dict[str, Path]:
+    """Build under the whole-job deadline, then replace the export set as a unit.
+
+    The child deadline covers native CPU image processing and external tools too.
+    Low-level legacy image exports remain available, explicitly unattested; the
+    pipeline winner boundary additionally requires sampling qualification.
+    """
+    budget = budget or Budget()
+    budget.check()
+    started = time.monotonic()
+    concept_dir, out_dir = Path(concept_dir).resolve(), Path(out_dir).resolve()
+    out_dir.parent.mkdir(parents=True, exist_ok=True)
+    provenance_path = concept_dir / ".build/final.sampling.json"
+    provenance = json.loads(provenance_path.read_text()) if provenance_path.exists() else None
+    if provenance and (
+        not provenance.get("published")
+        or provenance.get("delivered_sha256") != _sha256(concept_dir / "final.png")
+    ):
+        raise ExportError("sampling provenance does not match final image; prior exports retained")
+    with TemporaryDirectory(prefix=".export-pending-", dir=out_dir.parent) as temp:
+        pending = Path(temp) / "exports"
+        payload = {
+            "concept_dir": str(concept_dir),
+            "out_dir": str(pending),
+            "name": name,
+            "palette": palette,
+            "motif_svg": str(Path(motif_svg).resolve()),
+        }
+        try:
+            proc = subprocess.run(
+                [sys.executable, "-m", "logo_maker.export"],
+                input=json.dumps(payload),
+                text=True,
+                capture_output=True,
+                timeout=budget.remaining,
+                check=False,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise SamplingLimit(
+                "time_limit: export deadline exhausted; prior exports retained"
+            ) from exc
+        if proc.returncode:
+            raise ExportError((proc.stderr or proc.stdout)[-2000:])
+        budget.check()
+        record = json.loads((pending / "manifest.json").read_text())
+        record["sampling"] = (
+            {"state": "unattested_legacy_image"}
+            if provenance is None
+            else {"record_sha256": _sha256(provenance_path), "record": provenance}
+        )
+        record["export_seconds"] = time.monotonic() - started
+        record["whole_job_budget"] = budget.record()
+        (pending / "manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True))
+        budget.check()
+        backup = out_dir.with_name(out_dir.name + ".prior-" + uuid.uuid4().hex)
+        if out_dir.exists():
+            out_dir.rename(backup)
+        try:
+            pending.rename(out_dir)
+        except OSError:
+            if backup.exists():
+                backup.rename(out_dir)
+            raise
+        if backup.exists():
+            shutil.rmtree(backup)
+    return {key: out_dir / entry["path"] for key, entry in record["files"].items()}
+
+
+if __name__ == "__main__":
+    _export_all(**json.loads(sys.stdin.read()))

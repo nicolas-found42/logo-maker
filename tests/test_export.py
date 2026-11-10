@@ -81,3 +81,18 @@ def test_broken_hero_refuses_to_export(tmp_path: Path, draw, message: str) -> No
     concept, motif = _concept(tmp_path, draw)
     with pytest.raises(ExportError, match=message):
         export_all(concept, tmp_path / "exports", name="Sample", palette=PALETTE, motif_svg=motif)
+
+
+def test_export_deadline_keeps_prior_exports(tmp_path):
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    concept, motif = _concept(tmp_path, _disc)
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("last approved export")
+    clock = [0.0]
+    budget = Budget(wall_seconds=1, clock=lambda: clock[0])
+    clock[0] = 2
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        export_all(concept, out, name="Sample", palette=PALETTE, motif_svg=motif, budget=budget)
+    assert (out / "prior.txt").read_text() == "last approved export"

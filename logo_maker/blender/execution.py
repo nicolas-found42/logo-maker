@@ -33,7 +33,13 @@ def verify_denoiser_log(log: str) -> dict:
     }
 
 
-def render_verified(png: Path, evidence: Path, *, inputs: dict[str, Path] | None = None) -> dict:
+def render_verified(
+    png: Path,
+    evidence: Path,
+    *,
+    inputs: dict[str, Path] | None = None,
+    diagnostic_bytes: int = 0,
+) -> dict:
     """Render to quarantine; publish only after runtime GPU verification.
 
     Call after authoring/quality changes. Reassert policy immediately before rendering.
@@ -108,6 +114,9 @@ def render_verified(png: Path, evidence: Path, *, inputs: dict[str, Path] | None
                 "log": log_path.name,
             }
         )
+        diagnostic = None
+        if diagnostic_bytes:
+            diagnostic = _enable_diagnostics(diagnostic_bytes)
         started = time.monotonic()
         cpu_started = time.process_time()
         # Flush Python and native buffers before redirecting/restoring process descriptors.
@@ -135,6 +144,10 @@ def render_verified(png: Path, evidence: Path, *, inputs: dict[str, Path] | None
         report["log_sha256"] = hashlib.sha256(log_path.read_bytes()).hexdigest()
         log = log_path.read_text(errors="replace")
         report["denoiser_effective"] = verify_denoiser_log(log)
+        if diagnostic is not None:
+            report["diagnostics"] = _save_diagnostics(
+                evidence.with_suffix(".exr"), diagnostic_bytes, diagnostic
+            )
         report["png_sha256"] = hashlib.sha256(pending.read_bytes()).hexdigest()
         pending.replace(png)
         report["status"] = "verified"
@@ -145,3 +158,69 @@ def render_verified(png: Path, evidence: Path, *, inputs: dict[str, Path] | None
         bpy.context.scene.render.filepath = original_filepath
         evidence.write_text(json.dumps(report, indent=2) + "\n")
     return report
+
+
+def _enable_diagnostics(max_bytes: int) -> dict:
+    import bpy
+
+    sc = bpy.context.scene
+    layer = bpy.context.view_layer
+    # A normal single-layer Combined + noisy/guides/count has <=24 float channels.
+    # Custom AOVs, other enabled passes and multiple layers need a separate bound.
+    extra = [
+        p.identifier
+        for p in layer.bl_rna.properties
+        if p.identifier.startswith("use_pass_")
+        and p.identifier not in {"use_pass_combined", "use_pass_cryptomatte_accurate"}
+        and getattr(layer, p.identifier, False)
+    ]
+    pixels = (
+        sc.render.resolution_x
+        * sc.render.resolution_y
+        * (sc.render.resolution_percentage / 100) ** 2
+    )
+    if (
+        len(sc.view_layers) != 1
+        or len(layer.aovs)
+        or extra
+        or pixels * 24 * 4 + 1048576 > max_bytes
+    ):
+        return {"status": "unknown", "reason": "diagnostic storage bound or custom pass scope"}
+    try:
+        layer.cycles.pass_debug_sample_count = True
+        layer.cycles.denoising_store_passes = True
+    except AttributeError:
+        return {"status": "unknown", "reason": "bpy lacks sample/noisy passes"}
+    return {"status": "enabled", "decoded_byte_bound": int(pixels * 24 * 4 + 1048576)}
+
+
+def _save_diagnostics(path: Path, max_bytes: int, capability: dict) -> dict:
+    import bpy
+
+    if capability["status"] != "enabled":
+        return capability
+    image = bpy.context.scene.render.image_settings
+    previous = (image.media_type, image.file_format, image.color_depth, image.exr_codec)
+    started = time.monotonic()
+    try:
+        image.media_type = "MULTI_LAYER_IMAGE"
+        image.file_format = "OPEN_EXR_MULTILAYER"
+        image.color_depth = "32"
+        image.exr_codec = "ZIP"
+        bpy.data.images["Render Result"].save_render(str(path))
+        if path.stat().st_size > max_bytes:
+            path.unlink()
+            return {"status": "unknown", "reason": "EXR exceeded diagnostic storage budget"}
+        return {
+            "status": "retained",
+            "path": str(path),
+            "bytes": path.stat().st_size,
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "seconds": time.monotonic() - started,
+            "scope": "lossless 32-bit multilayer EXR write and hash, after render",
+        }
+    except (RuntimeError, OSError, TypeError) as exc:
+        path.unlink(missing_ok=True)
+        return {"status": "unknown", "reason": str(exc)}
+    finally:
+        image.media_type, image.file_format, image.color_depth, image.exr_codec = previous
