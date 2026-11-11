@@ -41,7 +41,8 @@ supporting documentation/evidence. Issue #3 remains open and the PR remains a dr
 Fresh lint/format, ty, hooks, doctor, wheel/sdist build, GPU regression and the authorized live
 final-runtime test passed. GPU regression: 2 passed in 5.83 s. Live final-runtime: 1 passed in
 67.10 s; 31 low-level exports and one live QA request, then `sampling_review_needed` with the prior
-winner preserved. The complete offline rerun passed: **436 passed, 6 deselected, 49 warnings in 319.38 s**.
+winner preserved. The complete offline rerun passed:
+**436 passed, 6 deselected, 49 warnings in 319.38 s**.
 `validation/current-source-binding.json` pins this run, including the updated tests and workflow.
 Hosted results are recorded separately in the final PR body.
 Raw local logs and fresh runtime measurement are retained in `validation/`.
