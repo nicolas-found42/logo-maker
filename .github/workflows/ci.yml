@@ -34,6 +34,9 @@ jobs:
       - name: Ruff format
         run: uv run --no-sync ruff format --check .
 
+      - name: Skill check
+        run: uv run --no-sync python scripts/skill_check.py
+
   prek:
     name: prek
     runs-on: ubuntu-latest

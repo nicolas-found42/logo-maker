@@ -1,8 +1,8 @@
 ---
 name: logo-maker
 description: Logos and brand marks. Use when making, redesigning, or improving a logo, app icon,
-favicon set, or social avatar for any project, business, product, or profile, from an idea, a
-reference image, a repository, or a brainstorm.
+  favicon set, or social avatar for any project, business, product, or profile, from an idea, a
+  reference image, a repository, or a brainstorm.
 ---
 
 # logo-maker
