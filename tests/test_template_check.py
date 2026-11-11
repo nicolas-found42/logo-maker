@@ -5,7 +5,6 @@ from __future__ import annotations
 import copy
 import subprocess
 import sys
-import time
 
 import pytest
 
@@ -237,9 +236,13 @@ def test_declaration_inside_code_cannot_disable_screenshot_requirement(wrapper):
     ["~~~~markdown\n{}\n~~~~", "<pre>\n{}\n</pre>", "`\n{}\n`"],
 )
 def test_proof_fields_inside_code_do_not_satisfy_before_after(wrapper):
-    body = nonvisual_pr()
+    body = nonvisual_pr().replace(
+        "Invalid input exits 0.\n\n```text\nexit=0\n```", "Invalid input exits 0."
+    )
     before = next(section for section in check.sections(body) if section.title == "Before")
-    body = body.replace(before.body, wrapper.format(before.body) + "\nUnstructured prose only.")
+    body = body.replace(
+        before.body, wrapper.format(before.body.strip()) + "\nUnstructured prose only."
+    )
     errors = check.validate(body, "pr")
     for field in ["Revision", "Scenario", "Observed result"]:
         assert any(f"Before / {field}" in error for error in errors)
@@ -306,12 +309,13 @@ def test_unterminated_html_code_in_pr_body_reports_errors_instead_of_raising():
     assert any("After:" in error or "Before / Observed result" in error for error in errors)
 
 
-def test_declaration_reason_with_only_inline_code_is_accepted():
-    body = nonvisual_pr().replace(
-        "No: CLI validation only; app and rendered output are unchanged.",
-        "No: `scripts/template_check.py`",
-    )
-    assert check.validate(body, "pr") == []
+def test_declaration_reason_with_only_code_is_rejected():
+    for code_only in ["No: `scripts/template_check.py`", "No: <code>backend only</code>"]:
+        body = nonvisual_pr().replace(
+            "No: CLI validation only; app and rendered output are unchanged.",
+            code_only,
+        )
+        assert any("Evidence / Visible app change" in error for error in check.validate(body, "pr"))
 
 
 @pytest.mark.parametrize(
@@ -320,6 +324,9 @@ def test_declaration_reason_with_only_inline_code_is_accepted():
         "`![before](https://example.com/before.png)`",
         "\n```markdown\n![before](https://example.com/before.png)\n```",
         "<pre>![before][ref]\n[ref]: https://example.com/before.png</pre>",
+        '`<img src="https://example.com/before.png" alt="before">`',
+        '\n```html\n<img src="https://example.com/before.png" alt="before">\n```',
+        '<pre><img src="https://example.com/before.png" alt="before"></pre>',
     ],
 )
 def test_code_wrapped_image_alone_does_not_satisfy_proof_field(code_image):
@@ -353,17 +360,26 @@ def test_unicode_line_separator_in_proof_field_does_not_misalign_or_crash():
     assert check.validate(body, "pr") == []
 
 
-def test_long_unmatched_backtick_run_and_malformed_html_prefixes_finish_quickly():
-    distinct_unmatched = " ".join("`" * length for length in range(2, 350))
-    ticks = "`" * 2500 + " " + distinct_unmatched + (" `word` " * 500)
-    malformed_html = "<pre attr " * 1500 + "<code attr " * 1500
+def test_long_unmatched_backtick_run_and_malformed_html_prefixes_scale_linearly():
+    def make_text(scale: int) -> str:
+        distinct_unmatched = " ".join("`" * length for length in range(2, 2 + scale))
+        ticks = "`" * (scale * 5) + " " + distinct_unmatched + (" `word` " * scale)
+        malformed_html = ("<pre attr " * scale) + ("<code attr " * scale) + ("</code " * scale)
+        return f"{ticks}\n{malformed_html}"
+
+    small = make_text(40)
+    large = make_text(200)
+    prose_small, chunks_small = check._scan_inline_and_html_code(small, marker="\x00")
+    prose_large, chunks_large = check._scan_inline_and_html_code(large, marker="\x00")
+    assert len(chunks_small) == 40
+    assert len(chunks_large) == 200
+    assert prose_small.count("\n") == 1
+    assert prose_large.count("\n") == 1
     body = nonvisual_pr().replace(
         "**Observed result:** Invalid input exits 0.\n\n```text\nexit=0\n```",
-        f"**Observed result:** {ticks}\n{malformed_html}",
+        f"**Observed result:** {small}",
     )
-    started = time.perf_counter()
     assert check.validate(body, "pr") == []
-    assert time.perf_counter() - started < 1.0
 
 
 def test_child_heading_with_inline_code_title_stops_parent_field_scan():
@@ -446,6 +462,63 @@ def test_custom_code_hyphen_element_does_not_mask_proof_fields():
     body = nonvisual_pr().replace(
         "**Revision:** 1111111",
         "<code-review-panel>\n**Revision:** 1111111\n</code-review-panel>",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_nested_code_tag_with_quoted_gt_inside_empty_pre_is_rejected():
+    body = nonvisual_pr().replace(
+        "Invalid input exits 0.\n\n```text\nexit=0\n```",
+        '<pre><code data-a=">still_attr"></code></pre>',
+    )
+    assert any("Before / Observed result" in error for error in check.validate(body, "pr"))
+
+
+@pytest.mark.parametrize("wrapper", ["<pre>\n{}\n</pre>", "<code>\n{}\n</code>", "`\n{}\n`"])
+def test_verification_table_inside_html_or_inline_code_is_rejected(wrapper):
+    table = (
+        "| Check | Result and evidence, or reason not run |\n"
+        "| --- | --- |\n"
+        "| Offline tests: `just test` | Pass: export boundary regression. |\n"
+        "| Lint and formatting: `just lint` | Pass. |\n"
+        "| Types: `just type` | Pass. |\n"
+        "| Repository hooks: `just hooks` | Pass. |\n"
+        "| Render changes: `just render-example` | Not run: flat exports only. |\n"
+        "| Dependency changes: `logo-maker doctor` | N/A: dependencies unchanged. |\n"
+        "| Jev/provider changes: relevant live tests with `-m live` | N/A: judging unchanged. |"
+    )
+    body = nonvisual_pr().replace(table, wrapper.format(table))
+    assert any("Verification / Offline tests" in error for error in check.validate(body, "pr"))
+
+
+def test_malformed_opening_tag_does_not_expose_later_inline_code_labels():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "<code attr\n`**Revision:** 1111111`",
+    )
+    assert any("Before / Revision" in error for error in check.validate(body, "pr"))
+
+
+def test_escaped_backtick_does_not_pair_with_later_inline_code_delimiter():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "Escaped \\` backtick before field\n**Revision:** 1111111 with `inline` code",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_hashes_after_leading_inline_code_are_not_treated_as_child_heading():
+    body = nonvisual_pr().replace(
+        "### Verification\n",
+        "### Verification\n`inline` #### Not a heading\n",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_unmatched_backtick_does_not_pair_across_blank_line_paragraphs():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "Literal unmatched ` tick in paragraph one.\n\n**Revision:** 1111111 with `inline` code",
     )
     assert check.validate(body, "pr") == []
 

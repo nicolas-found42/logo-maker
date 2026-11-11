@@ -89,8 +89,8 @@ def own_body(text: str) -> str:
     """Return a section's content before child headings, ignoring headings in code."""
     clean = _uncomment(text)
     lines = clean.split("\n")
-    for index, line in enumerate(noncode_prose(clean).split("\n")):
-        if HEADING.match(line):
+    for index, masked_line in enumerate(noncode_prose(clean).split("\n")):
+        if HEADING.match(masked_line) and HEADING.match(lines[index]):
             return "\n".join(lines[:index])
     return clean
 
@@ -112,26 +112,57 @@ def _find_tag_end(text: str, start: int) -> int:
     return -1
 
 
+def _strip_tags(text: str, names: tuple[str, ...]) -> str:
+    """Strip opening/closing HTML tags in `names`, respecting quoted '>' in attributes."""
+    pattern = re.compile(r"(?is)<(/?)(" + "|".join(names) + r")(?=[\s/>]|\Z)")
+    parts: list[str] = []
+    cursor = 0
+    while match := pattern.search(text, cursor):
+        gt_pos = _find_tag_end(text, match.end())
+        if gt_pos == -1:
+            break
+        parts.append(text[cursor : match.start()])
+        cursor = gt_pos + 1
+    parts.append(text[cursor:])
+    return "".join(parts)
+
+
+def _is_unescaped_backtick_run(text: str, start: int) -> bool:
+    backslashes = 0
+    pos = start - 1
+    while pos >= 0 and text[pos] == "\\":
+        backslashes += 1
+        pos -= 1
+    return backslashes % 2 == 0
+
+
 def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, list[str]]:
     """Mask backtick spans and <pre>/<code> blocks in linear time, returning (prose, code_chunks)."""
-    backtick_runs = [(match.start(), match.end()) for match in re.finditer(r"`+", text)]
-    runs_by_len: dict[int, list[int]] = {}
-    for run_idx, (run_start, run_end) in enumerate(backtick_runs):
-        runs_by_len.setdefault(run_end - run_start, []).append(run_idx)
-    len_cursor: dict[int, int] = dict.fromkeys(runs_by_len, 0)
+    paragraph_breaks = [match.start() for match in re.finditer(r"\n[ \t]*\n", text)]
+    backtick_runs: list[tuple[int, int, int]] = []
+    para_id = 0
+    for match in re.finditer(r"`+", text):
+        start, end = match.start(), match.end()
+        if not _is_unescaped_backtick_run(text, start):
+            continue
+        while para_id < len(paragraph_breaks) and paragraph_breaks[para_id] < start:
+            para_id += 1
+        backtick_runs.append((start, end, para_id))
+    runs_by_key: dict[tuple[int, int], list[int]] = {}
+    for run_idx, (run_start, run_end, run_para) in enumerate(backtick_runs):
+        runs_by_key.setdefault((run_end - run_start, run_para), []).append(run_idx)
+    key_cursor: dict[tuple[int, int], int] = dict.fromkeys(runs_by_key, 0)
     tag_pattern = re.compile(r"(?is)<(/?)(pre|code)(?=[\s/>]|\Z)")
     raw_tags: list[tuple[int, bool, str, int]] = []
-    unterminated_open_at = len(text)
     tag_cursor = 0
     while match := tag_pattern.search(text, tag_cursor):
         is_close = match.group(1) == "/"
         name = match.group(2).casefold()
         gt_pos = _find_tag_end(text, match.end())
-        if gt_pos == -1 and not is_close:
-            unterminated_open_at = match.start()
+        if gt_pos == -1:
             break
         raw_tags.append((match.start(), is_close, name, gt_pos))
-        tag_cursor = match.end() if gt_pos == -1 else gt_pos + 1
+        tag_cursor = gt_pos + 1
     prose_parts: list[str] = []
     code_chunks: list[str] = []
     cursor = 0
@@ -145,16 +176,16 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
         next_inline: tuple[int, int, str] | None = None
         scan_bt = bt_index
         while scan_bt < len(backtick_runs):
-            open_start, open_end = backtick_runs[scan_bt]
-            run_len = open_end - open_start
-            positions = runs_by_len[run_len]
-            pos_cursor = len_cursor[run_len]
+            open_start, open_end, open_para = backtick_runs[scan_bt]
+            key = (open_end - open_start, open_para)
+            positions = runs_by_key[key]
+            pos_cursor = key_cursor[key]
             while pos_cursor < len(positions) and positions[pos_cursor] <= scan_bt:
                 pos_cursor += 1
-            len_cursor[run_len] = pos_cursor
+            key_cursor[key] = pos_cursor
             if pos_cursor < len(positions):
                 close_idx = positions[pos_cursor]
-                close_start, close_end = backtick_runs[close_idx]
+                close_start, close_end, _ = backtick_runs[close_idx]
                 next_inline = (open_start, close_end, text[open_end:close_start])
                 bt_index = scan_bt
                 break
@@ -162,10 +193,7 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
         else:
             bt_index = len(backtick_runs)
         next_tag = raw_tags[tag_index] if tag_index < len(raw_tags) else None
-        if next_inline and (
-            (next_tag is None and next_inline[0] < unterminated_open_at)
-            or (next_tag is not None and next_inline[0] < next_tag[0])
-        ):
+        if next_inline and (next_tag is None or next_inline[0] < next_tag[0]):
             start, end, inner = next_inline
             prose_parts.append(text[cursor:start])
             prose_parts.append("\n".join(marker for _ in range(text[start:end].count("\n") + 1)))
@@ -176,8 +204,8 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
             prose_parts.append(text[cursor:])
             break
         tag_start, is_close, tag_name, tag_gt = next_tag
-        if is_close or tag_gt == -1:
-            end_pos = tag_start + 1 if tag_gt == -1 else tag_gt + 1
+        if is_close:
+            end_pos = tag_gt + 1
             prose_parts.append(text[cursor:end_pos])
             cursor = end_pos
             tag_index += 1
@@ -190,8 +218,6 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
         block_end = len(text)
         while sub_index < len(raw_tags):
             sub_start, sub_is_close, sub_name, sub_gt = raw_tags[sub_index]
-            if sub_gt == -1:
-                break
             if sub_name == tag_name:
                 if not sub_is_close:
                     depth += 1
@@ -205,13 +231,7 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
         prose_parts.append(
             "\n".join(marker for _ in range(text[tag_start:block_end].count("\n") + 1))
         )
-        code_chunks.append(
-            re.sub(
-                r"(?is)</?(?:pre|code)(?=[\s/>]|\Z)[^>]*>",
-                "",
-                text[inner_start:inner_end],
-            )
-        )
+        code_chunks.append(_strip_tags(text[inner_start:inner_end], ("pre", "code")))
         cursor = block_end
         tag_index = sub_index + 1
     return "".join(prose_parts), code_chunks
@@ -230,7 +250,7 @@ def field_values(text: str, field: str) -> list[str]:
     label = re.compile(r"^\*\*([^*\n\x00]+):\*\*\s*(.*)$")
     starts: list[tuple[int, str, str]] = []
     for index, line in enumerate(masked):
-        if HEADING.match(line):
+        if HEADING.match(line) and HEADING.match(lines[index]):
             break
         if match := label.match(line):
             starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
@@ -256,6 +276,7 @@ def answer(text: str, *, allow_none: bool = False) -> bool:
     ]
     code_chunks.extend(html_and_inline_chunks)
     code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
+    code = _strip_tags(code, ("img",))
     text = prose + "\n" + code
     text = IMAGE.sub("", text)
     text = REFERENCE_IMAGE.sub("", text)
@@ -306,7 +327,7 @@ def required_issue_fields(template: str) -> list[str]:
 
 def table_rows(text: str) -> dict[str, list[str]]:
     rows = {}
-    for line in outside_code(text).splitlines():
+    for line in noncode_prose(text, marker="").split("\n"):
         if not line.strip().startswith("|"):
             continue
         cells = [cell.strip() for cell in re.split(r"(?<!\\)\|", line.strip().strip("|"))]
@@ -413,13 +434,9 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             # Only the container's own prose can declare screenshot applicability.
             introduction = own_body(evidence_sections[0].body)
             declarations = [
-                line.split(":**", 1)[1].strip()
-                for line, masked_line in zip(
-                    _uncomment(introduction).split("\n"),
-                    noncode_prose(introduction, marker="\x00").split("\n"),
-                    strict=False,
-                )
-                if re.match(r"^\*\*Visible app change:\*\*\s*\S", masked_line)
+                masked_line.split(":**", 1)[1].replace("\x00", "").strip()
+                for masked_line in noncode_prose(introduction, marker="\x00").split("\n")
+                if re.match(r"^\*\*Visible app change:\*\*\s*[^\s\x00]", masked_line)
             ]
             if len(declarations) == 1:
                 declaration = declarations[0]
