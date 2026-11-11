@@ -69,6 +69,11 @@ software CI does not qualify either artwork.
 
 ## Fresh software validation
 
+These are the probe's original `5518ce5` runtime/test-source results. Subsequent process-cleanup
+hardening and fresh head checks are reported in
+[PR #11](https://github.com/nicolas-found42/logo-maker/pull/11).
+Archived source bindings do not authorize reuse after implementation changes.
+
 | Check | Observed result |
 | --- | --- |
 | `just test` | 436 passed, 6 deselected, 49 upstream warnings in 313.00 s |

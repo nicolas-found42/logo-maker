@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import os
 import signal
 import subprocess
@@ -75,17 +76,28 @@ def stop_session(worker: subprocess.Popen, budget: Budget) -> None:
             if _group_has_live_members(worker.pid, budget):
                 raise SamplingLimit("cleanup unconfirmed: live group signal denied") from exc
 
-    if active():
-        send(signal.SIGTERM)
-        grace_end = time.monotonic() + max(0, min(0.8, budget.remaining - 0.2))
-        while active() and time.monotonic() < grace_end:
-            time.sleep(min(0.01, max(0, grace_end - time.monotonic())))
-        if active():
-            send(signal.SIGKILL)
+    failed = False
     try:
-        worker.wait(timeout=max(0.001, min(0.2, budget.remaining)))
-    except subprocess.TimeoutExpired as exc:
-        raise SamplingLimit("time_limit: worker cleanup unconfirmed") from exc
+        send(signal.SIGTERM)
+        alive = active()
+        grace_end = time.monotonic() + max(0, min(0.8, budget.remaining - 0.2))
+        while alive and time.monotonic() < grace_end:
+            time.sleep(min(0.01, max(0, grace_end - time.monotonic())))
+            alive = active()
+        if alive:
+            send(signal.SIGKILL)
+    except BaseException:
+        failed = True
+        # A failed proof remains a failure, but must not skip stopping our session.
+        with contextlib.suppress(ProcessLookupError, PermissionError):
+            os.killpg(worker.pid, signal.SIGKILL)
+        raise
+    finally:
+        try:
+            worker.wait(timeout=max(0.001, min(0.2, budget.remaining)))
+        except subprocess.TimeoutExpired as exc:
+            if not failed:
+                raise SamplingLimit("time_limit: worker cleanup unconfirmed") from exc
 
 
 def _group_has_live_members(group: int, budget: Budget) -> bool:
@@ -96,7 +108,7 @@ def _group_has_live_members(group: int, budget: Budget) -> bool:
             capture_output=True,
             text=True,
             check=True,
-            timeout=max(0.001, min(0.2, budget.remaining)),
+            timeout=max(0.001, min(0.8, budget.remaining - 0.2)),
         )
         rows = [line.split() for line in proc.stdout.splitlines() if line.strip()]
         if not rows or any(len(row) != 2 or not row[0].isdigit() for row in rows):
