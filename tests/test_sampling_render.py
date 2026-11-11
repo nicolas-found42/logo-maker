@@ -361,35 +361,25 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
 
 
-@pytest.mark.parametrize(
-    "failure",
-    [
-        "provider_retry",
-        "provider_log",
-        "qa_image_read",
-        "image_encode",
-        "tiny_image_read",
-        "asset_corrupt",
-    ],
-)
-def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
-    tmp_path, monkeypatch, failure
-):
+@pytest.fixture
+def finalize_qa_case(tmp_path, monkeypatch, request):
+    """Real owned workers and a local provider, with one selected IO fault."""
     import base64
     import contextlib
     import hashlib
     import os
     import threading
-    import time
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+    from types import SimpleNamespace
 
     from PIL import ImageDraw
 
     from logo_maker import pipeline
     from logo_maker.jev.client import JevClient
     from logo_maker.paths import LogoDir
-    from logo_maker.sampling import SamplingLimit
 
+    failure = request.param
+    sent_assets = {}
     logo = LogoDir(tmp_path / "logo")
     pipeline.new(logo, "Test")
     logo.brief.write_text(
@@ -469,8 +459,11 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
                 assets_dir = logo.qa / "jev/assets"
                 assets_dir.mkdir(parents=True, exist_ok=True)
                 for asset in body["assets"].values():
-                    digest = hashlib.sha256(base64.b64decode(asset["data_base64"])).hexdigest()
-                    os.mkfifo(assets_dir / f"{digest}.{asset['format']}")
+                    data = base64.b64decode(asset["data_base64"])
+                    digest = hashlib.sha256(data).hexdigest()
+                    target = assets_dir / f"{digest}.{asset['format']}"
+                    sent_assets[target] = data
+                    os.mkfifo(target)
             response = json.dumps(
                 {
                     "answers": {key: {"type": "noul", "noul": 0.9} for key in body["questions"]},
@@ -482,7 +475,9 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
             self.wfile.write(response)
 
     server = ThreadingHTTPServer(("127.0.0.1", 0), Provider)
-    worker = threading.Thread(target=server.serve_forever, daemon=True)
+    worker = threading.Thread(
+        target=server.serve_forever, kwargs={"poll_interval": 0.05}, daemon=True
+    )
     worker.start()
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
     monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
@@ -502,52 +497,102 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
             return {}
 
         monkeypatch.setattr(render, "machine_context", preflight_after_cache_check)
-    started = time.monotonic()
     try:
-        if failure == "asset_corrupt":
-            with pytest.raises(pipeline.AuthoringNeeded):
-                pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
-            requests = list((logo.qa / "jev/requests").glob("*.json"))
-            assert len(requests) == 1
-            request = json.loads(requests[0].read_text())
-            for asset in request["assets"].values():
-                retained = logo.qa / f"jev/assets/{asset['sha256']}.{asset['format']}"
-                assert retained.is_file(), "retained judgment image is not a regular file"
-                assert hashlib.sha256(retained.read_bytes()).hexdigest() == asset["sha256"]
-            usage = json.loads(logo.run_json.read_text())["jev"]
-            assert usage == {
-                "requests": 1,
-                "input_tokens": 123,
-                "output_tokens": 7,
-                "cost_usd": 0.001,
-            }
-            assert "synthetic-test-key" not in requests[0].read_text()
-        else:
-            with pytest.raises(SamplingLimit, match="time_limit"):
-                pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
-        if failure == "tiny_image_read":
-            assert image_read_started.is_set(), "test did not reach tiny image preparation"
-            assert not seen.is_set(), (
-                "provider started after image preparation exhausted its budget"
-            )
-        else:
-            assert seen.is_set(), "test did not reach the provider"
-            if failure not in {"provider_retry", "provider_log", "asset_corrupt"}:
-                assert image_read_started.is_set(), "test did not reach the blocked image read"
-        if failure == "provider_log":
-            from logo_maker.runlog import runlog
-
-            assert runlog(logo.run_json).data["jev"]["requests"] == 1
-            assert client._seq == 2
-        assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
-        assert prior.read_text() == '{"winner":"approved prior"}'
+        yield SimpleNamespace(
+            logo=logo,
+            client=client,
+            prior=prior,
+            seen=seen,
+            image_read_started=image_read_started,
+            failure=failure,
+            sent_assets=sent_assets,
+        )
     finally:
         stop.set()
         server.shutdown()
         server.server_close()
         worker.join(timeout=1)
+        assert not worker.is_alive(), "provider server did not stop"
         for writer in writers:
             writer.join(timeout=1)
+            assert not writer.is_alive(), "blocked image writer did not stop"
+
+
+@pytest.mark.parametrize(
+    "finalize_qa_case",
+    ["provider_retry", "provider_log", "qa_image_read", "image_encode", "tiny_image_read"],
+    indirect=True,
+)
+def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(finalize_qa_case):
+    import time
+
+    from logo_maker import pipeline
+    from logo_maker.sampling import SamplingLimit
+
+    case = finalize_qa_case
+    started = time.monotonic()
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=6))
+    assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+    if case.failure == "tiny_image_read":
+        assert case.image_read_started.is_set(), "test did not reach tiny image preparation"
+        assert not case.seen.is_set(), (
+            "provider started after image preparation exhausted its budget"
+        )
+    else:
+        assert case.seen.is_set(), "test did not reach the provider"
+        if case.failure not in {"provider_retry", "provider_log"}:
+            assert case.image_read_started.is_set(), "test did not reach the blocked image read"
+    if case.failure == "provider_log":
+        from logo_maker.runlog import runlog
+
+        assert runlog(case.logo.run_json).data["jev"]["requests"] == 1
+        assert case.client._seq == 2
+    assert case.prior.read_text() == '{"winner":"approved prior"}'
+
+
+@pytest.mark.parametrize("finalize_qa_case", ["asset_corrupt"], indirect=True)
+def test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner(finalize_qa_case):
+    import hashlib
+    import time
+
+    from logo_maker import pipeline
+
+    case = finalize_qa_case
+    # Recovery succeeds; unlike the stall cases, ordinary worker startup and QA
+    # must finish. A cold CI runner need not complete that work in six seconds.
+    started = time.monotonic()
+    with pytest.raises(pipeline.AuthoringNeeded, match="no finalist qualified"):
+        pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=30))
+    assert time.monotonic() - started < 33, "asset recovery exceeded its bounded allowance"
+    assert case.seen.is_set(), "test did not reach the provider"
+    requests = list((case.logo.qa / "jev/requests").glob("*.json"))
+    assert len(requests) == 1
+    request = json.loads(requests[0].read_text())
+    assert request["assets_status"] == "ready"
+    assert case.sent_assets, "provider did not inject corrupt asset paths"
+    retained_assets = set()
+    for asset in request["assets"].values():
+        retained = case.logo.qa / f"jev/assets/{asset['sha256']}.{asset['format']}"
+        assert retained.is_file(), "retained judgment image is not a regular file"
+        data = retained.read_bytes()
+        assert data == case.sent_assets[retained]
+        assert hashlib.sha256(data).hexdigest() == asset["sha256"]
+        retained_assets.add(retained)
+    assert retained_assets == set(case.sent_assets)
+    assert retained_assets == set((case.logo.qa / "jev/assets").iterdir())
+    usage = json.loads(case.logo.run_json.read_text())["jev"]
+    assert usage == {
+        "requests": 1,
+        "input_tokens": 123,
+        "output_tokens": 7,
+        "cost_usd": 0.001,
+    }
+    assert case.client._seq == 2
+    assert "synthetic-test-key" not in requests[0].read_text()
+    rounds = [json.loads(line) for line in (case.logo.qa / "rounds.jsonl").read_text().splitlines()]
+    assert [record["result"] for record in rounds] == ["sampling_review_needed"]
+    assert case.prior.read_text() == '{"winner":"approved prior"}'
 
 
 def test_exhausted_finalize_budget_stops_before_loading_inputs(tmp_path):

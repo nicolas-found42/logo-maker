@@ -1,0 +1,46 @@
+{
+  "issue": "https://github.com/nicolas-found42/logo-maker/issues/5",
+  "baseline": "3ca26d090fd1dc686e7920dfe2638e77255eec66",
+  "branch": "codex/main-ci-health",
+  "failed_ci": {
+    "url": "https://github.com/nicolas-found42/logo-maker/actions/runs/42962498387",
+    "test": "test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[asset_corrupt]",
+    "error": "SamplingLimit: time_limit: qa_checks deadline exhausted; prior artifacts retained",
+    "worker_timeout_seconds": 2.649017208000032,
+    "suite": "1 failed, 249 passed, 2 skipped, 4 deselected in 319.33s"
+  },
+  "diagnosis": {
+    "finding": "The corruption-recovery success case shared the six-second deadline and timing assertion used by deliberate blocking cases. Ordinary elapsed QA time could raise SamplingLimit before the expected AuthoringNeeded stop.",
+    "uncertainty": "The exact source of hosted runner latency was not measured. Local baseline passed without injected latency.",
+    "inspected": {
+      "logo_maker/pipeline.py": "finalize and qa_concept propagate the shared budget to judgments, qa_checks, bookkeeping and publication; an unqualified sampling fixture stops with AuthoringNeeded only after QA.",
+      "logo_maker/owned_process.py": "run reserves one second of remaining budget for session termination and reaping; qa_checks timeout is an operational time limit.",
+      "logo_maker/jev/client.py": "FIFO targets are not regular files and are replaced atomically with the sent image bytes; paid usage is accounted before asset IO; completed retention marks assets ready."
+    },
+    "production_changes": false
+  },
+  "controlled_probe": {
+    "plugin": "import time\nimport pytest\n\n@pytest.fixture(autouse=True)\ndef slow_qa(monkeypatch):\n    from logo_maker import host\n    original = host.run\n    def delayed(payload, *args, **kwargs):\n        if payload['operation'] == 'qa_checks':\n            time.sleep(4)\n        return original(payload, *args, **kwargs)\n    monkeypatch.setattr(host, 'run', delayed)\n",
+    "setup": "Save plugin as /tmp/logo-maker-ci-health/slow_qa.py; prepend its directory to PYTHONPATH; add -p slow_qa to the pytest invocation.",
+    "baseline_without_delay": "1 passed in 3.44s",
+    "baseline_with_four_second_qa_delay": "1 failed in 6.80s; SamplingLimit: time_limit: qa_checks deadline exhausted; prior artifacts retained",
+    "split_recovery_with_same_delay": "1 passed in 7.04s"
+  },
+  "coverage": {
+    "expiry": "provider_retry, provider_log, qa_image_read, image_encode, tiny_image_read still expect SamplingLimit with a six-second budget and the original less-than-nine-second elapsed assertion.",
+    "recovery": "Dedicated success test allows 30 seconds, expects AuthoringNeeded after real QA, and checks ready retention, exact provider bytes and hashes, exact asset set, exact usage, sequence, secret exclusion and prior winner bytes.",
+    "cleanup": "Both tests share bounded server/writer joins and assert the threads stop."
+  },
+  "verification": {
+    "offline": "just test: 252 passed, 4 deselected, 49 warnings in 158.57s",
+    "lint": "just lint: passed; Ruff check and Ruff format --check, 124 files already formatted",
+    "types": "just type: passed; ty check",
+    "hooks": "just hooks: all ten hooks passed",
+    "build": "uv build --out-dir /tmp/logo-maker-ci-health/dist: wheel and sdist built successfully",
+    "build_warning": "Existing setuptools project.license TOML-table deprecation; build succeeded. No dependency or metadata change in this fix.",
+    "gpu_live_doctor": "Not run: no production, dependency, rendering or provider behavior changed.",
+    "landing": "Not landed. Current-head hosted CI is required before landing; local checks do not establish hosted CI success.",
+    "test_file_sha256": "bb7f974e360461ae3175737a82990629323d466d6ffce399b0e3c747b71dbb72",
+    "runtime_diff": "git diff --exit-code origin/main -- logo_maker pyproject.toml uv.lock .github: passed; production sources, dependencies and workflow configuration match the audited baseline."
+  }
+}
