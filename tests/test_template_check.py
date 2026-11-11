@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -353,13 +354,16 @@ def test_unicode_line_separator_in_proof_field_does_not_misalign_or_crash():
 
 
 def test_long_unmatched_backtick_run_and_malformed_html_prefixes_finish_quickly():
-    ticks = "`" * 2500 + (" word `" * 400)
+    distinct_unmatched = " ".join("`" * length for length in range(2, 350))
+    ticks = "`" * 2500 + " " + distinct_unmatched + (" `word` " * 500)
     malformed_html = "<pre attr " * 1500 + "<code attr " * 1500
     body = nonvisual_pr().replace(
         "**Observed result:** Invalid input exits 0.\n\n```text\nexit=0\n```",
         f"**Observed result:** {ticks}\n{malformed_html}",
     )
+    started = time.perf_counter()
     assert check.validate(body, "pr") == []
+    assert time.perf_counter() - started < 1.0
 
 
 def test_child_heading_with_inline_code_title_stops_parent_field_scan():
@@ -403,6 +407,47 @@ def test_nested_code_tags_mask_until_outer_closing_tag():
 def test_reference_definition_inside_html_or_inline_code_does_not_satisfy_screenshot(wrapped_def):
     body = PR.replace(f"![Before export]({BEFORE})", f"![Before export][before]\n\n{wrapped_def}")
     assert any("Before: embed" in error for error in check.validate(body, "pr"))
+
+
+def test_code_span_cannot_join_fragments_into_markdown_or_html_image():
+    for forged in [
+        f"!<code>x</code>[Before export]({BEFORE})",
+        f"![Before export]<code>x</code>({BEFORE})",
+        "![Before export](https://github.com/user-attachments/<code>x</code>assets/before-capture)",
+    ]:
+        body = PR.replace(f"![Before export]({BEFORE})", forged)
+        assert any("Before: embed" in error for error in check.validate(body, "pr"))
+
+
+def test_quoted_gt_in_code_tag_attribute_does_not_close_block_early():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        '<pre data-x="></pre>">\n**Revision:** 1111111\n</pre>',
+    )
+    assert any("Before / Revision" in error for error in check.validate(body, "pr"))
+
+
+def test_carriage_return_line_endings_preserve_sections_and_fields():
+    body = nonvisual_pr().replace("\n", "\r")
+    assert check.validate(body, "pr") == []
+    body_crlf = nonvisual_pr().replace("\n", "\r\n")
+    assert check.validate(body_crlf, "pr") == []
+
+
+def test_backtick_inside_html_pre_does_not_pair_with_later_prose_backtick():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "<pre>unclosed ` in pre</pre>\n**Revision:** 1111111 with `inline` code",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_custom_code_hyphen_element_does_not_mask_proof_fields():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "<code-review-panel>\n**Revision:** 1111111\n</code-review-panel>",
+    )
+    assert check.validate(body, "pr") == []
 
 
 @pytest.mark.parametrize(
