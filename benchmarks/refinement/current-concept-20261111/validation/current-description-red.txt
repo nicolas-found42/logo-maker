@@ -1,0 +1,81 @@
+uv run --locked python -m pytest -q -m "not render and not live" tests/test_eligibility.py::test_structural_review_uses_current_description_instead_of_ideation_text tests/test_eligibility.py::test_missing_current_description_stops_before_visual_judgments
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___ test_structural_review_uses_current_description_instead_of_ideation_text ___
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-555/test_structural_review_uses_cu0')
+
+    def test_structural_review_uses_current_description_instead_of_ideation_text(tmp_path):
+        import tomlkit
+        from test_brief_workflow import BriefJudge
+    
+        from logo_maker import briefing
+        from logo_maker.eligibility import assess
+    
+        logo, cid, brief = candidate_logo(tmp_path)
+        folder = logo.concept(cid)
+        info_path = folder / "concept.json"
+        info = json.loads(info_path.read_text())
+        info["description"] = "Two broad paper S initials share one scored lower foot"
+        info_path.write_text(json.dumps(info))
+        plan_path = folder / "plan.toml"
+        plan = tomlkit.parse(plan_path.read_text())
+        plan["hypothesis"] = "The supplied initials join through a common team index"
+        plan["visual_mechanism"] = info["description"]
+        plan_path.write_text(tomlkit.dumps(plan))
+        assert briefing.review_plan(logo, cid, BriefJudge())["status"] == "pass"
+        attest(folder, "final")
+        client = EligibilityClient()
+        result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+        assert result["status"] == "pass"
+        literal = [
+            state["concept"]
+            for state, label in client.states
+            if label.endswith(("-symbol-fit", "-technical"))
+        ]
+        assert len(literal) == 2
+>       assert all(c["description"] == info["description"] for c in literal)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_eligibility.py:279: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <list_iterator object at 0x108dd9210>
+
+>   assert all(c["description"] == info["description"] for c in literal)
+               ^^^^^^^^^^^^^^^^
+E   KeyError: 'description'
+
+tests/test_eligibility.py:279: KeyError
+________ test_missing_current_description_stops_before_visual_judgments ________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-555/test_missing_current_descripti0')
+
+    def test_missing_current_description_stops_before_visual_judgments(tmp_path):
+        from test_brief_workflow import BriefJudge
+    
+        from logo_maker import briefing
+        from logo_maker.eligibility import assess
+    
+        logo, cid, brief = candidate_logo(tmp_path)
+        folder = logo.concept(cid)
+        path = folder / "concept.json"
+        info = json.loads(path.read_text())
+        info.pop("description", None)
+        path.write_text(json.dumps(info))
+        assert briefing.review_plan(logo, cid, BriefJudge())["status"] == "pass"
+        attest(folder, "final")
+        client = EligibilityClient()
+        result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+>       assert result["status"] == "missing_evidence"
+E       AssertionError: assert 'pass' == 'missing_evidence'
+E         
+E         - missing_evidence
+E         + pass
+
+tests/test_eligibility.py:299: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_eligibility.py::test_structural_review_uses_current_description_instead_of_ideation_text
+FAILED tests/test_eligibility.py::test_missing_current_description_stops_before_visual_judgments
+2 failed in 0.23s
+error: recipe `test` failed on line 37 with exit code 1

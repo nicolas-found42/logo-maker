@@ -1,0 +1,8 @@
+{
+  "id": "joined-index|extruded_solid|paper",
+  "metaphor": "joined-index",
+  "metaphor_text": "Individual contributions become a reviewed, navigable shared capability",
+  "description": "Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate.",
+  "treatment": "extruded_solid",
+  "material": "paper"
+}

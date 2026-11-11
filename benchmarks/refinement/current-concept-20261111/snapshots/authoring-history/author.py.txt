@@ -1,0 +1,77 @@
+from pathlib import Path
+import json,shutil,tomlkit
+import numpy as np
+import trimesh
+from shapely.geometry import Polygon,LineString,box
+from shapely.ops import unary_union
+from logo_maker import motif,briefing
+from logo_maker.paths import REPO_ROOT,LogoDir
+from logo_maker.jev.client import JevClient
+logo=LogoDir((REPO_ROOT/'benchmarks/refinement/local/paper').resolve());cid='joined-index|extruded_solid|paper';folder=logo.concept(cid)
+archive=logo.root/'authoring-history/joined-index-before-index-foot-20261111';assert not archive.exists();shutil.copytree(folder,archive,ignore=shutil.ignore_patterns('.build','scene.blend','model.glb'))
+def rounded_line(points,r=.10):
+ a,b,c=map(np.asarray,points);u=(a-b)/np.linalg.norm(a-b);v=(c-b)/np.linalg.norm(c-b);angle=np.arccos(np.clip(np.dot(u,v),-1,1));dist=r/np.tan(angle/2);p=b+u*dist;q=b+v*dist;center=b+(u+v)/np.linalg.norm(u+v)*r/np.sin(angle/2);t0=np.arctan2(*(p-center)[::-1]);t1=np.arctan2(*(q-center)[::-1]);delta=(t1-t0+np.pi)%(2*np.pi)-np.pi
+ return LineString([a,*[center+r*np.array([np.cos(t),np.sin(t)]) for t in np.linspace(t0,t0+delta,48)],c])
+def strip(line,low,high):
+ p=list(line.offset_curve(low,join_style=2).coords);q=list(line.offset_curve(high,join_style=2).coords);poly=Polygon([*p,*reversed(q)]);assert poly.is_valid;return poly
+
+def along_y(poly,y0,y1):
+ m=trimesh.creation.extrude_polygon(poly,y1-y0,engine='manifold');v=m.vertices.copy();m.vertices=np.column_stack([v[:,0],v[:,2]+y0,v[:,1]]);m.invert();m.fix_normals();return m
+
+def along_x(poly,x0,x1):
+ m=trimesh.creation.extrude_polygon(poly,x1-x0,engine='manifold');v=m.vertices.copy();m.vertices=np.column_stack([v[:,2]+x0,v[:,0],v[:,1]]);m.fix_normals();return m
+
+def slab(poly):
+ m=trimesh.creation.extrude_polygon(poly,4,engine='manifold');m.vertices[:,2]-=2;return m
+
+def projection(meshes):
+ pieces=[]
+ for m in meshes:
+  for face in m.faces:
+   tri=Polygon(m.vertices[face,:2]);
+   if tri.area>1e-12:pieces.append(tri)
+ p=unary_union(pieces);assert p.geom_type=='Polygon',p.geom_type;return p
+
+def path(poly):
+ def ring(coords):return 'M'+' L'.join(f'{500+x*400:.5f} {500-y*400:.5f}' for x,y in coords)+' Z'
+ return ring(poly.exterior.coords)+''.join(ring(r.coords) for r in poly.interiors)
+
+
+# A single blank joins two broad S contours through one shared lower index band.
+def letter(cx):
+ def cubic(a,b,c,d):
+  return [((1-t)**3*np.array(a)+3*(1-t)**2*t*np.array(b)+3*(1-t)*t*t*np.array(c)+t**3*np.array(d)) for t in np.linspace(0,1,32)]
+ segments=[[(.22,.43),(-.03,.62),(-.33,.52),(-.26,.27)],[(-.26,.27),(-.23,.12),(-.04,.08),(.13,0)],[(.13,0),(.40,-.12),(.32,-.45),(.10,-.50)],[(.10,-.50),(-.02,-.56),(-.20,-.54),(-.25,-.43)]]
+ points=[]
+ for part in segments:
+  for x,y in cubic(*part):points.append((x+cx,y+.16))
+ return LineString(points).buffer(.10,cap_style=1,join_style=1)
+left,right=letter(-.42),letter(.42)
+blank=unary_union([left,right,box(-.78,-.78,.78,-.37)])
+assert blank.geom_type=='Polygon'
+lo=rounded_line([(-.80,.32),(-.65,.32),(-.60,.24)],r=.055)
+hi=rounded_line([(-.60,.24),(-.55,.16),(.83,.16)],r=.055)
+line=LineString([*lo.coords,*list(hi.coords)[1:]])
+meshes=[]
+for layer,a,b in [('back',-.014,-.010),('core',-.010,.010),('face',.010,.014)]:
+ full=along_x(strip(line,a,b),-.9,.9);full=trimesh.boolean.intersection([full,slab(blank)],engine='manifold')
+ if layer=='core':meshes.append(('shared-core','core',full));continue
+ for name,role,region in [('left-S','primary',box(-1,-.37,0,1)),('right-S','secondary',box(0,-.37,1,1)),('common-index','accent',box(-1,-1,1,-.37))]:
+  m=trimesh.boolean.intersection([full,slab(region)],engine='manifold');meshes.append((name+'-'+layer,role,m))
+scene=tomlkit.parse((folder/'scene.toml').read_text());scene['materials']['core']={'preset':'paper','color':'#F8F7F2'};scene['render']['exposure']=-1.0;components=[];proof={}
+for name,role,m in meshes:
+ assert m.is_watertight and m.is_winding_consistent and m.volume>0,name
+ (folder/(name+'.ply')).write_bytes(trimesh.exchange.ply.export_ply(m,vertex_normal=False,include_attributes=False));components.append({'kind':'mesh','name':name,'path':name+'.ply','material':role,'smooth':False,'bevel':0.0});proof[name]={'volume':float(m.volume),'connected_components':len(m.split()),'watertight':bool(m.is_watertight)}
+assert proof['shared-core']['connected_components']==1
+for j,(n,_,m) in enumerate(meshes):
+ for nn,_,mm in meshes[j+1:]:
+  v=abs(float(trimesh.boolean.intersection([m,mm],engine='manifold').volume));assert v<1e-6,(n,nn,v)
+scene['components']=components;(folder/'scene.toml').write_text(tomlkit.dumps(scene));colors={k:str(v['color']) for k,v in scene['materials'].items()};svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">'
+for name,role in [('left-S','primary'),('right-S','secondary'),('common-index','accent')]:
+ p=projection([m for n,_,m in meshes if n.startswith(name+'-')]);svg+=f'<path id="{name}" fill="{colors[role]}" data-role="{role}" fill-rule="evenodd" d="{path(p)}"/>'
+(folder/'motif.svg').write_text(svg+'</svg>\n');motif.flatten(folder/'motif.svg',folder/'motif.json');motif.size_sheet(folder/'motif.svg',folder/'motif-sizes.png')
+description='Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate.'
+physical='Cut one paperboard blank containing both S letterforms and an uncut common bottom margin. Leave the letter faces flat. Add two straight parallel score lines only within the bottom margin, below the letterforms. Bend that margin forward at the first score and back to a parallel foot at the second score. Neither score crosses the letters or another score. The foot, margin and both letters remain one unbroken sheet; they are not glued or fitted together. Pale paper core and colored paper skins follow the same bends. The colored skin regions meet edge-to-edge: dark green on the left initial, pale green on the right and terracotta on the common folded margin. No backing panel, rigid insert or separate support is added.'
+
+p=folder/'concept.json';info=json.loads(p.read_text());info['description']=description;p.write_text(json.dumps(info,indent=2)+'\n');p=folder/'construction.json';intent=json.loads(p.read_text());intent.update(symbol='Skill Swap initials joined by one common library index',brand_geometry='The owner-supplied SS initials are primary recognition contours. A common lower paper index joins the two contributions into one shared library, rather than suggesting peer-to-peer exchange arrows. This is a proposed visual argument, not a claim of demonstrated audience understanding.',current_description=description,material_construction=physical,intended_appearance='Warm editorial layered heavyweight matte paper, broad controlled scores, pale exposed cut edges and restrained fiber texture',disproof='An unreadable shared SS core, exchange-arrow reading, unsupported disconnected card parts or an inflated plastic appearance would reject this proposal.',dependencies=[c['path'] for c in components]);p.write_text(json.dumps(intent,indent=2)+'\n')
+plan=tomlkit.parse((folder/'plan.toml').read_text());plan['hypothesis']='Skill Swap initials share one index, proposing reusable team capability in a shared library';plan['visual_mechanism']=description+' The exact front projection supplies the same primary identity in flat and hero views. This is a new joined-index visual decision; the retained open-commons and folio histories preserve the other territories. The supplied palette and paper mandate remain unchanged. Manrope and DM Sans serve adjacent naming; there is no fine text inside the mark.';plan['requirement_ids']=['material','meaning','territories','style','initials','palette','fonts','tone','uses','owner_structure_scope',*[f'avoid_{i}' for i in range(9)]];plan['details']=[{'feature':'Shared SS core and common index','purpose':'Use the supplied initials as a specific brand identifier while making one shared library visible','intended_scale':'Flat, favicon, app icon and hero; broad strokes and side cuts remain the core','construction':physical,'deletion_test':'Without the common bottom margin the two letterforms disconnect; without the open side cuts they cease to read as SS.'},{'feature':'Two scored folds in the shared index foot','purpose':'Give the common library index a credible paper change of plane, subordinate to the initials','intended_scale':'Hero and native detail; the same primary SS contours remain in the flat master','construction':'Only the common bottom margin is folded. Its two scores are below the letter contours. The first score produces a short sloping panel, and the second returns the free lower edge to a plane parallel to the letter faces. Core and skins remain continuous; substantial cut edges expose the pale paper stock.','deletion_test':'Removing the two scores loses the folded paper foot; adding a backing panel would violate the brief.'}];(folder/'plan.toml').write_text(tomlkit.dumps(plan));probe=logo.root/'authoring-history/shared-initials-foot-probe-20261111';probe.mkdir();(probe/'geometry-checks.json').write_text(json.dumps(proof,indent=2)+'\n');shutil.copyfile(__file__,probe/'author.py.txt');r=briefing.review_plan(logo,cid,JevClient(logo));(probe/'plan-result.json').write_text(json.dumps(r,indent=2,default=str)+'\n');print(json.dumps({'status':r['status'],'missing':r['missing'],'answers':r.get('answers')}),flush=True)

@@ -1,0 +1,92 @@
+[meta]
+concept = "joined-index|extruded_solid|paper"
+treatment = "extruded_solid"
+seed = 1820117
+
+[camera]
+tilt_deg = 25.0
+lens_mm = 100.0
+framing = 0.82
+
+[lighting]
+rig = "studio_soft"
+hdri = "none"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+exposure = -1.0
+
+[materials.primary]
+preset = "paper"
+color = "#285640"
+
+[materials.secondary]
+preset = "paper"
+color = "#DCE7D6"
+
+[materials.accent]
+preset = "paper"
+color = "#C47D5A"
+
+[materials.core]
+preset = "paper"
+color = "#F8F7F2"
+[[components]]
+kind = "mesh"
+name = "left-S-back"
+path = "left-S-back.ply"
+material = "primary"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "right-S-back"
+path = "right-S-back.ply"
+material = "secondary"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "common-index-back"
+path = "common-index-back.ply"
+material = "accent"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "shared-core"
+path = "shared-core.ply"
+material = "core"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "left-S-face"
+path = "left-S-face.ply"
+material = "primary"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "right-S-face"
+path = "right-S-face.ply"
+material = "secondary"
+smooth = false
+bevel = 0.0
+
+[[components]]
+kind = "mesh"
+name = "common-index-face"
+path = "common-index-face.ply"
+material = "accent"
+smooth = false
+bevel = 0.0

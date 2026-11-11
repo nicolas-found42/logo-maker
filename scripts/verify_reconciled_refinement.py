@@ -64,6 +64,7 @@ def main() -> None:
         "review-followup",
         "artwork-probe-20261111",
         "paper-exposure-20261111",
+        "current-concept-20261111",
     ):
         print(f"Checking {bundle}")
         verify(REPO_ROOT / "benchmarks/refinement" / bundle)

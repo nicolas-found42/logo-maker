@@ -1,0 +1,12 @@
+Checking reconciliation
+Verified 3 rendered cases, 243 source bindings, 164 retained files, Metal/OIDN evidence and 1 final QA request(s).
+Artistic qualification remains authoring_needed; no production approval is inferred.
+Checking review-followup
+Verified 3 rendered cases, 260 source bindings, 91 retained files, Metal/OIDN evidence and 1 final QA request(s).
+Artistic qualification remains authoring_needed; no production approval is inferred.
+Checking artwork-probe-20261111
+Verified 2 rendered cases, 179 source bindings, 168 retained files, Metal/OIDN evidence and 1 final QA request(s).
+Artistic qualification remains authoring_needed; no production approval is inferred.
+Checking paper-exposure-20261111
+Verified 2 rendered cases, 194 source bindings, 105 retained files, Metal/OIDN evidence and 1 final QA request(s).
+Artistic qualification remains authoring_needed; no production approval is inferred.

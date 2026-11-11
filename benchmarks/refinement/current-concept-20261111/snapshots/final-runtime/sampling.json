@@ -1,0 +1,537 @@
+{
+  "schema": 1,
+  "quality": "final",
+  "published": true,
+  "attempts": [
+    {
+      "source_key": "3ab88053d7e805addbfe16ffc98b4b71f0d744b77db6c81f666d5e0f19174e98",
+      "quality": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "execution": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-26f48b535ffa44728a30c5542288e5d5/final.execution.json",
+      "execution_sha256": "202d68de535dac669ac7fd5824c81a0dd4e65c2564bbe605afdfe8aca0cb310a",
+      "delivered_sha256": "41099d1a17555f205c2e9508e575a2f38678dcfc89051ac7f257645790c979f1",
+      "diagnostics": {
+        "status": "available",
+        "normalization": "normalized X * configured cap",
+        "cap": 4096,
+        "regions": {
+          "foreground": {
+            "pixels": 6641830,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 256.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0007205845376951834,
+            "at_cap_fraction": 0.0005498484604393669
+          },
+          "dark": {
+            "pixels": 6525628,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 160.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.00011201986996500567,
+            "at_cap_fraction": 8.106499481735704e-05
+          },
+          "alpha_boundary": {
+            "pixels": 18302,
+            "p50": 96.0,
+            "p90": 176.0,
+            "p99": 384.0,
+            "max": 960.0,
+            "near_cap_fraction": 0.0,
+            "at_cap_fraction": 0.0
+          },
+          "tile_0_0": null,
+          "tile_0_1": {
+            "pixels": 190113,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 80.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0001630609164023502,
+            "at_cap_fraction": 0.0001209806799114211
+          },
+          "tile_0_2": {
+            "pixels": 190085,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 416.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0020990609464187075,
+            "at_cap_fraction": 0.0015940237262277402
+          },
+          "tile_0_3": null,
+          "tile_1_0": {
+            "pixels": 326287,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 224.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0018112888346762206,
+            "at_cap_fraction": 0.001486421463312973
+          },
+          "tile_1_1": {
+            "pixels": 998604,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 192.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0004215885375984875,
+            "at_cap_fraction": 0.00032345153834753315
+          },
+          "tile_1_2": {
+            "pixels": 998597,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 800.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0007170059593609835,
+            "at_cap_fraction": 0.0005517741391171814
+          },
+          "tile_1_3": {
+            "pixels": 326218,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 160.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0009840045613669387,
+            "at_cap_fraction": 0.0007265080406354033
+          },
+          "tile_2_0": {
+            "pixels": 405932,
+            "p50": 80.0,
+            "p90": 96.0,
+            "p99": 160.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0005986224293724072,
+            "at_cap_fraction": 0.0004754490899953687
+          },
+          "tile_2_1": {
+            "pixels": 1000000,
+            "p50": 80.0,
+            "p90": 96.0,
+            "p99": 544.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.000361,
+            "at_cap_fraction": 0.000255
+          },
+          "tile_2_2": {
+            "pixels": 1000000,
+            "p50": 80.0,
+            "p90": 96.0,
+            "p99": 208.0,
+            "max": 4096.0,
+            "near_cap_fraction": 9.7e-05,
+            "at_cap_fraction": 6.9e-05
+          },
+          "tile_2_3": {
+            "pixels": 405931,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 272.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0018697758978742692,
+            "at_cap_fraction": 0.001379544799485627
+          },
+          "tile_3_0": {
+            "pixels": 12022,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 128.0,
+            "max": 320.0,
+            "near_cap_fraction": 0.0,
+            "at_cap_fraction": 0.0
+          },
+          "tile_3_1": {
+            "pixels": 388008,
+            "p50": 80.0,
+            "p90": 96.0,
+            "p99": 176.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.0015231644708356528,
+            "at_cap_fraction": 0.001201006164821344
+          },
+          "tile_3_2": {
+            "pixels": 388015,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 112.0,
+            "max": 4096.0,
+            "near_cap_fraction": 0.00065976830792624,
+            "at_cap_fraction": 0.0004819401311804956
+          },
+          "tile_3_3": {
+            "pixels": 12018,
+            "p50": 80.0,
+            "p90": 80.0,
+            "p99": 112.0,
+            "max": 224.0,
+            "near_cap_fraction": 0.0,
+            "at_cap_fraction": 0.0
+          }
+        },
+        "noise_acceptance": "unknown",
+        "subimages": [
+          {
+            "index": 0,
+            "channels": [
+              "ViewLayer.Combined.R",
+              "ViewLayer.Combined.G",
+              "ViewLayer.Combined.B",
+              "ViewLayer.Combined.A"
+            ]
+          },
+          {
+            "index": 1,
+            "channels": [
+              "ViewLayer.Debug Sample Count.X"
+            ]
+          },
+          {
+            "index": 2,
+            "channels": [
+              "ViewLayer.Noisy Image.R",
+              "ViewLayer.Noisy Image.G",
+              "ViewLayer.Noisy Image.B",
+              "ViewLayer.Noisy Image.A"
+            ]
+          },
+          {
+            "index": 3,
+            "channels": [
+              "ViewLayer.Denoising Albedo.R",
+              "ViewLayer.Denoising Albedo.G",
+              "ViewLayer.Denoising Albedo.B"
+            ]
+          },
+          {
+            "index": 4,
+            "channels": [
+              "ViewLayer.Denoising Specular Albedo.R",
+              "ViewLayer.Denoising Specular Albedo.G",
+              "ViewLayer.Denoising Specular Albedo.B"
+            ]
+          },
+          {
+            "index": 5,
+            "channels": [
+              "ViewLayer.Denoising Normal.X",
+              "ViewLayer.Denoising Normal.Y",
+              "ViewLayer.Denoising Normal.Z"
+            ]
+          },
+          {
+            "index": 6,
+            "channels": [
+              "ViewLayer.Denoising Roughness.X"
+            ]
+          },
+          {
+            "index": 7,
+            "channels": [
+              "ViewLayer.Denoising Depth.Z"
+            ]
+          }
+        ],
+        "exr_sha256": "cde00c975bd242c0dd4d5456c94e878d8795e41e8589d12af9b35ffcc77f3657",
+        "bytes": 292414684
+      },
+      "seconds": 44.84866716698161,
+      "decision": {
+        "state": "unknown",
+        "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+        "settings": null
+      }
+    }
+  ],
+  "host_stages": [
+    {
+      "operation": "render_setup",
+      "status": "completed",
+      "seconds": 0.02614516598987393,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "load_config",
+      "status": "completed",
+      "seconds": 0.3263477500004228,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "compile",
+      "status": "completed",
+      "seconds": 1.8630458749830723,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "sampling_controls",
+      "status": "completed",
+      "seconds": 0.03057745800470002,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "render_attempt",
+      "status": "completed",
+      "seconds": 0.028836541023338214,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "render_execution",
+      "status": "completed",
+      "seconds": 0.027860791014973074,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    },
+    {
+      "operation": "process_image",
+      "status": "completed",
+      "seconds": 0.989382250001654,
+      "execution": "owned_cpu_worker",
+      "timing_scope": "startup, CPU host work, output transfer and cleanup"
+    }
+  ],
+  "outcomes": {
+    "device": "verified",
+    "noise": "unknown",
+    "cap": "capped",
+    "time": "within_budget",
+    "memory": "unknown",
+    "quality": "unreviewed",
+    "sampling": "review_needed"
+  },
+  "assets": [],
+  "control_files_sha256": {},
+  "context": {
+    "backend": "METAL",
+    "blender": "5.2.3 LTS",
+    "build": "e13b728c6880",
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+    "devices": [
+      {
+        "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+        "name": "Apple M5 Pro (GPU - 20 cores)",
+        "type": "METAL"
+      }
+    ],
+    "hardware": {
+      "hw.memsize": "51539607552",
+      "hw.model": "Mac17,9",
+      "hw.ncpu": "18",
+      "kern.osversion": "26A434",
+      "machdep.cpu.brand_string": "Apple M5 Pro"
+    },
+    "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+    "machine": "arm64",
+    "metalrt": "AUTO",
+    "oidn_libraries_sha256": {
+      "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+      "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+      "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+      "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+    },
+    "oidn_version": "runtime log required",
+    "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "python": "3.13.16",
+    "render_stack": {
+      "OpenImageIO": "3.2.2.0",
+      "Pillow": "13.0.0",
+      "build123d": "0.13.0",
+      "fonttools": "4.68.0",
+      "manifold3d": "3.5.4",
+      "numpy": "2.5.4",
+      "pymeshlab": "2025.7.post1",
+      "sdf": "0.1",
+      "skia-pathops": "0.9.2",
+      "trimesh": "5.2.0"
+    },
+    "stage": "final",
+    "resolution": 4000,
+    "settings_key": "48b10fe26697c4f5da5ee4438190a8bc568458439ed88ddb590642bebfd32bc4",
+    "code_sha256": {
+      "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+      "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+      "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+      "adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+      "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+      "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+      "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+      "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+      "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+      "blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
+      "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+      "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+      "blender/materials.py": "542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b",
+      "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+      "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+      "blender/settings.py": "10effd30086f7193ac083997273d0beae2169fd27b58ac8d02aab9b2b83d2c16",
+      "brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
+      "briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+      "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+      "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+      "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+      "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+      "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+      "cli.py": "2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d",
+      "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+      "eligibility.py": "cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a",
+      "export.py": "4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df",
+      "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+      "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+      "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+      "host.py": "06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40",
+      "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+      "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+      "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+      "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+      "jev/client.py": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a",
+      "jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+      "jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+      "judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
+      "mcp_server.py": "d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04",
+      "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+      "owned_process.py": "b1c6359356535658577b6f3e7c62dbc87a4cc53287a3ee5e2e61806040e9ab9f",
+      "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+      "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+      "pipeline.py": "2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55",
+      "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+      "publication.py": "4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb",
+      "refinement.py": "97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8",
+      "render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
+      "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+      "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+      "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+      "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+      "runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
+      "sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+      "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+      "scene.py": "8c5ba7f5fc80dc564b7d3780da6023c9ac38591ff054a29564354927eb003ec8",
+      "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+      "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+    },
+    "material_presets": [
+      "matte_plastic",
+      "polished_metal"
+    ]
+  },
+  "profile": {
+    "state": "profile_unqualified",
+    "reason": "no qualified replacement; retain baseline"
+  },
+  "dependencies": {
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/brief.toml": "1856118283510803bcb88299f887d814d84f738f001ac0cfe68ed089f5054151",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/brief.json": "ecebefb4fe0c4c60dc5f417fd29f37150a578e036e842cd4cb9895b3aa0bda1a",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/concept.json": "0c7548d7809a8bb5f78ba3eae1a46ac9ba272a3b49241a786bfbe9fef04f8724",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/construction.json": "f340a1aabdf06f910f56c1b22b0bc98525c41c011c4597b540bace9b57e962fa",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/plan-review.json": "bb514e1e6df9ffaae4d8622801a958d51f19647c328ccfefa8f1a29fab117f19",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/plan.toml": "8cfc71b12d7764714afb78474e9df3831c0a243f8654964e56160b9479b577f7",
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/scene.toml": "5ed325b25365e7720c7c721880239f91b01666dbd149c05f1897d22b582fd2d8",
+    "/Users/nicolas/Documents/github/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/materials.py": "542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/blender/settings.py": "10effd30086f7193ac083997273d0beae2169fd27b58ac8d02aab9b2b83d2c16",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/cli.py": "2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/eligibility.py": "cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/export.py": "4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/host.py": "06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/jev/client.py": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/mcp_server.py": "d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/owned_process.py": "b1c6359356535658577b6f3e7c62dbc87a4cc53287a3ee5e2e61806040e9ab9f",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/pipeline.py": "2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/publication.py": "4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/refinement.py": "97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/scene.py": "8c5ba7f5fc80dc564b7d3780da6023c9ac38591ff054a29564354927eb003ec8",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+    "/Users/nicolas/Documents/github/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+    "/Users/nicolas/Documents/github/logo-maker/pyproject.toml": "f53ab705dae0b6b0252655a9d653bf0d165964c40945fd5616e0bb07cb4c62a5",
+    "/Users/nicolas/Documents/github/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901"
+  },
+  "overrides": {
+    "adaptive_threshold": 0.01,
+    "max_samples": 4096.0
+  },
+  "source_key": "3ab88053d7e805addbfe16ffc98b4b71f0d744b77db6c81f666d5e0f19174e98",
+  "delivered_sha256": "41099d1a17555f205c2e9508e575a2f38678dcfc89051ac7f257645790c979f1",
+  "execution": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-26f48b535ffa44728a30c5542288e5d5/final.execution.json",
+  "execution_sha256": "202d68de535dac669ac7fd5824c81a0dd4e65c2564bbe605afdfe8aca0cb310a",
+  "budget": {
+    "wall_seconds": 900.0,
+    "attempt_limit": 2,
+    "attempts": 1,
+    "elapsed_seconds": 47.661513917002594,
+    "remaining_seconds": 852.338484582986,
+    "scope": "whole host job including setup, probes, denoise and output"
+  },
+  "seconds": 47.6615311249916,
+  "timing_scope": "through publication staging; RenderResult.seconds includes publication, recovery/cleanup and return",
+  "publication": {
+    "journal": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/current-concept-final-runtime-a7ee92a/concepts/sampling-typography--embossed-plate--polished-metal/.build/publication-737e8ff49df645f1a2b079916c4b755f.json",
+    "cleanup": "journal retained until cleanup completes"
+  }
+}

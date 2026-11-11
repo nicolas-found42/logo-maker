@@ -1,0 +1,170 @@
+{
+  "seq": 113,
+  "label": "creative-open-commons--extruded-solid--paper-0009-18d06068d23e-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "construction": {
+      "symbol": "Individual contributions become reusable capability through one open shared team library",
+      "brand_geometry": "One shared paper core joins the three colored contribution regions into an accessible common library space. The continuous card proposes reusable team capability rather than exchange between disconnected peers. This is an authored visual hypothesis, not proof of audience recognition.",
+      "material_construction": "Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel.",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.",
+      "dependencies": [
+        "common-core.ply",
+        "west-back.ply",
+        "west-face.ply",
+        "east-back.ply",
+        "east-face.ply",
+        "shelf-back.ply",
+        "shelf-face.ply"
+      ]
+    },
+    "render": "02319a755a24478da1ee8c7309a32522",
+    "motif": "a53b15f2de04442a8df8db651aa4b07e",
+    "inspection": {
+      "revision": "0009-18d06068d23e-preview",
+      "observations": "The broad green uprights now show rounded outer scores and visible pale stock edges; the terracotta dock curves forward along the bottom. The U-shaped card remains open at the top, with no backing panel or enclosing border. The pale-green upright retains muted green shading rather than a white featureless face. The controlled region has zero near-white clipped pixels, compared with 77.8% in the same scene before exposure was honored. The primary silhouette is unchanged by the exposure probe. Independent material credibility, symbolic specificity and craft-floor qualification remain to be judged.",
+      "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied.",
+      "critiques": [
+        {
+          "kind": "technical",
+          "dimension": "pale-paper color clipping",
+          "artifact": "qa/revisions/open-commons--extruded-solid--paper/0009-18d06068d23e-preview/render.png",
+          "evidence": "The same opaque right-upright region now has 0% pixels with every RGB channel at least 250; its mean RGB is 173.8/182.2/168.1. Fold shading and pale-green tone are visible.",
+          "action": "Retain the authored -1.5 EV exposure for this scene; keep geometry, materials, camera, light rig and sampling fixed for the controlled comparison.",
+          "comparison": "Compare retained 0008 with 0009 for this local color defect. This does not establish global craft quality or a new visual alternative.",
+          "resolved": true
+        }
+      ]
+    }
+  },
+  "questions": {
+    "craftsmanship": {
+      "type": "noul",
+      "instructions": "Does `render` show deliberate, coherent construction with well-resolved junctions, edges and secondary details, relative to `construction.intended_appearance`? A simple core silhouette may have rich hero detail. Gloss and roundness alone do not establish craft.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "brief_fit": {
+      "type": "noul",
+      "instructions": "Do the visible symbol and geometry specifically communicate this brand's purpose and the meaning in `construction`, rather than merely presenting a generic pleasant object?",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "material_intent": {
+      "type": "noul",
+      "instructions": "Does the object visibly form as described in `construction.material_construction` and achieve its intended appearance? For paper examine changes of plane, folds, edges and layers. Matte and glossy treatments can each succeed when intended.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "description_match": {
+      "type": "noul",
+      "instructions": "Does the actual visible motif match `construction.current_description` and remain recognizable as the flat mark in `motif`? Judge the current description, not historical pool text. Ambiguity is unresolved, not success.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    }
+  },
+  "assets": {
+    "02319a755a24478da1ee8c7309a32522": {
+      "type": "image",
+      "format": "png",
+      "sha256": "35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024",
+      "bytes": 337412
+    },
+    "a53b15f2de04442a8df8db651aa4b07e": {
+      "type": "image",
+      "format": "png",
+      "sha256": "73fa0f9bdf3c373632a95d02fe08fb8c4282fc0d0d29e1ead301b5f4737cbce0",
+      "bytes": 50843
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "craftsmanship": {
+      "type": "noul",
+      "noul": 0.35
+    },
+    "brief_fit": {
+      "type": "noul",
+      "noul": 0.59
+    },
+    "material_intent": {
+      "type": "noul",
+      "noul": 0.52
+    },
+    "description_match": {
+      "type": "noul",
+      "noul": 0.68
+    }
+  },
+  "usage": {
+    "input_tokens": 7262,
+    "output_tokens": 76,
+    "cost": 0.000305004
+  },
+  "provider_usage": {
+    "input_tokens": 7262,
+    "output_tokens": 76,
+    "cost": 0.000305004,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000305004,
+      "upstream_inference_prompt_cost": 0.000305004,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

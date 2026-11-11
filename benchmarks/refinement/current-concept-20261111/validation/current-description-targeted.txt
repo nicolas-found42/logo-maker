@@ -1,0 +1,5 @@
+uv run --locked python -m pytest -q -m "not render and not live" tests/test_eligibility.py tests/test_brief_workflow.py tests/test_refinement.py tests/test_combined_stack.py
+........................................................................ [ 45%]
+........................................................................ [ 91%]
+..............                                                           [100%]
+158 passed in 57.40s

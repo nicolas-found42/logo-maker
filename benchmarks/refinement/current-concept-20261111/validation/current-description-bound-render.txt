@@ -1,0 +1,5 @@
+{
+  "revision": "0009-28ee20176d5f-preview",
+  "image": "qa/revisions/joined-index--extruded-solid--paper/0009-28ee20176d5f-preview/render.png",
+  "host_total_seconds": 6.810233708994929
+}

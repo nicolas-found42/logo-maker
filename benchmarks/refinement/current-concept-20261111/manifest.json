@@ -1,0 +1,684 @@
+{
+  "artistic_qualification": "not achieved; craft fails and owner acceptance remains outstanding",
+  "base_main": "c712243085f9f7a04e47d20ee14ec492f8fed581",
+  "cases": [
+    {
+      "concept": "joined-index|extruded_solid|paper",
+      "folder": "snapshots/channels",
+      "production_status": "authoring_needed",
+      "revision": "0006-1d90c6828729-preview",
+      "sources": {
+        "brief-evidence.toml": "../review-followup/snapshots/paper-owner-scope/brief-evidence.toml",
+        "brief.toml": "../review-followup/snapshots/paper-owner-scope/brief.toml",
+        "concept/concept.json": "../reconciliation/snapshots/source-blobs/cd692cdefc6c787b99875740aef7329a41a380b8736ad0acee1da99bd0434003.txt",
+        "concept/construction.json": "../reconciliation/snapshots/source-blobs/670e2ee1a269b7a33380679a443e40f8bb136d96308eca20413e7df9e05c3dce.txt",
+        "concept/left-body.ply": "../reconciliation/snapshots/source-blobs/4bc0a8c303952238ce5c1e9898fa38a5b017ee080dd2c5164f6b661114b01d19.ply",
+        "concept/left-fold.ply": "../reconciliation/snapshots/source-blobs/6d7a9c0644411c4be8fef8f40814794b263edf3837c6ad0a4f00e734365fa37b.ply",
+        "concept/motif.json": "../reconciliation/snapshots/source-blobs/b83a161a17ff22d20744e601e3e4dafdfe0ff0aaf4ebc5822622873da5cb1d9e.txt",
+        "concept/motif.svg": "../reconciliation/snapshots/source-blobs/d6164c0a376a184df815379ec241d8cdb827e4ca2b800b9bd562102de605b04e.svg",
+        "concept/plan-review.json": "../review-followup/snapshots/source-blobs/4a90c1c23c399bf671c07e83e36abd1241947cb4c8e8b1d31797e7712a469238.txt",
+        "concept/plan.toml": "../review-followup/snapshots/source-blobs/e35e87696e371a099d1e95dc7cc0e26e2f93b5e58dbe0ddd4dd35b210c91a957.txt",
+        "concept/right-body.ply": "../reconciliation/snapshots/source-blobs/d5646d58a3f0812a2e2ef370f89b1e5c4844464a56cd13af18b3e571b7975801.ply",
+        "concept/right-fold.ply": "../reconciliation/snapshots/source-blobs/e6888b1f71495b04afbac99d0f75a3874219628db9efb3e8e4ef722355f6b9a4.ply",
+        "concept/scene.toml": "../reconciliation/snapshots/source-blobs/67b0b95affa401ab35763d550360d2be5ba4858847c4a658ca38b3dc60e03712.txt",
+        "dependency/0/left-body.ply": "../reconciliation/snapshots/source-blobs/4bc0a8c303952238ce5c1e9898fa38a5b017ee080dd2c5164f6b661114b01d19.ply",
+        "dependency/1/right-body.ply": "../reconciliation/snapshots/source-blobs/d5646d58a3f0812a2e2ef370f89b1e5c4844464a56cd13af18b3e571b7975801.ply",
+        "dependency/2/left-fold.ply": "../reconciliation/snapshots/source-blobs/6d7a9c0644411c4be8fef8f40814794b263edf3837c6ad0a4f00e734365fa37b.ply",
+        "dependency/3/right-fold.ply": "../reconciliation/snapshots/source-blobs/e6888b1f71495b04afbac99d0f75a3874219628db9efb3e8e4ef722355f6b9a4.ply",
+        "ideation/requirements.json": "../review-followup/snapshots/source-blobs/dd8a46f7c58d6d8d05497ecd91a188a0e75dce91dc4a199bb2557c30104eafdc.txt",
+        "reference/0/original-seal-2000.png": "../../omp/assets/original-seal-2000.png",
+        "reference/1/reconstruction-rendered-2000.png": "../../omp/assets/reconstruction-rendered-2000.png",
+        "requirements_source/0/current-direction.toml": "../review-followup/snapshots/paper-owner-scope/current-direction.toml",
+        "requirements_source/1/owner-clarification-20261111.txt": "../review-followup/snapshots/paper-owner-scope/owner-clarification-20261111.txt",
+        "tool/__init__.py": "../reconciliation/snapshots/source-blobs/abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635.txt",
+        "tool/adapters/__init__.py": "../reconciliation/snapshots/source-blobs/df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37.txt",
+        "tool/adapters/jev.py": "../reconciliation/snapshots/source-blobs/832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880.txt",
+        "tool/adapters/render_export.py": "../reconciliation/snapshots/source-blobs/cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6.txt",
+        "tool/adapters/threed.py": "../reconciliation/snapshots/source-blobs/2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec.txt",
+        "tool/adapters/twod.py": "../reconciliation/snapshots/source-blobs/4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec.txt",
+        "tool/benchmark.py": "../reconciliation/snapshots/source-blobs/b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac.txt",
+        "tool/blender/__init__.py": "../reconciliation/snapshots/source-blobs/928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90.txt",
+        "tool/blender/build.py": "../reconciliation/snapshots/source-blobs/c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216.txt",
+        "tool/blender/components.py": "../reconciliation/snapshots/source-blobs/8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6.txt",
+        "tool/blender/execution.py": "../reconciliation/snapshots/source-blobs/aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db.txt",
+        "tool/blender/lighting.py": "../reconciliation/snapshots/source-blobs/82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1.txt",
+        "tool/blender/materials.py": "../reconciliation/snapshots/source-blobs/542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b.txt",
+        "tool/blender/profile.py": "../reconciliation/snapshots/source-blobs/f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec.txt",
+        "tool/blender/replay.py": "../reconciliation/snapshots/source-blobs/1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc.txt",
+        "tool/blender/settings.py": "../reconciliation/snapshots/source-blobs/9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2.txt",
+        "tool/brief.py": "../reconciliation/snapshots/source-blobs/55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5.txt",
+        "tool/briefing.py": "../reconciliation/snapshots/source-blobs/9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9.txt",
+        "tool/catalog/__init__.py": "../reconciliation/snapshots/source-blobs/05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3.txt",
+        "tool/catalog/lighting.toml": "../reconciliation/snapshots/source-blobs/6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253.txt",
+        "tool/catalog/materials.toml": "../reconciliation/snapshots/source-blobs/06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f.txt",
+        "tool/catalog/treatments.toml": "../reconciliation/snapshots/source-blobs/af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9.txt",
+        "tool/checks.py": "../reconciliation/snapshots/source-blobs/d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe.txt",
+        "tool/cli.py": "../reconciliation/snapshots/source-blobs/2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d.txt",
+        "tool/doctor.py": "../reconciliation/snapshots/source-blobs/7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8.txt",
+        "tool/eligibility.py": "../reconciliation/snapshots/source-blobs/49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572.txt",
+        "tool/export.py": "../review-followup/snapshots/source-blobs/4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df.txt",
+        "tool/fonts.py": "../reconciliation/snapshots/source-blobs/28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa.txt",
+        "tool/geometry.py": "../reconciliation/snapshots/source-blobs/57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081.txt",
+        "tool/hdri.py": "../reconciliation/snapshots/source-blobs/acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6.txt",
+        "tool/host.py": "../review-followup/snapshots/source-blobs/06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40.txt",
+        "tool/ideate.py": "../reconciliation/snapshots/source-blobs/36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08.txt",
+        "tool/imageops.py": "../reconciliation/snapshots/source-blobs/9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1.txt",
+        "tool/intake.py": "../reconciliation/snapshots/source-blobs/74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6.txt",
+        "tool/jev/__init__.py": "../reconciliation/snapshots/source-blobs/b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8.txt",
+        "tool/jev/client.py": "../reconciliation/snapshots/source-blobs/bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a.txt",
+        "tool/jev/questions.py": "../reconciliation/snapshots/source-blobs/115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55.txt",
+        "tool/jev/worker.py": "../reconciliation/snapshots/source-blobs/456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd.txt",
+        "tool/judging.py": "../reconciliation/snapshots/source-blobs/d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a.txt",
+        "tool/mcp_server.py": "../reconciliation/snapshots/source-blobs/d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04.txt",
+        "tool/motif.py": "../reconciliation/snapshots/source-blobs/849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975.txt",
+        "tool/owned_process.py": "../reconciliation/snapshots/source-blobs/350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2.txt",
+        "tool/palette.py": "../reconciliation/snapshots/source-blobs/3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538.txt",
+        "tool/paths.py": "../reconciliation/snapshots/source-blobs/b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998.txt",
+        "tool/pipeline.py": "../review-followup/snapshots/source-blobs/2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55.txt",
+        "tool/proc.py": "../reconciliation/snapshots/source-blobs/1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a.txt",
+        "tool/publication.py": "../review-followup/snapshots/source-blobs/4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb.txt",
+        "tool/refinement.py": "../review-followup/snapshots/source-blobs/97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8.txt",
+        "tool/render.py": "../reconciliation/snapshots/source-blobs/2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92.txt",
+        "tool/renderers/__init__.py": "../reconciliation/snapshots/source-blobs/123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff.txt",
+        "tool/renderers/luxcore.py": "../reconciliation/snapshots/source-blobs/4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62.txt",
+        "tool/renderers/mitsuba.py": "../reconciliation/snapshots/source-blobs/4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1.txt",
+        "tool/renderers/three.py": "../reconciliation/snapshots/source-blobs/efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5.txt",
+        "tool/runlog.py": "../review-followup/snapshots/source-blobs/a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3.txt",
+        "tool/sampling.py": "../reconciliation/snapshots/source-blobs/958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2.txt",
+        "tool/sampling_diagnostics.py": "../reconciliation/snapshots/source-blobs/633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732.txt",
+        "tool/scene.py": "../reconciliation/snapshots/source-blobs/6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415.txt",
+        "tool/trace.py": "../reconciliation/snapshots/source-blobs/2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c.txt",
+        "tool/twod_tools.py": "../reconciliation/snapshots/source-blobs/1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3.txt"
+      }
+    },
+    {
+      "concept": "joined-index|extruded_solid|paper",
+      "folder": "snapshots/first-initials-stale-context",
+      "production_status": "authoring_needed",
+      "revision": "0007-7916bd46a8f0-preview",
+      "sources": {
+        "brief-evidence.toml": "../review-followup/snapshots/paper-owner-scope/brief-evidence.toml",
+        "brief.toml": "../review-followup/snapshots/paper-owner-scope/brief.toml",
+        "concept/common-index-back.ply": "snapshots/source-blobs/95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22.ply",
+        "concept/common-index-face.ply": "snapshots/source-blobs/105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d.ply",
+        "concept/concept.json": "snapshots/source-blobs/938696f807b0da38c2fe9cda9b41e9fa5caf3c3c5064a44bb6dca36546ab6c6e.txt",
+        "concept/construction.json": "snapshots/source-blobs/59a23f040323a4f991a92f39bb867480f9fc3f105e37dcdb187a73c5f7f5b7b6.txt",
+        "concept/left-S-back.ply": "snapshots/source-blobs/c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79.ply",
+        "concept/left-S-face.ply": "snapshots/source-blobs/34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523.ply",
+        "concept/left-body.ply": "../reconciliation/snapshots/source-blobs/4bc0a8c303952238ce5c1e9898fa38a5b017ee080dd2c5164f6b661114b01d19.ply",
+        "concept/left-fold.ply": "../reconciliation/snapshots/source-blobs/6d7a9c0644411c4be8fef8f40814794b263edf3837c6ad0a4f00e734365fa37b.ply",
+        "concept/motif.json": "snapshots/source-blobs/cd981cf6684a2d68255a95bc07c833f6135b903a6d50033b6e32220c542f84a2.txt",
+        "concept/motif.svg": "snapshots/source-blobs/3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3.svg",
+        "concept/plan-review.json": "snapshots/source-blobs/8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9.txt",
+        "concept/plan.toml": "snapshots/source-blobs/c46b4909ab109ab6e3382d623a09abe6860f747947cba7cc56c1cacaa33a2559.txt",
+        "concept/right-S-back.ply": "snapshots/source-blobs/4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466.ply",
+        "concept/right-S-face.ply": "snapshots/source-blobs/9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90.ply",
+        "concept/right-body.ply": "../reconciliation/snapshots/source-blobs/d5646d58a3f0812a2e2ef370f89b1e5c4844464a56cd13af18b3e571b7975801.ply",
+        "concept/right-fold.ply": "../reconciliation/snapshots/source-blobs/e6888b1f71495b04afbac99d0f75a3874219628db9efb3e8e4ef722355f6b9a4.ply",
+        "concept/scene.toml": "snapshots/source-blobs/944a13b3b0a5cc930ef4387253a620abf05bcd6622d77316c715b9cdafc2fcff.txt",
+        "concept/shared-core.ply": "snapshots/source-blobs/f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d.ply",
+        "dependency/0/left-S-back.ply": "snapshots/source-blobs/c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79.ply",
+        "dependency/1/right-S-back.ply": "snapshots/source-blobs/4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466.ply",
+        "dependency/2/common-index-back.ply": "snapshots/source-blobs/95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22.ply",
+        "dependency/3/shared-core.ply": "snapshots/source-blobs/f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d.ply",
+        "dependency/4/left-S-face.ply": "snapshots/source-blobs/34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523.ply",
+        "dependency/5/right-S-face.ply": "snapshots/source-blobs/9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90.ply",
+        "dependency/6/common-index-face.ply": "snapshots/source-blobs/105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d.ply",
+        "ideation/requirements.json": "../review-followup/snapshots/source-blobs/dd8a46f7c58d6d8d05497ecd91a188a0e75dce91dc4a199bb2557c30104eafdc.txt",
+        "reference/0/original-seal-2000.png": "../../omp/assets/original-seal-2000.png",
+        "reference/1/reconstruction-rendered-2000.png": "../../omp/assets/reconstruction-rendered-2000.png",
+        "requirements_source/0/current-direction.toml": "../review-followup/snapshots/paper-owner-scope/current-direction.toml",
+        "requirements_source/1/owner-clarification-20261111.txt": "../review-followup/snapshots/paper-owner-scope/owner-clarification-20261111.txt",
+        "tool/__init__.py": "../reconciliation/snapshots/source-blobs/abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635.txt",
+        "tool/adapters/__init__.py": "../reconciliation/snapshots/source-blobs/df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37.txt",
+        "tool/adapters/jev.py": "../reconciliation/snapshots/source-blobs/832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880.txt",
+        "tool/adapters/render_export.py": "../reconciliation/snapshots/source-blobs/cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6.txt",
+        "tool/adapters/threed.py": "../reconciliation/snapshots/source-blobs/2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec.txt",
+        "tool/adapters/twod.py": "../reconciliation/snapshots/source-blobs/4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec.txt",
+        "tool/benchmark.py": "../reconciliation/snapshots/source-blobs/b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac.txt",
+        "tool/blender/__init__.py": "../reconciliation/snapshots/source-blobs/928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90.txt",
+        "tool/blender/build.py": "../reconciliation/snapshots/source-blobs/c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216.txt",
+        "tool/blender/components.py": "../reconciliation/snapshots/source-blobs/8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6.txt",
+        "tool/blender/execution.py": "../reconciliation/snapshots/source-blobs/aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db.txt",
+        "tool/blender/lighting.py": "../reconciliation/snapshots/source-blobs/82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1.txt",
+        "tool/blender/materials.py": "../reconciliation/snapshots/source-blobs/542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b.txt",
+        "tool/blender/profile.py": "../reconciliation/snapshots/source-blobs/f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec.txt",
+        "tool/blender/replay.py": "../reconciliation/snapshots/source-blobs/1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc.txt",
+        "tool/blender/settings.py": "../paper-exposure-20261111/snapshots/source-blobs/10effd30086f7193ac083997273d0beae2169fd27b58ac8d02aab9b2b83d2c16.txt",
+        "tool/brief.py": "../reconciliation/snapshots/source-blobs/55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5.txt",
+        "tool/briefing.py": "../reconciliation/snapshots/source-blobs/9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9.txt",
+        "tool/catalog/__init__.py": "../reconciliation/snapshots/source-blobs/05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3.txt",
+        "tool/catalog/lighting.toml": "../reconciliation/snapshots/source-blobs/6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253.txt",
+        "tool/catalog/materials.toml": "../reconciliation/snapshots/source-blobs/06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f.txt",
+        "tool/catalog/treatments.toml": "../reconciliation/snapshots/source-blobs/af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9.txt",
+        "tool/checks.py": "../reconciliation/snapshots/source-blobs/d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe.txt",
+        "tool/cli.py": "../reconciliation/snapshots/source-blobs/2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d.txt",
+        "tool/doctor.py": "../reconciliation/snapshots/source-blobs/7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8.txt",
+        "tool/eligibility.py": "../reconciliation/snapshots/source-blobs/49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572.txt",
+        "tool/export.py": "../review-followup/snapshots/source-blobs/4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df.txt",
+        "tool/fonts.py": "../reconciliation/snapshots/source-blobs/28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa.txt",
+        "tool/geometry.py": "../reconciliation/snapshots/source-blobs/57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081.txt",
+        "tool/hdri.py": "../reconciliation/snapshots/source-blobs/acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6.txt",
+        "tool/host.py": "../review-followup/snapshots/source-blobs/06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40.txt",
+        "tool/ideate.py": "../reconciliation/snapshots/source-blobs/36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08.txt",
+        "tool/imageops.py": "../reconciliation/snapshots/source-blobs/9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1.txt",
+        "tool/intake.py": "../reconciliation/snapshots/source-blobs/74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6.txt",
+        "tool/jev/__init__.py": "../reconciliation/snapshots/source-blobs/b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8.txt",
+        "tool/jev/client.py": "../reconciliation/snapshots/source-blobs/bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a.txt",
+        "tool/jev/questions.py": "../reconciliation/snapshots/source-blobs/115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55.txt",
+        "tool/jev/worker.py": "../reconciliation/snapshots/source-blobs/456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd.txt",
+        "tool/judging.py": "../reconciliation/snapshots/source-blobs/d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a.txt",
+        "tool/mcp_server.py": "../reconciliation/snapshots/source-blobs/d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04.txt",
+        "tool/motif.py": "../reconciliation/snapshots/source-blobs/849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975.txt",
+        "tool/owned_process.py": "../paper-exposure-20261111/snapshots/source-blobs/b1c6359356535658577b6f3e7c62dbc87a4cc53287a3ee5e2e61806040e9ab9f.txt",
+        "tool/palette.py": "../reconciliation/snapshots/source-blobs/3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538.txt",
+        "tool/paths.py": "../reconciliation/snapshots/source-blobs/b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998.txt",
+        "tool/pipeline.py": "../review-followup/snapshots/source-blobs/2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55.txt",
+        "tool/proc.py": "../reconciliation/snapshots/source-blobs/1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a.txt",
+        "tool/publication.py": "../review-followup/snapshots/source-blobs/4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb.txt",
+        "tool/refinement.py": "../review-followup/snapshots/source-blobs/97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8.txt",
+        "tool/render.py": "../reconciliation/snapshots/source-blobs/2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92.txt",
+        "tool/renderers/__init__.py": "../reconciliation/snapshots/source-blobs/123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff.txt",
+        "tool/renderers/luxcore.py": "../reconciliation/snapshots/source-blobs/4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62.txt",
+        "tool/renderers/mitsuba.py": "../reconciliation/snapshots/source-blobs/4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1.txt",
+        "tool/renderers/three.py": "../reconciliation/snapshots/source-blobs/efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5.txt",
+        "tool/runlog.py": "../review-followup/snapshots/source-blobs/a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3.txt",
+        "tool/sampling.py": "../reconciliation/snapshots/source-blobs/958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2.txt",
+        "tool/sampling_diagnostics.py": "../reconciliation/snapshots/source-blobs/633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732.txt",
+        "tool/scene.py": "../paper-exposure-20261111/snapshots/source-blobs/8c5ba7f5fc80dc564b7d3780da6023c9ac38591ff054a29564354927eb003ec8.txt",
+        "tool/trace.py": "../reconciliation/snapshots/source-blobs/2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c.txt",
+        "tool/twod_tools.py": "../reconciliation/snapshots/source-blobs/1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3.txt"
+      }
+    },
+    {
+      "concept": "joined-index|extruded_solid|paper",
+      "folder": "snapshots/current-initials-correct-context",
+      "production_status": "authoring_needed",
+      "revision": "0009-28ee20176d5f-preview",
+      "sources": {
+        "brief-evidence.toml": "../review-followup/snapshots/paper-owner-scope/brief-evidence.toml",
+        "brief.toml": "../review-followup/snapshots/paper-owner-scope/brief.toml",
+        "concept/common-index-back.ply": "snapshots/source-blobs/95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22.ply",
+        "concept/common-index-face.ply": "snapshots/source-blobs/105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d.ply",
+        "concept/concept.json": "snapshots/source-blobs/938696f807b0da38c2fe9cda9b41e9fa5caf3c3c5064a44bb6dca36546ab6c6e.txt",
+        "concept/construction.json": "snapshots/source-blobs/59a23f040323a4f991a92f39bb867480f9fc3f105e37dcdb187a73c5f7f5b7b6.txt",
+        "concept/left-S-back.ply": "snapshots/source-blobs/c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79.ply",
+        "concept/left-S-face.ply": "snapshots/source-blobs/34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523.ply",
+        "concept/left-body.ply": "../reconciliation/snapshots/source-blobs/4bc0a8c303952238ce5c1e9898fa38a5b017ee080dd2c5164f6b661114b01d19.ply",
+        "concept/left-fold.ply": "../reconciliation/snapshots/source-blobs/6d7a9c0644411c4be8fef8f40814794b263edf3837c6ad0a4f00e734365fa37b.ply",
+        "concept/motif.json": "snapshots/source-blobs/cd981cf6684a2d68255a95bc07c833f6135b903a6d50033b6e32220c542f84a2.txt",
+        "concept/motif.svg": "snapshots/source-blobs/3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3.svg",
+        "concept/plan-review.json": "snapshots/source-blobs/8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9.txt",
+        "concept/plan.toml": "snapshots/source-blobs/c46b4909ab109ab6e3382d623a09abe6860f747947cba7cc56c1cacaa33a2559.txt",
+        "concept/right-S-back.ply": "snapshots/source-blobs/4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466.ply",
+        "concept/right-S-face.ply": "snapshots/source-blobs/9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90.ply",
+        "concept/right-body.ply": "../reconciliation/snapshots/source-blobs/d5646d58a3f0812a2e2ef370f89b1e5c4844464a56cd13af18b3e571b7975801.ply",
+        "concept/right-fold.ply": "../reconciliation/snapshots/source-blobs/e6888b1f71495b04afbac99d0f75a3874219628db9efb3e8e4ef722355f6b9a4.ply",
+        "concept/scene.toml": "snapshots/source-blobs/944a13b3b0a5cc930ef4387253a620abf05bcd6622d77316c715b9cdafc2fcff.txt",
+        "concept/shared-core.ply": "snapshots/source-blobs/f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d.ply",
+        "dependency/0/left-S-back.ply": "snapshots/source-blobs/c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79.ply",
+        "dependency/1/right-S-back.ply": "snapshots/source-blobs/4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466.ply",
+        "dependency/2/common-index-back.ply": "snapshots/source-blobs/95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22.ply",
+        "dependency/3/shared-core.ply": "snapshots/source-blobs/f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d.ply",
+        "dependency/4/left-S-face.ply": "snapshots/source-blobs/34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523.ply",
+        "dependency/5/right-S-face.ply": "snapshots/source-blobs/9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90.ply",
+        "dependency/6/common-index-face.ply": "snapshots/source-blobs/105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d.ply",
+        "ideation/requirements.json": "../review-followup/snapshots/source-blobs/dd8a46f7c58d6d8d05497ecd91a188a0e75dce91dc4a199bb2557c30104eafdc.txt",
+        "reference/0/original-seal-2000.png": "../../omp/assets/original-seal-2000.png",
+        "reference/1/reconstruction-rendered-2000.png": "../../omp/assets/reconstruction-rendered-2000.png",
+        "requirements_source/0/current-direction.toml": "../review-followup/snapshots/paper-owner-scope/current-direction.toml",
+        "requirements_source/1/owner-clarification-20261111.txt": "../review-followup/snapshots/paper-owner-scope/owner-clarification-20261111.txt",
+        "tool/__init__.py": "../reconciliation/snapshots/source-blobs/abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635.txt",
+        "tool/adapters/__init__.py": "../reconciliation/snapshots/source-blobs/df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37.txt",
+        "tool/adapters/jev.py": "../reconciliation/snapshots/source-blobs/832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880.txt",
+        "tool/adapters/render_export.py": "../reconciliation/snapshots/source-blobs/cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6.txt",
+        "tool/adapters/threed.py": "../reconciliation/snapshots/source-blobs/2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec.txt",
+        "tool/adapters/twod.py": "../reconciliation/snapshots/source-blobs/4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec.txt",
+        "tool/benchmark.py": "../reconciliation/snapshots/source-blobs/b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac.txt",
+        "tool/blender/__init__.py": "../reconciliation/snapshots/source-blobs/928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90.txt",
+        "tool/blender/build.py": "../reconciliation/snapshots/source-blobs/c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216.txt",
+        "tool/blender/components.py": "../reconciliation/snapshots/source-blobs/8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6.txt",
+        "tool/blender/execution.py": "../reconciliation/snapshots/source-blobs/aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db.txt",
+        "tool/blender/lighting.py": "../reconciliation/snapshots/source-blobs/82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1.txt",
+        "tool/blender/materials.py": "../reconciliation/snapshots/source-blobs/542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b.txt",
+        "tool/blender/profile.py": "../reconciliation/snapshots/source-blobs/f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec.txt",
+        "tool/blender/replay.py": "../reconciliation/snapshots/source-blobs/1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc.txt",
+        "tool/blender/settings.py": "../paper-exposure-20261111/snapshots/source-blobs/10effd30086f7193ac083997273d0beae2169fd27b58ac8d02aab9b2b83d2c16.txt",
+        "tool/brief.py": "../reconciliation/snapshots/source-blobs/55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5.txt",
+        "tool/briefing.py": "../reconciliation/snapshots/source-blobs/9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9.txt",
+        "tool/catalog/__init__.py": "../reconciliation/snapshots/source-blobs/05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3.txt",
+        "tool/catalog/lighting.toml": "../reconciliation/snapshots/source-blobs/6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253.txt",
+        "tool/catalog/materials.toml": "../reconciliation/snapshots/source-blobs/06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f.txt",
+        "tool/catalog/treatments.toml": "../reconciliation/snapshots/source-blobs/af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9.txt",
+        "tool/checks.py": "../reconciliation/snapshots/source-blobs/d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe.txt",
+        "tool/cli.py": "../reconciliation/snapshots/source-blobs/2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d.txt",
+        "tool/doctor.py": "../reconciliation/snapshots/source-blobs/7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8.txt",
+        "tool/eligibility.py": "snapshots/source-blobs/cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a.txt",
+        "tool/export.py": "../review-followup/snapshots/source-blobs/4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df.txt",
+        "tool/fonts.py": "../reconciliation/snapshots/source-blobs/28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa.txt",
+        "tool/geometry.py": "../reconciliation/snapshots/source-blobs/57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081.txt",
+        "tool/hdri.py": "../reconciliation/snapshots/source-blobs/acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6.txt",
+        "tool/host.py": "../review-followup/snapshots/source-blobs/06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40.txt",
+        "tool/ideate.py": "../reconciliation/snapshots/source-blobs/36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08.txt",
+        "tool/imageops.py": "../reconciliation/snapshots/source-blobs/9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1.txt",
+        "tool/intake.py": "../reconciliation/snapshots/source-blobs/74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6.txt",
+        "tool/jev/__init__.py": "../reconciliation/snapshots/source-blobs/b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8.txt",
+        "tool/jev/client.py": "../reconciliation/snapshots/source-blobs/bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a.txt",
+        "tool/jev/questions.py": "../reconciliation/snapshots/source-blobs/115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55.txt",
+        "tool/jev/worker.py": "../reconciliation/snapshots/source-blobs/456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd.txt",
+        "tool/judging.py": "../reconciliation/snapshots/source-blobs/d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a.txt",
+        "tool/mcp_server.py": "../reconciliation/snapshots/source-blobs/d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04.txt",
+        "tool/motif.py": "../reconciliation/snapshots/source-blobs/849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975.txt",
+        "tool/owned_process.py": "../paper-exposure-20261111/snapshots/source-blobs/b1c6359356535658577b6f3e7c62dbc87a4cc53287a3ee5e2e61806040e9ab9f.txt",
+        "tool/palette.py": "../reconciliation/snapshots/source-blobs/3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538.txt",
+        "tool/paths.py": "../reconciliation/snapshots/source-blobs/b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998.txt",
+        "tool/pipeline.py": "../review-followup/snapshots/source-blobs/2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55.txt",
+        "tool/proc.py": "../reconciliation/snapshots/source-blobs/1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a.txt",
+        "tool/publication.py": "../review-followup/snapshots/source-blobs/4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb.txt",
+        "tool/refinement.py": "../review-followup/snapshots/source-blobs/97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8.txt",
+        "tool/render.py": "../reconciliation/snapshots/source-blobs/2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92.txt",
+        "tool/renderers/__init__.py": "../reconciliation/snapshots/source-blobs/123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff.txt",
+        "tool/renderers/luxcore.py": "../reconciliation/snapshots/source-blobs/4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62.txt",
+        "tool/renderers/mitsuba.py": "../reconciliation/snapshots/source-blobs/4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1.txt",
+        "tool/renderers/three.py": "../reconciliation/snapshots/source-blobs/efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5.txt",
+        "tool/runlog.py": "../review-followup/snapshots/source-blobs/a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3.txt",
+        "tool/sampling.py": "../reconciliation/snapshots/source-blobs/958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2.txt",
+        "tool/sampling_diagnostics.py": "../reconciliation/snapshots/source-blobs/633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732.txt",
+        "tool/scene.py": "../paper-exposure-20261111/snapshots/source-blobs/8c5ba7f5fc80dc564b7d3780da6023c9ac38591ff054a29564354927eb003ec8.txt",
+        "tool/trace.py": "../reconciliation/snapshots/source-blobs/2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c.txt",
+        "tool/twod_tools.py": "../reconciliation/snapshots/source-blobs/1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3.txt"
+      }
+    }
+  ],
+  "files": {
+    "snapshots/authoring-history/author.py.txt": "46ba256c93a738afab7f2642326211f47ee7f3c1f25782406e6c264a7179acb1",
+    "snapshots/authoring-history/bound-current-context-review.json": "08c88c39bcd7fe7ecaa248d4614b4414fb4723665fc410d3cde3906d1654caf7",
+    "snapshots/authoring-history/captured-revision.json": "046ce40ef9e31a57e118ae52764bfa767815c5ce2f76ca44e6426df7bcd87461",
+    "snapshots/authoring-history/current-context-bound-replay.json": "1e72b155569166cfbadb4c20034f9d0eaffddb5f74a4f72c6ab33a3f71f97e0d",
+    "snapshots/authoring-history/current-context-replay.json": "e014bbc95c0ddd1896e3c03072643dc3679cd2b9f4c22e9cfe07046c427da712",
+    "snapshots/authoring-history/geometry-checks.json": "8c07476f1debee70188c9c57435d6b5743f5394375d787d05790d181fc13650b",
+    "snapshots/authoring-history/independent-review.json": "2d89216148cbbb2aefd2ce6d97d3ce8a78bb1aad9fa428271fc7153ca5daaee0",
+    "snapshots/authoring-history/plan-result.json": "8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9",
+    "snapshots/channels/comparison.json": "194dad2bfdec3595614c11ac6bb4851ff29d8b4403a34b92dc2dc39c81609c69",
+    "snapshots/channels/execution.json": "95356f051188a9a5b8b5ff17707e5da93dce46886fa52cdf8fa647f2eccdc108",
+    "snapshots/channels/execution.log": "f248a1dba1a490e5e04285be2864e4e12854749c3bd273e569dae15c1f07710a",
+    "snapshots/channels/inspection.json": "659eea4388b1315d1dd5ccca745b9ae96bd23c0681a4a871ceee4b372d5d5b1d",
+    "snapshots/channels/judgment.json": "d6814a6c4a4556af68aa5685cf1ba966a9689e8529bd71a083af5785a9d2063f",
+    "snapshots/channels/render.png": "3bb18c39fd7a947def29646acbf58bd2237209541921fd6067a1ae518dc323a8",
+    "snapshots/channels/revision.json": "1085e0f5f7d78b011b1e1bfc29932aaf3ede4228078772b48abd2d6fa73bac79",
+    "snapshots/channels/sampling.json": "b40ee8b5899f6cf639214652daa91b48fbb3ef9ed5df1f89d98d6326c8f65ab6",
+    "snapshots/current-initials-correct-context/comparison.json": "b838ec60cbca5e1f553ff39432fcd487d76211c5cd42b028a5b87fed208b4d84",
+    "snapshots/current-initials-correct-context/execution.json": "6fb7bff9bfa56862b9dde44944bdaae6c5f90f9aabb6cc0e6848106281fe69f0",
+    "snapshots/current-initials-correct-context/execution.log": "c1e7768b597bf8bba78abb93b7afe619619ec4e22599a848f2d12ef4a32de0c5",
+    "snapshots/current-initials-correct-context/inspection.json": "593aabcbbfe93cd51953ddaf1ee5be1b88d23d54e5b58b5beeab9eee17e8830a",
+    "snapshots/current-initials-correct-context/judgment.json": "ebe520033a00e9a5a3cd55b20dcbbcb93d6669f607292854c6307746451e3019",
+    "snapshots/current-initials-correct-context/render.png": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+    "snapshots/current-initials-correct-context/revision.json": "5c64af208407e191f5baaca544b8d26864331eefa83483b43c3554b3ba64e4c1",
+    "snapshots/current-initials-correct-context/sampling.json": "b39e5d5e4078bcb8dc87a03dfa613969f4c339a201b74cdca0ce1581e719b865",
+    "snapshots/final-runtime/assets/7a6ee2ff1bf6a3c9f0116a3d7313a63a466af41cb22394b60ec5a1730fd5fb07.png": "7a6ee2ff1bf6a3c9f0116a3d7313a63a466af41cb22394b60ec5a1730fd5fb07",
+    "snapshots/final-runtime/assets/86add95ba2e8c86c369bff318f61fab3bb0d7f5a39115b3ab8d568c6ee4d9009.png": "86add95ba2e8c86c369bff318f61fab3bb0d7f5a39115b3ab8d568c6ee4d9009",
+    "snapshots/final-runtime/execution.json": "202d68de535dac669ac7fd5824c81a0dd4e65c2564bbe605afdfe8aca0cb310a",
+    "snapshots/final-runtime/execution.log": "586847fa9449d1bfe3b83c3ce91005769329d0c104f7112c5fb5ae4d477743ba",
+    "snapshots/final-runtime/export-manifest.json": "539d89a15ab97e46f3fbe9288c22de95e17943680a358b75216fb0025186aae3",
+    "snapshots/final-runtime/measurement.json": "74a67a6078c0b7516b18bd6a5b78c6f9d1243c3aea230d1638e833123efa1466",
+    "snapshots/final-runtime/render.png": "41099d1a17555f205c2e9508e575a2f38678dcfc89051ac7f257645790c979f1",
+    "snapshots/final-runtime/requests/0001-qa-sampling-typography--embossed-plate--polished-metal.json": "4132c086fb9414d4a7c54bea027d299eddc15df947af2255da93d871db7d13b7",
+    "snapshots/final-runtime/sampling.json": "b1bdc2c0d1947a625193c0205630f517844ffa0f73ca626b12d4496a4488f737",
+    "snapshots/first-initials-stale-context/comparison.json": "e36bc2b55acdf5620bbe8a5be7478d7202a598620a948bf22df8865376a5b136",
+    "snapshots/first-initials-stale-context/execution.json": "844dd1aca37e825bd430ebc881da0e1599d4f89ada4f39c3af4d9f27992ccc2b",
+    "snapshots/first-initials-stale-context/execution.log": "4aac4198b608d3d2aae56a65073c3f4824e6cab3f40f587d48e1db8f031d725d",
+    "snapshots/first-initials-stale-context/inspection.json": "7a04d157d1e045edd0a0b863fb998b0f73324e1b57c2709b4ad0ff9e782c4e59",
+    "snapshots/first-initials-stale-context/judgment.json": "934be6a0a9880ecf19cfeaa88709be0f937511c6781475c3fb061d6e31a4fe08",
+    "snapshots/first-initials-stale-context/render.png": "56396e945e01b13b93573d30574b21086f77e3f7bbb7c2578d43b0ba0f8f6748",
+    "snapshots/first-initials-stale-context/revision.json": "1b58be0ffc84b349df84cf1ec11e6c3057bc6f748d2f45a2a523e04287f810c8",
+    "snapshots/first-initials-stale-context/sampling.json": "6ed7f63e510b212b6bc860c8361b860239dfbeb0cef3f3c1f8d04017caf71301",
+    "snapshots/requests/0110-plan-open-commons-extruded_solid-paper.json": "a2258b6a7d0b39e9707526b6c5d59acc6b1c8b056681dba1d2458af21cc6549b",
+    "snapshots/requests/0111-plan-open-commons-extruded_solid-paper.json": "69a5f7174e3e2a2ce0a1c46a881c42dc7db1a6eec53811ff68d7a96b5d19446d",
+    "snapshots/requests/0112-plan-open-commons-extruded_solid-paper.json": "ddccee20b5c70facd408f8c9f13f6b2110437c3ef693050bbb8963229fd8c465",
+    "snapshots/requests/0113-creative-open-commons--extruded-solid--paper-0009-18d06068d23e-preview.json": "f9baab40eefbc7611b83fa2a0fbb1f0ec62f4c2fd958fb19794f2656857eee85",
+    "snapshots/requests/0114-compare-0009-18d06068d23e-preview.json": "97a8392e6c3311a5f56929fa3ac807f5b23aaa1f167de22ff3bb43a5e86d426e",
+    "snapshots/requests/0115-preview-open-commons--extruded-solid--paper-craft-0-candidate-first.json": "dd2fe4879d6b4c7451896ca76124fecccd862380f45e1a4d05c30fce6e038c2e",
+    "snapshots/requests/0116-preview-open-commons--extruded-solid--paper-craft-0-reference-first.json": "f3c51007e4639bcf811a5109adb6d31e16a6457cdc0e6ab3636f9bcce885e15b",
+    "snapshots/requests/0117-preview-open-commons--extruded-solid--paper-craft-1-candidate-first.json": "7591656bd80d7c18b4e4d6b3be0d3c8a13cec63abf32b96d1584554735d206db",
+    "snapshots/requests/0118-preview-open-commons--extruded-solid--paper-craft-1-reference-first.json": "94ecc68afe21cad14d086c37518d959854085eac3b04d345bb8601c2c786b9d8",
+    "snapshots/requests/0119-preview-open-commons--extruded-solid--paper-symbol-fit.json": "022430d9784f630812e3c42123bcf215600d4a6561d917050791d5378cab8087",
+    "snapshots/requests/0120-preview-open-commons--extruded-solid--paper-fit.json": "bc134bd666cba7d73f5673a57f19c254f84674116bae520befb598dcf1b50ad6",
+    "snapshots/requests/0121-preview-open-commons--extruded-solid--paper-technical.json": "82129df80627c2dc4faafb712509795e333536b064e0e5f3b54525114549dacb",
+    "snapshots/requests/0122-plan-joined-index-extruded_solid-paper.json": "8d82500995ccbc3521df79ea47be38a60f1b123b962b7abfa0ef8f4f3a16ffe3",
+    "snapshots/requests/0123-plan-joined-index-extruded_solid-paper.json": "30cfe565ee35dee5edb42d6fe781d2274461ab159f3c390be6571cd518ac6e0e",
+    "snapshots/requests/0124-plan-joined-index-extruded_solid-paper.json": "66ad4cfb85d4ba55be5f3c3c45bc1d037f3b9ab2efaa40575d7aa7df1ccfb93a",
+    "snapshots/requests/0125-creative-joined-index--extruded-solid--paper-0007-7916bd46a8f0-preview.json": "2da9b22df169a43fbfdf7840bce5107034cf8a6caabc4633e3a53c5790d31fd4",
+    "snapshots/requests/0126-compare-0007-7916bd46a8f0-preview.json": "86d1065670d37dbcaccd4f8ca64fc0e8c0076888b4cb7334d2b2d6e235a96f50",
+    "snapshots/requests/0127-preview-joined-index--extruded-solid--paper-craft-0-candidate-first.json": "360ccea62b2cea1178341174a08586ef6dd75f79918029dd22fe21e7cc385365",
+    "snapshots/requests/0128-preview-joined-index--extruded-solid--paper-craft-0-reference-first.json": "6efccc2637dd6b0cb5c2681beb9dd51002b8f4527a506eddf37ee6e10fa4cd78",
+    "snapshots/requests/0129-preview-joined-index--extruded-solid--paper-craft-1-candidate-first.json": "bca776c2a726596a39e32c9ed28284ec2e8fc2e6bdd7ea48ab40a9210bf5db11",
+    "snapshots/requests/0130-preview-joined-index--extruded-solid--paper-craft-1-reference-first.json": "d5043cd9a5d134927dd7c39c51eb11eb09a67f2f147d4c05218ad49bff32e02c",
+    "snapshots/requests/0131-preview-joined-index--extruded-solid--paper-symbol-fit.json": "5d3e1bf2932df8f855c32cdb8a3e11bf1a87e0457fc5fe590c6c151b230f6f8c",
+    "snapshots/requests/0132-preview-joined-index--extruded-solid--paper-fit.json": "fb3035823787ceeb1af218677f4b858dabadd2fe1ebee0e44f79b307e93d3b57",
+    "snapshots/requests/0133-preview-joined-index--extruded-solid--paper-technical.json": "6ef04d796b99ac2ffbf924ff440226b6de39106a55d6a3254741102859d8ef5e",
+    "snapshots/requests/0134-creative-joined-index--extruded-solid--paper-0009-28ee20176d5f-preview.json": "6db718087364dc5ccd3004784b4a246f8dda1deac4c930f44951f9d5cdc3d3fe",
+    "snapshots/requests/0135-compare-0009-28ee20176d5f-preview.json": "8e1623a35020e7ac58e54320a2dca948892f10fcc59cebc07e0255f11d98be5f",
+    "snapshots/requests/0136-preview-joined-index--extruded-solid--paper-craft-0-candidate-first.json": "6f7dede7d2e172bd13935c321db1d1233e3a2953d18f6b4753e29931b010a00a",
+    "snapshots/requests/0137-preview-joined-index--extruded-solid--paper-craft-0-reference-first.json": "6a8cbe4fff1b6a5a52d25ff5e5f2d88c6a9d04ba6561e4b93f9aaf9af93440b0",
+    "snapshots/requests/0138-preview-joined-index--extruded-solid--paper-craft-1-candidate-first.json": "1ada4be44315a8d12a6dd456521b05ceae4a0f5ba016f0e29908055de894243a",
+    "snapshots/requests/0139-preview-joined-index--extruded-solid--paper-craft-1-reference-first.json": "3b5ab4e9f607711512819468b6029189cc2c3239b3cac871db3c16c70e53a7fe",
+    "snapshots/requests/0140-preview-joined-index--extruded-solid--paper-symbol-fit.json": "d7dcec2152e2b24acbac4b55dd4863c811b9d3af5765b1f580e6140ffa752d5f",
+    "snapshots/requests/0141-preview-joined-index--extruded-solid--paper-fit.json": "0bf3cb910d60555b474c1f55c07b1a599794e0a4ccc79a1262f0a9e6da32a2dd",
+    "snapshots/requests/0142-preview-joined-index--extruded-solid--paper-technical.json": "e1fc92520096aca0bc458e66718b1be7b59681d7827f5fadd05ebf913afe255e",
+    "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png": "0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9",
+    "snapshots/source-blobs/105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d.ply": "105bae67aa7cec714794dd6a92d54b6e5ebc74f2a53bfd173c71645dfae06c7d",
+    "snapshots/source-blobs/34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523.ply": "34cd446a4b80cd60355bc5bca48e8c3701cd100e42bc5756e7d2b38d6de5b523",
+    "snapshots/source-blobs/387d7c85967986cf26b3aeaf7f4328f6426a4ff2006e3dcc07a36db610f5647c.png": "387d7c85967986cf26b3aeaf7f4328f6426a4ff2006e3dcc07a36db610f5647c",
+    "snapshots/source-blobs/3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3.svg": "3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3",
+    "snapshots/source-blobs/4224d3dab5ee162c8746904b2d052d9f1bb399e1fd9500381ccfa85ba6644d40.png": "4224d3dab5ee162c8746904b2d052d9f1bb399e1fd9500381ccfa85ba6644d40",
+    "snapshots/source-blobs/4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466.ply": "4e8f2549c0d3c661fc8dc5300832a48112c7b1b26255db2e87d82a51cfa34466",
+    "snapshots/source-blobs/59a23f040323a4f991a92f39bb867480f9fc3f105e37dcdb187a73c5f7f5b7b6.txt": "59a23f040323a4f991a92f39bb867480f9fc3f105e37dcdb187a73c5f7f5b7b6",
+    "snapshots/source-blobs/6d3df933f77c1b32a93e5b44abd5c07a7e2d0ea0c03db81b7929c0226f7123e3.png": "6d3df933f77c1b32a93e5b44abd5c07a7e2d0ea0c03db81b7929c0226f7123e3",
+    "snapshots/source-blobs/74ac0f564239190875e35151a654e6f01ca59ed6193bb4a24955df5327235c7f.png": "74ac0f564239190875e35151a654e6f01ca59ed6193bb4a24955df5327235c7f",
+    "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png": "8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d",
+    "snapshots/source-blobs/859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d.png": "859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d",
+    "snapshots/source-blobs/8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549.png": "8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549",
+    "snapshots/source-blobs/8986c7fa508ba22f1ce31311402a901003586371f75bfa1153560f55c185627e.png": "8986c7fa508ba22f1ce31311402a901003586371f75bfa1153560f55c185627e",
+    "snapshots/source-blobs/8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9.txt": "8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9",
+    "snapshots/source-blobs/938696f807b0da38c2fe9cda9b41e9fa5caf3c3c5064a44bb6dca36546ab6c6e.txt": "938696f807b0da38c2fe9cda9b41e9fa5caf3c3c5064a44bb6dca36546ab6c6e",
+    "snapshots/source-blobs/944a13b3b0a5cc930ef4387253a620abf05bcd6622d77316c715b9cdafc2fcff.txt": "944a13b3b0a5cc930ef4387253a620abf05bcd6622d77316c715b9cdafc2fcff",
+    "snapshots/source-blobs/95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22.ply": "95202a42261f51527ae5db86f7991399c33ba9c496a5e5d36ee63bc328d1db22",
+    "snapshots/source-blobs/9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90.ply": "9ef790f95c3026693780598a4cd30807244d470a555b4bf48943139580888d90",
+    "snapshots/source-blobs/c46b4909ab109ab6e3382d623a09abe6860f747947cba7cc56c1cacaa33a2559.txt": "c46b4909ab109ab6e3382d623a09abe6860f747947cba7cc56c1cacaa33a2559",
+    "snapshots/source-blobs/c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79.ply": "c88d310132f8f235e7f043f4bdfdffb58b5c4fb96d890c0a2b7e104db3d90b79",
+    "snapshots/source-blobs/cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a.txt": "cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a",
+    "snapshots/source-blobs/cd981cf6684a2d68255a95bc07c833f6135b903a6d50033b6e32220c542f84a2.txt": "cd981cf6684a2d68255a95bc07c833f6135b903a6d50033b6e32220c542f84a2",
+    "snapshots/source-blobs/d291d1cbdced632f214c45169ea3bfd046f173741daaee78b6957510aaf374da.png": "d291d1cbdced632f214c45169ea3bfd046f173741daaee78b6957510aaf374da",
+    "snapshots/source-blobs/f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d.ply": "f2f2af923be84ab826d19c913c3f870881b4fe4ad8e5198911e3bb477c3e3d0d",
+    "validation/combined-startup-green.txt": "1d0648a1f51a1cd64a143b8cb9d245ef2f14a776020acc49372ae377824399ba",
+    "validation/combined-startup-red.txt": "0cda2cbe0f3ae92f4a8d36eae50bd541d0dcdf7779e37486d7dba6bc0c6014db",
+    "validation/combined-worker-count.txt": "0b3f1a59eae6b465d5c86c8e0a3218d72b70cdedf125cbdcea3c0c5ff0b81006",
+    "validation/current-benchmark.txt": "f89b32f2ac0238f19941b0423150a58876359a5e7033a725f251c30510926cc1",
+    "validation/current-concept-full-tests.txt": "ff8bf59de08ea91a5b37aa00cb4739a1ac445ff14327f458f3ca8893b9875b23",
+    "validation/current-concept-gpu.txt": "266c5211b82be437f3195156ceacf1487b2cdb047ae0c13827ecc2e4f506fa13",
+    "validation/current-concept-live-controls.txt": "62ba1abf5a30ea0a95823dd97afafe1dc5f57adf8f0b2a030f93cea4431f7bcd",
+    "validation/current-concept-live.txt": "e1b22f853995550c73be72ce4c0e020008a27ed5c9721b1b1059fa128eaebe7a",
+    "validation/current-description-bound-render.txt": "15a187062279147c334ec276067247ddc6fb58df7a4327f162adf2f9b796180c",
+    "validation/current-description-independent-review.txt": "25f6d476bce7522b50589363bcdd94270edc883b6430ffa141a50ddc76c01526",
+    "validation/current-description-lint.txt": "f982a2a04fd3168fe86cc2fc3f0a7f3a6d6ff63f1a3c3f6b709610a640ab7bc8",
+    "validation/current-description-preparation-race-red.txt": "46a9c6d84dc9a3aeb327f137a880aa34a702c1f98feecbdd5cb569f2a9b59393",
+    "validation/current-description-red.txt": "17e9b4c2406fe352c97c084208270e02128ed4885beb6290a05d35213446ab5b",
+    "validation/current-description-render.txt": "1718ce389e204e3d327567f1ae20ec631aa3237269cf8a655e5e0cc4a463a64e",
+    "validation/current-description-targeted.txt": "9b7ceb87bebc050b47d90a229ddde2b712d3480475a3e90dc80725ea54baa55c",
+    "validation/current-description-three-green.txt": "de1d0286ae232a25648bbd4966c38971ea7581ac8a67d3cbf5696f78ad37cdd3",
+    "validation/current-description-types.txt": "f9f0719cac8825f7e2a69f772b278b1da271efc5b227fa0bd042c7934ade2f7a",
+    "validation/current-doctor.txt": "43723cd2f69cfecac049cb2275e69dd8c5bb1e99bfac5e0dc25211900f77bc99",
+    "validation/current-final-hooks.txt": "02efa37d000d52f21a10b19d735c1b89c70a4e5d24f87f5c13c60efc5220be40",
+    "validation/initial-build.txt": "4446f93b8d5dd400a03109634a69190d2b747022e437431c2d06a44b66ad52af",
+    "validation/initial-evidence.txt": "764d029bfb5e86fd95391b27cb0b5b46b8129071b2163b9e3a36a3743bb041a9",
+    "validation/initial-hooks.txt": "02efa37d000d52f21a10b19d735c1b89c70a4e5d24f87f5c13c60efc5220be40",
+    "validation/initial-lint.txt": "f982a2a04fd3168fe86cc2fc3f0a7f3a6d6ff63f1a3c3f6b709610a640ab7bc8",
+    "validation/initial-type.txt": "f9f0719cac8825f7e2a69f772b278b1da271efc5b227fa0bd042c7934ade2f7a",
+    "validation/source-binding.json": "93eeb13960a94a60b9c1d7b89a510f9b4c6d67b8bc6689b09da646283f7bee31",
+    "validation/spec-review.txt": "3a7a64d266f9cef54a71d74802a2ee9b49aebebaf5c563d539f5904a2eec9683",
+    "validation/standards-review.txt": "7d49632cc7ef3641d73c66a6f32fb256624ac2ecca1bb932142788f1eb3dc494",
+    "validation/two-minute-budget-tests.txt": "ccd9426f2cc54cd0accabf5ef2fbae4336e5341b14e03f9f9f79da2a941134ca"
+  },
+  "requests": [
+    {
+      "assets": {},
+      "path": "snapshots/requests/0110-plan-open-commons-extruded_solid-paper.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/requests/0111-plan-open-commons-extruded_solid-paper.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/requests/0112-plan-open-commons-extruded_solid-paper.json"
+    },
+    {
+      "assets": {
+        "02319a755a24478da1ee8c7309a32522": "../paper-exposure-20261111/snapshots/source-blobs/35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024.png",
+        "a53b15f2de04442a8df8db651aa4b07e": "../paper-exposure-20261111/snapshots/source-blobs/73fa0f9bdf3c373632a95d02fe08fb8c4282fc0d0d29e1ead301b5f4737cbce0.png"
+      },
+      "path": "snapshots/requests/0113-creative-open-commons--extruded-solid--paper-0009-18d06068d23e-preview.json"
+    },
+    {
+      "assets": {
+        "3897a6c8bcf344a488b0ee794d58e9bf": "../paper-exposure-20261111/snapshots/source-blobs/35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024.png",
+        "d845c68fc4d34064938eddc57bc944af": "../paper-exposure-20261111/snapshots/source-blobs/2207a7201740fb7b0f8c4fab8549e3ff3ec3a534f51469c95db62aca5f46d0cc.png"
+      },
+      "path": "snapshots/requests/0114-compare-0009-18d06068d23e-preview.json"
+    },
+    {
+      "assets": {
+        "1b87f49145ae44588049c9b2510b9d41": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "25ee21adcdd045ea99301ea9965b9155": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "3a8a34c650744ff080558677c6bc2e07": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "685bf09129b044c9aab61cb100b4c3a5": "../paper-exposure-20261111/snapshots/source-blobs/a8df44687b28dd33f4fe0c8d7a1069cda05192a8825d058a8288c8a1ca401cdd.png",
+        "9b4b616defb2442ea76d42c4bed70212": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "cca80ddac5f346eab4f0ea31d9c5dd50": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png"
+      },
+      "path": "snapshots/requests/0115-preview-open-commons--extruded-solid--paper-craft-0-candidate-first.json"
+    },
+    {
+      "assets": {
+        "1726176559df4a6d8008e967a899eae5": "../paper-exposure-20261111/snapshots/source-blobs/a8df44687b28dd33f4fe0c8d7a1069cda05192a8825d058a8288c8a1ca401cdd.png",
+        "69408ed2b070441183bf91bcd6604960": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "95a029d8c78f44079d4b93fbb79d8971": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "ab743e0595e947da8b6d8209d0f35908": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "b1400aaffd47442aaf9cdecfeea0895d": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "b57ab78ef46e499caddcc738e5a79606": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png"
+      },
+      "path": "snapshots/requests/0116-preview-open-commons--extruded-solid--paper-craft-0-reference-first.json"
+    },
+    {
+      "assets": {
+        "2dc3014c92d94327baa780cebe9d4096": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "54e284a784604846bd1d5b1973c9d7bd": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "a5ec9d81b15f458bb8c6d8fc82c31a55": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "a71f08bb099945679909e9d1063c8739": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "d2b9bcc0d9214817a55a202c2a4a773e": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "e749740997c144c095337a3c6954be13": "../paper-exposure-20261111/snapshots/source-blobs/a8df44687b28dd33f4fe0c8d7a1069cda05192a8825d058a8288c8a1ca401cdd.png"
+      },
+      "path": "snapshots/requests/0117-preview-open-commons--extruded-solid--paper-craft-1-candidate-first.json"
+    },
+    {
+      "assets": {
+        "1e900a3212ef46e38880c0176f43ac0e": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "3d6bcd4d5a7446658e1fca5c0f051825": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "7f85393ae2864288a70dd638e75418a0": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "8083cfaaed2642a288a72ca137e7c63d": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "ba6fd8cb8d5a42cab3db749903f610c4": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "edf2df870cb342fc8f4b4b1089da315a": "../paper-exposure-20261111/snapshots/source-blobs/a8df44687b28dd33f4fe0c8d7a1069cda05192a8825d058a8288c8a1ca401cdd.png"
+      },
+      "path": "snapshots/requests/0118-preview-open-commons--extruded-solid--paper-craft-1-reference-first.json"
+    },
+    {
+      "assets": {
+        "eebf6d4ed0754162873f8b2ba2ba465c": "../paper-exposure-20261111/snapshots/source-blobs/35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024.png"
+      },
+      "path": "snapshots/requests/0119-preview-open-commons--extruded-solid--paper-symbol-fit.json"
+    },
+    {
+      "assets": {
+        "199fb463811b46219726800ee00e8f5a": "../paper-exposure-20261111/snapshots/source-blobs/96b23dcc9047c2e7d010878095d3e4a11e623d19f46e8606484e19082aeb4b11.png",
+        "1c0dd9c65145443881858021c8321fe9": "../paper-exposure-20261111/snapshots/source-blobs/35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024.png",
+        "dbb2feeebfca41c1a4ded190c1714fae": "../paper-exposure-20261111/snapshots/source-blobs/7a4693d71290c0a9713ba4d21b8649704820c59d8acdf2d869adf40695313eb1.png"
+      },
+      "path": "snapshots/requests/0120-preview-open-commons--extruded-solid--paper-fit.json"
+    },
+    {
+      "assets": {
+        "522526d3d92f4068b2965ad90754b63b": "../paper-exposure-20261111/snapshots/source-blobs/35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024.png"
+      },
+      "path": "snapshots/requests/0121-preview-open-commons--extruded-solid--paper-technical.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/requests/0122-plan-joined-index-extruded_solid-paper.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/requests/0123-plan-joined-index-extruded_solid-paper.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/requests/0124-plan-joined-index-extruded_solid-paper.json"
+    },
+    {
+      "assets": {
+        "2f2f1236059843fe8f91d690d68ac0aa": "snapshots/source-blobs/387d7c85967986cf26b3aeaf7f4328f6426a4ff2006e3dcc07a36db610f5647c.png",
+        "9a5dd619cf194e58bbf7ed86b1096ab7": "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png"
+      },
+      "path": "snapshots/requests/0125-creative-joined-index--extruded-solid--paper-0007-7916bd46a8f0-preview.json"
+    },
+    {
+      "assets": {
+        "7600a89078164baab29b5e07177fce82": "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png",
+        "ea76b7d918774dfb824684bd30057b1c": "snapshots/source-blobs/4224d3dab5ee162c8746904b2d052d9f1bb399e1fd9500381ccfa85ba6644d40.png"
+      },
+      "path": "snapshots/requests/0126-compare-0007-7916bd46a8f0-preview.json"
+    },
+    {
+      "assets": {
+        "233c50ecd4494fa0840970d5292504cb": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "4d944e1d3ea44c8c872995215fcde795": "snapshots/source-blobs/8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549.png",
+        "6786799b1f1645cc92657bde15a450d8": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "8d409a69042947498748a4a074c4a039": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "9df662120141458682428d966171fbd9": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "c33c07904f9b47f2ad112f2134e29bf5": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png"
+      },
+      "path": "snapshots/requests/0127-preview-joined-index--extruded-solid--paper-craft-0-candidate-first.json"
+    },
+    {
+      "assets": {
+        "232952433a084731acbee455021560f9": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "4d6d5df0dfed4fa5b6f369620fc2e5be": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "c7d6dd851fd840f28d5d4936e5f11bae": "snapshots/source-blobs/8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549.png",
+        "ca2bd3888bda4d03920fb32c36ae1900": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "db1de65250cb4e67a5f8d3c7f2d19a06": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "f41f37453dc34e9e85eae5c8394b59e7": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png"
+      },
+      "path": "snapshots/requests/0128-preview-joined-index--extruded-solid--paper-craft-0-reference-first.json"
+    },
+    {
+      "assets": {
+        "5fbe7fde8b484602a2f780df10f2afc5": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "6004a56dd8044ff3a03a8bb7ab7b3c08": "snapshots/source-blobs/8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549.png",
+        "62740740a5934543aacbfa5bb5534352": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "c9a216d853b943968c2552d8f97d54c2": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "cf8210efd1324d1cb1e985b2d799432d": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "fc7887edad31420d9a9a42671cf5ae50": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png"
+      },
+      "path": "snapshots/requests/0129-preview-joined-index--extruded-solid--paper-craft-1-candidate-first.json"
+    },
+    {
+      "assets": {
+        "71bbf6f310f94011983ec82c0c8c1fa9": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "768ad9b8a6d3457f93b1aa47c6d4035d": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "8f027ac0808a4300a0024d86e152c245": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "dcbd0173343043869b36b82b73725ea2": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "eea2563c799a40f29c9087767d842687": "snapshots/source-blobs/8728225a5448e5c527d9df7b6ffcc91b52e6928772118b7ee6048ec3cbed0549.png",
+        "f53a404c42c94879b079ae14611eb109": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png"
+      },
+      "path": "snapshots/requests/0130-preview-joined-index--extruded-solid--paper-craft-1-reference-first.json"
+    },
+    {
+      "assets": {
+        "0411c08bbf324450932ea73d02995a6a": "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png"
+      },
+      "path": "snapshots/requests/0131-preview-joined-index--extruded-solid--paper-symbol-fit.json"
+    },
+    {
+      "assets": {
+        "504fe5c8f1444e22a446ef0963818a5e": "snapshots/source-blobs/74ac0f564239190875e35151a654e6f01ca59ed6193bb4a24955df5327235c7f.png",
+        "8dbf7ab4308b47d1a8503ad87fcd8a8d": "snapshots/source-blobs/6d3df933f77c1b32a93e5b44abd5c07a7e2d0ea0c03db81b7929c0226f7123e3.png",
+        "f9805b3fe7a24a46a44dd0295c4faabc": "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png"
+      },
+      "path": "snapshots/requests/0132-preview-joined-index--extruded-solid--paper-fit.json"
+    },
+    {
+      "assets": {
+        "6edeab24180345f6bb78e3b5d3ec2d55": "snapshots/source-blobs/0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9.png"
+      },
+      "path": "snapshots/requests/0133-preview-joined-index--extruded-solid--paper-technical.json"
+    },
+    {
+      "assets": {
+        "c94f27b4c5b643bd976137b8aebe6101": "snapshots/source-blobs/387d7c85967986cf26b3aeaf7f4328f6426a4ff2006e3dcc07a36db610f5647c.png",
+        "e6ee0821c4224a5f862398b3cf3c0041": "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png"
+      },
+      "path": "snapshots/requests/0134-creative-joined-index--extruded-solid--paper-0009-28ee20176d5f-preview.json"
+    },
+    {
+      "assets": {
+        "b89796f81d3f4b808ee6157b7945fa93": "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png",
+        "f8b90f21962146809b4599205816b14b": "snapshots/source-blobs/8986c7fa508ba22f1ce31311402a901003586371f75bfa1153560f55c185627e.png"
+      },
+      "path": "snapshots/requests/0135-compare-0009-28ee20176d5f-preview.json"
+    },
+    {
+      "assets": {
+        "2d056d79d90d494892b0e1a1abbd697f": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "4a81fde59b4a4695aaff9494a98494bf": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "50fb2de063b94048aa845a9ab235134b": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "54ff1305ca494fc3bcaa0aa30b912065": "snapshots/source-blobs/859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d.png",
+        "aa2a9a55b3704db9bfde54991077c054": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "f23d381de1874ff0bbbcc28c2bcd319f": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png"
+      },
+      "path": "snapshots/requests/0136-preview-joined-index--extruded-solid--paper-craft-0-candidate-first.json"
+    },
+    {
+      "assets": {
+        "2c2947faa7b64ff485dc06be5a112792": "snapshots/source-blobs/859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d.png",
+        "72c2b1b9bcfd4d0d9251ebd0bb8562f2": "../paper-exposure-20261111/snapshots/source-blobs/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "883e15760e84448387b0db32e2242c13": "../paper-exposure-20261111/snapshots/source-blobs/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "af39a3cd83084caa8d3382acb1c0aa43": "../paper-exposure-20261111/snapshots/source-blobs/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "c46e2622bed14d82b035573149f18c0a": "../paper-exposure-20261111/snapshots/source-blobs/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "daa6c9da26844ffba6013a65577aa851": "../paper-exposure-20261111/snapshots/source-blobs/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png"
+      },
+      "path": "snapshots/requests/0137-preview-joined-index--extruded-solid--paper-craft-0-reference-first.json"
+    },
+    {
+      "assets": {
+        "279aef2b79ff401eace3328bcbe73072": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "6facdba14d584161bf5df415b50a7cfd": "snapshots/source-blobs/859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d.png",
+        "71bd6be08c3c4f749d528603575700ec": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "7897ca2b540c456b86e04a55b1312176": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "986836828605427f9a6925a54554b5a6": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "ca0b4ee376154613a3dd507e96c81c05": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png"
+      },
+      "path": "snapshots/requests/0138-preview-joined-index--extruded-solid--paper-craft-1-candidate-first.json"
+    },
+    {
+      "assets": {
+        "2a46a103f3124a18bdb0a0abfb4aa762": "../paper-exposure-20261111/snapshots/source-blobs/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "4c5045849c264e2c8c73fcf1111e9ee9": "snapshots/source-blobs/859353e489a2bb1dffa73a987158aeb09e594f259797de5ac3c06b55cdb9da5d.png",
+        "4ffe3a5a2654475c90f88dc8ee7c1a18": "../paper-exposure-20261111/snapshots/source-blobs/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "530dc4608d6a42fdbf255aeb058e446d": "../paper-exposure-20261111/snapshots/source-blobs/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "70a8af737489451f85130e6ffad3a5be": "../paper-exposure-20261111/snapshots/source-blobs/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "888d32b09c0940818ebe37fb65eecb8f": "../paper-exposure-20261111/snapshots/source-blobs/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png"
+      },
+      "path": "snapshots/requests/0139-preview-joined-index--extruded-solid--paper-craft-1-reference-first.json"
+    },
+    {
+      "assets": {
+        "717168f1896f43c8befb8ee17a203dc0": "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png"
+      },
+      "path": "snapshots/requests/0140-preview-joined-index--extruded-solid--paper-symbol-fit.json"
+    },
+    {
+      "assets": {
+        "0eab6387084a4064be821d7a2c87654a": "snapshots/source-blobs/d291d1cbdced632f214c45169ea3bfd046f173741daaee78b6957510aaf374da.png",
+        "1203d0fa779541588a5a1db090f1cbe1": "snapshots/source-blobs/6d3df933f77c1b32a93e5b44abd5c07a7e2d0ea0c03db81b7929c0226f7123e3.png",
+        "1859cda262bc415a90aabcab2ed8c47e": "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png"
+      },
+      "path": "snapshots/requests/0141-preview-joined-index--extruded-solid--paper-fit.json"
+    },
+    {
+      "assets": {
+        "c0a4a4ac8ed24a55a6374dde8af05181": "snapshots/source-blobs/8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d.png"
+      },
+      "path": "snapshots/requests/0142-preview-joined-index--extruded-solid--paper-technical.json"
+    }
+  ],
+  "runtime_code_commit": "a7ee92ac5a03879e4448e56702828bda42b8274d",
+  "schema": 1
+}

@@ -1,0 +1,53 @@
+{
+  "creative": {
+    "craftsmanship": {
+      "type": "noul",
+      "noul": 0.28
+    },
+    "brief_fit": {
+      "type": "noul",
+      "noul": 0.39
+    },
+    "material_intent": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "description_match": {
+      "type": "noul",
+      "noul": 0.54
+    }
+  },
+  "comparison": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.01
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.1
+    }
+  },
+  "eligibility_status": "fail",
+  "craft": [
+    "fail",
+    "fail",
+    "fail",
+    "fail"
+  ],
+  "fit": {
+    "symbol": "pass",
+    "appearance": "unsettled",
+    "brand_specificity": "unsettled",
+    "meaningful_synthesis": "unsettled",
+    "constraint_fidelity": "fail",
+    "communicative_clarity": "fail",
+    "small_flat": "pass",
+    "small_hero": "pass"
+  },
+  "technical": {
+    "noise_free": "pass",
+    "detail_preserved": "unsettled",
+    "aliasing_free": "unsettled",
+    "structure_correct": "unsettled"
+  }
+}
