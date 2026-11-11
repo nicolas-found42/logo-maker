@@ -1,0 +1,2 @@
+uv run --locked ty check
+All checks passed!

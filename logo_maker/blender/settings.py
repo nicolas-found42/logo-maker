@@ -65,3 +65,4 @@ def apply_quality(quality: dict) -> None:
     sc.render.image_settings.color_mode = "RGBA"
     sc.view_settings.view_transform = "Standard"
     sc.view_settings.look = "None"
+    sc.view_settings.exposure = float(quality.get("exposure", 0.0))

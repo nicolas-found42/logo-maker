@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "26121d10b743b1f97cff850e29ee43d8b3d474faa5f1e4a4e621511eaf8cfef6",
+    "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+    "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+    "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 4096,
+    "use_adaptive_sampling": true,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    4000,
+    4000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "final.execution.log",
+  "seconds": 47.84511537497747,
+  "process_cpu_seconds": 17.149986000000002,
+  "log_sha256": "37f4af792e845ef3c7bb045ab980a87252df7cd8868b0891970a72d6e240692e",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/exposure-final-runtime-18d06068/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-376af3a75174452c88f986a9678dc697/final.execution.exr",
+    "bytes": 292457042,
+    "sha256": "bb723f5bdd06678c165461e72b2a7601024e0169f07a07e83e225f8a4713c0b3",
+    "seconds": 0.5195565829926636,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "dd0fa4a052c0bedc984d418474b992df9b208c0d35ba5c393fc707c9bf892208"
+}

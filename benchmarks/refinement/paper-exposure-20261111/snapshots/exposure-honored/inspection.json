@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Retain the authored -1.5 EV exposure for this scene; keep geometry, materials, camera, light rig and sampling fixed for the controlled comparison.",
+      "artifact": "qa/revisions/open-commons--extruded-solid--paper/0009-18d06068d23e-preview/render.png",
+      "comparison": "Compare retained 0008 with 0009 for this local color defect. This does not establish global craft quality or a new visual alternative.",
+      "dimension": "pale-paper color clipping",
+      "evidence": "The same opaque right-upright region now has 0% pixels with every RGB channel at least 250; its mean RGB is 173.8/182.2/168.1. Fold shading and pale-green tone are visible.",
+      "kind": "technical",
+      "resolved": true
+    }
+  ],
+  "observations": "The broad green uprights now show rounded outer scores and visible pale stock edges; the terracotta dock curves forward along the bottom. The U-shaped card remains open at the top, with no backing panel or enclosing border. The pale-green upright retains muted green shading rather than a white featureless face. The controlled region has zero near-white clipped pixels, compared with 77.8% in the same scene before exposure was honored. The primary silhouette is unchanged by the exposure probe. Independent material credibility, symbolic specificity and craft-floor qualification remain to be judged.",
+  "revision": "0009-18d06068d23e-preview",
+  "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+}

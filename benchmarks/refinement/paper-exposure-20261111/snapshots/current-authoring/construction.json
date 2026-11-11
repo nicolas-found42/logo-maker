@@ -1,0 +1,17 @@
+{
+  "symbol": "Individual contributions become reusable capability through one open shared team library",
+  "brand_geometry": "One shared paper core joins the three colored contribution regions into an accessible common library space. The continuous card proposes reusable team capability rather than exchange between disconnected peers. This is an authored visual hypothesis, not proof of audience recognition.",
+  "material_construction": "Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel.",
+  "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.",
+  "dependencies": [
+    "common-core.ply",
+    "west-back.ply",
+    "west-face.ply",
+    "east-back.ply",
+    "east-face.ply",
+    "shelf-back.ply",
+    "shelf-face.ply"
+  ]
+}

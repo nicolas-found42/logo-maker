@@ -59,7 +59,12 @@ def verify(root) -> None:
 
 
 def main() -> None:
-    for bundle in ("reconciliation", "review-followup", "artwork-probe-20261111"):
+    for bundle in (
+        "reconciliation",
+        "review-followup",
+        "artwork-probe-20261111",
+        "paper-exposure-20261111",
+    ):
         print(f"Checking {bundle}")
         verify(REPO_ROOT / "benchmarks/refinement" / bundle)
 

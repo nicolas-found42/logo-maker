@@ -1,0 +1,66 @@
+{
+  "stock_thickness": 0.04,
+  "score_center_radius": 0.1,
+  "score_inner_radius": 0.08,
+  "continuous_core_components": 1,
+  "mesh_assets": {
+    "common-core": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.04482191493742179
+    },
+    "west-back": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.005268496601061982
+    },
+    "west-face": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.005144279189110625
+    },
+    "east-back": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.005268496601061982
+    },
+    "east-face": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.005144279189110625
+    },
+    "shelf-back": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.004535203886590917
+    },
+    "shelf-face": {
+      "watertight": true,
+      "consistent_winding": true,
+      "volume": 0.004454530931261827
+    }
+  },
+  "pairwise_overlap_volumes": {
+    "common-core / west-back": 0.0,
+    "common-core / west-face": 9.740819262304967e-13,
+    "common-core / east-back": 0.0,
+    "common-core / east-face": 9.740819262304967e-13,
+    "common-core / shelf-back": 0.0,
+    "common-core / shelf-face": 1.9222900933718672e-13,
+    "west-back / west-face": 0.0,
+    "west-back / east-back": 0.0,
+    "west-back / east-face": 0.0,
+    "west-back / shelf-back": 0.0,
+    "west-back / shelf-face": 0.0,
+    "west-face / east-back": 0.0,
+    "west-face / east-face": 0.0,
+    "west-face / shelf-back": 0.0,
+    "west-face / shelf-face": 0.0,
+    "east-back / east-face": 0.0,
+    "east-back / shelf-back": 0.0,
+    "east-back / shelf-face": 0.0,
+    "east-face / shelf-back": 0.0,
+    "east-face / shelf-face": 0.0,
+    "shelf-back / shelf-face": 0.0
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Use an authored exposure adjustment while keeping geometry, materials, camera, rig and sampling fixed.",
+      "artifact": "qa/revisions/open-commons--extruded-solid--paper/0008-f57c4522d947-preview/render.png",
+      "comparison": "Compare the same requested -1.5 EV scene before and after the runtime honors exposure; inspect pale-green tone, cut edges and fold modeling.",
+      "dimension": "pale-paper color clipping",
+      "evidence": "The sampled right-upright region has 77.8% of opaque pixels with every RGB channel at least 250.",
+      "kind": "technical",
+      "resolved": false
+    }
+  ],
+  "observations": "The continuous card has broad rounded upright scores and a forward lower fold. Pale cut stock edges are visible. The right upright is nearly white, losing its supplied pale-green color and much surface modeling. The color-sampling diagnostic records clipping; this is not yet a craft-qualified result. This controlled baseline requested -1.5 EV, but the current scene loader omits it and the compiled quality has no exposure field. Its pixels still show the pale-green region as near-white.",
+  "revision": "0008-f57c4522d947-preview",
+  "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+}

@@ -1,0 +1,84 @@
+from pathlib import Path
+import json, shutil
+import numpy as np
+import trimesh, tomlkit
+from shapely.geometry import Polygon, LineString
+from shapely.ops import unary_union
+from logo_maker import motif, briefing
+from logo_maker.paths import REPO_ROOT, LogoDir
+from logo_maker.jev.client import JevClient
+logo=LogoDir((REPO_ROOT/'benchmarks/refinement/local/paper').resolve());cid='open-commons|extruded_solid|paper';folder=logo.concept(cid)
+archive=logo.root/'authoring-history/open-commons-before-continuous-core-probe-20261111'
+if not archive.exists():
+ shutil.copytree(folder,archive,ignore=shutil.ignore_patterns('.build','scene.blend','model.glb'))
+def rounded_line(points,r=.10):
+ a,b,c=map(np.asarray,points);u=(a-b)/np.linalg.norm(a-b);v=(c-b)/np.linalg.norm(c-b);angle=np.arccos(np.clip(np.dot(u,v),-1,1));dist=r/np.tan(angle/2);p=b+u*dist;q=b+v*dist;center=b+(u+v)/np.linalg.norm(u+v)*r/np.sin(angle/2);t0=np.arctan2(*(p-center)[::-1]);t1=np.arctan2(*(q-center)[::-1]);delta=(t1-t0+np.pi)%(2*np.pi)-np.pi
+ return LineString([a,*[center+r*np.array([np.cos(t),np.sin(t)]) for t in np.linspace(t0,t0+delta,48)],c])
+def strip(line,low,high):
+ p=list(line.offset_curve(low,join_style=2).coords);q=list(line.offset_curve(high,join_style=2).coords);poly=Polygon([*p,*reversed(q)]);assert poly.is_valid;return poly
+
+def along_y(poly,y0,y1):
+ m=trimesh.creation.extrude_polygon(poly,y1-y0,engine='manifold');v=m.vertices.copy();m.vertices=np.column_stack([v[:,0],v[:,2]+y0,v[:,1]]);m.invert();m.fix_normals();return m
+
+def along_x(poly,x0,x1):
+ m=trimesh.creation.extrude_polygon(poly,x1-x0,engine='manifold');v=m.vertices.copy();m.vertices=np.column_stack([v[:,2]+x0,v[:,0],v[:,1]]);m.fix_normals();return m
+
+def slab(poly):
+ m=trimesh.creation.extrude_polygon(poly,4,engine='manifold');m.vertices[:,2]-=2;return m
+
+def projection(meshes):
+ pieces=[]
+ for m in meshes:
+  for face in m.faces:
+   tri=Polygon(m.vertices[face,:2]);
+   if tri.area>1e-12:pieces.append(tri)
+ p=unary_union(pieces);assert p.geom_type=='Polygon',p.geom_type;return p
+
+def path(poly):
+ def ring(coords):return 'M'+' L'.join(f'{500+x*400:.5f} {500-y*400:.5f}' for x,y in coords)+' Z'
+ return ring(poly.exterior.coords)+''.join(ring(r.coords) for r in poly.interiors)
+
+# 0.040 stock: a 0.024 core and two 0.008 colored skins. Broad scores have
+# a 0.100 center radius and a 0.080 inner radius, without compressed intersections.
+line=rounded_line([(-1.0,.34),(-.78,.16),(-.30,.16)])
+left=Polygon([(-1.03,-.34),(-.30,-.34),(-.30,.73),(-.78,.43),(-1.03,.37)])
+# The lower card has one rounded return, followed by a simple flat rear lap.
+# Its front face at .140 meets both stiles' back faces at .140.
+trayline=rounded_line([(-.82,.29),(-.62,.16),(-.16,.16)])
+tray=Polygon([(-.70,-.16),(-.30,-.16),(-.18,-.61),(.18,-.61),(.30,-.16),(.70,-.16),(.63,-.82),(-.63,-.82)])
+layers=[('back',-.020,-.012,None),('core',-.012,.012,'core'),('face',.012,.020,None)];meshes=[]
+for name,role,mirror in [('west','primary',False),('east','secondary',True)]:
+ for layer,lo,hi,override in layers:
+  m=along_y(strip(line,lo,hi),-.34,.80);m=trimesh.boolean.intersection([m,slab(left)],engine='manifold')
+  if mirror:m.vertices[:,0]*=-1;m.invert()
+  meshes.append((f'{name}-{layer}',override or role,m))
+for layer,lo,hi,override in layers:
+ m=along_x(strip(trayline,lo,hi),-.85,.85);m=trimesh.boolean.intersection([m,slab(tray)],engine='manifold');meshes.append((f'shelf-{layer}',override or 'accent',m))
+# Unite the three core regions into one continuous board. Color skins meet at cut
+# boundaries on that common stock; no assembly adhesive or separate structural joint.
+original=meshes
+core=trimesh.boolean.union([m for n,_,m in original if n.endswith('-core')],engine='manifold')
+assert len(core.split())==1
+meshes=[('common-core','core',core)]
+for n,role,m in original:
+ if n.endswith('-core'):continue
+ if n.startswith('shelf-'):
+  overlapping=[mm for nn,_,mm in original if nn.startswith(('west-','east-')) and not nn.endswith('-core')]
+  m=trimesh.boolean.difference([m,*overlapping],engine='manifold')
+ meshes.append((n,role,m))
+scene=tomlkit.parse((folder/'scene.toml').read_text());components=[];proof={'stock_thickness':.04,'score_center_radius':.10,'score_inner_radius':.08,'continuous_core_components':len(core.split()),'mesh_assets':{},'pairwise_overlap_volumes':{}}
+for name,role,m in meshes:
+ assert m.is_watertight and m.is_winding_consistent and m.volume>0,name
+ (folder/(name+'.ply')).write_bytes(trimesh.exchange.ply.export_ply(m,vertex_normal=False,include_attributes=False));components.append({'kind':'mesh','name':name,'path':name+'.ply','material':role,'smooth':False,'bevel':0.0});proof['mesh_assets'][name]={'watertight':bool(m.is_watertight),'consistent_winding':bool(m.is_winding_consistent),'volume':float(m.volume)}
+for j,(n,_,m) in enumerate(meshes):
+ for nn,_,mm in meshes[j+1:]:
+  intersect=trimesh.boolean.intersection([m,mm],engine='manifold');v=abs(float(intersect.volume));assert v<1e-6,(n,nn,v);proof['pairwise_overlap_volumes'][n+' / '+nn]=v
+scene['components']=components;(folder/'scene.toml').write_text(tomlkit.dumps(scene));colors={k:str(v['color']) for k,v in scene['materials'].items()};svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">'
+for name,role in [('west','primary'),('east','secondary'),('shelf','accent')]:
+ p=projection([m for n,_,m in meshes if n.startswith(name+'-')]);svg+=f'<path id="{name}" fill="{colors[role]}" data-role="{role}" fill-rule="evenodd" d="{path(p)}"/>'
+(folder/'motif.svg').write_text(svg+'</svg>\n');motif.flatten(folder/'motif.svg',folder/'motif.json');motif.size_sheet(folder/'motif.svg',folder/'motif-sizes.png')
+description='One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.'
+construction='One die-cut U-shaped paperboard sheet forms the entire structure. A continuous 0.024-thick pale core carries two 0.008-thick paper skins, for 0.040 total stock thickness. The three broad regions all lie on the same front plane before folding. Each outer upright edge bends outward once; the bottom edge bends forward once. Every score has center radius 0.100 and inner radius 0.080. The scores occupy separate outer edges and do not cross. The central parts of both uprights remain continuously joined to the lower crossbar by uncut stock. Green and terracotta paper-skin regions meet edge-to-edge on that shared core. No separate bonded assembly or overlapping lap is used. One connected closed core mesh and six trimmed closed skin meshes model the same folded card, with no volume interpenetration.'
+p=folder/'concept.json';info=json.loads(p.read_text());info['description']=description;p.write_text(json.dumps(info,indent=2)+'\n');p=folder/'construction.json';intent=json.loads(p.read_text());intent.update(current_description=description,brand_geometry='One shared paper core joins the three colored contribution regions into an accessible common library space. The continuous card proposes reusable team capability rather than exchange between disconnected peers. This is an authored visual hypothesis, not proof of audience recognition.',material_construction=construction,dependencies=[c['path'] for c in components]);p.write_text(json.dumps(intent,indent=2)+'\n');plan=tomlkit.parse((folder/'plan.toml').read_text());plan['hypothesis']='Independent contributions become reusable team capability through one open shared library';plan['visual_mechanism']=description+' This develops the open-space territory; retained joined-index and folio studies preserve the other two territories. The SVG uses the exact front projection of these same three assemblies. Dark green, pale green and terracotta follow the supplied palette. No lettering enters the symbol; supplied Manrope and DM Sans remain for adjacent naming. The core contour serves app icons and mono marks, while stock and fold detail belongs to hero views.';plan['details']=[{'feature':'Continuous shared paper core','purpose':'Join three contribution regions through one visible shared sheet','intended_scale':'Broad junctions at app-icon scale; seams and cut edges at hero scale','construction':construction,'deletion_test':'Cutting the core across either upright foot disconnects that region from the shared dock. A visible gap or an unjoined core would disprove this construction.'},{'feature':'Broad rounded paper scores and exposed stock','purpose':'Show a deliberate paper change of plane without treating the sheets as inflated solids','intended_scale':'Hero and native detail, subordinate to the shared silhouette','construction':'The single sheet receives three non-crossing edge scores: one along each outer upright and one along the bottom edge. Both green regions and the terracotta region are paper skins on the same uncut core. Broad bend radii and exposed pale cut edges preserve the layered card response. No top bridge or back panel is added.','deletion_test':'Removing the scores loses the paper construction; removing the open center loses the accessible shared-space hypothesis.'}];(folder/'plan.toml').write_text(tomlkit.dumps(plan))
+probe=logo.root/'authoring-history/continuous-core-probe-20261111';probe.mkdir();(probe/'geometry-checks.json').write_text(json.dumps(proof,indent=2)+'\n');shutil.copyfile(__file__,probe/'author.py.txt')
+result=briefing.review_plan(logo,cid,JevClient(logo));(probe/'plan-result.json').write_text(json.dumps(result,indent=2,default=str)+'\n');print(json.dumps({'plan_status':result['status'],'missing':result['missing'],'proof':str(probe/'geometry-checks.json')}),flush=True)

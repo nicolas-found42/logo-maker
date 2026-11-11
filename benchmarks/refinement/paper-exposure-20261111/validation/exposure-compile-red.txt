@@ -1,0 +1,24 @@
+uv run --locked python -m pytest -q -m "not render and not live" tests/test_scene.py -k authored_exposure
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_compilation_forwards_authored_exposure_to_native_render _________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-549/test_compilation_forwards_auth0')
+
+    def test_compilation_forwards_authored_exposure_to_native_render(tmp_path):
+        import json
+    
+        from logo_maker.scene import compile
+    
+        write(tmp_path, MINIMAL + '\n[render]\nexposure = -1.5\n[lighting]\nhdri = "none"\n')
+        (tmp_path / "motif.json").write_text('{"viewbox":1000,"layers":[]}')
+        compiled = json.loads(compile(tmp_path, "preview").read_text())
+>       assert compiled["render"]["exposure"] == -1.5
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'exposure'
+
+tests/test_scene.py:196: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_scene.py::test_compilation_forwards_authored_exposure_to_native_render
+1 failed, 20 deselected in 1.01s
+error: recipe `test` failed on line 37 with exit code 1

@@ -1,0 +1,12 @@
+from pathlib import Path
+import json,shutil,tomlkit
+from logo_maker.paths import REPO_ROOT,LogoDir
+from logo_maker import briefing
+from logo_maker.jev.client import JevClient
+logo=LogoDir((REPO_ROOT/'benchmarks/refinement/local/paper').resolve());cid='open-commons|extruded_solid|paper';folder=logo.concept(cid);probe=logo.root/'authoring-history/continuous-core-probe-20261111'
+shutil.copytree(folder,probe/'before-physical-intent-clarification',ignore=shutil.ignore_patterns('.build','scene.blend','model.glb'))
+physical='Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel.'
+p=folder/'construction.json';d=json.loads(p.read_text());d['material_construction']=physical;d['symbol']='Individual contributions become reusable capability through one open shared team library';p.write_text(json.dumps(d,indent=2)+'\n')
+p=folder/'concept.json';d=json.loads(p.read_text());d['metaphor_text']='A shared library gives independent team contributions one accessible common place';p.write_text(json.dumps(d,indent=2)+'\n')
+p=folder/'plan.toml';d=tomlkit.parse(p.read_text());d['details'][0]['construction']=physical;d['details'][1]['construction']='The two upright returns and the lower forward return are folds of this same blank. Each score has a broad bend radius, leaving visibly substantial stock at its cut edges. The lower junctions remain flat and continuous. Matte fiber-textured paper skins carry the supplied colors; the pale paper core remains visible at cuts. No rigid insert or separate support is added.';p.write_text(tomlkit.dumps(d));shutil.copyfile(__file__,probe/'physical-intent-clarification.py.txt')
+r=briefing.review_plan(logo,cid,JevClient(logo));(probe/'clarified-plan-result.json').write_text(json.dumps(r,indent=2,default=str)+'\n');print(json.dumps({'status':r['status'],'missing':r['missing'],'answers':r.get('answers')}))
