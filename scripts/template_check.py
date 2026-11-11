@@ -21,8 +21,8 @@ ROLES = {"needs-triage", "needs-info", "ready-for-agent", "ready-for-human", "wo
 COMMENT = re.compile(r"<!--.*?(?:-->|\Z)", re.DOTALL)
 HEADING = re.compile(r"^ {0,3}(#{1,6})\s+(.+?)(?:\s+#+)?\s*$")
 FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
-IMAGE = re.compile(r"(?<!\\)!\[[^\]\n]*\]\(\s*<?(https://[^\s)>]+)>?(?:\s+[^)]*)?\)")
-REFERENCE_IMAGE = re.compile(r"(?<!\\)!\[([^\]\n]*)\](?:\[([^\]\n]*)\])?(?!\()")
+IMAGE = re.compile(r"(?<!\\)!\[[^\]\n\x00]*\]\(\s*<?(https://[^\s)>\x00]+)>?(?:\s+[^)\x00]*)?\)")
+REFERENCE_IMAGE = re.compile(r"(?<!\\)!\[([^\]\n\x00]*)\](?:\[([^\]\n\x00]*)\])?(?!\()")
 REFERENCE = re.compile(r"^ {0,3}\[([^\]]+)\]:\s*<?(https://[^\s>]+)>?", re.MULTILINE)
 
 
@@ -34,9 +34,13 @@ class Section:
     body: str
 
 
+def _uncomment(text: str) -> str:
+    return COMMENT.sub("", text).replace("\r\n", "\n").replace("\r", "\n")
+
+
 def outside_code(text: str) -> str:
     """Blank fenced/indented code while keeping line positions for heading parsing."""
-    lines = COMMENT.sub("", text).splitlines()
+    lines = _uncomment(text).split("\n")
     fence = ""
     output = []
     for line in lines:
@@ -58,12 +62,14 @@ def outside_code(text: str) -> str:
 
 
 def sections(text: str) -> list[Section]:
-    clean = COMMENT.sub("", text)
-    lines = clean.splitlines()
+    clean = _uncomment(text)
+    lines = clean.split("\n")
     headings = []
     stack: list[tuple[int, str]] = []
-    for index, line in enumerate(outside_code(clean).splitlines()):
-        match = HEADING.match(line)
+    for index, masked_line in enumerate(noncode_prose(clean).split("\n")):
+        if not HEADING.match(masked_line):
+            continue
+        match = HEADING.match(lines[index])
         if not match:
             continue
         level, title = len(match[1]), match[2].strip()
@@ -81,22 +87,210 @@ def sections(text: str) -> list[Section]:
 
 def own_body(text: str) -> str:
     """Return a section's content before child headings, ignoring headings in code."""
-    clean = COMMENT.sub("", text)
-    lines = clean.splitlines()
-    for index, line in enumerate(outside_code(clean).splitlines()):
-        if HEADING.match(line):
+    clean = _uncomment(text)
+    lines = clean.split("\n")
+    for index, masked_line in enumerate(noncode_prose(clean).split("\n")):
+        if HEADING.match(masked_line) and HEADING.match(lines[index]):
             return "\n".join(lines[:index])
     return clean
 
 
+_MAX_TAG_LENGTH = 4096
+
+
+def _find_tag_end(text: str, start: int) -> int:
+    """Find the closing '>' of a tag, respecting quoted attributes.
+
+    Returns -1 when the tag is unterminated or longer than `_MAX_TAG_LENGTH`. The bound keeps
+    every scan O(1) in the document size, so many malformed tags cannot make validation
+    quadratic; callers treat such a tag as literal text and keep scanning after it.
+    """
+    quote = ""
+    limit = min(len(text), start + _MAX_TAG_LENGTH)
+    for index in range(start, limit):
+        char = text[index]
+        if quote:
+            if char == quote:
+                quote = ""
+        elif char in {'"', "'"}:
+            quote = char
+        elif char == ">":
+            return index
+    return -1
+
+
+def _strip_tags(text: str, names: tuple[str, ...]) -> str:
+    """Strip opening/closing HTML tags in `names`, respecting quoted '>' in attributes."""
+    pattern = re.compile(r"(?is)<(/?)(" + "|".join(names) + r")(?=[\s/>]|\Z)")
+    parts: list[str] = []
+    cursor = 0
+    while match := pattern.search(text, cursor):
+        gt_pos = _find_tag_end(text, match.end())
+        if gt_pos == -1:
+            parts.append(text[cursor : match.end()])
+            cursor = match.end()
+            continue
+        parts.append(text[cursor : match.start()])
+        cursor = gt_pos + 1
+    parts.append(text[cursor:])
+    return "".join(parts)
+
+
+def _is_unescaped_backtick_run(text: str, start: int) -> bool:
+    backslashes = 0
+    pos = start - 1
+    while pos >= 0 and text[pos] == "\\":
+        backslashes += 1
+        pos -= 1
+    return backslashes % 2 == 0
+
+
+def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, list[str]]:
+    """Mask backtick spans and <pre>/<code> blocks in linear time, returning (prose, code_chunks)."""
+    paragraph_breaks = [match.start() for match in re.finditer(r"\n[ \t]*\n", text)]
+    backtick_runs: list[tuple[int, int, int]] = []
+    para_id = 0
+    for match in re.finditer(r"`+", text):
+        start, end = match.start(), match.end()
+        if not _is_unescaped_backtick_run(text, start):
+            continue
+        while para_id < len(paragraph_breaks) and paragraph_breaks[para_id] < start:
+            para_id += 1
+        backtick_runs.append((start, end, para_id))
+    runs_by_key: dict[tuple[int, int], list[int]] = {}
+    for run_idx, (run_start, run_end, run_para) in enumerate(backtick_runs):
+        runs_by_key.setdefault((run_end - run_start, run_para), []).append(run_idx)
+    key_cursor: dict[tuple[int, int], int] = dict.fromkeys(runs_by_key, 0)
+    tag_pattern = re.compile(r"(?is)<(/?)(pre|code)(?=[\s/>]|\Z)")
+    raw_tags: list[tuple[int, bool, str, int]] = []
+    tag_cursor = 0
+    while match := tag_pattern.search(text, tag_cursor):
+        is_close = match.group(1) == "/"
+        name = match.group(2).casefold()
+        gt_pos = _find_tag_end(text, match.end())
+        if gt_pos == -1:
+            tag_cursor = match.end()
+            continue
+        raw_tags.append((match.start(), is_close, name, gt_pos))
+        tag_cursor = gt_pos + 1
+    prose_parts: list[str] = []
+    code_chunks: list[str] = []
+    cursor = 0
+    bt_index = 0
+    tag_index = 0
+    while cursor < len(text):
+        while bt_index < len(backtick_runs) and backtick_runs[bt_index][0] < cursor:
+            bt_index += 1
+        while tag_index < len(raw_tags) and raw_tags[tag_index][0] < cursor:
+            tag_index += 1
+        next_inline: tuple[int, int, str] | None = None
+        scan_bt = bt_index
+        while scan_bt < len(backtick_runs):
+            open_start, open_end, open_para = backtick_runs[scan_bt]
+            key = (open_end - open_start, open_para)
+            positions = runs_by_key[key]
+            pos_cursor = key_cursor[key]
+            while pos_cursor < len(positions) and positions[pos_cursor] <= scan_bt:
+                pos_cursor += 1
+            key_cursor[key] = pos_cursor
+            if pos_cursor < len(positions):
+                close_idx = positions[pos_cursor]
+                close_start, close_end, _ = backtick_runs[close_idx]
+                next_inline = (open_start, close_end, text[open_end:close_start])
+                bt_index = scan_bt
+                break
+            scan_bt += 1
+        else:
+            bt_index = len(backtick_runs)
+        next_tag = raw_tags[tag_index] if tag_index < len(raw_tags) else None
+        if next_inline and (next_tag is None or next_inline[0] < next_tag[0]):
+            start, end, inner = next_inline
+            prose_parts.append(text[cursor:start])
+            prose_parts.append("\n".join(marker for _ in range(text[start:end].count("\n") + 1)))
+            code_chunks.append(inner)
+            cursor = end
+            continue
+        if next_tag is None:
+            prose_parts.append(text[cursor:])
+            break
+        tag_start, is_close, tag_name, tag_gt = next_tag
+        if is_close:
+            end_pos = tag_gt + 1
+            prose_parts.append(text[cursor:end_pos])
+            cursor = end_pos
+            tag_index += 1
+            continue
+        prose_parts.append(text[cursor:tag_start])
+        inner_start = tag_gt + 1
+        depth = 1
+        sub_index = tag_index + 1
+        inner_end = len(text)
+        block_end = len(text)
+        while sub_index < len(raw_tags):
+            sub_start, sub_is_close, sub_name, sub_gt = raw_tags[sub_index]
+            if sub_name == tag_name:
+                if not sub_is_close:
+                    depth += 1
+                else:
+                    depth -= 1
+                    if depth == 0:
+                        inner_end = sub_start
+                        block_end = sub_gt + 1
+                        break
+            sub_index += 1
+        prose_parts.append(
+            "\n".join(marker for _ in range(text[tag_start:block_end].count("\n") + 1))
+        )
+        code_chunks.append(_strip_tags(text[inner_start:inner_end], ("pre", "code")))
+        cursor = block_end
+        tag_index = sub_index + 1
+    return "".join(prose_parts), code_chunks
+
+
+def noncode_prose(text: str, *, marker: str = "\x00") -> str:
+    """Replace fenced/indented code, HTML pre/code blocks and inline code while keeping lines."""
+    prose, _ = _scan_inline_and_html_code(outside_code(text), marker=marker)
+    return prose
+
+
+def field_values(text: str, field: str) -> list[str]:
+    """Extract bold-labeled field values declared outside code while preserving code answers."""
+    lines = _uncomment(text).split("\n")
+    masked = noncode_prose(text, marker="\x00").split("\n")
+    label = re.compile(r"^\*\*([^*\n\x00]+):\*\*\s*(.*)$")
+    starts: list[tuple[int, str, str]] = []
+    for index, line in enumerate(masked):
+        if HEADING.match(line) and HEADING.match(lines[index]):
+            break
+        if match := label.match(line):
+            starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
+    values = []
+    for position, (start, name, first_line) in enumerate(starts):
+        if name != field:
+            continue
+        end = starts[position + 1][0] if position + 1 < len(starts) else len(lines)
+        values.append("\n".join([first_line, *lines[start + 1 : end]]))
+    return values
+
+
 def answer(text: str, *, allow_none: bool = False) -> bool:
-    text = COMMENT.sub("", text)
-    text = re.sub(r"^\s*#{1,6}\s+.*$", "", text, flags=re.MULTILINE)
-    text = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", text, flags=re.MULTILINE)
+    text = _uncomment(text)
+    unmasked_text = outside_code(text)
+    prose, html_and_inline_chunks = _scan_inline_and_html_code(unmasked_text, marker="")
+    prose = re.sub(r"^\s*#{1,6}\s+.*$", "", prose, flags=re.MULTILINE)
+    prose = re.sub(r"<[^>]*>", "", prose)
+    code_chunks = [
+        line
+        for line, unmasked in zip(text.split("\n"), unmasked_text.split("\n"), strict=False)
+        if not unmasked
+    ]
+    code_chunks.extend(html_and_inline_chunks)
+    code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
+    code = _strip_tags(code, ("img",))
+    text = prose + "\n" + code
     text = IMAGE.sub("", text)
     text = REFERENCE_IMAGE.sub("", text)
     text = REFERENCE.sub("", text)
-    text = re.sub(r"<[^>]*>", "", text)
     text = re.sub(r"[*_`>#\[\]()-]", " ", html.unescape(text))
     text = " ".join(text.split()).casefold().strip(" .:;!?")
     if not re.search(r"\w", text):
@@ -143,7 +337,7 @@ def required_issue_fields(template: str) -> list[str]:
 
 def table_rows(text: str) -> dict[str, list[str]]:
     rows = {}
-    for line in outside_code(text).splitlines():
+    for line in noncode_prose(text, marker="").split("\n"):
         if not line.strip().startswith("|"):
             continue
         cells = [cell.strip() for cell in re.split(r"(?<!\\)\|", line.strip().strip("|"))]
@@ -166,10 +360,10 @@ class Images(HTMLParser):
 
 
 def image_urls(text: str, whole_body: str) -> set[str]:
-    clean = outside_code(text)
-    clean = re.sub(r"(`+).*?\1", "", clean)
+    clean = noncode_prose(text, marker="\x00")
     references = {
-        key.casefold(): value for key, value in REFERENCE.findall(outside_code(whole_body))
+        key.casefold(): value
+        for key, value in REFERENCE.findall(noncode_prose(whole_body, marker="\x00"))
     }
     urls = IMAGE.findall(clean)
     for alt, reference in REFERENCE_IMAGE.findall(clean):
@@ -214,7 +408,10 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: expected exactly one section (found {len(matches)})")
             continue
         found = matches[0]
-        if found.level != required.level or (kind == "pr" and found.parent != required.parent):
+        parent_matches = found.parent is None and required.parent is None
+        if found.parent is not None and required.parent is not None:
+            parent_matches = found.parent.casefold() == required.parent.casefold()
+        if found.level != required.level or (kind == "pr" and not parent_matches):
             errors.append(f"{required.title}: use the template's heading level and parent")
         # Containers such as Evidence get their answers in their required child sections.
         container = any(section.parent == required.title for section in expected)
@@ -222,16 +419,15 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: provide an answer, not comments or placeholders")
         if kind != "pr":
             continue
-        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", own_body(required.body)):
-            values = re.findall(
-                r"(?ms)^\*\*" + re.escape(field) + r":\*\*\s*(.*?)(?=^\*\*[^*\n]+:\*\*|\Z)",
-                own_body(found.body),
-            )
+        required_own = own_body(required.body)
+        found_own = own_body(found.body)
+        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", outside_code(required_own)):
+            values = field_values(found.body, field)
             if len(values) != 1 or not answer(values[0]):
                 errors.append(f"{required.title} / {field}: provide a filled answer")
-        expected_rows = table_rows(own_body(required.body))
+        expected_rows = table_rows(required_own)
         try:
-            found_rows = table_rows(own_body(found.body))
+            found_rows = table_rows(found_own)
         except ValueError as exc:
             errors.append(f"{required.title}: {exc}")
             continue
@@ -240,16 +436,20 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             if len(values) != len(cells) or not all(answer(value) for value in values):
                 errors.append(f"{required.title} / {row}: fill every answer cell")
     if kind == "pr":
-        evidence_sections = [section for section in actual if section.title == "Evidence"]
+        evidence_sections = [
+            section for section in actual if section.title.casefold() == "evidence"
+        ]
         declaration = ""
         if len(evidence_sections) == 1:
             # Only the container's own prose can declare screenshot applicability.
             introduction = own_body(evidence_sections[0].body)
-            declarations = re.findall(
-                r"(?m)^\*\*Visible app change:\*\*\s*([^\n]+)", outside_code(introduction)
-            )
+            declarations = [
+                masked_line.split(":**", 1)[1].replace("\x00", "").strip()
+                for masked_line in noncode_prose(introduction, marker="\x00").split("\n")
+                if re.match(r"^\*\*Visible app change:\*\*\s*[^\s\x00]", masked_line)
+            ]
             if len(declarations) == 1:
-                declaration = declarations[0].strip()
+                declaration = declarations[0]
         applicability = re.fullmatch(r"(Yes|No):\s*(.+)", declaration, re.IGNORECASE)
         if not applicability or not answer(applicability[2]):
             errors.append("Evidence / Visible app change: use Yes: reason or No: reason")
@@ -375,7 +575,7 @@ def main() -> int:
         if args.body_file is None:
             parser.error("--kind requires --body-file")
         return report(validate(args.body_file.read_text(), args.kind))
-    except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as exc:
+    except (ValueError, KeyError, IndexError, OSError, subprocess.CalledProcessError) as exc:
         # Do not dump the untrusted body, API response or credentials into workflow commands.
         return report(
             [f"Validator could not complete ({type(exc).__name__}); check configuration/API access"]
