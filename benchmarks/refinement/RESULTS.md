@@ -177,3 +177,34 @@ There is no hard whole-refinement deadline claim. GPU tracing/denoising policy i
 work remains necessary and permitted. Complete custom dependency discovery, qualified profiles,
 owner artistic approval and production final/export acceptance remain open. The historical Jev gate
 records above cover their stated revisions; they are not a new gate result for this worker delta.
+
+## Sampling-controls-worker integration with #5
+
+The next pinned foundation is PR #9 at `e8834a6952a4b7517b2f14bdc955ede88a4352d4`,
+merged into creative core `80cb57a`. Profile/diagnosis reads, qualification evidence and override
+application now run in the owned sampling-controls worker; export provenance validation runs inside
+the owned export worker. The merge removes the superseded caller-side policy hashing and retains
+creative dependency exclusions, independent creative/sampling gates and the preview-only custom
+inspection exception. Numeric sampling policy and GPU execution policy are unchanged.
+
+The full offline suite passed **260 tests**, with 3 render/profile tests deselected and 49 upstream
+warnings. Lint/types passed; the actual Cycles regression passed in 4.02 seconds. Source-bound doctor
+passed **48/48**, including the inherited `sysctl` adapter. Earlier 47/47 and 46/46 results belong
+to their earlier pinned foundations. Standards and Spec follow-up reviews found no new actionable
+merge findings. Hosted CI/template workflows still filter for base main; local verification does
+not imply a hosted check on this stacked head.
+
+Fresh paper/metal previews were opened, inspected and resumed into live judgments without another
+render. Both remain `authoring_needed`; both visually-distinct probabilities against their prior
+replays are 0.01. The bundle now verifies **18 revisions / 142 exact authored-source files**, plus
+image/native-log hashes, exclusive Metal tracing and actual GPU OIDN logs. Seven authored designs
+remain; implementation-only replays add evidence, not alternatives.
+
+| Case | Latest revision | Effective seed | Live craft / fit / material / description |
+| --- | --- | ---: | --- |
+| Paper | `0009-f6f5c85af7ee-preview` | 1820117 | 0.58 / 0.70 / 0.70 / 0.80 |
+| Metal | `0009-bee7bbaadf5f-preview` | 42 | 0.48 / 0.79 / 0.43 / 0.40 |
+
+The cooperative refinement hashing, archival, publication and QA/provider deadline limits remain.
+Complete custom dependency discovery, owner artistic acceptance and sampling/production qualification
+remain open. No new whole-refinement hard bound or fresh automated patch-gate approval is claimed.

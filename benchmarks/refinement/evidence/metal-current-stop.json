@@ -3,44 +3,44 @@
   "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/concept.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/construction.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/inspection.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.py\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.svg\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.py\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.toml",
   "details": {
     "dimension": "creative_readiness",
-    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0008-8f8b2899d811-preview/render.png",
-    "revision": "0008-8f8b2899d811-preview",
+    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
+    "revision": "0009-bee7bbaadf5f-preview",
     "verdicts": {
       "craftsmanship": {
         "type": "noul",
-        "noul": 0.39
+        "noul": 0.48
       },
       "brief_fit": {
         "type": "noul",
-        "noul": 0.74
+        "noul": 0.79
       },
       "material_intent": {
         "type": "noul",
-        "noul": 0.4
+        "noul": 0.43
       },
       "description_match": {
         "type": "noul",
-        "noul": 0.44
+        "noul": 0.4
       }
     },
     "required_dimensions": {
       "craftsmanship": {
-        "p": 0.39,
+        "p": 0.48,
         "status": "unsettled"
       },
       "material_intent": {
-        "p": 0.4,
+        "p": 0.43,
         "status": "unsettled"
       },
       "description_match": {
-        "p": 0.44,
+        "p": 0.4,
         "status": "unsettled"
       }
     },
     "comparison": {
-      "binding": "9d8bb50a03ae39e243d6086204dc0403f3290f99367aa28dba0ee67eb00197c9",
-      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0007-90eaefb82fef-preview/render.png",
-      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0008-8f8b2899d811-preview/render.png",
+      "binding": "e9171d5fd20bbe77cf467c4d00c24833c8b6840466abe1f9f0cff3528dee6aa0",
+      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0008-8f8b2899d811-preview/render.png",
+      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
       "answers": {
         "visually_distinct": {
           "type": "noul",
@@ -48,7 +48,7 @@
         },
         "critique_resolved": {
           "type": "noul",
-          "noul": 0.71
+          "noul": 0.63
         }
       }
     },

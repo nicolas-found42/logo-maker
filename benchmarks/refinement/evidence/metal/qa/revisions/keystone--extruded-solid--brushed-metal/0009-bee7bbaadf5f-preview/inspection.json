@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Authored a common material tangent; retained roughness, lighting, seed and sample settings.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0004-f846d30a559a-preview/render.png",
+      "comparison": "Compare planar highlights to v3 and structural specificity to the generic gate.",
+      "dimension": "anisotropic tangent",
+      "evidence": "The starburst visible in v3 is absent after a shared straight brushing tangent was authored.",
+      "kind": "technical",
+      "resolved": true
+    }
+  ],
+  "observations": "Sampling-controls-worker replay inspected: copper key seats across blue arch shoulders, with even face shading and no earlier radial starburst. Seed42 and authored geometry/material intent remain fixed. This is a source-only replay, not a new visual alternative or artistic approval. Complete custom dependency discovery and production qualification remain unknown.",
+  "revision": "0009-bee7bbaadf5f-preview",
+  "user_feedback": "No owner approval or extra aesthetic preference inferred."
+}
