@@ -28,6 +28,7 @@ from logo_maker.jev.questions import (
     qa_status,
 )
 from logo_maker.paths import LogoDir, concept_slug
+from logo_maker.sampling import Budget
 
 #: 32 px test size, upscaled with nearest-neighbor so pixels stay honest.
 TINY_PX = 32
@@ -104,8 +105,13 @@ def screen_previews(
     return finalists
 
 
-def tiny_version(final_png: Path, dest: Path) -> Path:
+def tiny_version(final_png: Path, dest: Path, *, budget: Budget | None = None) -> Path:
     """Downscale to 32 px, then upscale with nearest-neighbor for the `tiny` state image."""
+    if budget is not None:
+        from logo_maker.host import run
+
+        run({"operation": "tiny_image", "png": str(final_png), "dest": str(dest)}, budget, [])
+        return dest
     im = _PILImage.open(final_png).convert("RGB")
     tiny = im.resize((TINY_PX, TINY_PX), _PILImage.Resampling.LANCZOS)
     tiny.resize((TINY_VIEW_PX, TINY_VIEW_PX), _PILImage.Resampling.NEAREST).save(dest, "PNG")
@@ -117,11 +123,17 @@ QA_CHECKS = tuple(QA_CHECK_SPECS)
 
 
 def qa_judgments(
-    logo: LogoDir, brief: Brief, concept_id: str, final_png: Path, client: JevAsker
+    logo: LogoDir,
+    brief: Brief,
+    concept_id: str,
+    final_png: Path,
+    client: JevAsker,
+    *,
+    budget: Budget | None = None,
 ) -> dict[str, Verdict]:
     """QA one final render (makes the 32 px version itself); returns per-check verdicts."""
     tiny_path = logo.qa / f"{concept_slug(concept_id)}-tiny256.png"
-    tiny_version(final_png, tiny_path)
+    tiny_version(final_png, tiny_path, budget=budget)
     state = _image_state(
         brief, {"concept_id": concept_id, "render": Image(final_png), "tiny": Image(tiny_path)}
     )

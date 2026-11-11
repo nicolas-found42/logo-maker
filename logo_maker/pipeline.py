@@ -19,6 +19,7 @@ from typing import Any
 import tomlkit
 
 from logo_maker import brief as brief_mod
+from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
 from logo_maker.paths import LogoDir
 from logo_maker.runlog import runlog
@@ -68,6 +69,17 @@ def _client(logo: LogoDir):
     from logo_maker.jev.client import JevClient
 
     return JevClient(logo)
+
+
+def _budgeted_client(client, budget: Budget):
+    from logo_maker.proc import ToolError
+
+    binder = getattr(client, "with_budget", None)
+    if not callable(binder):
+        raise ToolError(
+            "budget_conflict: finalization requires a client with explicit budget binding"
+        )
+    return binder(budget)
 
 
 def _read_json(path: Path) -> Any:
@@ -383,26 +395,28 @@ def qa_concept(
     logo: LogoDir, concept_id: str, client, brand_: Brand, *, budget: Budget | None = None
 ) -> dict[str, Any]:
     """Render final, judge, fix, re-render: up to MAX_QA_ROUNDS. Returns the last round's record."""
-    from logo_maker import checks, judging, render
+    from logo_maker import judging, render
 
+    budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
+    budget.check()
+    client = _budgeted_client(client, budget)
     brief = brief_mod.load(logo.brief)
     folder = logo.concept(concept_id)
     rounds_path = logo.qa / "rounds.jsonl"
     log = runlog(logo.run_json)
     record: dict[str, Any] = {}
-    budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
     for round_no in range(1, MAX_QA_ROUNDS + 1):
         budget.check()
         if not render.artifact_current(folder, "final", budget=budget):
             render.render(folder, "final", budget=budget)
         final = folder / "final.png"
-        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
-        code = {
-            "alpha": checks.alpha_report(final),
-            "margin": checks.margin_report(final),
-            "edges": checks.edge_report(final),
-            "colors": checks.color_report(final, brand_.palette),
-        }
+        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
+        host_stages: list[dict] = []
+        code = host.run(
+            {"operation": "qa_checks", "png": str(final), "palette": brand_.palette},
+            budget,
+            host_stages,
+        )
         # Only clear fails block and get fixed (questions.qa_blocks); unsettled is recorded.
         failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
         failures |= {"veil"} if code["alpha"]["veil"] else set()
@@ -416,6 +430,7 @@ def qa_concept(
             "unsettled": unsettled,
             "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
             "code": code,
+            "host_stages": host_stages,
             "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         }
         budget.check()
@@ -461,6 +476,10 @@ def qa_concept(
 def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str:
     from logo_maker import judging
 
+    caller_budget = budget
+    bootstrap = budget or Budget(attempt_limit=64)
+    job_started = bootstrap.clock()
+    bootstrap.check()
     finalists_path = logo.ideation / "finalists.json"
     if not finalists_path.exists():
         raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
@@ -469,7 +488,13 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
     client = client or _client(logo)
     brand_ = brand(logo)
     # One finalist at a time: each final render saturates the GPU.
-    budget = budget or Budget(attempt_limit=min(64, max(1, len(finalists)) * 4))
+    budget = Budget(
+        attempt_limit=min(64, max(1, len(finalists)) * 4),
+        parent=caller_budget,
+        clock=bootstrap.clock,
+        started_at=job_started,
+    )
+    budget.check()
     results = {cid: qa_concept(logo, cid, client, brand_, budget=budget) for cid in finalists}
     passed = [cid for cid, r in results.items() if r["result"] == "pass"]
     log = runlog(logo.run_json)
@@ -496,7 +521,10 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
         )
     else:
         winner = judging.final_tournament(
-            logo, brief, {cid: logo.concept(cid) / "final.png" for cid in passed}, client
+            logo,
+            brief,
+            {cid: logo.concept(cid) / "final.png" for cid in passed},
+            _budgeted_client(client, budget),
         )
     log.stage("finalize", "done", winner=winner, qa={k: v["result"] for k, v in results.items()})
     return winner

@@ -1,4 +1,4 @@
 uv run --locked ruff check .
 All checks passed!
 uv run --locked ruff format --check .
-121 files already formatted
+122 files already formatted
