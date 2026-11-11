@@ -13,7 +13,18 @@ from logo_maker import host
 from logo_maker.sampling import Budget, SamplingLimit
 
 
-def publish(entries: list[dict], journal: Path, budget: Budget, stages: list[dict]) -> dict:
+class PublicationConflict(RuntimeError):
+    """Inputs changed during publication; recovery retains the previous committed set."""
+
+
+def publish(
+    entries: list[dict],
+    journal: Path,
+    budget: Budget,
+    stages: list[dict],
+    *,
+    preconditions: list[dict] | None = None,
+) -> dict:
     """Reserve recovery time before starting any mutation of published paths."""
     if budget.remaining <= 4:
         raise SamplingLimit("time_limit: insufficient publication and recovery budget")
@@ -22,12 +33,15 @@ def publish(entries: list[dict], journal: Path, budget: Budget, stages: list[dic
     payload = {
         "operation": "publish",
         "entries": entries,
+        "preconditions": preconditions or [],
         "journal": str(journal),
         "deadline": time.monotonic() + work.remaining,
         "lock": str(Path(entries[0]["target"]).with_name(".publication.lock")),
     }
     try:
         result = host.run(payload, work, stages)
+        if "precondition_error" in result:
+            raise PublicationConflict(result["precondition_error"])
     except BaseException as original:
         # The journal is written before the first rename. Recovery is itself
         # killable and spends the original reserve, never a fresh deadline.
@@ -70,6 +84,16 @@ def _record(path: Path, data: dict) -> None:
     pending.replace(path)
 
 
+def _validate(preconditions: list[dict]) -> None:
+    for condition in preconditions:
+        if condition.get("operation") not in {"selection_guard", "export_guard"}:
+            raise PublicationConflict("unsupported publication precondition")
+        try:
+            host.main(condition)
+        except (OSError, ValueError, RuntimeError) as exc:
+            raise PublicationConflict(f"publication inputs changed: {exc}") from exc
+
+
 def apply(payload: dict) -> dict:
     journal = Path(payload["journal"])
     journal.parent.mkdir(parents=True, exist_ok=True)
@@ -109,6 +133,7 @@ def apply(payload: dict) -> dict:
             Path(row["source"]).rename(pending)
         else:
             shutil.copyfile(row["source"], pending)
+    _validate(payload.get("preconditions", []))
     _record(journal, {"state": "prepared", "entries": rows, "lock": str(lock)})
     for row in rows:
         if time.monotonic() >= payload["deadline"]:
@@ -118,6 +143,7 @@ def apply(payload: dict) -> dict:
             target.rename(row["backup"])
         Path(row["pending"]).rename(target)
     _record(journal, {"state": "committed", "entries": rows, "lock": str(lock)})
+    _validate(payload.get("preconditions", []))
     return {"published": True, "journal": str(journal)}
 
 

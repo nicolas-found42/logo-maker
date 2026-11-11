@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Resolve the local bevel/cap construction before production selection",
+      "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+      "comparison": "Compare native receiver/mounting-eye detail with the preceding hole-free revision",
+      "dimension": "receiver_and_hole_edges",
+      "evidence": "Triangular light/dark patches near the mounting-eye bevels remain visible",
+      "kind": "craftsmanship",
+      "resolved": false
+    }
+  ],
+  "observations": "Two blue steel supports have matching receiver cutouts and four through mounting eyes. A forward copper key bridges their seats. The planar copper sheen is stable. Triangular light/dark patches around the mounting-eye bevels remain visible; the unresolved craftsmanship critique is retained.",
+  "revision": "0007-f95d050b17c4-preview",
+  "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+}

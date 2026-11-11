@@ -1,5 +1,10 @@
 # Main reconciliation and creative studies
 
+This is the historical integration snapshot at `020e1d2`. The
+[review follow-up](../review-followup/README.md) records the publication fixes, owner clarification,
+new paper render and fresh 436-test validation. Pending clarification and unrendered-proposal
+statements below describe this earlier snapshot only.
+
 This evidence qualifies the reconciled implementation, not approved artwork. Issue #3 stays open.
 The audited branch was `beef788`; this change incorporates main at `c20884b`, including the later
 sampling fixes, CI repair, craft eligibility and frozen brief/plan infrastructure. No separate

@@ -99,7 +99,14 @@ class RunLog:
         return self.data["stages"].get(name, {}).get("status")
 
     def publish_stage(
-        self, name: str, entries: list[dict], journal: Path, budget: Budget, **detail: Any
+        self,
+        name: str,
+        entries: list[dict],
+        journal: Path,
+        budget: Budget,
+        *,
+        preconditions: list[dict] | None = None,
+        **detail: Any,
     ) -> dict:
         """Commit completed stage bookkeeping with its output under one recovery journal."""
         from logo_maker.publication import publish
@@ -116,6 +123,7 @@ class RunLog:
                 journal,
                 budget,
                 [],
+                preconditions=preconditions,
             )
             self.data = data
             return result

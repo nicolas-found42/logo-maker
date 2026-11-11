@@ -10,8 +10,7 @@ from logo_maker.paths import REPO_ROOT
 from logo_maker.refinement import digest
 
 
-def main() -> None:
-    root = REPO_ROOT / "benchmarks/refinement/reconciliation"
+def verify(root) -> None:
     manifest = json.loads((root / "manifest.json").read_text())
     for name, expected in manifest["files"].items():
         if digest(root / name) != expected:
@@ -47,9 +46,13 @@ def main() -> None:
         f"Verified {len(manifest['cases'])} rendered cases, {sources} source bindings, "
         f"{len(manifest['files'])} retained files, Metal/OIDN evidence and {len(requests)} final QA request(s)."
     )
-    print(
-        "Artistic qualification remains authoring_needed; the blocked paper proposal has no render."
-    )
+    print("Artistic qualification remains authoring_needed; no production approval is inferred.")
+
+
+def main() -> None:
+    for bundle in ("reconciliation", "review-followup"):
+        print(f"Checking {bundle}")
+        verify(REPO_ROOT / "benchmarks/refinement" / bundle)
 
 
 if __name__ == "__main__":

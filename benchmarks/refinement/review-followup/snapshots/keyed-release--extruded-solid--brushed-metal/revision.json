@@ -1,0 +1,747 @@
+{
+  "concept": "keyed-release|extruded_solid|brushed_metal",
+  "concept_sha256": "65fb4d23fc25e1b6a984762ed7612090c8f02f0efadaf00c27305cf4d1cecfd6",
+  "construction": {
+    "brand_geometry": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+    "current_description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+    "dependencies": [
+      "west-receiver.ply",
+      "east-receiver.ply",
+      "seated-copper-key.ply"
+    ],
+    "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+    "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+    "material_construction": "The steel receivers subtract the exact copper-key footprint plus a 0.012-unit clearance. The copper solid protrudes 0.055 units beyond the steel caps. Each rail has two through mounting eyes; all parts retain satin roughness 0.35 and anisotropy 0.8 with an explicit straight brushing tangent. Flat facets and 0.023-unit edge chamfers preserve planar machined caps.",
+    "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key"
+  },
+  "custom_dependency_inventory": "catalog",
+  "evidence": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0007-f95d050b17c4-preview",
+  "execution": {
+    "blender": "5.2.3 LTS",
+    "build": "e13b728c6880",
+    "denoiser_effective": {
+      "device_type": "Metal",
+      "evidence": "OIDN_VERBOSE=2 created device and executed RT filters",
+      "oidn_version": "2.5.0"
+    },
+    "denoiser_requested": {
+      "gpu": true,
+      "input_passes": "RGB_ALBEDO_NORMAL",
+      "name": "OPENIMAGEDENOISE"
+    },
+    "device_override": "METAL",
+    "devices": [
+      {
+        "id": "CPU",
+        "name": "Apple M5 Pro",
+        "type": "CPU",
+        "use": false
+      },
+      {
+        "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+        "name": "Apple M5 Pro (GPU - 20 cores)",
+        "type": "METAL",
+        "use": true
+      }
+    ],
+    "diagnostics": {
+      "bytes": 10588546,
+      "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/attempt-33eca592dfec4467857187e3d3ba37c1/preview.execution.exr",
+      "scope": "lossless 32-bit multilayer EXR write and hash, after render",
+      "seconds": 0.03886170801706612,
+      "sha256": "0287bd7a67147f29aa57944e79d90c8dde941b418a9ae4d3e6809bf722f0848e",
+      "status": "retained"
+    },
+    "inputs_sha256": {
+      "compiled_scene": "d835635693d148242eba0cfc909a02f407375828fd2e2868c608710f7f86c8b4",
+      "meshes/copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "meshes/east-rail.ply": "9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4",
+      "meshes/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+      "meshes/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "meshes/west-rail.ply": "614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093",
+      "meshes/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae"
+    },
+    "kernel_cache_state": "unknown",
+    "log": "preview.execution.log",
+    "log_sha256": "10fed0c639d7c555844325ca0d637088f40498585435ed1c4a7c730000ba1e4a",
+    "machine": "arm64",
+    "metalrt": "AUTO",
+    "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "png_sha256": "6cbebb96d0dfeeb1a2268f8d3ce1175855927bb4fba43d43df988bbec8d8b3b0",
+    "policy": "metal-gpu-only",
+    "process_cpu_seconds": 1.893549,
+    "resolution": [
+      1000,
+      1000
+    ],
+    "resolution_percentage": 100,
+    "sampling": {
+      "adaptive_min_samples": 0,
+      "adaptive_threshold": 0.009999999776482582,
+      "samples": 256,
+      "seed": 42,
+      "use_adaptive_sampling": false,
+      "use_animated_seed": false
+    },
+    "schema": 1,
+    "seconds": 3.7129627089889254,
+    "status": "verified",
+    "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification"
+  },
+  "host_total_seconds": 8.373051791015314,
+  "image": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0007-f95d050b17c4-preview/render.png",
+  "image_sha256": "6cbebb96d0dfeeb1a2268f8d3ce1175855927bb4fba43d43df988bbec8d8b3b0",
+  "previous": "0006-e18a2cd94b98-preview",
+  "quality": "preview",
+  "reuse_scope": "supported_runtime_scope",
+  "revision": "0007-f95d050b17c4-preview",
+  "sampling": {
+    "assets": [
+      {
+        "key": "hdri:poly_haven_studio",
+        "license": "CC0-1.0",
+        "path": "/Users/nicolas/.cache/logo-maker/hdri/polyhaven_poly_haven_studio.hdr",
+        "source": "https://polyhaven.com/a/poly_haven_studio"
+      }
+    ],
+    "attempts": [
+      {
+        "decision": {
+          "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+          "settings": null,
+          "state": "unknown"
+        },
+        "delivered_sha256": "6cbebb96d0dfeeb1a2268f8d3ce1175855927bb4fba43d43df988bbec8d8b3b0",
+        "diagnostics": {
+          "bytes": 10588546,
+          "cap": 256,
+          "exr_sha256": "0287bd7a67147f29aa57944e79d90c8dde941b418a9ae4d3e6809bf722f0848e",
+          "noise_acceptance": "unknown",
+          "normalization": "normalized X * configured cap",
+          "regions": {
+            "alpha_boundary": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 6652
+            },
+            "dark": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 156300
+            },
+            "foreground": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 277332
+            },
+            "tile_0_0": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 1098
+            },
+            "tile_0_1": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 276
+            },
+            "tile_0_2": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 315
+            },
+            "tile_0_3": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 1226
+            },
+            "tile_1_0": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 33074
+            },
+            "tile_1_1": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 39750
+            },
+            "tile_1_2": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 39817
+            },
+            "tile_1_3": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 33092
+            },
+            "tile_2_0": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 37567
+            },
+            "tile_2_1": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 19753
+            },
+            "tile_2_2": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 19918
+            },
+            "tile_2_3": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 37650
+            },
+            "tile_3_0": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 6148
+            },
+            "tile_3_1": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 639
+            },
+            "tile_3_2": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 669
+            },
+            "tile_3_3": {
+              "at_cap_fraction": 1.0,
+              "max": 256.0,
+              "near_cap_fraction": 1.0,
+              "p50": 256.0,
+              "p90": 256.0,
+              "p99": 256.0,
+              "pixels": 6340
+            }
+          },
+          "status": "available",
+          "subimages": [
+            {
+              "channels": [
+                "ViewLayer.Combined.R",
+                "ViewLayer.Combined.G",
+                "ViewLayer.Combined.B",
+                "ViewLayer.Combined.A"
+              ],
+              "index": 0
+            },
+            {
+              "channels": [
+                "ViewLayer.Debug Sample Count.X"
+              ],
+              "index": 1
+            },
+            {
+              "channels": [
+                "ViewLayer.Noisy Image.R",
+                "ViewLayer.Noisy Image.G",
+                "ViewLayer.Noisy Image.B",
+                "ViewLayer.Noisy Image.A"
+              ],
+              "index": 2
+            },
+            {
+              "channels": [
+                "ViewLayer.Denoising Albedo.R",
+                "ViewLayer.Denoising Albedo.G",
+                "ViewLayer.Denoising Albedo.B"
+              ],
+              "index": 3
+            },
+            {
+              "channels": [
+                "ViewLayer.Denoising Specular Albedo.R",
+                "ViewLayer.Denoising Specular Albedo.G",
+                "ViewLayer.Denoising Specular Albedo.B"
+              ],
+              "index": 4
+            },
+            {
+              "channels": [
+                "ViewLayer.Denoising Normal.X",
+                "ViewLayer.Denoising Normal.Y",
+                "ViewLayer.Denoising Normal.Z"
+              ],
+              "index": 5
+            },
+            {
+              "channels": [
+                "ViewLayer.Denoising Roughness.X"
+              ],
+              "index": 6
+            },
+            {
+              "channels": [
+                "ViewLayer.Denoising Depth.Z"
+              ],
+              "index": 7
+            }
+          ]
+        },
+        "execution": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/attempt-33eca592dfec4467857187e3d3ba37c1/preview.execution.json",
+        "execution_sha256": "e0c62ad1073b5d913b6563fd79c80bb2ae9ad10df5b4e232249314a7956dbcb0",
+        "quality": {
+          "adaptive": false,
+          "adaptive_threshold": 0.01,
+          "min_samples": 0,
+          "name": "preview",
+          "overrides": {},
+          "resolution": 1000,
+          "samples": 256,
+          "seed": 42
+        },
+        "seconds": 5.38867933297297,
+        "source_key": "3eb97fc9246cb44a1ff7754560b1f85767560c93b24e26810e96756403183900"
+      }
+    ],
+    "budget": {
+      "attempt_limit": 2,
+      "attempts": 1,
+      "elapsed_seconds": 8.261554916010937,
+      "remaining_seconds": 890.2935088750091,
+      "scope": "whole host job including setup, probes, denoise and output",
+      "wall_seconds": 1800.0
+    },
+    "context": {
+      "backend": "METAL",
+      "blender": "5.2.3 LTS",
+      "build": "e13b728c6880",
+      "code_sha256": {
+        "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+        "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+        "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+        "adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+        "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+        "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+        "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+        "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+        "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+        "blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
+        "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+        "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+        "blender/materials.py": "542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b",
+        "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+        "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+        "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+        "brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
+        "briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+        "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+        "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+        "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+        "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+        "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+        "cli.py": "2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d",
+        "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+        "eligibility.py": "49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572",
+        "export.py": "4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df",
+        "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+        "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+        "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+        "host.py": "06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40",
+        "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+        "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+        "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+        "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+        "jev/client.py": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a",
+        "jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+        "jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+        "judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
+        "mcp_server.py": "d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04",
+        "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+        "owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+        "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+        "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+        "pipeline.py": "2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55",
+        "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+        "publication.py": "4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb",
+        "refinement.py": "97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8",
+        "render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
+        "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+        "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+        "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+        "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+        "runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
+        "sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+        "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+        "scene.py": "6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415",
+        "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+        "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+      },
+      "denoiser": "OPENIMAGEDENOISE",
+      "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+      "devices": [
+        {
+          "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+          "name": "Apple M5 Pro (GPU - 20 cores)",
+          "type": "METAL"
+        }
+      ],
+      "hardware": {
+        "hw.memsize": "51539607552",
+        "hw.model": "Mac17,9",
+        "hw.ncpu": "18",
+        "kern.osversion": "26A434",
+        "machdep.cpu.brand_string": "Apple M5 Pro"
+      },
+      "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+      "machine": "arm64",
+      "material_presets": [
+        "brushed_metal"
+      ],
+      "metalrt": "AUTO",
+      "oidn_libraries_sha256": {
+        "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+        "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+        "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+        "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+      },
+      "oidn_version": "runtime log required",
+      "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "python": "3.13.16",
+      "render_stack": {
+        "OpenImageIO": "3.2.2.0",
+        "Pillow": "13.0.0",
+        "build123d": "0.13.0",
+        "fonttools": "4.68.0",
+        "manifold3d": "3.5.4",
+        "numpy": "2.5.4",
+        "pymeshlab": "2025.7.post1",
+        "sdf": "0.1",
+        "skia-pathops": "0.9.2",
+        "trimesh": "5.2.0"
+      },
+      "resolution": 1000,
+      "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+      "stage": "preview"
+    },
+    "control_files_sha256": {},
+    "delivered_sha256": "6cbebb96d0dfeeb1a2268f8d3ce1175855927bb4fba43d43df988bbec8d8b3b0",
+    "dependencies": {
+      "/Users/nicolas/.cache/logo-maker/hdri/polyhaven_poly_haven_studio.hdr": "dfc8505761018d644997a803f332339328af2b53e82023fb3bec37cefdf43b83",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/brief.toml": "311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/east-rail.ply": "9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/west-rail.ply": "614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/meshes/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/concept.json": "65fb4d23fc25e1b6a984762ed7612090c8f02f0efadaf00c27305cf4d1cecfd6",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/construction.json": "6a2046cb53abb19d7ba45b504e82b501ad9f8a2eb617631b37b51f51f6d38e3f",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/east-rail.ply": "9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.json": "318389eac6649a8cefc3dc27936fff48e5541ea1cedc17980004c34fda3d94a3",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.svg": "7a2c9c245f7b37af34cbea620b492889e965eede280f458b9bce9f7918c360f7",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/plan-review.json": "9b12e0165b4ed1d88caa8fb9f9949616e2c1df9ba12efff927a94bbb161984bd",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/plan.toml": "ff2d06378be77e33f206dd3a897b54aacb5870115e633a5ee6ab01da28289658",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/scene.toml": "0a4d06e44c5ae7e5b8107a773acfd5ce9c613ce783ed77f54741adce715e4b72",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/west-rail.ply": "614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/materials.py": "542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/cli.py": "2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/eligibility.py": "49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/export.py": "4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/host.py": "06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/jev/client.py": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/mcp_server.py": "d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/pipeline.py": "2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/publication.py": "4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/refinement.py": "97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/scene.py": "6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/pyproject.toml": "f53ab705dae0b6b0252655a9d653bf0d165964c40945fd5616e0bb07cb4c62a5",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901"
+    },
+    "execution": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/attempt-33eca592dfec4467857187e3d3ba37c1/preview.execution.json",
+    "execution_sha256": "e0c62ad1073b5d913b6563fd79c80bb2ae9ad10df5b4e232249314a7956dbcb0",
+    "host_stages": [
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "render_setup",
+        "seconds": 0.059483832999831066,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "load_config",
+        "seconds": 0.8606154170120135,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "compile",
+        "seconds": 1.0459665830130689,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "sampling_controls",
+        "seconds": 0.04798604198731482,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "render_attempt",
+        "seconds": 0.044630124990362674,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "render_execution",
+        "seconds": 0.05092604202218354,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      },
+      {
+        "execution": "owned_cpu_worker",
+        "operation": "process_image",
+        "seconds": 0.15633749999688007,
+        "status": "completed",
+        "timing_scope": "startup, CPU host work, output transfer and cleanup"
+      }
+    ],
+    "outcomes": {
+      "cap": "capped",
+      "device": "verified",
+      "memory": "unknown",
+      "noise": "unknown",
+      "quality": "unreviewed",
+      "sampling": "review_needed",
+      "time": "within_budget"
+    },
+    "overrides": {},
+    "profile": {
+      "reason": "no qualified replacement; retain baseline",
+      "state": "profile_unqualified"
+    },
+    "publication": {
+      "cleanup": "journal retained until cleanup completes",
+      "journal": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/publication-9b72fd0d68b04ea894d8297fda775342.json"
+    },
+    "published": true,
+    "quality": "preview",
+    "schema": 1,
+    "seconds": 8.261583208019147,
+    "source_key": "3eb97fc9246cb44a1ff7754560b1f85767560c93b24e26810e96756403183900",
+    "timing_scope": "through publication staging; RenderResult.seconds includes publication, recovery/cleanup and return"
+  },
+  "sampling_calibration": {
+    "reason": "no qualified replacement; retain baseline",
+    "state": "profile_unqualified"
+  },
+  "source_sha256": {
+    "brief-evidence.toml": "ec882adda3b52bd218307a36f28c9cd307a4325e98a860a35b1572745c3af2e7",
+    "brief.toml": "311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c",
+    "concept/concept.json": "65fb4d23fc25e1b6a984762ed7612090c8f02f0efadaf00c27305cf4d1cecfd6",
+    "concept/construction.json": "6a2046cb53abb19d7ba45b504e82b501ad9f8a2eb617631b37b51f51f6d38e3f",
+    "concept/copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+    "concept/east-rail.ply": "9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4",
+    "concept/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+    "concept/motif.json": "318389eac6649a8cefc3dc27936fff48e5541ea1cedc17980004c34fda3d94a3",
+    "concept/motif.svg": "7a2c9c245f7b37af34cbea620b492889e965eede280f458b9bce9f7918c360f7",
+    "concept/plan-review.json": "9b12e0165b4ed1d88caa8fb9f9949616e2c1df9ba12efff927a94bbb161984bd",
+    "concept/plan.toml": "ff2d06378be77e33f206dd3a897b54aacb5870115e633a5ee6ab01da28289658",
+    "concept/scene.toml": "0a4d06e44c5ae7e5b8107a773acfd5ce9c613ce783ed77f54741adce715e4b72",
+    "concept/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+    "concept/west-rail.ply": "614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093",
+    "concept/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae",
+    "dependency/0/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae",
+    "dependency/1/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+    "dependency/2/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+    "ideation/requirements.json": "e3589de6872b083c44f549c641bb8275957e8d1bf801fb97498e0fa52d486a88",
+    "reference/0/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+    "reference/1/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+    "requirements_source/0/retained-brief.toml": "7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04",
+    "tool/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+    "tool/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+    "tool/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+    "tool/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+    "tool/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+    "tool/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+    "tool/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+    "tool/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+    "tool/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+    "tool/blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
+    "tool/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+    "tool/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+    "tool/blender/materials.py": "542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b",
+    "tool/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+    "tool/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+    "tool/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+    "tool/brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
+    "tool/briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "tool/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+    "tool/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+    "tool/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+    "tool/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+    "tool/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+    "tool/cli.py": "2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d",
+    "tool/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+    "tool/eligibility.py": "49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572",
+    "tool/export.py": "4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df",
+    "tool/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+    "tool/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+    "tool/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+    "tool/host.py": "06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40",
+    "tool/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+    "tool/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+    "tool/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+    "tool/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+    "tool/jev/client.py": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a",
+    "tool/jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "tool/jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+    "tool/judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
+    "tool/mcp_server.py": "d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04",
+    "tool/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+    "tool/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+    "tool/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+    "tool/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+    "tool/pipeline.py": "2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55",
+    "tool/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+    "tool/publication.py": "4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb",
+    "tool/refinement.py": "97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8",
+    "tool/render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
+    "tool/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+    "tool/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+    "tool/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+    "tool/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+    "tool/runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
+    "tool/sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+    "tool/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+    "tool/scene.py": "6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415",
+    "tool/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+    "tool/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+  }
+}

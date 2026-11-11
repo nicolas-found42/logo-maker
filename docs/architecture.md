@@ -377,10 +377,17 @@ retention,
 comparison preparation and revision archival run in owned CPU workers under the shared deadline.
 A revision is staged under a private name, then its archive and active render-state are published
 through the same recoverable journal interface. Interrupted staging cannot become an active
-revision.
+revision. History reads only public numeric revision directories; private archival stages remain
+outside revision counts and comparisons.
+Refinement returns the exact creative proof admitted during judging. Preview carries those frozen
+inspection/judgment hashes forward instead of independently rebinding newer files to an older pass.
 Preview selection similarly publishes finalists and run bookkeeping only after craft and creative
 bindings are rechecked. Before and after final tournaments, all eligible candidate bindings are
 rechecked; export revalidates the exact winner's source/image/inspection/judgment and craft proof.
+Publication preconditions recheck frozen creative/craft proofs inside the owned worker after staging
+and after target renames/journal publication. A changed source, inspection, judgment, winner or pinned
+sampling snapshot raises a publication conflict and restores the prior outputs and run bookkeeping.
+These checks share the original deadline and recovery reserve; they start no nested worker session.
 Retained custom previews remain inspection-only; unknown custom dependencies deny production reuse.
 Filesystem publication uses an owned worker and a journal written before any target
 rename. Staging includes provenance; three seconds of the original deadline are

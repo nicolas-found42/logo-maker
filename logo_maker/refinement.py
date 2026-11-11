@@ -246,7 +246,7 @@ def source_hashes(logo: LogoDir, folder: Path) -> dict[str, str]:
 @owned_io
 def history(logo: LogoDir, cid: str) -> list[dict]:
     root = logo.qa / "revisions" / concept_slug(cid)
-    return [read(p) for p in sorted(root.glob("*/revision.json"))]
+    return [read(p) for p in sorted(root.glob("[0-9]*/revision.json"))]
 
 
 @owned_io
@@ -411,6 +411,7 @@ def require_current(
 ) -> None:
     from logo_maker.pipeline import AuthoringNeeded
 
+    check_image(logo, record)
     active = current(logo, cid, record["quality"], budget=budget)
     inspection = (logo.root / "concepts" / concept_slug(cid)) / (
         "inspection-final.json" if record["quality"] == "final" else "inspection.json"
@@ -430,14 +431,26 @@ def require_current(
         )
 
 
-@owned_io
 def inspected(logo: LogoDir, cid: str, record: dict) -> dict:
+    return inspection_snapshot(logo, cid, record)["data"]
+
+
+@owned_io
+def inspection_snapshot(logo: LogoDir, cid: str, record: dict) -> dict:
+    path = logo.concept(cid) / (
+        "inspection-final.json" if record["quality"] == "final" else "inspection.json"
+    )
+    raw = path.read_bytes() if path.exists() else b"{}"
+    data = _inspected_data(logo, cid, record, json.loads(raw))
+    return {"data": data, "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def _inspected_data(logo: LogoDir, cid: str, record: dict, data: dict) -> dict:
     from logo_maker.pipeline import AuthoringNeeded
 
     path = logo.concept(cid) / (
         "inspection-final.json" if record["quality"] == "final" else "inspection.json"
     )
-    data = read(path) if path.exists() else {}
     detail = {
         "dimension": "inspection",
         "revision": record["revision"],
@@ -501,6 +514,22 @@ def report(logo: LogoDir, ids: list[str]) -> dict:
 
 
 def judge_revision(logo: LogoDir, cid: str, record: dict, inspection: dict, client) -> dict:
+    return _judge_revision(logo, cid, record, inspection, client)[0]
+
+
+def judge_revision_proof(logo, cid, record, inspection, inspection_sha256, client):
+    answers, binding = _judge_revision(logo, cid, record, inspection, client)
+    # This hashes the exact judgment admitted above, not a later filesystem read.
+    judgment = json.dumps({"binding": binding, "answers": answers}, indent=2, sort_keys=True) + "\n"
+    return {key: record[key] for key in ("revision", "image_sha256", "evidence")} | {
+        "inspection_sha256": inspection_sha256,
+        "judgment_sha256": hashlib.sha256(judgment.encode()).hexdigest(),
+    }
+
+
+def _judge_revision(
+    logo: LogoDir, cid: str, record: dict, inspection: dict, client
+) -> tuple[dict, str]:
     from logo_maker.jev.client import Image
     from logo_maker.jev.questions import creative_questions, creative_ready, noul_status
     from logo_maker.pipeline import AuthoringNeeded
@@ -581,7 +610,7 @@ def judge_revision(logo: LogoDir, cid: str, record: dict, inspection: dict, clie
                 "comparison": comparison,
             },
         )
-    return answers
+    return answers, binding
 
 
 def compare(logo: LogoDir, before: dict, after: dict, client) -> dict:
@@ -901,25 +930,31 @@ def prepare(logo):
     return ids
 
 
-def final_bindings(logo, campaign_binding, results, *, check_machine=True):
+def selection_bindings(logo, campaign_binding, results, quality, *, check_machine=True):
     from logo_maker.pipeline import AuthoringNeeded
 
     if _campaign_for_shortlist(logo) != campaign_binding:
         raise AuthoringNeeded("campaign changed during final judging", [logo.brief])
     for cid, result in results.items():
         if check_machine:
-            active = current(logo, cid, "final")
+            active = current(logo, cid, quality)
         else:
             # The export process is already owned. Do not create nested sessions
             # with fresh budgets while checking the pinned on-disk proof.
             from logo_maker.render import _artifact_current_local
 
-            active = _current_record(logo, cid, "final")
+            active = _current_record(logo, cid, quality)
             if active and not _artifact_current_local(
-                logo.root / "concepts" / concept_slug(cid), "final"
+                logo.root / "concepts" / concept_slug(cid),
+                quality,
+                inspection_only=quality == "preview",
             ):
                 active = None
-        inspection = (logo.root / "concepts" / concept_slug(cid)) / "inspection-final.json"
+        if active is not None:
+            check_image(logo, active)
+        inspection = (logo.root / "concepts" / concept_slug(cid)) / (
+            "inspection-final.json" if quality == "final" else "inspection.json"
+        )
         judgment = logo.root / result["evidence"] / "judgment.json"
         if (
             not active
@@ -928,7 +963,11 @@ def final_bindings(logo, campaign_binding, results, *, check_machine=True):
             or inspection_binding(inspection) != result["inspection_sha256"]
             or inspection_binding(judgment) != result["judgment_sha256"]
         ):
-            raise AuthoringNeeded("final eligibility changed while judging", [inspection])
+            raise AuthoringNeeded(f"{quality} eligibility changed while judging", [inspection])
+
+
+def final_bindings(logo, campaign_binding, results, *, check_machine=True):
+    selection_bindings(logo, campaign_binding, results, "final", check_machine=check_machine)
 
 
 def verify_winner(logo, data, *, check_machine=True):

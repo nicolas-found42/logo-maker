@@ -51,7 +51,9 @@ def main() -> int:
             {
                 "status": "done",
                 "counts": {
-                    k: v for k, v in result.items() if k not in {"revisions", "comparisons"}
+                    k: v
+                    for k, v in result.items()
+                    if k not in {"revisions", "comparisons", "selection"}
                 },
             },
             indent=2,

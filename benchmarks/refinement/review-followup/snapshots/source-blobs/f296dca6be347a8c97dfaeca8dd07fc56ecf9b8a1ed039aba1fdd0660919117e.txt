@@ -1,0 +1,173 @@
+schema = 1
+communication_priority = "A team’s contributed AI know-how becomes an accessible shared library"
+design_latitude = ["Symbol construction within the stated material intent", "Proportions and visible structural detail", "Open paper structures without an enclosing border or backing plate, as clarified by the owner"]
+
+[[sources]]
+id = "current"
+kind = "fixture"
+path = "inputs/current-direction.toml"
+excerpt = "# Project direction revised under the owner clarification in owner-clarification-20261111.txt.\nname = \"Skill Swap\"\nsummary = \"A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.\"\naudience = \"Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.\"\ntone = [\"approachable\", \"capable\", \"trustworthy\", \"warm\", \"precise\"]\ninitials = \"SS\"\nuses = [\"login_hero\", \"brand_introduction\", \"favicon\", \"app_icon\", \"monochrome_mark\"]\navoid = [\"Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay\", \"Inflated toy shapes\", \"A badge, medallion, backing disc, enclosing border or backing plate\", \"Generic AI sparkles, chain links or recycling arrows\", \"Slack hashtag or Dropbox diamond-box topology\", \"Cohere cell cluster and Miro chevrons\", \"Existing leaf icon\", \"Fine text or hairline geometry inside the symbol\", \"Confusing peer-to-peer skill barter with a team AI skills library\"]\n\n[palette]\nprimary = \"#285640\"\nsecondary = \"#DCE7D6\"\naccent = \"#C47D5A\"\nhighlight = \"#F8F7F2\"\nbackground = \"#F8F7F2\"\nink = \"#243B31\"\n\n[fonts]\ndisplay = \"Manrope:wght=700\"\ntext = \"DM Sans:wght=400\"\n"
+
+[[sources]]
+id = "owner_clarification"
+kind = "owner"
+path = "inputs/owner-clarification-20261111.txt"
+excerpt = "Open paper structures are allowed, without an enclosing border or backing plate."
+[[facts]]
+id = "service"
+claim = "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use."
+status = "established"
+sources = ["current"]
+essential = true
+
+[[requirements]]
+id = "material"
+claim = "The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. "
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "meaning"
+claim = "Communicate shared accessible team capability rather than peer barter"
+kind = "communication"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "territories"
+claim = "Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space."
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "style"
+claim = "The visual identity is warm and editorial."
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_0"
+claim = "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_1"
+claim = "Inflated toy shapes"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_2"
+claim = "A badge, medallion, backing disc, enclosing border or backing plate"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_3"
+claim = "Generic AI sparkles, chain links or recycling arrows"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_4"
+claim = "Slack hashtag or Dropbox diamond-box topology"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_5"
+claim = "Cohere cell cluster and Miro chevrons"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_6"
+claim = "Existing leaf icon"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_7"
+claim = "Fine text or hairline geometry inside the symbol"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "avoid_8"
+claim = "Confusing peer-to-peer skill barter with a team AI skills library"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["current"]
+
+[[requirements]]
+id = "uses"
+claim = "The mark must work for: login_hero, brand_introduction, favicon, app_icon, monochrome_mark"
+kind = "usage"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "palette"
+claim = "Use the supplied palette: {'primary': '#285640', 'secondary': '#DCE7D6', 'accent': '#C47D5A', 'highlight': '#F8F7F2', 'background': '#F8F7F2', 'ink': '#243B31'}"
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "fonts"
+claim = "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}"
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "tone"
+claim = "Communicate the stated tone: approachable, capable, trustworthy, warm, precise"
+kind = "communication"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "initials"
+claim = "The available brand initials are SS; do not substitute different initials if lettering is used"
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["current"]
+
+[[requirements]]
+id = "owner_structure_scope"
+claim = "Open paper structures are allowed, without an enclosing border or backing plate."
+kind = "visual"
+origin = "owner"
+priority = "must"
+sources = ["owner_clarification"]

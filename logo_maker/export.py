@@ -500,12 +500,25 @@ def export_all(
             )
         entries = [{"source": str(pending), "target": str(out_dir), "move": True}]
         journal = out_dir.with_name(".export-publication-" + uuid.uuid4().hex + ".json")
+        preconditions = [
+            {
+                "operation": "export_guard",
+                "sampling_path": str(concept_dir / ".build/final.sampling.json"),
+                "sampling_sha256": expected_sampling_sha256,
+                "eligibility": expected_eligibility,
+            }
+        ]
         if publication_log is not None:
             publication_log.publish_stage(
-                "export", entries, journal, work, files=len(record["files"])
+                "export",
+                entries,
+                journal,
+                work,
+                preconditions=preconditions,
+                files=len(record["files"]),
             )
         else:
-            publish(entries, journal, work, [])
+            publish(entries, journal, work, [], preconditions=preconditions)
     finally:
         # No parent-side TemporaryDirectory cleanup can outlive the deadline.
         if budget.remaining > 1:

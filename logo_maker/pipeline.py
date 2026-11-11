@@ -464,16 +464,18 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
     ids = refinement.prepare(logo)
     records = []
     inspection_bindings = {}
+    creative_proofs = {}
     for cid in ids:
         record = refinement.capture(logo, cid, "preview", budget=budget)
-        inspection_path = (logo.root / "concepts" / concept_slug(cid)) / "inspection.json"
-        inspection_binding = refinement.inspection_binding(inspection_path)
-        inspection = refinement.inspected(logo, cid, record)
+        snapshot = refinement.inspection_snapshot(logo, cid, record)
+        inspection_binding, inspection = snapshot["sha256"], snapshot["data"]
         if client is None:
             client = _client(logo, budget=budget)
         if budget is not None and not records:
             client = _budgeted_client(client, budget)
-        refinement.judge_revision(logo, cid, record, inspection, client)
+        creative_proofs[cid] = refinement.judge_revision_proof(
+            logo, cid, record, inspection, inspection_binding, client
+        )
         refinement.require_current(
             logo, cid, record, budget=budget, inspection_sha256=inspection_binding
         )
@@ -488,7 +490,21 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
             budget=budget,
             inspection_sha256=inspection_bindings[record["concept"]],
         )
-    return refinement.report(logo, ids)
+    report = refinement.report(logo, ids)
+    report["selection"] = {
+        "binding": refinement.key(
+            {
+                record["concept"]: {
+                    "sources": record["source_sha256"],
+                    "preview": record["image_sha256"],
+                    "inspection": creative_proofs[record["concept"]]["inspection_sha256"],
+                }
+                for record in records
+            }
+        ),
+        "creative": creative_proofs,
+    }
+    return report
 
 
 def status(logo: LogoDir) -> dict[str, Any]:
@@ -507,8 +523,9 @@ def preview(
 
     budget = budget or Budget(attempt_limit=64)
     ids = refinement.prepare(logo)
-    refine(logo, client, budget=budget)
-    binding = refinement.campaign_key(logo, ids)
+    refined = refine(logo, client, budget=budget)["selection"]
+    refinement.require_binding(logo, refined, "preview")
+    binding = refined["binding"]
     log = runlog(logo.run_json, budget=budget)
     client = client or _client(logo, budget=budget)
     brief = _bounded_inputs(logo, budget, reviewed=True, plans=ids)[0]
@@ -544,11 +561,22 @@ def preview(
             "sampling": active.get("sampling", {}).get("profile", {"state": "unknown"}),
         }
     doc["qualification"] = qualification
-    log.publish_stage(
+    doc["creative"] = {cid: refined["creative"][cid] for cid in finalists}
+    _publish_selection(
+        logo,
+        log,
         "preview",
-        [{"target": str(logo.root / "ideation/finalists.json"), "text": json.dumps(doc)}],
-        logo.root / "ideation" / (".preview-publication-" + str(time.monotonic_ns()) + ".json"),
+        logo.root / "ideation/finalists.json",
+        doc,
         budget,
+        {
+            "operation": "selection_guard",
+            "root": str(logo.root),
+            "binding": binding,
+            "proofs": doc["creative"],
+            "quality": "preview",
+            "eligibility": {cid: doc["eligibility"][cid] for cid in finalists},
+        },
         finalists=finalists,
     )
     return finalists
@@ -670,18 +698,15 @@ def qa_concept(
         )
     try:
         budget.check()
-        inspection_path = folder / "inspection-final.json"
-        inspection_binding = refinement.inspection_binding(inspection_path)
-        inspection = refinement.inspected(logo, concept_id, record)
-        refinement.judge_revision(logo, concept_id, record, inspection, client)
+        snapshot = refinement.inspection_snapshot(logo, concept_id, record)
+        inspection_binding, inspection = snapshot["sha256"], snapshot["data"]
+        creative_proof = refinement.judge_revision_proof(
+            logo, concept_id, record, inspection, inspection_binding, client
+        )
         refinement.require_current(
             logo, concept_id, record, budget=budget, inspection_sha256=inspection_binding
         )
-        result["inspection_sha256"] = inspection_binding
-        result["evidence"] = record["evidence"]
-        result["judgment_sha256"] = refinement.digest(
-            logo.root / record["evidence"] / "judgment.json"
-        )
+        result.update(creative_proof)
         budget.check()
     except AuthoringNeeded:
         result["result"] = "creative_review_needed"
@@ -759,20 +784,51 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
                 *[logo.root / "concepts" / concept_slug(cid) / "scene.toml" for cid in passed],
             ],
         ) from exc
-    log.publish_stage(
+    _publish_selection(
+        logo,
+        log,
         "finalize",
-        [
-            {
-                "target": str(logo.root / "ideation" / "winner.json"),
-                "text": json.dumps(winner_record, indent=2),
-            },
-        ],
-        logo.root / "ideation" / (".finalize-publication-" + str(time.monotonic_ns()) + ".json"),
+        logo.root / "ideation/winner.json",
+        winner_record,
         budget,
+        {
+            "operation": "selection_guard",
+            "root": str(logo.root),
+            "binding": campaign_binding,
+            "proofs": {cid: results[cid] for cid in passed},
+            "quality": "final",
+            "eligibility": {
+                cid: proof
+                for cid, proof in winner_record["candidate_eligibility"].items()
+                if proof["status"] == "pass"
+            },
+        },
         winner=winner,
         qa={k: v["result"] for k, v in results.items()},
     )
     return winner
+
+
+def _publish_selection(logo, log, stage, target, document, budget, precondition, **detail):
+    from logo_maker.publication import PublicationConflict
+
+    try:
+        return log.publish_stage(
+            stage,
+            [{"target": str(target), "text": json.dumps(document, indent=2)}],
+            logo.root
+            / "ideation"
+            / (f".{stage}-publication-" + str(time.monotonic_ns()) + ".json"),
+            budget,
+            preconditions=[precondition],
+            **detail,
+        )
+    except PublicationConflict as exc:
+        raise AuthoringNeeded(
+            "inputs changed during publication; prior selection retained",
+            [logo.brief, target],
+            details={"dimension": "stale_publication", "reason": str(exc)},
+        ) from exc
 
 
 def winner(logo: LogoDir) -> str:
@@ -829,22 +885,31 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     refinement.verify_winner(logo, winner_snapshot["data"] or {})
     proof = (winner_snapshot["data"] or {}).get("eligibility", {})
     require_current(logo, brief, setup["winner"], proof, budget=budget)
-    manifest = export_mod.export_all(
-        folder,
-        logo.root / "exports",
-        name=brief.name,
-        palette=brand_.palette,
-        motif_svg=folder / "motif.svg",
-        budget=budget,
-        publication_log=runlog(logo.run_json, budget=budget),
-        expected_sampling_sha256=snapshot["sha256"],
-        expected_eligibility={
-            "root": str(logo.root),
-            "concept_id": setup["winner"],
-            "proof": proof,
-            "winner_sha256": winner_snapshot["sha256"],
-        },
-    )
+    from logo_maker.publication import PublicationConflict
+
+    try:
+        manifest = export_mod.export_all(
+            folder,
+            logo.root / "exports",
+            name=brief.name,
+            palette=brand_.palette,
+            motif_svg=folder / "motif.svg",
+            budget=budget,
+            publication_log=runlog(logo.run_json, budget=budget),
+            expected_sampling_sha256=snapshot["sha256"],
+            expected_eligibility={
+                "root": str(logo.root),
+                "concept_id": setup["winner"],
+                "proof": proof,
+                "winner_sha256": winner_snapshot["sha256"],
+            },
+        )
+    except PublicationConflict as exc:
+        raise AuthoringNeeded(
+            "inputs changed during export publication; prior exports retained",
+            [logo.brief, folder / "inspection-final.json"],
+            details={"dimension": "stale_publication", "reason": str(exc)},
+        ) from exc
     return manifest
 
 

@@ -87,3 +87,16 @@ def test_frozen_requirements_and_plan_are_archived_with_creative_sources(tmp_pat
         assert name in record["source_sha256"]
         assert refinement.digest(evidence / name) == record["source_sha256"][name]
     assert any(name.startswith("requirements_source/") for name in record["source_sha256"])
+
+
+def test_unpublished_archive_stages_never_enter_revision_history(tmp_path):
+    from logo_maker.paths import LogoDir, concept_slug
+
+    logo = LogoDir(tmp_path)
+    cid = "test|paper|paper"
+    root = logo.qa / "revisions" / concept_slug(cid)
+    for name in ("0001-published-preview", ".archiving-interrupted", ".publishing-interrupted"):
+        path = root / name / "revision.json"
+        path.parent.mkdir(parents=True)
+        path.write_text(json.dumps({"revision": name}))
+    assert refinement.history(logo, cid) == [{"revision": "0001-published-preview"}]

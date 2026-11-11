@@ -1,0 +1,27 @@
+schema = 1
+requirements_revision = "8bf3d59cbaf1b50ad5e8ff50df28c46af8a9b901ad561e674653338c09a3f128"
+hypothesis = "An open shared team library formed by independently contributed parts"
+visual_mechanism = "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips. This candidate tests the open-space territory in the three-part study: joined-index tests joined modules, and the retained shared-folio tests a folded shared object. All three territories have retained render histories. This proposal keeps the entire top open and uses no closed perimeter, backing plate or backing disc."
+requirement_ids = ["material", "meaning", "territories", "style", "avoid_0", "avoid_1", "avoid_2", "avoid_3", "avoid_4", "avoid_5", "avoid_6", "avoid_7", "avoid_8", "uses", "palette", "fonts", "tone", "initials", "owner_structure_scope"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Laminated card edge"
+purpose = "Make heavyweight paper stock visible through a pale core rather than a uniformly colored slab"
+intended_scale = "Hero and native detail; not a separate favicon feature"
+construction = "Each of the three card pieces has a pale 0.024-unit core bonded between two 0.006-unit colored skins. The three layers touch with no gap and bend together as one laminated sheet."
+deletion_test = "Without the pale core the substantial cut edge loses its paper-laminate cue"
+
+[[details]]
+feature = "Continuous outward upright fold"
+purpose = "Make changes of plane legible and keep the central shared space open"
+intended_scale = "Hero; primary projected contour remains in the SVG master"
+construction = "The left and right upright card sheets each fold once along their long outer edge. Each outward return is part of its own sheet and meets the broad face continuously at the crease. The returns turn away from the central opening; they do not bridge or enclose it."
+deletion_test = "Without the return there is no intentional paper fold; without the open top the object becomes an enclosing badge-like frame"
+
+[[details]]
+feature = "Separate scored shelf"
+purpose = "Suggest a usable shared library space while keeping three contributed parts distinct"
+intended_scale = "Hero and the broad flat silhouette"
+construction = "The lower terracotta card sheet has a flat middle and two upward-folded wings. It is a separate piece. Small gaps intentionally separate it from the two uprights; the logo makes no claim that these three pieces are fastened together."
+deletion_test = "Without the low shared shelf the uprights read as unrelated panels"
