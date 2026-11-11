@@ -96,20 +96,20 @@ def noncode_prose(text: str, *, marker: str = "") -> str:
         return "\n".join(marker for _ in range(match.group(0).count("\n") + 1))
 
     clean = outside_code(text)
+    clean = re.sub(r"(?s)(`+).*?\1", replace_span, clean)
     clean = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", replace_span, clean)
-    clean = re.sub(r"(?is)<code\b[^>]*>.*?(?:</code\s*>|\Z)", replace_span, clean)
-    return re.sub(r"(?s)(`+).*?\1", replace_span, clean)
+    return re.sub(r"(?is)<code\b[^>]*>.*?(?:</code\s*>|\Z)", replace_span, clean)
 
 
 def field_values(text: str, field: str) -> list[str]:
     """Extract bold-labeled field values declared outside code while preserving code answers."""
     lines = COMMENT.sub("", text).splitlines()
-    masked = noncode_prose(text, marker="\x00").splitlines()
-    outside_headings = outside_code(text).splitlines()
+    masked = noncode_prose(text, marker="\x00").split("\n")
+    outside_headings = outside_code(text).split("\n")
     label = re.compile(r"^\*\*([^*\n\x00]+):\*\*\s*(.*)$")
     starts: list[tuple[int, str, str]] = []
-    for index, line in enumerate(masked):
-        if HEADING.match(outside_headings[index]):
+    for index, (line, heading_line) in enumerate(zip(masked, outside_headings, strict=False)):
+        if HEADING.match(heading_line):
             break
         if match := label.match(line):
             starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
@@ -136,14 +136,15 @@ def answer(text: str, *, allow_none: bool = False) -> bool:
         if not unmasked
     ]
     unmasked_text = outside_code(text)
-    for match in re.finditer(r"(?is)<pre\b[^>]*>(.*?)(?:</pre\s*>|\Z)", unmasked_text):
+    code_chunks.extend(match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", unmasked_text))
+    without_inline = re.sub(r"(?s)(`+).*?\1", "", unmasked_text)
+    for match in re.finditer(r"(?is)<pre\b[^>]*>(.*?)(?:</pre\s*>|\Z)", without_inline):
         code_chunks.append(re.sub(r"(?is)</?code\b[^>]*>", "", match.group(1)))
-    without_pre = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", "", unmasked_text)
+    without_pre = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", "", without_inline)
     code_chunks.extend(
         match.group(1)
         for match in re.finditer(r"(?is)<code\b[^>]*>(.*?)(?:</code\s*>|\Z)", without_pre)
     )
-    code_chunks.extend(match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", without_pre))
     code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
     text = prose + "\n" + code
     text = re.sub(r"[*_`>#\[\]()-]", " ", html.unescape(text))
