@@ -1,0 +1,65 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_stalled_profile_read_stops_at_wall_budget_and_keeps_prior_final _____
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-304/test_stalled_profile_read_stop0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106d16780>
+
+    def test_stalled_profile_read_stops_at_wall_budget_and_keeps_prior_final(tmp_path, monkeypatch):
+        import contextlib
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded host workers target macOS/Linux")
+        compiled(tmp_path)
+        recipe = tmp_path / "scene.toml"
+        recipe.write_text(recipe.read_text().replace(
+            "diagnostic_bytes=0", 'diagnostic_bytes=0\nprofile="blocked-profile.json"'
+        ))
+        source = tmp_path / "blocked-profile.json"
+        os.mkfifo(source)
+        prior = tmp_path / "final.png"
+        prior.write_bytes(b"approved prior final")
+        stop = threading.Event()
+
+        def release_old_unbounded_call():
+            delayed = False
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                except OSError:
+                    stop.wait(0.01)
+                    continue
+                try:
+                    if not delayed:
+                        delayed = True
+                        if stop.wait(10):
+                            return
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b"{}")
+                finally:
+                    os.close(descriptor)
+                stop.wait(0.01)
+
+        releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        releaser.start()
+        monkeypatch.setattr(render, "machine_context", lambda *args: {"machine": "test"})
+        monkeypatch.setattr(render, "_run_builder", lambda *a, **kw: pytest.fail("GPU attempt started"))
+        started = time.monotonic()
+        try:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+                render.render(tmp_path, "final", budget=Budget(wall_seconds=6))
+>           assert time.monotonic() - started < 9, "profile read overran the wall budget"
+E           AssertionError: profile read overran the wall budget
+E           assert (105953.110330291 - 105942.444893) < 9
+E            +  where 105953.110330291 = <built-in function monotonic>()
+E            +    where <built-in function monotonic> = <module 'time' (built-in)>.monotonic
+
+tests/test_sampling_render.py:163: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_stalled_profile_read_stops_at_wall_budget_and_keeps_prior_final
+1 failed, 14 deselected in 10.80s

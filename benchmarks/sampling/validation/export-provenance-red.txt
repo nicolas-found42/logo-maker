@@ -1,0 +1,57 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline ___
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-310/test_stalled_sampling_provenan0')
+
+    def test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline(tmp_path):
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import Budget, SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded workers target macOS/Linux")
+        concept, motif = _concept(tmp_path, _disc)
+        (concept / ".build").mkdir()
+        source = concept / ".build/final.sampling.json"
+        os.mkfifo(source)
+        out = tmp_path / "exports"
+        out.mkdir()
+        (out / "prior.txt").write_text("last approved export")
+        stop = threading.Event()
+
+        def release_old_unbounded_call():
+            descriptor = None
+            try:
+                while not stop.is_set():
+                    try:
+                        descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                        break
+                    except OSError:
+                        stop.wait(0.01)
+                if descriptor is not None and not stop.wait(10):
+                    with contextlib.suppress(BrokenPipeError):
+                        os.write(descriptor, b"{}")
+            finally:
+                if descriptor is not None:
+                    os.close(descriptor)
+
+        releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+        releaser.start()
+        started = time.monotonic()
+        try:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+                export_all(concept, out, name="Sample", palette=PALETTE, motif_svg=motif,
+                           budget=Budget(wall_seconds=6))
+>           assert time.monotonic() - started < 9, "provenance read overran the wall budget"
+E           AssertionError: provenance read overran the wall budget
+E           assert (106063.697895666 - 106053.683346125) < 9
+E            +  where 106063.697895666 = <built-in function monotonic>()
+E            +    where <built-in function monotonic> = <module 'time' (built-in)>.monotonic
+
+tests/test_export.py:143: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_export.py::test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline
+1 failed, 7 deselected in 10.12s

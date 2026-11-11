@@ -5,6 +5,8 @@ their source is vendored here.
 
 | Component | License | How logo-maker uses it |
 |---|---|---|
+| [System sysctl (macOS)](https://github.com/apple-oss-distributions/system_cmds/blob/main/sysctl/sysctl.c) | BSD-3-Clause | Read-only machine/build profile fields; invoked externally, not vendored |
+| System ps (macOS BSD / Linux procps) | BSD-3-Clause / GPL-2.0-or-later | Process-state inspection after denied export-group signals; invoked externally, not vendored |
 | bpy (Blender as a Python module) | GPL-3.0-or-later | Scene building and Cycles rendering, in a subprocess |
 | PyMeshLab | GPL-3.0 | Remeshing generated solids |
 | FontForge | GPL-3.0-or-later | Glyph operations via `fontforge -script` subprocess |

@@ -1,0 +1,43 @@
+{
+  "attempt": 2,
+  "conclusion": "success",
+  "headSha": "f3d0f151963aedaa59b6819b1c44bbe6ce62bbf6",
+  "status": "completed",
+  "first_attempt": {
+    "conclusion": "failure",
+    "failure": "tests/test_export.py::test_export_set_sizes_and_manifest: node js/pwa.mjs exceeded300s"
+  },
+  "cause": "unknown; unchanged rerun success is not a root-cause diagnosis",
+  "separate_budget_bug": "Child work survived export timeout; independent local heartbeat reproduction drove process-session cleanup fix.",
+  "process_cleanup_followup": {
+    "run": 42911043671,
+    "head": "b6fb7e86b21971a407effb6c97a490c8329a7eab",
+    "conclusion": "failure",
+    "observed": "Both process lifecycle regressions hit macOS os.killpg(...,0) EPERM after termination. Local unreaped-group probe reproduces EPERM; reaped group ESRCH.",
+    "fix": "On denied signals inspect process-group IDs/states under remaining budget. Empty/zombie-only groups have stopped; live denial/uninspectable group raises explicit cleanup-unconfirmed. New hosted validation pending."
+  },
+  "lifecycle_test_setup_followup": {
+    "run": 42912948288,
+    "head": "3790f35b5ebb374d948516ac4a5d3ac6929c64d2",
+    "conclusion": "failure",
+    "observed": "Process-state regressions pass. Lifecycle tests4s deadline expired before fakebrowserstart on slowrunner; heartbeat missing or wrongexpectedexception.",
+    "test_only_change": "Allow20s coldsetup; heartbeatfailsafe60s outlivesdeadline. Delayedhook/stoppedheartbeat/prioroutput assertions remain. Production code/budgets unchanged. Final hosted validation pending."
+  },
+  "control_provenance_followup": {
+    "run": 42927837809,
+    "head": "e8834a6952a4b7517b2f14bdc955ede88a4352d4",
+    "attempt1": "failure:1failed232passed2skipped3deselected; PWA Node300s timeout",
+    "attempt2": "success:233passed2skipped3deselected139.36s",
+    "source_change_between_attempts": false,
+    "focused_local_export_replays": "5passed about3s each",
+    "root_cause": "unknown; passing rerun does not prove intermittent timeout fixed"
+  },
+  "qa_worker_followup": {
+    "run": 42942881806,
+    "head": "3189304df674651fa3ccc84695103fa4e3286e6b",
+    "conclusion": "success",
+    "hosted": "239 passed,2skipped,4deselected268.76s",
+    "local": "241offline,3render,1live,48doctor",
+    "later_fix": "8line model/url view identity forwarding, separately validated; newer head CI tracked inPR/issue"
+  }
+}

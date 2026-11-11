@@ -1,0 +1,52 @@
+{
+  "recorded_on": "2026-11-10",
+  "source": "Explicit owner response in this Codex chat after opening the review sheets",
+  "dimension": "technical sampling detail, separate from craft/brief fit/preference",
+  "question": "In the opened typography and glass sheets, both compared settings use cap 4096. Does threshold 0.02 preserve the detail you need relative to 0.01?",
+  "owner_answer_verbatim": "No, 0.02 loses needed detail",
+  "candidate": {
+    "cap": 4096,
+    "adaptive_threshold": 0.02,
+    "owner_result": "rejected_detail_loss",
+    "scope": "the shown typography and glass comparisons"
+  },
+  "comparator": {
+    "cap": 4096,
+    "adaptive_threshold": 0.01,
+    "disposition": "retained unchanged comparator; no absolute positive/transfer sign-off inferred"
+  },
+  "cap16_control": {
+    "owner_result": "unrated",
+    "reason": "Owner requested clarification rather than a quality label"
+  },
+  "figures_sha256": {
+    "typography-comparison.png": "96b0b5fbeb099092a30ef36b409705e874b2ccac8e44005e990bf62d9e850fde",
+    "typography-baseline-candidate.png": "5cf475c10c1cdf8011ca83be5c1896b96e1caf2420a7a647e67fe1df1255ca5f",
+    "noisy-denoised-detail.png": "c20daeb06d23c56cb4a78b2b439571a696f3f6791f36b8cbcc111f528a4ebfdc",
+    "glass-comparison.png": "ea4d982d91b0dc97d5634fb5b74a085bfb91700b6d07f99bc167705d55d118bb"
+  },
+  "source_finals": [
+    {
+      "job": "typography-current-seed0-t0.01-runfinal",
+      "final_sha256": "601babccf156d1e4e5e7e5845cd4814502ca2a40f5f5d7220ae96648fc92f6c3"
+    },
+    {
+      "job": "typography-current-seed0-t0.02-runfinal",
+      "final_sha256": "a1a69ed1221513fe5b38e23a2458102e11f8a9ee93987931744adf83295cc39e"
+    },
+    {
+      "job": "glass-baseline-seed0-t0.01-run2",
+      "final_sha256": "7bba94fb36ae0228ec2c6c24f6e9819424b8ca68fe923fb091190885470bde63"
+    },
+    {
+      "job": "glass-current-seed0-t0.02-run2",
+      "final_sha256": "0309b875f5ecb65c334d3c02b8cec0e5ea8cc90e749c94d460eae84b09ec1727"
+    },
+    {
+      "job": "typography-current-seed0-t0.01-rundegraded",
+      "final_sha256": "01440fa9b30a90d5523cc0b96f22e83d03e00f3bc176772817b1f7206b75bd8c"
+    }
+  ],
+  "qualified_replacement_profile": null,
+  "action": "Keep final 4096 / 0.01. Do not qualify or select the 0.02 candidate for transfer. Do not enable automatic quality tolerances."
+}

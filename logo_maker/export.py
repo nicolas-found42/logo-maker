@@ -12,13 +12,23 @@ import hashlib
 import json
 import re
 import shutil
+import sys
+import time
+import uuid
+import warnings
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from PIL import Image, ImageDraw
 
+from logo_maker import owned_process
 from logo_maker.checks import OBJECT_ALPHA, alpha_report, margin_report
 from logo_maker.imageops import downsample, pad_square, soft_shadow
 from logo_maker.proc import node
+from logo_maker.sampling import Budget
+
+if TYPE_CHECKING:
+    from logo_maker.runlog import RunLog
 
 HERO_SIZE = 2000
 AVATAR_SIZE = 1024
@@ -163,8 +173,8 @@ def _ink(palette: dict[str, str]) -> str:
     return palette.get("ink") or palette.get("primary", "#111111")
 
 
-def _hero(concept_dir: Path, out_dir: Path) -> Path:
-    final = Path(concept_dir) / "final.png"
+def _hero(concept_dir: Path, out_dir: Path, *, final: Path | None = None) -> Path:
+    final = final if final is not None else Path(concept_dir) / "final.png"
     if not final.is_file():
         raise ExportError(f"no final render at {final}")
     hero = Path(out_dir) / "hero-transparent.png"
@@ -292,18 +302,49 @@ def _contact_sheet(
     return dst
 
 
-def export_all(
-    concept_dir: Path, out_dir: Path, *, name: str, palette: dict[str, str], motif_svg: Path
-) -> dict[str, Path]:
-    """Build the full export set; return a manifest dict and write manifest.json."""
+def _export_all(
+    concept_dir: Path,
+    out_dir: Path,
+    *,
+    name: str,
+    palette: dict[str, str],
+    motif_svg: Path,
+    expected_sampling_sha256: str | None = None,
+) -> dict:
+    """Validate provenance and build the export set inside the owned worker."""
     concept_dir, out, motif = Path(concept_dir), Path(out_dir), Path(motif_svg)
     out.mkdir(parents=True, exist_ok=True)
+    # Hash and decode one private copy. Checking the live source then reopening it
+    # lets a concurrent render substitute unverified pixels between those reads.
+    final_snapshot = out / ".final-source.png"
+    shutil.copyfile(concept_dir / "final.png", final_snapshot)
+    provenance_path = concept_dir / ".build/final.sampling.json"
+    sampling: dict = {"state": "unattested_legacy_image"}
+    if provenance_path.exists():
+        raw = provenance_path.read_bytes()
+        provenance = json.loads(raw)
+        if expected_sampling_sha256 is not None and (
+            hashlib.sha256(raw).hexdigest() != expected_sampling_sha256
+            or provenance.get("profile", {}).get("state") != "qualified"
+            or provenance.get("outcomes", {}).get("sampling") != "profile_baseline"
+        ):
+            raise ExportError("qualified sampling snapshot changed; prior exports retained")
+        if not provenance.get("published") or provenance.get("delivered_sha256") != _sha256(
+            final_snapshot
+        ):
+            raise ExportError(
+                "sampling provenance does not match final image; prior exports retained"
+            )
+        sampling = {"record_sha256": hashlib.sha256(raw).hexdigest(), "record": provenance}
+    elif expected_sampling_sha256 is not None:
+        raise ExportError("qualified sampling snapshot missing; prior exports retained")
     if not motif.is_file():
         raise ExportError(f"no motif svg at {motif}")
     paper, ink = _paper(palette), _ink(palette)
 
     manifest: dict[str, Path] = {}
-    manifest["hero-transparent"] = _hero(concept_dir, out)
+    manifest["hero-transparent"] = _hero(concept_dir, out, final=final_snapshot)
+    final_snapshot.unlink()
     hero = manifest["hero-transparent"]
     manifest["hero-paper"] = _hero_on_paper(hero, out, paper, shadow=True)
     manifest["avatar-1024"] = _avatar(hero, out, paper)
@@ -356,10 +397,92 @@ def export_all(
             with Image.open(path) as im:
                 entry["width"], entry["height"] = im.size
         files[key] = entry
-    record = {"name": name, "palette": dict(palette), "files": files}
+    record = {"name": name, "palette": dict(palette), "files": files, "sampling": sampling}
     (out / "manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True))
 
     # The flat motif is not a product SVG; keep the folder to the contract set.
     for extra in (".mark-color.src.svg", ".mark-mono.src.svg"):
         (out / extra).unlink(missing_ok=True)
-    return manifest
+    return record
+
+
+def export_all(
+    concept_dir: Path,
+    out_dir: Path,
+    *,
+    name: str,
+    palette: dict[str, str],
+    motif_svg: Path,
+    budget: Budget | None = None,
+    publication_log: RunLog | None = None,
+    expected_sampling_sha256: str | None = None,
+) -> dict[str, Path]:
+    """Build under the whole-job deadline, then replace the export set as a unit.
+
+    The child deadline covers native CPU image processing and external tools too.
+    Low-level legacy image exports remain available, explicitly unattested; the
+    pipeline winner boundary additionally requires sampling qualification.
+    """
+    budget = budget or Budget()
+    budget.check()
+    started = time.monotonic()
+    concept_dir, out_dir = Path(concept_dir).absolute(), Path(out_dir).absolute()
+    pending = out_dir.with_name(".export-pending-" + uuid.uuid4().hex)
+    work = Budget(parent=budget, attempt_limit=budget.attempt_limit)
+    work.deadline -= 2
+    payload = {
+        "concept_dir": str(concept_dir),
+        "out_dir": str(pending),
+        "name": name,
+        "palette": palette,
+        "motif_svg": str(Path(motif_svg).absolute()),
+        "expected_sampling_sha256": expected_sampling_sha256,
+    }
+    try:
+        proc = owned_process.run(
+            [sys.executable, "-m", "logo_maker.export"],
+            input_text=json.dumps(payload),
+            budget=work,
+            label="export",
+        )
+        if proc.returncode:
+            raise ExportError((proc.stderr or proc.stdout)[-2000:])
+        work.check()
+        record = json.loads(proc.stdout.strip().splitlines()[-1])
+        from logo_maker import host
+        from logo_maker.publication import publish
+
+        record["export_seconds"] = time.monotonic() - started
+        record["timing_scope"] = (
+            "export build before publication; caller wall time includes staging/publication/cleanup"
+        )
+        record["whole_job_budget"] = budget.record()
+        host.run(
+            {"operation": "write_json", "path": str(pending / "manifest.json"), "data": record},
+            work,
+            [],
+        )
+        entries = [{"source": str(pending), "target": str(out_dir), "move": True}]
+        journal = out_dir.with_name(".export-publication-" + uuid.uuid4().hex + ".json")
+        if publication_log is not None:
+            publication_log.publish_stage(
+                "export", entries, journal, work, files=len(record["files"])
+            )
+        else:
+            publish(entries, journal, work, [])
+    finally:
+        # No parent-side TemporaryDirectory cleanup can outlive the deadline.
+        if budget.remaining > 1:
+            from logo_maker import host
+
+            try:
+                host.run({"operation": "remove_path", "path": str(pending)}, budget, [])
+            except Exception as exc:
+                warnings.warn(
+                    f"export quarantine retained at {pending}: {exc}", RuntimeWarning, stacklevel=2
+                )
+    return {key: out_dir / entry["path"] for key, entry in record["files"].items()}
+
+
+if __name__ == "__main__":
+    print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)

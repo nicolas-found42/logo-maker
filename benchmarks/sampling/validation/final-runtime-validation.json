@@ -1,0 +1,2703 @@
+{
+  "purpose": "additional production smoke checks after cache/region/runtime-scope fixes; separate from original 25-job cost matrix",
+  "jobs": [
+    {
+      "name": "typography-current-seed0-t0.01-runpostcache",
+      "measurement": {
+        "seconds": 52.670307291991776,
+        "render_seconds": 48.60965804099396,
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/attempt-0d1d91c133f242c09cb2915c153a7fc4/final.execution.json",
+        "png": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/final.png",
+        "sampling": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/final.sampling.json",
+        "export_manifest": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "f005d90b53c63481fec4c1c58d7887623fd71fad3ced7e0901050ccd7731f1aa",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 0,
+              "overrides": {}
+            },
+            "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/attempt-0d1d91c133f242c09cb2915c153a7fc4/final.execution.json",
+            "execution_sha256": "b424c49c30b4ce0d0cbe2045092b371f0d17f1888220061e5fcf0dca76e68305",
+            "delivered_sha256": "61896f45c633d86b5e8025617726ea5189197548ad549bad4a9ff43fa564a4d3",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 6641830,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 256.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007205845376951834,
+                  "at_cap_fraction": 0.0005498484604393669
+                },
+                "dark": {
+                  "pixels": 6525624,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00011186669657951484,
+                  "at_cap_fraction": 8.091180245751211e-05
+                },
+                "alpha_boundary": {
+                  "pixels": 18302,
+                  "p50": 96.0,
+                  "p90": 176.0,
+                  "p99": 384.0,
+                  "max": 960.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 190113,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 80.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0001630609164023502,
+                  "at_cap_fraction": 0.0001209806799114211
+                },
+                "tile_0_2": {
+                  "pixels": 190085,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 416.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0020990609464187075,
+                  "at_cap_fraction": 0.0015940237262277402
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 326287,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 224.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018112888346762206,
+                  "at_cap_fraction": 0.001486421463312973
+                },
+                "tile_1_1": {
+                  "pixels": 998604,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 192.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0004215885375984875,
+                  "at_cap_fraction": 0.00032345153834753315
+                },
+                "tile_1_2": {
+                  "pixels": 998597,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 800.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007170059593609835,
+                  "at_cap_fraction": 0.0005517741391171814
+                },
+                "tile_1_3": {
+                  "pixels": 326218,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0009840045613669387,
+                  "at_cap_fraction": 0.0007265080406354033
+                },
+                "tile_2_0": {
+                  "pixels": 405932,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0005986224293724072,
+                  "at_cap_fraction": 0.0004754490899953687
+                },
+                "tile_2_1": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 544.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.000361,
+                  "at_cap_fraction": 0.000255
+                },
+                "tile_2_2": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 208.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 9.7e-05,
+                  "at_cap_fraction": 6.9e-05
+                },
+                "tile_2_3": {
+                  "pixels": 405931,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 272.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018697758978742692,
+                  "at_cap_fraction": 0.001379544799485627
+                },
+                "tile_3_0": {
+                  "pixels": 12022,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 128.0,
+                  "max": 320.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_1": {
+                  "pixels": 388008,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 176.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0015231644708356528,
+                  "at_cap_fraction": 0.001201006164821344
+                },
+                "tile_3_2": {
+                  "pixels": 388015,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00065976830792624,
+                  "at_cap_fraction": 0.0004819401311804956
+                },
+                "tile_3_3": {
+                  "pixels": 12018,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 224.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                }
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "efa3d0c4b2988fa40860d0ed553aaff241b31e5fc36833a71e2f66b79810e7ba",
+              "bytes": 292394161
+            },
+            "seconds": 47.06570320800529,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f0226ce987479c19cf3112262070bd4f783c17a657a1b19398a93536931bb476",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "3ee4fb74df9053da4efcddca09236da9f5a3f1a50ba915e72b15e925ff9a475e",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "render.py": "7e60e588c7ee5e40b0f184d733b45d88708ca6726ae7b0c834fc9990ea7058f3",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "sampling.py": "0f32d3d8ea69fd5ea47d02e94b6e21aa52101f2067ea0554873e077a00e6dac4",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "matte_plastic",
+            "polished_metal"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/profile.py": "f0226ce987479c19cf3112262070bd4f783c17a657a1b19398a93536931bb476",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/export.py": "3ee4fb74df9053da4efcddca09236da9f5a3f1a50ba915e72b15e925ff9a475e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py": "7e60e588c7ee5e40b0f184d733b45d88708ca6726ae7b0c834fc9990ea7058f3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling.py": "0f32d3d8ea69fd5ea47d02e94b6e21aa52101f2067ea0554873e077a00e6dac4",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/scene.toml": "6a13ea312a71e6c2f93521312479e9e739443dae9c2750d3ccecd0e501fa8d93"
+        },
+        "overrides": {},
+        "source_key": "f005d90b53c63481fec4c1c58d7887623fd71fad3ced7e0901050ccd7731f1aa",
+        "delivered_sha256": "61896f45c633d86b5e8025617726ea5189197548ad549bad4a9ff43fa564a4d3",
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/attempt-0d1d91c133f242c09cb2915c153a7fc4/final.execution.json",
+        "execution_sha256": "b424c49c30b4ce0d0cbe2045092b371f0d17f1888220061e5fcf0dca76e68305",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 47.563480541997706,
+          "remaining_seconds": 851.3919471670088,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 48.60916583299695,
+        "timing_scope": "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "f64b52afdd8feba92d408d421b9098408bd284e729642e735ccd7780db996679",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 44.76558200000727,
+        "process_cpu_seconds": 17.616592999999998,
+        "log_sha256": "17acf80260bf8aa3df6fa8aa8c6d591d6e3cff236387229bd708d5f47d6fcc22",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runpostcache/.build/attempt-0d1d91c133f242c09cb2915c153a7fc4/final.execution.exr",
+          "bytes": 292394161,
+          "sha256": "efa3d0c4b2988fa40860d0ed553aaff241b31e5fc36833a71e2f66b79810e7ba",
+          "seconds": 0.4952769169904059,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "d9270e7cf296e83660e9eab65de937a86f0e0ac420548164492da20d47b62032"
+      },
+      "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runpostcache",
+      "all_export_hashes_verified": true,
+      "export_files": 31,
+      "source_scope_matches_current": false
+    },
+    {
+      "name": "typography-current-seed0-t0.01-runfinalaudit",
+      "measurement": {
+        "seconds": 51.93769274999795,
+        "render_seconds": 47.078529083009926,
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/attempt-4556d122490b4588a67802629a2ebbc0/final.execution.json",
+        "png": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/final.png",
+        "sampling": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/final.sampling.json",
+        "export_manifest": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "ab25ac8d8629799af46706e6528ba370002205d3117a68e672a7e6e3a3871541",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 0,
+              "overrides": {}
+            },
+            "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/attempt-4556d122490b4588a67802629a2ebbc0/final.execution.json",
+            "execution_sha256": "d2ee6d8108b7bc3d7abfb1d4aba9eaf8baa5bef6a79876adac89605bdc5094a0",
+            "delivered_sha256": "c3afd59fe5e8880b489bf55f02763f5a8495e09872ee39e562355dcf5ec78b5b",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 6641830,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 256.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007205845376951834,
+                  "at_cap_fraction": 0.0005498484604393669
+                },
+                "dark": {
+                  "pixels": 6525628,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00011201986996500567,
+                  "at_cap_fraction": 8.106499481735704e-05
+                },
+                "alpha_boundary": {
+                  "pixels": 18302,
+                  "p50": 96.0,
+                  "p90": 176.0,
+                  "p99": 384.0,
+                  "max": 960.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 190113,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 80.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0001630609164023502,
+                  "at_cap_fraction": 0.0001209806799114211
+                },
+                "tile_0_2": {
+                  "pixels": 190085,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 416.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0020990609464187075,
+                  "at_cap_fraction": 0.0015940237262277402
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 326287,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 224.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018112888346762206,
+                  "at_cap_fraction": 0.001486421463312973
+                },
+                "tile_1_1": {
+                  "pixels": 998604,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 192.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0004215885375984875,
+                  "at_cap_fraction": 0.00032345153834753315
+                },
+                "tile_1_2": {
+                  "pixels": 998597,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 800.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007170059593609835,
+                  "at_cap_fraction": 0.0005517741391171814
+                },
+                "tile_1_3": {
+                  "pixels": 326218,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0009840045613669387,
+                  "at_cap_fraction": 0.0007265080406354033
+                },
+                "tile_2_0": {
+                  "pixels": 405932,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0005986224293724072,
+                  "at_cap_fraction": 0.0004754490899953687
+                },
+                "tile_2_1": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 544.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.000361,
+                  "at_cap_fraction": 0.000255
+                },
+                "tile_2_2": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 208.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 9.7e-05,
+                  "at_cap_fraction": 6.9e-05
+                },
+                "tile_2_3": {
+                  "pixels": 405931,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 272.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018697758978742692,
+                  "at_cap_fraction": 0.001379544799485627
+                },
+                "tile_3_0": {
+                  "pixels": 12022,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 128.0,
+                  "max": 320.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_1": {
+                  "pixels": 388008,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 176.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0015231644708356528,
+                  "at_cap_fraction": 0.001201006164821344
+                },
+                "tile_3_2": {
+                  "pixels": 388015,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00065976830792624,
+                  "at_cap_fraction": 0.0004819401311804956
+                },
+                "tile_3_3": {
+                  "pixels": 12018,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 224.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                }
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "8d807d78455f5def6acad8e3266b4e8d20a03818b7c160d8d926eb00fc7ab6f3",
+              "bytes": 292356556
+            },
+            "seconds": 45.571968582997215,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "3ee4fb74df9053da4efcddca09236da9f5a3f1a50ba915e72b15e925ff9a475e",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "matte_plastic",
+            "polished_metal"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/export.py": "3ee4fb74df9053da4efcddca09236da9f5a3f1a50ba915e72b15e925ff9a475e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/scene.toml": "6a13ea312a71e6c2f93521312479e9e739443dae9c2750d3ccecd0e501fa8d93"
+        },
+        "overrides": {},
+        "source_key": "ab25ac8d8629799af46706e6528ba370002205d3117a68e672a7e6e3a3871541",
+        "delivered_sha256": "c3afd59fe5e8880b489bf55f02763f5a8495e09872ee39e562355dcf5ec78b5b",
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/attempt-4556d122490b4588a67802629a2ebbc0/final.execution.json",
+        "execution_sha256": "d2ee6d8108b7bc3d7abfb1d4aba9eaf8baa5bef6a79876adac89605bdc5094a0",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 46.119470292003825,
+          "remaining_seconds": 852.922864082997,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 47.078226292011095,
+        "timing_scope": "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "3b2a659458ae759f6514d68abcc354245a945976aecd436135ecaed0267c6c22",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 43.32338349999918,
+        "process_cpu_seconds": 17.07494,
+        "log_sha256": "154b897504789512baeb460ae33b15c23af5e7ed9f99ca5e87cf5e66c82bd672",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinalaudit/.build/attempt-4556d122490b4588a67802629a2ebbc0/final.execution.exr",
+          "bytes": 292356556,
+          "sha256": "8d807d78455f5def6acad8e3266b4e8d20a03818b7c160d8d926eb00fc7ab6f3",
+          "seconds": 0.48524579098739196,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "d0c2101d6f72ea9085f57bbcc66b1a14826a22022d67ca49dc728bccdc980dca"
+      },
+      "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runfinalaudit",
+      "all_export_hashes_verified": true,
+      "export_files": 31,
+      "source_scope_matches_current": true
+    },
+    {
+      "name": "typography-current-seed0-t0.01-runfinaldeadline",
+      "measurement": {
+        "seconds": 51.97049695800524,
+        "render_seconds": 47.891317582994816,
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/attempt-89b73be46b2c46e1b0a7207617e2b88c/final.execution.json",
+        "png": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/final.png",
+        "sampling": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/final.sampling.json",
+        "export_manifest": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "44aed50b0859e83b451b90e16a09025da6a9f11101da9e630eb1c0827daebb43",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 0,
+              "overrides": {}
+            },
+            "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/attempt-89b73be46b2c46e1b0a7207617e2b88c/final.execution.json",
+            "execution_sha256": "4533af24253dac50546a71b3af4b7ca8ee5f2856d9f1a7aba495b8b1e4084bcd",
+            "delivered_sha256": "87e524c1ed85369ddcb5d604ddab49b7ac15ab2a45fffad8b293a9ba8790ecb4",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 6641830,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 256.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007205845376951834,
+                  "at_cap_fraction": 0.0005498484604393669
+                },
+                "dark": {
+                  "pixels": 6525626,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00011201990429730419,
+                  "at_cap_fraction": 8.106501966248142e-05
+                },
+                "alpha_boundary": {
+                  "pixels": 18302,
+                  "p50": 96.0,
+                  "p90": 176.0,
+                  "p99": 384.0,
+                  "max": 960.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 190113,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 80.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0001630609164023502,
+                  "at_cap_fraction": 0.0001209806799114211
+                },
+                "tile_0_2": {
+                  "pixels": 190085,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 416.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0020990609464187075,
+                  "at_cap_fraction": 0.0015940237262277402
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 326287,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 224.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018112888346762206,
+                  "at_cap_fraction": 0.001486421463312973
+                },
+                "tile_1_1": {
+                  "pixels": 998604,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 192.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0004215885375984875,
+                  "at_cap_fraction": 0.00032345153834753315
+                },
+                "tile_1_2": {
+                  "pixels": 998597,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 800.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007170059593609835,
+                  "at_cap_fraction": 0.0005517741391171814
+                },
+                "tile_1_3": {
+                  "pixels": 326218,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0009840045613669387,
+                  "at_cap_fraction": 0.0007265080406354033
+                },
+                "tile_2_0": {
+                  "pixels": 405932,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0005986224293724072,
+                  "at_cap_fraction": 0.0004754490899953687
+                },
+                "tile_2_1": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 544.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.000361,
+                  "at_cap_fraction": 0.000255
+                },
+                "tile_2_2": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 208.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 9.7e-05,
+                  "at_cap_fraction": 6.9e-05
+                },
+                "tile_2_3": {
+                  "pixels": 405931,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 272.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018697758978742692,
+                  "at_cap_fraction": 0.001379544799485627
+                },
+                "tile_3_0": {
+                  "pixels": 12022,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 128.0,
+                  "max": 320.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_1": {
+                  "pixels": 388008,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 176.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0015231644708356528,
+                  "at_cap_fraction": 0.001201006164821344
+                },
+                "tile_3_2": {
+                  "pixels": 388015,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00065976830792624,
+                  "at_cap_fraction": 0.0004819401311804956
+                },
+                "tile_3_3": {
+                  "pixels": 12018,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 224.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                }
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "602c01f5038a20bf6cb6bba6083661c86f48a007b14dc33f15e2669615d92aba",
+              "bytes": 292381987
+            },
+            "seconds": 45.83715054200729,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "cb886a1f49277fee382baf57601fa2682e9778fe93c723caef8771df13728129",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "matte_plastic",
+            "polished_metal"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/export.py": "cb886a1f49277fee382baf57601fa2682e9778fe93c723caef8771df13728129",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/scene.toml": "6a13ea312a71e6c2f93521312479e9e739443dae9c2750d3ccecd0e501fa8d93"
+        },
+        "overrides": {},
+        "source_key": "44aed50b0859e83b451b90e16a09025da6a9f11101da9e630eb1c0827daebb43",
+        "delivered_sha256": "87e524c1ed85369ddcb5d604ddab49b7ac15ab2a45fffad8b293a9ba8790ecb4",
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/attempt-89b73be46b2c46e1b0a7207617e2b88c/final.execution.json",
+        "execution_sha256": "4533af24253dac50546a71b3af4b7ca8ee5f2856d9f1a7aba495b8b1e4084bcd",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 46.692873624997446,
+          "remaining_seconds": 852.1126684170013,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 47.89093366599991,
+        "timing_scope": "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "a92d6f406159f50580077c8f396833f832138fc0b6883208b8a81ba112773511",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 43.58458570900257,
+        "process_cpu_seconds": 17.105884,
+        "log_sha256": "3b868755ecab442ea480cff2381ce5dfea7e5bad8638cd4f8e1fb2f36ad47833",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runfinaldeadline/.build/attempt-89b73be46b2c46e1b0a7207617e2b88c/final.execution.exr",
+          "bytes": 292381987,
+          "sha256": "602c01f5038a20bf6cb6bba6083661c86f48a007b14dc33f15e2669615d92aba",
+          "seconds": 0.48836387498886324,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "7c3fff49fb896038b0f66edc19d156a45236307ba19fcf2baa2f2d75e1bd957d"
+      },
+      "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runfinaldeadline",
+      "all_export_hashes_verified": true,
+      "export_files": 31,
+      "source_scope_matches_current": true
+    },
+    {
+      "name": "typography-current-seed0-t0.01-runworkerfinal",
+      "measurement": {
+        "seconds": 51.718415208000806,
+        "render_seconds": 47.594968750010594,
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/attempt-5911c7edba92485a960b1a7fde0e7936/final.execution.json",
+        "png": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/final.png",
+        "sampling": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/final.sampling.json",
+        "export_manifest": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "a9b73c45727bfa62f4ce51f7411992f3077702568c042184ef294fffacc7cd8b",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 0,
+              "overrides": {}
+            },
+            "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/attempt-5911c7edba92485a960b1a7fde0e7936/final.execution.json",
+            "execution_sha256": "d3c677584cad2bdc8ec7b7698c264cb2ffebfddb53c25a8bcd9d1b4f4c72a9b4",
+            "delivered_sha256": "73e8e09d07cd2396fbe97978ce4f9748528a9e5aca48bd1ae2870dc645c3f15a",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 6641830,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 256.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007205845376951834,
+                  "at_cap_fraction": 0.0005498484604393669
+                },
+                "dark": {
+                  "pixels": 6525628,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00011201986996500567,
+                  "at_cap_fraction": 8.106499481735704e-05
+                },
+                "alpha_boundary": {
+                  "pixels": 18302,
+                  "p50": 96.0,
+                  "p90": 176.0,
+                  "p99": 384.0,
+                  "max": 960.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 190113,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 80.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0001630609164023502,
+                  "at_cap_fraction": 0.0001209806799114211
+                },
+                "tile_0_2": {
+                  "pixels": 190085,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 416.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0020990609464187075,
+                  "at_cap_fraction": 0.0015940237262277402
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 326287,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 224.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018112888346762206,
+                  "at_cap_fraction": 0.001486421463312973
+                },
+                "tile_1_1": {
+                  "pixels": 998604,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 192.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0004215885375984875,
+                  "at_cap_fraction": 0.00032345153834753315
+                },
+                "tile_1_2": {
+                  "pixels": 998597,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 800.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007170059593609835,
+                  "at_cap_fraction": 0.0005517741391171814
+                },
+                "tile_1_3": {
+                  "pixels": 326218,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0009840045613669387,
+                  "at_cap_fraction": 0.0007265080406354033
+                },
+                "tile_2_0": {
+                  "pixels": 405932,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0005986224293724072,
+                  "at_cap_fraction": 0.0004754490899953687
+                },
+                "tile_2_1": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 544.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.000361,
+                  "at_cap_fraction": 0.000255
+                },
+                "tile_2_2": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 208.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 9.7e-05,
+                  "at_cap_fraction": 6.9e-05
+                },
+                "tile_2_3": {
+                  "pixels": 405931,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 272.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018697758978742692,
+                  "at_cap_fraction": 0.001379544799485627
+                },
+                "tile_3_0": {
+                  "pixels": 12022,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 128.0,
+                  "max": 320.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_1": {
+                  "pixels": 388008,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 176.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0015231644708356528,
+                  "at_cap_fraction": 0.001201006164821344
+                },
+                "tile_3_2": {
+                  "pixels": 388015,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00065976830792624,
+                  "at_cap_fraction": 0.0004819401311804956
+                },
+                "tile_3_3": {
+                  "pixels": 12018,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 224.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                }
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "5bfe4e118a542d263823ce361ef385b35ca313f667fec2e13db0b98f2447464e",
+              "bytes": 292386496
+            },
+            "seconds": 45.849875291998615,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "cb886a1f49277fee382baf57601fa2682e9778fe93c723caef8771df13728129",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "matte_plastic",
+            "polished_metal"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/render_export.py": "12e6f13b62dbb221ffcc74d5def5d1d17e2f7314827813e54479e7f9f9b5d92d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/export.py": "cb886a1f49277fee382baf57601fa2682e9778fe93c723caef8771df13728129",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/scene.toml": "6a13ea312a71e6c2f93521312479e9e739443dae9c2750d3ccecd0e501fa8d93"
+        },
+        "overrides": {},
+        "source_key": "a9b73c45727bfa62f4ce51f7411992f3077702568c042184ef294fffacc7cd8b",
+        "delivered_sha256": "73e8e09d07cd2396fbe97978ce4f9748528a9e5aca48bd1ae2870dc645c3f15a",
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/attempt-5911c7edba92485a960b1a7fde0e7936/final.execution.json",
+        "execution_sha256": "d3c677584cad2bdc8ec7b7698c264cb2ffebfddb53c25a8bcd9d1b4f4c72a9b4",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 46.45559024999966,
+          "remaining_seconds": 852.4088764999906,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 47.59463950000645,
+        "timing_scope": "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "844a946aff983c3a15011af00e8354acd419f92295d4219c933643725bb1d44d",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 43.52562379099254,
+        "process_cpu_seconds": 17.26236,
+        "log_sha256": "b535f69a04e835806e57e8efa044df41dcd4bb7ba2c310d8aebd0a2ce4cdd211",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runworkerfinal/.build/attempt-5911c7edba92485a960b1a7fde0e7936/final.execution.exr",
+          "bytes": 292386496,
+          "sha256": "5bfe4e118a542d263823ce361ef385b35ca313f667fec2e13db0b98f2447464e",
+          "seconds": 0.5151088339916896,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "4739770f02440b766d38c96f3c954f6d3913f9becc08b9b38d33c038ce8e56bb"
+      },
+      "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runworkerfinal",
+      "all_export_hashes_verified": true,
+      "export_files": 31,
+      "source_scope_matches_current": true
+    },
+    {
+      "name": "typography-current-seed0-t0.01-runzombies",
+      "measurement": {
+        "seconds": 51.70958779199282,
+        "render_seconds": 47.59933616599301,
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/attempt-23265498ed304adbbbbe07c05c06a791/final.execution.json",
+        "png": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/final.png",
+        "sampling": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/final.sampling.json",
+        "export_manifest": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "40f271b980c28992af0b703c1953d02eb2d4e929607005a025e99444413934af",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 0,
+              "overrides": {
+                "adaptive_threshold": 0.01
+              }
+            },
+            "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/attempt-23265498ed304adbbbbe07c05c06a791/final.execution.json",
+            "execution_sha256": "a7b2f1b5527ac489b4329adf0d21c273440ed5ab2da3a099c925b54b7a1850de",
+            "delivered_sha256": "b55a8abbe71fc73ac49a17cbeaa5d935764c6eabfc53f3b03c5d7c62e4e48d4f",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 6641830,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 256.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007205845376951834,
+                  "at_cap_fraction": 0.0005498484604393669
+                },
+                "dark": {
+                  "pixels": 6525625,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00011186667943683556,
+                  "at_cap_fraction": 8.091179005842352e-05
+                },
+                "alpha_boundary": {
+                  "pixels": 18302,
+                  "p50": 96.0,
+                  "p90": 176.0,
+                  "p99": 384.0,
+                  "max": 960.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 190113,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 80.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0001630609164023502,
+                  "at_cap_fraction": 0.0001209806799114211
+                },
+                "tile_0_2": {
+                  "pixels": 190085,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 416.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0020990609464187075,
+                  "at_cap_fraction": 0.0015940237262277402
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 326287,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 224.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018112888346762206,
+                  "at_cap_fraction": 0.001486421463312973
+                },
+                "tile_1_1": {
+                  "pixels": 998604,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 192.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0004215885375984875,
+                  "at_cap_fraction": 0.00032345153834753315
+                },
+                "tile_1_2": {
+                  "pixels": 998597,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 800.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007170059593609835,
+                  "at_cap_fraction": 0.0005517741391171814
+                },
+                "tile_1_3": {
+                  "pixels": 326218,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0009840045613669387,
+                  "at_cap_fraction": 0.0007265080406354033
+                },
+                "tile_2_0": {
+                  "pixels": 405932,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 160.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0005986224293724072,
+                  "at_cap_fraction": 0.0004754490899953687
+                },
+                "tile_2_1": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 544.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.000361,
+                  "at_cap_fraction": 0.000255
+                },
+                "tile_2_2": {
+                  "pixels": 1000000,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 208.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 9.7e-05,
+                  "at_cap_fraction": 6.9e-05
+                },
+                "tile_2_3": {
+                  "pixels": 405931,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 272.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0018697758978742692,
+                  "at_cap_fraction": 0.001379544799485627
+                },
+                "tile_3_0": {
+                  "pixels": 12022,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 128.0,
+                  "max": 320.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_1": {
+                  "pixels": 388008,
+                  "p50": 80.0,
+                  "p90": 96.0,
+                  "p99": 176.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0015231644708356528,
+                  "at_cap_fraction": 0.001201006164821344
+                },
+                "tile_3_2": {
+                  "pixels": 388015,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.00065976830792624,
+                  "at_cap_fraction": 0.0004819401311804956
+                },
+                "tile_3_3": {
+                  "pixels": 12018,
+                  "p50": 80.0,
+                  "p90": 80.0,
+                  "p99": 112.0,
+                  "max": 224.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                }
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "0138a0e3e96d50f9cbe6e8559864ab7a23aa7d275c8b0937ba986fbef8c32a61",
+              "bytes": 292422759
+            },
+            "seconds": 45.948086457996396,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "17365639c3831699e0f0b8750109c34639034ac9cfe58314e45889b7967634ad",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "d030103415f7140cf4bd0a79a02a4a695f92d93fec99bc72e9f85ae57521f30f",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "matte_plastic",
+            "polished_metal"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/benchmarks/omp/recipe/OpenSans-Bold-static.ttf": "34aa93563f79ca2881c60ca16377f9532802dab600995f058a76067d2a755fd5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/render_export.py": "17365639c3831699e0f0b8750109c34639034ac9cfe58314e45889b7967634ad",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/export.py": "d030103415f7140cf4bd0a79a02a4a695f92d93fec99bc72e9f85ae57521f30f",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/client.py": "26a17b6beed575a8bedc6c444c78b48e450920457bf869c17a5e40f098da1d0d",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/judging.py": "70d7d5816a0fae1601f9d752d5cc38606d9427ada6d1afee2bb3c619162ec01a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/pipeline.py": "978a5e075f423aed16a826b7622258d5b9a48d3d4133fec56aaa32d3eee93bc9",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py": "1e2593f1f828db41a040b29b879f2b011d49ceb4520dfd7ec2792e637bf685e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling.py": "65607e3b942a3e1e5ea9dc9c13dd76a913fc155f24b616231ed66cd8722f00e6",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/.codex/worktrees/ee57/logo-maker/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/motif.json": "04dc127e53193dc9a23d52c9eb5efdd7fc21a2819c78ca9c0bf74ccb2d7a01f9",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/motif.svg": "6e4e8264ad161f406d234434f669385515efa3790e978fd424ed4fad2de0ed92",
+          "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/scene.toml": "ef375d262401ad286dc0875d672cea8d92aadf04460b271007925842785d6de0"
+        },
+        "overrides": {
+          "adaptive_threshold": 0.01
+        },
+        "source_key": "40f271b980c28992af0b703c1953d02eb2d4e929607005a025e99444413934af",
+        "delivered_sha256": "b55a8abbe71fc73ac49a17cbeaa5d935764c6eabfc53f3b03c5d7c62e4e48d4f",
+        "execution": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/attempt-23265498ed304adbbbbe07c05c06a791/final.execution.json",
+        "execution_sha256": "a7b2f1b5527ac489b4329adf0d21c273440ed5ab2da3a099c925b54b7a1850de",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 46.53702858299948,
+          "remaining_seconds": 852.4020845410123,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 47.59902662500099,
+        "timing_scope": "compile, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "c0f204fa16332bd684df737298efca911a4b76ede0ef773221fa86067f379f82",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 43.67529758300225,
+        "process_cpu_seconds": 17.13611,
+        "log_sha256": "fa80138dc348ae82c76c73d2aa2d86876a1438a426db477bb740f101b628809f",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/private/tmp/logo-maker-sampling-validation/typography-current-seed0-t0.01-runzombies/.build/attempt-23265498ed304adbbbbe07c05c06a791/final.execution.exr",
+          "bytes": 292422759,
+          "sha256": "0138a0e3e96d50f9cbe6e8559864ab7a23aa7d275c8b0937ba986fbef8c32a61",
+          "seconds": 0.4946023329976015,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "421e1ca75ea774550a74656aabb6c8bacd2f70c9783bbb27f67ad95f404b6c65"
+      },
+      "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runzombies",
+      "all_export_hashes_verified": true,
+      "export_files": 31,
+      "source_scope_matches_current": true
+    }
+  ]
+}

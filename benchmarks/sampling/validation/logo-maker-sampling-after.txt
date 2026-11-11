@@ -1,0 +1,9 @@
+COMMAND: repeat generic clean_edges repair five times
+REVISION: d9d61ae
+INPUT: adaptive_threshold=0.01, max_samples=4096
+Round 1: threshold=0.01     cap=4096; edits=0
+Round 2: threshold=0.01     cap=4096; edits=0
+Round 3: threshold=0.01     cap=4096; edits=0
+Round 4: threshold=0.01     cap=4096; edits=0
+Round 5: threshold=0.01     cap=4096; edits=0
+Generic edges alone do not identify a sampling defect.

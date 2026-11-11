@@ -19,9 +19,11 @@ from typing import Any
 import tomlkit
 
 from logo_maker import brief as brief_mod
+from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
-from logo_maker.paths import LogoDir
+from logo_maker.paths import LogoDir, concept_slug
 from logo_maker.runlog import runlog
+from logo_maker.sampling import Budget
 
 METAPHORS_TEMPLATE = """# Metaphors for this brand: 8-40 distinct ideas the mark could show, each in one or two sentences that
 # say what it depicts and why it fits the brief. Ids are short slugs. Derive every idea from the brief.
@@ -63,10 +65,36 @@ class Brand:
     fonts: dict[str, str]
 
 
-def _client(logo: LogoDir):
+def _client(logo: LogoDir, *, budget: Budget | None = None):
     from logo_maker.jev.client import JevClient
 
-    return JevClient(logo)
+    return JevClient(logo, budget=budget)
+
+
+def _bounded_inputs(logo: LogoDir, budget: Budget, *, brand_required: bool = False, **flags):
+    data = host.run(
+        {"operation": "pipeline_inputs", "root": str(logo.root), "brand": brand_required, **flags},
+        budget,
+        [],
+    )
+    fields = data["brief"]
+    fields["references"] = tuple(
+        brief_mod.Reference(Path(r["path"]), r["use"], r["note"]) for r in fields["references"]
+    )
+    brief = brief_mod.Brief(**fields)
+    brand_ = Brand(**data["brand"]) if brand_required else None
+    return brief, brand_, data
+
+
+def _budgeted_client(client, budget: Budget):
+    from logo_maker.proc import ToolError
+
+    binder = getattr(client, "with_budget", None)
+    if not callable(binder):
+        raise ToolError(
+            "budget_conflict: finalization requires a client with explicit budget binding"
+        )
+    return binder(budget)
 
 
 def _read_json(path: Path) -> Any:
@@ -342,15 +370,10 @@ def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
 
 
 def _fresh(output: Path, concept_dir: Path) -> bool:
-    """True when `output` is newer than every input that shapes it."""
-    if not output.exists():
-        return False
-    inputs = [
-        concept_dir / n
-        for n in ("scene.toml", "motif.json", "scene.py")
-        if (concept_dir / n).exists()
-    ]
-    return all(output.stat().st_mtime >= p.stat().st_mtime for p in inputs)
+    """Only content-bound verified renders are reusable; mtime is insufficient."""
+    from logo_maker.render import artifact_current
+
+    return artifact_current(concept_dir, output.stem)
 
 
 # ---------------------------------------------------------------- finalize + QA loop
@@ -367,14 +390,6 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
         framing = max(round(float(camera.get("framing", 0.84)) * 0.9, 3), 0.6)
         camera["framing"] = framing
         changes.append(f"camera.framing -> {framing}")
-    if failures & {"clean_edges", "edges"}:
-        # Set once to the stricter preset; never keep halving across rounds.
-        threshold = min(round(float(render_tbl.get("adaptive_threshold", 0.01)) / 2, 5), 0.005)
-        render_tbl["adaptive_threshold"] = max(threshold, 0.001)
-        render_tbl["max_samples"] = 8192
-        changes.append(
-            f"render.adaptive_threshold -> {render_tbl['adaptive_threshold']}, max_samples -> 8192"
-        )
     if "motif_readable" in failures:
         for component in doc.get("components", []):
             if component.get("kind") in {"relief", "layers", "extrude", "inflate"}:
@@ -387,30 +402,38 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
     if failures & {"no_veil_or_box", "veil"}:
         render_tbl["alpha_cleanup"] = True
         changes.append("render.alpha_cleanup -> true")
-    scene_path.write_text(tomlkit.dumps(doc))
+    pending = scene_path.with_suffix(".toml.pending")
+    pending.write_text(tomlkit.dumps(doc))
+    pending.replace(scene_path)
     return changes
 
 
-def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[str, Any]:
+def qa_concept(
+    logo: LogoDir, concept_id: str, client, brand_: Brand, *, budget: Budget | None = None
+) -> dict[str, Any]:
     """Render final, judge, fix, re-render: up to MAX_QA_ROUNDS. Returns the last round's record."""
-    from logo_maker import checks, judging, render
+    from logo_maker import judging, render
 
-    brief = brief_mod.load(logo.brief)
-    folder = logo.concept(concept_id)
-    rounds_path = logo.qa / "rounds.jsonl"
-    log = runlog(logo.run_json)
+    budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
+    budget.check()
+    client = _budgeted_client(client, budget)
+    brief = _bounded_inputs(logo, budget)[0]
+    folder = logo.root / "concepts" / concept_slug(concept_id)
+    rounds_path = logo.root / "qa" / "rounds.jsonl"
+    log = runlog(logo.run_json, budget=budget)
     record: dict[str, Any] = {}
     for round_no in range(1, MAX_QA_ROUNDS + 1):
-        if not _fresh(folder / "final.png", folder):
-            render.render(folder, "final")
+        budget.check()
+        if not render.artifact_current(folder, "final", budget=budget):
+            render.render(folder, "final", budget=budget)
         final = folder / "final.png"
-        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
-        code = {
-            "alpha": checks.alpha_report(final),
-            "margin": checks.margin_report(final),
-            "edges": checks.edge_report(final),
-            "colors": checks.color_report(final, brand_.palette),
-        }
+        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
+        host_stages: list[dict] = []
+        code = host.run(
+            {"operation": "qa_checks", "png": str(final), "palette": brand_.palette},
+            budget,
+            host_stages,
+        )
         # Only clear fails block and get fixed (questions.qa_blocks); unsettled is recorded.
         failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
         failures |= {"veil"} if code["alpha"]["veil"] else set()
@@ -424,20 +447,54 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
             "unsettled": unsettled,
             "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
             "code": code,
+            "host_stages": host_stages,
             "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         }
+        budget.check()
+        sampling_path = folder / ".build/final.sampling.json"
+        sampling = host.run(
+            {"operation": "read_json", "path": str(sampling_path), "default": {}}, budget, []
+        )["data"]
+        record["sampling"] = sampling.get("outcomes", {"noise": "unknown", "device": "unknown"})
+        record["sampling_profile"] = sampling.get("profile", {"state": "profile_unqualified"})
+        record["budget"] = budget.record()
         fixable = failures - {"recognizable_at_32px"}
-        if not failures:
+        if failures & {"clean_edges", "edges"}:
+            record["result"] = "refinement_needed"
+            record["refinement"] = {
+                "dimension": "edges_unknown_cause",
+                "artifact": str(final),
+                "source_key": sampling.get("source_key"),
+                "image_sha256": sampling.get("delivered_sha256"),
+                "next": "compare independent-seed noisy/denoised detail; distinguish noise, geometry, typography, filtering, resolution and alpha before repair",
+            }
+        elif not failures and (
+            record["sampling_profile"]["state"] != "qualified"
+            or record["sampling"].get("sampling") != "profile_baseline"
+        ):
+            record["result"] = "sampling_review_needed"
+        elif not failures:
             record["result"] = "pass"
         elif not fixable:
             record["result"] = "needs_simpler_motif"
         else:
-            record["changes"] = _apply_fixes(folder / "scene.toml", fixable)
+            record["changes"] = host.run(
+                {
+                    "operation": "apply_fixes",
+                    "path": str(folder / "scene.toml"),
+                    "failures": sorted(fixable),
+                },
+                budget,
+                [],
+            )["changes"]
             record["result"] = "fixing"
-        with rounds_path.open("a") as fh:
-            fh.write(json.dumps(record) + "\n")
+        host.run(
+            {"operation": "append_jsonl", "path": str(rounds_path), "data": record}, budget, []
+        )
         log.event(
-            f"qa {concept_id} round {round_no}: {record['result']}", failures=sorted(failures)
+            f"qa {concept_id} round {round_no}: {record['result']}",
+            failures=sorted(failures),
+            budget=budget,
         )
         if record["result"] != "fixing":
             break
@@ -446,42 +503,72 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
     return record
 
 
-def finalize(logo: LogoDir, client=None) -> str:
+def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str:
     from logo_maker import judging
 
-    finalists_path = logo.ideation / "finalists.json"
-    if not finalists_path.exists():
-        raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
-    data = _read_json(finalists_path)
-    finalists = list(data["ids"])
-    client = client or _client(logo)
-    brand_ = brand(logo)
+    caller_budget = budget
+    bootstrap = budget or Budget(attempt_limit=64)
+    job_started = bootstrap.clock()
+    bootstrap.check()
+    brief, brand_, setup = _bounded_inputs(logo, bootstrap, brand_required=True, finalists=True)
+    finalists = list(setup["finalists"])
+    client = client or _client(logo, budget=bootstrap)
     # One finalist at a time: each final render saturates the GPU.
-    results = {cid: qa_concept(logo, cid, client, brand_) for cid in finalists}
+    budget = Budget(
+        attempt_limit=min(64, max(1, len(finalists)) * 4),
+        parent=caller_budget,
+        clock=bootstrap.clock,
+        started_at=job_started,
+    )
+    budget.check()
+    results = {cid: qa_concept(logo, cid, client, brand_, budget=budget) for cid in finalists}
     passed = [cid for cid, r in results.items() if r["result"] == "pass"]
-    log = runlog(logo.run_json)
+    log = runlog(logo.run_json, budget=budget)
     if not passed:
-        log.stage("finalize", "failed", qa={k: v["result"] for k, v in results.items()})
-        raise AuthoringNeeded(
-            "no finalist passed QA; simplify the motifs named in qa/rounds.jsonl",
-            [logo.concept(cid) / "motif.py" for cid in finalists],
+        log.stage(
+            "finalize", "failed", budget=budget, qa={k: v["result"] for k, v in results.items()}
         )
-    brief = brief_mod.load(logo.brief)
+        files = []
+        for cid, result in results.items():
+            folder = logo.root / "concepts" / concept_slug(cid)
+            if result["result"] == "sampling_review_needed":
+                files.extend([folder / ".build/final.sampling.json", folder / "scene.toml"])
+            elif result["result"] == "refinement_needed":
+                files.extend([folder / "scene.toml", folder / ".build/final.sampling.json"])
+            else:
+                files.append(folder / "motif.py")
+        raise AuthoringNeeded(
+            "no finalist qualified; inspect sampling/refinement outcomes in qa/rounds.jsonl",
+            files,
+        )
     if len(passed) == 1:
         winner = passed[0]
-        _write_json(
-            logo.ideation / "winner.json", {"winner": winner, "reason": "only finalist to pass QA"}
-        )
+        winner_record = {"winner": winner, "reason": "only finalist to pass QA"}
     else:
-        winner = judging.final_tournament(
-            logo, brief, {cid: logo.concept(cid) / "final.png" for cid in passed}, client
+        winner_record = judging.final_tournament_record(
+            brief,
+            {cid: (logo.root / "concepts" / concept_slug(cid)) / "final.png" for cid in passed},
+            _budgeted_client(client, budget),
         )
-    log.stage("finalize", "done", winner=winner, qa={k: v["result"] for k, v in results.items()})
+        winner = winner_record["winner"]
+    log.publish_stage(
+        "finalize",
+        [
+            {
+                "target": str(logo.root / "ideation" / "winner.json"),
+                "text": json.dumps(winner_record, indent=2),
+            },
+        ],
+        logo.root / "ideation" / (".finalize-publication-" + str(time.monotonic_ns()) + ".json"),
+        budget,
+        winner=winner,
+        qa={k: v["result"] for k, v in results.items()},
+    )
     return winner
 
 
 def winner(logo: LogoDir) -> str:
-    path = logo.ideation / "winner.json"
+    path = logo.root / "ideation" / "winner.json"
     if not path.exists():
         raise RuntimeError(f"{logo.slug}: no winner; run `logo-maker finalize {logo.slug}`")
     return _read_json(path)["winner"]
@@ -490,25 +577,48 @@ def winner(logo: LogoDir) -> str:
 # ---------------------------------------------------------------- export, run, improve
 
 
-def export(logo: LogoDir) -> dict[str, Path]:
+def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     from logo_maker import export as export_mod
 
-    brief = brief_mod.load(logo.brief)
-    folder = logo.concept(winner(logo))
+    budget = budget or Budget()
+    budget.check()
+    brief, brand_, setup = _bounded_inputs(logo, budget, brand_required=True, winner=True)
+    folder = logo.root / "concepts" / concept_slug(setup["winner"])
+    from logo_maker.render import artifact_current
+
+    snapshot = host.run(
+        {"operation": "read_json", "path": str(folder / ".build/final.sampling.json")}, budget, []
+    )
+    sampling = snapshot["data"] or {}
+    if (
+        sampling.get("profile", {}).get("state") != "qualified"
+        or sampling.get("outcomes", {}).get("sampling") != "profile_baseline"
+    ):
+        raise AuthoringNeeded(
+            "sampling qualification unresolved; prior exports retained",
+            [folder / ".build/final.sampling.json"],
+        )
+    if not artifact_current(
+        folder, "final", budget=budget, expected_record_sha256=snapshot["sha256"]
+    ):
+        raise AuthoringNeeded("final provenance changed; finalize again", [folder / "scene.toml"])
     manifest = export_mod.export_all(
         folder,
-        logo.exports,
+        logo.root / "exports",
         name=brief.name,
-        palette=brand(logo).palette,
+        palette=brand_.palette,
         motif_svg=folder / "motif.svg",
+        budget=budget,
+        publication_log=runlog(logo.run_json, budget=budget),
+        expected_sampling_sha256=snapshot["sha256"],
     )
-    runlog(logo.run_json).stage("export", "done", files=len(manifest))
     return manifest
 
 
 def run(logo: LogoDir, client=None) -> dict[str, Path]:
-    client = client or _client(logo)
-    log = runlog(logo.run_json)
+    budget = Budget(attempt_limit=12)
+    client = client or _client(logo, budget=budget)
+    log = runlog(logo.run_json, budget=budget)
     if log.stage_status("intake") != "done":
         intake(logo, client)
     if log.stage_status("ideate") != "done":
@@ -516,8 +626,8 @@ def run(logo: LogoDir, client=None) -> dict[str, Path]:
     if log.stage_status("preview") != "done":
         preview(logo, client)
     if log.stage_status("finalize") != "done":
-        finalize(logo, client)
-    return export(logo)
+        finalize(logo, client, budget=budget)
+    return export(logo, budget=budget)
 
 
 def improve(logo: LogoDir, client=None) -> dict[str, Any]:

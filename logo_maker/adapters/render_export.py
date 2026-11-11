@@ -5,7 +5,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from logo_maker.adapters import Adapter, node_package, python_module
+from logo_maker.adapters import Adapter, binary, node_package, python_module
 
 
 def _chrome() -> str | None:
@@ -25,6 +25,24 @@ def _playwright_chrome() -> str | None:
 
 
 ADAPTERS: list[Adapter] = [
+    Adapter(
+        "sysctl (macOS hardware identity)",
+        "rendering",
+        "BSD-3-Clause",
+        "reads hardware and OS-build fields for sampling profile invalidation",
+        "logo_maker.blender.profile:environment",
+        binary("sysctl"),
+        "restore /usr/sbin/sysctl from macOS system tools and include /usr/sbin on PATH",
+    ),
+    Adapter(
+        "ps (system process status)",
+        "post_export",
+        "BSD-3-Clause OR GPL-2.0-or-later",
+        "distinguishes stopped zombie groups from denied live export work",
+        "logo_maker.owned_process:_group_has_live_members",
+        binary("/bin/ps"),
+        "restore /bin/ps from macOS system tools or Linux procps",
+    ),
     Adapter(
         "Mitsuba 3",
         "rendering",

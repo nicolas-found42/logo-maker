@@ -1,0 +1,130 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "safe_to_apply_below_review",
+    "review_escalated",
+    "claims_contradicted",
+    "claims_unsupported",
+    "claim_confidence_low",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.09,
+    "scores": {
+      "correctness": {
+        "score": 0.63,
+        "confidence": 0.33,
+        "probabilities": {
+          "0": 0.41,
+          "1": 0.55,
+          "2": 0.04
+        }
+      },
+      "spec_match": {
+        "score": 1.22,
+        "confidence": 0.52,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.68,
+          "2": 0.27
+        }
+      },
+      "test_gap": {
+        "score": 1.72,
+        "confidence": 0.58,
+        "probabilities": {
+          "0": 0.04,
+          "1": 0.2,
+          "2": 0.76
+        }
+      },
+      "blast_radius": {
+        "score": 1.92,
+        "confidence": 0.88,
+        "probabilities": {
+          "0": 0,
+          "1": 0.08,
+          "2": 0.92
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.336,
+    "reason_codes": [
+      "confidence_below_review",
+      "safe_to_apply_below_review"
+    ],
+    "limiting_rubrics": [
+      "correctness"
+    ]
+  },
+  "verification": {
+    "action": "escalate",
+    "summary": {
+      "verified": 0,
+      "contradicted": 2,
+      "unsupported": 1,
+      "needs_review": 3,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "Local checks passed235 offline tests,3 render checks,48 doctor checks,lint,types,hooks for this increment.",
+        "verdict": "contradicted",
+        "confidence": 0.44,
+        "probabilities": {
+          "verified": 0.33,
+          "contradicted": 0.63,
+          "unsupported": 0.04
+        },
+        "action": "escalate"
+      },
+      {
+        "claim": "The stalled profile read and export provenance read each exceeded a6-second budget before the fix (~10.8/~10.1s), then returned within budget (~5.1/~5.2s) after the fix. Public tests preserve prior outputs; the render test starts no GPU attempt.",
+        "verdict": "contradicted",
+        "confidence": 0.48,
+        "probabilities": {
+          "verified": 0.08,
+          "contradicted": 0.65,
+          "unsupported": 0.27
+        },
+        "action": "escalate"
+      },
+      {
+        "claim": "Explicit render overrides remain preserved through worker JSON; conflicts cannot inherit qualified profile acceptance. The override test uses synthetic review data, not actual owner approval.",
+        "verdict": "unsupported",
+        "confidence": 0.67,
+        "probabilities": {
+          "verified": 0.2,
+          "contradicted": 0.02,
+          "unsupported": 0.78
+        },
+        "action": "review"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 9299,
+    "output_tokens": 204
+  }
+}

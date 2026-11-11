@@ -1,0 +1,374 @@
+{
+  "pairs": [
+    {
+      "baseline_seconds": 47.20010504199308,
+      "current_seconds": 50.088967207993846,
+      "scope": "complete outer render+full-export invocation; .01/4096/seed0, baseline 38ba86b9ccff305cb453c46920824509ae989f76 vs current runtime; calibration and live QA separate"
+    },
+    {
+      "baseline_seconds": 46.92934562500159,
+      "current_seconds": 50.20010354100668,
+      "scope": "complete outer render+full-export invocation; .01/4096/seed0, baseline 38ba86b9ccff305cb453c46920824509ae989f76 vs current runtime; calibration and live QA separate"
+    }
+  ],
+  "jobs": [
+    {
+      "arm": "baseline",
+      "round": 1,
+      "measurement": {
+        "seconds": 46.97018974999082,
+        "render_seconds": 43.00869375000184,
+        "render_module": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/baseline-source/logo_maker/render.py",
+        "render_module_sha256": "99b48851608cf3be03b1f9ba8862b3db27ff0efde4f555cb93ead46d98a0e30a",
+        "interpreter": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/bin/python",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-1/.build/final.execution.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-1/final.png",
+        "sampling": "None",
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-1/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete",
+        "invocation_seconds": 47.20010504199308,
+        "startup_and_reporting_seconds": 0.22991529200226068,
+        "invocation_scope": "outer launch, worker imports, complete render/export body, native shutdown and log IO; excludes later evidence-copy/review and this measurement annotation",
+        "launch_cwd": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/baseline-source"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "fafc4ee18d48dd5081dd32dd0b910f0d31ce6cb85d930cb0b3ac81d18b87027d",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 40.61012137500802,
+        "process_cpu_seconds": 14.118667,
+        "log_sha256": "55a959255cc9809032b59f7634eca8f17f141f06c3ce1f5eaeed96195f5238df",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "png_sha256": "86e5317aa6d566e9e195391c9b6b076da3a29f5e7889806244790ff1d2b61cb1"
+      },
+      "verified_exports": 31
+    },
+    {
+      "arm": "current",
+      "round": 1,
+      "measurement": {
+        "seconds": 49.861578833995736,
+        "render_seconds": 45.985559708002256,
+        "render_module": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py",
+        "render_module_sha256": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+        "interpreter": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/bin/python",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/.build/attempt-7df985cd2bab4cb0a9349e50992d3de6/final.execution.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/final.png",
+        "sampling": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/.build/final.sampling.json",
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete",
+        "invocation_seconds": 50.088967207993846,
+        "startup_and_reporting_seconds": 0.22738837399811018,
+        "invocation_scope": "outer launch, worker imports, complete render/export body, native shutdown and log IO; excludes later evidence-copy/review and this measurement annotation",
+        "launch_cwd": "/Users/nicolas/.codex/worktrees/ee57/logo-maker"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "60330c76c9b5f45ba646c5744aa93695468067ba5a6e7fcd0d7a0c850a7988d9",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 41.37813683299464,
+        "process_cpu_seconds": 16.285736,
+        "log_sha256": "978df963fcb333bd95746deea263141136dd96a5e48e1a436f8cc4b27ccfa4be",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/.build/attempt-7df985cd2bab4cb0a9349e50992d3de6/final.execution.exr",
+          "bytes": 292400680,
+          "sha256": "1cfd9d0de7eb154e2d4da54fa0acfc856eba3896704267e062aa31c4aaf63437",
+          "seconds": 0.4802625000011176,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "53830d8a3943344904c6457d21dd410321d46dd8233e12c82d7574bf28a39864"
+      },
+      "verified_exports": 31
+    },
+    {
+      "arm": "baseline",
+      "round": 2,
+      "measurement": {
+        "seconds": 46.661672000002,
+        "render_seconds": 42.70770774999983,
+        "render_module": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/baseline-source/logo_maker/render.py",
+        "render_module_sha256": "99b48851608cf3be03b1f9ba8862b3db27ff0efde4f555cb93ead46d98a0e30a",
+        "interpreter": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/bin/python",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-2/.build/final.execution.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-2/final.png",
+        "sampling": "None",
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-2/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete",
+        "invocation_seconds": 46.92934562500159,
+        "startup_and_reporting_seconds": 0.26767362499958836,
+        "invocation_scope": "outer launch, worker imports, complete render/export body, native shutdown and log IO; excludes later evidence-copy/review and this measurement annotation",
+        "launch_cwd": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/baseline-source"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "fafc4ee18d48dd5081dd32dd0b910f0d31ce6cb85d930cb0b3ac81d18b87027d",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 40.33133058399835,
+        "process_cpu_seconds": 14.078401,
+        "log_sha256": "b8398f6566c82bc08ed68687e9c53acfab9a69652413f048411d737db5fe5dc3",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "png_sha256": "d407d8776f2179c9e4e4429a72c13acb80706c73eebd39a4424f2da11e7d4e54"
+      },
+      "verified_exports": 31
+    },
+    {
+      "arm": "current",
+      "round": 2,
+      "measurement": {
+        "seconds": 49.95069587499893,
+        "render_seconds": 46.03586054100015,
+        "render_module": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/logo_maker/render.py",
+        "render_module_sha256": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+        "interpreter": "/Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/bin/python",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/.build/attempt-564c790f13794621bc6bfa6c5c303f28/final.execution.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/final.png",
+        "sampling": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/.build/final.sampling.json",
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/exports/manifest.json",
+        "timing_scope": "host motif preparation, compile, process startup, all rendering/denoising/diagnostic IO, downsample and full export; excludes parent process launch and later review sheets",
+        "kernel_cache_state": "unknown",
+        "owner_review": "pending",
+        "qualification": "incomplete",
+        "invocation_seconds": 50.20010354100668,
+        "startup_and_reporting_seconds": 0.24940766600775532,
+        "invocation_scope": "outer launch, worker imports, complete render/export body, native shutdown and log IO; excludes later evidence-copy/review and this measurement annotation",
+        "launch_cwd": "/Users/nicolas/.codex/worktrees/ee57/logo-maker"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "4c46456783bc08e6a77583a7905cae8823680af75e0a0dc3d139bc3d018d21cf",
+          "meshes/ring_text_2.ply": "9e6163747d480212033139f744d7ebf9c01115ee5a3b8e4129394be17eab77f8",
+          "meshes/plate_0.ply": "f4b151339f0568d59314793d004d2a77e9af3a63b2c341da2ba8c371f2d0c7b8",
+          "meshes/relief_1.ply": "b58b130b275cae3e6f9870a989c460842a47cf17719862b2cbf2c4d51c607d46"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 0,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 41.20808887499152,
+        "process_cpu_seconds": 16.971394,
+        "log_sha256": "fcebf9574f72a3b919d0a341e4b42e50ecdcc65d81e0c80de358f616bb30a267",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/.build/attempt-564c790f13794621bc6bfa6c5c303f28/final.execution.exr",
+          "bytes": 292345902,
+          "sha256": "b4af2f60a52b7c130774ffa1e13646cdaf732e4feb58d3d5fe3791aafebffd3b",
+          "seconds": 0.5253616660047555,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "a1d4934f0b2fc38f90529e7bca3df479f787fb217f82a66f7d1f355e8f76705c"
+      },
+      "verified_exports": 31
+    }
+  ],
+  "cold_state": "unknown",
+  "load": "other host work uncontrolled; no speedup or distribution claim"
+}

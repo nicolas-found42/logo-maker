@@ -61,6 +61,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | OIDN | Apache-2.0 | GPU denoiser for Cycles previews and finals | `logo_maker.blender.settings:apply_quality` | `uv sync (ships with bpy)` |
 | Line Art | GPL-3.0-or-later | Outline strokes for toon and lineart looks (Freestyle fallback) | `logo_maker.blender.components:setup_outlines` | `uv sync (ships with bpy)` |
 | compositor glare/DOF | GPL-3.0-or-later | Bloom glare mix and camera depth of field when the scene asks | `logo_maker.blender.components:setup_compositor` | `uv sync (ships with bpy)` |
+| sysctl (macOS hardware identity) | BSD-3-Clause | reads hardware and OS-build fields for sampling profile invalidation | `logo_maker.blender.profile:environment` | `restore /usr/sbin/sysctl from macOS system tools and include /usr/sbin on PATH` |
 | Mitsuba 3 | BSD-3-Clause | alternate PBR renderer (principled BSDF, rect/point/sun lights) | `logo_maker.renderers.mitsuba:render` | `uv sync` |
 | LuxCoreRender | Apache-2.0 | alternate unbiased renderer (disney, PATHCPU, alpha film output) | `logo_maker.renderers.luxcore:render` | `uv sync` |
 | three.js | MIT | WebGL renderer for the glb (RoomEnvironment/HDRI, physical lights) | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
@@ -72,6 +73,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 
 | Tool | License | Use | Entry | Fix |
 |---|---|---|---|---|
+| ps (system process status) | BSD-3-Clause OR GPL-2.0-or-later | distinguishes stopped zombie groups from denied live export work | `logo_maker.owned_process:_group_has_live_members` | `restore /bin/ps from macOS system tools or Linux procps` |
 | OpenImageIO | Apache-2.0 | lanczos3 premultiplied-alpha-correct downsampling | `logo_maker.imageops:downsample` | `uv sync` |
 | SVGO | MIT | SVG optimization for the mark exports | `logo_maker.export:optimize_svg` | `just setup (runs npm ci in js/)` |
 | favicons | MIT | installability meta: manifest icons, ms tiles, browserconfig | `logo_maker.export:favicons_meta` | `just setup (runs npm ci in js/)` |

@@ -1,0 +1,66 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result ______
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-229/test_stalled_image_hash_stops_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106e1e8b0>
+
+    def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path, monkeypatch):
+        import contextlib
+        import os
+        import threading
+        import time
+
+        from logo_maker.sampling import SamplingLimit
+
+        if os.name != "posix":
+            pytest.skip("bounded host workers target macOS/Linux")
+        compiled(tmp_path)
+        prior = tmp_path / "preview.png"
+        prior.write_bytes(b"approved prior preview")
+        stop = threading.Event()
+        writers = []
+        monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+        def builder(path, *args, budget):
+            budget.begin_attempt()
+            folder = Path(json.loads(path.read_text())["output_dir"])
+            image = folder / "preview.png"
+            os.mkfifo(image)
+            (folder / "preview.execution.json").write_text('{"status":"verified"}')
+
+            def release_old_unbounded_call():
+                descriptor = None
+                try:
+                    while not stop.is_set():
+                        try:
+                            descriptor = os.open(image, os.O_WRONLY | os.O_NONBLOCK)
+                            break
+                        except OSError:
+                            stop.wait(0.01)
+                    if descriptor is not None and not stop.wait(10):
+                        with contextlib.suppress(BrokenPipeError):
+                            os.write(descriptor, b"rendered preview bytes")
+                finally:
+                    if descriptor is not None:
+                        os.close(descriptor)
+
+            writer = threading.Thread(target=release_old_unbounded_call, daemon=True)
+            writer.start()
+            writers.append(writer)
+
+        monkeypatch.setattr(render, "_run_builder", builder)
+        started = time.monotonic()
+        try:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+                render.render(tmp_path, "preview", budget=Budget(wall_seconds=6))
+>           assert time.monotonic() - started < 9, "image hash overran the wall budget"
+E           AssertionError: image hash overran the wall budget
+E           assert (101892.580238708 - 101881.985535416) < 9
+E            +  where 101892.580238708 = <built-in function monotonic>()
+E            +    where <built-in function monotonic> = <module 'time' (built-in)>.monotonic
+
+tests/test_sampling_render.py:179: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result
+1 failed, 10 deselected in 10.69s
