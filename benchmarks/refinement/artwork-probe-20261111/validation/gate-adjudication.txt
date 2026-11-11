@@ -1,0 +1,12 @@
+Independent adjudication of single Jev gate escalation on 0a94ddf
+
+Claim 4 is supported by the actual repository evidence. The gate was supplied an incomplete evidence subset; its unsupported classification identifies no concrete false statement or implementation defect. No Jev retry was made.
+
+1. Compared public review-followup/snapshots/open-commons--extruded-solid--paper/revision.json (0005) with artwork-probe-20261111/snapshots/paper/revision.json (0006): all 98 source_sha256 inventory entries and hashes match, with zero differences. This establishes source-identical replay, not pixel-identical output or a new visual alternative.
+2. Current comparison.json records visually_distinct .01 and critique_resolved .05. Current qualification.json has eligibility status fail, with all four Chief-reference/order craft comparisons failing. These exactly support the quantitative and craft-floor claims.
+3. Parsed the full retained paper plan-review journal. Its final row is unsettled specifically on plan_construction; mandates and other listed dimensions pass. The public proposal plan.toml SHA-256 matches that final review input. The local six open-commons retained revisions contain neither the final proposed concept hash nor plan hash. Local authoring-history retains the bonded-lap proposal separately; raw disposition explicitly says no lower-level rendering bypass, and restored bindings identify current paper0006/restored authored0005. The earlier disposition's paper_current0005 is an earlier historical record, consistent with the later replay/restoration record.
+4. README, current inspection and qualification retain authoring-needed/failing states and explicitly disclaim new owner artistic approval, qualified finalist/winner or production export. Owner clarification only permits open paper structures; it is not artistic acceptance. The fresh synthetic runtime fixture is separately disclosed and does not certify this paper artwork.
+
+Additional checks: all 93 validation/source-binding.json hashes match current source; manifest contains 72 retained provider request maps. The archive verifier already passes all request/image bindings, source inventories and GPU runtime evidence.
+
+Decision: no concrete defect warrants a code, artifact or claim fix. Preserve the gate escalation and this independent evidence adjudication together; do not convert software/archive integrity into artistic acceptance. Issue #3 remains open and artwork authoring remains incomplete.

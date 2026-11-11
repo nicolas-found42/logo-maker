@@ -1,0 +1,7 @@
+Spec follow-up: 5518ce5..0a94ddf
+
+No actionable spec mismatch or scope creep found. README test counts/timings match retained offline, GPU and live logs. Fresh synthetic final-runtime measurement supports 64.22 s body, 55.31 s render, 4.40 s export, 3.72 s finalize/QA, one request, 31 verified low-level exports and sampling_review_needed. Canned brief/plan answers, unknown kernel-cache state and absence of artwork final/export qualification are explicitly disclosed. Historical runtime reuse is removed from this bundle.
+
+Added before-metaphors files and first eligibility-history rows substantiate the original missing-evidence stop; later rows retain metal unsettled / paper fail rather than inventing a pass. The narrower public paper-proposal retention claim accurately separates concept/intent/plan records from ignored unrendered geometry. Whitespace-hook exclusions remain scoped to raw snapshots/validation and preserve hash-bound evidence.
+
+Ran the archive verifier successfully for all three bundles; artwork-probe now checks 164 retained files, 179 source bindings and fresh native Metal/OIDN plus final-QA evidence. Reviewed exact tested-source bindings against current source. Issue #3 artwork requirements remain incomplete as previously reported; no closure, owner acceptance or artistic qualification is justified by these software checks.

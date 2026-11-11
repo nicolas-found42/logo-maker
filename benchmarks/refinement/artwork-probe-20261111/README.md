@@ -85,3 +85,11 @@ winner. The measured body took 64.22 s, including 55.31 s native render, 4.40 s 
 finalize/QA. Kernel-cache state is unknown. The synthetic fixture uses canned brief/plan answers;
 its QA request is live. Its complete native/render/request evidence is under
 `snapshots/final-runtime/`. Neither artwork case has a qualified final or export.
+
+The advisory Jev gate escalated at safe-to-apply .69 and composite .79125, with low test-gap
+confidence. It verified three claims and left the paper-provenance claim unsupported at low
+confidence. Independent Spec adjudication checked all 98 paper source hashes between `0005` and
+`0006`, the raw comparison, failing craft checks and hash-bound unrendered plan journal: that
+claim is supported, with no concrete defect found. The gate was not repeated. Raw gate output,
+final Standards/Spec reviews and adjudication are retained under `validation/`; advisory
+uncertainty is not relabeled as automatic approval.

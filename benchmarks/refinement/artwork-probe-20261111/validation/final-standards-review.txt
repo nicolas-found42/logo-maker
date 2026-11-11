@@ -1,0 +1,9 @@
+Standards follow-up: 5518ce5..0a94ddf
+
+Documented-standard breaches: none found. Baseline smell findings: none material.
+
+The newline/whitespace hook exclusions add only artwork-probe-20261111/snapshots/ and validation/ to the established immutable-evidence exclusions. They preserve provider bytes and raw validation output without excluding authored runtime code, README, manifest or proposals from those hooks. Other hook checks remain in effect.
+
+README accurately separates the fresh synthetic runtime fixture from both failed/unsettled artwork cases, discloses canned brief/plan judgments and live QA, and records sampling_review_needed rather than qualification. It also corrects the paper proposal source-retention description. Raw measurement records support the stated timing, export-hash count, request count and sampling stop; raw offline/GPU/live/hook logs support the reported results.
+
+Verification: uv run --locked python scripts/verify_reconciled_refinement.py passed all three bundles, including 164 hashed retained files in this bundle and the new native final-runtime evidence/provider assets. Independently checked all 93 entries in validation/source-binding.json against current files; all match. No production runtime change, owner approval or artwork export eligibility is introduced. No additional GPU/provider calls were needed for this read-only review.
