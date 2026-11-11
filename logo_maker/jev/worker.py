@@ -24,15 +24,12 @@ def main(payload: dict) -> dict:
         _record(path, payload["record"])
         with (path.parent.parent / "answers.jsonl").open("a") as handle:
             handle.write(json.dumps(payload["line"], sort_keys=True) + "\n")
-        return {"published": True}
-    if payload["operation"] == "store_assets":
-        from logo_maker.jev.client import _finish_asset_storage
-        from logo_maker.paths import LogoDir
+        if payload.get("assets") is not None:
+            from logo_maker.jev.client import _finish_asset_storage
+            from logo_maker.paths import LogoDir
 
-        _finish_asset_storage(
-            LogoDir(Path(payload["logo"])), payload["assets"], Path(payload["request_path"])
-        )
-        return {"stored": True}
+            _finish_asset_storage(LogoDir(path.parents[3]), payload["assets"], path)
+        return {"published": True}
     if payload["operation"] == "encode_images":
         from logo_maker.jev.client import _encode_images, _load_image
 

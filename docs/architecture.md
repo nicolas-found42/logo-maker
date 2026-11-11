@@ -653,6 +653,11 @@ staging and publication. A provider error, stale proof or overall rejection pres
 winner, exports and same-brand floor. CPU image preparation, hashing and proof checks execute in
 owned workers under that same deadline. A durable `submission_pending` record and unknown usage
 are written before bounded provider dispatch. A received response replaces that attempt's
-accounting rather than counting a second request. If the shared deadline expires, the unresolved
+accounting rather than counting a second request. Each bounded request-log publication and its
+exact image-asset verification run together in one owned worker, before dispatch and again after
+the response. The parent still allocates sequence IDs and accounts received usage before file IO;
+the record stays `assets_status=pending` until that worker verifies the retained bytes. This avoids
+an extra process startup at each persistence boundary without extending the shared deadline.
+If the shared deadline expires, the unresolved
 attempt stays visible with unknown cost. Failed provider envelopes and missing telemetry use the
 bounded client and RunLog path; they retain unknown costs, not estimated zero charges.

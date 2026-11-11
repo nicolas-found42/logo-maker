@@ -385,6 +385,7 @@ class JevClient:
         assets_status: str = "ready",
         budget: Budget | None = None,
         seq: int | None = None,
+        pending_assets: dict | None = None,
     ) -> Path:
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
@@ -400,13 +401,30 @@ class JevClient:
                 seq = self._seq
                 self._seq += 1
             return self._publish_log(
-                seq, label, state, questions, stripped_assets, response, assets_status, budget
+                seq,
+                label,
+                state,
+                questions,
+                stripped_assets,
+                response,
+                assets_status,
+                budget,
+                pending_assets,
             )
         finally:
             self._lock.release()
 
     def _publish_log(
-        self, seq, label, state, questions, stripped_assets, response, assets_status, budget
+        self,
+        seq,
+        label,
+        state,
+        questions,
+        stripped_assets,
+        response,
+        assets_status,
+        budget,
+        pending_assets,
     ):
         from logo_maker.runlog import runlog
 
@@ -450,6 +468,7 @@ class JevClient:
                     "path": str(request_path),
                     "record": record,
                     "line": line,
+                    "assets": pending_assets,
                 },
                 budget,
             )
@@ -504,17 +523,9 @@ class JevClient:
                 {"_status": "submission_pending", "_usage": self._usage({})},
                 assets_status="pending",
                 budget=budget,
+                pending_assets=assets,
             )
             attempt_seq = int(request_path.name.split("-", 1)[0])
-            self._worker(
-                {
-                    "operation": "store_assets",
-                    "logo": str(self.logo.root),
-                    "assets": assets,
-                    "request_path": str(request_path),
-                },
-                budget,
-            )
 
         raw: dict[str, Any] = {}
         error: JevError | None = None
@@ -548,15 +559,7 @@ class JevClient:
                     assets_status="pending",
                     budget=budget,
                     seq=attempt_seq,
-                )
-                self._worker(
-                    {
-                        "operation": "store_assets",
-                        "logo": str(self.logo.root),
-                        "assets": assets,
-                        "request_path": str(request_path),
-                    },
-                    budget,
+                    pending_assets=assets,
                 )
         if error is not None:
             raise error
