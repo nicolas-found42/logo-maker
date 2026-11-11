@@ -205,10 +205,21 @@
     }
   ],
   "files": {
+    "snapshots/final-runtime/assets/4bb950c620d55f0a1c1f236495e66b8db9c440fd1e7e018cde8d486ea9c0daad.png": "4bb950c620d55f0a1c1f236495e66b8db9c440fd1e7e018cde8d486ea9c0daad",
+    "snapshots/final-runtime/assets/86dcaacdca6f8cfa480298fd7b765f9cef663141391c79639627d30d99e49a9e.png": "86dcaacdca6f8cfa480298fd7b765f9cef663141391c79639627d30d99e49a9e",
+    "snapshots/final-runtime/execution.json": "a52f3836a7cdfb665f5a2a0642db53f0141eeaaeff958c4aeb9ddf308c859878",
+    "snapshots/final-runtime/execution.log": "76cc40b11a13e1d0298b0ad2c82fcc56fbebc810ebec97038ec27a81f0474972",
+    "snapshots/final-runtime/export-manifest.json": "643c04ff3e30933aeaecef054590dd383eca8065bc7e5ea2feec9e393e3a16b7",
+    "snapshots/final-runtime/measurement.json": "017b54870a37b143f2d47b0b99ab48866fd29ad9ef9cb679d53fcebe1ec261f9",
+    "snapshots/final-runtime/render.png": "e97c672796262e550e8bb0d885af05a53caf6d9366ed839870e42e5a44ebe5da",
+    "snapshots/final-runtime/requests/0001-qa-sampling-typography--embossed-plate--polished-metal.json": "b9e71e79306e323fb3082abd2234e798545e03dfbcb70a5e0a76cbcc64ea2f08",
+    "snapshots/final-runtime/sampling.json": "6337bd2846236f1fc328cc60ce53715794cc8f14a82f49a99a0874dbd17763fe",
     "snapshots/metal/comparison.json": "3f32b328f1f3f42147f72a260687ecd9e3ab0e0979691542a77cd49adcfd44be",
     "snapshots/metal/current-inspection.json": "2dbea645078f9e902aa15492474b866f85820b1590f3186515d29a6cf4311854",
+    "snapshots/metal/eligibility-history.jsonl": "7643aee78b6f7ae35df46f38be1c07a5f34006f85f84fb71876fd45333a05351",
     "snapshots/metal/execution.json": "172b1d41f4b2db443aceafc3bf2f0b6b7bbf49c33f759a2573fbe6a83db412ba",
     "snapshots/metal/execution.log": "8b88218ba23c6552c4bfc5ca6d638597cafdceb98dcaf66cb47c4be62a9c1a38",
+    "snapshots/metal/ideation/before-metaphors.toml": "234f27bff81d1eefccb65074b92aaf325c4704d954738199bebca81b04c2f93c",
     "snapshots/metal/ideation/metaphors.toml": "25fd46a3e2d3bf48e4ef3b8f8529a7f5b8a4cb781741b952991a585b322fc9a9",
     "snapshots/metal/ideation/pool.jsonl": "ea6c16c893d292b768e16b9531e22a19d76d6546fa0923f6feabf84f12a2da69",
     "snapshots/metal/inspection.json": "2dbea645078f9e902aa15492474b866f85820b1590f3186515d29a6cf4311854",
@@ -256,8 +267,10 @@
     "snapshots/metal/sampling.json": "13bbd8002add3a0390a798e583bba0203d319784cf4290f814ea84bacf5d03ec",
     "snapshots/paper/comparison.json": "7d07ddfb845eb160f9ccaf602999851a7c4ca00bf27171850aa9e26c2d7c710f",
     "snapshots/paper/current-inspection.json": "c29cd8802235e8ca15b008e19084904f78fe13fe149f13188010a25666aed0a0",
+    "snapshots/paper/eligibility-history.jsonl": "4256f763f796224b84af63632609c7c7a852985c6d0155ba8ecaf6409bdd68fe",
     "snapshots/paper/execution.json": "b9755f7a3c8531fb140a4a500c1a18d2f87e62588d7f96cac1f6e9cbddfd26b8",
     "snapshots/paper/execution.log": "1b5ddaf61f01fecf44e2f1e9a298f739aca2e833c9f92ae5d90d1b3d35f82300",
+    "snapshots/paper/ideation/before-metaphors.toml": "234f27bff81d1eefccb65074b92aaf325c4704d954738199bebca81b04c2f93c",
     "snapshots/paper/ideation/metaphors.toml": "3ed591aa5e99582c0491ce601983d9c2a861fa79698d61a642df29d1dd754a76",
     "snapshots/paper/ideation/pool.jsonl": "ee796bb0c2dacc85031a65889692f11b18d2740056cd954183779dde955c6a4f",
     "snapshots/paper/inspection.json": "c29cd8802235e8ca15b008e19084904f78fe13fe149f13188010a25666aed0a0",
@@ -338,15 +351,25 @@
     "validation/artwork-probe-judgments.txt": "ee4e1d4bde6cecacb71694752010c976abf0b2acfe82a02212b815a92b0f05ee",
     "validation/artwork-proposal-disposition.json": "b25b577a1380d7cc71eb283daa5a327dcd64e974b22ca0b6f2b940e81fcd0bfb",
     "validation/artwork-restored-bindings.txt": "058c1ca7f965c04f4997ce632df955643492efa8d7b136df8ebcdd43510cb613",
+    "validation/build.txt": "729dd92a673edfe68c29c088b98e2220f99b852b7f5431d85f62cac89d0570d3",
+    "validation/doctor.txt": "25d458974011aff630be5aa8051e3a4546c89664fb233e46c6bf32f5ee844640",
+    "validation/gpu.txt": "f1149da6ae90427f5a8876d87ec0385b2afc3e0cb8e9de6d716f29d909779390",
+    "validation/hooks.txt": "02efa37d000d52f21a10b19d735c1b89c70a4e5d24f87f5c13c60efc5220be40",
+    "validation/lint.txt": "245ff8a81615ce483eb4bcebaedb7be654d4a54163166a92ac563b87a82748f9",
+    "validation/live.txt": "e7bda05bfe0385489e9fd1121f030a93f8d5000c5fd88e5b80dd9f053bfce9d4",
     "validation/metal-dimensioned-plan.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
     "validation/metal-double-shoulder-plan.txt": "53bc92bee76cfa33b68dfa5ca11bb361f9aca1149f0e1ed708d4832beb08ea88",
     "validation/metal-double-shoulder-render.txt": "9c3128320b16266f732b26930e41d9289e4cc9c0328772c5a652994f70127eb3",
     "validation/metal-double-shoulder-review.json": "bde173427fa05e9188e8ea6d4cc852b2b5bd2f892506e123b0320e71e3b188b6",
     "validation/metal-visible-description.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
+    "validation/offline.txt": "f7cef73481f0bc3dcfb684472afbcf29de15273a5387f3a5de9edf653cfd24e0",
     "validation/paper-bonded-lap-plan.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
-    "validation/paper-constant-stock-plan.txt": "f6ae7854cf618102a79a42258eb470efca91fa4e7098e8830daed2a649e8e661"
+    "validation/paper-constant-stock-plan.txt": "f6ae7854cf618102a79a42258eb470efca91fa4e7098e8830daed2a649e8e661",
+    "validation/source-binding.json": "442dfee386700d3d67934c7efa11b0b79a4bf97aebcd71affad7a19fb4ba3fdf",
+    "validation/spec-review.txt": "cbcb31b321e036a38341b706e791ce51b995024d58dce9a3bb37868cbf11a440",
+    "validation/standards-review.txt": "981f868fda2cee608b17970be471094b164473e7eacfdefc54aee29fadfcbcd7",
+    "validation/types.txt": "f9f0719cac8825f7e2a69f772b278b1da271efc5b227fa0bd042c7934ade2f7a"
   },
-  "final_runtime": "../review-followup/snapshots/final-runtime",
   "requests": [
     {
       "assets": {},
@@ -733,6 +756,7 @@
       "path": "snapshots/paper/requests/0109-preview-open-commons--extruded-solid--paper-technical.json"
     }
   ],
-  "runtime_note": "Reuses the separately verified historical runtime fixture; no new final/export run is claimed.",
-  "schema": 1
+  "runtime_note": "Fresh synthetic runtime fixture: actual 4000-to-2000 Metal/OIDN render, low-level export hash verification and live final QA. Brief/plan answers are canned; sampling review stop preserves the prior winner. No artwork finalist/winner/export qualification is claimed.",
+  "schema": 1,
+  "validation_source_commit": "5518ce5"
 }

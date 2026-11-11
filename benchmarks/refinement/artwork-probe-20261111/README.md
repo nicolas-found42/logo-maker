@@ -42,9 +42,10 @@ aliasing/detail preservation remain uncertain.
 A structural proposal replaced variable vertical extrusion thickness with constant normal stock,
 rounded scores and two paper lap contacts. Its construction plan remained uncertain; an earlier
 version also left mandate review uncertain. These proposals were not rendered or counted as
-visual alternatives. The final unrendered source, plan and full review journal are retained under
-`unrendered-proposals/paper/`; current rendered sources were restored exactly. Source and render
-histories remain under the original ignored evidence directory.
+visual alternatives. The final unrendered concept, construction-intent and plan records and the
+full review journal are retained under `unrendered-proposals/paper/`. The unrendered meshes and
+authoring recipe remain in the original ignored evidence directory. Current rendered sources
+were restored exactly; their complete source and render histories remain intact.
 
 ## Independent eligibility and evidence limits
 
@@ -62,7 +63,25 @@ bundles. `matches_active_sources` describes capture-time source identity; this a
 promise future machine-context eligibility.
 
 Run `uv run --locked python scripts/verify_reconciled_refinement.py` to verify all three bundles.
-The final-runtime path deliberately reuses the historical `review-followup` fixture; no new final
-render or export run is claimed by this probe. Fresh post-merge main CI is
+Fresh post-merge main CI is
 [43003865338](https://github.com/nicolas-found42/logo-maker/actions/runs/43003865338). That green
 software CI does not qualify either artwork.
+
+## Fresh software validation
+
+| Check | Observed result |
+| --- | --- |
+| `just test` | 436 passed, 6 deselected, 49 upstream warnings in 313.00 s |
+| `just lint`, `just type`, `just hooks` | Passed |
+| `just render-example` | 2 passed in 6.32 s; actual GPU regression |
+| `just doctor` | 48/48 checks passed |
+| `uv build` | Wheel and source distribution built |
+| Explicit live M5 final-runtime test | 1 passed in 64.34 s |
+
+Raw logs and exact tested source hashes are under `validation/`. The separate synthetic runtime
+fixture delivered a fresh 4000-to-2000 Metal/OIDN image, verified 31 low-level export hashes and
+sent one live final QA request. It stopped at `sampling_review_needed` and preserved the prior
+winner. The measured body took 64.22 s, including 55.31 s native render, 4.40 s exports and 3.72 s
+finalize/QA. Kernel-cache state is unknown. The synthetic fixture uses canned brief/plan answers;
+its QA request is live. Its complete native/render/request evidence is under
+`snapshots/final-runtime/`. Neither artwork case has a qualified final or export.

@@ -1,0 +1,9 @@
+## Standards review
+
+Reviewed `git diff 90ed2144677357ba11fddb5cfb26c2349cdd6183...HEAD` at `5518ce5` (one commit: retain post-merge artwork probes and failed qualification). Sources: `AGENTS.md`, `docs/agents/domain.md`, `docs/architecture.md`, `docs/adr/0001-motif-plus-treatment.md`, and `docs/agents/issue-tracker.md`. No CONTRIBUTING or CODING_STANDARDS file was found; GLOSSARY.md is absent.
+
+**Documented-standard breaches: none found.** The new bundle preserves actual rendered evidence, separate creative and independent qualification outcomes, source bindings, provider requests and image bytes. Its README accurately distinguishes the local metal repair from unresolved description/reference-relative craft, identifies paper as a replay, and keeps unsettled proposals unrendered. It makes no owner acceptance, sampling qualification, finalist, winner or export claim. Reuse of the historical final-runtime fixture is explicit. These distinctions follow the architecture contracts for creative refinement, eligibility, and Jev transport; the accepted motif/treatment ADR is not changed.
+
+**Baseline smell findings: none material.** The small verifier extension fits the existing evidence-verification script and adds no runtime abstraction or production behavior.
+
+Validation: `uv run --locked python scripts/verify_reconciled_refinement.py` passed all three bundles, including this bundle’s 2 renders, 179 source bindings and 140 retained files. The manifest contains 72 provider requests; the new loop checks their readiness, answers, complete asset-reference sets and every retained asset SHA-256. This validates retained bytes and bindings, not artistic acceptance or future machine-context eligibility.
