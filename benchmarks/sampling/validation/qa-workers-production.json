@@ -698,5 +698,7 @@
       "current_dependency_hashes_verified": true
     }
   ],
-  "qualification": "incomplete"
+  "qualification": "incomplete",
+  "measured_core_revision": "3189304df674651fa3ccc84695103fa4e3286e6b",
+  "measurement_scope_note": "Measured before the later eight-line model/url identity forwarding backport; retained historical measured scope. Combined refinement-qa-live.json audits the byte-identical patched client on M5."
 }

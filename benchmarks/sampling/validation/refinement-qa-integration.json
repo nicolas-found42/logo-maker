@@ -1,0 +1,27 @@
+{
+  "upstream_revision": "2f0c5f228d35f8da923ec534c611219c9edc83c0",
+  "contains_core_revision": "3189304df674651fa3ccc84695103fa4e3286e6b",
+  "independent_command": [
+    "/Users/nicolas/.codex/worktrees/ee57/logo-maker/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_refinement.py",
+    "tests/test_sampling_render.py",
+    "-q",
+    "-m",
+    "not render and not live"
+  ],
+  "archive_cwd": "/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-qa-integration-fmiqnq3k",
+  "environment": {
+    "PYTHONPATH": "/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/logo-maker-pr8-qa-integration-fmiqnq3k"
+  },
+  "verified_tracked_archive_blobs": 748,
+  "raw_log_sha256": "0665b8c8ae33087b6b60c1f41720bf6f6445d36629c637802fce8818a49975b3",
+  "independent_subset": "50 passed,2 deselected73.76s",
+  "retained_upstream_full": "270 passed,4 deselected131.37s; not independently rerun here",
+  "shared_client_source_sha256": "160107bcf09d8130ac3ff2565efec1ffd99c51048919eb506ae19ce65b6b05c7",
+  "shared_client_byte_identical_with_upstream": true,
+  "fix": "read-only model/url properties forwarding original client, preserving identity after rebinding",
+  "upstream_regression": "changed-model and changed-endpoint tests red then green; budget forwarding and unsupported-client cases also pass",
+  "scope": "Root241offline and3render rechecked after backport. Root full live and paired timings measured at3189304; combined2f0 live uses identical shared client with properties, audited separately. Owner/profile qualification and whole-job hard bounds incomplete."
+}

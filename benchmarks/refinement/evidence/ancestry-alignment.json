@@ -1,0 +1,18 @@
+{
+  "prior_validated_head": "2f0c5f228d35f8da923ec534c611219c9edc83c0",
+  "sampling_parent": "82613153b5dd7127fd6147d3a215a8c51c1ed732",
+  "unchanged_paths": [
+    "logo_maker",
+    "tests",
+    "scripts",
+    "pyproject.toml",
+    "uv.lock",
+    "justfile",
+    "js"
+  ],
+  "changed_runtime_test_script_dependency_files": [],
+  "shared_client_sha256": "160107bcf09d8130ac3ff2565efec1ffd99c51048919eb506ae19ce65b6b05c7",
+  "shared_client_byte_identical": true,
+  "verification_scope": "ancestry and documentation alignment; prior270 offline/4deselected, GPU/live and48doctor results remain scoped to unchanged source; no additional GPU replay",
+  "qualification": "unchanged and incomplete"
+}

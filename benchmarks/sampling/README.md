@@ -378,3 +378,29 @@ provider/usage/QA/prior-winner records, both comparison jobs and all check logs.
 That audit supports the limited operational claim. Broad escalation remains open;
 no automated merge or owner-quality approval is claimed. See
 [raw gate](validation/jev-gate-qa-workers.json) and [review](validation/code-review.md).
+
+## Judge identity reconciliation with #3
+
+The first budgeted view hid model/endpoint metadata from #3's creative/comparison
+cache key. Its public changed-model and changed-endpoint tests reproduced two
+failures. Read-only forwarding of model/url fixes invalidation, including rebinding.
+This eight-line backport is byte-identical with the shared client tested in
+published #3 `2f0c5f228d35f8da923ec534c611219c9edc83c0`. Independent reasoning reviews
+found no further issue in that small fix. Root offline241 and render3 checks passed
+afterward. Pinned core318 hosted CI passed239/2skipped/4deselected in268.76s.
+
+An independent source archive of the published #3 stack passed **50 tests / 2
+render-live deselected** in73.76s. Its retained full run reports270/4, not independently
+rerun here. Archive files were matched to Git blobs and the shared client was
+compared byte-for-byte. [Execution provenance](validation/refinement-qa-integration.json)
+and [subset log](validation/refinement-qa-integration.txt) preserve that scope.
+
+The #3 stack also ran an actual shared-budget final/export/live-QA job with this
+identical client:53.64s body (render/capture47.22, export3.81, QA2.33), one native
+attempt,4000→2000,31 low-level exports and one request/two assets. The original
+native logs, image/exports, source dependencies and sent assets were audited again;
+finalize retained the prior winner and stopped at sampling_review_needed. See
+[combined-path evidence](validation/refinement-qa-live.json). This is the combined
+Issue #3 implementation, not a rerun of every later root file. The earlier root52.03s live
+job and47.19/49.38 pair remain explicitly tied to measured core318. No new GPU
+policy, sampling control or owner approval follows from forwarding judge metadata.

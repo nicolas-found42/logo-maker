@@ -252,3 +252,13 @@ Caller-side source hashing, construction validation, archival, publication and p
 cooperative; there is no hard whole-refinement bound. Complete custom dependency discovery,
 owner artistic acceptance and sampling/production qualification remain open. Historical automated
 gates apply only to their recorded source revisions, not this new integration.
+
+## Shared identity-backport ancestry
+
+The branch also merges parent `82613153b5dd7127fd6147d3a215a8c51c1ed732`, which carries the exact
+same eight-line model/endpoint forwarding fix into #5. Compared with published creative head
+`2f0c5f228d35f8da923ec534c611219c9edc83c0`, the merge changes no runtime, test, script or locked
+dependency source. The shared client file is byte-identical with that parent. The 270-test, GPU/live
+and source-bound doctor results above therefore retain their exact scope; no extra GPU replay is
+needed for this ancestry/documentation-only alignment. `evidence/ancestry-alignment.json` records
+the checks. Whole-refinement deadline and owner/sampling qualification limits remain unchanged.

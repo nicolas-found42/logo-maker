@@ -31,5 +31,13 @@
     "source_change_between_attempts": false,
     "focused_local_export_replays": "5passed about3s each",
     "root_cause": "unknown; passing rerun does not prove intermittent timeout fixed"
+  },
+  "qa_worker_followup": {
+    "run": 42942881806,
+    "head": "3189304df674651fa3ccc84695103fa4e3286e6b",
+    "conclusion": "success",
+    "hosted": "239 passed,2skipped,4deselected268.76s",
+    "local": "241offline,3render,1live,48doctor",
+    "later_fix": "8line model/url view identity forwarding, separately validated; newer head CI tracked inPR/issue"
   }
 }
