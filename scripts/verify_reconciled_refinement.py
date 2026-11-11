@@ -66,6 +66,7 @@ def main() -> None:
         "paper-exposure-20261111",
         "current-concept-20261111",
         "deadline-persistence-20261111",
+        "deadline-concurrency-20261111",
     ):
         print(f"Checking {bundle}")
         verify(REPO_ROOT / "benchmarks/refinement" / bundle)

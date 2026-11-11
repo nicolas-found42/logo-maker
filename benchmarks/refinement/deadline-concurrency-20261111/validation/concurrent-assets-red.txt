@@ -1,0 +1,89 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_budgeted_image_requests_enter_slow_asset_storage_concurrently ______
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-583/test_budgeted_image_requests_e0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108fd43e0>
+
+    def test_budgeted_image_requests_enter_slow_asset_storage_concurrently(tmp_path, monkeypatch):
+        from test_combined_stack import provider
+    
+        entered = tmp_path / "entered"
+        entered.mkdir()
+        release = tmp_path / "release"
+        worker = tmp_path / "slow_asset_worker.py"
+        # Inject only the IO stall; transport, persistence, ownership and cleanup remain real.
+        worker.write_text(
+            "import json, runpy, time\n"
+            "from pathlib import Path\n"
+            "from logo_maker.jev import client\n"
+            f"entered = Path({str(entered)!r})\n"
+            f"release = Path({str(release)!r})\n"
+            "original = client._finish_asset_storage\n"
+            "def store(logo, assets, request_path):\n"
+            "    record = json.loads(request_path.read_text())\n"
+            "    if record['status'] == 'submission_pending':\n"
+            "        (entered / request_path.name).touch()\n"
+            "        while not release.exists():\n"
+            "            time.sleep(0.01)\n"
+            "    return original(logo, assets, request_path)\n"
+            "client._finish_asset_storage = store\n"
+            "runpy.run_module('logo_maker.jev.worker', run_name='__main__')\n"
+        )
+        original_run = owned_process.run
+    
+        def run(command, **kwargs):
+            if command[1:] == ["-m", "logo_maker.jev.worker"]:
+                command = [command[0], str(worker)]
+            return original_run(command, **kwargs)
+    
+        monkeypatch.setattr(owned_process, "run", run)
+        logo = LogoDir(tmp_path / "logo")
+        image = tmp_path / "image.png"
+        PillowImage.new("RGBA", (320, 320), (36, 88, 70, 255)).save(image)
+        dispatched = []
+    
+        def respond(body):
+            records = [json.loads(p.read_text()) for p in (logo.qa / "jev/requests").glob("*.json")]
+            record = next(r for r in records if r["state"]["job"] == body["state"]["job"])
+            assert record["assets_status"] == "ready"
+            for ref, asset in body["assets"].items():
+                data = base64.b64decode(asset["data_base64"])
+                digest = hashlib.sha256(data).hexdigest()
+                assert record["assets"][ref]["sha256"] == digest
+                assert (logo.qa / f"jev/assets/{digest}.{asset['format']}").read_bytes() == data
+            dispatched.append(body["state"]["job"])
+            return 200, {
+                "answers": {"ready": {"type": "noul", "noul": 0.9}},
+                "usage": {"input_tokens": 10, "output_tokens": 2, "cost": 0.001},
+            }
+    
+        with provider(monkeypatch, respond) as url:
+            client = JevClient(logo, concurrency=4)
+            client.url = url
+            budgeted = client.with_budget(Budget(wall_seconds=30))
+            jobs = [
+                ({"job": i, "image": Image(image)}, {"ready": {"type": "noul"}}, f"parallel-{i}")
+                for i in range(4)
+            ]
+            with ThreadPoolExecutor(max_workers=1) as coordinator:
+                result = coordinator.submit(budgeted.ask_many, jobs)
+                try:
+                    deadline = time.monotonic() + 10
+                    while len(list(entered.iterdir())) < len(jobs) and time.monotonic() < deadline:
+                        time.sleep(0.01)
+>                   assert len(list(entered.iterdir())) == len(jobs), (
+                        "one slow asset store prevented independent requests from starting persistence"
+                    )
+E                   AssertionError: one slow asset store prevented independent requests from starting persistence
+E                   assert 1 == 4
+E                    +  where 1 = len([PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-583/test_budgeted_image_requests_e0/entered/0001-parallel-2.json')])
+E                    +    where [PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-583/test_budgeted_image_requests_e0/entered/0001-parallel-2.json')] = list(<map object at 0x10a220d00>)
+E                    +      where <map object at 0x10a220d00> = iterdir()
+E                    +        where iterdir = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-583/test_budgeted_image_requests_e0/entered').iterdir
+E                    +  and   4 = len([({'job': 0, 'image': Image(/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-583/test...T/pytest-of-nicolas/pytest-583/test_budgeted_image_requests_e0/image.png)}, {'ready': {'type': 'noul'}}, 'parallel-3')])
+
+tests/test_jev_concurrency.py:84: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_jev_concurrency.py::test_budgeted_image_requests_enter_slow_asset_storage_concurrently
+1 failed in 11.05s
