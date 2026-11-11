@@ -1,0 +1,229 @@
+2026-11-11T08:47:19.0814630Z ##[group]Run uv run --no-sync python -m pytest -q -m "not render and not live"
+2026-11-11T08:47:19.0815180Z [36;1muv run --no-sync python -m pytest -q -m "not render and not live"[0m
+2026-11-11T08:47:19.0889370Z shell: /bin/bash -e {0}
+2026-11-11T08:47:19.0890030Z env:
+2026-11-11T08:47:19.0890680Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+2026-11-11T08:47:19.0891570Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+2026-11-11T08:47:19.0893530Z ##[endgroup]
+2026-11-11T08:49:08.7530900Z ........................................................................ [ 16%]
+2026-11-11T08:55:34.7244830Z .F...................................................................F.. [ 33%]
+2026-11-11T08:57:07.2944280Z ........................................................................ [ 49%]
+2026-11-11T08:59:24.1208350Z ...............................................F........................ [ 66%]
+2026-11-11T09:02:19.6039740Z ........................................................................ [ 82%]
+2026-11-11T09:02:20.6300010Z ........................................................................ [ 99%]
+2026-11-11T09:02:21.7074500Z .ss.                                                                     [100%]
+2026-11-11T09:02:21.7088580Z =================================== FAILURES ===================================
+2026-11-11T09:02:21.7090420Z _____ test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output _____
+2026-11-11T09:02:21.7091910Z 
+2026-11-11T09:02:21.7092630Z tmp_path = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_provider_timeout_keeps_pe0')
+2026-11-11T09:02:21.7094030Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110cde050>
+2026-11-11T09:02:21.7094400Z 
+2026-11-11T09:02:21.7094880Z     def test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output(tmp_path, monkeypatch):
+2026-11-11T09:02:21.7095600Z         logo, _, prior = prepared_run(tmp_path, monkeypatch)
+2026-11-11T09:02:21.7096020Z         reached = threading.Event()
+2026-11-11T09:02:21.7096570Z         release = threading.Event()
+2026-11-11T09:02:21.7097010Z     
+2026-11-11T09:02:21.7097280Z         def respond(body):
+2026-11-11T09:02:21.7097740Z             reached.set()
+2026-11-11T09:02:21.7098110Z             release.wait(8)
+2026-11-11T09:02:21.7098630Z             return 200, {"answers": {key: {"noul": 0.9} for key in body["questions"]}}
+2026-11-11T09:02:21.7099190Z     
+2026-11-11T09:02:21.7099630Z         try:
+2026-11-11T09:02:21.7104780Z             with provider(monkeypatch, respond) as url:
+2026-11-11T09:02:21.7105910Z                 client = JevClient(logo)
+2026-11-11T09:02:21.7106510Z                 client.url = url
+2026-11-11T09:02:21.7107140Z                 with pytest.raises(SamplingLimit, match="time_limit"):
+2026-11-11T09:02:21.7107990Z                     pipeline.finalize(logo, client, budget=Budget(wall_seconds=4))
+2026-11-11T09:02:21.7108510Z         finally:
+2026-11-11T09:02:21.7108870Z             release.set()
+2026-11-11T09:02:21.7109690Z >       assert reached.is_set(), "timeout must reach the actual owned provider worker"
+2026-11-11T09:02:21.7110490Z E       AssertionError: timeout must reach the actual owned provider worker
+2026-11-11T09:02:21.7110980Z E       assert False
+2026-11-11T09:02:21.7114480Z E        +  where False = is_set()
+2026-11-11T09:02:21.7115260Z E        +    where is_set = <threading.Event at 0x110cf2870: unset>.is_set
+2026-11-11T09:02:21.7115650Z 
+2026-11-11T09:02:21.7115890Z tests/test_combined_stack.py:149: AssertionError
+2026-11-11T09:02:21.7117480Z ______________________ test_export_set_sizes_and_manifest ______________________
+2026-11-11T09:02:21.7118270Z 
+2026-11-11T09:02:21.7118980Z tmp_path = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0')
+2026-11-11T09:02:21.7123230Z 
+2026-11-11T09:02:21.7125910Z     def test_export_set_sizes_and_manifest(tmp_path: Path) -> None:
+2026-11-11T09:02:21.7128400Z         concept, motif = _concept(tmp_path, _disc)
+2026-11-11T09:02:21.7128960Z         out = tmp_path / "exports"
+2026-11-11T09:02:21.7129870Z >       manifest = export_all(concept, out, name="Sample Brand", palette=PALETTE, motif_svg=motif)
+2026-11-11T09:02:21.7130400Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7130640Z 
+2026-11-11T09:02:21.7147190Z tests/test_export.py:41: 
+2026-11-11T09:02:21.7147690Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T09:02:21.7147960Z 
+2026-11-11T09:02:21.7152100Z concept_dir = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/concept')
+2026-11-11T09:02:21.7153290Z out_dir = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/exports')
+2026-11-11T09:02:21.7153890Z name = 'Sample Brand'
+2026-11-11T09:02:21.7154420Z palette = {'primary': '#1E4A7A', 'background': '#F8F6F1', 'ink': '#16232E'}
+2026-11-11T09:02:21.7155410Z motif_svg = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/concept/motif.svg')
+2026-11-11T09:02:21.7156160Z budget = <logo_maker.sampling.Budget object at 0x110d65b50>
+2026-11-11T09:02:21.7156670Z publication_log = None, expected_sampling_sha256 = None
+2026-11-11T09:02:21.7157170Z expected_eligibility = None
+2026-11-11T09:02:21.7157370Z 
+2026-11-11T09:02:21.7157440Z     def export_all(
+2026-11-11T09:02:21.7157800Z         concept_dir: Path,
+2026-11-11T09:02:21.7158130Z         out_dir: Path,
+2026-11-11T09:02:21.7158390Z         *,
+2026-11-11T09:02:21.7159070Z         name: str,
+2026-11-11T09:02:21.7166620Z         palette: dict[str, str],
+2026-11-11T09:02:21.7166870Z         motif_svg: Path,
+2026-11-11T09:02:21.7169930Z         budget: Budget | None = None,
+2026-11-11T09:02:21.7170350Z         publication_log: RunLog | None = None,
+2026-11-11T09:02:21.7247950Z         expected_sampling_sha256: str | None = None,
+2026-11-11T09:02:21.7252110Z         expected_eligibility: dict | None = None,
+2026-11-11T09:02:21.7252490Z     ) -> dict[str, Path]:
+2026-11-11T09:02:21.7253040Z         """Build under the whole-job deadline, then replace the export set as a unit.
+2026-11-11T09:02:21.7253510Z     
+2026-11-11T09:02:21.7253940Z         The child deadline covers native CPU image processing and external tools too.
+2026-11-11T09:02:21.7254530Z         Low-level legacy image exports remain available, explicitly unattested; the
+2026-11-11T09:02:21.7255180Z         pipeline winner boundary additionally requires sampling qualification.
+2026-11-11T09:02:21.7255590Z         """
+2026-11-11T09:02:21.7255860Z         budget = budget or Budget()
+2026-11-11T09:02:21.7256120Z         budget.check()
+2026-11-11T09:02:21.7259580Z         started = time.monotonic()
+2026-11-11T09:02:21.7260050Z         concept_dir, out_dir = Path(concept_dir).absolute(), Path(out_dir).absolute()
+2026-11-11T09:02:21.7263350Z         pending = out_dir.with_name(".export-pending-" + uuid.uuid4().hex)
+2026-11-11T09:02:21.7263940Z         work = Budget(parent=budget, attempt_limit=budget.attempt_limit)
+2026-11-11T09:02:21.7264380Z         work.deadline -= 2
+2026-11-11T09:02:21.7264620Z         payload = {
+2026-11-11T09:02:21.7264900Z             "concept_dir": str(concept_dir),
+2026-11-11T09:02:21.7265290Z             "out_dir": str(pending),
+2026-11-11T09:02:21.7265550Z             "name": name,
+2026-11-11T09:02:21.7265880Z             "palette": palette,
+2026-11-11T09:02:21.7266260Z             "motif_svg": str(Path(motif_svg).absolute()),
+2026-11-11T09:02:21.7266640Z             "expected_sampling_sha256": expected_sampling_sha256,
+2026-11-11T09:02:21.7267050Z             "expected_eligibility": expected_eligibility,
+2026-11-11T09:02:21.7267390Z         }
+2026-11-11T09:02:21.7267580Z         try:
+2026-11-11T09:02:21.7268730Z             proc = owned_process.run(
+2026-11-11T09:02:21.7269140Z                 [sys.executable, "-m", "logo_maker.export"],
+2026-11-11T09:02:21.7269500Z                 input_text=json.dumps(payload),
+2026-11-11T09:02:21.7269840Z                 budget=work,
+2026-11-11T09:02:21.7270170Z                 label="export",
+2026-11-11T09:02:21.7270410Z             )
+2026-11-11T09:02:21.7270680Z             if proc.returncode:
+2026-11-11T09:02:21.7271160Z >               raise ExportError((proc.stderr or proc.stdout)[-2000:])
+2026-11-11T09:02:21.7271870Z E               logo_maker.export.ExportError: dtime, timeout)
+2026-11-11T09:02:21.7272470Z E                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7273260Z E                 File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 2156, in _communicate
+2026-11-11T09:02:21.7273950Z E                   self._check_timeout(endtime, orig_timeout, stdout, stderr)
+2026-11-11T09:02:21.7274490Z E                   ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7275250Z E                 File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1270, in _check_timeout
+2026-11-11T09:02:21.7275750Z E                   raise TimeoutExpired(
+2026-11-11T09:02:21.7276130Z E                   ...<2 lines>...
+2026-11-11T09:02:21.7276540Z E                           stderr=b''.join(stderr_seq) if stderr_seq else None)
+2026-11-11T09:02:21.7277320Z E               subprocess.TimeoutExpired: Command '['node', '/Users/runner/work/logo-maker/logo-maker/js/pwa.mjs']' timed out after 300 seconds
+2026-11-11T09:02:21.7277880Z E               
+2026-11-11T09:02:21.7278350Z E               The above exception was the direct cause of the following exception:
+2026-11-11T09:02:21.7278700Z E               
+2026-11-11T09:02:21.7279040Z E               Traceback (most recent call last):
+2026-11-11T09:02:21.7279530Z E                 File "<frozen runpy>", line 203, in _run_module_as_main
+2026-11-11T09:02:21.7280030Z E                 File "<frozen runpy>", line 88, in _run_code
+2026-11-11T09:02:21.7280690Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 537, in <module>
+2026-11-11T09:02:21.7281400Z E                   print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)
+2026-11-11T09:02:21.7281940Z E                                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7282610Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 368, in _export_all
+2026-11-11T09:02:21.7283280Z E                   pwa_assets(pwa_source, pwa_dir, background=paper, opaque=True)
+2026-11-11T09:02:21.7283730Z E                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7284390Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 149, in pwa_assets
+2026-11-11T09:02:21.7284870Z E                   result = node(
+2026-11-11T09:02:21.7285170Z E                       "pwa",
+2026-11-11T09:02:21.7285510Z E                   ...<6 lines>...
+2026-11-11T09:02:21.7285730Z E                       },
+2026-11-11T09:02:21.7285960Z E                   )
+2026-11-11T09:02:21.7286460Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 62, in node
+2026-11-11T09:02:21.7287210Z E                   proc = run(["node", str(path)], timeout=timeout, cwd=JS_DIR, input_text=json.dumps(payload))
+2026-11-11T09:02:21.7287880Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 47, in run
+2026-11-11T09:02:21.7288550Z E                   raise ToolError(f"{cmd[0]} timed out after {timeout:.0f}s: {' '.join(cmd)}") from exc
+2026-11-11T09:02:21.7289370Z E               logo_maker.proc.ToolError: node timed out after 300s: node /Users/runner/work/logo-maker/logo-maker/js/pwa.mjs
+2026-11-11T09:02:21.7289730Z 
+2026-11-11T09:02:21.7290970Z logo_maker/export.py:481: ExportError
+2026-11-11T09:02:21.7291800Z __ test_finalize_interrupted_winner_publication_restores_winner_and_run_state __
+2026-11-11T09:02:21.7292200Z 
+2026-11-11T09:02:21.7292770Z tmp_path = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_finalize_interrupted_winn0')
+2026-11-11T09:02:21.7293470Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f1ff150>
+2026-11-11T09:02:21.7294040Z 
+2026-11-11T09:02:21.7294370Z     def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
+2026-11-11T09:02:21.7294840Z         tmp_path, monkeypatch
+2026-11-11T09:02:21.7295100Z     ):
+2026-11-11T09:02:21.7295590Z         from test_eligibility import EligibilityClient, finalize_logo
+2026-11-11T09:02:21.7295950Z     
+2026-11-11T09:02:21.7296320Z         from logo_maker import pipeline, render
+2026-11-11T09:02:21.7296530Z     
+2026-11-11T09:02:21.7296850Z         logo, cid = finalize_logo(tmp_path / "logo")
+2026-11-11T09:02:21.7297330Z         monkeypatch.setattr(render, "machine_context", lambda *a: {})
+2026-11-11T09:02:21.7297720Z         prior = logo.ideation / "winner.json"
+2026-11-11T09:02:21.7298130Z         prior.write_text('{"winner":"approved-prior"}')
+2026-11-11T09:02:21.7298690Z         result = pipeline.qa_concept(logo, cid, EligibilityClient(), pipeline.brand(logo))
+2026-11-11T09:02:21.7299160Z         previous_state = json.loads(logo.run_json.read_text())
+2026-11-11T09:02:21.7299670Z         monkeypatch.setattr(pipeline, "qa_concept", lambda *a, **kw: result)
+2026-11-11T09:02:21.7300270Z         marker = inject_stall(tmp_path, monkeypatch, "rename", ".publishing-", after=True)
+2026-11-11T09:02:21.7300720Z         started = time.monotonic()
+2026-11-11T09:02:21.7301080Z         with pytest.raises(SamplingLimit, match="time_limit"):
+2026-11-11T09:02:21.7301630Z             pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=8))
+2026-11-11T09:02:21.7302120Z >       assert marker.exists()
+2026-11-11T09:02:21.7302410Z E       AssertionError: assert False
+2026-11-11T09:02:21.7302770Z E        +  where False = exists()
+2026-11-11T09:02:21.7303660Z E        +    where exists = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_finalize_interrupted_winn0/fault-started').exists
+2026-11-11T09:02:21.7304220Z 
+2026-11-11T09:02:21.7304380Z tests/test_publication.py:109: AssertionError
+2026-11-11T09:02:21.7304870Z =============================== warnings summary ===============================
+2026-11-11T09:02:21.7305300Z tests/test_geometry.py: 48 warnings
+2026-11-11T09:02:21.7306220Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+2026-11-11T09:02:21.7307140Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+2026-11-11T09:02:21.7307590Z     ar.shape = shape
+2026-11-11T09:02:21.7307760Z 
+2026-11-11T09:02:21.7308490Z tests/test_geometry.py::test_sweeps_and_solids_watertight
+2026-11-11T09:02:21.7309400Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+2026-11-11T09:02:21.7310360Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+2026-11-11T09:02:21.7310840Z     faces.shape = -1, 3
+2026-11-11T09:02:21.7311020Z 
+2026-11-11T09:02:21.7311280Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-11-11T09:02:21.7311860Z =========================== short test summary info ============================
+2026-11-11T09:02:21.7312920Z FAILED tests/test_combined_stack.py::test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output - AssertionError: timeout must reach the actual owned provider worker
+2026-11-11T09:02:21.7313530Z assert False
+2026-11-11T09:02:21.7327240Z  +  where False = is_set()
+2026-11-11T09:02:21.7327920Z  +    where is_set = <threading.Event at 0x110cf2870: unset>.is_set
+2026-11-11T09:02:21.7328670Z FAILED tests/test_export.py::test_export_set_sizes_and_manifest - logo_maker.export.ExportError: dtime, timeout)
+2026-11-11T09:02:21.7329280Z                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7329970Z   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 2156, in _communicate
+2026-11-11T09:02:21.7331280Z     self._check_timeout(endtime, orig_timeout, stdout, stderr)
+2026-11-11T09:02:21.7331680Z     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7332550Z   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1270, in _check_timeout
+2026-11-11T09:02:21.7333120Z     raise TimeoutExpired(
+2026-11-11T09:02:21.7333350Z     ...<2 lines>...
+2026-11-11T09:02:21.7333710Z             stderr=b''.join(stderr_seq) if stderr_seq else None)
+2026-11-11T09:02:21.7334490Z subprocess.TimeoutExpired: Command '['node', '/Users/runner/work/logo-maker/logo-maker/js/pwa.mjs']' timed out after 300 seconds
+2026-11-11T09:02:21.7334950Z 
+2026-11-11T09:02:21.7335190Z The above exception was the direct cause of the following exception:
+2026-11-11T09:02:21.7335410Z 
+2026-11-11T09:02:21.7335600Z Traceback (most recent call last):
+2026-11-11T09:02:21.7335970Z   File "<frozen runpy>", line 203, in _run_module_as_main
+2026-11-11T09:02:21.7336350Z   File "<frozen runpy>", line 88, in _run_code
+2026-11-11T09:02:21.7336900Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 537, in <module>
+2026-11-11T09:02:21.7337510Z     print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)
+2026-11-11T09:02:21.7338010Z                      ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7338520Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 368, in _export_all
+2026-11-11T09:02:21.7339130Z     pwa_assets(pwa_source, pwa_dir, background=paper, opaque=True)
+2026-11-11T09:02:21.7339590Z     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T09:02:21.7340100Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 149, in pwa_assets
+2026-11-11T09:02:21.7340550Z     result = node(
+2026-11-11T09:02:21.7340820Z         "pwa",
+2026-11-11T09:02:21.7341440Z     ...<6 lines>...
+2026-11-11T09:02:21.7341670Z         },
+2026-11-11T09:02:21.7341910Z     )
+2026-11-11T09:02:21.7342300Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 62, in node
+2026-11-11T09:02:21.7342930Z     proc = run(["node", str(path)], timeout=timeout, cwd=JS_DIR, input_text=json.dumps(payload))
+2026-11-11T09:02:21.7343550Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 47, in run
+2026-11-11T09:02:21.7344150Z     raise ToolError(f"{cmd[0]} timed out after {timeout:.0f}s: {' '.join(cmd)}") from exc
+2026-11-11T09:02:21.7344910Z logo_maker.proc.ToolError: node timed out after 300s: node /Users/runner/work/logo-maker/logo-maker/js/pwa.mjs
+2026-11-11T09:02:21.7345900Z FAILED tests/test_publication.py::test_finalize_interrupted_winner_publication_restores_winner_and_run_state - AssertionError: assert False
+2026-11-11T09:02:21.7346450Z  +  where False = exists()
+2026-11-11T09:02:21.7347300Z  +    where exists = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_finalize_interrupted_winn0/fault-started').exists
+2026-11-11T09:02:21.7348190Z 3 failed, 431 passed, 2 skipped, 6 deselected, 49 warnings in 900.86s (0:15:00)
+2026-11-11T09:02:23.0771330Z ##[error]Process completed with exit code 1.

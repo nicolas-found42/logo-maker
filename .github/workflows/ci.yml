@@ -63,9 +63,24 @@ jobs:
         run: brew install pkgconf cairo pango libpng jpeg-turbo giflib librsvg pixman
       - name: Install npm packages
         run: npm ci --prefix js
+      - name: Provision and check PWA browser
+        timeout-minutes: 3
+        run: |
+          node --input-type=module <<'JS'
+          import { createRequire } from 'node:module';
+          import installer from './js/node_modules/pwa-asset-generator/dist/helpers/installer.js';
+          const require = createRequire(new URL('./js/node_modules/pwa-asset-generator/package.json', import.meta.url));
+          const { launch } = require('puppeteer-core');
+          const info = await installer.installPreferredBrowserRevision();
+          console.log(`PWA headless Chrome ${info.revision}: ${info.executablePath}`);
+          const browser = await launch({ executablePath: info.executablePath, headless: true });
+          await browser.close();
+          JS
       - name: Install Python packages
         run: uv sync --locked
       - name: Type check
         run: uv run --no-sync ty check
       - name: Offline tests
+        env:
+          PAG_USE_LOCAL_REV: "1"
         run: uv run --no-sync python -m pytest -q -m "not render and not live"

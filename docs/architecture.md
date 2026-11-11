@@ -389,6 +389,11 @@ and after target renames/journal publication. A changed source, inspection, judg
 sampling snapshot raises a publication conflict and restores the prior outputs and run bookkeeping.
 These checks share the original deadline and recovery reserve; they start no nested worker session.
 Retained custom previews remain inspection-only; unknown custom dependencies deny production reuse.
+CI provisions and launches PWA's lockfile-pinned headless Chrome during dependency setup.
+Offline tests select that installed revision through `PAG_USE_LOCAL_REV=1`, avoiding the
+system-browser default profile and a hidden download fallback during the test phase.
+Browser provisioning failures surface separately from export/creative qualification.
+
 Filesystem publication uses an owned worker and a journal written before any target
 rename. Staging includes provenance; three seconds of the original deadline are
 reserved for owned recovery after interruption. Recovery restores prior paths before

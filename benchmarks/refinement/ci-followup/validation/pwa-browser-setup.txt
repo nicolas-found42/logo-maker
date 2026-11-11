@@ -1,0 +1,8 @@
+4:10:24 AM installer Chrome build 156.0.8078.47 will be downloaded for you 🤔
+4:10:27 AM installer Chrome downloaded to /Users/nicolas/.cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47
+{
+  folderPath: '/Users/nicolas/.cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47',
+  executablePath: '/Users/nicolas/.cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47/chrome-headless-shell-mac-arm64/chrome-headless-shell',
+  local: true,
+  revision: '156.0.8078.47'
+}

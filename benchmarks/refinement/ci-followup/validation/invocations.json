@@ -1,0 +1,47 @@
+{
+  "delayed_setup": {
+    "args": [
+      "uv",
+      "run",
+      "--locked",
+      "python",
+      "-m",
+      "pytest",
+      "-v",
+      "-p",
+      "ci_phase_delay",
+      "tests/test_combined_stack.py::test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output",
+      "tests/test_publication.py::test_finalize_interrupted_winner_publication_restores_winner_and_run_state"
+    ],
+    "environment": {
+      "PYTHONPATH": "/tmp"
+    },
+    "plugin_source": "delay-plugin.py.txt",
+    "red_ref": "64a342c",
+    "red_log": "ci-phase-red.txt",
+    "red_args_difference": "-q instead of -v",
+    "green_log": "ci-phase-green-verbose.txt"
+  },
+  "three_regressions": {
+    "args": [
+      "uv",
+      "run",
+      "--locked",
+      "python",
+      "-m",
+      "pytest",
+      "-v",
+      "tests/test_export.py::test_export_set_sizes_and_manifest",
+      "tests/test_combined_stack.py::test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output",
+      "tests/test_publication.py::test_finalize_interrupted_winner_publication_restores_winner_and_run_state"
+    ],
+    "environment": {
+      "PAG_USE_LOCAL_REV": "1"
+    },
+    "log": "ci-three-regressions-verbose.txt"
+  },
+  "complete_offline": {
+    "command": "PAG_USE_LOCAL_REV=1 just test",
+    "log": "ci-followup-full-offline.txt"
+  }
+}

@@ -1,6 +1,6 @@
 [files]
-# Research notes quote sources verbatim, typos included.
-extend-exclude = ["docs/research", "benchmarks/omp/recipe", "benchmarks/refinement/review-followup/validation/publication-history-red-020e1d2.txt"]
+# Research notes and raw diagnosis logs preserve verbatim spelling.
+extend-exclude = ["benchmarks/refinement/ci-followup/validation", "docs/research", "benchmarks/omp/recipe", "benchmarks/refinement/review-followup/validation/publication-history-red-020e1d2.txt"]
 
 [default]
 # Revision IDs contain generated hexadecimal source hashes, not prose.

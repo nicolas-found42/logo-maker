@@ -3,6 +3,7 @@
 import hashlib
 import json
 import threading
+import time
 from contextlib import contextmanager, suppress
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -129,13 +130,28 @@ def test_combined_selection_keeps_errors_costs_and_eligibility_independent(
 
 
 def test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output(tmp_path, monkeypatch):
+    from logo_maker import owned_process
+
     logo, _, prior = prepared_run(tmp_path, monkeypatch)
     reached = threading.Event()
     release = threading.Event()
+    phase_started = []
+    original = owned_process.run
+
+    def bounded_post(*args, **kwargs):
+        if kwargs.get("label") == "Jev post":
+            # Bound the actual transport phase, after source/brief/image preparation.
+            # Only shorten the shared deadline; never replace it with a fresh budget.
+            phase_started.append(time.monotonic())
+            budget = kwargs["budget"]
+            budget.deadline = min(budget.deadline, phase_started[-1] + 6)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(owned_process, "run", bounded_post)
 
     def respond(body):
         reached.set()
-        release.wait(8)
+        release.wait(12)
         return 200, {"answers": {key: {"noul": 0.9} for key in body["questions"]}}
 
     try:
@@ -143,10 +159,12 @@ def test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output(tmp_pat
             client = JevClient(logo)
             client.url = url
             with pytest.raises(SamplingLimit, match="time_limit"):
-                pipeline.finalize(logo, client, budget=Budget(wall_seconds=4))
+                pipeline.finalize(logo, client, budget=Budget(wall_seconds=60))
     finally:
         release.set()
     assert reached.is_set(), "timeout must reach the actual owned provider worker"
+    assert len(phase_started) == 1
+    assert time.monotonic() - phase_started[0] < 8
     records = [json.loads(path.read_text()) for path in (logo.qa / "jev/requests").glob("*.json")]
     assert len(records) == 1
     assert records[0]["status"] == "submission_pending"

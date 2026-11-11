@@ -93,7 +93,7 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
 ):
     from test_eligibility import EligibilityClient, finalize_logo
 
-    from logo_maker import pipeline, render
+    from logo_maker import pipeline, publication, render
 
     logo, cid = finalize_logo(tmp_path / "logo")
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
@@ -103,10 +103,21 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
     previous_state = json.loads(logo.run_json.read_text())
     monkeypatch.setattr(pipeline, "qa_concept", lambda *a, **kw: result)
     marker = inject_stall(tmp_path, monkeypatch, "rename", ".publishing-", after=True)
-    started = time.monotonic()
+    phase_started = []
+    original = publication.publish
+
+    def bounded_publication(entries, journal, budget, stages, **kwargs):
+        # Allow cold preparation on hosted Macs, then shorten the same job budget
+        # at the publication boundary whose rollback this test exercises.
+        phase_started.append(time.monotonic())
+        budget.deadline = min(budget.deadline, phase_started[-1] + 12)
+        return original(entries, journal, budget, stages, **kwargs)
+
+    monkeypatch.setattr(publication, "publish", bounded_publication)
     with pytest.raises(SamplingLimit, match="time_limit"):
-        pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=8))
+        pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=60))
     assert marker.exists()
-    assert time.monotonic() - started < 10
+    assert len(phase_started) == 1
+    assert time.monotonic() - phase_started[0] < 14
     assert json.loads(prior.read_text()) == {"winner": "approved-prior"}
     assert json.loads(logo.run_json.read_text()) == previous_state
