@@ -1,46 +1,46 @@
 {
   "status": "authoring_needed",
-  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/concept.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/construction.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/inspection.json\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.py\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.svg\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.py\n  - /private/tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.toml",
+  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/concept.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/construction.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/inspection.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.py\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.svg\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.py\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.toml",
   "details": {
     "dimension": "creative_readiness",
-    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
-    "revision": "0009-bee7bbaadf5f-preview",
+    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
+    "revision": "0010-127a6928ec24-preview",
     "verdicts": {
       "craftsmanship": {
         "type": "noul",
-        "noul": 0.48
+        "noul": 0.4
       },
       "brief_fit": {
         "type": "noul",
-        "noul": 0.79
+        "noul": 0.81
       },
       "material_intent": {
         "type": "noul",
-        "noul": 0.43
+        "noul": 0.36
       },
       "description_match": {
         "type": "noul",
-        "noul": 0.4
+        "noul": 0.41
       }
     },
     "required_dimensions": {
       "craftsmanship": {
-        "p": 0.48,
+        "p": 0.4,
         "status": "unsettled"
       },
       "material_intent": {
-        "p": 0.43,
+        "p": 0.36,
         "status": "unsettled"
       },
       "description_match": {
-        "p": 0.4,
+        "p": 0.41,
         "status": "unsettled"
       }
     },
     "comparison": {
-      "binding": "e9171d5fd20bbe77cf467c4d00c24833c8b6840466abe1f9f0cff3528dee6aa0",
-      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0008-8f8b2899d811-preview/render.png",
-      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
+      "binding": "992edb5fd47eca3927bbd645486666eeb85e805a5ad258bff758fd8e6e81c818",
+      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
+      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
       "answers": {
         "visually_distinct": {
           "type": "noul",
@@ -48,10 +48,18 @@
         },
         "critique_resolved": {
           "type": "noul",
-          "noul": 0.63
+          "noul": 0.67
         }
       }
     },
     "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  },
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 0,
+    "elapsed_seconds": 2.391654708000715,
+    "remaining_seconds": 1797.6083450419974,
+    "scope": "whole host job including setup, probes, denoise and output"
   }
 }

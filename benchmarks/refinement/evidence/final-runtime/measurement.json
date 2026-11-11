@@ -1,0 +1,30 @@
+{
+  "seconds": 53.64289512499818,
+  "render_seconds": 47.21943091599678,
+  "export_seconds": 3.8148262909962796,
+  "finalize_seconds": 2.3334151250019204,
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 1,
+    "elapsed_seconds": 53.64289279100194,
+    "remaining_seconds": 1746.3571062089904,
+    "scope": "whole host job including setup, probes, denoise and output"
+  },
+  "request_count": 1,
+  "usage": {
+    "cost_usd": 0.000264,
+    "input_tokens": 6274,
+    "output_tokens": 103,
+    "requests": 1
+  },
+  "qa_result": "sampling_review_needed",
+  "stop": "sampling qualification unresolved; creative validity cannot replace #5's profile gate\n  - /tmp/logo-issue3-provider-final-6485b8c/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json\n  - /tmp/logo-issue3-provider-final-6485b8c/concepts/sampling-typography--embossed-plate--polished-metal/scene.toml",
+  "execution": "/private/tmp/logo-issue3-provider-final-6485b8c/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-1803acbdbfe3427caa0a903cb7b11238/final.execution.json",
+  "sampling": "/tmp/logo-issue3-provider-final-6485b8c/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json",
+  "verified_exports": 31,
+  "qualification": "incomplete",
+  "timing_scope": "fixture and job setup, motif, native render/denoise/diagnostics, delivery, full export and actual final QA/provider work; excludes pytest/import startup and later evidence copy/review",
+  "kernel_cache_state": "unknown",
+  "owner_acceptance": "not inferred"
+}

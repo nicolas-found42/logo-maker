@@ -208,3 +208,47 @@ remain; implementation-only replays add evidence, not alternatives.
 The cooperative refinement hashing, archival, publication and QA/provider deadline limits remain.
 Complete custom dependency discovery, owner artistic acceptance and sampling/production qualification
 remain open. No new whole-refinement hard bound or fresh automated patch-gate approval is claimed.
+
+## Bounded-provider integration with #5
+
+Pinned foundation `3189304df674651fa3ccc84695103fa4e3286e6b` is merged in creative core `6485b8c`.
+Bounded final QA uses the shared client view for technical and creative judgments, revision comparisons
+and the tournament; explicit-budget refinement and preview screening also bind that view. CPU QA,
+tiny-image preparation, provider encoding/retries and image-asset IO use #5's owned workers. Frozen
+source/image/inspection checks and winner rollback remain in place. Unbudgeted client APIs, numeric
+questions/policy and GPU tracing/denoising enforcement are unchanged.
+
+The new view initially hid model/endpoint identity, collapsing distinct judges' creative/comparison
+cache keys. Both review axes identified this regression. Public changed-model and changed-endpoint
+tests each failed before the fix; forwarding read-only `model`/`url` properties restored invalidation.
+The focused four-test run passed, including explicit budget forwarding and unsupported-client stops;
+the Spec reviewer independently reproduced it. Follow-up reviews found no remaining actionable issue.
+Initial fixture integration also reproduced 12 failures before adapting the immediate in-memory
+test binders and the construction/eligibility setup required by #3.
+
+Final offline validation passed **270 tests**, with 4 render/live tests deselected and 49 upstream
+warnings. The actual Cycles regression passed in 3.91 seconds; source-bound doctor passed **48/48**.
+Fresh paper/metal previews were inspected and resumed through actual budget-bound live judgments with
+zero native attempts on resume. Both remain `authoring_needed`; both replays have distinctness 0.01.
+The verifier now covers **20 creative render revisions / 158 exact authored-source files**, plus a
+separate final runtime and the two exact image assets sent in its one provider request.
+
+| Case | Latest revision | Effective seed | Live craft / fit / material / description |
+| --- | --- | ---: | --- |
+| Paper | `0010-bc8902e6c67c-preview` | 1820117 | 0.55 / 0.70 / 0.69 / 0.80 |
+| Metal | `0010-127a6928ec24-preview` | 42 | 0.40 / 0.81 / 0.36 / 0.41 |
+
+The explicit live M5 finalization test passed in 53.78 seconds. Its measured body took **53.64 s**
+(render 47.22 s, low-level export 3.81 s, final QA/provider 2.33 s), with one native attempt and a shared
+1800-second budget. It verified actual Metal tracing/GPU OIDN, 4000→2000 delivery, all 31
+low-level export hashes and one completed QA request with two retained assets. Finalization stopped
+at `sampling_review_needed` with an unqualified profile and kept the prior winner. Low-level export
+artifacts are test evidence; no qualified pipeline export, artistic acceptance or production approval
+is implied. This is one observation, not a performance comparison or calibration result.
+The public subset is in `evidence/final-runtime`; full sources/build/exports remain in ignored local
+evidence. The runtime script excludes pytest/import startup and later evidence collection/review.
+
+Caller-side source hashing, construction validation, archival, publication and provider logs remain
+cooperative; there is no hard whole-refinement bound. Complete custom dependency discovery,
+owner artistic acceptance and sampling/production qualification remain open. Historical automated
+gates apply only to their recorded source revisions, not this new integration.

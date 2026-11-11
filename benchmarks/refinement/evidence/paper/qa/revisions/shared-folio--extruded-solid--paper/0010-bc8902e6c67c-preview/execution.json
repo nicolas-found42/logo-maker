@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "101803f1e4fb56714f190be7bb2245f8dcff57977c7afbc962f348ff6c97d16c"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 1820117,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.141445750006824,
+  "process_cpu_seconds": 1.229984,
+  "log_sha256": "c0adb160242380d444df227be81a872a78f1be850b256c7e92dd87650cf6d3be",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/.build/attempt-6ef8d54a36454eaabf8723d8f9b987d2/preview.execution.exr",
+    "bytes": 14700260,
+    "sha256": "1b4ab57ec1f4363d244de9ecfda3391d2e7cb661f1f11abd88251741f9b7dddd",
+    "seconds": 0.03686216700589284,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "bd7cfcb2a51c880b64e265939ba536f1295820ebcce1268beb5805f73acb6d62"
+}

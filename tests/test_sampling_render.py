@@ -819,14 +819,14 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
     export_started = time.monotonic()
     paths = export.export_all(
         folder,
-        folder / "exports",
+        logo.exports,
         name="OPTICS",
         palette=palette,
         motif_svg=folder / "motif.svg",
         budget=budget,
     )
     export_seconds = time.monotonic() - export_started
-    manifest = json.loads((folder / "exports/manifest.json").read_text())
+    manifest = json.loads((logo.exports / "manifest.json").read_text())
     for key, entry in manifest["files"].items():
         assert hashlib.sha256(paths[key].read_bytes()).hexdigest() == entry["sha256"]
     assert len(paths) == 31

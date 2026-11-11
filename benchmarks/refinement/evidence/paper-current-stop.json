@@ -1,14 +1,14 @@
 {
   "status": "authoring_needed",
-  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/construction.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/inspection.json\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.py\n  - /private/tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.toml",
+  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/construction.json\n  - /tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/inspection.json\n  - /tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.py\n  - /tmp/logo-issue3-validation/paper/concepts/shared-folio--extruded-solid--paper/scene.toml",
   "details": {
     "dimension": "creative_readiness",
-    "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0009-f6f5c85af7ee-preview/render.png",
-    "revision": "0009-f6f5c85af7ee-preview",
+    "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0010-bc8902e6c67c-preview/render.png",
+    "revision": "0010-bc8902e6c67c-preview",
     "verdicts": {
       "craftsmanship": {
         "type": "noul",
-        "noul": 0.58
+        "noul": 0.55
       },
       "brief_fit": {
         "type": "noul",
@@ -16,7 +16,7 @@
       },
       "material_intent": {
         "type": "noul",
-        "noul": 0.7
+        "noul": 0.69
       },
       "description_match": {
         "type": "noul",
@@ -25,14 +25,18 @@
     },
     "required_dimensions": {
       "craftsmanship": {
-        "p": 0.58,
+        "p": 0.55,
+        "status": "unsettled"
+      },
+      "material_intent": {
+        "p": 0.69,
         "status": "unsettled"
       }
     },
     "comparison": {
-      "binding": "ed90c093712e01b8c5397539f61ff4d2baa0ebb29c93ca5c3d6795572b1a2969",
-      "before": "qa/revisions/shared-folio--extruded-solid--paper/0008-caf909a8a193-preview/render.png",
-      "after": "qa/revisions/shared-folio--extruded-solid--paper/0009-f6f5c85af7ee-preview/render.png",
+      "binding": "cceb635ec7072e710fcfe519cb2398ec0ce3968ca4c57659769fe26074247124",
+      "before": "qa/revisions/shared-folio--extruded-solid--paper/0009-f6f5c85af7ee-preview/render.png",
+      "after": "qa/revisions/shared-folio--extruded-solid--paper/0010-bc8902e6c67c-preview/render.png",
       "answers": {
         "visually_distinct": {
           "type": "noul",
@@ -40,10 +44,18 @@
         },
         "critique_resolved": {
           "type": "noul",
-          "noul": 0.42
+          "noul": 0.55
         }
       }
     },
     "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  },
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 0,
+    "elapsed_seconds": 2.5698960839945357,
+    "remaining_seconds": 1797.4301024160086,
+    "scope": "whole host job including setup, probes, denoise and output"
   }
 }

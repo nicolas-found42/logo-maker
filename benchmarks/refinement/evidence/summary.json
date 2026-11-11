@@ -1,11 +1,11 @@
 {
   "validation_date": "2026-11-10",
-  "implementation_commit": "80cb57a",
-  "sampling_base_commit": "e8834a6952a4b7517b2f14bdc955ede88a4352d4",
+  "implementation_commit": "6485b8c",
+  "sampling_base_commit": "3189304df674651fa3ccc84695103fa4e3286e6b",
   "baseline_commit": "38ba86b9ccff305cb453c46920824509ae989f76",
   "cases": {
     "paper": {
-      "render_revisions": 9,
+      "render_revisions": 10,
       "authored_design_versions": 3,
       "note": "Later source-only verification replays are not new design alternatives.",
       "revisions": [
@@ -911,13 +911,122 @@
             },
             "binding": "625452a8f3a049a2ada84729eb14b01d2495bcecd3b7827effacf097d9da0a1e"
           }
+        },
+        {
+          "revision": "0010-bc8902e6c67c-preview",
+          "image_sha256": "bd7cfcb2a51c880b64e265939ba536f1295820ebcce1268beb5805f73acb6d62",
+          "sources_sha256": {
+            "brief.toml": "3b455d768cb86ca2a3c59934b59d0e38632388deb34d6684e7c49dc2a194e405",
+            "concept/concept.json": "c073fa43337e1bde6739be474e867b7a67cf798d06132e45b965aa6aea959fc1",
+            "concept/construction.json": "de338c54c77851253117c250691846a69093fc43c32ddd2e490a2c29e2d9d27c",
+            "concept/geometry.json": "87cc522911dfc47e348e0ac0b7bfb2cef4ad80dfc93798e640c9b663311a09c0",
+            "concept/motif.json": "ddd3fef943539421fe831328770d92dd653544f96f5e124d529855b3c08c8af0",
+            "concept/motif.py": "58fb9b78e1f451c433d977ca3148966438edf36e54c3f88d64cba8eaa205600f",
+            "concept/motif.svg": "fc60bf89cb4480fc8ee46fd9157eb56754411af532db4d6d4edda58bda7b59d1",
+            "concept/scene.py": "2696315eaed82000db4158435e01af28a778f118d8781f22abe4c348b142988c",
+            "concept/scene.toml": "d13d6aa4bef4864394ade6ea500babb2d24af57e519880b02bdc03d7211730d1",
+            "tool/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "tool/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "tool/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "tool/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+            "tool/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "tool/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "tool/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "tool/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "tool/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "tool/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "tool/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "tool/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "tool/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "tool/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "tool/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "tool/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "tool/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "tool/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "tool/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "tool/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "tool/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "tool/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "tool/cli.py": "86beec464c5f6b74582aaa178a49b0a985aeac8de8b582c4a67a63b8b03a3214",
+            "tool/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "tool/export.py": "ff837b5604b0d78126643ab6846dee91d10d3b15da32946f72e78915f2011fc6",
+            "tool/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "tool/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "tool/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "tool/host.py": "757c5d7ff6fab7fce1baf261234d54ca3c9c1958934bc9acaaa1aecd21f678b2",
+            "tool/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "tool/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "tool/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "tool/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "tool/jev/client.py": "160107bcf09d8130ac3ff2565efec1ffd99c51048919eb506ae19ce65b6b05c7",
+            "tool/jev/questions.py": "477084f56de0e9044504b353fb177b23ab9e1955209eff9882dc6238859bc3f1",
+            "tool/jev/worker.py": "6d294fc8b976c57bd32d158ac723690eb66acadaff120cc5531fe946f26e3aca",
+            "tool/judging.py": "ec790169555aab424e5d9d8ba909754063d55211ca80d8d812b23cc92d37be77",
+            "tool/mcp_server.py": "b356dce966bd9bb35574eedb55db6a5aacab0adc6edd516d71464b61853e6f8c",
+            "tool/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "tool/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+            "tool/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "tool/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "tool/pipeline.py": "b717648c49861dfceb0e7efc4815382f68177e5184ab4dd0f1e1365fd3937c87",
+            "tool/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "tool/refinement.py": "9b5568eea8577a4d756d7c58c46781b7deba5f3ac588b2ad569d6b3819eddc7c",
+            "tool/render.py": "0f79a29eeba8b6dda0c2e9fbba49eae1b7d10c038973bb5405f11dbb494d35f8",
+            "tool/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "tool/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "tool/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "tool/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "tool/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "tool/sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+            "tool/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "tool/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "tool/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "tool/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "evidence": "evidence/paper/qa/revisions/shared-folio--extruded-solid--paper/0010-bc8902e6c67c-preview",
+          "device_status": "verified",
+          "denoiser": {
+            "device_type": "Metal",
+            "evidence": "OIDN_VERBOSE=2 created device and executed RT filters",
+            "oidn_version": "2.5.0"
+          },
+          "sampling": {
+            "adaptive_min_samples": 0,
+            "adaptive_threshold": 0.009999999776482582,
+            "samples": 256,
+            "seed": 1820117,
+            "use_adaptive_sampling": false,
+            "use_animated_seed": false
+          },
+          "render_denoise_png_seconds": 3.141445750006824,
+          "host_total_seconds": 5.826938082987908,
+          "judgment": {
+            "answers": {
+              "brief_fit": {
+                "noul": 0.7,
+                "type": "noul"
+              },
+              "craftsmanship": {
+                "noul": 0.55,
+                "type": "noul"
+              },
+              "description_match": {
+                "noul": 0.8,
+                "type": "noul"
+              },
+              "material_intent": {
+                "noul": 0.69,
+                "type": "noul"
+              }
+            },
+            "binding": "b0efadc14042cf873ef447cc2473a1ebb2c26941029dc2b1cbeb81907adcdbc4"
+          }
         }
       ],
       "outcome": "authoring_needed: uncertain creative dimensions remain, no qualified finalist",
       "local_full_evidence": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper"
     },
     "metal": {
-      "render_revisions": 9,
+      "render_revisions": 10,
       "authored_design_versions": 4,
       "note": "Later source-only verification replays are not new design alternatives.",
       "revisions": [
@@ -1837,6 +1946,115 @@
               }
             },
             "binding": "0b286a8e1621c82442b482033c3b5ee59ca749665daf08e1efa052aa8b5e2d9a"
+          }
+        },
+        {
+          "revision": "0010-127a6928ec24-preview",
+          "image_sha256": "20be7553dacd7597fec7ec2a6bd43b33575c251af2acc1b272820728416f5c64",
+          "sources_sha256": {
+            "brief.toml": "7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04",
+            "concept/concept.json": "56f152c2ad22c234e00add63e6ff8ed804c4b159cba45c6558aa43d13f6cad73",
+            "concept/construction.json": "d12d0bcf54c92662acc9722573b432c7fd30a949bb1558996a79a798718c6c4b",
+            "concept/geometry.json": "c0d183eff71055bed74abb1a8c968a54d76ea7ef2b6ffe47f8cb74d6de6412fe",
+            "concept/motif.json": "48a7b4a492ab63ddbdd63251c6d4edac3457e2b3f463b4be8674dc4d5e7c3e43",
+            "concept/motif.py": "bbe952ae55178e27ea59f19fc8f0475a7d0c4177a6ce5f194b18cd42c8516176",
+            "concept/motif.svg": "f8672dbbc96dfba2415150a568616c64475cf36bfceda272d207398b22a89854",
+            "concept/scene.py": "745f25c7101ea24a20031b590d523ea69368ec42ba2308162b7c015ef442cdd3",
+            "concept/scene.toml": "688488cada5b04e43fa6149e912eb6a6c8c8c9edc5481a0923d0a5bc7271b2b2",
+            "tool/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "tool/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "tool/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "tool/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+            "tool/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "tool/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "tool/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "tool/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "tool/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "tool/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "tool/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "tool/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "tool/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "tool/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "tool/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "tool/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "tool/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "tool/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "tool/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "tool/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "tool/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "tool/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "tool/cli.py": "86beec464c5f6b74582aaa178a49b0a985aeac8de8b582c4a67a63b8b03a3214",
+            "tool/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "tool/export.py": "ff837b5604b0d78126643ab6846dee91d10d3b15da32946f72e78915f2011fc6",
+            "tool/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "tool/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "tool/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "tool/host.py": "757c5d7ff6fab7fce1baf261234d54ca3c9c1958934bc9acaaa1aecd21f678b2",
+            "tool/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "tool/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "tool/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "tool/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "tool/jev/client.py": "160107bcf09d8130ac3ff2565efec1ffd99c51048919eb506ae19ce65b6b05c7",
+            "tool/jev/questions.py": "477084f56de0e9044504b353fb177b23ab9e1955209eff9882dc6238859bc3f1",
+            "tool/jev/worker.py": "6d294fc8b976c57bd32d158ac723690eb66acadaff120cc5531fe946f26e3aca",
+            "tool/judging.py": "ec790169555aab424e5d9d8ba909754063d55211ca80d8d812b23cc92d37be77",
+            "tool/mcp_server.py": "b356dce966bd9bb35574eedb55db6a5aacab0adc6edd516d71464b61853e6f8c",
+            "tool/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "tool/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+            "tool/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "tool/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "tool/pipeline.py": "b717648c49861dfceb0e7efc4815382f68177e5184ab4dd0f1e1365fd3937c87",
+            "tool/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "tool/refinement.py": "9b5568eea8577a4d756d7c58c46781b7deba5f3ac588b2ad569d6b3819eddc7c",
+            "tool/render.py": "0f79a29eeba8b6dda0c2e9fbba49eae1b7d10c038973bb5405f11dbb494d35f8",
+            "tool/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "tool/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "tool/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "tool/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "tool/runlog.py": "15a196788734edb0fa0b0462e677a26f43bd46ba687f0ac86c10642db3f963be",
+            "tool/sampling.py": "958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2",
+            "tool/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "tool/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "tool/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "tool/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "evidence": "evidence/metal/qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview",
+          "device_status": "verified",
+          "denoiser": {
+            "device_type": "Metal",
+            "evidence": "OIDN_VERBOSE=2 created device and executed RT filters",
+            "oidn_version": "2.5.0"
+          },
+          "sampling": {
+            "adaptive_min_samples": 0,
+            "adaptive_threshold": 0.009999999776482582,
+            "samples": 256,
+            "seed": 42,
+            "use_adaptive_sampling": false,
+            "use_animated_seed": false
+          },
+          "render_denoise_png_seconds": 2.581142249997356,
+          "host_total_seconds": 4.979416665999452,
+          "judgment": {
+            "answers": {
+              "brief_fit": {
+                "noul": 0.81,
+                "type": "noul"
+              },
+              "craftsmanship": {
+                "noul": 0.4,
+                "type": "noul"
+              },
+              "description_match": {
+                "noul": 0.41,
+                "type": "noul"
+              },
+              "material_intent": {
+                "noul": 0.36,
+                "type": "noul"
+              }
+            },
+            "binding": "4d4748e44234825d0a09443ad6f23f1c1af70a63541aa914dd9e00f96b1618cc"
           }
         }
       ],
