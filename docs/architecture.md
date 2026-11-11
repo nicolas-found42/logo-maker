@@ -327,6 +327,12 @@ model `typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/syst
 `TypeSafe-Danger-Zone-Images: true`. Every request is logged to `qa/jev/requests/` with each image
 replaced by its sha256, and each image is stored once in `qa/jev/assets/`. 429/5xx retry with
 backoff; any other failure raises `JevError` and never reads as "no".
+Provider failures and malformed response envelopes retain the submitted state, questions and
+sent-image assets with an explicit `api_error` request status. They cannot disappear from the
+audit because no answer was returned. Provider usage is retained as reported; absent prices or
+token counts remain unknown rather than fabricated zeros or estimates. Run totals distinguish
+reported subtotals from incomplete accounting, including unpriced requests and legacy totals
+whose completeness cannot be established. These accounting states do not become craft judgments.
 Mixed image dimensions require center padding to a shared canvas. Padding copies RGBA pixels
 without using their alpha as a second mask; translucency must not change during this step.
 

@@ -71,10 +71,40 @@ class RunLog:
     def jev_usage(self, usage: dict[str, Any]) -> None:
         with _LOCK:
             jev = self.data["jev"]
+            fields = (
+                ("cost", "cost_usd", "reported_cost_usd", "unpriced_requests"),
+                (
+                    "input_tokens",
+                    "input_tokens",
+                    "reported_input_tokens",
+                    "uncounted_input_requests",
+                ),
+                (
+                    "output_tokens",
+                    "output_tokens",
+                    "reported_output_tokens",
+                    "uncounted_output_requests",
+                ),
+            )
+            if "reported_cost_usd" not in jev:
+                # Old clients filled absent telemetry with zero/estimated prices. Preserve
+                # the historical claims without asserting that those totals were complete.
+                if jev["requests"]:
+                    jev["legacy_usage"] = {
+                        key: jev[key]
+                        for key in ("requests", "cost_usd", "input_tokens", "output_tokens")
+                    }
+                for _, _, subtotal, missing in fields:
+                    jev[subtotal] = 0
+                    jev[missing] = jev["requests"]
             jev["requests"] += 1
-            jev["cost_usd"] = round(jev["cost_usd"] + float(usage.get("cost", 0.0) or 0.0), 6)
-            jev["input_tokens"] += int(usage.get("input_tokens", 0) or 0)
-            jev["output_tokens"] += int(usage.get("output_tokens", 0) or 0)
+            for field, total, subtotal, missing in fields:
+                value = usage.get(field)
+                if value is None:
+                    jev[missing] += 1
+                else:
+                    jev[subtotal] += value
+                jev[total] = None if jev[missing] else jev[subtotal]
             self._save()
 
     def asset(self, key: str, source: str, license: str, path: str) -> None:

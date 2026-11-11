@@ -18,6 +18,7 @@ import base64
 import hashlib
 import io
 import json
+import math
 import os
 import re
 import threading
@@ -172,12 +173,10 @@ class JevClient:
             self.url = TYPESAFE_URL
             self.model = model or TYPESAFE_MODEL
             self._key = os.environ["TYPESAFE_API_KEY"]
-            self._direct = True
         elif os.environ.get("OPENROUTER_API_KEY"):
             self.url = OPENROUTER_URL
             self.model = model or OPENROUTER_MODEL
             self._key = os.environ["OPENROUTER_API_KEY"]
-            self._direct = False
         else:
             raise JevError(
                 "no jev API key: set TYPESAFE_API_KEY (direct TypeSafe) or "
@@ -257,15 +256,18 @@ class JevClient:
         raise JevError(f"jev request failed after {MAX_TRIES} tries: {last}")
 
     @staticmethod
-    def _usage(raw: dict[str, Any], direct: bool) -> dict[str, Any]:
-        usage = dict(raw.get("usage", {}))
-        out = {
-            "input_tokens": int(usage.get("input_tokens", 0) or 0),
-            "output_tokens": int(usage.get("output_tokens", 0) or 0),
-            "cost": float(usage.get("cost", 0.0) or 0.0),
-        }
-        if direct and not out["cost"]:
-            out["cost"] = round(out["input_tokens"] * 42e-9, 6)  # $42 per Btok in, out free
+    def _usage(raw: dict[str, Any]) -> dict[str, Any]:
+        """Reported quantities only; missing or malformed telemetry stays unknown."""
+        usage = raw.get("usage")
+        if not isinstance(usage, dict):
+            usage = {}
+        out: dict[str, Any] = {}
+        for field in ("input_tokens", "output_tokens", "cost"):
+            value = usage.get(field)
+            valid = type(value) is int and value >= 0
+            if field == "cost" and type(value) is float:
+                valid = math.isfinite(value) and value >= 0
+            out[field] = value if valid else None
         return out
 
     # -- logging ----------------------------------------------------------
@@ -312,9 +314,13 @@ class JevClient:
             "state": state,
             "questions": questions,
             "assets": stripped_assets,
+            "status": response.get("_status", "response_received"),
             "answers": response.get("answers", {}),
             "usage": response.get("_usage", {}),
+            "provider_usage": response.get("usage"),
         }
+        if "_error" in response:
+            record["error"] = response["_error"]
         req_dir = self.logo.qa / "jev" / "requests"
         req_dir.mkdir(parents=True, exist_ok=True)
         (req_dir / f"{seq:04d}-{_slug_label(label)}.json").write_text(json.dumps(record, indent=2))
@@ -323,6 +329,7 @@ class JevClient:
             "label": label,
             "model": response.get("model", self.model),
             "questions": sorted(questions),
+            "status": record["status"],
             "usage": response.get("_usage", {}),
             "answers": response.get("answers", {}),
         }
@@ -345,13 +352,27 @@ class JevClient:
                 ref: {"type": "image", "format": a["format"], "data_base64": a["data_base64"]}
                 for ref, a in assets.items()
             }
-        raw = self._post(body, has_images=bool(assets))
-        if "answers" not in raw:
-            raise JevError(f"jev response has no answers: {json.dumps(raw)[:500]}")
-        usage = self._usage(raw, self._direct)
+        stripped = self._store_assets(assets) if self.logo is not None else {}
+        raw: dict[str, Any] = {}
+        try:
+            response = self._post(body, has_images=bool(assets))
+            if not isinstance(response, dict):
+                raise JevError("jev response must be an object")
+            raw = response
+            if not isinstance(raw.get("answers"), dict):
+                raise JevError("jev response has no answers object")
+        except JevError as exc:
+            if self.logo is not None:
+                raw.update(
+                    _status="api_error",
+                    _error=str(exc),
+                    _usage=self._usage(raw),
+                )
+                self._log(label, ser_state, ser_questions, stripped, raw)
+            raise
+        usage = self._usage(raw)
         raw["_usage"] = usage
         if self.logo is not None:
-            stripped = self._store_assets(assets)
             self._log(label, ser_state, ser_questions, stripped, raw)
         return raw["answers"]  # type: ignore[no-any-return]
 

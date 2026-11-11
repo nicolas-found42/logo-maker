@@ -273,7 +273,9 @@ def test_direct_typesafe_transport(tmp_path, monkeypatch):
     assert answers["q"]["noul"] == 0.2
     assert client.logo is not None
     run = json.loads((client.logo.root / "run.json").read_text())
-    assert run["jev"]["cost_usd"] == round(100 * 42e-9, 6)
+    assert run["jev"]["cost_usd"] is None
+    assert run["jev"]["unpriced_requests"] == 1
+    assert run["jev"]["input_tokens"] == 100
 
 
 def test_openrouter_prefers_typesafe_key(tmp_path, monkeypatch):

@@ -361,6 +361,130 @@ def test_api_failure_stays_error_and_keeps_old_winner(tmp_path, malformed):
 
 
 @pytest.mark.parametrize(
+    ("status", "payload", "error"),
+    [
+        (400, {"error": "image processing failed"}, "image processing failed"),
+        (200, {"usage": {"input_tokens": 50, "output_tokens": 0, "cost": 0.0}}, "answers"),
+        (200, ["not a response envelope"], "object"),
+    ],
+)
+def test_provider_failure_retains_submitted_pixels_and_request(
+    tmp_path, monkeypatch, status, payload, error
+):
+    import base64
+    import hashlib
+
+    import httpx
+
+    from logo_maker.eligibility import assess
+    from logo_maker.jev.client import JevClient, JevError
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-secret")
+    monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+    submitted = []
+
+    def reject(request):
+        submitted.append(json.loads(request.content))
+        return httpx.Response(status, json=payload)
+
+    client = JevClient(logo)
+    client._http = httpx.Client(transport=httpx.MockTransport(reject))
+    with pytest.raises(JevError, match=error):
+        assess(logo, brief, cid, logo.concept(cid) / "final.png", client, stage="final")
+    requests = list((logo.qa / "jev" / "requests").glob("*.json"))
+    assert len(requests) == 1
+    record = json.loads(requests[0].read_text())
+    assert record["status"] == "api_error"
+    assert record["state"] == submitted[0]["state"]
+    assert record["questions"] == submitted[0]["questions"]
+    if status == 200 and isinstance(payload, dict):
+        assert record["provider_usage"] == payload["usage"]
+        assert record["usage"]["cost"] == 0.0
+    else:
+        assert record["usage"]["cost"] is None
+    totals = json.loads(logo.run_json.read_text())["jev"]
+    assert totals["requests"] == 1
+    if status == 200 and isinstance(payload, dict):
+        assert totals["cost_usd"] == 0.0
+        assert totals["unpriced_requests"] == 0
+        assert totals["output_tokens"] == 0
+    else:
+        assert totals["cost_usd"] is None
+        assert totals["unpriced_requests"] == 1
+        assert totals["input_tokens"] is None
+    assert "test-secret" not in requests[0].read_text()
+    for key, asset in submitted[0]["assets"].items():
+        raw = base64.b64decode(asset["data_base64"])
+        digest = hashlib.sha256(raw).hexdigest()
+        assert record["assets"][key]["sha256"] == digest
+        assert (logo.qa / "jev" / "assets" / f"{digest}.png").read_bytes() == raw
+    outcome = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert outcome["status"] == "api_error"
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_unpriced_judgments_keep_reported_subtotal_and_unknown_total(tmp_path, monkeypatch, legacy):
+    import httpx
+
+    from logo_maker.eligibility import assess
+    from logo_maker.jev.client import JevClient
+
+    historical = {"requests": 2, "cost_usd": 0.7, "input_tokens": 30, "output_tokens": 4}
+    if legacy:
+        (tmp_path / "run.json").write_text(
+            json.dumps(
+                {
+                    "seeds": {},
+                    "stages": {},
+                    "jev": historical,
+                    "assets": {},
+                    "versions": {},
+                    "events": [],
+                }
+            )
+        )
+    logo, cid, brief = candidate_logo(tmp_path)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-secret")
+    monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+    calls = []
+
+    def answer(request):
+        payload = json.loads(request.content)
+        calls.append(payload)
+        usage = {"input_tokens": 10, "output_tokens": 2}
+        if len(calls) == 1:
+            usage["cost"] = 0.125
+        return httpx.Response(
+            200,
+            json={
+                "answers": {key: {"noul": 0.9} for key in payload["questions"]},
+                "usage": usage,
+            },
+        )
+
+    client = JevClient(logo)
+    client._http = httpx.Client(transport=httpx.MockTransport(answer))
+    outcome = assess(logo, brief, cid, logo.concept(cid) / "final.png", client, stage="final")
+    assert outcome["status"] == "pass"
+    records = [
+        json.loads(path.read_text())
+        for path in sorted((logo.qa / "jev" / "requests").glob("*.json"))
+    ]
+    assert records[0]["usage"]["cost"] == 0.125
+    assert all(record["usage"]["cost"] is None for record in records[1:])
+    assert all("cost" not in record["provider_usage"] for record in records[1:])
+    usage = json.loads(logo.run_json.read_text())["jev"]
+    assert usage["cost_usd"] is None
+    assert usage["reported_cost_usd"] == 0.125
+    assert usage["unpriced_requests"] == len(records) - 1 + (2 if legacy else 0)
+    if legacy:
+        assert usage["legacy_usage"] == historical
+        assert usage["input_tokens"] is None
+        assert usage["reported_input_tokens"] > 0
+
+
+@pytest.mark.parametrize(
     ("change", "limit", "device", "outcome"),
     [
         ({"noise_free": "fail"}, "capped", "verified", "cap_limited_noise"),
