@@ -1,0 +1,65 @@
+{
+  "seq": 1,
+  "label": "diagnose-recorded",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "214af0fc8cb043cab2c532582c38d183",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant that remembers the meeting so you make the call.",
+      "tone": [
+        "deliberate",
+        "clear"
+      ],
+      "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A serif C whose opening holds a check stroke; Chief of Staff remembers the meeting, you make the call.",
+      "treatment": "wax seal with ring legend and crossed ribbons"
+    },
+    "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons.",
+    "hero_32px": "f0da12e5d0dc46f4a02e68fc078977b4",
+    "flat_32px": "b3b97a888faa479f8ce581f0fae4e5b6"
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    }
+  },
+  "assets": {
+    "214af0fc8cb043cab2c532582c38d183": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "f0da12e5d0dc46f4a02e68fc078977b4": {
+      "type": "image",
+      "format": "png",
+      "sha256": "38d6288a2653808feda08fc93e4008d3af93d718defd20cef4dbe8efbac505ff",
+      "bytes": 6628
+    },
+    "b3b97a888faa479f8ce581f0fae4e5b6": {
+      "type": "image",
+      "format": "png",
+      "sha256": "c58bebd9dcf62cdb4e3c26058b43cbf82292cc97781f25af56aff670685d5fc9",
+      "bytes": 6990
+    }
+  },
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.27
+    }
+  },
+  "usage": {
+    "input_tokens": 8855,
+    "output_tokens": 20,
+    "cost": 0.00037191
+  }
+}

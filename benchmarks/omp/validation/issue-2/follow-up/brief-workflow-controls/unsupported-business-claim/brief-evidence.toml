@@ -1,0 +1,17 @@
+schema = 1
+communication_priority = "A welcoming place to care for household objects"
+design_latitude = ["material", "symbol construction"]
+requirements = []
+
+[[sources]]
+id = "owner"
+kind = "owner"
+path = "inputs/owner.txt"
+excerpt = "Sample is a repair workshop where neighbors mend household objects during repair sessions. Material is deliberately open."
+
+[[facts]]
+id = "activity"
+claim = "Neighbors mend household objects at a repair workshop"
+status = "established"
+sources = ["owner"]
+essential = true

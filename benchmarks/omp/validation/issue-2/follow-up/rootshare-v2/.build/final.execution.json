@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "41d0fd748ca2e4b2c62879965b474df0cef974d740eeabf4562a59242459566c",
+    "meshes/Rootshare_body.ply": "9b261c759a0f9a5bc539e34db18cce575283088bd856c25dec805b06e7973dbd",
+    "meshes/Rootshare_inlay.ply": "b097e40ecdc2e0c9c81ec8000a743435025cac0d00bd1424f0cb2adc4e9c72ee"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 4096,
+    "use_adaptive_sampling": true,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    4000,
+    4000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "final.execution.log",
+  "seconds": 78.62725441600196,
+  "process_cpu_seconds": 17.914196,
+  "log_sha256": "d1e8af9800f5ec5f7359a47ee76a0d4a56a1dc08317fc6a475dccf393858d9b5",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "2e7a083ed4405e9195da6888fc0d727290cbd3f362e3694056c4562a71ebc693",
+  "delivered_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+  "host_sources_sha256": {
+    "scene.toml": "e418fdd6e40cc8f9b27b5365b4a3bd94c415873e50a710b83d142644dd9d6928",
+    "motif.json": "dc48244408351efeff199f3a7cbbd58da0c70475f8a916e22cbc60ff6aed70c7",
+    "scene.py": "25cb878c8db2c0755cdd913ef9f96fc44449a1e82503bb838d69226f1e3641f0"
+  }
+}

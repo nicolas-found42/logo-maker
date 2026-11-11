@@ -1,0 +1,62 @@
+{
+  "seq": 1,
+  "label": "brief-direction-preservation",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "business": {
+      "name": "Sample",
+      "summary": "A repair workshop where neighbors mend household objects during repair sessions.",
+      "tone": [
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighbors identifying their repair workshop before a session",
+      "uses": [
+        "app_icon"
+      ]
+    },
+    "design_direction": {
+      "palette": {
+        "primary": "#FF0000"
+      },
+      "open_choices": [
+        "material",
+        "symbol construction"
+      ]
+    },
+    "requirements": [
+      {
+        "id": "red",
+        "claim": "The logo must be red",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ]
+      }
+    ]
+  },
+  "questions": {
+    "mandates": {
+      "type": "noul",
+      "instructions": "Does the brief preserve established owner/project requirements in its business and design direction?",
+      "criteria": {
+        "true": "Established requirements remain intact; open choices and designer proposals do not erase them.",
+        "false": "A stated mandatory direction is missing, contradicted, or silently recast as optional."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "mandates": {
+      "type": "noul",
+      "noul": 0.91
+    }
+  },
+  "usage": {
+    "input_tokens": 515,
+    "output_tokens": 21,
+    "cost": 2.163e-05
+  }
+}

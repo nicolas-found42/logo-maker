@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1000" height="1000" viewBox="0 0 1000 1000">
+<path d="M200 310 L420 195 L610 380 L480 510 L340 375 L200 450 Z" fill="#285640" id="first-contribution" data-role="primary" data-height="1" data-layer="0" />
+<path d="M520 490 L660 625 L800 550 L800 690 L580 805 L390 620 Z" fill="#DCE7D6" id="second-contribution" data-role="secondary" data-height="1" data-layer="1" />
+</svg>

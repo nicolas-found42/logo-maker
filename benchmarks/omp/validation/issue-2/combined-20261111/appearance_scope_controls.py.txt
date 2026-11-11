@@ -1,0 +1,44 @@
+"""One predeclared state correction from inspected pixels; not a favorable-answer retry.
+
+Original Chief is not globally matte: its blue wax rim has specular highlights,
+while its gold face is comparatively satin. Earlier global muted wording mixes
+these surfaces. Keep all production questions and thresholds unchanged. Check
+appearance in isolation, then cross-craft in both orders. No owner labels sent.
+"""
+import json
+from pathlib import Path
+
+from logo_maker.jev.client import Image, JevClient
+from logo_maker.jev import questions as Q
+from logo_maker.eligibility import _statuses
+from logo_maker.paths import LogoDir
+
+root=Path('logos/issue-2-completion/appearance-scope-controls')
+root.mkdir(exist_ok=False)
+client=JevClient(LogoDir(root))
+assets=Path('benchmarks/omp/assets').resolve()
+original=assets/'original-seal-2000.png'
+glossy=assets/'reconstruction-rendered-2000.png'
+muted='Blue wax seal body with reflective highlights along its raised rim; raised gold C/check and ring legend have broad, comparatively satin gold faces with localized bright bevel highlights. Crossed green ribbons have a restrained surface.'
+reflective='Blue wax seal body with reflective highlights; raised gold C/check and ring legend have strongly reflective gold faces with rounded bright bevels. Crossed green ribbons have folded tips.'
+rows=[]
+for label,path,appearance in [('original',original,muted),('reconstruction',glossy,reflective)]:
+ questions={'appearance':Q.fit_questions()['appearance']}
+ answers=client.ask({'candidate':Image(path),'intended_appearance':appearance},questions,label=label+'-appearance-isolated')
+ rows.append({'case':label+'-appearance-isolated','answers':answers,'checks':_statuses(answers,questions)})
+for label,candidate,reference,own,ref in [('original-vs-reconstruction',original,glossy,muted,reflective),('reconstruction-vs-original',glossy,original,reflective,muted)]:
+ for order in [('candidate','reference'),('reference','candidate')]:
+  # Full original pixels plus every native tile, matching production's state.
+  from logo_maker.eligibility import _native_details
+  dest=root/label
+  dest.mkdir(exist_ok=True)
+  images={'candidate':Image(candidate),'reference':Image(reference)}
+  details={'candidate':_native_details(candidate,dest,'candidate'),'reference':_native_details(reference,dest,'reference')}
+  state={name:images[name] for name in order}
+  state['intended_appearances']={'candidate':own,'reference':ref}
+  state['native_detail_views']={name:details[name] for name in order}
+  questions=Q.craft_questions()
+  answers=client.ask(state,questions,label=label+'-'+order[0]+'-first')
+  rows.append({'case':label,'order':order,'answers':answers,'checks':_statuses(answers,questions)})
+(root/'results.json').write_text(json.dumps(rows,indent=2)+'\n')
+print(json.dumps([{k:v for k,v in row.items() if k!='answers'} for row in rows],indent=2))

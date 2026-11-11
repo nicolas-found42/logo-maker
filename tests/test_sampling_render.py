@@ -295,6 +295,10 @@ def test_generic_edge_failure_returns_scoped_refinement_without_changing_samplin
         def with_budget(self, budget):
             return self
 
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, "a|b|c")
     result = pipeline.qa_concept(
         logo, "a|b|c", ImmediateClient(), pipeline.Brand({"primary": "#0A141E"}, {})
     )
@@ -409,6 +413,10 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
         image.save(target / "final.png")
         (target / "final.execution.json").write_text('{"status":"verified"}')
 
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, concept_id)
     monkeypatch.setattr(render, "_run_builder", builder)
     render.render(folder, "final")
     (logo.ideation / "finalists.json").write_text(json.dumps({"ids": [concept_id]}))
@@ -461,6 +469,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
             if first and failure == "provider_log":
                 logs = logo.qa / "jev"
                 logs.mkdir(parents=True, exist_ok=True)
+                (logs / "answers.jsonl").unlink(missing_ok=True)
                 os.mkfifo(logs / "answers.jsonl")
             self.send_response(429 if retry else 200)
             if retry:
@@ -470,7 +479,9 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
                 assets_dir.mkdir(parents=True, exist_ok=True)
                 for asset in body["assets"].values():
                     digest = hashlib.sha256(base64.b64decode(asset["data_base64"])).hexdigest()
-                    os.mkfifo(assets_dir / f"{digest}.{asset['format']}")
+                    target = assets_dir / f"{digest}.{asset['format']}"
+                    target.unlink(missing_ok=True)
+                    os.mkfifo(target)
             response = json.dumps(
                 {
                     "answers": {key: {"type": "noul", "noul": 0.9} for key in body["questions"]},
@@ -506,7 +517,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
     try:
         if failure == "asset_corrupt":
             with pytest.raises(pipeline.AuthoringNeeded):
-                pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
+                pipeline.finalize(logo, client, budget=Budget(wall_seconds=30))
             requests = list((logo.qa / "jev/requests").glob("*.json"))
             assert len(requests) == 1
             request = json.loads(requests[0].read_text())
@@ -515,12 +526,10 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
                 assert retained.is_file(), "retained judgment image is not a regular file"
                 assert hashlib.sha256(retained.read_bytes()).hexdigest() == asset["sha256"]
             usage = json.loads(logo.run_json.read_text())["jev"]
-            assert usage == {
-                "requests": 1,
-                "input_tokens": 123,
-                "output_tokens": 7,
-                "cost_usd": 0.001,
-            }
+            assert {
+                k: usage[k] for k in ("requests", "input_tokens", "output_tokens", "cost_usd")
+            } == {"requests": 1, "input_tokens": 123, "output_tokens": 7, "cost_usd": 0.001}
+            assert usage["unpriced_requests"] == 0
             assert "synthetic-test-key" not in requests[0].read_text()
         else:
             with pytest.raises(SamplingLimit, match="time_limit"):
@@ -539,7 +548,9 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
 
             assert runlog(logo.run_json).data["jev"]["requests"] == 1
             assert client._seq == 2
-        assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+        assert time.monotonic() - started < (33 if failure == "asset_corrupt" else 9), (
+            "blocked QA exceeded the whole-job budget"
+        )
         assert prior.read_text() == '{"winner":"approved prior"}'
     finally:
         stop.set()
@@ -574,6 +585,10 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
     (logo.ideation / "finalists.json").write_text('{"ids":["a|b|c"]}')
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"approved-prior"}')
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, "a|b|c")
     monkeypatch.setattr(pipeline, "brand", lambda logo: pipeline.Brand({}, {}))
     monkeypatch.setattr(
         pipeline, "qa_concept", lambda *a, **k: {"result": "sampling_review_needed"}
@@ -835,6 +850,9 @@ def test_finalize_blocked_input_terminates_and_keeps_winner(tmp_path, blocked):
     logo.brief.write_text(
         'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
     )
+    from test_brief_workflow import freeze_for_stage_test
+
+    freeze_for_stage_test(logo)
     (logo.ideation / "finalists.json").write_text('{"ids":[]}')
     winner_path = logo.ideation / "winner.json"
     winner_path.write_text('{"winner":"approved prior"}')

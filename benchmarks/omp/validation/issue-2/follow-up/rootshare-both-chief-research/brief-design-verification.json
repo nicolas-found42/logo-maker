@@ -1,0 +1,25 @@
+{
+  "description": "Retained repeat verification using the exact claims and evidence supplied in the research verification call; original result was displayed but not retained in execution store.",
+  "claims": [
+    "Design Council describes discovering the problem with affected people, defining the challenge, developing different answers and testing small-scale solutions.",
+    "Pentagram reports exploring a wide range of Slack identity possibilities before retaining and retooling its familiar octothorpe to improve reproduction and consistency.",
+    "Slack's own account says its former eleven-color mark depended on a white background and prescribed angle, and compensating versions produced inconsistent app buttons.",
+    "Pentagram's Mastercard case describes preserving existing brand equity, designing for digital contexts, and developing a wider visual identity from the logo's geometry and color."
+  ],
+  "input_sha256": "5f2c7ae8206bc6eef65e4efe06eb8a557c6b77d0b6a3bd7d456963f9c32315bd",
+  "source_urls": [
+    "https://www.designcouncil.org.uk/resources/the-double-diamond/",
+    "https://www.pentagram.com/work/slack/story",
+    "https://slack.com/blog/news/say-hello-new-logo",
+    "https://www.pentagram.com/work/mastercard/story"
+  ],
+  "source_input_limit": "Per-source labels in the retained request contain combined retrieval output. Primary-source ownership was independently checked against each cited page. Raw source text is not republished.",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_verify\",\n  \"model\": \"typesafe/jev-1.14-20261014\",\n  \"provider\": \"openrouter\",\n  \"auto_accept\": 0.8,\n  \"subject_at\": 0.5,\n  \"summary\": {\n    \"verified\": 4,\n    \"contradicted\": 0,\n    \"unsupported\": 0,\n    \"needs_review\": 0\n  },\n  \"results\": [\n    {\n      \"id\": \"claim0\",\n      \"claim\": \"Design Council describes discovering the problem with affected people, defining the challenge, developing different answers and testing small-scale solutions.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 0.99,\n        \"contradicts\": 0,\n        \"says_nothing\": 0.01\n      },\n      \"confidence\": 0.98,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"design-council\",\n      \"same_subject\": 0.88\n    },\n    {\n      \"id\": \"claim1\",\n      \"claim\": \"Pentagram reports exploring a wide range of Slack identity possibilities before retaining and retooling its familiar octothorpe to improve reproduction and consistency.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.92\n    },\n    {\n      \"id\": \"claim2\",\n      \"claim\": \"Slack's own account says its former eleven-color mark depended on a white background and prescribed angle, and compensating versions produced inconsistent app buttons.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": null,\n      \"same_subject\": 0.88\n    },\n    {\n      \"id\": \"claim3\",\n      \"claim\": \"Pentagram's Mastercard case describes preserving existing brand equity, designing for digital contexts, and developing a wider visual identity from the logo's geometry and color.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"mastercard\",\n      \"same_subject\": 0.93\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 20270,\n    \"output_tokens\": 420\n  }\n}"
+      }
+    ]
+  }
+}

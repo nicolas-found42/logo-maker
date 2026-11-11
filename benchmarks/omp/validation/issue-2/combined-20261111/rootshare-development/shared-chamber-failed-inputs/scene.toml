@@ -1,0 +1,47 @@
+[meta]
+concept = "shared-chamber|extruded_solid|clay"
+treatment = "extruded_solid"
+seed = 1321446
+
+[camera]
+tilt_deg = 22
+lens_mm = 100.0
+framing = 0.84
+azimuth_deg = -10
+
+[mark]
+scale = 1.0
+
+[lighting]
+rig = "studio_soft"
+hdri = "polyhaven:studio_small_09"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+
+[materials.surface]
+preset = "clay"
+color = "#F8F2E8"
+
+[materials.primary]
+preset = "clay"
+color = "#B95E3F"
+roughness = 0.74
+bump = 0.0015
+bump_scale = 70
+
+[[components]]
+kind = "mesh"
+name = "Chamber_0"
+path = "chamber-0.ply"
+material = "primary"
+
+[[components]]
+kind = "mesh"
+name = "Chamber_1"
+path = "chamber-1.ply"
+material = "primary"

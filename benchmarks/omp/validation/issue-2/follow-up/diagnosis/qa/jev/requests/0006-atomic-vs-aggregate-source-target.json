@@ -1,0 +1,86 @@
+{
+  "seq": 6,
+  "label": "atomic-vs-aggregate-source-target",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "ccc7c3c7fc8a42118ffb77a5add8950b",
+    "intended_appearance": "Blue sealing wax has a glossy clearcoat sheen with broad soft reflections and rounded perimeter ridges. Gold-leaf relief and lettering have a satin, nonmirror finish with smooth diffuse highlight-to-shadow transitions. The central C/check relief has crisp edges and soft bevel highlights; green woven ribbon stays matte."
+  },
+  "questions": {
+    "gloss_intent": {
+      "type": "noul",
+      "instructions": "Does the surface sheen visible in `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "The visible surface sheen follows the stated treatment direction.",
+        "false": "The visible surface sheen contradicts the stated treatment direction."
+      }
+    },
+    "reflection_intent": {
+      "type": "noul",
+      "instructions": "Does the reflection character visible in `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "The visible reflection character follows the stated treatment direction.",
+        "false": "The visible reflection character contradicts the stated treatment direction."
+      }
+    },
+    "contrast_intent": {
+      "type": "noul",
+      "instructions": "Does the highlight-to-shadow contrast visible in `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "The visible highlight-to-shadow contrast follows the stated treatment direction.",
+        "false": "The visible highlight-to-shadow contrast contradicts the stated treatment direction."
+      }
+    },
+    "edge_intent": {
+      "type": "noul",
+      "instructions": "Does the edge sharpness or roundness visible in `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "The visible edge sharpness or roundness follows the stated treatment direction.",
+        "false": "The visible edge sharpness or roundness contradicts the stated treatment direction."
+      }
+    },
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    }
+  },
+  "assets": {
+    "ccc7c3c7fc8a42118ffb77a5add8950b": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "gloss_intent": {
+      "type": "noul",
+      "noul": 0.4
+    },
+    "reflection_intent": {
+      "type": "noul",
+      "noul": 0.41
+    },
+    "contrast_intent": {
+      "type": "noul",
+      "noul": 0.32
+    },
+    "edge_intent": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.35
+    }
+  },
+  "usage": {
+    "input_tokens": 3474,
+    "output_tokens": 93,
+    "cost": 0.000145908
+  }
+}

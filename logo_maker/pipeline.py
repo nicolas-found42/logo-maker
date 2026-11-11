@@ -54,8 +54,14 @@ MAX_QA_ROUNDS = 5
 class AuthoringNeeded(RuntimeError):
     """The agent must write files before the stage can continue. `files` lists them."""
 
-    def __init__(self, message: str, files: list[Path]):
-        super().__init__(message + "\n" + "\n".join(f"  - {f}" for f in files))
+    def __init__(self, message: str, files: list[Path], *, questions: list[str] | None = None):
+        self.questions = questions or []
+        super().__init__(
+            message
+            + "\n"
+            + "\n".join(f"  - {f}" for f in files)
+            + "".join(f"\n  Question: {question}" for question in self.questions)
+        )
         self.files = files
 
 
@@ -77,6 +83,8 @@ def _bounded_inputs(logo: LogoDir, budget: Budget, *, brand_required: bool = Fal
         budget,
         [],
     )
+    if "authoring_needed" in data:
+        raise AuthoringNeeded(data["authoring_needed"], [Path(p) for p in data["files"]])
     fields = data["brief"]
     fields["references"] = tuple(
         brief_mod.Reference(Path(r["path"]), r["use"], r["note"]) for r in fields["references"]
@@ -110,7 +118,12 @@ def _write_json(path: Path, data: Any) -> None:
 
 
 def new(logo: LogoDir, name: str) -> LogoDir:
+    from logo_maker.briefing import TEMPLATE as EVIDENCE_TEMPLATE
+
     brief_mod.write_template(logo.brief, name)
+    evidence = logo.root / "brief-evidence.toml"
+    if not evidence.exists():
+        evidence.write_text(EVIDENCE_TEMPLATE)
     logo.inputs  # noqa: B018 - property creates the folder
     if not logo.metaphors.exists():
         logo.metaphors.write_text(METAPHORS_TEMPLATE)
@@ -147,10 +160,56 @@ def _proposals(logo: LogoDir, key: str) -> list[dict[str, str]]:
     return [dict(p) for p in data.get(key, [])]
 
 
+def review_brief(logo: LogoDir, client=None, *, revision_reason: str = "") -> dict[str, Any]:
+    from logo_maker import briefing
+
+    record = briefing.review(logo, client, revision_reason=revision_reason)
+    if record["status"] != "pass":
+        raise AuthoringNeeded(
+            "; ".join(record["missing"]), record["files"], questions=record["questions"]
+        )
+    runlog(logo.run_json).stage("brief", "done", revision=record["requirements_revision"])
+    return record
+
+
+def _require_brief(logo: LogoDir) -> dict:
+    from logo_maker import briefing
+
+    try:
+        return briefing.current(logo)
+    except ValueError as exc:
+        raise AuthoringNeeded(str(exc), [logo.brief, logo.root / "brief-evidence.toml"]) from exc
+
+
+def review_plans(logo: LogoDir, client=None) -> dict[str, dict]:
+    from logo_maker import briefing
+
+    _require_brief(logo)
+    records = {}
+    for cid in shortlist(logo):
+        record = briefing.review_plan(logo, cid, client)
+        if record["status"] != "pass":
+            raise AuthoringNeeded(
+                "; ".join(record["missing"]), record["files"], questions=record["questions"]
+            )
+        records[cid] = record
+    return records
+
+
+def _require_plan(logo: LogoDir, concept_id: str) -> dict:
+    from logo_maker import briefing
+
+    try:
+        return briefing.current_plan(logo, concept_id)
+    except ValueError as exc:
+        raise AuthoringNeeded(str(exc), [logo.concept(concept_id) / "plan.toml"]) from exc
+
+
 def intake(logo: LogoDir, client=None) -> dict[str, Any]:
     from logo_maker import fonts as fonts_mod
     from logo_maker import intake as intake_mod
 
+    review_brief(logo, client)
     brief = brief_mod.load(logo.brief)
     client = client or _client(logo)
     log = runlog(logo.run_json)
@@ -205,6 +264,7 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
 def ideate(logo: LogoDir, client=None) -> list[str]:
     from logo_maker import ideate as ideate_mod
 
+    _require_brief(logo)
     if not logo.metaphors.exists() or "[[metaphor]]" not in logo.metaphors.read_text().replace(
         "# [[", ""
     ):
@@ -302,6 +362,7 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     """
     from logo_maker import motif
 
+    _require_brief(logo)
     dirs = {cid: logo.concept(cid) for cid in shortlist(logo)}
     missing = [
         d / "motif.py"
@@ -349,8 +410,10 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
 def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
     from logo_maker import judging, render
 
+    _require_brief(logo)
     ids = shortlist(logo)
     dirs = [logo.concept(cid) for cid in ids]
+    review_plans(logo, client)
     motifs(logo)
     todo = [d for d in dirs if not _fresh(d / "preview.png", d)]
     if todo:
@@ -362,8 +425,10 @@ def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
     try:
         finalists = judging.screen_previews(logo, brief, previews, client, keep=keep)
     except ValueError as exc:  # no preview survived screening
+        log.stage("preview", "review_needed", reason=str(exc))
         raise AuthoringNeeded(
-            f"revise the motifs and scenes: {exc}", [logo.concept(cid) / "motif.py" for cid in ids]
+            f"review qa/eligibility.jsonl and revise the brief, references, motifs or scenes: {exc}",
+            [logo.brief, *(logo.concept(cid) / "motif.py" for cid in ids)],
         ) from exc
     log.stage("preview", "done", finalists=finalists)
     return finalists
@@ -417,7 +482,7 @@ def qa_concept(
     budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
     budget.check()
     client = _budgeted_client(client, budget)
-    brief = _bounded_inputs(logo, budget)[0]
+    brief = _bounded_inputs(logo, budget, reviewed=True, plans=[concept_id])[0]
     folder = logo.root / "concepts" / concept_slug(concept_id)
     rounds_path = logo.root / "qa" / "rounds.jsonl"
     log = runlog(logo.run_json, budget=budget)
@@ -476,7 +541,7 @@ def qa_concept(
         elif not failures:
             record["result"] = "pass"
         elif not fixable:
-            record["result"] = "needs_simpler_motif"
+            record["result"] = "needs_diagnosis"
         else:
             record["changes"] = host.run(
                 {
@@ -487,7 +552,7 @@ def qa_concept(
                 budget,
                 [],
             )["changes"]
-            record["result"] = "fixing"
+            record["result"] = "fixing" if record["changes"] else "needs_diagnosis"
         host.run(
             {"operation": "append_jsonl", "path": str(rounds_path), "data": record}, budget, []
         )
@@ -510,7 +575,9 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
     bootstrap = budget or Budget(attempt_limit=64)
     job_started = bootstrap.clock()
     bootstrap.check()
-    brief, brand_, setup = _bounded_inputs(logo, bootstrap, brand_required=True, finalists=True)
+    brief, brand_, setup = _bounded_inputs(
+        logo, bootstrap, brand_required=True, finalists=True, reviewed=True
+    )
     finalists = list(setup["finalists"])
     client = client or _client(logo, budget=bootstrap)
     # One finalist at a time: each final render saturates the GPU.
@@ -541,16 +608,24 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             "no finalist qualified; inspect sampling/refinement outcomes in qa/rounds.jsonl",
             files,
         )
-    if len(passed) == 1:
-        winner = passed[0]
-        winner_record = {"winner": winner, "reason": "only finalist to pass QA"}
-    else:
+    try:
         winner_record = judging.final_tournament_record(
             brief,
             {cid: (logo.root / "concepts" / concept_slug(cid)) / "final.png" for cid in passed},
             _budgeted_client(client, budget),
+            logo=logo,
+            budget=budget,
         )
         winner = winner_record["winner"]
+    except ValueError as exc:
+        log.stage("finalize", "review_needed", budget=budget, reason=str(exc))
+        raise AuthoringNeeded(
+            str(exc),
+            [
+                logo.brief,
+                *[logo.root / "concepts" / concept_slug(cid) / "scene.toml" for cid in passed],
+            ],
+        ) from exc
     log.publish_stage(
         "finalize",
         [
@@ -579,10 +654,13 @@ def winner(logo: LogoDir) -> str:
 
 def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     from logo_maker import export as export_mod
+    from logo_maker.eligibility import require_current
 
     budget = budget or Budget()
     budget.check()
-    brief, brand_, setup = _bounded_inputs(logo, budget, brand_required=True, winner=True)
+    brief, brand_, setup = _bounded_inputs(
+        logo, budget, brand_required=True, winner=True, reviewed=True
+    )
     folder = logo.root / "concepts" / concept_slug(setup["winner"])
     from logo_maker.render import artifact_current
 
@@ -602,6 +680,11 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
         folder, "final", budget=budget, expected_record_sha256=snapshot["sha256"]
     ):
         raise AuthoringNeeded("final provenance changed; finalize again", [folder / "scene.toml"])
+    winner_snapshot = host.run(
+        {"operation": "read_json", "path": str(logo.root / "ideation/winner.json")}, budget, []
+    )
+    proof = (winner_snapshot["data"] or {}).get("eligibility", {})
+    require_current(logo, brief, setup["winner"], proof, budget=budget)
     manifest = export_mod.export_all(
         folder,
         logo.root / "exports",
@@ -611,11 +694,18 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
         budget=budget,
         publication_log=runlog(logo.run_json, budget=budget),
         expected_sampling_sha256=snapshot["sha256"],
+        expected_eligibility={
+            "root": str(logo.root),
+            "concept_id": setup["winner"],
+            "proof": proof,
+            "winner_sha256": winner_snapshot["sha256"],
+        },
     )
     return manifest
 
 
 def run(logo: LogoDir, client=None) -> dict[str, Path]:
+    review_brief(logo, client)
     budget = Budget(attempt_limit=12)
     client = client or _client(logo, budget=budget)
     log = runlog(logo.run_json, budget=budget)
@@ -639,6 +729,7 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
     """
     from logo_maker import judging
 
+    _require_brief(logo)
     client = client or _client(logo)
     log = runlog(logo.run_json)
     floor_dir = logo.root / "floor"

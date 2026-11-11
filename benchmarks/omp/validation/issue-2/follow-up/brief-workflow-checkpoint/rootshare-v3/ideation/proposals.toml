@@ -1,0 +1,13 @@
+# Proposals for whatever brief.toml leaves out. logo-maker drops palettes that fail WCAG AA, then jev picks.
+# Write 6 of each that brief.toml does not already define.
+#
+# [[palette]]          # roles: primary, secondary, accent, highlight, background, ink
+# primary = "#RRGGBB"
+# secondary = "#RRGGBB"
+# accent = "#RRGGBB"
+# background = "#RRGGBB"
+# ink = "#RRGGBB"
+#
+# [[fonts]]            # families from github.com/google/fonts; "Family:axis=value,..."
+# display = "Family:wght=700"
+# text = "Family:wght=400"

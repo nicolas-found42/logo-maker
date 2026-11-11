@@ -291,29 +291,16 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
 def test_pipeline_export_rejects_concurrent_qualification_replacement(
     tmp_path, monkeypatch, replacement
 ):
-    from logo_maker import export, pipeline, render
-    from logo_maker.paths import LogoDir
+    from test_eligibility import EligibilityClient, finalize_logo
 
-    logo = LogoDir(tmp_path / "logo")
-    pipeline.new(logo, "Test")
-    logo.brief.write_text(
-        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
-    )
-    folder = logo.concept("a|b|c")
-    image = Image.new("RGBA", (1200, 900))
-    _disc(ImageDraw.Draw(image))
-    image.save(folder / "final.png")
-    (folder / "motif.svg").write_text(MOTIF)
-    (folder / ".build").mkdir()
+    from logo_maker import export, pipeline, render
+
+    logo, cid = finalize_logo(tmp_path / "logo")
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+    pipeline.finalize(logo, EligibilityClient())
+    folder = logo.concept(cid)
     sidecar = folder / ".build/final.sampling.json"
-    record: dict = {
-        "published": True,
-        "delivered_sha256": hashlib.sha256((folder / "final.png").read_bytes()).hexdigest(),
-        "profile": {"state": "qualified"},
-        "outcomes": {"sampling": "profile_baseline"},
-    }
-    sidecar.write_text(json.dumps(record))
-    (logo.ideation / "winner.json").write_text('{"winner":"a|b|c"}')
+    record = json.loads(sidecar.read_text())
     prior = logo.exports / "prior.txt"
     prior.write_text("approved prior exports")
     monkeypatch.setattr(render, "artifact_current", lambda *a, **kw: True)

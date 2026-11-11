@@ -1,0 +1,166 @@
+{
+  "seq": 104,
+  "label": "detail-shared-chamber|extruded_solid|clay-developed_detail",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "b5a98f5c8e064ee2824611a399ceb9dd",
+    "detail_plan": {
+      "schema": 1,
+      "requirements_revision": "a50d77af7aeaf64075523dfa9ed5afe1dc44bc2f4d6d6a66ffcff55652f9d49c",
+      "hypothesis": "Complementary forms define one shared, retained interior",
+      "visual_mechanism": "Complementary forms define one shared, retained interior",
+      "requirement_ids": [
+        "digital_uses",
+        "shared_master",
+        "shared_resource",
+        "ceramic"
+      ],
+      "assumptions": [
+        "The intended communication is a design hypothesis, not a new service fact"
+      ],
+      "details": [
+        {
+          "feature": "Complementary chamber contours",
+          "purpose": "Both forms define one recognizable interior rather than two unrelated ornaments",
+          "intended_scale": "Flat and 32px avatar",
+          "construction": "Two separately made ceramic forms retain the same master contours; no unsupported physical interlock is claimed",
+          "deletion_test": "Removing either form opens and unbalances the common interior"
+        },
+        {
+          "feature": "Coordinated terminal and inner-wall profiles",
+          "purpose": "Resolve the two gaps and material thickness deliberately",
+          "intended_scale": "Hero and native detail",
+          "construction": "Controlled outer handling radius with a finer inner lip, continuous matte ceramic surfaces",
+          "deletion_test": "Uniform raw extrusion loses the deliberate edge hierarchy"
+        }
+      ]
+    },
+    "authoring_obligation": {
+      "id": "developed_detail",
+      "claim": "Develop more visual detail.",
+      "kind": "authoring",
+      "origin": "owner",
+      "priority": "must",
+      "sources": [
+        "owner"
+      ],
+      "baseline_image": "inputs/prior-rejected-final.png"
+    },
+    "native_details": {},
+    "prior_baseline": "151e4b58920d40429659d6484544178d",
+    "baseline_native_details": {
+      "x0_y0": "887b0f763ebd40c984d5cb3fb0b79657",
+      "x1000_y0": "2ef4705e916045129b1ccbff8ba961fe",
+      "x0_y1000": "c8eddf1c921e465386185a7724a8d5bd",
+      "x1000_y1000": "c1fdb10fc59f4bb9a19700f567bfef96"
+    }
+  },
+  "questions": {
+    "realized_detail_0": {
+      "type": "noul",
+      "instructions": "Does the actual candidate visibly realize the contribution of detail_plan.details[0] (Complementary chamber contours) at its declared scale?",
+      "criteria": {
+        "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+        "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels."
+      }
+    },
+    "realized_detail_1": {
+      "type": "noul",
+      "instructions": "Does the actual candidate visibly realize the contribution of detail_plan.details[1] (Coordinated terminal and inner-wall profiles) at its declared scale?",
+      "criteria": {
+        "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+        "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels."
+      }
+    },
+    "detail_developed": {
+      "type": "noul",
+      "instructions": "Does the candidate visibly develop purposeful construction or material detail beyond the prior baseline?",
+      "criteria": {
+        "true": "More resolved proportions, junctions, seating, edge hierarchy or credible material detail develop the new direction. A higher ornament count is not required.",
+        "false": "Only gloss, texture density or a more flattering explanation changes; the visible construction remains underdeveloped."
+      }
+    },
+    "obligation_realized": {
+      "type": "noul",
+      "instructions": "Do the actual candidate pixels fulfill the particular correction in authoring_obligation.claim?",
+      "criteria": {
+        "true": "Visible construction or material evidence addresses the stated correction at its relevant scale, rather than only realizing an unrelated self-selected detail plan.",
+        "false": "The specific correction remains visibly unfulfilled, even if other planned details are present."
+      }
+    }
+  },
+  "assets": {
+    "b5a98f5c8e064ee2824611a399ceb9dd": {
+      "type": "image",
+      "format": "png",
+      "sha256": "b07a5a1bfded79fd6ac04d199e9da5e34d36a25b1524987fb59f31b9a94acb9d",
+      "bytes": 460141
+    },
+    "151e4b58920d40429659d6484544178d": {
+      "type": "image",
+      "format": "png",
+      "sha256": "22a8fc84515514d2caa248adebf2b8b984324c69d30826639a91704c73f3fcd2",
+      "bytes": 230392
+    },
+    "887b0f763ebd40c984d5cb3fb0b79657": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e58586d01ea9c85a92afcb819400f5a2c370c0b85ffb2e720378839b32c14134",
+      "bytes": 233011
+    },
+    "2ef4705e916045129b1ccbff8ba961fe": {
+      "type": "image",
+      "format": "png",
+      "sha256": "c8ab1c6193b6a62eb39bf85dcc8aa63ece0bb2b79fdbfec0806f53e93b907e61",
+      "bytes": 124360
+    },
+    "c8eddf1c921e465386185a7724a8d5bd": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0ce3919de8b8d30d56895b2fa52a16dddb14b02cffe59576c22acdd00557df99",
+      "bytes": 225032
+    },
+    "c1fdb10fc59f4bb9a19700f567bfef96": {
+      "type": "image",
+      "format": "png",
+      "sha256": "bceaea47b085bc7af64b047fe60bd76f7778636b6ec1c1bbec81c597e7c0e8cf",
+      "bytes": 162161
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "realized_detail_0": {
+      "type": "noul",
+      "noul": 0.55
+    },
+    "realized_detail_1": {
+      "type": "noul",
+      "noul": 0.26
+    },
+    "detail_developed": {
+      "type": "noul",
+      "noul": 0.57
+    },
+    "obligation_realized": {
+      "type": "noul",
+      "noul": 0.28
+    }
+  },
+  "usage": {
+    "input_tokens": 17780,
+    "output_tokens": 84,
+    "cost": 0.00074676
+  },
+  "provider_usage": {
+    "input_tokens": 17780,
+    "output_tokens": 84,
+    "cost": 0.00074676,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.00074676,
+      "upstream_inference_prompt_cost": 0.00074676,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

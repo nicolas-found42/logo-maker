@@ -1,0 +1,30 @@
+[
+  {
+    "path": "register-body.ply",
+    "vertices": 33280,
+    "faces": 66568,
+    "volume": 0.2548076219012703,
+    "watertight": true
+  },
+  {
+    "path": "collar_0.ply",
+    "vertices": 19968,
+    "faces": 39936,
+    "volume": 0.009301272772173168,
+    "watertight": true
+  },
+  {
+    "path": "collar_1.ply",
+    "vertices": 19968,
+    "faces": 39936,
+    "volume": 0.009301273228718447,
+    "watertight": true
+  },
+  {
+    "path": "collar_2.ply",
+    "vertices": 19968,
+    "faces": 39936,
+    "volume": 0.009301273724883144,
+    "watertight": true
+  }
+]

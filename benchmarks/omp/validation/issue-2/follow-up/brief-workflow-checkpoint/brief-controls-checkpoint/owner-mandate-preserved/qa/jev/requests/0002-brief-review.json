@@ -1,0 +1,161 @@
+{
+  "seq": 2,
+  "label": "brief-review",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "business": {
+      "name": "Sample",
+      "summary": "A repair workshop where neighbors mend household objects during repair sessions.",
+      "tone": [
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighbors identifying their repair workshop before a session",
+      "uses": [
+        "app_icon"
+      ]
+    },
+    "design_direction": {
+      "palette": {
+        "primary": "#FF0000"
+      },
+      "open_choices": [
+        "material",
+        "symbol construction"
+      ]
+    },
+    "communication_priority": "A welcoming place to care for household objects",
+    "design_latitude": [
+      "material",
+      "symbol construction"
+    ],
+    "facts": [
+      {
+        "id": "activity",
+        "claim": "Neighbors mend household objects at a repair workshop",
+        "status": "established",
+        "sources": [
+          "owner"
+        ],
+        "essential": true
+      }
+    ],
+    "sources": {
+      "owner": {
+        "id": "owner",
+        "kind": "owner",
+        "path": "inputs/owner.txt",
+        "excerpt": "Sample is a repair workshop where neighbors mend household objects during repair sessions. The logo must be red.",
+        "sha256": "0270a2bd2ba73395c13f2715f4cc5f877968f902ba20fadec8448e11e4548a91"
+      }
+    },
+    "requirements": [
+      {
+        "id": "red",
+        "claim": "The logo must be red",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ]
+      }
+    ],
+    "obligations": [],
+    "previous_briefs": {}
+  },
+  "questions": {
+    "activity": {
+      "type": "noul",
+      "instructions": "Does `business` specify a concrete activity or service?",
+      "criteria": {
+        "true": "A reader can identify what happens for the people served.",
+        "false": "Only broad category words or a proposed symbol are supplied."
+      }
+    },
+    "audience": {
+      "type": "noul",
+      "instructions": "Does `business` identify an intended audience situation for the identity?",
+      "criteria": {
+        "true": "The audience and the context in which it encounters the identity are sufficiently clear.",
+        "false": "The audience or encounter remains an essential unknown."
+      }
+    },
+    "communication": {
+      "type": "noul",
+      "instructions": "Does `communication_priority` name a clear primary impression for this identity?",
+      "criteria": {
+        "true": "It provides a useful communication priority grounded in the service and audience.",
+        "false": "It only prescribes a shape, or leaves the communication priority unclear."
+      }
+    },
+    "grounding": {
+      "type": "noul",
+      "instructions": "Are factual claims in `business` supported by the established facts and their cited excerpts?",
+      "criteria": {
+        "true": "Business claims are supported; assumptions and design proposals remain explicitly separate.",
+        "false": "The factual brief relies on an unsupported claim, assumption or proposed visual explanation."
+      }
+    },
+    "consistent": {
+      "type": "noul",
+      "instructions": "Can the mandatory requirements in `requirements` be satisfied together?",
+      "criteria": {
+        "true": "Requirements are compatible, including deliberately open design choices.",
+        "false": "Two mandatory requirements conflict or require an unresolved choice."
+      }
+    },
+    "fact_activity": {
+      "type": "noul",
+      "instructions": "Do source excerpts with IDs ['owner'] support this claim: Neighbors mend household objects at a repair workshop",
+      "criteria": {
+        "true": "The cited excerpts support the claim without inventing additional facts.",
+        "false": "The excerpts contradict the claim, are silent, or require unsupported inference."
+      }
+    },
+    "requirement_red": {
+      "type": "noul",
+      "instructions": "Do source excerpts with IDs ['owner'] establish this owner requirement: The logo must be red",
+      "criteria": {
+        "true": "The source establishes the stated requirement and its mandatory or optional scope.",
+        "false": "The requirement or its claimed authority is an unsupported designer inference."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "activity": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "fact_activity": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "requirement_red": {
+      "type": "noul",
+      "noul": 0.99
+    }
+  },
+  "usage": {
+    "input_tokens": 1125,
+    "output_tokens": 125,
+    "cost": 4.725e-05
+  }
+}

@@ -1,0 +1,49 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_approved_craft_self_controls[original-seal-2000.png-Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.] _
+
+tmp_path = PosixPath('/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/combined-live-controls/test_approved_craft_self_contr0')
+asset = 'original-seal-2000.png'
+appearance = 'Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.'
+
+    @pytest.mark.live
+    @pytest.mark.parametrize(
+        ("asset", "appearance"),
+        [
+            (
+                "original-seal-2000.png",
+                "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.",
+            ),
+            (
+                "reconstruction-rendered-2000.png",
+                "Blue wax seal, highly reflective gold C/check and legend, glossy rounded highlights; green ribbons.",
+            ),
+        ],
+    )
+    def test_approved_craft_self_controls(tmp_path, asset, appearance):
+        image = REPO_ROOT / "benchmarks/omp/assets" / asset
+        brief = Brief(
+            "Chief of Staff",
+            "A meeting assistant",
+            ("clear",),
+            intended_appearance=appearance,
+            references=(Reference(image, "craft", appearance),),
+        )
+        result = compare_visual(
+            brief,
+            {"metaphor": "A C whose opening holds a check"},
+            image,
+            JevClient(LogoDir(tmp_path)),
+            label="approved-self-control",
+        )
+        # Owner approved craft, not every fit/technical dimension or a preference ranking.
+>       assert [r["status"] for r in result["craft"]] == ["pass", "pass"]
+E       AssertionError: assert ['unsettled', 'pass'] == ['pass', 'pass']
+E
+E         At index 0 diff: 'unsettled' != 'pass'
+E         Use -v to get more diff
+
+tests/test_eligibility_live.py:45: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_eligibility_live.py::test_approved_craft_self_controls[original-seal-2000.png-Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.]
+1 failed, 2 passed in 10.17s

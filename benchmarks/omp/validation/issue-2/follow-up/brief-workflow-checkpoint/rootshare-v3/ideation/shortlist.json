@@ -1,0 +1,9 @@
+{
+  "ids": [
+    "shared-chamber|extruded_solid|clay",
+    "seed-register|extruded_solid|clay",
+    "shared-initials|extruded_solid|clay"
+  ],
+  "source": "authored development subset",
+  "not_finalists": true
+}

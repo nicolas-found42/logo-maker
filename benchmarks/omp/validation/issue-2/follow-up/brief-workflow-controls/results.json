@@ -1,0 +1,252 @@
+[
+  {
+    "case": "owner-mandate-preserved",
+    "expected": "pass",
+    "status": "unsettled",
+    "checks": {
+      "activity": "pass",
+      "audience": "pass",
+      "communication": "pass",
+      "consistent": "pass",
+      "fact_activity": "pass",
+      "grounding": "pass",
+      "mandates": "pass",
+      "requirement_red": "pass",
+      "requirements_complete": "unsettled"
+    },
+    "answers": {
+      "activity": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "audience": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "communication": {
+        "noul": 0.95,
+        "type": "noul"
+      },
+      "consistent": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "fact_activity": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "grounding": {
+        "noul": 0.9,
+        "type": "noul"
+      },
+      "mandates": {
+        "noul": 0.88,
+        "type": "noul"
+      },
+      "requirement_red": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "requirements_complete": {
+        "noul": 0.63,
+        "type": "noul"
+      }
+    },
+    "frozen": false,
+    "matches_expected": false
+  },
+  {
+    "case": "owner-mandate-omitted",
+    "expected": "blocked",
+    "status": "fail",
+    "checks": {
+      "activity": "pass",
+      "audience": "pass",
+      "communication": "pass",
+      "consistent": "pass",
+      "fact_activity": "pass",
+      "grounding": "pass",
+      "requirements_complete": "fail"
+    },
+    "answers": {
+      "activity": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "audience": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "communication": {
+        "noul": 0.95,
+        "type": "noul"
+      },
+      "consistent": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "fact_activity": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "grounding": {
+        "noul": 0.87,
+        "type": "noul"
+      },
+      "requirements_complete": {
+        "noul": 0.04,
+        "type": "noul"
+      }
+    },
+    "frozen": false,
+    "matches_expected": true
+  },
+  {
+    "case": "owner-mandate-recast",
+    "expected": "blocked",
+    "status": "fail",
+    "checks": {
+      "activity": "pass",
+      "audience": "pass",
+      "communication": "pass",
+      "consistent": "pass",
+      "fact_activity": "pass",
+      "grounding": "pass",
+      "requirements_complete": "fail"
+    },
+    "answers": {
+      "activity": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "audience": {
+        "noul": 0.97,
+        "type": "noul"
+      },
+      "communication": {
+        "noul": 0.96,
+        "type": "noul"
+      },
+      "consistent": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "fact_activity": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "grounding": {
+        "noul": 0.86,
+        "type": "noul"
+      },
+      "requirements_complete": {
+        "noul": 0.09,
+        "type": "noul"
+      }
+    },
+    "frozen": false,
+    "matches_expected": true
+  },
+  {
+    "case": "material-deliberately-open",
+    "expected": "pass",
+    "status": "unsettled",
+    "checks": {
+      "activity": "pass",
+      "audience": "pass",
+      "communication": "pass",
+      "consistent": "pass",
+      "fact_activity": "pass",
+      "grounding": "pass",
+      "mandates": "unsettled",
+      "requirement_material": "pass",
+      "requirements_complete": "unsettled"
+    },
+    "answers": {
+      "activity": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "audience": {
+        "noul": 0.97,
+        "type": "noul"
+      },
+      "communication": {
+        "noul": 0.94,
+        "type": "noul"
+      },
+      "consistent": {
+        "noul": 0.96,
+        "type": "noul"
+      },
+      "fact_activity": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "grounding": {
+        "noul": 0.93,
+        "type": "noul"
+      },
+      "mandates": {
+        "noul": 0.51,
+        "type": "noul"
+      },
+      "requirement_material": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "requirements_complete": {
+        "noul": 0.67,
+        "type": "noul"
+      }
+    },
+    "frozen": false,
+    "matches_expected": false
+  },
+  {
+    "case": "unsupported-business-claim",
+    "expected": "blocked",
+    "status": "fail",
+    "checks": {
+      "activity": "pass",
+      "audience": "pass",
+      "communication": "pass",
+      "consistent": "pass",
+      "fact_activity": "pass",
+      "grounding": "fail",
+      "requirements_complete": "unsettled"
+    },
+    "answers": {
+      "activity": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "audience": {
+        "noul": 0.97,
+        "type": "noul"
+      },
+      "communication": {
+        "noul": 0.92,
+        "type": "noul"
+      },
+      "consistent": {
+        "noul": 0.98,
+        "type": "noul"
+      },
+      "fact_activity": {
+        "noul": 0.99,
+        "type": "noul"
+      },
+      "grounding": {
+        "noul": 0.09,
+        "type": "noul"
+      },
+      "requirements_complete": {
+        "noul": 0.33,
+        "type": "noul"
+      }
+    },
+    "frozen": false,
+    "matches_expected": true
+  }
+]

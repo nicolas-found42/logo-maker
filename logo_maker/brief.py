@@ -10,7 +10,7 @@ from pathlib import Path
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 PALETTE_ROLES = ("primary", "secondary", "accent", "highlight", "background", "ink")
 FONT_ROLES = ("display", "text")
-REFERENCE_USES = ("style", "geometry")
+REFERENCE_USES = ("style", "geometry", "craft")
 
 TEMPLATE = """# What the logo is for. Fill every required field; leave optional tables out rather than guessing.
 name = "{name}"                 # required: the brand, project, product, or profile name
@@ -20,6 +20,7 @@ tone = []                       # required: 1-5 adjectives, e.g. ["playful", "pr
 initials = ""                   # optional: letters a monogram may use
 uses = ["favicon", "social_avatar", "app_icon"]   # where the logo must work
 avoid = []                      # optional: things the logo must not suggest
+intended_appearance = ""         # required before selection: finish, gloss/reflections, edge character
 
 # Optional. Omit to have logo-maker propose palettes and let jev pick one.
 # [palette]                     # roles: primary, secondary, accent, highlight, background, ink
@@ -36,6 +37,11 @@ avoid = []                      # optional: things the logo must not suggest
 # path = "inputs/reference.png"
 # use = "style"
 # note = ""
+# A separate execution-quality floor (no palette/shape/material transfer):
+# [[references]]
+# path = "inputs/craft-floor.png"
+# use = "craft"
+# note = "Describe this reference's own intended finish, not the candidate's design."
 """
 
 
@@ -62,11 +68,12 @@ class Brief:
     palette: dict[str, str] = field(default_factory=dict)
     fonts: dict[str, str] = field(default_factory=dict)
     references: tuple[Reference, ...] = ()
+    intended_appearance: str = ""
 
     def as_state(self) -> dict:
         """The brief as jev state: named fields, no empty values (an empty list reads as a signal)."""
         state: dict = {"name": self.name, "summary": self.summary, "tone": list(self.tone)}
-        for key in ("audience", "initials"):
+        for key in ("audience", "initials", "intended_appearance"):
             if getattr(self, key):
                 state[key] = getattr(self, key)
         for key in ("uses", "avoid"):
@@ -107,7 +114,7 @@ def load(path: Path) -> Brief:
         if use not in REFERENCE_USES:
             problems.append(f"reference use {use!r} is not one of {REFERENCE_USES}")
         ref_path = (path.parent / raw.get("path", "")).resolve()
-        if not ref_path.is_file():
+        if use != "craft" and not ref_path.is_file():
             problems.append(f"reference {raw.get('path')!r} does not exist")
         refs.append(Reference(ref_path, use, raw.get("note", "")))
     if problems:
@@ -123,6 +130,7 @@ def load(path: Path) -> Brief:
         palette={k: v.upper() for k, v in palette.items()},
         fonts=fonts,
         references=tuple(refs),
+        intended_appearance=str(data.get("intended_appearance", "")).strip(),
     )
 
 

@@ -43,6 +43,15 @@ def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
 
 def main(payload: dict) -> dict:
     operation = payload["operation"]
+    if operation == "export_eligibility":
+        from logo_maker.export import _verify_eligibility
+
+        _verify_eligibility(payload["expected"])
+        return {}
+    if operation == "eligibility":
+        from logo_maker.eligibility import host_operation
+
+        return host_operation(payload)
     if operation == "write_json":
         from logo_maker.publication import _record
 
@@ -77,10 +86,24 @@ def main(payload: dict) -> dict:
         for reference in data["references"]:
             reference["path"] = str(reference["path"])
         result = {"brief": data}
+        if payload.get("reviewed"):
+            try:
+                pipeline._require_brief(logo)
+                for cid in payload.get("plans", []):
+                    pipeline._require_plan(logo, cid)
+            except pipeline.AuthoringNeeded as exc:
+                return {"authoring_needed": str(exc), "files": [str(p) for p in exc.files]}
         if payload.get("brand"):
             result["brand"] = asdict(pipeline.brand(logo))
         if payload.get("finalists"):
             result["finalists"] = json.loads((logo.ideation / "finalists.json").read_text())["ids"]
+            if payload.get("reviewed"):
+                try:
+                    for cid in result["finalists"]:
+                        pipeline._require_plan(logo, cid)
+                except pipeline.AuthoringNeeded as exc:
+                    return {"authoring_needed": str(exc), "files": [str(p) for p in exc.files]}
+
         if payload.get("winner"):
             result["winner"] = pipeline.winner(logo)
         return result

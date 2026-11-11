@@ -1,0 +1,12 @@
+[
+  {
+    "concept": "seed-register|extruded_solid|clay",
+    "candidate_sha256": "92a250fc50538c1df50dc9fa736f49b9889a2515997120796067085f18260d84",
+    "brief_sha256": "5dfdbb408f72da8126ce0455a38add6aaba7d5eaafefe5cd6c6cfa51e82a69a3",
+    "input_revision_sha256": "d81a6905dbec631906d7f2994df7d4f1acbd66e9c841895e6f67732151c1c099",
+    "overall": "fail",
+    "preference": "unranked",
+    "statement": "no choose a different idea",
+    "scope": "Owner rejected the displayed Seed Register preview direction on 2026-11-11; dimensional labels unknown."
+  }
+]

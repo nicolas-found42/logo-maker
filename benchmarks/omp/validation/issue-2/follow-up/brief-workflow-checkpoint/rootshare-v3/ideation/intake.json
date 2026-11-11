@@ -1,0 +1,14 @@
+{
+  "references": [
+    {
+      "note": "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design.",
+      "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png",
+      "use": "craft"
+    },
+    {
+      "note": "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target.",
+      "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png",
+      "use": "craft"
+    }
+  ]
+}

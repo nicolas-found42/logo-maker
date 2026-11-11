@@ -1,0 +1,63 @@
+schema = 1
+communication_priority = "A welcoming resource held in common, supported by grounded care. This is a proposed positioning direction, not a new business fact."
+design_latitude = ["initial-led or nonliteral mark", "custom lettering", "shared-space or collection relationship", "exact geometry and ceramic assembly"]
+[[sources]]
+id = "fixture"
+kind = "fixture"
+path = "inputs/archived-fixture.toml"
+excerpt = 'audience = "Neighborhood gardeners borrowing and contributing seeds."'
+[[sources]]
+id = "purpose"
+kind = "fixture"
+path = "inputs/archived-fixture.toml"
+excerpt = "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection."
+[[sources]]
+id = "applications"
+kind = "fixture"
+path = "inputs/archived-fixture.toml"
+excerpt = 'uses = ["favicon", "app_icon", "social_avatar"]'
+[[sources]]
+id = "owner"
+kind = "owner"
+path = "inputs/owner-feedback.txt"
+excerpt = "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos."
+[[facts]]
+id = "activity"
+claim = "Rootshare is a neighborhood seed library; gardeners borrow and contribute seeds to a shared local collection."
+status = "established"
+sources = ["fixture", "purpose"]
+essential = true
+[[facts]]
+id = "return_rules"
+claim = "Whether borrowers must return seeds, and whether provenance tracking exists, is unknown."
+status = "unknown"
+sources = []
+essential = false
+[[requirements]]
+id = "digital_uses"
+claim = "The same identity must work in favicon, app icon and social avatar applications."
+kind = "usage"
+origin = "project"
+priority = "must"
+sources = ["applications"]
+[[requirements]]
+id = "developed_detail"
+claim = "The owner asks for more specific brief content and more detail; determine the useful visual contribution rather than an ornament quota."
+kind = "visual"
+origin = "owner"
+priority = "must"
+sources = ["owner"]
+[[requirements]]
+id = "shared_resource"
+claim = "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service."
+kind = "communication"
+origin = "proposal"
+priority = "prefer"
+sources = []
+[[requirements]]
+id = "ceramic"
+claim = "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open."
+kind = "visual"
+origin = "proposal"
+priority = "prefer"
+sources = []

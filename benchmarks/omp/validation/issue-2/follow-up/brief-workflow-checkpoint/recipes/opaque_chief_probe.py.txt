@@ -1,0 +1,60 @@
+"""Controlled background transport experiment, never production qualification."""
+
+import json
+from pathlib import Path
+
+from PIL import Image as PILImage
+
+from logo_maker.eligibility import _native_details, sha256
+from logo_maker.jev.client import Image, JevClient
+from logo_maker.jev.questions import craft_questions, qa_status
+from logo_maker.paths import LogoDir
+
+
+ROOT = Path(__file__).parent / "opaque-chief-probe"
+ROOT.mkdir(exist_ok=True)
+assets = Path("benchmarks/omp/assets")
+sources = {
+    "original": assets / "original-seal-2000.png",
+    "reconstruction": assets / "reconstruction-rendered-2000.png",
+    "rejected-rootshare": Path("benchmarks/omp/validation/issue-2/follow-up/rootshare-v2/final.png"),
+}
+intents = {
+    "original": "Blue wax seal with evenly shaded gold C/check and ring legend, restrained reflections relative to the reconstruction; green ribbons.",
+    "reconstruction": "Blue wax seal with reflective gold C/check and ring legend, glossy rounded highlights; green ribbons.",
+    "rejected-rootshare": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+}
+manifest = []
+opaque = {}
+for name, path in sources.items():
+    with PILImage.open(path).convert("RGBA") as source:
+        canvas = PILImage.new("RGBA", source.size, (240, 240, 240, 255))
+        canvas = PILImage.alpha_composite(canvas, source).convert("RGB")
+        dest = ROOT / f"{name}-opaque.png"
+        canvas.save(dest)
+    opaque[name] = dest
+    manifest.append({"source": str(path), "source_sha256": sha256(path), "derived": str(dest), "derived_sha256": sha256(dest), "operation": "sRGB alpha composite over RGB(240,240,240), source dimensions retained"})
+(ROOT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+client = JevClient(LogoDir(ROOT))
+rows = []
+for mode, images, pairs in [
+    ("transparent", sources, [("original", "reconstruction"), ("reconstruction", "original")]),
+    ("opaque", opaque, [("original", "reconstruction"), ("reconstruction", "original"), ("rejected-rootshare", "original"), ("rejected-rootshare", "reconstruction")]),
+]:
+    for candidate, reference in pairs:
+        for order in [("candidate", "reference"), ("reference", "candidate")]:
+            image_map = {"candidate": Image(images[candidate]), "reference": Image(images[reference])}
+            details = ROOT / "native" / mode / f"{candidate}-{reference}"
+            details.mkdir(parents=True, exist_ok=True)
+            native = {"candidate": _native_details(images[candidate], details, "candidate"), "reference": _native_details(images[reference], details, "reference")}
+            state = {
+                **{name: image_map[name] for name in order},
+                "intended_appearances": {"candidate": intents[candidate], "reference": intents[reference]},
+                "native_detail_views": {name: native[name] for name in order},
+            }
+            answers = client.ask(state, craft_questions(), label=f"{mode}-{candidate}-{reference}-{order[0]}")
+            checks = {key: qa_status(answer["noul"]) for key, answer in answers.items()}
+            row = {"mode": mode, "candidate": candidate, "reference": reference, "order": order, "answers": answers, "checks": checks, "all_pass": all(value == "pass" for value in checks.values()), "diagnostic_only": True}
+            rows.append(row)
+            print(json.dumps({key: row[key] for key in ("mode", "candidate", "reference", "order", "checks", "all_pass")}), flush=True)
+(ROOT / "results.json").write_text(json.dumps(rows, indent=2) + "\n")

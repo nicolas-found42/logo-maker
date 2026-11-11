@@ -1,0 +1,27 @@
+schema = 1
+requirements_revision = "637be845ffda55bbc5c9292104307f70f44c7cc878c54cf8be565cf116a5e6a9"
+hypothesis = "A compact collection of retained seed counters"
+visual_mechanism = "A compact collection of retained seed counters"
+requirement_ids = ["digital_uses", "shared_master", "shared_resource", "ceramic"]
+assumptions = ["The intended communication is a design hypothesis, not a new service fact"]
+
+[[details]]
+feature = "Three seed counters in a retained collection"
+purpose = "A consistent collection relationship carries the seed-library hypothesis"
+intended_scale = "Flat and 32px avatar"
+construction = "All three aperture contours belong to the shared master and remain open in the hero"
+deletion_test = "A single seed loses the collection argument"
+
+[[details]]
+feature = "Seated pale ceramic aperture collars"
+purpose = "Articulate precise aperture walls and credible assembly rather than a floating bright outline"
+intended_scale = "Hero; supporting boundaries included in the flat master"
+construction = "Collars sit inside purpose-cut body seats with a slightly recessed face and controlled contact gap; update the master roles before modeling"
+deletion_test = "Removing the seats makes the material boundary physically ambiguous"
+
+[[details]]
+feature = "Matte body and differentiated edge profiles"
+purpose = "Reveal resolved mass, wall thickness and material credibility"
+intended_scale = "Hero and native detail"
+construction = "Unglazed terracotta with subtle grain; broad outer radius, finer aperture transition and no coat gloss"
+deletion_test = "Grain alone cannot replace the constructed wall and contact hierarchy"

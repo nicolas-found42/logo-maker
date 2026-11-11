@@ -1,0 +1,71 @@
+"""Predeclared development controls for the real brief CLI/pipeline, not image qualification."""
+
+import json
+from pathlib import Path
+
+import tomlkit
+
+from logo_maker import pipeline
+from logo_maker.paths import LogoDir
+
+
+ROOT = Path(__file__).parent / "brief-controls"
+CASES = [
+    ("owner-mandate-preserved", "owner", True, False, "pass"),
+    ("owner-mandate-omitted", None, True, False, "blocked"),
+    ("owner-mandate-recast", "proposal", True, False, "blocked"),
+    ("material-deliberately-open", "owner", False, False, "pass"),
+    ("unsupported-business-claim", None, False, True, "blocked"),
+]
+
+
+def main():
+    results = []
+    for name, origin, red, unsupported, expected in CASES:
+        logo = LogoDir(ROOT / name)
+        source = "Sample is a repair workshop where neighbors mend household objects during repair sessions."
+        source += " The logo must be red." if red else " Material is deliberately open."
+        (logo.inputs / "owner.txt").write_text(source)
+        brief = {
+            "name": "Sample",
+            "summary": "A repair workshop where neighbors mend household objects during repair sessions.",
+            "audience": "Neighbors identifying their repair workshop before a session",
+            "tone": ["welcoming", "careful"],
+            "uses": ["app_icon"],
+        }
+        if red:
+            brief["palette"] = {"primary": "#FF0000"}
+        if unsupported:
+            brief["summary"] += " It includes free home pickup in every city."
+        logo.brief.write_text(tomlkit.dumps(brief))
+        requirements = []
+        if origin:
+            requirements.append({
+                "id": "red" if red else "material",
+                "claim": "The logo must be red" if red else "Material is deliberately open",
+                "kind": "visual", "origin": origin,
+                "priority": "must" if red else "open",
+                "sources": ["owner"] if origin == "owner" else [],
+            })
+        evidence = {
+            "schema": 1,
+            "communication_priority": "A welcoming place to care for household objects",
+            "design_latitude": ["material", "symbol construction"],
+            "sources": [{"id": "owner", "kind": "owner", "path": "inputs/owner.txt", "excerpt": source}],
+            "facts": [{"id": "activity", "claim": "Neighbors mend household objects at a repair workshop", "status": "established", "sources": ["owner"], "essential": True}],
+            "requirements": requirements,
+        }
+        (logo.root / "brief-evidence.toml").write_text(tomlkit.dumps(evidence))
+        try:
+            record = pipeline.review_brief(logo)
+        except pipeline.AuthoringNeeded:
+            record = json.loads((logo.qa / "brief-reviews.jsonl").read_text().splitlines()[-1])
+        frozen = (logo.ideation / "requirements.json").exists()
+        row = {"case": name, "expected": expected, "status": record["status"], "checks": record.get("checks"), "answers": record.get("answers"), "frozen": frozen, "matches_expected": (record["status"] == "pass" and frozen) if expected == "pass" else (record["status"] != "pass" and not frozen)}
+        results.append(row)
+        print(json.dumps(row), flush=True)
+    (ROOT / "results.json").write_text(json.dumps(results, indent=2) + "\n")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,124 @@
+{
+  "seq": 20,
+  "label": "glossy-isolated",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "39bfd8edf20147e1ba5474cef8f9fb0b",
+    "intended_appearances": {
+      "candidate": "Glossy blue wax seal with highly reflective gold and folded green ribbon tips."
+    }
+  },
+  "questions": {
+    "form_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the contours and joins in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Contours follow intentional shapes and joins meet cleanly.",
+        "false": "Unintended pinches, gaps, collisions or floating pieces interrupt the intended construction."
+      }
+    },
+    "surface_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the surface transitions in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Shading transitions follow the intended surfaces cleanly.",
+        "false": "Accidental blotches, seams or shading breaks interrupt the intended surface."
+      }
+    },
+    "detail_finish_resolved": {
+      "type": "noul",
+      "instructions": "Are the visible details in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The intended details remain individually resolved.",
+        "false": "Intended details are merged, damaged or left unfinished."
+      }
+    },
+    "edge_refinement_resolved": {
+      "type": "noul",
+      "instructions": "Are the designed edge transitions in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The intended edge profile runs consistently around the forms.",
+        "false": "Accidental bevel ends, spikes or sudden thickness changes break the edge profile."
+      }
+    },
+    "material_construction_resolved": {
+      "type": "noul",
+      "instructions": "Are the material construction in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Thickness, surface texture and shading coherently realize the intended material.",
+        "false": "Thickness, texture or shading contradict the intended material construction."
+      }
+    },
+    "proportion_control_resolved": {
+      "type": "noul",
+      "instructions": "Are the relative masses and negative space in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Masses, spacing and negative spaces form a deliberate balanced composition.",
+        "false": "Accidental spacing or clumsy masses leave the composition unresolved."
+      }
+    },
+    "visual_hierarchy_resolved": {
+      "type": "noul",
+      "instructions": "Are the primary and supporting forms in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "The core motif is clear and supporting detail serves it.",
+        "false": "Competing incidental forms obscure the core motif."
+      }
+    },
+    "lighting_control_resolved": {
+      "type": "noul",
+      "instructions": "Are the lighting of the intended form in `candidate` deliberately resolved for `intended_appearances.candidate`?",
+      "criteria": {
+        "true": "Light makes the intended depth and material readable.",
+        "false": "Clipped, misplaced or confusing shading hides important intended forms."
+      }
+    }
+  },
+  "assets": {
+    "39bfd8edf20147e1ba5474cef8f9fb0b": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    }
+  },
+  "answers": {
+    "form_finish_resolved": {
+      "type": "noul",
+      "noul": 0.34
+    },
+    "surface_finish_resolved": {
+      "type": "noul",
+      "noul": 0.66
+    },
+    "detail_finish_resolved": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "edge_refinement_resolved": {
+      "type": "noul",
+      "noul": 0.36
+    },
+    "material_construction_resolved": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "proportion_control_resolved": {
+      "type": "noul",
+      "noul": 0.87
+    },
+    "visual_hierarchy_resolved": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "lighting_control_resolved": {
+      "type": "noul",
+      "noul": 0.9
+    }
+  },
+  "usage": {
+    "input_tokens": 3641,
+    "output_tokens": 174,
+    "cost": 0.000152922
+  }
+}

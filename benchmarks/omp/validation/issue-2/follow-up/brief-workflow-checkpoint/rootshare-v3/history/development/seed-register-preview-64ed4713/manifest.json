@@ -1,0 +1,42 @@
+[
+  {
+    "path": "preview.png",
+    "sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d"
+  },
+  {
+    "path": "scene.toml",
+    "sha256": "85dc8a5b48d22c08d56ac3b8717d050e7d053132e9433dde7c7f92ee25f49c9c"
+  },
+  {
+    "path": "scene.py",
+    "sha256": "e5b266aca12872a2dece270da4f1555d54d7c32048c201f0c96c7817580805cc"
+  },
+  {
+    "path": "motif.py",
+    "sha256": "3568b0ce89e3045c9e65a55de7fe5785584b753af685c3857b78cc205b8907cc"
+  },
+  {
+    "path": "motif.svg",
+    "sha256": "362c75b85b28601bd7a7b7278a9b4fbdc731762b44e91ac6ab394d27833bac89"
+  },
+  {
+    "path": "motif.json",
+    "sha256": "0fb85bff785fcd6e3e2d6fadb186e5376b2f2f30f7ab1f27abb38658d248d2e7"
+  },
+  {
+    "path": "prepare_register.py",
+    "sha256": "ac6c0495007423828470be2f4ba0a2c74fc629142437888327ae6ba263c64b7c"
+  },
+  {
+    "path": "construction.json",
+    "sha256": "c772b7854b3146b37c6b092910b29d7e2dac5ddb4a0a3d9291b322c6ecacfdb2"
+  },
+  {
+    "path": ".build/preview.execution.json",
+    "sha256": "8fe53a9a0a999c359c29c535b59a4da70f96d2b12e04f52da5d2d5c51f02cde7"
+  },
+  {
+    "path": ".build/preview.execution.log",
+    "sha256": "4c70978421a7d08e0876f44d417f0133344000482fb70f0c205e8e73ad68b3ec"
+  }
+]

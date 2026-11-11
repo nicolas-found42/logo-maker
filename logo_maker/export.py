@@ -310,6 +310,7 @@ def _export_all(
     palette: dict[str, str],
     motif_svg: Path,
     expected_sampling_sha256: str | None = None,
+    expected_eligibility: dict | None = None,
 ) -> dict:
     """Validate provenance and build the export set inside the owned worker."""
     concept_dir, out, motif = Path(concept_dir), Path(out_dir), Path(motif_svg)
@@ -340,6 +341,16 @@ def _export_all(
         raise ExportError("qualified sampling snapshot missing; prior exports retained")
     if not motif.is_file():
         raise ExportError(f"no motif svg at {motif}")
+    if expected_eligibility is not None:
+        _verify_eligibility(expected_eligibility)
+        if _sha256(final_snapshot) != expected_eligibility["proof"]["revision"]["candidate_sha256"]:
+            raise ExportError("visual proof does not match export snapshot; prior exports retained")
+        motif_snapshot = out / ".motif-source.svg"
+        shutil.copyfile(motif, motif_snapshot)
+        key = f"concepts/{concept_dir.name}/motif.svg"
+        if _sha256(motif_snapshot) != expected_eligibility["proof"]["revision"]["sources"].get(key):
+            raise ExportError("flat master does not match visual proof; prior exports retained")
+        motif = motif_snapshot
     paper, ink = _paper(palette), _ink(palette)
 
     manifest: dict[str, Path] = {}
@@ -397,6 +408,9 @@ def _export_all(
             with Image.open(path) as im:
                 entry["width"], entry["height"] = im.size
         files[key] = entry
+    if expected_eligibility is not None:
+        _verify_eligibility(expected_eligibility)
+        motif.unlink()
     record = {"name": name, "palette": dict(palette), "files": files, "sampling": sampling}
     (out / "manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True))
 
@@ -404,6 +418,17 @@ def _export_all(
     for extra in (".mark-color.src.svg", ".mark-mono.src.svg"):
         (out / extra).unlink(missing_ok=True)
     return record
+
+
+def _verify_eligibility(expected: dict) -> None:
+    from logo_maker.brief import load
+    from logo_maker.eligibility import require_current
+    from logo_maker.paths import LogoDir
+
+    logo = LogoDir(Path(expected["root"]))
+    if _sha256(logo.ideation / "winner.json") != expected["winner_sha256"]:
+        raise ExportError("winner snapshot changed; prior exports retained")
+    require_current(logo, load(logo.brief), expected["concept_id"], expected["proof"])
 
 
 def export_all(
@@ -416,6 +441,7 @@ def export_all(
     budget: Budget | None = None,
     publication_log: RunLog | None = None,
     expected_sampling_sha256: str | None = None,
+    expected_eligibility: dict | None = None,
 ) -> dict[str, Path]:
     """Build under the whole-job deadline, then replace the export set as a unit.
 
@@ -437,6 +463,7 @@ def export_all(
         "palette": palette,
         "motif_svg": str(Path(motif_svg).absolute()),
         "expected_sampling_sha256": expected_sampling_sha256,
+        "expected_eligibility": expected_eligibility,
     }
     try:
         proc = owned_process.run(
@@ -462,6 +489,10 @@ def export_all(
             work,
             [],
         )
+        if expected_eligibility is not None:
+            host.run(
+                {"operation": "export_eligibility", "expected": expected_eligibility}, work, []
+            )
         entries = [{"source": str(pending), "target": str(out_dir), "move": True}]
         journal = out_dir.with_name(".export-publication-" + uuid.uuid4().hex + ".json")
         if publication_log is not None:

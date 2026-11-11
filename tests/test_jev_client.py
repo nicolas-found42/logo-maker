@@ -80,6 +80,28 @@ def test_missing_keys_names_both_vars(tmp_path, monkeypatch):
         JevClient(LogoDir(tmp_path / "logo"))
 
 
+def test_mixed_image_dimensions_preserve_translucent_source_pixels(tmp_path, monkeypatch):
+    from logo_maker.jev.questions import fit_questions
+
+    client, calls = make_client(
+        tmp_path,
+        monkeypatch,
+        [FakeResponse(200, ok_response({"symbol": fit_questions()["symbol"]}))],
+    )
+    small, large = tmp_path / "small.png", tmp_path / "large.png"
+    _PILImage.new("RGBA", (280, 280), (20, 40, 60, 128)).save(small)
+    _PILImage.new("RGBA", (400, 400), (0, 0, 0, 0)).save(large)
+    client.ask(
+        {"candidate": Image(small), "context": Image(large)},
+        {"symbol": fit_questions()["symbol"]},
+        label="pixel-preservation",
+    )
+    request = calls[0]["json"]
+    encoded = request["assets"][request["state"]["candidate"]]
+    actual = _PILImage.open(io.BytesIO(base64.b64decode(encoded["data_base64"])))
+    assert actual.getpixel((200, 200)) == (20, 40, 60, 128)
+
+
 def test_is_retryable():
     for status in (429, 502, 503, 504, 529):
         assert is_retryable(status)
@@ -251,7 +273,9 @@ def test_direct_typesafe_transport(tmp_path, monkeypatch):
     assert answers["q"]["noul"] == 0.2
     assert client.logo is not None
     run = json.loads((client.logo.root / "run.json").read_text())
-    assert run["jev"]["cost_usd"] == round(100 * 42e-9, 6)
+    assert run["jev"]["cost_usd"] is None
+    assert run["jev"]["unpriced_requests"] == 1
+    assert run["jev"]["input_tokens"] == 100
 
 
 def test_openrouter_prefers_typesafe_key(tmp_path, monkeypatch):

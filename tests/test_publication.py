@@ -91,15 +91,12 @@ def test_committed_cleanup_stall_is_bounded_and_keeps_recovery_evidence(tmp_path
 def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
     tmp_path, monkeypatch
 ):
-    from logo_maker import pipeline
-    from logo_maker.paths import LogoDir
+    from test_eligibility import EligibilityClient, finalize_logo
 
-    logo = LogoDir(tmp_path / "logo")
-    pipeline.new(logo, "Test")
-    logo.brief.write_text(
-        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
-    )
-    (logo.ideation / "finalists.json").write_text('{"ids":["a|b|c"]}')
+    from logo_maker import pipeline, render
+
+    logo, _ = finalize_logo(tmp_path / "logo")
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"approved-prior"}')
     previous_state = json.loads(logo.run_json.read_text())
@@ -107,7 +104,7 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
     marker = inject_stall(tmp_path, monkeypatch, "rename", ".publishing-", after=True)
     started = time.monotonic()
     with pytest.raises(SamplingLimit, match="time_limit"):
-        pipeline.finalize(logo, object(), budget=Budget(wall_seconds=8))
+        pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=8))
     assert marker.exists()
     assert time.monotonic() - started < 10
     assert json.loads(prior.read_text()) == {"winner": "approved-prior"}

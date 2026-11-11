@@ -1,0 +1,38 @@
+{
+  "seq": 5,
+  "label": "wrong_flat_target",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "f5d29ed1989d41eeae443f57709dc02f",
+    "intended_appearance": "A flat, unshaded black-and-white ink logo with no depth, color, reflections or ribbons."
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    }
+  },
+  "assets": {
+    "f5d29ed1989d41eeae443f57709dc02f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.01
+    }
+  },
+  "usage": {
+    "input_tokens": 3150,
+    "output_tokens": 20,
+    "cost": 0.0001323
+  }
+}

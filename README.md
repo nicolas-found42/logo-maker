@@ -22,11 +22,18 @@ export OPENROUTER_API_KEY=...               # Jev via OpenRouter (or TYPESAFE_AP
 
 ```sh
 logo-maker new acme --name "Acme"   # writes logos/acme/brief.toml and templates
+logo-maker brief acme               # review supplied evidence and freeze requirements
 logo-maker run acme                 # runs every stage; stops where the agent must author files
 logo-maker improve acme             # new round; replaces the logo only if it wins head-to-head
 ```
 
-Stages: `intake`, `ideate`, `motifs`, `preview`, `finalize`, `export` (each resumable), `run`,
+Fill `brief.toml` and `brief-evidence.toml` from project/owner sources before review. Keep business
+facts, mandates and assumptions separate. Each shortlisted concept gets a `plan.toml` for its visual
+hypothesis and purposeful detail; `logo-maker plan acme` reviews intent before preview rendering.
+Actual pixels still require independent craft, fit and technical passes.
+
+Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `preview`, `finalize`, `export`
+(each resumable), `run`,
 `improve`, `doctor`,
 `mcp`. The skill in [skills/logo-maker/SKILL.md](skills/logo-maker/SKILL.md) walks an agent through the
 authoring steps.

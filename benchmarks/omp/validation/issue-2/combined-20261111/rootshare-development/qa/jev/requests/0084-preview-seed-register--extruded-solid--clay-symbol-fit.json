@@ -1,0 +1,77 @@
+{
+  "seq": 84,
+  "label": "preview-seed-register--extruded-solid--clay-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "0c66213bc828498b8f9ba056a7f93184",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A compact collection of retained seed counters",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Soft modeling clay with a matte, hand-made look.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "0c66213bc828498b8f9ba056a7f93184": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e7169e790d9bae17595181e95b9dfa7977389f94d05b330408e0adc63e5d4bac",
+      "bytes": 475916
+    }
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.56
+    }
+  },
+  "usage": {
+    "input_tokens": 3431,
+    "output_tokens": 20,
+    "cost": 0.000144102
+  }
+}

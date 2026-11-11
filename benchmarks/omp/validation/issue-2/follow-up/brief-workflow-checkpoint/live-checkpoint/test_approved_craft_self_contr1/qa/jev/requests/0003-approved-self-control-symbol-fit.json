@@ -1,0 +1,49 @@
+{
+  "seq": 3,
+  "label": "approved-self-control-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "a9d33367cf2646949575aedff94f48ce",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant",
+      "tone": [
+        "clear"
+      ],
+      "intended_appearance": "Blue wax seal, highly reflective gold C/check and legend, glossy rounded highlights; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A C whose opening holds a check"
+    },
+    "intended_appearance": "Blue wax seal, highly reflective gold C/check and legend, glossy rounded highlights; green ribbons."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "a9d33367cf2646949575aedff94f48ce": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    }
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.92
+    }
+  },
+  "usage": {
+    "input_tokens": 3229,
+    "output_tokens": 20,
+    "cost": 0.000135618
+  }
+}

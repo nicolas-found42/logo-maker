@@ -1,0 +1,97 @@
+{
+  "seq": 3,
+  "label": "brief-source-coverage",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "sources": {
+      "fixture": {
+        "id": "fixture",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "audience = \"Neighborhood gardeners borrowing and contributing seeds.\"",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "purpose": {
+        "id": "purpose",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection.",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "applications": {
+        "id": "applications",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "uses = [\"favicon\", \"app_icon\", \"social_avatar\"]",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "owner": {
+        "id": "owner",
+        "kind": "owner",
+        "path": "inputs/owner-feedback.txt",
+        "excerpt": "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.",
+        "sha256": "112fa9f4fe3ce4d937e5060ac69ce2201ee6192fd88c815066062ae02b5a1a15"
+      }
+    },
+    "requirements": [
+      {
+        "id": "digital_uses",
+        "claim": "The same identity must work in favicon, app icon and social avatar applications.",
+        "kind": "usage",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "applications"
+        ]
+      },
+      {
+        "id": "developed_detail",
+        "claim": "The owner asks for more specific brief content and more detail; determine the useful visual contribution rather than an ornament quota.",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ]
+      },
+      {
+        "id": "shared_resource",
+        "claim": "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service.",
+        "kind": "communication",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      },
+      {
+        "id": "ceramic",
+        "claim": "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open.",
+        "kind": "visual",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      }
+    ]
+  },
+  "questions": {
+    "requirements_complete": {
+      "type": "noul",
+      "instructions": "Are explicit owner/project directions in the source excerpts represented in requirements with their stated authority and scope?",
+      "criteria": {
+        "true": "Relevant explicit directions are retained. Sources without directions require no invented constraints. Owner mandates remain mandates; stated preferences and open choices keep their scope.",
+        "false": "A relevant explicit owner/project direction is omitted, weakened into a designer proposal, or given unsupported mandatory scope."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "requirements_complete": {
+      "type": "noul",
+      "noul": 0.61
+    }
+  },
+  "usage": {
+    "input_tokens": 1179,
+    "output_tokens": 21,
+    "cost": 4.9518e-05
+  }
+}

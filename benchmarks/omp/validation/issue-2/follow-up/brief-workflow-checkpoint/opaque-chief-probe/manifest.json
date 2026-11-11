@@ -1,0 +1,23 @@
+[
+  {
+    "source": "benchmarks/omp/assets/original-seal-2000.png",
+    "source_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+    "derived": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/opaque-chief-probe/original-opaque.png",
+    "derived_sha256": "3a8fd62385d48c5fac3fb36666b53adad530a30967b1aa7812b1a67213c060c3",
+    "operation": "sRGB alpha composite over RGB(240,240,240), source dimensions retained"
+  },
+  {
+    "source": "benchmarks/omp/assets/reconstruction-rendered-2000.png",
+    "source_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+    "derived": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/opaque-chief-probe/reconstruction-opaque.png",
+    "derived_sha256": "bda0a8e89c376feb129361ff4146147d12b54be55ef1b2bf0a6195d867651ecd",
+    "operation": "sRGB alpha composite over RGB(240,240,240), source dimensions retained"
+  },
+  {
+    "source": "benchmarks/omp/validation/issue-2/follow-up/rootshare-v2/final.png",
+    "source_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+    "derived": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/opaque-chief-probe/rejected-rootshare-opaque.png",
+    "derived_sha256": "db97ceabc2c867502bf1b870855b3ef5efcc97412baca93beff9261c7890f78a",
+    "operation": "sRGB alpha composite over RGB(240,240,240), source dimensions retained"
+  }
+]

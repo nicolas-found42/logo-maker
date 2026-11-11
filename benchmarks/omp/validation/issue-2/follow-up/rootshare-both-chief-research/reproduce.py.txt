@@ -1,0 +1,26 @@
+from pathlib import Path
+from dataclasses import replace
+import json
+from logo_maker.brief import Reference,load
+from logo_maker.eligibility import compare_visual,sha256
+from logo_maker.jev.client import JevClient
+from logo_maker.paths import LogoDir
+
+out=Path('logos/rootshare-both-chief-research')
+out.mkdir(exist_ok=False)
+source=Path('benchmarks/omp/qualification/rootshare-v2')
+assets=Path('benchmarks/omp/assets')
+brief=replace(load(source/'brief.toml'),references=(
+ Reference(assets/'original-seal-2000.png','craft','Blue wax seal with evenly shaded gold C/check and ring legend, restrained reflections relative to the reconstruction; green ribbons.'),
+ Reference(assets/'reconstruction-rendered-2000.png','craft','Blue wax seal with reflective gold C/check and ring legend, glossy rounded highlights; green ribbons.'),
+))
+candidate=Path('benchmarks/omp/validation/issue-2/follow-up/rootshare-v2/final.png')
+concept={'metaphor':'Rootshare initial R with a seed-shaped counter as one inseparable mark','treatment':'Freestanding terracotta solid with softened ceramic edges and pale inlay around the seed opening','material':'Unglazed terracotta and pale ceramic inlay'}
+result=compare_visual(brief,concept,candidate,JevClient(LogoDir(out)),label='rootshare-both-chief',flat_mark=source/'concept/motif.svg')
+result.update(candidate_sha256=sha256(candidate),brief=brief.as_state(),concept=concept,owner_overall='fail',owner_statement='rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.',owner_craftsmanship='unknown',owner_brief_fit='unknown',preference='unranked',rubric_sha256=sha256(Path('logo_maker/jev/questions.py')))
+(out/'calibration.json').write_text(json.dumps(result,indent=2)+'\n')
+print('overall visual gate:',result['status'])
+for row in result['craft']:
+ print(row['reference_sha256'][:12],row['order'],row['status'],row['checks'])
+print('fit',result['fit'])
+print('technical',result['technical'])

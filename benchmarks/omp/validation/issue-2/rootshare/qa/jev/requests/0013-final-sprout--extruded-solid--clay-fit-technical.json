@@ -1,0 +1,134 @@
+{
+  "seq": 13,
+  "label": "final-sprout--extruded-solid--clay-fit-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "d4f55b308d37479cb5758dcb5e6e6365",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners share seeds and grow local biodiversity. The mark shows a sprout with two broad leaves on a central stem.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "practical"
+      ],
+      "intended_appearance": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A sprout with two broad leaves and a central stem: shared seeds growing in a neighborhood seed library.",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Soft modeling clay with a matte, hand-made look.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    },
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    },
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "d4f55b308d37479cb5758dcb5e6e6365": {
+      "type": "image",
+      "format": "png",
+      "sha256": "fa33c37f8fb57024460f658d01cfe05459f5cbf3d6f2b98644d5b1adf26c972f",
+      "bytes": 195900
+    }
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.74
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.62
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.95
+    }
+  },
+  "usage": {
+    "input_tokens": 3849,
+    "output_tokens": 107,
+    "cost": 0.000161658
+  }
+}

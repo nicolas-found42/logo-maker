@@ -1,0 +1,121 @@
+{
+  "seq": 8,
+  "label": "brief-direction-preservation",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "business": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ]
+    },
+    "design_direction": {
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      },
+      "open_choices": [
+        "initial-led or nonliteral mark",
+        "custom lettering",
+        "shared-space or collection relationship",
+        "exact geometry and ceramic assembly"
+      ],
+      "references": [
+        {
+          "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png",
+          "use": "craft",
+          "note": "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design.",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+        },
+        {
+          "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png",
+          "use": "craft",
+          "note": "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target.",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        }
+      ]
+    },
+    "requirements": [
+      {
+        "id": "digital_uses",
+        "claim": "The same identity must work in favicon, app icon and social avatar applications.",
+        "kind": "usage",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "applications"
+        ]
+      },
+      {
+        "id": "developed_detail",
+        "claim": "The owner asks for more specific brief content and more detail; determine the useful visual contribution rather than an ornament quota.",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ]
+      },
+      {
+        "id": "shared_resource",
+        "claim": "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service.",
+        "kind": "communication",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      },
+      {
+        "id": "ceramic",
+        "claim": "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open.",
+        "kind": "visual",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      }
+    ]
+  },
+  "questions": {
+    "mandates": {
+      "type": "noul",
+      "instructions": "Does the brief preserve established owner/project requirements in its business and design direction?",
+      "criteria": {
+        "true": "Established requirements remain intact; open choices and designer proposals do not erase them.",
+        "false": "A stated mandatory direction is missing, contradicted, or silently recast as optional."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "mandates": {
+      "type": "noul",
+      "noul": 0.78
+    }
+  },
+  "usage": {
+    "input_tokens": 1340,
+    "output_tokens": 21,
+    "cost": 5.628e-05
+  }
+}

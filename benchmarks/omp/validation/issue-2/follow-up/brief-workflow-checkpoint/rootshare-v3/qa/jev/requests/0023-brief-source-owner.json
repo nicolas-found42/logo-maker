@@ -1,0 +1,69 @@
+{
+  "seq": 23,
+  "label": "brief-source-owner",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "source": {
+      "kind": "owner",
+      "excerpt": "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.",
+      "context": "Owner statement: establishes the owner's intent, not independently observed audience behavior."
+    },
+    "recorded_directions": [
+      {
+        "id": "developed_detail",
+        "claim": "Develop more visual detail.",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "scope": "Mandatory: every candidate must meet this direction."
+      },
+      {
+        "id": "both_craft_references",
+        "claim": "Compare to both Chief craft logos.",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "scope": "Mandatory: every candidate must meet this direction."
+      },
+      {
+        "id": "specific_brief",
+        "claim": "Create a more specific brief.",
+        "kind": "communication",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "scope": "Mandatory: every candidate must meet this direction."
+      }
+    ]
+  },
+  "questions": {
+    "source_owner_directions": {
+      "type": "noul",
+      "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+      "criteria": {
+        "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+        "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "source_owner_directions": {
+      "type": "noul",
+      "noul": 0.69
+    }
+  },
+  "usage": {
+    "input_tokens": 684,
+    "output_tokens": 25,
+    "cost": 2.8728e-05
+  }
+}

@@ -195,6 +195,9 @@ def render(
         job["assets"] = compiled["assets"]
         budget.check()
         scene_data = compiled["scene"]
+        renderer = scene_data["render"].get("renderer", "cycles")
+        if renderer != "cycles":
+            raise ToolError(f"GPU-only policy: {renderer} lacks verified GPU tracing and denoising")
         config = scene_data.get("sampling", {})
         budget = Budget(
             config.get("wall_seconds", 1800),
@@ -444,6 +447,72 @@ def render(
         tuple(AssetUse(**asset) for asset in job.get("assets", [])),
         publication,
     )
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def source_hashes(concept_dir: Path) -> dict[str, str]:
+    return {
+        name: _sha256(concept_dir / name)
+        for name in ("scene.toml", "motif.json", "scene.py")
+        if (concept_dir / name).is_file()
+    }
+
+
+def verify_execution(concept_dir: Path, quality: str) -> dict:
+    """Reject cached, altered, alternate or unverified outputs operationally."""
+    from logo_maker.blender.execution import verify_denoiser_log
+
+    sampling_path = concept_dir / ".build" / f"{quality}.sampling.json"
+    sampling = json.loads(sampling_path.read_text()) if sampling_path.is_file() else None
+    if sampling is not None and not _artifact_current_local(concept_dir, quality, record=sampling):
+        raise ToolError(
+            f"GPU-only execution evidence unavailable/invalid for {quality}: stale render provenance"
+        )
+    evidence = (
+        Path(sampling["execution"])
+        if sampling
+        else concept_dir / ".build" / f"{quality}.execution.json"
+    )
+    try:
+        report = json.loads(evidence.read_text())
+        selected = [d for d in report["devices"] if d["use"]]
+        if not (
+            report["status"] == "verified"
+            and report["policy"] == "metal-gpu-only"
+            and report["device_override"] == "METAL"
+            and len(selected) == 1
+            and selected[0]["type"] == "METAL"
+            and report["denoiser_effective"]["device_type"] == "Metal"
+            and (
+                sampling is not None
+                or (
+                    report["host_sources_sha256"] == source_hashes(concept_dir)
+                    and report["delivered_sha256"] == _sha256(concept_dir / f"{quality}.png")
+                )
+            )
+        ):
+            raise ValueError("stale or invalid execution attestation")
+        log = evidence.with_suffix(".log")
+        if report["log_sha256"] != _sha256(log):
+            raise ValueError("changed runtime log")
+        verify_denoiser_log(log.read_text())
+        compiled = evidence.parent / ("scene.json" if sampling else f"{quality}.json")
+        compiled_scene = json.loads(compiled.read_text())
+        build_dir = Path(compiled_scene.get("build_dir", evidence.parent))
+        for name, digest in report["inputs_sha256"].items():
+            path = compiled if name == "compiled_scene" else build_dir / name
+            if _sha256(path) != digest:
+                raise ValueError(f"changed render input: {name}")
+        if not report.get("sampling"):
+            raise ValueError("missing effective sampling settings")
+    except (OSError, KeyError, TypeError, ValueError, RuntimeError) as exc:
+        raise ToolError(
+            f"GPU-only execution evidence unavailable/invalid for {quality}: {exc}"
+        ) from exc
+    return {**report, "evidence_path": str(evidence)}
 
 
 def publish_artifacts(

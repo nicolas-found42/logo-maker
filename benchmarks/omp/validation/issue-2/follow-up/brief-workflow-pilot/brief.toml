@@ -1,0 +1,23 @@
+name = "Rootshare"
+summary = "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection."
+audience = "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar."
+tone = ["grounded", "welcoming", "careful"]
+uses = ["favicon", "app_icon", "social_avatar"]
+avoid = ["wax seals", "metallic lettering", "ribbons", "generic sprout decoration"]
+intended_appearance = "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form."
+[palette]
+primary = "#B95E3F"
+accent = "#E4CBA7"
+background = "#F8F2E8"
+ink = "#422D24"
+[fonts]
+display = "Manrope:wght=700"
+text = "Manrope:wght=400"
+[[references]]
+path = "inputs/original-seal-2000.png"
+use = "craft"
+note = "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design."
+[[references]]
+path = "inputs/reconstruction-rendered-2000.png"
+use = "craft"
+note = "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target."
