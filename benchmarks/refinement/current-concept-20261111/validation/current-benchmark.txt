@@ -1,0 +1,99 @@
+{
+  "assets_verified": 21,
+  "cases": [
+    {
+      "id": "chief-original",
+      "asset": "assets/original-seal-2000.png",
+      "role": "owner-approved original",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "approved",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "historical_render": {
+        "engine": "Cycles",
+        "device": "CPU",
+        "resolution": 2000,
+        "samples": 256,
+        "actual_invocation": "wax3d.py -- OUT 28 HDRI gold cycles",
+        "build": "not historically pinned"
+      }
+    },
+    {
+      "id": "chief-reconstruction-2000",
+      "asset": "assets/reconstruction-rendered-2000.png",
+      "role": "owner-approved different finish",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "approved",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "recipe": "examples/chief-of-staff/concept at c45804d41af3c1ab1bbe32b7a72e1561f2f728f2",
+      "historical_render": {
+        "engine": "Cycles/Metal",
+        "resolution": 2000,
+        "samples": 256
+      }
+    },
+    {
+      "id": "chief-regression-256",
+      "asset": "assets/reconstruction-golden-256.png",
+      "role": "renderer regression only",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "unknown",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      }
+    },
+    {
+      "id": "skill-swap-gather",
+      "asset": "assets/gather-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "unknown",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
+    },
+    {
+      "id": "skill-swap-fold",
+      "asset": "assets/fold-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "unknown",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
+    },
+    {
+      "id": "skill-swap-commons",
+      "asset": "assets/commons-hero.png",
+      "role": "owner-rejected paper study",
+      "owner_labels": {
+        "fidelity": "not-evaluated",
+        "craftsmanship": "unknown",
+        "brief_fit": "unknown",
+        "preference": "unranked"
+      },
+      "label_scope": "Owner rejected the overall study; per-feature causes and separate brief-fit/preference labels remain unknown.",
+      "owner_overall_verdict": "rejected"
+    }
+  ],
+  "qualification": "incomplete",
+  "remaining_gaps": [
+    "Owner-reviewed successful different-material brief examples and held-out cases are not yet supplied/qualified.",
+    "Separate full-resolution fidelity, craft and own-brief fit judgments, self-controls and presentation-order checks remain pending.",
+    "Owner review of new packaged GPU replay and end-to-end new-brand flow is pending.",
+    "#5 production 4000\u21922000 sampling/profile qualification remains separate and incomplete."
+  ],
+  "manifest_sha256": "0118815aa7121351260687b87c06cef5ad174662dbe8454538dcc0f748e9ff47"
+}

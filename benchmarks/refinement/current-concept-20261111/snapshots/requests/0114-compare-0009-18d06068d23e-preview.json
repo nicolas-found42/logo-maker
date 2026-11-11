@@ -1,0 +1,204 @@
+{
+  "seq": 114,
+  "label": "compare-0009-18d06068d23e-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "before": "d845c68fc4d34064938eddc57bc944af",
+    "after": "3897a6c8bcf344a488b0ee794d58e9bf",
+    "before_intent": {
+      "brand_geometry": "One shared paper core joins the three colored contribution regions into an accessible common library space. The continuous card proposes reusable team capability rather than exchange between disconnected peers. This is an authored visual hypothesis, not proof of audience recognition.",
+      "current_description": "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.",
+      "dependencies": [
+        "common-core.ply",
+        "west-back.ply",
+        "west-face.ply",
+        "east-back.ply",
+        "east-face.ply",
+        "shelf-back.ply",
+        "shelf-face.ply"
+      ],
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "material_construction": "Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel.",
+      "symbol": "Individual contributions become reusable capability through one open shared team library"
+    },
+    "after_intent": {
+      "symbol": "Individual contributions become reusable capability through one open shared team library",
+      "brand_geometry": "One shared paper core joins the three colored contribution regions into an accessible common library space. The continuous card proposes reusable team capability rather than exchange between disconnected peers. This is an authored visual hypothesis, not proof of audience recognition.",
+      "material_construction": "Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel.",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.",
+      "dependencies": [
+        "common-core.ply",
+        "west-back.ply",
+        "west-face.ply",
+        "east-back.ply",
+        "east-face.ply",
+        "shelf-back.ply",
+        "shelf-face.ply"
+      ]
+    },
+    "prior_critique": {
+      "inspection.json": {
+        "critiques": [
+          {
+            "action": "Use an authored exposure adjustment while keeping geometry, materials, camera, rig and sampling fixed.",
+            "artifact": "qa/revisions/open-commons--extruded-solid--paper/0008-f57c4522d947-preview/render.png",
+            "comparison": "Compare the same requested -1.5 EV scene before and after the runtime honors exposure; inspect pale-green tone, cut edges and fold modeling.",
+            "dimension": "pale-paper color clipping",
+            "evidence": "The sampled right-upright region has 77.8% of opaque pixels with every RGB channel at least 250.",
+            "kind": "technical",
+            "resolved": false
+          }
+        ],
+        "observations": "The continuous card has broad rounded upright scores and a forward lower fold. Pale cut stock edges are visible. The right upright is nearly white, losing its supplied pale-green color and much surface modeling. The color-sampling diagnostic records clipping; this is not yet a craft-qualified result. This controlled baseline requested -1.5 EV, but the current scene loader omits it and the compiled quality has no exposure field. Its pixels still show the pale-green region as near-white.",
+        "revision": "0008-f57c4522d947-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      }
+    },
+    "current_review": {
+      "inspection": {
+        "critiques": [
+          {
+            "action": "Retain the authored -1.5 EV exposure for this scene; keep geometry, materials, camera, light rig and sampling fixed for the controlled comparison.",
+            "artifact": "qa/revisions/open-commons--extruded-solid--paper/0009-18d06068d23e-preview/render.png",
+            "comparison": "Compare retained 0008 with 0009 for this local color defect. This does not establish global craft quality or a new visual alternative.",
+            "dimension": "pale-paper color clipping",
+            "evidence": "The same opaque right-upright region now has 0% pixels with every RGB channel at least 250; its mean RGB is 173.8/182.2/168.1. Fold shading and pale-green tone are visible.",
+            "kind": "technical",
+            "resolved": true
+          }
+        ],
+        "observations": "The broad green uprights now show rounded outer scores and visible pale stock edges; the terracotta dock curves forward along the bottom. The U-shaped card remains open at the top, with no backing panel or enclosing border. The pale-green upright retains muted green shading rather than a white featureless face. The controlled region has zero near-white clipped pixels, compared with 77.8% in the same scene before exposure was honored. The primary silhouette is unchanged by the exposure probe. Independent material credibility, symbolic specificity and craft-floor qualification remain to be judged.",
+        "revision": "0009-18d06068d23e-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      },
+      "judgment": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.59,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.35,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.68,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.52,
+            "type": "noul"
+          }
+        },
+        "binding": "bfda4ed78b9af4cae91c86b4085853654a0e0d0b819cb08e401d9f12d450c786"
+      }
+    }
+  },
+  "questions": {
+    "visually_distinct": {
+      "type": "noul",
+      "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+      "criteria": {
+        "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+        "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ."
+      }
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+      "criteria": {
+        "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+        "false": "The concrete critique persists or cannot be evaluated from the images."
+      }
+    }
+  },
+  "assets": {
+    "d845c68fc4d34064938eddc57bc944af": {
+      "type": "image",
+      "format": "png",
+      "sha256": "2207a7201740fb7b0f8c4fab8549e3ff3ec3a534f51469c95db62aca5f46d0cc",
+      "bytes": 287000
+    },
+    "3897a6c8bcf344a488b0ee794d58e9bf": {
+      "type": "image",
+      "format": "png",
+      "sha256": "35e539f7923ddcd8c6ead1f487e5efe09a9ef0c25031bced55ff2a117cc48024",
+      "bytes": 337412
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.95
+    }
+  },
+  "usage": {
+    "input_tokens": 8093,
+    "output_tokens": 44,
+    "cost": 0.000339906
+  },
+  "provider_usage": {
+    "input_tokens": 8093,
+    "output_tokens": 44,
+    "cost": 0.000339906,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000339906,
+      "upstream_inference_prompt_cost": 0.000339906,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

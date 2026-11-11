@@ -1,0 +1,492 @@
+{
+  "creative": {
+    "status": "authoring_needed",
+    "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/concept.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/construction.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/inspection.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/motif.py\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/motif.svg\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/scene.py\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/scene.toml",
+    "details": {
+      "dimension": "creative_readiness",
+      "artifact": "qa/revisions/joined-index--extruded-solid--paper/0009-28ee20176d5f-preview/render.png",
+      "revision": "0009-28ee20176d5f-preview",
+      "verdicts": {
+        "craftsmanship": {
+          "type": "noul",
+          "noul": 0.28
+        },
+        "brief_fit": {
+          "type": "noul",
+          "noul": 0.39
+        },
+        "material_intent": {
+          "type": "noul",
+          "noul": 0.56
+        },
+        "description_match": {
+          "type": "noul",
+          "noul": 0.54
+        }
+      },
+      "required_dimensions": {
+        "craftsmanship": {
+          "p": 0.28,
+          "status": "no"
+        },
+        "brief_fit": {
+          "p": 0.39,
+          "status": "unsettled"
+        },
+        "material_intent": {
+          "p": 0.56,
+          "status": "unsettled"
+        },
+        "description_match": {
+          "p": 0.54,
+          "status": "unsettled"
+        }
+      },
+      "comparison": {
+        "binding": "6493587dc5c22f9f316e8c8a27d343eae92ab39d9ad78a4c34fc290b0b2d8584",
+        "before": "qa/revisions/joined-index--extruded-solid--paper/0008-7fe00f985a0e-preview/render.png",
+        "after": "qa/revisions/joined-index--extruded-solid--paper/0009-28ee20176d5f-preview/render.png",
+        "answers": {
+          "visually_distinct": {
+            "type": "noul",
+            "noul": 0.01
+          },
+          "critique_resolved": {
+            "type": "noul",
+            "noul": 0.1
+          }
+        }
+      },
+      "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+    }
+  },
+  "eligibility": {
+    "concept": "joined-index|extruded_solid|paper",
+    "stage": "preview",
+    "status": "fail",
+    "missing": [],
+    "execution": {
+      "status": "verified",
+      "sha256": "6fb7bff9bfa56862b9dde44944bdaae6c5f90f9aabb6cc0e6848106281fe69f0"
+    },
+    "revision": {
+      "candidate_sha256": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+      "reviewed_requirements": {
+        "brief_sha256": "d04d5db6b63449b44f32dc1c303b0e3cc9b8a8cdd88490465e089ae241a2ed76",
+        "evidence_sha256": "f296dca6be347a8c97dfaeca8dd07fc56ecf9b8a1ed039aba1fdd0660919117e",
+        "sources": {
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/inputs/current-direction.toml": "9e2576a390ca64464e60dbca97f974b9c38a718c4a885b06b798fde68a3f4dda",
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/inputs/owner-clarification-20261111.txt": "95d621a38cfec920a8f21df5b6844bc073bf4ec03ca90b653d73e44801baef18"
+        },
+        "references": {
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        },
+        "baselines": {},
+        "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+        "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+        "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+      },
+      "brief": {
+        "name": "Skill Swap",
+        "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+        "tone": [
+          "approachable",
+          "capable",
+          "trustworthy",
+          "warm",
+          "precise"
+        ],
+        "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+        "initials": "SS",
+        "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+        "uses": [
+          "login_hero",
+          "brand_introduction",
+          "favicon",
+          "app_icon",
+          "monochrome_mark"
+        ],
+        "avoid": [
+          "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+          "Inflated toy shapes",
+          "A badge, medallion, backing disc, enclosing border or backing plate",
+          "Generic AI sparkles, chain links or recycling arrows",
+          "Slack hashtag or Dropbox diamond-box topology",
+          "Cohere cell cluster and Miro chevrons",
+          "Existing leaf icon",
+          "Fine text or hairline geometry inside the symbol",
+          "Confusing peer-to-peer skill barter with a team AI skills library"
+        ],
+        "palette": {
+          "primary": "#285640",
+          "secondary": "#DCE7D6",
+          "accent": "#C47D5A",
+          "highlight": "#F8F7F2",
+          "background": "#F8F7F2",
+          "ink": "#243B31"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "DM Sans:wght=400"
+        }
+      },
+      "references": [
+        {
+          "use": "craft",
+          "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+        },
+        {
+          "use": "craft",
+          "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        }
+      ],
+      "sources": {
+        "brief.toml": "d04d5db6b63449b44f32dc1c303b0e3cc9b8a8cdd88490465e089ae241a2ed76",
+        "brief-evidence.toml": "f296dca6be347a8c97dfaeca8dd07fc56ecf9b8a1ed039aba1fdd0660919117e",
+        "ideation/requirements.json": "dd8a46f7c58d6d8d05497ecd91a188a0e75dce91dc4a199bb2557c30104eafdc",
+        "ideation/pool.jsonl": "ee796bb0c2dacc85031a65889692f11b18d2740056cd954183779dde955c6a4f",
+        "ideation/metaphors.toml": "3ed591aa5e99582c0491ce601983d9c2a861fa79698d61a642df29d1dd754a76",
+        "concepts/joined-index--extruded-solid--paper/concept.json": "938696f807b0da38c2fe9cda9b41e9fa5caf3c3c5064a44bb6dca36546ab6c6e",
+        "concepts/joined-index--extruded-solid--paper/plan.toml": "c46b4909ab109ab6e3382d623a09abe6860f747947cba7cc56c1cacaa33a2559",
+        "concepts/joined-index--extruded-solid--paper/plan-review.json": "8d5cd8812570c381662978a2c7a24255d20c22dd04f1a27afc3b76dbeddd7ea9",
+        "concepts/joined-index--extruded-solid--paper/motif.svg": "3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3",
+        "concepts/joined-index--extruded-solid--paper/motif.json": "cd981cf6684a2d68255a95bc07c833f6135b903a6d50033b6e32220c542f84a2",
+        "concepts/joined-index--extruded-solid--paper/scene.toml": "944a13b3b0a5cc930ef4387253a620abf05bcd6622d77316c715b9cdafc2fcff"
+      },
+      "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+      "eligibility_protocol_sha256": "cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a",
+      "render_provenance": {
+        "preview.sampling.json": "ea65810f227318cd38215c01a6498105fab07e13854e9b34fa6bd91034e16276"
+      }
+    },
+    "revision_sha256": "8c9fa7158f92aab3a37e876de57b579741fcaf54c8aa2d648e4ad64b2c3a62dd",
+    "craft": [
+      {
+        "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "candidate_sha256": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+        "order": [
+          "candidate",
+          "reference"
+        ],
+        "answers": {
+          "form_finish": {
+            "type": "noul",
+            "noul": 0.26
+          },
+          "surface_finish": {
+            "type": "noul",
+            "noul": 0.24
+          },
+          "detail_finish": {
+            "type": "noul",
+            "noul": 0.31
+          },
+          "edge_refinement": {
+            "type": "noul",
+            "noul": 0.16
+          },
+          "material_construction": {
+            "type": "noul",
+            "noul": 0.19
+          },
+          "proportion_control": {
+            "type": "noul",
+            "noul": 0.35
+          },
+          "visual_hierarchy": {
+            "type": "noul",
+            "noul": 0.61
+          },
+          "lighting_control": {
+            "type": "noul",
+            "noul": 0.43
+          }
+        },
+        "checks": {
+          "form_finish": "fail",
+          "surface_finish": "fail",
+          "detail_finish": "unsettled",
+          "edge_refinement": "fail",
+          "material_construction": "fail",
+          "proportion_control": "unsettled",
+          "visual_hierarchy": "unsettled",
+          "lighting_control": "unsettled"
+        },
+        "status": "fail"
+      },
+      {
+        "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "candidate_sha256": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+        "order": [
+          "reference",
+          "candidate"
+        ],
+        "answers": {
+          "form_finish": {
+            "type": "noul",
+            "noul": 0.36
+          },
+          "surface_finish": {
+            "type": "noul",
+            "noul": 0.28
+          },
+          "detail_finish": {
+            "type": "noul",
+            "noul": 0.44
+          },
+          "edge_refinement": {
+            "type": "noul",
+            "noul": 0.24
+          },
+          "material_construction": {
+            "type": "noul",
+            "noul": 0.21
+          },
+          "proportion_control": {
+            "type": "noul",
+            "noul": 0.44
+          },
+          "visual_hierarchy": {
+            "type": "noul",
+            "noul": 0.65
+          },
+          "lighting_control": {
+            "type": "noul",
+            "noul": 0.47
+          }
+        },
+        "checks": {
+          "form_finish": "unsettled",
+          "surface_finish": "fail",
+          "detail_finish": "unsettled",
+          "edge_refinement": "fail",
+          "material_construction": "fail",
+          "proportion_control": "unsettled",
+          "visual_hierarchy": "unsettled",
+          "lighting_control": "unsettled"
+        },
+        "status": "fail"
+      },
+      {
+        "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+        "candidate_sha256": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+        "order": [
+          "candidate",
+          "reference"
+        ],
+        "answers": {
+          "form_finish": {
+            "type": "noul",
+            "noul": 0.29
+          },
+          "surface_finish": {
+            "type": "noul",
+            "noul": 0.24
+          },
+          "detail_finish": {
+            "type": "noul",
+            "noul": 0.32
+          },
+          "edge_refinement": {
+            "type": "noul",
+            "noul": 0.19
+          },
+          "material_construction": {
+            "type": "noul",
+            "noul": 0.18
+          },
+          "proportion_control": {
+            "type": "noul",
+            "noul": 0.37
+          },
+          "visual_hierarchy": {
+            "type": "noul",
+            "noul": 0.6
+          },
+          "lighting_control": {
+            "type": "noul",
+            "noul": 0.44
+          }
+        },
+        "checks": {
+          "form_finish": "fail",
+          "surface_finish": "fail",
+          "detail_finish": "unsettled",
+          "edge_refinement": "fail",
+          "material_construction": "fail",
+          "proportion_control": "unsettled",
+          "visual_hierarchy": "unsettled",
+          "lighting_control": "unsettled"
+        },
+        "status": "fail"
+      },
+      {
+        "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+        "candidate_sha256": "151c3857cf2adad4374d7bb567ddc4265af23d9568c84a2fad8edd41d3c513ac",
+        "order": [
+          "reference",
+          "candidate"
+        ],
+        "answers": {
+          "form_finish": {
+            "type": "noul",
+            "noul": 0.4
+          },
+          "surface_finish": {
+            "type": "noul",
+            "noul": 0.29
+          },
+          "detail_finish": {
+            "type": "noul",
+            "noul": 0.46
+          },
+          "edge_refinement": {
+            "type": "noul",
+            "noul": 0.24
+          },
+          "material_construction": {
+            "type": "noul",
+            "noul": 0.21
+          },
+          "proportion_control": {
+            "type": "noul",
+            "noul": 0.44
+          },
+          "visual_hierarchy": {
+            "type": "noul",
+            "noul": 0.6
+          },
+          "lighting_control": {
+            "type": "noul",
+            "noul": 0.5
+          }
+        },
+        "checks": {
+          "form_finish": "unsettled",
+          "surface_finish": "fail",
+          "detail_finish": "unsettled",
+          "edge_refinement": "fail",
+          "material_construction": "fail",
+          "proportion_control": "unsettled",
+          "visual_hierarchy": "unsettled",
+          "lighting_control": "unsettled"
+        },
+        "status": "fail"
+      }
+    ],
+    "fit": {
+      "symbol": "pass",
+      "appearance": "unsettled",
+      "brand_specificity": "unsettled",
+      "meaningful_synthesis": "unsettled",
+      "constraint_fidelity": "fail",
+      "communicative_clarity": "fail",
+      "small_flat": "pass",
+      "small_hero": "pass"
+    },
+    "technical": {
+      "noise_free": "pass",
+      "detail_preserved": "unsettled",
+      "aliasing_free": "unsettled",
+      "structure_correct": "unsettled"
+    },
+    "answers": {
+      "symbol": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "appearance": {
+        "type": "noul",
+        "noul": 0.35
+      },
+      "brand_specificity": {
+        "type": "noul",
+        "noul": 0.39
+      },
+      "meaningful_synthesis": {
+        "type": "noul",
+        "noul": 0.31
+      },
+      "constraint_fidelity": {
+        "type": "noul",
+        "noul": 0.13
+      },
+      "communicative_clarity": {
+        "type": "noul",
+        "noul": 0.26
+      },
+      "small_flat": {
+        "type": "noul",
+        "noul": 0.73
+      },
+      "small_hero": {
+        "type": "noul",
+        "noul": 0.9
+      },
+      "noise_free": {
+        "type": "noul",
+        "noul": 0.75
+      },
+      "detail_preserved": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "aliasing_free": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "structure_correct": {
+        "type": "noul",
+        "noul": 0.62
+      }
+    },
+    "view_sha256": {
+      "reference-1-1000-1000.png": "9cf57e6d801003a46d814b80c9b75d4b988485d9c778612c82f1baa42091d508",
+      "reference-1-1000-0.png": "e284917807bea285072f6a2328939b41e0de7b41d911a949201b1b1f876b20cf",
+      "reference-1-0-1000.png": "da89f3507f6e6ed46f01781d572c061f9ee2ec52ef511ab1270e14fb061576b2",
+      "reference-0-0-0.png": "53cbdccc73b69f24b31ceb212f03a910c72befc114f024781e4dce149ad303e6",
+      "reference-1-0-0.png": "87e985d5c01f40eee619c5632bdae7e5dbcfb0b6df5d279f23578c14035e60c4",
+      "reference-0-0-1000.png": "281eb8c33dd59c7eefed59781e15edb2695cf68aa23b022c504109860bee81e4",
+      "flat-small.png": "7957e018d5f82bd4acf89ff8048fae1b347fe318bc3a414524ee7f6521bb18ab",
+      "reference-0-1000-0.png": "a28d40d153ce55dee68f47095fb3d5ee6d68aa4b177aaf935657ab767ff9f5f2",
+      "reference-0-1000-1000.png": "8f4ee4258e104ff734ca22ec53baba85252ca932151fd71d606cb16be54e2606",
+      "hero-small.png": "d32d0c9ada9b7d50a701b36b2e156d6fad46b892b9a0033f071af6a412c8d020"
+    },
+    "flat_source_sha256": "3aa2fb779bb78be947e378b37aae3de74d013b932d04335ed3cdc6bf99930cc3",
+    "detail_obligations": [],
+    "sampling": {
+      "settings": {
+        "samples": 256,
+        "use_adaptive_sampling": false,
+        "adaptive_threshold": 0.009999999776482582,
+        "adaptive_min_samples": 0,
+        "seed": 1820117,
+        "use_animated_seed": false
+      },
+      "noise": "pass",
+      "limit": "capped",
+      "convergence": "unknown",
+      "device": "verified",
+      "outcome": "unknown",
+      "visual_acceptance": "unsettled",
+      "acceptance_basis": "independent delivered-image visual judgments; no numerical convergence claim",
+      "profile": {
+        "state": "profile_unqualified",
+        "reason": "no qualified replacement; retain baseline"
+      },
+      "outcomes": {
+        "device": "verified",
+        "noise": "unknown",
+        "cap": "capped",
+        "time": "within_budget",
+        "memory": "unknown",
+        "quality": "unreviewed",
+        "sampling": "review_needed"
+      },
+      "record_sha256": "ea65810f227318cd38215c01a6498105fab07e13854e9b34fa6bd91034e16276"
+    }
+  }
+}

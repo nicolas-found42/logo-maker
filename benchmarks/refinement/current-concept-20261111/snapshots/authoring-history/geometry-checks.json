@@ -1,0 +1,37 @@
+{
+  "left-S-back": {
+    "volume": 0.00175893173231783,
+    "connected_components": 2,
+    "watertight": true
+  },
+  "right-S-back": {
+    "volume": 0.0017589317300181404,
+    "connected_components": 2,
+    "watertight": true
+  },
+  "common-index-back": {
+    "volume": 0.0030456485948857927,
+    "connected_components": 1,
+    "watertight": true
+  },
+  "shared-core": {
+    "volume": 0.03281751808887034,
+    "connected_components": 1,
+    "watertight": true
+  },
+  "left-S-face": {
+    "volume": 0.0017589251797997904,
+    "connected_components": 2,
+    "watertight": true
+  },
+  "right-S-face": {
+    "volume": 0.00175892517750011,
+    "connected_components": 2,
+    "watertight": true
+  },
+  "common-index-face": {
+    "volume": 0.0030456460340394717,
+    "connected_components": 1,
+    "watertight": true
+  }
+}

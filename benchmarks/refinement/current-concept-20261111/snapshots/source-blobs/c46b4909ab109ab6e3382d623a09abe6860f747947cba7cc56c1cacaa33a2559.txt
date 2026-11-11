@@ -1,0 +1,20 @@
+schema = 1
+requirements_revision = "8bf3d59cbaf1b50ad5e8ff50df28c46af8a9b901ad561e674653338c09a3f128"
+hypothesis = "Skill Swap initials share one index, proposing reusable team capability in a shared library"
+visual_mechanism = "Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate. The exact front projection supplies the same primary identity in flat and hero views. This is a new joined-index visual decision; the retained open-commons and folio histories preserve the other territories. The supplied palette and paper mandate remain unchanged. Manrope and DM Sans serve adjacent naming; there is no fine text inside the mark."
+requirement_ids = ["material", "meaning", "territories", "style", "initials", "palette", "fonts", "tone", "uses", "owner_structure_scope", "avoid_0", "avoid_1", "avoid_2", "avoid_3", "avoid_4", "avoid_5", "avoid_6", "avoid_7", "avoid_8"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Shared SS core and common index"
+purpose = "Use the supplied initials as a specific brand identifier while making one shared library visible"
+intended_scale = "Flat, favicon, app icon and hero; broad strokes and side cuts remain the core"
+construction = "Cut one paperboard blank containing both S letterforms and an uncut common bottom margin. Leave the letter faces flat. Add two straight parallel score lines only within the bottom margin, below the letterforms. Bend that margin forward at the first score and back to a parallel foot at the second score. Neither score crosses the letters or another score. The foot, margin and both letters remain one unbroken sheet; they are not glued or fitted together. Pale paper core and colored paper skins follow the same bends. The colored skin regions meet edge-to-edge: dark green on the left initial, pale green on the right and terracotta on the common folded margin. No backing panel, rigid insert or separate support is added."
+deletion_test = "Without the common bottom margin the two letterforms disconnect; without the open side cuts they cease to read as SS."
+
+[[details]]
+feature = "Two scored folds in the shared index foot"
+purpose = "Give the common library index a credible paper change of plane, subordinate to the initials"
+intended_scale = "Hero and native detail; the same primary SS contours remain in the flat master"
+construction = "Only the common bottom margin is folded. Its two scores are below the letter contours. The first score produces a short sloping panel, and the second returns the free lower edge to a plane parallel to the letter faces. Core and skins remain continuous; substantial cut edges expose the pale paper stock."
+deletion_test = "Removing the two scores loses the folded paper foot; adding a backing panel would violate the brief."

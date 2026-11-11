@@ -1,0 +1,202 @@
+{
+  "seq": 126,
+  "label": "compare-0007-7916bd46a8f0-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "before": "ea76b7d918774dfb824684bd30057b1c",
+    "after": "7600a89078164baab29b5e07177fce82",
+    "before_intent": {
+      "brand_geometry": "Two folded card channels with offset inward tabs join across a single central shelf opening; one dark green and one pale green module form a shared index",
+      "current_description": "Two folded card channels with offset inward tabs join across a single central shelf opening; one dark green and one pale green module form a shared index",
+      "dependencies": [
+        "left-body.ply",
+        "right-body.ply",
+        "left-fold.ply",
+        "right-fold.ply"
+      ],
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "material_construction": "Thick folded card channels carry contrasting inset tongues; the visible score and raised edge make the join structural, not printed ornament",
+      "symbol": "Individual contributions become a reviewed, navigable shared capability"
+    },
+    "after_intent": {
+      "symbol": "Skill Swap initials joined by one common library index",
+      "brand_geometry": "The owner-supplied SS initials are primary recognition contours. A common lower paper index joins the two contributions into one shared library, rather than suggesting peer-to-peer exchange arrows. This is a proposed visual argument, not a claim of demonstrated audience understanding.",
+      "material_construction": "Cut one paperboard blank containing both S letterforms and an uncut common bottom margin. Leave the letter faces flat. Add two straight parallel score lines only within the bottom margin, below the letterforms. Bend that margin forward at the first score and back to a parallel foot at the second score. Neither score crosses the letters or another score. The foot, margin and both letters remain one unbroken sheet; they are not glued or fitted together. Pale paper core and colored paper skins follow the same bends. The colored skin regions meet edge-to-edge: dark green on the left initial, pale green on the right and terracotta on the common folded margin. No backing panel, rigid insert or separate support is added.",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper, broad controlled scores, pale exposed cut edges and restrained fiber texture",
+      "disproof": "An unreadable shared SS core, exchange-arrow reading, unsupported disconnected card parts or an inflated plastic appearance would reject this proposal.",
+      "current_description": "Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate.",
+      "dependencies": [
+        "left-S-back.ply",
+        "right-S-back.ply",
+        "common-index-back.ply",
+        "shared-core.ply",
+        "left-S-face.ply",
+        "right-S-face.ply",
+        "common-index-face.ply"
+      ]
+    },
+    "prior_critique": {
+      "inspection.json": {
+        "critiques": [],
+        "observations": "Two broad paper modules form a staggered H-like joint; edge flanges are visible, but the symbol remains quite slab-like. Pale green renders nearly white. This is visually different from the old folio, but neither material credibility nor brand specificity is assumed to pass.",
+        "revision": "0006-1d90c6828729-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      },
+      "judgment.json": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.47,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.16,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.39,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.37,
+            "type": "noul"
+          }
+        },
+        "binding": "d20ce4f6d6d3f66c336a4c951f73a6f501a0035fed6eca4bd9feef6b7d9bd0c7"
+      }
+    },
+    "current_review": {
+      "inspection": {
+        "critiques": [],
+        "observations": "The primary image now reads as two rounded S letterforms, dark green and pale green, above a shared terracotta paper foot. Thin pale cut edges outline the letters. Two scored bends are visible in the lower band, while the broad letter faces remain flat. The pale-green tone is retained rather than clipped white. This is a substantive new silhouette compared with the former two rectangular joined channels. The flat master retains the same SS and common lower band. The image still needs independent judgment of whether its material reads as layered paper and whether its shared-library meaning extends beyond initials; no owner quality assessment has been supplied.",
+        "revision": "0007-7916bd46a8f0-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      },
+      "judgment": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.43,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.31,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.61,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.63,
+            "type": "noul"
+          }
+        },
+        "binding": "5f2f78b5a1d8e919b1f42ebf6fd4b37ffd39f06d2993faf124642d5bfdcf19c9"
+      }
+    }
+  },
+  "questions": {
+    "visually_distinct": {
+      "type": "noul",
+      "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+      "criteria": {
+        "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+        "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ."
+      }
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+      "criteria": {
+        "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+        "false": "The concrete critique persists or cannot be evaluated from the images."
+      }
+    }
+  },
+  "assets": {
+    "ea76b7d918774dfb824684bd30057b1c": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4224d3dab5ee162c8746904b2d052d9f1bb399e1fd9500381ccfa85ba6644d40",
+      "bytes": 267309
+    },
+    "7600a89078164baab29b5e07177fce82": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0b81b55f6de4326122cdc3b23f531ed4e24a50eb29467d0feb4daf37b2caf1a9",
+      "bytes": 404823
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.7
+    }
+  },
+  "usage": {
+    "input_tokens": 7662,
+    "output_tokens": 44,
+    "cost": 0.000321804
+  },
+  "provider_usage": {
+    "input_tokens": 7662,
+    "output_tokens": 44,
+    "cost": 0.000321804,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000321804,
+      "upstream_inference_prompt_cost": 0.000321804,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

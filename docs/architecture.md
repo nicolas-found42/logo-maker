@@ -476,8 +476,13 @@ Preference ranks only eligible candidates.
 Both true and false craft criteria compare execution against the demonstrated reference floor,
 including its imperfections. An absolute defect judgment cannot silently replace that relative task.
 Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
-position cannot establish eligibility. Literal concept match receives the candidate's declared
-concept. Own-brief fit receives the frozen business context, communication priority and identity
+position cannot establish eligibility. Literal concept match and structural technical checks receive
+the current `concept.json.description` and reviewed plan hypothesis, bound by the plan receipt and
+eligibility revision. Original ideation text remains history rather than the current depiction after
+structural authoring. A missing current description returns `missing_evidence` before provider calls.
+The admitted concept and plan hashes must match the revision before image queries; edits during
+context preparation cannot bind old depiction text to new source bytes.
+Own-brief fit receives the frozen business context, communication priority and identity
 constraints, with the author rationale excluded. A flattering concept cannot rewrite that fit
 request. Neither receives the unrelated reference's design. Gloss, reflections and roundness are
 assessed relative to the two intended treatments, without a universal preference for either finish.

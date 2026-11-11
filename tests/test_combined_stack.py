@@ -100,12 +100,14 @@ def test_combined_selection_keeps_errors_costs_and_eligibility_independent(
     with provider(monkeypatch, respond) as url:
         client = JevClient(logo)
         client.url = url
+        # Allow the complete isolated-worker transport chain to start on loaded CI hosts.
+        budget = Budget(wall_seconds=120)
         if failure == "missing_usage":
-            assert pipeline.finalize(logo, client, budget=Budget(wall_seconds=30)) == cid
+            assert pipeline.finalize(logo, client, budget=budget) == cid
         else:
             expected = JevError if failure == "provider_error" else pipeline.AuthoringNeeded
             with pytest.raises(expected):
-                pipeline.finalize(logo, client, budget=Budget(wall_seconds=30))
+                pipeline.finalize(logo, client, budget=budget)
     records = [json.loads(path.read_text()) for path in (logo.qa / "jev/requests").glob("*.json")]
     usage = json.loads(logo.run_json.read_text())["jev"]
     assert usage["requests"] == len(records)

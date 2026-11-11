@@ -420,12 +420,16 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
 
     refs = [ref for ref in brief.references if ref.use == "craft"]
     missing = []
+    reviewed_plan = {}
     try:
-        briefing.current_plan(logo, concept_id)
+        reviewed_plan = briefing.current_plan(logo, concept_id)
         if load(logo.brief) != brief:
             missing.append("supplied brief differs from the frozen source brief")
     except (OSError, ValueError) as exc:
         missing.append(str(exc))
+    description = reviewed_plan.get("state", {}).get("concept", {}).get("description")
+    if not isinstance(description, str) or not description.strip():
+        missing.append("current description required in concept.json")
     if not refs:
         missing.append("craft reference required (use = 'craft')")
     if not brief.intended_appearance:
@@ -481,13 +485,26 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
         return {"record": record}
     c = concepts[concept_id]
     concept = Q.concept_state(
-        brief, metaphor=c.metaphor_text, treatment=c.treatment_desc, material=c.material_desc
+        brief,
+        metaphor=reviewed_plan["state"]["plan"]["hypothesis"],
+        treatment=c.treatment_desc,
+        material=c.material_desc,
+        treatment_id=c.treatment,
+        material_id=c.material,
     )["concept"]
+    concept["description"] = description
     try:
         reviewed_context = briefing.current(logo)
         rev = revision(logo, brief, concept_id, candidate)
         if rev["reviewed_requirements"] != reviewed_context["inputs"]:
             raise ValueError("requirements changed while preparing judgment context")
+        folder = logo.concept(concept_id)
+        if any(
+            rev["sources"].get(str((folder / name).relative_to(logo.root)))
+            != reviewed_plan["inputs"][key]
+            for name, key in (("concept.json", "concept_sha256"), ("plan.toml", "plan_sha256"))
+        ):
+            raise ValueError("concept or plan changed while preparing judgment context")
     except (OSError, ValueError) as exc:
         record["missing"].append(f"source evidence unavailable: {exc}")
         _append(logo, record)

@@ -247,6 +247,90 @@ def test_preview_cannot_promote_without_floor(tmp_path):
     assert not (logo.ideation / "finalists.json").exists()
 
 
+def test_structural_review_uses_current_description_instead_of_ideation_text(tmp_path):
+    import tomlkit
+    from test_brief_workflow import BriefJudge
+
+    from logo_maker import briefing
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    folder = logo.concept(cid)
+    info_path = folder / "concept.json"
+    info = json.loads(info_path.read_text())
+    info["description"] = "Two broad paper S initials share one scored lower foot"
+    info_path.write_text(json.dumps(info))
+    plan_path = folder / "plan.toml"
+    plan = tomlkit.parse(plan_path.read_text())
+    plan["hypothesis"] = "The supplied initials join through a common team index"
+    plan["visual_mechanism"] = info["description"]
+    plan_path.write_text(tomlkit.dumps(plan))
+    assert briefing.review_plan(logo, cid, BriefJudge())["status"] == "pass"
+    attest(folder, "final")
+    client = EligibilityClient()
+    result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+    assert result["status"] == "pass"
+    literal = [
+        state["concept"]
+        for state, label in client.states
+        if label.endswith(("-symbol-fit", "-technical"))
+    ]
+    assert len(literal) == 2
+    assert all(c["description"] == info["description"] for c in literal)
+    assert all(c["metaphor"] == plan["hypothesis"] for c in literal)
+
+
+def test_description_edit_during_context_preparation_never_reaches_provider(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    folder = logo.concept(cid)
+    original_read = Path.read_text
+    edited = False
+
+    def read_text(path, *args, **kwargs):
+        nonlocal edited
+        raw = original_read(path, *args, **kwargs)
+        if path == logo.metaphors and not edited:
+            edited = True
+            info_path = folder / "concept.json"
+            info = json.loads(original_read(info_path))
+            info["description"] = "A later authoring revision"
+            info_path.write_text(json.dumps(info))
+        return raw
+
+    monkeypatch.setattr(Path, "read_text", read_text)
+    client = EligibilityClient()
+    result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+    assert edited
+    assert result["status"] == "missing_evidence"
+    assert "changed while preparing" in " ".join(result["missing"])
+    assert not client.states
+
+
+def test_missing_current_description_stops_before_visual_judgments(tmp_path):
+    from test_brief_workflow import BriefJudge
+
+    from logo_maker import briefing
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    folder = logo.concept(cid)
+    path = folder / "concept.json"
+    info = json.loads(path.read_text())
+    info.pop("description", None)
+    path.write_text(json.dumps(info))
+    assert briefing.review_plan(logo, cid, BriefJudge())["status"] == "pass"
+    attest(folder, "final")
+    client = EligibilityClient()
+    result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+    assert result["status"] == "missing_evidence"
+    assert "current description" in " ".join(result["missing"])
+    assert not client.states
+
+
 def test_equal_floor_passes_with_both_orders_and_current_revision(tmp_path):
     from logo_maker.eligibility import assess, require_current
 

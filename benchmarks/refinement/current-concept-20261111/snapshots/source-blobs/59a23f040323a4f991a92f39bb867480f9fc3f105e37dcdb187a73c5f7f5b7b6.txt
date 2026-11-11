@@ -1,0 +1,17 @@
+{
+  "symbol": "Skill Swap initials joined by one common library index",
+  "brand_geometry": "The owner-supplied SS initials are primary recognition contours. A common lower paper index joins the two contributions into one shared library, rather than suggesting peer-to-peer exchange arrows. This is a proposed visual argument, not a claim of demonstrated audience understanding.",
+  "material_construction": "Cut one paperboard blank containing both S letterforms and an uncut common bottom margin. Leave the letter faces flat. Add two straight parallel score lines only within the bottom margin, below the letterforms. Bend that margin forward at the first score and back to a parallel foot at the second score. Neither score crosses the letters or another score. The foot, margin and both letters remain one unbroken sheet; they are not glued or fitted together. Pale paper core and colored paper skins follow the same bends. The colored skin regions meet edge-to-edge: dark green on the left initial, pale green on the right and terracotta on the common folded margin. No backing panel, rigid insert or separate support is added.",
+  "intended_appearance": "Warm editorial layered heavyweight matte paper, broad controlled scores, pale exposed cut edges and restrained fiber texture",
+  "disproof": "An unreadable shared SS core, exchange-arrow reading, unsupported disconnected card parts or an inflated plastic appearance would reject this proposal.",
+  "current_description": "Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate.",
+  "dependencies": [
+    "left-S-back.ply",
+    "right-S-back.ply",
+    "common-index-back.ply",
+    "shared-core.ply",
+    "left-S-face.ply",
+    "right-S-face.ply",
+    "common-index-face.ply"
+  ]
+}

@@ -90,7 +90,15 @@ def plan_for_stage_test(logo, cid):
     revision = briefing.current(logo)["requirements_revision"]
     folder = logo.concept(cid)
     if not (folder / "concept.json").exists():
-        (folder / "concept.json").write_text(json.dumps({"id": cid, "metaphor": "fixture form"}))
+        (folder / "concept.json").write_text(
+            json.dumps(
+                {
+                    "id": cid,
+                    "metaphor": "fixture form",
+                    "description": "One resolved primary contour",
+                }
+            )
+        )
     (folder / "plan.toml").write_text(
         f'schema = 1\nrequirements_revision = "{revision}"\n'
         'hypothesis = "A recognizable fixture mark"\n'

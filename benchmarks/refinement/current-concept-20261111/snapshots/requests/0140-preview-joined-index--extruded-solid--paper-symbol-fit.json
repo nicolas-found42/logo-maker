@@ -1,0 +1,103 @@
+{
+  "seq": 140,
+  "label": "preview-joined-index--extruded-solid--paper-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "717168f1896f43c8befb8ee17a203dc0",
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "Skill Swap initials share one index, proposing reusable team capability in a shared library",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Heavy matte paper or card with a fine fiber texture.",
+      "treatment_id": "extruded_solid",
+      "material_id": "paper",
+      "description": "Two broad curved paper S letterforms rise above one shared terracotta index band. The left S is dark green and the right pale green. Their faces stay flat, with pale laminated cut edges. Two parallel scores fold the common lower band forward into a shallow stepped paper foot. One continuous paper core connects both initials and their foot. Open side cuts define the S shapes; there is no enclosing border or backing plate."
+    },
+    "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture"
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "717168f1896f43c8befb8ee17a203dc0": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8060c7142c228cf092b0fb5ae5aa547fc52c4cf55cb25d0f32cdf71054a2227d",
+      "bytes": 404733
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.72
+    }
+  },
+  "usage": {
+    "input_tokens": 3708,
+    "output_tokens": 20,
+    "cost": 0.000155736
+  },
+  "provider_usage": {
+    "input_tokens": 3708,
+    "output_tokens": 20,
+    "cost": 0.000155736,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000155736,
+      "upstream_inference_prompt_cost": 0.000155736,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

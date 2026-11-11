@@ -1,0 +1,189 @@
+Fcontrolled_jev_worker_launches=36, startup_delay_seconds=0.6
+
+=================================== FAILURES ===================================
+_ test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage] _
+
+command = ['/Users/nicolas/Documents/github/logo-maker/.venv/bin/python', '-m', 'logo_maker.jev.worker']
+budget = <logo_maker.sampling.Budget object at 0x10c9a9f90>
+input_text = '{"operation": "store_assets", "logo": "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pyt...st-of-nicolas/pytest-560/test_combined_selection_keeps_0/logo/qa/jev/requests/0006-final-m--medallion--clay-fit.json"}'
+label = 'Jev store_assets', timeout = None, cwd = None
+
+    def run(
+        command: list[str],
+        *,
+        budget: Budget,
+        input_text: str = "",
+        label: str = "tool",
+        timeout: float | None = None,
+        cwd: Path | None = None,
+    ) -> subprocess.CompletedProcess[str]:
+        """Reserve cleanup inside the shared deadline; never leave owned work running."""
+        if os.name != "posix":
+            raise ToolError("bounded workers require macOS/Linux process-session cleanup")
+        if budget.remaining <= 1:
+            raise SamplingLimit(f"time_limit: insufficient {label} budget including process cleanup")
+        worker = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            start_new_session=True,
+            cwd=cwd,
+        )
+        try:
+            try:
+>               stdout, stderr = worker.communicate(
+                    input_text, timeout=max(0.001, min(timeout or float("inf"), budget.remaining - 1))
+                )
+
+logo_maker/owned_process.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/subprocess.py:1223: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/subprocess.py:2156: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -15 args: ['/Users/nicolas/Documents/github/logo-maker/....>
+endtime = 156555.89155729098, orig_timeout = 0.001, stdout_seq = []
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['/Users/nicolas/Documents/github/logo-maker/.venv/bin/python', '-m', 'logo_maker.jev.worker']' timed out after 0.001 seconds
+
+../../../.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/subprocess.py:1270: TimeoutExpired
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-560/test_combined_selection_keeps_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10af9e650>
+failure = 'missing_usage'
+
+    @pytest.mark.parametrize(
+        "failure", ["provider_error", "missing_usage", "stale_inputs", "overall_rejection"]
+    )
+    def test_combined_selection_keeps_errors_costs_and_eligibility_independent(
+        tmp_path, monkeypatch, failure
+    ):
+        logo, cid, prior = prepared_run(tmp_path, monkeypatch)
+        candidate = logo.concept(cid) / "final.png"
+        if failure == "overall_rejection":
+            (logo.qa / "owner-feedback.json").write_text(
+                json.dumps(
+                    [
+                        {
+                            "concept": cid,
+                            "candidate_sha256": hashlib.sha256(candidate.read_bytes()).hexdigest(),
+                            "brief_sha256": hashlib.sha256(logo.brief.read_bytes()).hexdigest(),
+                            "overall": "fail",
+                            "statement": "Explicit synthetic overall rejection; dimensional labels unknown.",
+                        }
+                    ]
+                )
+            )
+        changed = False
+    
+        def respond(body):
+            nonlocal changed
+            craft = "form_finish" in body["questions"]
+            if failure == "provider_error" and craft:
+                return 400, {"error": "synthetic craft provider failure"}
+            if failure == "stale_inputs" and craft and not changed:
+                motif = logo.concept(cid) / "motif.svg"
+                motif.write_text(motif.read_text() + "\n<!-- concurrent input edit -->\n")
+                changed = True
+            response = {"answers": {key: {"noul": 0.9} for key in body["questions"]}}
+            if failure != "missing_usage":
+                response["usage"] = {"input_tokens": 20, "output_tokens": 3, "cost": 0.001}
+            return 200, response
+    
+        with provider(monkeypatch, respond) as url:
+            client = JevClient(logo)
+            client.url = url
+            if failure == "missing_usage":
+>               assert pipeline.finalize(logo, client, budget=Budget(wall_seconds=30)) == cid
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_combined_stack.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+logo_maker/refinement.py:37: in call
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+logo_maker/pipeline.py:768: in finalize
+    winner_record = judging.final_tournament_record(
+logo_maker/judging.py:275: in final_tournament_record
+    cid: assess(logo, brief, cid, path, client, stage="final", budget=budget)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/eligibility.py:379: in assess
+    compare_visual(
+logo_maker/eligibility.py:173: in compare_visual
+    return _compare_views(
+logo_maker/eligibility.py:257: in _compare_views
+    answers = client.ask(state, questions, label=f"{label}-fit")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/jev/client.py:648: in ask
+    return self.client.ask(state, questions, label=label, budget=self.budget)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/jev/client.py:580: in ask
+    else self._send_one(state, questions, label, budget)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+logo_maker/jev/client.py:552: in _send_one
+    self._worker(
+logo_maker/jev/client.py:252: in _worker
+    proc = owned_process.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+command = ['/Users/nicolas/Documents/github/logo-maker/.venv/bin/python', '-m', 'logo_maker.jev.worker']
+budget = <logo_maker.sampling.Budget object at 0x10c9a9f90>
+input_text = '{"operation": "store_assets", "logo": "/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pyt...st-of-nicolas/pytest-560/test_combined_selection_keeps_0/logo/qa/jev/requests/0006-final-m--medallion--clay-fit.json"}'
+label = 'Jev store_assets', timeout = None, cwd = None
+
+    def run(
+        command: list[str],
+        *,
+        budget: Budget,
+        input_text: str = "",
+        label: str = "tool",
+        timeout: float | None = None,
+        cwd: Path | None = None,
+    ) -> subprocess.CompletedProcess[str]:
+        """Reserve cleanup inside the shared deadline; never leave owned work running."""
+        if os.name != "posix":
+            raise ToolError("bounded workers require macOS/Linux process-session cleanup")
+        if budget.remaining <= 1:
+            raise SamplingLimit(f"time_limit: insufficient {label} budget including process cleanup")
+        worker = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            start_new_session=True,
+            cwd=cwd,
+        )
+        try:
+            try:
+                stdout, stderr = worker.communicate(
+                    input_text, timeout=max(0.001, min(timeout or float("inf"), budget.remaining - 1))
+                )
+            except subprocess.TimeoutExpired as exc:
+>               raise SamplingLimit(
+                    f"time_limit: {label} deadline exhausted; prior artifacts retained"
+                ) from exc
+E               logo_maker.sampling.SamplingLimit: time_limit: Jev store_assets deadline exhausted; prior artifacts retained
+
+logo_maker/owned_process.py:45: SamplingLimit
+=========================== short test summary info ============================
+FAILED tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]
+1 failed in 29.51s
