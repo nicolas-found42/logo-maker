@@ -79,34 +79,38 @@ def sections(text: str) -> list[Section]:
     return result
 
 
-def own_body(text: str, *, max_level: int = 6) -> str:
+def own_body(text: str) -> str:
     """Return a section's content before child headings, ignoring headings in code."""
     clean = COMMENT.sub("", text)
     lines = clean.splitlines()
     for index, line in enumerate(outside_code(clean).splitlines()):
-        if (match := HEADING.match(line)) and len(match[1]) <= max_level:
+        if HEADING.match(line):
             return "\n".join(lines[:index])
     return clean
 
 
-def noncode_prose(text: str) -> str:
-    """Blank fenced/indented code, HTML pre/code blocks and inline code while keeping line counts."""
+def noncode_prose(text: str, *, marker: str = "") -> str:
+    """Replace fenced/indented code, HTML pre/code blocks and inline code while keeping lines."""
 
-    def blank_lines(match: re.Match[str]) -> str:
-        return "\n" * match.group(0).count("\n")
+    def replace_span(match: re.Match[str]) -> str:
+        return "\n".join(marker for _ in range(match.group(0).count("\n") + 1))
 
     clean = outside_code(text)
-    clean = re.sub(r"(?is)<(pre|code)\b[^>]*>.*?(?:</\1\s*>|\Z)", blank_lines, clean)
-    return re.sub(r"(?s)(`+).*?\1", blank_lines, clean)
+    clean = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", replace_span, clean)
+    clean = re.sub(r"(?is)<code\b[^>]*>.*?(?:</code\s*>|\Z)", replace_span, clean)
+    return re.sub(r"(?s)(`+).*?\1", replace_span, clean)
 
 
 def field_values(text: str, field: str) -> list[str]:
     """Extract bold-labeled field values declared outside code while preserving code answers."""
     lines = COMMENT.sub("", text).splitlines()
-    masked = noncode_prose(text).splitlines()
-    label = re.compile(r"^\*\*([^*\n]+):\*\*\s*(.*)$")
+    masked = noncode_prose(text, marker="\x00").splitlines()
+    outside_headings = outside_code(text).splitlines()
+    label = re.compile(r"^\*\*([^*\n\x00]+):\*\*\s*(.*)$")
     starts: list[tuple[int, str, str]] = []
     for index, line in enumerate(masked):
+        if HEADING.match(outside_headings[index]):
+            break
         if match := label.match(line):
             starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
     values = []
@@ -131,15 +135,15 @@ def answer(text: str, *, allow_none: bool = False) -> bool:
         for line, unmasked in zip(text.splitlines(), outside_code(text).splitlines(), strict=False)
         if not unmasked
     ]
+    unmasked_text = outside_code(text)
+    for match in re.finditer(r"(?is)<pre\b[^>]*>(.*?)(?:</pre\s*>|\Z)", unmasked_text):
+        code_chunks.append(re.sub(r"(?is)</?code\b[^>]*>", "", match.group(1)))
+    without_pre = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", "", unmasked_text)
     code_chunks.extend(
         match.group(1)
-        for match in re.finditer(
-            r"(?is)<(?:pre|code)\b[^>]*>(.*?)(?:</(?:pre|code)\s*>|\Z)", outside_code(text)
-        )
+        for match in re.finditer(r"(?is)<code\b[^>]*>(.*?)(?:</code\s*>|\Z)", without_pre)
     )
-    code_chunks.extend(
-        match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", outside_code(text))
-    )
+    code_chunks.extend(match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", without_pre))
     code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
     text = prose + "\n" + code
     text = re.sub(r"[*_`>#\[\]()-]", " ", html.unescape(text))
@@ -269,18 +273,10 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: provide an answer, not comments or placeholders")
         if kind != "pr":
             continue
-        max_child_level = max(
-            (
-                section.level
-                for section in expected
-                if section.parent and section.parent.casefold() == required.title.casefold()
-            ),
-            default=0,
-        )
-        required_own = own_body(required.body, max_level=max_child_level)
-        found_own = own_body(found.body, max_level=max_child_level)
+        required_own = own_body(required.body)
+        found_own = own_body(found.body)
         for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", outside_code(required_own)):
-            values = field_values(found_own, field)
+            values = field_values(found.body, field)
             if len(values) != 1 or not answer(values[0]):
                 errors.append(f"{required.title} / {field}: provide a filled answer")
         expected_rows = table_rows(required_own)
@@ -300,12 +296,18 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
         declaration = ""
         if len(evidence_sections) == 1:
             # Only the container's own prose can declare screenshot applicability.
-            introduction = own_body(evidence_sections[0].body, max_level=3)
-            declarations = re.findall(
-                r"(?m)^\*\*Visible app change:\*\*\s*([^\n]+)", noncode_prose(introduction)
-            )
+            introduction = own_body(evidence_sections[0].body)
+            declarations = [
+                line.split(":**", 1)[1].strip()
+                for line, masked_line in zip(
+                    COMMENT.sub("", introduction).splitlines(),
+                    noncode_prose(introduction, marker="\x00").splitlines(),
+                    strict=False,
+                )
+                if re.match(r"^\*\*Visible app change:\*\*\s*\S", masked_line)
+            ]
             if len(declarations) == 1:
-                declaration = declarations[0].strip()
+                declaration = declarations[0]
         applicability = re.fullmatch(r"(Yes|No):\s*(.+)", declaration, re.IGNORECASE)
         if not applicability or not answer(applicability[2]):
             errors.append("Evidence / Visible app change: use Yes: reason or No: reason")

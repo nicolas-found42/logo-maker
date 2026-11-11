@@ -242,11 +242,60 @@ def test_proof_fields_inside_code_do_not_satisfy_before_after(wrapper):
     errors = check.validate(body, "pr")
     for field in ["Revision", "Scenario", "Observed result"]:
         assert any(f"Before / {field}" in error for error in errors)
-    assert not any("After:" in error for error in errors)
+    assert not any("After /" in error for error in errors)
+
+
+def test_proof_fields_or_declaration_under_nested_heading_do_not_count():
+    nested_declaration = PR.replace(
+        "**Visible app change:** Yes: the rendered export contour changes.",
+        "#### Nested\n**Visible app change:** No: hidden under heading.",
+    ).replace(f"![Before export]({BEFORE})", "")
+    errors = check.validate(nested_declaration, "pr")
+    assert any("Visible app change" in error for error in errors)
+    assert any("Before: embed" in error for error in errors)
+
+    nested_field = nonvisual_pr().replace(
+        "**Revision:** 1111111", "#### Nested\n**Revision:** 1111111"
+    )
+    field_errors = check.validate(nested_field, "pr")
+    for field in ["Revision", "Scenario", "Observed result"]:
+        assert any(f"Before / {field}" in error for error in field_errors)
+
+
+@pytest.mark.parametrize(
+    "label",
+    ["**Rev`x`ision:** 1111111", "**Rev<code>x</code>ision:** 1111111"],
+)
+def test_code_fragments_cannot_join_into_proof_label(label):
+    body = nonvisual_pr().replace("**Revision:** 1111111", label)
+    assert any("Before / Revision" in error for error in check.validate(body, "pr"))
+
+
+def test_nested_pre_code_wrappers_preserve_trailing_text_and_reject_empty_blocks():
+    empty_pre_code = nonvisual_pr().replace(
+        "Invalid input exits 0.\n\n```text\nexit=0\n```", "<pre><code>   </code></pre>"
+    )
+    assert any(
+        "Before / Observed result" in error for error in check.validate(empty_pre_code, "pr")
+    )
+
+    trailing_after_code = nonvisual_pr().replace(
+        "Invalid input exits 0.\n\n```text\nexit=0\n```",
+        "<pre><code></code>exit=0</pre>",
+    )
+    assert check.validate(trailing_after_code, "pr") == []
 
 
 def test_evidence_heading_matches_case_insensitively():
     body = nonvisual_pr().replace("## Evidence", "## evidence")
+    assert check.validate(body, "pr") == []
+
+
+def test_declaration_reason_with_only_inline_code_is_accepted():
+    body = nonvisual_pr().replace(
+        "No: CLI validation only; app and rendered output are unchanged.",
+        "No: `scripts/template_check.py`",
+    )
     assert check.validate(body, "pr") == []
 
 
