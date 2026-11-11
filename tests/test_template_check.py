@@ -704,3 +704,19 @@ def test_body_is_data_not_shell_code(tmp_path):
     ]
     assert subprocess.run(command, capture_output=True).returncode == 0
     assert not marker.exists()
+
+
+def test_unterminated_quoted_code_tag_inside_pre_does_not_hide_later_fields():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        '<pre>\n<code data-a="never closed\n</pre>\n**Revision:** 1111111',
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_tag_scan_window_is_bounded_so_malformed_tags_cannot_scale_quadratically():
+    text = '<code a="' + "x" * (check._MAX_TAG_LENGTH * 3)
+    assert check._find_tag_end(text, len("<code")) == -1
+    prose, chunks = check._scan_inline_and_html_code(text * 50)
+    assert prose == text * 50
+    assert chunks == []

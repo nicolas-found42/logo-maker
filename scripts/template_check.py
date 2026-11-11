@@ -95,11 +95,19 @@ def own_body(text: str) -> str:
     return clean
 
 
+_MAX_TAG_LENGTH = 4096
+
+
 def _find_tag_end(text: str, start: int) -> int:
-    """Find closing '>' of an HTML tag starting at `start`, respecting quoted attributes."""
+    """Find the closing '>' of a tag, respecting quoted attributes.
+
+    Returns -1 when the tag is unterminated or longer than `_MAX_TAG_LENGTH`. The bound keeps
+    every scan O(1) in the document size, so many malformed tags cannot make validation
+    quadratic; callers treat such a tag as literal text and keep scanning after it.
+    """
     quote = ""
-    index = start
-    while index < len(text):
+    limit = min(len(text), start + _MAX_TAG_LENGTH)
+    for index in range(start, limit):
         char = text[index]
         if quote:
             if char == quote:
@@ -108,7 +116,6 @@ def _find_tag_end(text: str, start: int) -> int:
             quote = char
         elif char == ">":
             return index
-        index += 1
     return -1
 
 
@@ -120,7 +127,9 @@ def _strip_tags(text: str, names: tuple[str, ...]) -> str:
     while match := pattern.search(text, cursor):
         gt_pos = _find_tag_end(text, match.end())
         if gt_pos == -1:
-            break
+            parts.append(text[cursor : match.end()])
+            cursor = match.end()
+            continue
         parts.append(text[cursor : match.start()])
         cursor = gt_pos + 1
     parts.append(text[cursor:])
@@ -160,7 +169,8 @@ def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, lis
         name = match.group(2).casefold()
         gt_pos = _find_tag_end(text, match.end())
         if gt_pos == -1:
-            break
+            tag_cursor = match.end()
+            continue
         raw_tags.append((match.start(), is_close, name, gt_pos))
         tag_cursor = gt_pos + 1
     prose_parts: list[str] = []
