@@ -174,9 +174,15 @@ def load_scene(path: Path) -> dict:
     look = _field("render", render, "look", str, "photoreal")
     if look not in ("photoreal", "toon", "lineart"):
         raise SceneError(f"scene.toml: [render] look={look!r} must be photoreal|toon|lineart")
+    exposure = _num("render", render, "exposure", 0.0, lo=-32.0, hi=32.0)
+    if isinstance(render.get("exposure"), bool):
+        raise SceneError("scene.toml: [render] exposure must be a finite number")
+    if renderer != "cycles" and exposure != 0.0:
+        raise SceneError("scene.toml: [render] nonzero exposure is supported only for cycles")
     scene["render"] = {
         "renderer": renderer,
         "look": look,
+        "exposure": exposure,
         "glare": _num("render", render, "glare", 0.0, lo=0.0, hi=1.0),
         "dof_fstop": _num("render", render, "dof_fstop", 0.0, lo=0.0, hi=22.0),
         "adaptive_threshold": _num("render", render, "adaptive_threshold", None, lo=0.0, hi=1.0),
@@ -706,6 +712,7 @@ def compile(concept_dir: Path | str, quality: str, on_asset: Any | None = None) 
             objects.append(obj)
 
     quality_spec = sampling_quality(scene, quality)
+    quality_spec["exposure"] = scene["render"]["exposure"]
 
     scene_json = {
         "meta": scene["meta"],

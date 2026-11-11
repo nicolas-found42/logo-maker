@@ -217,6 +217,7 @@ renderer = "cycles"              # cycles | mitsuba | luxcore | three
 look = "photoreal"               # photoreal | toon | lineart
 glare = 0.0                      # compositor glare mix (0 = off)
 dof_fstop = 0.0                  # 0 = no depth of field
+exposure = 0.0                   # Cycles display exposure in EV; default preserves current images
 
 [materials.surface]              # any number of named materials
 preset = "porcelain"             # catalog/materials.toml
@@ -233,6 +234,15 @@ not a material or sampling repair. The flag is boolean and participates in compi
 Materials may also declare a finite nonzero three-component `tangent` vector for an explicit
 brushing direction. Without it Blender retains its existing tangent behavior. This authored
 material orientation is inventoried in the scene and never selected by sampling QA.
+
+Cycles scenes may author finite `[render].exposure` in Blender's supported -32 to 32 EV range.
+The default is 0 EV. Compilation forwards it in both `render.exposure` and `quality.exposure`,
+and the native builder sets view exposure before rendering. Nonzero exposure on another backend
+is rejected rather than silently ignored. Exposure leaves authored material color values unchanged
+and changes display brightness; it does not alter geometry, lights, sampling or material presets.
+It participates in the render scope and image dependency keys, invalidating prior image evidence
+and sampling-profile matches when changed. It is an authored diagnosis/revision control, never an
+automatic generic-edge repair or evidence of craft eligibility.
 
 Component kinds (each documented in `logo_maker/catalog/components.md`): `plate` (outline from a
 shape or the motif silhouette, optional irregular edge, bevel), `recess` (pressed or cut area in a

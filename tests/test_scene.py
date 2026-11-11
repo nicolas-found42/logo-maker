@@ -31,6 +31,7 @@ def test_minimal_validates(tmp_path):
     scene = load_scene(write(tmp_path))
     assert scene["meta"]["seed"] == 1
     assert scene["components"][0]["kind"] == "plate"
+    assert scene["render"]["exposure"] == 0.0
 
 
 def test_missing_concept_names_field(tmp_path):
@@ -183,3 +184,28 @@ def test_compilation_forwards_authored_brushing_direction(tmp_path):
     (tmp_path / "motif.json").write_text('{"viewbox":1000,"layers":[]}')
     compiled = json.loads(compile(tmp_path, "preview").read_text())
     assert compiled["materials"]["surface"]["tangent"] == [1, 0, 0]
+
+
+def test_compilation_forwards_authored_exposure_to_native_render(tmp_path):
+    import json
+
+    from logo_maker.scene import compile
+
+    write(tmp_path, MINIMAL + '\n[render]\nexposure = -1.5\n[lighting]\nhdri = "none"\n')
+    (tmp_path / "motif.json").write_text('{"viewbox":1000,"layers":[]}')
+    compiled = json.loads(compile(tmp_path, "preview").read_text())
+    assert compiled["render"]["exposure"] == -1.5
+    assert compiled["quality"]["exposure"] == -1.5
+
+
+@pytest.mark.parametrize("value", ["nan", "inf", "-33", "33", "true", '"dark"'])
+def test_exposure_rejects_invalid_values(tmp_path, value):
+    with pytest.raises(SceneError, match="exposure"):
+        load_scene(write(tmp_path, MINIMAL + f"\n[render]\nexposure = {value}\n"))
+
+
+@pytest.mark.parametrize("renderer", ["mitsuba", "luxcore", "three"])
+def test_other_backends_reject_exposure_they_cannot_honor(tmp_path, renderer):
+    text = MINIMAL + f'\n[render]\nrenderer = "{renderer}"\nexposure = -1.5\n'
+    with pytest.raises(SceneError, match=r"exposure.*only for cycles"):
+        load_scene(write(tmp_path, text))
