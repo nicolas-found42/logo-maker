@@ -208,7 +208,7 @@ def _screen_answers(match, read, appeal):
 
 
 def test_screen_previews_rank_and_keep(tmp_path):
-    from test_eligibility import attest, qualified_brief
+    from test_eligibility import attest, qualified_brief, review_inputs
 
     from logo_maker.jev.questions import craft_questions, fit_questions, technical_questions
 
@@ -233,7 +233,8 @@ def test_screen_previews_rank_and_keep(tmp_path):
     eligibility = [
         {qid: {"noul": 0.9} for qid in craft_questions()},
         {qid: {"noul": 0.9} for qid in craft_questions()},
-        {qid: {"noul": 0.9} for qid in fit_questions()},
+        {"symbol": {"noul": 0.9}},
+        {qid: {"noul": 0.9} for qid in fit_questions() if qid != "symbol"},
         {qid: {"noul": 0.9} for qid in technical_questions()},
     ]
     client = FakeClient(
@@ -245,7 +246,10 @@ def test_screen_previews_rank_and_keep(tmp_path):
             _screen_answers(0.9, 0.9, 1.0),
         ]
     )
-    finalists = screen_previews(logo, qualified_brief(tmp_path / "a.png"), previews, client, keep=2)
+    brief = qualified_brief(tmp_path / "a.png")
+    for cid in previews:
+        review_inputs(logo, cid, brief)
+    finalists = screen_previews(logo, brief, previews, client, keep=2)
     assert finalists == ["m|medallion|enamel", "m|embossed_plate|clay"]
     doc = json.loads((logo.ideation / "finalists.json").read_text())
     assert doc["ids"] == finalists

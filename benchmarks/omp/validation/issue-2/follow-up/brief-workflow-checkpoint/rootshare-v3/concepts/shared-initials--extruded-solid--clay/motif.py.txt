@@ -1,0 +1,10 @@
+from pathlib import Path
+from logo_maker.motif import Motif
+m = Motif()
+r, _ = m.glyphs("R", "Manrope:wght=700", 680, 190, 750)
+s, _ = m.glyphs("S", "Manrope:wght=700", 680, 520, 750)
+form = m.union(r, s)
+bridge = m.rect(480, 440, 100, 90, rx=35)
+form = m.union(form, bridge)
+m.add("shared_initials", m.fit(form), fill="#B95E3F", role="primary")
+m.save(Path(__file__).parent)

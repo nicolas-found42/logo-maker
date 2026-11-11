@@ -5,6 +5,26 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 
 | question | type | options / levels | threshold | feeds |
 |---|---|---|---|---|
+| `activity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `audience` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `communication` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `grounding` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `consistent` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `source_sample_directions` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `fact_activity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `requirement_visual` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `obligation_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `brief_clarified_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `mandates` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | brief review -> ideation/requirements.json (only pass freezes) |
+| `plan_grounded` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `plan_mandates` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `plan_shared_identity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `plan_construction` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `plan_detail_0` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `plan_obligation_detail` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | plan review -> concepts/<id>/plan-review.json (intent only; pass before preview) |
+| `realized_detail_0` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | authoring obligation -> actual-image eligibility (only settled passes advance) |
+| `detail_developed` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | authoring obligation -> actual-image eligibility (only settled passes advance) |
+| `obligation_realized` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | authoring obligation -> actual-image eligibility (only settled passes advance) |
 | `rendering` | choice | `dimensional_object`, `flat_vector` | top choice wins (a companion Noul guards the null case where one exists) | intake.json style record |
 | `lettering` | choice | `no_lettering`, `sans_lettering`, `script_lettering`, `serif_lettering` | top choice wins (a companion Noul guards the null case where one exists) | intake.json style record |
 | `ornament` | choice | `minimal_plain`, `ornate_detailed` | top choice wins (a companion Noul guards the null case where one exists) | intake.json style record |

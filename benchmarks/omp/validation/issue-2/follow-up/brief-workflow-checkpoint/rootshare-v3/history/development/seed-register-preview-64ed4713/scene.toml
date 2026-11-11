@@ -1,0 +1,50 @@
+[meta]
+concept = "seed-register|extruded_solid|clay"
+treatment = "extruded_solid"
+seed = 1275232
+[camera]
+tilt_deg = 25
+azimuth_deg = -12
+lens_mm = 100
+framing = 0.8
+[lighting]
+rig = "studio_soft"
+hdri = "polyhaven:studio_small_09"
+hdri_strength = 0.45
+[render]
+renderer = "cycles"
+look = "photoreal"
+[materials.primary]
+preset = "clay"
+color = "#B95E3F"
+roughness = 0.8
+coat = 0.0
+bump = 0.002
+bump_scale = 150
+[materials.accent]
+preset = "porcelain"
+color = "#E4CBA7"
+roughness = 0.6
+coat = 0.0
+[[components]]
+kind = "mesh"
+name = "Register_body"
+material = "primary"
+path = "register-body.ply"
+[[components]]
+kind = "mesh"
+name = "Register_collar_0"
+material = "accent"
+path = "collar_0.ply"
+[[components]]
+kind = "mesh"
+name = "Register_collar_1"
+material = "accent"
+path = "collar_1.ply"
+[[components]]
+kind = "mesh"
+name = "Register_collar_2"
+material = "accent"
+path = "collar_2.ply"
+[[components]]
+kind = "bpy"

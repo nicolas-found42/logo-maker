@@ -1,0 +1,35 @@
+{
+  "seq": 1,
+  "label": "brief-source-owner",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "source": {
+      "kind": "owner",
+      "excerpt": "Sample is a repair workshop where neighbors mend household objects during repair sessions. The logo must be red.",
+      "context": "Owner statement: establishes the owner's intent, not independently observed audience behavior."
+    },
+    "recorded_directions": []
+  },
+  "questions": {
+    "source_owner_directions": {
+      "type": "noul",
+      "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+      "criteria": {
+        "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+        "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "source_owner_directions": {
+      "type": "noul",
+      "noul": 0.02
+    }
+  },
+  "usage": {
+    "input_tokens": 452,
+    "output_tokens": 25,
+    "cost": 1.8984e-05
+  }
+}

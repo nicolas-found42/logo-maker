@@ -146,6 +146,243 @@ def intake_style_questions() -> dict[str, dict[str, Any]]:
     }
 
 
+REQUIREMENT_SCOPES = {
+    "must": "Mandatory: every candidate must meet this direction.",
+    "prefer": "Preference: favor this direction without treating it as mandatory.",
+    "avoid": "Prohibition: the design must avoid this stated property or association.",
+    "open": "Open choice: no particular solution for this aspect is prescribed.",
+}
+
+SOURCE_CONTEXTS = {
+    "owner": "Owner statement: establishes the owner's intent, not independently observed audience behavior.",
+    "project": "Project record: its stated design constraints have project authority.",
+    "fixture": "Fictional exercise record: its stated inputs and constraints apply to the exercise; they are not independently verified market facts or human owner approval.",
+}
+
+OBLIGATION_SCOPES = {
+    "brief": "Mandatory workflow obligation: complete brief development before freezing, using the retained earlier brief as evidence. This is not an attribute every logo must depict.",
+    "authoring": "Mandatory workflow obligation: develop the detail plan before preview and verify its visible realization before image advancement. Recording intent does not establish completed artwork.",
+    "validation": "Mandatory workflow obligation: perform the declared reference comparisons before finalist or winner selection. This does not prescribe the references' styling.",
+}
+
+
+def brief_source_questions(source_id: str) -> dict[str, dict[str, Any]]:
+    """One source-to-record relation; all source results are essential, never averaged."""
+    return {
+        f"source_{source_id}_directions": {
+            "type": "noul",
+            "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+            "criteria": {
+                "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+                "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed.",
+            },
+        }
+    }
+
+
+def brief_review_questions(
+    facts: list[dict],
+    requirements: list[dict] | None = None,
+    sources: dict | None = None,
+    obligations: list[dict] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Business evidence only: authoring rationale cannot establish a business fact."""
+    specs = {
+        "activity": (
+            "Does `business` specify a concrete activity or service?",
+            "A reader can identify what happens for the people served.",
+            "Only broad category words or a proposed symbol are supplied.",
+        ),
+        "audience": (
+            "Does `business` identify an intended audience situation for the identity?",
+            "The audience and the context in which it encounters the identity are sufficiently clear.",
+            "The audience or encounter remains an essential unknown.",
+        ),
+        "communication": (
+            "Does `communication_priority` name a clear primary impression for this identity?",
+            "It provides a useful communication priority grounded in the service and audience.",
+            "It only prescribes a shape, or leaves the communication priority unclear.",
+        ),
+        "grounding": (
+            "Are factual claims in `business` supported by the established facts and their cited excerpts?",
+            "Business claims are supported; assumptions and design proposals remain explicitly separate.",
+            "The factual brief relies on an unsupported claim, assumption or proposed visual explanation.",
+        ),
+        "consistent": (
+            "Can the mandatory requirements in `requirements` be satisfied together?",
+            "Requirements are compatible, including deliberately open design choices.",
+            "Two mandatory requirements conflict or require an unresolved choice.",
+        ),
+    }
+    result = {
+        qid: {"type": "noul", "instructions": question, "criteria": {"true": yes, "false": no}}
+        for qid, (question, yes, no) in specs.items()
+    }
+    for source_id in sources or {}:
+        result.update(brief_source_questions(source_id))
+    for fact in facts:
+        if fact["status"] == "established":
+            result[f"fact_{fact['id']}"] = {
+                "type": "noul",
+                "instructions": (
+                    f"Do source excerpts with IDs {fact['sources']} support this claim: {fact['claim']}"
+                ),
+                "criteria": {
+                    "true": "The cited excerpts support the claim without inventing additional facts.",
+                    "false": "The excerpts contradict the claim, are silent, or require unsupported inference.",
+                },
+            }
+    established_requirements = [row for row in requirements or [] if row["origin"] != "proposal"]
+    directions = [(row, "requirement") for row in established_requirements]
+    directions.extend(
+        (row, "obligation") for row in obligations or [] if row["origin"] != "proposal"
+    )
+    for requirement, prefix in directions:
+        result[f"{prefix}_{requirement['id']}"] = {
+            "type": "noul",
+            "instructions": (
+                f"Do source excerpts with IDs {requirement['sources']} establish this "
+                f"{requirement['origin']} requirement: {requirement['claim']}"
+            ),
+            "criteria": {
+                "true": "The source establishes the stated requirement and its mandatory or optional scope.",
+                "false": "The requirement or its claimed authority is an unsupported designer inference.",
+            },
+        }
+    for obligation in obligations or []:
+        if obligation["kind"] == "brief":
+            result[f"brief_clarified_{obligation['id']}"] = {
+                "type": "noul",
+                "instructions": f"Compared with previous_briefs.{obligation['id']}, do the proposed business brief and evidence record clarify consequential design decisions?",
+                "criteria": {
+                    "true": "The communication priority, audience encounter, constraints or open decisions are more explicit without inventing business facts or merely prescribing the already-selected shape.",
+                    "false": "Only more adjectives, a longer rationale for the same shape, or unsupported business features are added; the important decisions remain unclear.",
+                },
+            }
+    if established_requirements:
+        result["mandates"] = {
+            "type": "noul",
+            "instructions": "Does the brief preserve established owner/project requirements in its business and design direction?",
+            "criteria": {
+                "true": "Established requirements remain intact; open choices and designer proposals do not erase them.",
+                "false": "A stated mandatory direction is missing, contradicted, or silently recast as optional.",
+            },
+        }
+    return result
+
+
+def plan_review_questions(
+    details: list[dict], obligations: list[dict] | None = None
+) -> dict[str, dict[str, Any]]:
+    """Intent review only; actual pixels receive independent craft/fit/technical gates."""
+    specs = {
+        "plan_grounded": (
+            "Is the plan's visual hypothesis connected to the frozen communication priority?",
+            "The proposed relationship addresses the priority; assumptions stay separate from business facts.",
+            "The rationale invents a business fact or has no stated connection to the priority.",
+        ),
+        "plan_mandates": (
+            "Does the plan preserve mandatory frozen requirements?",
+            "The proposed concept respects mandates while using declared design latitude.",
+            "A mandatory requirement is contradicted or silently treated as optional.",
+        ),
+        "plan_shared_identity": (
+            "Does the plan place its primary recognition contours in the shared flat master?",
+            "The same primary identity can serve flat and hero; secondary finish may resolve only at hero scale.",
+            "The hero introduces the only primary identity relationship or an incompatible mark.",
+        ),
+        "plan_construction": (
+            "Are the plan's stated physical construction relationships mutually compatible?",
+            "The described parts, contacts and material roles form a coherent proposed construction.",
+            "The plan describes conflicting physical relationships or leaves its central assembly undefined.",
+        ),
+    }
+    result = {
+        key: {"type": "noul", "instructions": question, "criteria": {"true": yes, "false": no}}
+        for key, (question, yes, no) in specs.items()
+    }
+    for i, detail in enumerate(details):
+        result[f"plan_detail_{i}"] = {
+            "type": "noul",
+            "instructions": f"Does plan.details[{i}] identify a purposeful visible contribution for {detail['feature']!r}?",
+            "criteria": {
+                "true": "The feature serves recognition, proportion, hierarchy or construction/material credibility at its named scale; its removal consequence is explicit.",
+                "false": "Only additional ornament, polygons or texture are offered as evidence of quality, with no visible role.",
+            },
+        }
+    for i, obligation in enumerate(obligations or []):
+        result[f"plan_obligation_{obligation['id']}"] = {
+            "type": "noul",
+            "instructions": f"Does the plan provide concrete authoring decisions that address authoring_obligations[{i}].claim?",
+            "criteria": {
+                "true": "The planned construction or material decisions address the particular requested correction, beyond merely repeating its words or proposing unrelated details.",
+                "false": "The specific correction is absent, contradicted, or replaced with a self-selected feature that does not address it.",
+            },
+        }
+    return result
+
+
+def brief_followup(check: str, status: str) -> str:
+    """One consequential clarification; authoring agents consult available sources first."""
+    if check.startswith("fact_"):
+        name = check.removeprefix("fact_")
+        if status == "conflict":
+            return f"Which owner/project evidence resolves the conflicting fact {name!r}?"
+        return f"Which available owner/project evidence establishes the required fact {name!r}?"
+    if check.startswith("requirement_"):
+        return f"Which source establishes requirement {check.removeprefix('requirement_')!r} and its authority?"
+    if check.startswith("obligation_"):
+        return f"Which source establishes obligation {check.removeprefix('obligation_')!r} and its mandatory scope?"
+    if check.startswith("brief_clarified_"):
+        return "Which consequential design decisions remain unclear compared with the retained earlier brief?"
+    if check.startswith("source_"):
+        source_id = check.removeprefix("source_").removesuffix("_directions")
+        return f"Which explicit directions in source {source_id!r} are missing or have the wrong authority or scope?"
+    return {
+        "activity": "What does one person actually do through this service?",
+        "audience": "Who encounters this identity, and in which primary situation?",
+        "communication": "Which single impression should this identity communicate first?",
+        "grounding": "Which factual claims can available project/owner sources support, and which remain assumptions?",
+        "consistent": "Which conflicting mandatory requirement should take priority?",
+        "mandates": "How should the brief preserve the established owner/project requirements?",
+        "requirements_complete": "Which explicit owner/project directions are missing or misrepresented in the requirement record?",
+    }[check]
+
+
+def detail_realization_questions(
+    details: list[dict], *, baseline: bool, obligation: bool = True
+) -> dict[str, dict[str, Any]]:
+    result = {}
+    for i, detail in enumerate(details):
+        result[f"realized_detail_{i}"] = {
+            "type": "noul",
+            "instructions": f"Does the actual candidate visibly realize the contribution of detail_plan.details[{i}] ({detail['feature']}) at its declared scale?",
+            "criteria": {
+                "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+                "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels.",
+            },
+        }
+    if baseline:
+        result["detail_developed"] = {
+            "type": "noul",
+            "instructions": "Does the candidate visibly develop purposeful construction or material detail beyond the prior baseline?",
+            "criteria": {
+                "true": "More resolved proportions, junctions, seating, edge hierarchy or credible material detail develop the new direction. A higher ornament count is not required.",
+                "false": "Only gloss, texture density or a more flattering explanation changes; the visible construction remains underdeveloped.",
+            },
+        }
+    if obligation:
+        result["obligation_realized"] = {
+            "type": "noul",
+            "instructions": "Do the actual candidate pixels fulfill the particular correction in authoring_obligation.claim?",
+            "criteria": {
+                "true": "Visible construction or material evidence addresses the stated correction at its relevant scale, rather than only realizing an unrelated self-selected detail plan.",
+                "false": "The specific correction remains visibly unfulfilled, even if other planned details are present.",
+            },
+        }
+    return result
+
+
 def intake_color_questions(hexes: list[str]) -> dict[str, dict[str, Any]]:
     """Per extracted color: is it a brand color of the mark, or background/shadow?
 
@@ -727,7 +964,41 @@ def describe() -> list[dict[str, Any]]:
     materials = {mid: e.description for mid, e in _catalog.materials().items()}
     sample_palette = [{"primary": "#1E4A7A", "background": "#F8F6F1", "accent": "#C96F2B"}]
     sample_fonts = [{"display": "Family A:wght=700", "text": "Family B:wght=400"}]
+    sample_facts = [
+        {
+            "id": "activity",
+            "claim": "The stated service exists.",
+            "status": "established",
+            "sources": ["sample"],
+        }
+    ]
+    sample_requirements = [
+        {
+            "id": "visual",
+            "claim": "Preserve the owner's stated visual requirement.",
+            "origin": "owner",
+            "sources": ["sample"],
+        }
+    ]
     built: dict[str, dict[str, Any]] = {}
+    sample_sources = {"sample": {"kind": "owner"}}
+    sample_obligations = [
+        {
+            "id": "specificity",
+            "kind": "brief",
+            "origin": "owner",
+            "claim": "Clarify the brief",
+            "sources": ["sample"],
+        }
+    ]
+    built.update(
+        brief_review_questions(
+            sample_facts, sample_requirements, sample_sources, sample_obligations
+        )
+    )
+    sample_authoring = [{"id": "detail", "claim": "Develop purposeful detail"}]
+    built.update(plan_review_questions([{"feature": "sample construction"}], sample_authoring))
+    built.update(detail_realization_questions([{"feature": "sample construction"}], baseline=True))
     built.update(intake_style_questions())
     built.update(intake_color_questions(["#1E4A7A"]))
     built.update(palette_questions(sample_palette))
@@ -752,6 +1023,20 @@ def describe() -> list[dict[str, Any]]:
     built.update(qa_questions())
 
     feeds = {
+        **dict.fromkeys(
+            detail_realization_questions([{"feature": "sample construction"}], baseline=True),
+            "authoring obligation -> actual-image eligibility (only settled passes advance)",
+        ),
+        **dict.fromkeys(
+            plan_review_questions([{"feature": "sample construction"}], sample_authoring),
+            "plan review -> concepts/<id>/plan-review.json (intent only; pass before preview)",
+        ),
+        **dict.fromkeys(
+            brief_review_questions(
+                sample_facts, sample_requirements, sample_sources, sample_obligations
+            ),
+            "brief review -> ideation/requirements.json (only pass freezes)",
+        ),
         "rendering": "intake.json style record",
         "lettering": "intake.json style record",
         "ornament": "intake.json style record",

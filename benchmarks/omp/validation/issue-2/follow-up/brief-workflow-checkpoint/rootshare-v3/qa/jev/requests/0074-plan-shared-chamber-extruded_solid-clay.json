@@ -1,0 +1,263 @@
+{
+  "seq": 74,
+  "label": "plan-shared-chamber|extruded_solid|clay",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "requirements": {
+      "business": {
+        "name": "Rootshare",
+        "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+        "tone": [
+          "grounded",
+          "welcoming",
+          "careful"
+        ],
+        "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+        "uses": [
+          "favicon",
+          "app_icon",
+          "social_avatar"
+        ]
+      },
+      "design_direction": {
+        "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+        "avoid": [
+          "wax seals",
+          "metallic lettering",
+          "ribbons",
+          "generic sprout decoration"
+        ],
+        "palette": {
+          "primary": "#B95E3F",
+          "accent": "#E4CBA7",
+          "background": "#F8F2E8",
+          "ink": "#422D24"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "Manrope:wght=400"
+        },
+        "open_choices": [
+          "initial-led or nonliteral mark",
+          "custom lettering",
+          "shared-space or collection relationship",
+          "exact geometry and ceramic assembly"
+        ],
+        "references": [
+          {
+            "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png",
+            "use": "craft",
+            "note": "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design.",
+            "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+          },
+          {
+            "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png",
+            "use": "craft",
+            "note": "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target.",
+            "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+          }
+        ]
+      },
+      "communication_priority": "A welcoming resource held in common, supported by grounded care. This is a proposed positioning direction, not a new business fact.",
+      "design_latitude": [
+        "initial-led or nonliteral mark",
+        "custom lettering",
+        "shared-space or collection relationship",
+        "exact geometry and ceramic assembly"
+      ],
+      "facts": [
+        {
+          "id": "activity",
+          "claim": "Rootshare is a neighborhood seed library; gardeners borrow and contribute seeds to a shared local collection.",
+          "status": "established",
+          "sources": [
+            "fixture",
+            "purpose"
+          ],
+          "essential": true
+        },
+        {
+          "id": "return_rules",
+          "claim": "Whether borrowers must return seeds, and whether provenance tracking exists, is unknown.",
+          "status": "unknown",
+          "sources": [],
+          "essential": false
+        }
+      ],
+      "requirements": [
+        {
+          "id": "digital_uses",
+          "claim": "Required output uses: favicon, app_icon and social_avatar.",
+          "kind": "usage",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "applications"
+          ]
+        },
+        {
+          "id": "shared_resource",
+          "claim": "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service.",
+          "kind": "communication",
+          "origin": "proposal",
+          "priority": "prefer",
+          "sources": []
+        },
+        {
+          "id": "ceramic",
+          "claim": "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open.",
+          "kind": "visual",
+          "origin": "proposal",
+          "priority": "prefer",
+          "sources": []
+        },
+        {
+          "id": "shared_master",
+          "claim": "Flat exports and 3D components use the same primary motif contours.",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "shared_master"
+          ]
+        }
+      ]
+    },
+    "authoring_obligations": [
+      {
+        "id": "developed_detail",
+        "claim": "Develop more visual detail.",
+        "kind": "authoring",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "baseline_image": "inputs/prior-rejected-final.png"
+      }
+    ],
+    "concept": {
+      "id": "shared-chamber|extruded_solid|clay",
+      "metaphor": "shared-chamber",
+      "metaphor_text": "Complementary forms define one shared, retained interior",
+      "treatment": "extruded_solid",
+      "treatment_text": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "clay",
+      "material_text": "Soft modeling clay with a matte, hand-made look.",
+      "source": "authored flat development study; not an eligibility selection"
+    },
+    "plan": {
+      "schema": 1,
+      "requirements_revision": "9a2a3856e58ef46e61485d89843fd6f0111afca4228abc76e493b14893b1096d",
+      "hypothesis": "Complementary forms define one shared, retained interior",
+      "visual_mechanism": "Complementary forms define one shared, retained interior",
+      "requirement_ids": [
+        "digital_uses",
+        "shared_master",
+        "shared_resource",
+        "ceramic"
+      ],
+      "assumptions": [
+        "The intended communication is a design hypothesis, not a new service fact"
+      ],
+      "details": [
+        {
+          "feature": "Complementary chamber contours",
+          "purpose": "Both forms define one recognizable interior rather than two unrelated ornaments",
+          "intended_scale": "Flat and 32px avatar",
+          "construction": "Two separately made ceramic forms retain the same master contours; no unsupported physical interlock is claimed",
+          "deletion_test": "Removing either form opens and unbalances the common interior"
+        },
+        {
+          "feature": "Coordinated terminal and inner-wall profiles",
+          "purpose": "Resolve the two gaps and material thickness deliberately",
+          "intended_scale": "Hero and native detail",
+          "construction": "Controlled outer handling radius with a finer inner lip, continuous matte ceramic surfaces",
+          "deletion_test": "Uniform raw extrusion loses the deliberate edge hierarchy"
+        }
+      ]
+    }
+  },
+  "questions": {
+    "plan_grounded": {
+      "type": "noul",
+      "instructions": "Is the plan's visual hypothesis connected to the frozen communication priority?",
+      "criteria": {
+        "true": "The proposed relationship addresses the priority; assumptions stay separate from business facts.",
+        "false": "The rationale invents a business fact or has no stated connection to the priority."
+      }
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "instructions": "Does the plan preserve mandatory frozen requirements?",
+      "criteria": {
+        "true": "The proposed concept respects mandates while using declared design latitude.",
+        "false": "A mandatory requirement is contradicted or silently treated as optional."
+      }
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "instructions": "Does the plan place its primary recognition contours in the shared flat master?",
+      "criteria": {
+        "true": "The same primary identity can serve flat and hero; secondary finish may resolve only at hero scale.",
+        "false": "The hero introduces the only primary identity relationship or an incompatible mark."
+      }
+    },
+    "plan_construction": {
+      "type": "noul",
+      "instructions": "Are the plan's stated physical construction relationships mutually compatible?",
+      "criteria": {
+        "true": "The described parts, contacts and material roles form a coherent proposed construction.",
+        "false": "The plan describes conflicting physical relationships or leaves its central assembly undefined."
+      }
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "instructions": "Does plan.details[0] identify a purposeful visible contribution for 'Complementary chamber contours'?",
+      "criteria": {
+        "true": "The feature serves recognition, proportion, hierarchy or construction/material credibility at its named scale; its removal consequence is explicit.",
+        "false": "Only additional ornament, polygons or texture are offered as evidence of quality, with no visible role."
+      }
+    },
+    "plan_detail_1": {
+      "type": "noul",
+      "instructions": "Does plan.details[1] identify a purposeful visible contribution for 'Coordinated terminal and inner-wall profiles'?",
+      "criteria": {
+        "true": "The feature serves recognition, proportion, hierarchy or construction/material credibility at its named scale; its removal consequence is explicit.",
+        "false": "Only additional ornament, polygons or texture are offered as evidence of quality, with no visible role."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "plan_grounded": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "noul": 0.86
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "plan_construction": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "plan_detail_1": {
+      "type": "noul",
+      "noul": 0.97
+    }
+  },
+  "usage": {
+    "input_tokens": 2490,
+    "output_tokens": 119,
+    "cost": 0.00010458
+  }
+}

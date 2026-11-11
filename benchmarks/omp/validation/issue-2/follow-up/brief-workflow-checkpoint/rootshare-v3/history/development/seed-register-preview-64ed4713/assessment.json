@@ -1,0 +1,442 @@
+{
+  "concept": "seed-register|extruded_solid|clay",
+  "stage": "preview",
+  "status": "unsettled",
+  "missing": [],
+  "execution": {
+    "status": "verified",
+    "sha256": "8fe53a9a0a999c359c29c535b59a4da70f96d2b12e04f52da5d2d5c51f02cde7"
+  },
+  "revision": {
+    "candidate_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+    "reviewed_requirements": {
+      "brief_sha256": "5dfdbb408f72da8126ce0455a38add6aaba7d5eaafefe5cd6c6cfa51e82a69a3",
+      "evidence_sha256": "e68d60f3ced61b0efe2eed82e8eb9fed363e8951f09939cb7cbb356dfbda5866",
+      "sources": {
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/archived-fixture.toml": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/owner-feedback.txt": "112fa9f4fe3ce4d937e5060ac69ce2201ee6192fd88c815066062ae02b5a1a15",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/identity-contract.md": "d2e7b024587c4f6cc33134bca260ab4d6fb41e94683b03269821bfa824d1158a"
+      },
+      "references": {
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+      },
+      "baselines": {
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/prior-rejected-final.png": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+        "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/archived-fixture.toml": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "rubric_sha256": "9f7eaa1426a39663a2ca5d99177120f1e568e0c374e1b7999947a3d24e55467f",
+      "review_protocol_sha256": "213610fdb01edc8fd9ba22228b3b425ee102ed42a7638c06f25a54c325f043f8",
+      "transport_sha256": "04a7599ddc592b81bdf549490c97ebad006d12e9e1f426b59645687f18a39c9b"
+    },
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "references": [
+      {
+        "use": "craft",
+        "note": "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design.",
+        "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+      },
+      {
+        "use": "craft",
+        "note": "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target.",
+        "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+      }
+    ],
+    "sources": {
+      "brief.toml": "5dfdbb408f72da8126ce0455a38add6aaba7d5eaafefe5cd6c6cfa51e82a69a3",
+      "brief-evidence.toml": "e68d60f3ced61b0efe2eed82e8eb9fed363e8951f09939cb7cbb356dfbda5866",
+      "ideation/requirements.json": "6c5ee99898d27376ed552070fa6ddb3507c42740ad5e24b81ef48069cd3d5d10",
+      "ideation/pool.jsonl": "b2513686283ca7cfd85e11d98a48bf937972c568b26d1f97edcb4dd7092a03ff",
+      "ideation/metaphors.toml": "375bc210ae648f124afe70b9eb05acc333a1a87518d1c18d0b19cd3be4fc0bc7",
+      "concepts/seed-register--extruded-solid--clay/concept.json": "ff523c9abcf61e032d9f971919a4e136b53503f697441e8979763fd51f6558ab",
+      "concepts/seed-register--extruded-solid--clay/plan.toml": "67facf10ed85342655504109f1e0c56ba37600e67f97c3fea9803da9163631c7",
+      "concepts/seed-register--extruded-solid--clay/plan-review.json": "b1bb7e71a4bfb685417f0f480ec7e314d0ba5628da27d3581b96fcedb1af2d66",
+      "concepts/seed-register--extruded-solid--clay/motif.py": "3568b0ce89e3045c9e65a55de7fe5785584b753af685c3857b78cc205b8907cc",
+      "concepts/seed-register--extruded-solid--clay/motif.svg": "362c75b85b28601bd7a7b7278a9b4fbdc731762b44e91ac6ab394d27833bac89",
+      "concepts/seed-register--extruded-solid--clay/motif.json": "0fb85bff785fcd6e3e2d6fadb186e5376b2f2f30f7ab1f27abb38658d248d2e7",
+      "concepts/seed-register--extruded-solid--clay/scene.toml": "85dc8a5b48d22c08d56ac3b8717d050e7d053132e9433dde7c7f92ee25f49c9c",
+      "concepts/seed-register--extruded-solid--clay/scene.py": "e5b266aca12872a2dece270da4f1555d54d7c32048c201f0c96c7817580805cc"
+    },
+    "rubric_sha256": "9f7eaa1426a39663a2ca5d99177120f1e568e0c374e1b7999947a3d24e55467f",
+    "eligibility_protocol_sha256": "579f08ffb0dc52b3e80a6334fe1a2f1e4f6722be5d2b2e3b47e8cec8059f363d"
+  },
+  "revision_sha256": "883f1dac361272653bc47cad79b1d484c583026c654a5408daf649136fe36d94",
+  "craft": [
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+      "order": [
+        "candidate",
+        "reference"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.48
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.31
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.33
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.3
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.58
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.62
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "unsettled",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+      "order": [
+        "reference",
+        "candidate"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.49
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.34
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.37
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.51
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.4
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.59
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.66
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.66
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "unsettled",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "candidate_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+      "order": [
+        "candidate",
+        "reference"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.52
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.32
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.34
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.48
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.35
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.7
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.66
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+      "candidate_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+      "order": [
+        "reference",
+        "candidate"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.57
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.42
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.47
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.52
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.46
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.71
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.68
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    }
+  ],
+  "fit": {
+    "symbol": "unsettled",
+    "appearance": "unsettled",
+    "brand_specificity": "unsettled",
+    "meaningful_synthesis": "unsettled",
+    "constraint_fidelity": "unsettled",
+    "communicative_clarity": "unsettled",
+    "small_flat": "pass",
+    "small_hero": "pass"
+  },
+  "technical": {
+    "noise_free": "unsettled",
+    "detail_preserved": "pass",
+    "aliasing_free": "unsettled",
+    "structure_correct": "unsettled"
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.68
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.42
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.64
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.63
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.45
+    },
+    "small_flat": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.88
+    },
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.76
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.66
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.54
+    }
+  },
+  "view_sha256": {
+    "reference-1-1000-1000.png": "9cf57e6d801003a46d814b80c9b75d4b988485d9c778612c82f1baa42091d508",
+    "reference-1-1000-0.png": "e284917807bea285072f6a2328939b41e0de7b41d911a949201b1b1f876b20cf",
+    "reference-1-0-1000.png": "da89f3507f6e6ed46f01781d572c061f9ee2ec52ef511ab1270e14fb061576b2",
+    "reference-0-0-0.png": "53cbdccc73b69f24b31ceb212f03a910c72befc114f024781e4dce149ad303e6",
+    "reference-1-0-0.png": "87e985d5c01f40eee619c5632bdae7e5dbcfb0b6df5d279f23578c14035e60c4",
+    "reference-0-0-1000.png": "281eb8c33dd59c7eefed59781e15edb2695cf68aa23b022c504109860bee81e4",
+    "flat-small.png": "150394bee8d7a9b985fbfe7605a2c3520abd983df7d934e259fce18111d5c5df",
+    "reference-0-1000-0.png": "a28d40d153ce55dee68f47095fb3d5ee6d68aa4b177aaf935657ab767ff9f5f2",
+    "reference-0-1000-1000.png": "8f4ee4258e104ff734ca22ec53baba85252ca932151fd71d606cb16be54e2606",
+    "hero-small.png": "c293db7c9d4945cc10d27e8267f94417fd88ac2954b8a1f50ae8962c1a5c36bc"
+  },
+  "flat_source_sha256": "362c75b85b28601bd7a7b7278a9b4fbdc731762b44e91ac6ab394d27833bac89",
+  "detail_obligations": [
+    {
+      "obligation": "developed_detail",
+      "answers": {
+        "realized_detail_0": {
+          "type": "noul",
+          "noul": 0.83
+        },
+        "realized_detail_1": {
+          "type": "noul",
+          "noul": 0.76
+        },
+        "realized_detail_2": {
+          "type": "noul",
+          "noul": 0.52
+        },
+        "detail_developed": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "obligation_realized": {
+          "type": "noul",
+          "noul": 0.44
+        }
+      },
+      "checks": {
+        "realized_detail_0": "pass",
+        "realized_detail_1": "pass",
+        "realized_detail_2": "unsettled",
+        "detail_developed": "pass",
+        "obligation_realized": "unsettled"
+      },
+      "status": "unsettled"
+    }
+  ],
+  "sampling": {
+    "settings": {
+      "samples": 256,
+      "use_adaptive_sampling": false,
+      "adaptive_threshold": 0.009999999776482582,
+      "adaptive_min_samples": 0,
+      "seed": 0,
+      "use_animated_seed": false
+    },
+    "noise": "unsettled",
+    "limit": "unknown",
+    "convergence": "unknown",
+    "device": "verified",
+    "outcome": "unknown",
+    "visual_acceptance": "unsettled",
+    "acceptance_basis": "independent delivered-image visual judgments; no numerical convergence claim"
+  }
+}

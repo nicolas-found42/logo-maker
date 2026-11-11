@@ -5,6 +5,10 @@ free/open-source tooling. Each note records its date and evidence limits; older 
 
 | Note | Topic |
 | --- | --- |
+| `brief-content-followup.md` | Identity job, audience encounter and division of work between mark, name and supporting copy |
+| `brief-process-followup.md` | Early visual critique, reject-all/reopening decisions and isolated brief-to-image trials |
+| `brief-content-improvements.md` | Decision-bearing brief content, purposeful detail and a worked Rootshare exploration |
+| `brief-process-improvements.md` | Consequential questions, actual concept breadth and controlled brief-to-image experiments |
 | `brief-creation-design.md` | Design-process research, a staged briefing conversation and reusable worksheet |
 | `brief-creation-pipeline.md` | Current intake gaps, proposed evidence contracts and held-out evaluation |
 | `rootshare-brief-and-craft.md` | Rootshare brief specificity, purposeful detail and comparison with both Chief craft references |
@@ -19,3 +23,9 @@ free/open-source tooling. Each note records its date and evidence limits; older 
 | `logo-github-topics.md` | GitHub topic sweeps for logo generators |
 | `logo-awesome-mined.md` | Libraries mined from awesome-lists |
 | `logo-maker-install-facts.md` | Verified install facts, licenses and plugin formats |
+
+The next proposed manual pilot is to resolve one consequential encounter or naming decision,
+compare actual flat alternatives in that context before further finish work, and retain a
+reject-all outcome. Test clarification and critique timing separately under equal authoring
+effort. The follow-up notes distinguish primary-source practice and prototype studies from
+unproven benefits to this logo pipeline; they add no production gates or required schema.

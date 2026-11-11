@@ -22,17 +22,27 @@ repository, then `uv run python scripts/install.py --agent <host>`.
 ## 2. Write the brief
 
 Create the folder: `logo-maker new <slug> --name "<Brand Name>"` (`--out DIR` puts it elsewhere). Fill
-`brief.toml` from the input you were given:
+`brief.toml` and `brief-evidence.toml` from available project/owner evidence. Keep business facts,
+owner mandates, assumptions and design proposals separate. The business summary describes the
+service; a proposed symbol's rationale belongs in its concept plan.
 
 | Input | Where the brief comes from |
 |---|---|
-| An idea or description | The user's words. Ask (one form) only for what you cannot infer: the name, and who it serves. |
+| An idea or description | The user's words. Reuse supplied facts; ask only consequential missing questions. |
 | A repository | README, package metadata, docs, and the product's own UI copy: name, what it does, for whom, its voice. |
 | Reference images | Copy them into `inputs/`; add a `[[references]]` entry each. `use = "style"` lets Jev read their style. `use = "geometry"` traces the image into shapes; use it only for art the user owns. |
 | "Brainstorm" | The conversation so far and any project at hand; state the inferred name, summary, and tone back to the user in your final report. |
 
-Leave `[palette]` and `[fonts]` out unless the user or the brand already has them. Done when
-`logo-maker intake <slug>` gets past the brief check.
+Read [brief creation](references/brief-creation.md) before filling the evidence record. Establish a
+concrete activity, audience encounter and primary communication intention. Before asking a question,
+identify how plausible answers would change the next design decision. Essential unknowns need
+evidence; optional design choices may remain explicit latitude. An owner statement establishes owner
+intent and does not independently prove audience behavior.
+
+Leave `[palette]` and `[fonts]` out unless the user or brand already has them. Run
+`logo-maker brief <slug>`; this step is done when it freezes `ideation/requirements.json` with a pass.
+Changed facts or mandates require `brief --revision-reason "..."`; retain the prior revision and
+rework affected concepts. Then run intake for palette/font work.
 
 Before selection, fill `intended_appearance` with the desired material response, gloss/reflection
 strength and edge character. Add an owner-supplied execution-quality floor with
@@ -68,19 +78,23 @@ yet — the listed paths are what you create in step 5.
 For every listed folder, read `concept.json` (metaphor, treatment, material, and their
 descriptions), then:
 
-1. **Motif.** Write `motif.py` with the motif API
-   ([references/motif-api.md](references/motif-api.md)). Build the mark from two or three bold
-   shapes with a clear silhouette; let negative space carry a second meaning where the metaphor
+1. **Plan.** Run `logo-maker plan <slug>` to create missing `plan.toml` templates. Bind each to the
+   frozen requirement revision. Separate its visual hypothesis and assumptions from business facts;
+   cite requirement IDs. Give each detail a visible purpose, scale, construction and deletion test.
+   A detail may serve proportion or material credibility without encoding another metaphor.
+2. **Motif.** Write `motif.py` with the motif API
+   ([references/motif-api.md](references/motif-api.md)). Build a clear primary silhouette with
+   deliberate proportions and junctions; let negative space carry a second meaning where the metaphor
    allows; use one to three palette roles, one role per part that should read as its own color or
    material. Shape it for the treatment: solids and extrusions want chunky shapes, plates want the
    mark well inside the rim. Read "How a treatment consumes the motif" in
    [references/scene-grammar.md](references/scene-grammar.md) so you know what the treatment builds
    from your shapes (for example, `tube_lines` traces filled shapes into tubes).
-2. **Check.** `logo-maker motifs <slug>` builds every motif and writes `motif-sizes.png` beside it.
+3. **Check.** `logo-maker motifs <slug>` builds every motif and writes `motif-sizes.png` beside it.
    Look at each sheet: done when the mark reads at 16 px and 32 px and matches its metaphor. On first
    success it also writes each concept's starting `scene.toml` from the treatment and stops once for
-   step 3.
-3. **Scene.** Tune each `scene.toml` with the scene grammar
+   scene tuning.
+4. **Scene.** Tune each `scene.toml` with the scene grammar
    ([references/scene-grammar.md](references/scene-grammar.md)): each palette role has its own
    `[materials.<role>]` table and component, so set heights, edges, material presets, colors, camera
    tilt, and light per concept. Size the mark with `[mark] scale` so it clears every rim, recess wall,
@@ -89,8 +103,14 @@ descriptions), then:
    `logo_maker/catalog/materials.toml`; tuning ranges (tilt, framing, tube radius): the grammar's
    "Tuning ranges" section. Write `scene.py` only when the components cannot express the concept.
 
-Done when `logo-maker motifs <slug>` exits 0 and every scene names only catalog materials and lighting
-rigs.
+Inspect the flat studies together before expanding finishes. Identify the distinct visual argument
+each tests; material variants do not demonstrate conceptual breadth. Read the image in its required
+name/application context before its rationale. For the selected construction, test the highest-risk
+visible relationship with a bounded controlled probe before polishing everything.
+
+Done when `logo-maker motifs <slug>` exits 0, scenes use catalog materials/lighting or the documented
+custom-scene fallback, and `logo-maker plan <slug>` passes. The plan pass records intent; actual
+preview/final pixels still need independent craft, fit and technical acceptance.
 
 ## 6. Run to the end
 

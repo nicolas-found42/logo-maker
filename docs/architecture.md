@@ -15,9 +15,11 @@ No stage generates images with an AI model. Every pixel comes from geometry, fon
 
 ```mermaid
 flowchart LR
-  intake[intake: brief.toml + references] --> ideate[ideate: pool -> screen -> score -> tournament -> top 8]
-  ideate --> author[agent authors motif + scene for 8]
-  author --> preview[preview: GPU 256 spp, jev picks 3]
+  brief[brief: evidence review + freeze] --> intake[intake: references + palette/fonts]
+  intake --> ideate[ideate: pool -> screen -> score -> tournament -> top 8]
+  ideate --> author[agent authors plan + motif + scene for 8]
+  author --> plan[plan: intent + detail review]
+  plan --> preview[preview: GPU 256 spp, jev picks 3]
   preview --> finalize[finalize: 4000 px adaptive, QA loop <= 5 rounds, final head-to-head]
   finalize --> export[export set]
   export --> improve[improve: new round must beat the floor]
@@ -25,11 +27,13 @@ flowchart LR
 
 | Stage | Command | Reads | Writes |
 |---|---|---|---|
-| intake | `new`, `intake` | user input | `brief.toml`, `inputs/`, `ideation/intake.json` |
+| brief | `new`, `brief` | project/owner evidence, `brief.toml`, `brief-evidence.toml`, reference roles/hashes | `ideation/requirements.json`, `qa/brief-reviews.jsonl` |
+| intake | `intake` | current frozen brief, references, proposals | `ideation/intake.json`, palette/fonts |
 | ideate | `ideate` | brief, `ideation/metaphors.toml`, catalog | `ideation/pool.jsonl`, `stage1.jsonl`, `stage2.jsonl`, `tournament.jsonl`, `shortlist.json`, `concepts/<slug>/concept.json` |
 | author motifs | (agent) | `concept.json` | `concepts/<slug>/motif.py` or `motif.svg` |
 | motifs | `motifs` | motif sources | `motif.svg`, `motif.json`, `motif-sizes.png`; starter `scene.toml` once (layer-aware, one material per motif role) |
 | author scenes | (agent) | starter `scene.toml` | tuned `scene.toml`, optional `scene.py` |
+| plan | `plan` | current requirements, `concept.json`, `plan.toml` | `plan-review.json`, `qa/plan-reviews.jsonl` |
 | preview | `preview` | concepts | `preview.png`, `ideation/finalists.json` |
 | finalize | `finalize` | finalists | `final.png`, `scene.blend`, `model.glb`, `qa/rounds.jsonl`, `ideation/winner.json` |
 | export | `export` | winner | `exports/*` |
@@ -43,6 +47,7 @@ resumed. `run` chains the stages and stops with a clear message where agent auth
 
 ```text
 brief.toml            the brief (logo_maker.brief)
+brief-evidence.toml   sourced facts, mandates, proposals, unknowns and design latitude
 inputs/               references the user supplied
 ideation/             metaphors.toml, pool + chain results, shortlist/finalists/winner
 concepts/<slug>/      motif.py|motif.svg, motif.json, scene.toml, preview.png, final.png, scene.blend, model.glb
@@ -54,6 +59,93 @@ run.json              seeds, versions, stage status, jev usage and cost, asset l
 Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment--material`.
 
 ## Contracts
+
+### Brief evidence, review and frozen requirements (#2)
+
+`brief.toml` remains the downstream brand/appearance record. Its summary describes the business,
+not evidence that a proposed symbol is a good solution. `brief-evidence.toml` separately records:
+
+- `sources`: named owner, project or fixture sources, each with a local path and exact excerpt;
+- `facts`: named claims, source IDs and `established`, `assumption`, `unknown` or `conflict` status;
+- `requirements`: named business, communication, usage and visual constraints, with origin,
+  priority and source IDs; an owner mandate is distinct from a designer's proposal;
+- `obligations`: source-linked mandatory workflow instructions, separate from identity attributes.
+  Supported kinds are `brief` (clarify against a retained baseline brief), `authoring` (develop
+  purposeful detail) and `validation` (compare a declared minimum of distinct craft references).
+  Unsupported obligations request authoring work rather than being silently ignored;
+- a primary communication priority, explicit design latitude and consequential open questions.
+
+The authoring agent reads available project/owner evidence first. It asks only questions whose
+answers change the next design decision. Unsupported claims are removed from the factual brief
+or marked as assumptions. Optional design choices can remain open; essential unknowns and
+contradictions cannot silently pass. No bundled brand supplies defaults or implied constraints.
+
+`logo-maker brief` / MCP `logo_brief` review this evidence through narrow typed questions.
+Code validates structure, source excerpts/revisions and references before asking Jev about
+fact support, source-to-requirements completeness, activity, audience, communication priority,
+grounding and consistency. The completeness question is unconditional: omitting an extracted
+mandate cannot suppress its check. A pass
+freezes `ideation/requirements.json`: reviewed brief/evidence, source hashes, exact answers,
+question revision and requirement revision. No concept rationale is supplied as proof of business
+facts. Raw requests, usage and any error remain in the normal QA log.
+
+Source-to-requirements completeness is evaluated independently for every source, including when
+no requirement was extracted. It receives that source's kind/excerpt and only requirements linked
+to that source with established authority. Designer proposals cannot prove source coverage;
+an owner source requires owner-origin records. Named priority values include their explicit scope
+meanings. Every source must pass; no average hides a missing instruction or open choice.
+Direction-preservation receives business, specified direction, its explicit open choices and the
+requirements. These are separate requests from the remaining brief checks, using the same
+centralized questions and thresholds. Narrow states keep business prose and archival metadata
+from supplying accidental evidence for a different judgment. The freeze retains their combined
+answers and complete underlying source/input revisions; each exact request remains independently
+logged. Missing answers or an error in any request cannot supply a pass.
+Review-input hashes include the review protocol and transport implementation, so changes to state
+preparation cannot silently reuse judgments produced from a different request representation.
+
+Intake requires this review before palette/font work. Ideation and later public stages require
+the current frozen revision, including resumed runs. Changed inputs invalidate it. Reopening an
+authored brief requires an explicit revision reason and preserves the previous freeze/history;
+it does not overwrite existing exports or an improvement floor.
+
+Each authored concept adds `plan.toml`, bound to its requirement revision. It records the visual
+hypothesis separately from facts, requirement IDs, assumptions, and a detail ledger: feature,
+purpose, intended scale, physical construction and deletion test. The shared flat master carries
+the primary identity; secondary construction and material detail may resolve in the hero.
+`logo-maker plan` / MCP `logo_plan` review each shortlisted plan, retaining exact answers and hashes
+in `qa/plan-reviews.jsonl` and its current `concepts/<id>/plan-review.json`. Plan review must complete
+before preview rendering. A plan is authoring intent, never evidence
+that the rendered pixels achieve it. Final visual eligibility still judges actual pixels.
+
+Brief/plan review has explicit pass, fail, unsettled, missing-evidence and API-error outcomes.
+Fail/unsettled/missing evidence returns named authoring work and consequential questions;
+malformed answers and provider errors remain exceptions. Unknown optional choices remain
+explicit latitude. There is no requirement to invent a differentiator, make a brief longer,
+add ornament, or make every business fact pictorially decodable.
+
+Source completeness covers both identity requirements and obligations. Direction-preservation
+judges identity requirements only. A brief obligation compares the proposed brief/evidence with
+its retained baseline before freezing. An authoring obligation requires a reviewed detail plan
+before preview and separate actual-image realization judgments before advancement. A validation
+obligation requires the stated number of distinct craft images; normal eligibility checks every
+one in both orders. These obligations stay mandatory at their deadlines; recording one does not
+establish that its later outcome has already been achieved. Prior-artifact rejection remains in
+artifact-bound feedback/history rather than becoming a new brand attribute.
+
+Validation obligations also pin `expected_references`: each has a descriptive label, input path
+and exact SHA-256. Every pinned identity must still be present among the supplied craft references;
+two unrelated images cannot satisfy a named comparison merely by meeting its count. Authoring
+obligations are sent to plan-coverage and actual-pixel fulfillment judgments in addition to generic
+detail realization; a self-selected plan cannot erase the specific requested correction.
+
+New owner feedback records `candidate_sha256` and `input_revision_sha256`, obtained with
+`eligibility.owner_review_scope()` before writing the review. This hashes the exact artifact,
+brief, requirements, sources, references, concept/plan/scene and rubric, excluding the feedback
+file itself to avoid a self-referential hash. Legacy rows keep their known image/brief/concept
+scope explicitly; no missing input hash is fabricated. A rejection of unchanged pixels with
+changed inputs requires fresh review and remains unsettled, rather than disappearing after a
+more flattering explanation. Only an explicit current-scope overall approval resolves that stale
+review; it never substitutes for essential model or rendering-policy evidence.
 
 ### Motif (2D master)
 
@@ -189,15 +281,18 @@ visual synthesis, constraint fidelity and communicative clarity: merely depictin
 icon is insufficient. Every criterion is essential; appeal cannot compensate for one failure.
 Preference ranks only eligible candidates.
 Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
-position cannot establish eligibility. Fit requests receive the candidate's brief and concept,
-never the unrelated reference's design. Gloss, reflections and roundness are assessed relative
-to the two intended treatments, without a universal preference for either finish.
+position cannot establish eligibility. Literal concept match receives the candidate's declared
+concept. Own-brief fit receives the frozen business context, communication priority and identity
+constraints, with the author rationale excluded. A flattering concept cannot rewrite that fit
+request. Neither receives the unrelated reference's design. Gloss, reflections and roundness are
+assessed relative to the two intended treatments, without a universal preference for either finish.
 
 Small-size judgments receive the actual flat master and the hero reduced to 32 px and enlarged
 with nearest-neighbor pixels; secondary hero lettering is not required at favicon size. Images
 larger than the provider's whole-image limit additionally supply every native-pixel tile for
-craft and technical checks. Separate sequential calls cover each reference/order, own-brief fit,
-and technical detail. `view_sha256` binds derived evidence; the transport retains the sent bytes.
+craft and technical checks. Separate sequential calls cover each reference/order, literal match,
+own-brief fit, and technical detail. `view_sha256` binds derived evidence; the transport retains
+the sent bytes.
 
 Every essential Noul uses the named bands in `questions.py`: yes passes, no fails, and
 unsettled requires review. Missing inputs produce `missing_evidence`; malformed answers and
@@ -209,8 +304,10 @@ labels. Final eligibility must bind the current pixels and inputs; export reject
 evidence. Failed selection leaves existing winner, exports and same-brand improvement floor
 untouched. `improve` still separately requires beating that brand's previous winner.
 An optional `qa/owner-feedback.json` array binds explicit owner feedback to candidate image,
-brief SHA-256 and concept ID. A craft or fit rejection vetoes advancement while preserving model
-answers. Owner approval does not replace any essential model/evidence gate. Changed feedback
+brief SHA-256 and concept ID. An explicit `overall = "fail"`, craft rejection or fit rejection
+vetoes advancement while preserving model answers. An overall rejection does not imply either
+dimensional label; missing craft/fit labels remain unknown. Owner approval does not replace any
+essential model/evidence gate. Changed feedback
 invalidates export proof, and unranked preference remains independent.
 
 Sampling evidence has separate noise, resource-limit, detail/structure and device fields.

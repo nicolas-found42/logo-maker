@@ -1,0 +1,7 @@
+import bpy
+
+def build(ctx):
+    for obj in bpy.data.objects:
+        if obj.name.startswith("Register_") and obj.type == "MESH":
+            for polygon in obj.data.polygons:
+                polygon.use_smooth = abs(polygon.normal.z) < 0.999

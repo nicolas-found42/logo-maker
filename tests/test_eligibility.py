@@ -79,7 +79,22 @@ def candidate_logo(tmp_path):
     for stage in ("preview", "final"):
         Image.new("RGBA", (32, 32), (100, 100, 100, 255)).save(folder / f"{stage}.png")
         attest(folder, stage)
-    return logo, cid, qualified_brief(folder / "preview.png")
+    brief = qualified_brief(folder / "preview.png")
+    review_inputs(logo, cid, brief)
+    return logo, cid, brief
+
+
+def review_inputs(logo, cid, brief):
+    import tomlkit
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    state = brief.as_state()
+    state["references"] = [
+        {"path": str(ref.path), "use": ref.use, "note": ref.note} for ref in brief.references
+    ]
+    logo.brief.write_text(tomlkit.dumps(state))
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, cid)
 
 
 def complete_fit(symbol="pass", appearance="pass"):
@@ -221,6 +236,68 @@ def test_equal_floor_passes_with_both_orders_and_current_revision(tmp_path):
         require_current(logo, brief, cid, result)
 
 
+def test_business_fit_receives_frozen_priority_without_author_rationale(tmp_path):
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+
+    class BusinessFitJudge(EligibilityClient):
+        def ask(self, state, questions, *, label):
+            answers = super().ask(state, questions, label=label)
+            if "brand_specificity" in questions and (
+                "concept" in state or "communication_priority" not in state["brief"]
+            ):
+                answers["brand_specificity"] = {"noul": 0.1}
+            return answers
+
+    result = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", BusinessFitJudge(), stage="final"
+    )
+    assert result["status"] == "pass"
+
+
+def test_changed_detail_plan_invalidates_final_eligibility(tmp_path):
+    from logo_maker.eligibility import assess, require_current
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    result = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", EligibilityClient(), stage="final"
+    )
+    assert result["status"] == "pass"
+    (logo.concept(cid) / "plan.toml").write_text('hypothesis = "New construction"\n')
+    with pytest.raises(ValueError, match="eligibility stale"):
+        require_current(logo, brief, cid, result)
+
+
+def test_missing_plan_review_never_supplies_eligibility(tmp_path):
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    (logo.concept(cid) / "plan-review.json").unlink()
+    client = EligibilityClient()
+    result = assess(logo, brief, cid, logo.concept(cid) / "final.png", client, stage="final")
+    assert result["status"] == "missing_evidence"
+    assert not client.states
+
+
+def test_finalize_rejects_changed_plan_before_render_or_selection(tmp_path):
+    from logo_maker import pipeline
+
+    logo, cid = finalize_logo(tmp_path)
+    path = logo.concept(cid) / "plan.toml"
+    path.write_text(path.read_text().replace("Recognition", "Changed purpose"))
+    old_winner = logo.ideation / "winner.json"
+    old_winner.write_text('{"winner": "previous"}')
+    output = logo.exports / "hero-transparent.png"
+    output.write_bytes(b"previous accepted image")
+    judge = EligibilityClient()
+    with pytest.raises(pipeline.AuthoringNeeded, match="plan review"):
+        pipeline.finalize(logo, judge)
+    assert not judge.states
+    assert json.loads(old_winner.read_text())["winner"] == "previous"
+    assert output.read_bytes() == b"previous accepted image"
+
+
 @pytest.mark.parametrize(
     "qid", ["detail_preserved", "aliasing_free", "structure_correct", "noise_free"]
 )
@@ -340,6 +417,7 @@ def test_cached_cpu_output_is_operational_error_not_craft_label(tmp_path):
 
 def finalize_logo(tmp_path):
     from PIL import ImageDraw
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
 
     logo, cid, _ = candidate_logo(tmp_path)
     logo.brief.write_text("""name = "N"
@@ -355,6 +433,8 @@ path = "concepts/m--medallion--clay/preview.png"
 use = "craft"
 note = "Deliberately restrained matte finish"
 """)
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, cid)
     im = Image.new("RGBA", (512, 512))
     ImageDraw.Draw(im).ellipse((100, 100, 412, 412), fill=(100, 100, 100, 255))
     im.resize((128, 128), Image.Resampling.LANCZOS).save(logo.concept(cid) / "final.png")
@@ -398,7 +478,14 @@ def test_generic_edge_failure_requests_diagnosis_without_sample_escalation(tmp_p
     assert rows[0]["result"] == "needs_diagnosis"
 
 
-def test_owner_rejection_vetoes_model_pass_without_relabeling_answers(tmp_path):
+@pytest.mark.parametrize(
+    "feedback",
+    [
+        {"craftsmanship": "fail", "brief_fit": "fail", "statement": "both below floor"},
+        {"overall": "fail", "statement": "rootshare fails"},
+    ],
+)
+def test_owner_rejection_vetoes_model_pass_without_relabeling_answers(tmp_path, feedback):
     from logo_maker.eligibility import sha256
     from logo_maker.pipeline import AuthoringNeeded, finalize
 
@@ -410,10 +497,8 @@ def test_owner_rejection_vetoes_model_pass_without_relabeling_answers(tmp_path):
                     "concept": cid,
                     "candidate_sha256": sha256(logo.concept(cid) / "final.png"),
                     "brief_sha256": sha256(logo.brief),
-                    "craftsmanship": "fail",
-                    "brief_fit": "fail",
                     "preference": "unranked",
-                    "statement": "both below floor",
+                    **feedback,
                 }
             ]
         )
@@ -424,7 +509,217 @@ def test_owner_rejection_vetoes_model_pass_without_relabeling_answers(tmp_path):
     assert record["status"] == "fail"
     assert record["decision_basis"] == "owner_rejection"
     assert record["fit"]["symbol"] == "pass"
+    assert record["owner_feedback"][0] == {
+        "concept": cid,
+        "candidate_sha256": sha256(logo.concept(cid) / "final.png"),
+        "brief_sha256": sha256(logo.brief),
+        "preference": "unranked",
+        **feedback,
+    }
     assert not (logo.ideation / "winner.json").exists()
+
+
+def test_unchanged_rejected_pixels_need_fresh_review_after_input_change(tmp_path):
+    from dataclasses import replace
+
+    from logo_maker.brief import load
+    from logo_maker.eligibility import owner_review_scope, sha256
+    from logo_maker.pipeline import AuthoringNeeded, finalize
+
+    logo, cid = finalize_logo(tmp_path)
+    image = logo.concept(cid) / "final.png"
+    brief = load(logo.brief)
+    review = {
+        "concept": cid,
+        "candidate_sha256": sha256(image),
+        "brief_sha256": sha256(logo.brief),
+        "input_revision_sha256": owner_review_scope(logo, brief, cid, image),
+        "overall": "fail",
+        "statement": "Owner rejects this exact final.",
+    }
+    (logo.qa / "owner-feedback.json").write_text(json.dumps([review]))
+    review_inputs(logo, cid, replace(brief, summary="An updated explanation of the same service."))
+    (logo.ideation / "winner.json").write_text('{"winner": "previous"}')
+    exported = logo.exports / "hero-transparent.png"
+    exported.write_bytes(b"previous accepted output")
+    with pytest.raises(AuthoringNeeded, match="no final candidate meets"):
+        finalize(logo, EligibilityClient())
+    record = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert record["status"] == "unsettled"
+    assert record["decision_basis"] == "stale_owner_review"
+    assert record["owner_feedback_stale"] == [review]
+    assert record["fit"]["symbol"] == "pass"
+    assert exported.read_bytes() == b"previous accepted output"
+    assert json.loads((logo.ideation / "winner.json").read_text())["winner"] == "previous"
+
+
+@pytest.mark.parametrize(
+    ("label", "expected"),
+    [("fail", "fail"), ("uncertain", "unsettled"), ("invalid", "missing_evidence")],
+)
+def test_current_owner_review_keeps_scope_and_labels_distinct(tmp_path, label, expected):
+    from logo_maker.brief import load
+    from logo_maker.eligibility import owner_review_scope, sha256
+    from logo_maker.pipeline import AuthoringNeeded, finalize
+
+    logo, cid = finalize_logo(tmp_path)
+    image = logo.concept(cid) / "final.png"
+    scope = owner_review_scope(logo, load(logo.brief), cid, image)
+    row = {
+        "concept": cid,
+        "candidate_sha256": sha256(image),
+        "brief_sha256": sha256(logo.brief),
+        "input_revision_sha256": scope,
+        "overall": label,
+    }
+    (logo.qa / "owner-feedback.json").write_text(json.dumps([row]))
+    assert owner_review_scope(logo, load(logo.brief), cid, image) == scope
+    with pytest.raises(AuthoringNeeded, match="no final candidate meets"):
+        finalize(logo, EligibilityClient())
+    record = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert record["status"] == expected
+    assert record["fit"]["symbol"] == "pass"
+    if label != "invalid":
+        assert record["owner_feedback"] == [row]
+        assert record["owner_feedback_scopes"] == ["current"]
+        assert "craftsmanship" not in row
+
+
+def test_owner_approval_does_not_supply_missing_model_craft(tmp_path):
+    from logo_maker.brief import load
+    from logo_maker.eligibility import owner_review_scope, sha256
+    from logo_maker.pipeline import AuthoringNeeded, finalize
+
+    logo, cid = finalize_logo(tmp_path)
+    image = logo.concept(cid) / "final.png"
+    row = {
+        "concept": cid,
+        "candidate_sha256": sha256(image),
+        "brief_sha256": sha256(logo.brief),
+        "input_revision_sha256": owner_review_scope(logo, load(logo.brief), cid, image),
+        "overall": "pass",
+    }
+    (logo.qa / "owner-feedback.json").write_text(json.dumps([row]))
+    with pytest.raises(AuthoringNeeded, match="no final candidate meets"):
+        finalize(logo, EligibilityClient({"form_finish": 0.1}))
+    record = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert record["status"] == "fail"
+    assert record["owner_feedback"] == [row]
+
+
+def test_preview_rejection_never_transfers_to_different_final_pixels(tmp_path):
+    from logo_maker.brief import load
+    from logo_maker.eligibility import owner_review_scope, sha256
+    from logo_maker.pipeline import finalize
+
+    logo, cid = finalize_logo(tmp_path)
+    preview = logo.concept(cid) / "preview.png"
+    row = {
+        "concept": cid,
+        "candidate_sha256": sha256(preview),
+        "brief_sha256": sha256(logo.brief),
+        "input_revision_sha256": owner_review_scope(logo, load(logo.brief), cid, preview),
+        "overall": "fail",
+    }
+    (logo.qa / "owner-feedback.json").write_text(json.dumps([row]))
+    assert finalize(logo, EligibilityClient()) == cid
+    record = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert record["owner_feedback"] == []
+    assert record["status"] == "pass"
+
+
+def test_reviewed_detail_plan_cannot_supply_missing_visible_detail(tmp_path):
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    path = logo.root / "brief-evidence.toml"
+    path.write_text(
+        path.read_text() + '\n[[obligations]]\nid = "develop_detail"\n'
+        'kind = "authoring"\nclaim = "Develop purposeful visual detail"\n'
+        'origin = "proposal"\npriority = "must"\nsources = []\n'
+    )
+    from test_brief_workflow import BriefJudge, plan_for_stage_test
+
+    from logo_maker import pipeline
+
+    pipeline.review_brief(logo, BriefJudge(), revision_reason="Detail-development obligation")
+    plan_for_stage_test(logo, cid)
+    result = assess(
+        logo,
+        brief,
+        cid,
+        logo.concept(cid) / "final.png",
+        EligibilityClient({"realized_detail_0": 0.1}),
+        stage="final",
+    )
+    assert result["status"] == "fail"
+    assert result["detail_obligations"][0]["checks"]["realized_detail_0"] == "fail"
+    assert result["fit"]["symbol"] == "pass"
+
+
+def test_specific_authoring_correction_is_judged_separately_from_plan_realization(tmp_path):
+    from test_brief_workflow import BriefJudge, plan_for_stage_test
+
+    from logo_maker import pipeline
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    path = logo.root / "brief-evidence.toml"
+    path.write_text(
+        path.read_text() + '\n[[obligations]]\nid = "seating"\nkind = "authoring"\n'
+        'claim = "Resolve the detached insert seating"\norigin = "proposal"\n'
+        'priority = "must"\nsources = []\n'
+    )
+    pipeline.review_brief(logo, BriefJudge(), revision_reason="Specific seating correction")
+    plan_for_stage_test(logo, cid)
+
+    class CorrectionJudge(EligibilityClient):
+        def ask(self, state, questions, *, label):
+            answers = super().ask(state, questions, label=label)
+            if "obligation_realized" in questions:
+                assert (
+                    state["authoring_obligation"]["claim"] == "Resolve the detached insert seating"
+                )
+                answers["obligation_realized"] = {"noul": 0.1}
+            return answers
+
+    result = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", CorrectionJudge(), stage="final"
+    )
+    assert result["status"] == "fail"
+    assert result["detail_obligations"][0]["checks"]["realized_detail_0"] == "pass"
+
+
+def test_changed_detail_baseline_during_judgment_never_returns_pass(tmp_path):
+    import shutil
+
+    from test_brief_workflow import BriefJudge, plan_for_stage_test
+
+    from logo_maker import pipeline
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    baseline = logo.inputs / "baseline.png"
+    shutil.copyfile(logo.concept(cid) / "preview.png", baseline)
+    path = logo.root / "brief-evidence.toml"
+    path.write_text(
+        path.read_text() + '\n[[obligations]]\nid = "detail"\nkind = "authoring"\n'
+        'claim = "Develop detail"\norigin = "proposal"\npriority = "must"\nsources = []\n'
+        'baseline_image = "inputs/baseline.png"\n'
+    )
+    pipeline.review_brief(logo, BriefJudge(), revision_reason="Retain a detail baseline")
+    plan_for_stage_test(logo, cid)
+
+    class ChangingBaseline(EligibilityClient):
+        def ask(self, state, questions, *, label):
+            baseline.write_bytes(b"source changed during provider call")
+            return super().ask(state, questions, label=label)
+
+    result = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", ChangingBaseline(), stage="final"
+    )
+    assert result["status"] == "missing_evidence"
+    assert result["missing"]
 
 
 def test_reference_remainder_tiles_retain_native_pixels_without_upscaling(tmp_path):
@@ -445,6 +740,7 @@ def test_reference_remainder_tiles_retain_native_pixels_without_upscaling(tmp_pa
     reference = tmp_path / "reference-1200.png"
     Image.new("RGBA", (1200, 1200), (40, 80, 120, 255)).save(reference)
     brief = replace(brief, references=(Reference(reference, "craft", "Matte finish"),))
+    review_inputs(logo, cid, brief)
     result = assess(
         logo, brief, cid, logo.concept(cid) / "final.png", InspectViews(), stage="final"
     )

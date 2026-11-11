@@ -1,0 +1,113 @@
+{
+  "seq": 4,
+  "label": "approved-self-control-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "ed0947c5559c42a9a75bcadffa71a4f7",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant",
+      "tone": [
+        "clear"
+      ],
+      "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons."
+    },
+    "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.",
+    "hero_32px": "ec25a397d4734c218198678e01415ed5"
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "instructions": "Does `candidate` contain a developed visual idea specific to the purpose or identity in `brief`?",
+      "criteria": {
+        "true": "Authored relationships, negative space, letterform integration or distinctive construction connect this mark to the brand beyond its broad category.",
+        "false": "A stock category icon or arrangement of generic primitives could be reassigned to many brands without meaningful change; the explanation supplies the specificity."
+      }
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "instructions": "Do the visible shape relationships in `candidate` express the brand promise in `brief`?",
+      "criteria": {
+        "true": "The actual construction communicates a purposeful relationship, action or visual idea grounded in the brand promise, with a coherent shared core motif.",
+        "false": "The shapes merely illustrate a category object or sit together decoratively while the claimed brand relationship remains in the prose."
+      }
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "instructions": "Does `candidate` honor the explicit direction and avoid-list in `brief`?",
+      "criteria": {
+        "true": "The visible design follows the actual user constraints, including required materials, topology and identity.",
+        "false": "The design contradicts a stated user constraint, despite being attractive or competently rendered."
+      }
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "instructions": "Can the intended audience in `brief` read the core visual idea in `candidate` without the concept explanation?",
+      "criteria": {
+        "true": "The intended relationship is perceptible from the mark itself and supports the brand's purpose.",
+        "false": "A viewer needs the written concept explanation to discover the claimed meaning, or reads a conflicting idea."
+      }
+    },
+    "small_hero": {
+      "type": "noul",
+      "instructions": "Does `hero_32px` retain the core motif's identity from `candidate`?",
+      "criteria": {
+        "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
+        "false": "The core motif becomes unreadable or loses its identity at 32 px."
+      }
+    }
+  },
+  "assets": {
+    "ed0947c5559c42a9a75bcadffa71a4f7": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "ec25a397d4734c218198678e01415ed5": {
+      "type": "image",
+      "format": "png",
+      "sha256": "43058307016413e037e8832566d0ea70b2a9c3b16e13ba930dac53556f952a8e",
+      "bytes": 6900
+    }
+  },
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.39
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.83
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.79
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.79
+    }
+  },
+  "usage": {
+    "input_tokens": 6422,
+    "output_tokens": 119,
+    "cost": 0.000269724
+  }
+}

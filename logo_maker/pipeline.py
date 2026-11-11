@@ -52,8 +52,14 @@ MAX_QA_ROUNDS = 5
 class AuthoringNeeded(RuntimeError):
     """The agent must write files before the stage can continue. `files` lists them."""
 
-    def __init__(self, message: str, files: list[Path]):
-        super().__init__(message + "\n" + "\n".join(f"  - {f}" for f in files))
+    def __init__(self, message: str, files: list[Path], *, questions: list[str] | None = None):
+        self.questions = questions or []
+        super().__init__(
+            message
+            + "\n"
+            + "\n".join(f"  - {f}" for f in files)
+            + "".join(f"\n  Question: {question}" for question in self.questions)
+        )
         self.files = files
 
 
@@ -82,7 +88,12 @@ def _write_json(path: Path, data: Any) -> None:
 
 
 def new(logo: LogoDir, name: str) -> LogoDir:
+    from logo_maker.briefing import TEMPLATE as EVIDENCE_TEMPLATE
+
     brief_mod.write_template(logo.brief, name)
+    evidence = logo.root / "brief-evidence.toml"
+    if not evidence.exists():
+        evidence.write_text(EVIDENCE_TEMPLATE)
     logo.inputs  # noqa: B018 - property creates the folder
     if not logo.metaphors.exists():
         logo.metaphors.write_text(METAPHORS_TEMPLATE)
@@ -119,10 +130,56 @@ def _proposals(logo: LogoDir, key: str) -> list[dict[str, str]]:
     return [dict(p) for p in data.get(key, [])]
 
 
+def review_brief(logo: LogoDir, client=None, *, revision_reason: str = "") -> dict[str, Any]:
+    from logo_maker import briefing
+
+    record = briefing.review(logo, client, revision_reason=revision_reason)
+    if record["status"] != "pass":
+        raise AuthoringNeeded(
+            "; ".join(record["missing"]), record["files"], questions=record["questions"]
+        )
+    runlog(logo.run_json).stage("brief", "done", revision=record["requirements_revision"])
+    return record
+
+
+def _require_brief(logo: LogoDir) -> dict:
+    from logo_maker import briefing
+
+    try:
+        return briefing.current(logo)
+    except ValueError as exc:
+        raise AuthoringNeeded(str(exc), [logo.brief, logo.root / "brief-evidence.toml"]) from exc
+
+
+def review_plans(logo: LogoDir, client=None) -> dict[str, dict]:
+    from logo_maker import briefing
+
+    _require_brief(logo)
+    records = {}
+    for cid in shortlist(logo):
+        record = briefing.review_plan(logo, cid, client)
+        if record["status"] != "pass":
+            raise AuthoringNeeded(
+                "; ".join(record["missing"]), record["files"], questions=record["questions"]
+            )
+        records[cid] = record
+    return records
+
+
+def _require_plan(logo: LogoDir, concept_id: str) -> dict:
+    from logo_maker import briefing
+
+    try:
+        return briefing.current_plan(logo, concept_id)
+    except ValueError as exc:
+        raise AuthoringNeeded(str(exc), [logo.concept(concept_id) / "plan.toml"]) from exc
+
+
 def intake(logo: LogoDir, client=None) -> dict[str, Any]:
     from logo_maker import fonts as fonts_mod
     from logo_maker import intake as intake_mod
 
+    review_brief(logo, client)
     brief = brief_mod.load(logo.brief)
     client = client or _client(logo)
     log = runlog(logo.run_json)
@@ -177,6 +234,7 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
 def ideate(logo: LogoDir, client=None) -> list[str]:
     from logo_maker import ideate as ideate_mod
 
+    _require_brief(logo)
     if not logo.metaphors.exists() or "[[metaphor]]" not in logo.metaphors.read_text().replace(
         "# [[", ""
     ):
@@ -274,6 +332,7 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     """
     from logo_maker import motif
 
+    _require_brief(logo)
     dirs = {cid: logo.concept(cid) for cid in shortlist(logo)}
     missing = [
         d / "motif.py"
@@ -321,8 +380,10 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
 def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
     from logo_maker import judging, render
 
+    _require_brief(logo)
     ids = shortlist(logo)
     dirs = [logo.concept(cid) for cid in ids]
+    review_plans(logo, client)
     motifs(logo)
     todo = [d for d in dirs if not _fresh(d / "preview.png", d)]
     if todo:
@@ -389,6 +450,7 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
     """Render final, judge, fix, re-render: up to MAX_QA_ROUNDS. Returns the last round's record."""
     from logo_maker import checks, judging, render
 
+    _require_plan(logo, concept_id)
     brief = brief_mod.load(logo.brief)
     folder = logo.concept(concept_id)
     rounds_path = logo.qa / "rounds.jsonl"
@@ -450,11 +512,14 @@ def qa_concept(logo: LogoDir, concept_id: str, client, brand_: Brand) -> dict[st
 def finalize(logo: LogoDir, client=None) -> str:
     from logo_maker import judging
 
+    _require_brief(logo)
     finalists_path = logo.ideation / "finalists.json"
     if not finalists_path.exists():
         raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
     data = _read_json(finalists_path)
     finalists = list(data["ids"])
+    for cid in finalists:
+        _require_plan(logo, cid)
     client = client or _client(logo)
     brand_ = brand(logo)
     # One finalist at a time: each final render saturates the GPU.
@@ -495,6 +560,7 @@ def export(logo: LogoDir) -> dict[str, Path]:
     from logo_maker import export as export_mod
     from logo_maker.eligibility import require_current
 
+    _require_brief(logo)
     brief = brief_mod.load(logo.brief)
     cid = winner(logo)
     proof = _read_json(logo.ideation / "winner.json").get("eligibility", {})
@@ -512,6 +578,7 @@ def export(logo: LogoDir) -> dict[str, Path]:
 
 
 def run(logo: LogoDir, client=None) -> dict[str, Path]:
+    review_brief(logo, client)
     client = client or _client(logo)
     log = runlog(logo.run_json)
     if log.stage_status("intake") != "done":
@@ -534,6 +601,7 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
     """
     from logo_maker import judging
 
+    _require_brief(logo)
     client = client or _client(logo)
     log = runlog(logo.run_json)
     floor_dir = logo.root / "floor"

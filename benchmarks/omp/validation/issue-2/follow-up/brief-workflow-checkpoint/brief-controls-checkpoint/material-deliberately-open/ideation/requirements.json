@@ -1,0 +1,129 @@
+{
+  "status": "pass",
+  "missing": [],
+  "files": [
+    "logos/issue-2-completion/brief-controls-checkpoint/material-deliberately-open/brief-evidence.toml"
+  ],
+  "questions": [],
+  "state": {
+    "business": {
+      "name": "Sample",
+      "summary": "A repair workshop where neighbors mend household objects during repair sessions.",
+      "tone": [
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighbors identifying their repair workshop before a session",
+      "uses": [
+        "app_icon"
+      ]
+    },
+    "design_direction": {
+      "open_choices": [
+        "material",
+        "symbol construction"
+      ]
+    },
+    "communication_priority": "A welcoming place to care for household objects",
+    "design_latitude": [
+      "material",
+      "symbol construction"
+    ],
+    "facts": [
+      {
+        "id": "activity",
+        "claim": "Neighbors mend household objects at a repair workshop",
+        "status": "established",
+        "sources": [
+          "owner"
+        ],
+        "essential": true
+      }
+    ],
+    "sources": {
+      "owner": {
+        "id": "owner",
+        "kind": "owner",
+        "path": "inputs/owner.txt",
+        "excerpt": "Sample is a repair workshop where neighbors mend household objects during repair sessions. Material is deliberately open.",
+        "sha256": "84b6ab5ba9db920c85b078eeb74b14161800aee8da6241b3c5087e8a24a6bbbe"
+      }
+    },
+    "requirements": [
+      {
+        "id": "material",
+        "claim": "Material is deliberately open",
+        "kind": "visual",
+        "origin": "owner",
+        "priority": "open",
+        "sources": [
+          "owner"
+        ]
+      }
+    ],
+    "obligations": [],
+    "previous_briefs": {}
+  },
+  "inputs": {
+    "brief_sha256": "611b38caca1cdc2f86e5100ca89d21a664b31484500b09c49dc7bde1298efb4e",
+    "evidence_sha256": "612659f7552b79ab5ff60ee0cfc8363748058b656d7edd3ecc391683cb6bd30b",
+    "sources": {
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/brief-controls-checkpoint/material-deliberately-open/inputs/owner.txt": "84b6ab5ba9db920c85b078eeb74b14161800aee8da6241b3c5087e8a24a6bbbe"
+    },
+    "references": {},
+    "baselines": {},
+    "rubric_sha256": "9f7eaa1426a39663a2ca5d99177120f1e568e0c374e1b7999947a3d24e55467f",
+    "review_protocol_sha256": "213610fdb01edc8fd9ba22228b3b425ee102ed42a7638c06f25a54c325f043f8",
+    "transport_sha256": "04a7599ddc592b81bdf549490c97ebad006d12e9e1f426b59645687f18a39c9b"
+  },
+  "requirements_revision": "c0fae4054be0e56b52966be3b656be369559eed63087899bbfd9162752b490db",
+  "answers": {
+    "activity": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.92
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "fact_activity": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "requirement_material": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "source_owner_directions": {
+      "type": "noul",
+      "noul": 0.72
+    },
+    "mandates": {
+      "type": "noul",
+      "noul": 0.88
+    }
+  },
+  "checks": {
+    "activity": "pass",
+    "audience": "pass",
+    "communication": "pass",
+    "grounding": "pass",
+    "consistent": "pass",
+    "source_owner_directions": "pass",
+    "fact_activity": "pass",
+    "requirement_material": "pass",
+    "mandates": "pass"
+  }
+}
