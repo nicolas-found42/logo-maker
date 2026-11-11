@@ -291,6 +291,19 @@ def test_evidence_heading_matches_case_insensitively():
     assert check.validate(body, "pr") == []
 
 
+@pytest.mark.parametrize("opener", ["<pre>", "<code>", "`<pre>` and <pre>"])
+def test_unterminated_html_code_before_trailing_fence_does_not_crash(opener):
+    text = f"**Observed result:** has {opener} here:\n```"
+    assert check.field_values(text, "Observed result") == [text.split(":**", 1)[1].lstrip()]
+
+
+def test_unterminated_html_code_in_pr_body_reports_errors_instead_of_raising():
+    body = nonvisual_pr().replace(
+        "**Observed result:**", "**Observed result:** has <pre> here:\n```\n**Observed result:**", 1
+    )
+    assert isinstance(check.validate(body, "pr"), list)
+
+
 def test_declaration_reason_with_only_inline_code_is_accepted():
     body = nonvisual_pr().replace(
         "No: CLI validation only; app and rendered output are unchanged.",

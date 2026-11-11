@@ -434,7 +434,7 @@ def main() -> int:
         if args.body_file is None:
             parser.error("--kind requires --body-file")
         return report(validate(args.body_file.read_text(), args.kind))
-    except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as exc:
+    except (ValueError, KeyError, IndexError, OSError, subprocess.CalledProcessError) as exc:
         # Do not dump the untrusted body, API response or credentials into workflow commands.
         return report(
             [f"Validator could not complete ({type(exc).__name__}); check configuration/API access"]
