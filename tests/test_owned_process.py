@@ -45,11 +45,14 @@ def test_owned_timeout_inspection_is_bounded_and_reaps_worker(tmp_path, monkeypa
                 raise subprocess.CalledProcessError(1, command)
             if inspection.startswith("invalid"):
                 return subprocess.CompletedProcess(command, 0, "invalid state row\n", "")
-            command = [
-                sys.executable,
-                "-c",
-                "import os,time;time.sleep(.25);os.execv('/bin/ps',['/bin/ps','-axo','pgid=,stat='])",
-            ]
+            # Charge probe latency to its timeout, without a cold interpreter proxy.
+            limit = float(kwargs["timeout"])
+            started = time.monotonic()
+            time.sleep(min(0.25, limit))
+            remaining = limit - (time.monotonic() - started)
+            if remaining <= 0:
+                raise subprocess.TimeoutExpired(command, limit)
+            kwargs["timeout"] = remaining
         return original_run(command, **kwargs)
 
     monkeypatch.setattr(subprocess, "Popen", popen)
