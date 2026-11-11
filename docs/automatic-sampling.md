@@ -110,11 +110,30 @@ a deadline. Time, attempt, memory, device, cap, noise and visual outcomes have s
 
 ## Profiles and reuse
 
-No qualified numeric replacement ships with this change. Missing, invalid, stale or
+No faster numeric replacement ships with this change. The retained 4096 / 0.01
+comparator has a scoped owner-reviewed M5 Pro profile. Missing, invalid, stale or
 out-of-scope profiles retain the unchanged adaptive baseline and return a review stop at
 finalize. Low-level `render` and `export_all` can produce inspection artifacts explicitly
 labeled unqualified; they cannot become pipeline winners. Legacy direct image exports are
 marked `unattested_legacy_image` in the manifest.
+
+### Profile activation
+
+Before a normal final job, select a retained profile matching the actual runtime context
+and reviewed material/stage scope. The M5 Pro profile is
+[`apple-m5-pro-final.json`](../benchmarks/sampling/profiles/apple-m5-pro-final.json).
+Set `[sampling] profile` to its absolute path (or a path relative to that concept).
+The host validates context and review hashes before rendering, fills only unspecified
+controls, and records `qualified`, `profile_stale`, `profile_out_of_scope` or an explicit
+conflict. No matching record means the unchanged comparator and a review stop.
+
+This profile retains 4096 / 0.01; it enables a reviewed starting policy without a
+per-concept candidate search. Its positive, rejected-detail and held-out labels are
+technical sampling judgments. Cap16 was accepted in its shown typography control and
+is not qualified across the material scope. Clover shading/edge defects remain separate
+refinement work. Current-image QA, craftsmanship, brief fit and preference remain
+independent, including for capped outputs. Changes to its recorded runtime or package-source
+context invalidate this exact profile; recalibrate instead of editing its context to match.
 
 A schema-1 profile contains:
 

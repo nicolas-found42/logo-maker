@@ -259,3 +259,22 @@ report—and confirmed all 252/1 check counts, native Metal/OIDN execution, 65 d
 implementation gap in that audit. This supports the limited facts; broad uncertainty and
 profile qualification remain separate. See `jev-gate-filesystem-filesystem.json` and
 `jev-gate-filesystem-qa.json`.
+
+The final narrow profile-data review checked the original files and found no blocking
+qualification mismatch: owner positive/rejected-detail/held-out labels, all evidence and
+package hashes, matching runtime contexts, actual qualified consumption and 31 pinned
+exports. Clover's unresolved craft defect received no approval. Historical pending fields
+are epoch-explained rather than rewritten. The skill's focused profile-activation addition
+passed quick_validate (ephemeral PyYAML environment; project dependencies unchanged).
+
+The first metadata gate included oversized generated-report additions and was explicitly
+truncated/escalated. The corrected complete metadata/guidance-only gate verified both claims
+(confidences 0.94/0.96) but still escalated broad uncertainty (safe-to-apply 0.43,
+composite 0.7495, test-gap confidence 0.16). These signals are retained, not represented as
+automatic approval. The stronger independent data review supports the scoped qualification.
+
+Hosted 0698 failed the existing PWA helper's 300-second timeout: 249 passed / 2 skipped,
+4 deselected. No deadline/provenance regression failed. The exact failure is retained in
+ci-filesystem-0698-failure.txt; an unchanged failed-job rerun was requested. Local PWA
+exports continue to pass. Startup/shutdown source inspection and a private-browser probe
+have not established the hosted timeout's cause, so no browser correctness fix is claimed.

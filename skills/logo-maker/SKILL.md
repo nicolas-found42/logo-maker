@@ -87,6 +87,10 @@ rigs.
 
 ## 6. Run to the end
 
+Before final rendering, follow [profile activation](../../docs/automatic-sampling.md#profile-activation)
+and set the matching reviewed profile in each concept's `[sampling]` configuration.
+An unavailable or stale match keeps the comparator and an explicit review stop.
+
 `logo-maker run <slug>` again. It renders GPU previews, keeps 3 finalists judged on the images,
 renders finals at 4000 px, and runs up to five QA rounds per finalist (readable, nothing cut off,
 clean edges, no veil or box, recognizable at 32 px), fixing scenes after a clear fail (Jev P < 0.3

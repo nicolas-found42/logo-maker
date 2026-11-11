@@ -79,5 +79,15 @@
     "owner_answer_verbatim": "Yes, the face issue is resolved",
     "figure_sha256": "4e230cf9881ab523c0e0e8f44cff7194f878d9478e5305d5ebfd6596e51cac14",
     "scope": "Face shading issue resolved in local diagnostic copy only; no global fix, no remaining-edge approval, no sampling profile approval"
+  },
+  "heldout_technical_acceptance": {
+    "question": "Separately from liking their shapes, do you accept the technical sampling detail of BOTH orbit and prism at 4096 / 0.01 after reviewing independent seeds and noisy/denoised crops?",
+    "owner_answer_verbatim": "Accept both technically",
+    "cases": [
+      "orbit-three-point-seeds47-57",
+      "prism-raking-seeds48-58"
+    ],
+    "figure_sha256": "78e45acb13240fcae9d355a2798c16bf029363dd800276e48111383605136742",
+    "scope": "technical sampling of these held-out shape/lighting studies, not style or global craftsmanship approval"
   }
 }

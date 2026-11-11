@@ -1,14 +1,16 @@
 # Sampling qualification evidence
 
 This is technical evidence for [#5](https://github.com/nicolas-found42/logo-maker/issues/5),
-not a catalog/default design reference. No qualified replacement profile is shipped.
-The owner rejected 0.02 detail in the shown typography/glass comparisons. Follow-up
-owner review accepts the shown 0.01 typography/material controls and cap-16
-typography control; cap-16 is therefore not a rejected control. Three further 0.01 glass
-seed repetitions were accepted technically. Fresh held-out qualification and a scoped
-profile remain open. Both Chief finishes retain
-their existing positive craftsmanship labels;
-these synthetic fixtures do not redefine that standard.
+not a catalog/default design reference. The retained **4096 / 0.01** comparator now has
+an owner-reviewed M5 Pro final profile in
+[profiles/apple-m5-pro-final.json](profiles/apple-m5-pro-final.json). No faster numeric
+replacement is enabled. The owner rejected 0.02 detail, accepted the shown 0.01 controls
+and the cap-16 typography control, and explicitly accepted both independent-seed held-out
+orbit/prism studies technically. Cap16 is therefore not a rejected control. Clover's broad
+face-reflection defect was diagnosed as shading and resolved in a source-copy probe;
+edge/bevel craftsmanship remains unresolved. Sampling acceptance is separate from
+craftsmanship, brief fit and preference. Historical sections retain their original epoch
+and qualification state; the final follow-ups supersede earlier pending-label statements.
 
 ## Machine and method
 
@@ -472,3 +474,62 @@ The three authored studies cost **76.30 / 83.06 / 142.06 s** complete invocation
 the cap-shading probe cost **106.69 s**. Their full 31-file exports were hash-checked.
 These additional one-off costs are separate from the original calibration matrix.
 Other host work and cache state were uncontrolled; no speedup is claimed.
+
+## Scoped retained-baseline qualification
+
+The owner explicitly accepted both held-out orbit and prism studies after reviewing
+seeds 47/57 and 48/58 and their native noisy/GPU-denoised crops. Their current confirmations
+cost 71.77/81.77 s complete invocation, including full exports. Native Metal/OIDN, 4k→2k
+and 62 export hashes were checked. [Confirmation](validation/glass-heldout-confirmation.json)
+and [verbatim labels](validation/owner-review-followup.json) retain their scope.
+
+The qualified profile keeps **4096 / 0.01**, automatic minimum 0 and actual job seeds.
+The 0.02 candidate failed owner detail review; cap 16 passed only its shown typography
+case and lacks cross-material qualification. This is the least expensive fully demonstrated
+suitable setting in the retained tested scope, not a global optimum. The profile's runtime
+context agrees across the current live job and held-out confirmations. It covers only the
+reviewed matte_plastic, polished_metal and clear_glass presets at final 4000→2000, and is
+invalidated by runtime/package changes. Current-image and independent craft/fit/preference
+gates remain necessary. No automated noise/detail acceptance tolerance was introduced.
+
+Two fresh same-setting baseline/current pairs measured complete invocations
+**47.20/50.09 s** and **46.93/50.20 s**. Current diagnostics and bounded bookkeeping add
+cost in these observations; no speedup is claimed. The baseline is the isolated `38ba86b9ccff305cb453c46920824509ae989f76`
+source with the same fixture and settings, while current runtime code matches 3d19e4a.
+[Raw comparison](validation/filesystem-cost-current.json) includes all 124 export hash checks.
+These timings include launch/import/render/denoise/output/full exports/shutdown; live QA,
+offline qualification and later evidence analysis remain separate costs. Cache state and
+other host load remain unknown. A normal job performs no candidate search; profile
+qualification and independent-seed confirmations are one-off costs, never a free prelude.
+
+A real normal final with this profile consumed the reviewed settings, reported qualified
+and profile_baseline, made one native attempt and used the pinned-qualified pipeline export
+path for 31 files. The operational fixture's winner was supplied only to exercise export;
+artistic approval is not inferred. [Consumption evidence](validation/profile-consumption.json)
+retains startup/preflight and whole invocation cost separately from its job body.
+
+The fresh normal-profile check measured **51.29 s complete invocation**, including
+profile/review preflight, process launch/import, fixture setup, render/denoise/diagnostics,
+downsampling, qualified pipeline export, bookkeeping/publication, retained evidence and
+process exit. Its job body was 51.15 s; the remaining 0.14 s covers preflight/startup/reporting.
+A separate earlier consumption body was 50.34 s and remains retained with its narrower scope.
+The earlier round's 14 complete invocations and two body-only checks total 1100.92 s of known
+job latencies. This is not elapsed session wall or GPU active time. The original 25-job
+955.51 s body total and intervening historical validation are additional. Authors' analysis,
+review-sheet work and human review are unmeasured; omitted overhead is unknown, not zero.
+[Cost inventory](validation/qualification-cost-inventory.json) lists each job and scope.
+No amortized benefit is claimed.
+
+The top-level `transfer_approval:false` / `qualified_profile:null` fields in the owner
+follow-up record describe its initial typography-review epoch. Its later
+`heldout_technical_acceptance` section supersedes that initial pending transfer state;
+[the scoped profile](profiles/apple-m5-pro-final.json) is the current qualification record.
+Likewise, raw confirmation measurements say owner review pending at capture time; the
+later explicit owner acceptance is preserved separately. Historical fields are retained,
+not relabeled as if approval preceded the measurements.
+
+A final description-only profile metadata correction was followed by another real
+consumption check: **51.75 s complete / 51.62 s body**, one native attempt and 31 pinned
+qualified exports. The preceding 51.29 s invocation is retained as its own epoch. All 15
+complete invocations plus two body-only checks now total 1152.67 s known job latency;
+the inventory preserves both rather than overwriting spent qualification cost.

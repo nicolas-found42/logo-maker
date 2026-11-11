@@ -1,0 +1,157 @@
+test	Offline tests	﻿2026-11-11T04:11:41.9315760Z ##[group]Run uv run --no-sync python -m pytest -q -m "not render and not live"
+test	Offline tests	2026-11-11T04:11:41.9316270Z ^[[36;1muv run --no-sync python -m pytest -q -m "not render and not live"^[[0m
+test	Offline tests	2026-11-11T04:11:41.9357770Z shell: /bin/bash -e {0}
+test	Offline tests	2026-11-11T04:11:41.9358010Z env:
+test	Offline tests	2026-11-11T04:11:41.9358390Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Offline tests	2026-11-11T04:11:41.9358880Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Offline tests	2026-11-11T04:11:41.9359170Z ##[endgroup]
+test	Offline tests	2026-11-11T04:17:59.9014990Z ............F........................................................... [ 28%]
+test	Offline tests	2026-11-11T04:18:22.7522540Z ........................................................................ [ 57%]
+test	Offline tests	2026-11-11T04:20:52.4723750Z ........................................................................ [ 85%]
+test	Offline tests	2026-11-11T04:20:54.7890220Z .................................ss.                                     [100%]
+test	Offline tests	2026-11-11T04:20:54.7891720Z =================================== FAILURES ===================================
+test	Offline tests	2026-11-11T04:20:54.7894510Z ______________________ test_export_set_sizes_and_manifest ______________________
+test	Offline tests	2026-11-11T04:20:54.7895020Z
+test	Offline tests	2026-11-11T04:20:54.7895950Z tmp_path = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0')
+test	Offline tests	2026-11-11T04:20:54.7896510Z
+test	Offline tests	2026-11-11T04:20:54.7898840Z     def test_export_set_sizes_and_manifest(tmp_path: Path) -> None:
+test	Offline tests	2026-11-11T04:20:54.7899560Z         concept, motif = _concept(tmp_path, _disc)
+test	Offline tests	2026-11-11T04:20:54.7899930Z         out = tmp_path / "exports"
+test	Offline tests	2026-11-11T04:20:54.7901180Z >       manifest = export_all(concept, out, name="Sample Brand", palette=PALETTE, motif_svg=motif)
+test	Offline tests	2026-11-11T04:20:54.7902080Z                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.7902400Z
+test	Offline tests	2026-11-11T04:20:54.7902580Z tests/test_export.py:41:
+test	Offline tests	2026-11-11T04:20:54.7913200Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+test	Offline tests	2026-11-11T04:20:54.7913920Z
+test	Offline tests	2026-11-11T04:20:54.7914800Z concept_dir = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/concept')
+test	Offline tests	2026-11-11T04:20:54.7916300Z out_dir = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/exports')
+test	Offline tests	2026-11-11T04:20:54.7917200Z name = 'Sample Brand'
+test	Offline tests	2026-11-11T04:20:54.7918380Z palette = {'primary': '#1E4A7A', 'background': '#F8F6F1', 'ink': '#16232E'}
+test	Offline tests	2026-11-11T04:20:54.7919600Z motif_svg = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_export_set_sizes_and_mani0/concept/motif.svg')
+test	Offline tests	2026-11-11T04:20:54.7920600Z budget = <logo_maker.sampling.Budget object at 0x10e0bd550>
+test	Offline tests	2026-11-11T04:20:54.7921390Z publication_log = None, expected_sampling_sha256 = None
+test	Offline tests	2026-11-11T04:20:54.7930690Z
+test	Offline tests	2026-11-11T04:20:54.7930840Z     def export_all(
+test	Offline tests	2026-11-11T04:20:54.7931190Z         concept_dir: Path,
+test	Offline tests	2026-11-11T04:20:54.7931570Z         out_dir: Path,
+test	Offline tests	2026-11-11T04:20:54.7931890Z         *,
+test	Offline tests	2026-11-11T04:20:54.7932340Z         name: str,
+test	Offline tests	2026-11-11T04:20:54.7932670Z         palette: dict[str, str],
+test	Offline tests	2026-11-11T04:20:54.7932920Z         motif_svg: Path,
+test	Offline tests	2026-11-11T04:20:54.7933260Z         budget: Budget | None = None,
+test	Offline tests	2026-11-11T04:20:54.7933710Z         publication_log: RunLog | None = None,
+test	Offline tests	2026-11-11T04:20:54.7934110Z         expected_sampling_sha256: str | None = None,
+test	Offline tests	2026-11-11T04:20:54.7934500Z     ) -> dict[str, Path]:
+test	Offline tests	2026-11-11T04:20:54.7935090Z         """Build under the whole-job deadline, then replace the export set as a unit.
+test	Offline tests	2026-11-11T04:20:54.7935560Z
+test	Offline tests	2026-11-11T04:20:54.7936050Z         The child deadline covers native CPU image processing and external tools too.
+test	Offline tests	2026-11-11T04:20:54.7937110Z         Low-level legacy image exports remain available, explicitly unattested; the
+test	Offline tests	2026-11-11T04:20:54.7937830Z         pipeline winner boundary additionally requires sampling qualification.
+test	Offline tests	2026-11-11T04:20:54.7939960Z         """
+test	Offline tests	2026-11-11T04:20:54.7940290Z         budget = budget or Budget()
+test	Offline tests	2026-11-11T04:20:54.7940550Z         budget.check()
+test	Offline tests	2026-11-11T04:20:54.7941050Z         started = time.monotonic()
+test	Offline tests	2026-11-11T04:20:54.7941690Z         concept_dir, out_dir = Path(concept_dir).absolute(), Path(out_dir).absolute()
+test	Offline tests	2026-11-11T04:20:54.7942290Z         pending = out_dir.with_name(".export-pending-" + uuid.uuid4().hex)
+test	Offline tests	2026-11-11T04:20:54.7943310Z         work = Budget(parent=budget, attempt_limit=budget.attempt_limit)
+test	Offline tests	2026-11-11T04:20:54.7943740Z         work.deadline -= 2
+test	Offline tests	2026-11-11T04:20:54.7943980Z         payload = {
+test	Offline tests	2026-11-11T04:20:54.7944750Z             "concept_dir": str(concept_dir),
+test	Offline tests	2026-11-11T04:20:54.7945210Z             "out_dir": str(pending),
+test	Offline tests	2026-11-11T04:20:54.7946020Z             "name": name,
+test	Offline tests	2026-11-11T04:20:54.7946510Z             "palette": palette,
+test	Offline tests	2026-11-11T04:20:54.7946970Z             "motif_svg": str(Path(motif_svg).absolute()),
+test	Offline tests	2026-11-11T04:20:54.7947520Z             "expected_sampling_sha256": expected_sampling_sha256,
+test	Offline tests	2026-11-11T04:20:54.7951080Z         }
+test	Offline tests	2026-11-11T04:20:54.7951360Z         try:
+test	Offline tests	2026-11-11T04:20:54.7951720Z             proc = owned_process.run(
+test	Offline tests	2026-11-11T04:20:54.7952150Z                 [sys.executable, "-m", "logo_maker.export"],
+test	Offline tests	2026-11-11T04:20:54.7955080Z                 input_text=json.dumps(payload),
+test	Offline tests	2026-11-11T04:20:54.7955560Z                 budget=work,
+test	Offline tests	2026-11-11T04:20:54.7955890Z                 label="export",
+test	Offline tests	2026-11-11T04:20:54.7956540Z             )
+test	Offline tests	2026-11-11T04:20:54.7957130Z             if proc.returncode:
+test	Offline tests	2026-11-11T04:20:54.7957710Z >               raise ExportError((proc.stderr or proc.stdout)[-2000:])
+test	Offline tests	2026-11-11T04:20:54.7958380Z E               logo_maker.export.ExportError: dtime, timeout)
+test	Offline tests	2026-11-11T04:20:54.7959040Z E                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.7959760Z E                 File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 2156, in _communicate
+test	Offline tests	2026-11-11T04:20:54.7960390Z E                   self._check_timeout(endtime, orig_timeout, stdout, stderr)
+test	Offline tests	2026-11-11T04:20:54.7961100Z E                   ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.7962350Z E                 File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1270, in _check_timeout
+test	Offline tests	2026-11-11T04:20:54.7962980Z E                   raise TimeoutExpired(
+test	Offline tests	2026-11-11T04:20:54.7963540Z E                   ...<2 lines>...
+test	Offline tests	2026-11-11T04:20:54.7964370Z E                           stderr=b''.join(stderr_seq) if stderr_seq else None)
+test	Offline tests	2026-11-11T04:20:54.7965160Z E               subprocess.TimeoutExpired: Command '['node', '/Users/runner/work/logo-maker/logo-maker/js/pwa.mjs']' timed out after 300 seconds
+test	Offline tests	2026-11-11T04:20:54.7966810Z E
+test	Offline tests	2026-11-11T04:20:54.7967600Z E               The above exception was the direct cause of the following exception:
+test	Offline tests	2026-11-11T04:20:54.7968380Z E
+test	Offline tests	2026-11-11T04:20:54.7969520Z E               Traceback (most recent call last):
+test	Offline tests	2026-11-11T04:20:54.7970590Z E                 File "<frozen runpy>", line 203, in _run_module_as_main
+test	Offline tests	2026-11-11T04:20:54.7971350Z E                 File "<frozen runpy>", line 88, in _run_code
+test	Offline tests	2026-11-11T04:20:54.7973160Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 488, in <module>
+test	Offline tests	2026-11-11T04:20:54.7974590Z E                   print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)
+test	Offline tests	2026-11-11T04:20:54.7975410Z E                                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.7976180Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 357, in _export_all
+test	Offline tests	2026-11-11T04:20:54.7977220Z E                   pwa_assets(pwa_source, pwa_dir, background=paper, opaque=True)
+test	Offline tests	2026-11-11T04:20:54.7978740Z E                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.7984210Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 149, in pwa_assets
+test	Offline tests	2026-11-11T04:20:54.7988600Z E                   result = node(
+test	Offline tests	2026-11-11T04:20:54.7990270Z E                       "pwa",
+test	Offline tests	2026-11-11T04:20:54.7992520Z E                   ...<6 lines>...
+test	Offline tests	2026-11-11T04:20:54.7993680Z E                       },
+test	Offline tests	2026-11-11T04:20:54.7995140Z E                   )
+test	Offline tests	2026-11-11T04:20:54.7995920Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 62, in node
+test	Offline tests	2026-11-11T04:20:54.7999820Z E                   proc = run(["node", str(path)], timeout=timeout, cwd=JS_DIR, input_text=json.dumps(payload))
+test	Offline tests	2026-11-11T04:20:54.8003490Z E                 File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 47, in run
+test	Offline tests	2026-11-11T04:20:54.8007600Z E                   raise ToolError(f"{cmd[0]} timed out after {timeout:.0f}s: {' '.join(cmd)}") from exc
+test	Offline tests	2026-11-11T04:20:54.8015570Z E               logo_maker.proc.ToolError: node timed out after 300s: node /Users/runner/work/logo-maker/logo-maker/js/pwa.mjs
+test	Offline tests	2026-11-11T04:20:54.8016550Z
+test	Offline tests	2026-11-11T04:20:54.8017180Z logo_maker/export.py:449: ExportError
+test	Offline tests	2026-11-11T04:20:54.8017740Z =============================== warnings summary ===============================
+test	Offline tests	2026-11-11T04:20:54.8019580Z tests/test_geometry.py: 48 warnings
+test	Offline tests	2026-11-11T04:20:54.8022980Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T04:20:54.8024460Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T04:20:54.8025120Z     ar.shape = shape
+test	Offline tests	2026-11-11T04:20:54.8025370Z
+test	Offline tests	2026-11-11T04:20:54.8027700Z tests/test_geometry.py::test_sweeps_and_solids_watertight
+test	Offline tests	2026-11-11T04:20:54.8028810Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T04:20:54.8029880Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T04:20:54.8030410Z     faces.shape = -1, 3
+test	Offline tests	2026-11-11T04:20:54.8030620Z
+test	Offline tests	2026-11-11T04:20:54.8031030Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test	Offline tests	2026-11-11T04:20:54.8031600Z =========================== short test summary info ============================
+test	Offline tests	2026-11-11T04:20:54.8032410Z FAILED tests/test_export.py::test_export_set_sizes_and_manifest - logo_maker.export.ExportError: dtime, timeout)
+test	Offline tests	2026-11-11T04:20:54.8033080Z                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.8037810Z   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 2156, in _communicate
+test	Offline tests	2026-11-11T04:20:54.8040020Z     self._check_timeout(endtime, orig_timeout, stdout, stderr)
+test	Offline tests	2026-11-11T04:20:54.8040530Z     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.8041300Z   File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/subprocess.py", line 1270, in _check_timeout
+test	Offline tests	2026-11-11T04:20:54.8041830Z     raise TimeoutExpired(
+test	Offline tests	2026-11-11T04:20:54.8042170Z     ...<2 lines>...
+test	Offline tests	2026-11-11T04:20:54.8042550Z             stderr=b''.join(stderr_seq) if stderr_seq else None)
+test	Offline tests	2026-11-11T04:20:54.8043330Z subprocess.TimeoutExpired: Command '['node', '/Users/runner/work/logo-maker/logo-maker/js/pwa.mjs']' timed out after 300 seconds
+test	Offline tests	2026-11-11T04:20:54.8043770Z
+test	Offline tests	2026-11-11T04:20:54.8044060Z The above exception was the direct cause of the following exception:
+test	Offline tests	2026-11-11T04:20:54.8044360Z
+test	Offline tests	2026-11-11T04:20:54.8044610Z Traceback (most recent call last):
+test	Offline tests	2026-11-11T04:20:54.8045040Z   File "<frozen runpy>", line 203, in _run_module_as_main
+test	Offline tests	2026-11-11T04:20:54.8045530Z   File "<frozen runpy>", line 88, in _run_code
+test	Offline tests	2026-11-11T04:20:54.8047300Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 488, in <module>
+test	Offline tests	2026-11-11T04:20:54.8047960Z     print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)
+test	Offline tests	2026-11-11T04:20:54.8048540Z                      ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.8049130Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 357, in _export_all
+test	Offline tests	2026-11-11T04:20:54.8049810Z     pwa_assets(pwa_source, pwa_dir, background=paper, opaque=True)
+test	Offline tests	2026-11-11T04:20:54.8050270Z     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test	Offline tests	2026-11-11T04:20:54.8050880Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/export.py", line 149, in pwa_assets
+test	Offline tests	2026-11-11T04:20:54.8052190Z     result = node(
+test	Offline tests	2026-11-11T04:20:54.8052900Z         "pwa",
+test	Offline tests	2026-11-11T04:20:54.8053170Z     ...<6 lines>...
+test	Offline tests	2026-11-11T04:20:54.8053460Z         },
+test	Offline tests	2026-11-11T04:20:54.8054070Z     )
+test	Offline tests	2026-11-11T04:20:54.8054510Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 62, in node
+test	Offline tests	2026-11-11T04:20:54.8055170Z     proc = run(["node", str(path)], timeout=timeout, cwd=JS_DIR, input_text=json.dumps(payload))
+test	Offline tests	2026-11-11T04:20:54.8055820Z   File "/Users/runner/work/logo-maker/logo-maker/logo_maker/proc.py", line 47, in run
+test	Offline tests	2026-11-11T04:20:54.8056440Z     raise ToolError(f"{cmd[0]} timed out after {timeout:.0f}s: {' '.join(cmd)}") from exc
+test	Offline tests	2026-11-11T04:20:54.8057210Z logo_maker.proc.ToolError: node timed out after 300s: node /Users/runner/work/logo-maker/logo-maker/js/pwa.mjs
+test	Offline tests	2026-11-11T04:20:54.8058040Z 1 failed, 249 passed, 2 skipped, 4 deselected, 49 warnings in 551.74s (0:09:11)
+test	Offline tests	2026-11-11T04:20:56.2388870Z ##[error]Process completed with exit code 1.

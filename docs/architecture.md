@@ -177,7 +177,9 @@ not zero error. `meta.seed` supplies the deterministic seed unless explicitly ov
 `[sampling]` exposes `profile` (optional JSON path), `diagnosis` (optional JSON path),
 `wall_seconds` (default 1800), `attempt_limit` (default 2, maximum 4), and
 `diagnostic_bytes` (default 2147483648, maximum 2147483648 per attempt).
-No replacement profile is shipped as qualified. Missing/stale/out-of-scope profiles retain the
+The retained 4096 / 0.01 comparator has a scoped owner-reviewed M5 Pro final profile in
+`benchmarks/sampling/profiles/apple-m5-pro-final.json`; no faster numeric default is enabled.
+Missing/stale/out-of-scope profiles retain the
 4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
 A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,
 Python and image/geometry library versions plus the project lockfile,
