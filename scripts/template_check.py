@@ -79,6 +79,16 @@ def sections(text: str) -> list[Section]:
     return result
 
 
+def own_body(text: str) -> str:
+    """Return a section's content before child headings, ignoring headings in code."""
+    clean = COMMENT.sub("", text)
+    lines = clean.splitlines()
+    for index, line in enumerate(outside_code(clean).splitlines()):
+        if HEADING.match(line):
+            return "\n".join(lines[:index])
+    return clean
+
+
 def answer(text: str, *, allow_none: bool = False) -> bool:
     text = COMMENT.sub("", text)
     text = re.sub(r"^\s*#{1,6}\s+.*$", "", text, flags=re.MULTILINE)
@@ -212,16 +222,16 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: provide an answer, not comments or placeholders")
         if kind != "pr":
             continue
-        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", required.body):
+        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", own_body(required.body)):
             values = re.findall(
                 r"(?ms)^\*\*" + re.escape(field) + r":\*\*\s*(.*?)(?=^\*\*[^*\n]+:\*\*|\Z)",
-                found.body,
+                own_body(found.body),
             )
             if len(values) != 1 or not answer(values[0]):
                 errors.append(f"{required.title} / {field}: provide a filled answer")
-        expected_rows = table_rows(required.body)
+        expected_rows = table_rows(own_body(required.body))
         try:
-            found_rows = table_rows(found.body)
+            found_rows = table_rows(own_body(found.body))
         except ValueError as exc:
             errors.append(f"{required.title}: {exc}")
             continue
@@ -230,6 +240,21 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             if len(values) != len(cells) or not all(answer(value) for value in values):
                 errors.append(f"{required.title} / {row}: fill every answer cell")
     if kind == "pr":
+        evidence_sections = [section for section in actual if section.title == "Evidence"]
+        declaration = ""
+        if len(evidence_sections) == 1:
+            # Only the container's own prose can declare screenshot applicability.
+            introduction = own_body(evidence_sections[0].body)
+            declarations = re.findall(
+                r"(?m)^\*\*Visible app change:\*\*\s*([^\n]+)", outside_code(introduction)
+            )
+            if len(declarations) == 1:
+                declaration = declarations[0].strip()
+        applicability = re.fullmatch(r"(Yes|No):\s*(.+)", declaration, re.IGNORECASE)
+        if not applicability or not answer(applicability[2]):
+            errors.append("Evidence / Visible app change: use Yes: reason or No: reason")
+        if applicability and applicability[1].casefold() == "no":
+            return errors
         evidence = []
         for title in ["Before", "After"]:
             found = [section for section in actual if section.title.casefold() == title.casefold()]

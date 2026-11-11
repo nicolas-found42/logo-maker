@@ -18,12 +18,17 @@ PR = f"""## Summary
 Fix exports clipping when a motif reaches its contour bounds.
 
 ## Evidence
+**Visible app change:** Yes: the rendered export contour changes.
 ### Before
 ![Before export]({BEFORE})
-Revision 1111111, export the same minimal motif: the right edge is clipped.
+**Revision:** 1111111
+**Scenario:** Export the same minimal motif with logo-maker export sample.
+**Observed result:** The right edge is clipped.
 ### After
 ![After export]({AFTER})
-Revision 2222222, same command and motif: the complete contour is visible.
+**Revision:** 2222222
+**Scenario:** Same logo-maker export sample command and motif.
+**Observed result:** The complete contour is visible.
 ### Verification
 | Check | Result and evidence, or reason not run |
 | --- | --- |
@@ -169,11 +174,54 @@ def test_local_inline_image_cannot_borrow_unused_reference_definition():
     assert any("Before: embed" in error for error in check.validate(body, "pr"))
 
 
-def test_image_without_caption_fails():
-    body = PR.replace(
-        "Revision 1111111, export the same minimal motif: the right edge is clipped.", ""
+def test_image_without_observed_result_fails():
+    body = PR.replace("**Observed result:** The right edge is clipped.", "")
+    assert any("Before / Observed result" in error for error in check.validate(body, "pr"))
+
+
+def nonvisual_pr():
+    return (
+        PR.replace(
+            "Yes: the rendered export contour changes.",
+            "No: CLI validation only; app and rendered output are unchanged.",
+        )
+        .replace(f"![Before export]({BEFORE})", "")
+        .replace(f"![After export]({AFTER})", "")
+        .replace("The right edge is clipped.", "Invalid input exits 0.\n\n```text\nexit=0\n```")
+        .replace(
+            "The complete contour is visible.", "Invalid input exits 2.\n\n```text\nexit=2\n```"
+        )
     )
-    assert any("Before: provide" in error for error in check.validate(body, "pr"))
+
+
+def test_nonvisual_before_after_text_passes_without_images():
+    assert check.validate(nonvisual_pr(), "pr") == []
+
+
+@pytest.mark.parametrize("side", ["Before", "After"])
+@pytest.mark.parametrize("field", ["Revision", "Scenario", "Observed result"])
+def test_nonvisual_proof_requires_each_detail(side, field):
+    body = nonvisual_pr()
+    section = next(section for section in check.sections(body) if section.title == side)
+    changed = section.body.replace(f"**{field}:**", f"{field} omitted:")
+    body = body.replace(section.body, changed)
+    assert any(f"{side} / {field}" in error for error in check.validate(body, "pr"))
+
+
+@pytest.mark.parametrize("declaration", ["", "No", "No: TODO", "Maybe: CLI", "<!-- No: CLI -->"])
+def test_screenshot_opt_out_requires_explicit_classification_and_reason(declaration):
+    body = PR.replace("Yes: the rendered export contour changes.", declaration)
+    assert any("Visible app change" in error for error in check.validate(body, "pr"))
+
+
+def test_declaration_inside_code_cannot_disable_screenshot_requirement():
+    body = PR.replace(
+        "**Visible app change:** Yes: the rendered export contour changes.",
+        "```text\n**Visible app change:** No: backend only.\n```",
+    ).replace(f"![Before export]({BEFORE})", "")
+    errors = check.validate(body, "pr")
+    assert any("Visible app change" in error for error in errors)
+    assert any("Before: embed" in error for error in errors)
 
 
 def test_empty_or_missing_verification_row_fails():
