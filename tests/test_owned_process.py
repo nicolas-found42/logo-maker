@@ -82,3 +82,30 @@ def test_owned_timeout_inspection_is_bounded_and_reaps_worker(tmp_path, monkeypa
             if worker.poll() is None:
                 original_killpg(worker.pid, signal.SIGKILL)
             original_popen.wait(worker, timeout=1)
+
+
+def test_inactive_group_proof_is_not_repeated_after_signal_denial(tmp_path, monkeypatch):
+    original_killpg = os.killpg
+    original_run = subprocess.run
+    probes = []
+    marker = tmp_path / "completed-worker"
+
+    def denied_signals(group, sig):
+        if sig in (0, signal.SIGTERM):
+            raise PermissionError("controlled inactive group denial")
+        return original_killpg(group, sig)
+
+    def inspect(command, **kwargs):
+        if command[0] == "/bin/ps":
+            probes.append(command)
+        return original_run(command, **kwargs)
+
+    monkeypatch.setattr(os, "killpg", denied_signals)
+    monkeypatch.setattr(subprocess, "run", inspect)
+    result = owned_process.run(
+        [sys.executable, "-c", f"from pathlib import Path;Path({str(marker)!r}).touch()"],
+        budget=Budget(wall_seconds=2),
+    )
+    assert result.returncode == 0
+    assert marker.exists()
+    assert len(probes) == 1
