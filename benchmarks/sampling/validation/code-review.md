@@ -234,3 +234,28 @@ live-final replacement after hashing.
 Seven focused review-fix/publication tests passed in 21.64 s. Fresh re-review and final
 current-source checks remain pending. The earlier 249-test run and three GPU regression
 checks retain their original source scope; new glass studies use archived 8261315.
+
+Both fresh follow-up reviews closed the findings at `3d19e4a`. Standards confirmed
+journaled quarantine paths and found no new documented breach in the focused fixes.
+Spec independently ran the three public active-provenance/qualification race cases:
+**3 passed in 2.46 s**, and found no additional actionable issue in that delta.
+The optional dictionary protocol maintainability observation remains nonblocking.
+
+Current-source offline validation then passed **252 tests / 4 deselected** in 147.50 s.
+The actual final/export/live-QA check passed **1 test** in 52.59 s. Its 52.42 s job body
+contains one native attempt, 4000→2000 delivery, 31 exports, one provider request/two
+retained assets, reconciled usage, sampling_review_needed and prior-winner retention.
+A fresh raw audit matched all 65 dependencies to the current runtime source, native
+Metal/OIDN logs and hashes, every export, both sent assets and the prior winner.
+This is operational validation; qualification and owner artistic approval are not inferred.
+
+The two final subset Jev gates preserve the complete (untruncated) filesystem and
+QA/provider deltas. All three limited factual claims were verified without contradiction,
+but both broad reviews escalated: safe-to-apply 0.20, composites 0.65775/0.593,
+correctness confidences 0.34/0.13. No automatic merge approval is inferred.
+The Spec reviewer then independently audited the original current files—not just the
+report—and confirmed all 252/1 check counts, native Metal/OIDN execution, 65 dependencies,
+31 exports, two sent assets, usage and prior-winner preservation. It found no concrete new
+implementation gap in that audit. This supports the limited facts; broad uncertainty and
+profile qualification remain separate. See `jev-gate-filesystem-filesystem.json` and
+`jev-gate-filesystem-qa.json`.

@@ -440,3 +440,35 @@ The raw image dimensions, recorded floating-point controls and source/seed/expor
 were then supplied explicitly with separate claims. All three limited claims were verified
 without contradiction; [verification](validation/glass-independent-jev.json). This is
 factual verification, not visual approval or broad patch acceptance.
+
+## Filesystem publication and current-source validation
+
+The filesystem increment owns parent input/record IO, prior-record archival, copies,
+staging, publication, cleanup and winner finalization. A three-second recovery reserve
+stays inside the original deadline. A failed retry retains its prior active provenance;
+pipeline export pins the exact qualified record through currency and worker snapshot
+checks. CPU host work remains allowed. Fresh reviews found and closed three real gaps;
+[review history](validation/code-review.md) and the new public failure tests retain the details.
+
+Current runtime source passed **252 offline / 3 render / 1 actual GPU-live / 48 doctor**
+checks; lint/types/hooks passed. The actual shared-budget job body took **52.42 s**
+(render 45.94, export 3.77, final QA 2.70; fixture/setup is included). Raw records, all 65
+source dependencies, Metal tracing/GPU OIDN, 4000→2000 delivery, 31 exports, the provider
+request/two assets and prior-winner preservation were rechecked in
+[the current-source audit](validation/filesystem-live-current.json). It stopped at
+sampling_review_needed. This validates operations without creating a qualified profile.
+
+The owner liked the orbit and prism studies and flagged angular clover reflections.
+The bands exist before denoising. An exact-mesh probe found flat-cap shading normals
+3.59–9.93 degrees from the geometric normal. A one-variable source-copy rerender changed
+only cap smoothing, with identical mesh bytes, recipe, material, lights, seed 49 and
+4096 / 0.01. The flat-cap probe reaches at most 0.02 degrees and removes the broad face
+bands. The owner confirmed: “Yes, the face issue is resolved.” Edge/bevel faceting remains
+unresolved. This is a shading/craft diagnosis, not a sampling escalation; the package's
+geometry builder was not changed by this probe. See
+[retained diagnosis](validation/clover-shading-diagnosis.json).
+
+The three authored studies cost **76.30 / 83.06 / 142.06 s** complete invocation;
+the cap-shading probe cost **106.69 s**. Their full 31-file exports were hash-checked.
+These additional one-off costs are separate from the original calibration matrix.
+Other host work and cache state were uncontrolled; no speedup is claimed.

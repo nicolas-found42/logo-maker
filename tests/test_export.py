@@ -306,7 +306,7 @@ def test_pipeline_export_rejects_concurrent_qualification_replacement(
     (folder / "motif.svg").write_text(MOTIF)
     (folder / ".build").mkdir()
     sidecar = folder / ".build/final.sampling.json"
-    record = {
+    record: dict = {
         "published": True,
         "delivered_sha256": hashlib.sha256((folder / "final.png").read_bytes()).hexdigest(),
         "profile": {"state": "qualified"},

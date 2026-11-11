@@ -1,0 +1,1189 @@
+{
+  "scope": "New shape/lighting studies not used to choose threshold; independent seed confirmations, current runtime package; technical owner review pending",
+  "jobs": [
+    {
+      "case": "orbit-three-point",
+      "seed": 57,
+      "original_seed": 47,
+      "measurement": {
+        "seconds": 71.61220962500374,
+        "render_seconds": 68.24971775000449,
+        "render_module": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/render.py",
+        "render_module_sha256": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/attempt-7fa482d80e69465f8adb82553476be2b/final.execution.json",
+        "sampling": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/final.sampling.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/final.png",
+        "export_count": 31,
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/exports/manifest.json",
+        "budget": {
+          "wall_seconds": 900,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 71.61264070800098,
+          "remaining_seconds": 828.3873590840085,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "owner_review": "pending",
+        "qualification": "inspection_only_unqualified",
+        "timing_scope": "motif preparation, render setup/tracing/GPU denoise/diagnostics/downsample and full exports; complete outer invocation separately measured",
+        "kernel_cache_state": "unknown",
+        "invocation_seconds": 71.77104233400314,
+        "source_revision": "3d19e4a"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "993798cda804f1c7ebfe7fb84c49bb775a1bb3c7b9319c2fab0abedef7349265",
+          "meshes/extrude_0.ply": "707183ae7dbf64456177d2c08d2f2d453ea488439f36aa6e347a9ae191dcfe39"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 57,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 65.17257904099824,
+        "process_cpu_seconds": 17.170337,
+        "log_sha256": "f7b5991535e9c44a1c1d22adc3af4cf44b048b58f6f22bc8842a567535d78750",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/attempt-7fa482d80e69465f8adb82553476be2b/final.execution.exr",
+          "bytes": 158867651,
+          "sha256": "146fc156089a0fc5a8e13c902af595c7af296227f888054b3a3233847ded0ec6",
+          "seconds": 0.30219658301211894,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "e0f697a8a70c16b33387b1f07c471d143cca1687a24c138780a0f451ee8c1c0e"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "74f06646a4aca92526791716cc7e4bdbd841c4d08f0e81011bc11c3fce1d7d0b",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 57,
+              "overrides": {
+                "adaptive_threshold": 0.01,
+                "max_samples": 4096.0
+              }
+            },
+            "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/attempt-7fa482d80e69465f8adb82553476be2b/final.execution.json",
+            "execution_sha256": "b634f54d43ac509b6db1915fee771934adbe0cdcfad3bca2bb66e61369fdf873",
+            "delivered_sha256": "64e6ad74639a638f52d195902d8fac05dafef06635099e3ef1bda20a05509c72",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 3183253,
+                  "p50": 80.0,
+                  "p90": 912.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.023102153677385995,
+                  "at_cap_fraction": 0.020075061580088042
+                },
+                "dark": {
+                  "pixels": 16663,
+                  "p50": 1376.0,
+                  "p90": 4096.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.13767028746324192,
+                  "at_cap_fraction": 0.11492528356238373
+                },
+                "alpha_boundary": {
+                  "pixels": 20054,
+                  "p50": 608.0,
+                  "p90": 3024.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.08362421462052458,
+                  "at_cap_fraction": 0.07489777600478707
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 12862,
+                  "p50": 288.0,
+                  "p90": 1456.0,
+                  "p99": 2864.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0027989426216762556,
+                  "at_cap_fraction": 0.002332452184730213
+                },
+                "tile_0_2": {
+                  "pixels": 12775,
+                  "p50": 80.0,
+                  "p90": 304.0,
+                  "p99": 1216.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0011741682974559687,
+                  "at_cap_fraction": 0.0007045009784735812
+                },
+                "tile_0_3": null,
+                "tile_1_0": {
+                  "pixels": 67651,
+                  "p50": 112.0,
+                  "p90": 4096.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.12530487354215014,
+                  "at_cap_fraction": 0.10665030819943534
+                },
+                "tile_1_1": {
+                  "pixels": 692138,
+                  "p50": 80.0,
+                  "p90": 944.0,
+                  "p99": 4048.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.011084494710592396,
+                  "at_cap_fraction": 0.0095371154307378
+                },
+                "tile_1_2": {
+                  "pixels": 692178,
+                  "p50": 80.0,
+                  "p90": 1600.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.042672549546503936,
+                  "at_cap_fraction": 0.036206004813790674
+                },
+                "tile_1_3": {
+                  "pixels": 67664,
+                  "p50": 80.0,
+                  "p90": 4048.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.10398439347363443,
+                  "at_cap_fraction": 0.09788070465831165
+                },
+                "tile_2_0": {
+                  "pixels": 70265,
+                  "p50": 80.0,
+                  "p90": 368.0,
+                  "p99": 1424.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.003401408951825233,
+                  "at_cap_fraction": 0.0031310040560734364
+                },
+                "tile_2_1": {
+                  "pixels": 698102,
+                  "p50": 80.0,
+                  "p90": 624.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.026825592821679352,
+                  "at_cap_fraction": 0.023942060042801767
+                },
+                "tile_2_2": {
+                  "pixels": 698141,
+                  "p50": 80.0,
+                  "p90": 736.0,
+                  "p99": 2288.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.001973813312783521,
+                  "at_cap_fraction": 0.0015412359394448973
+                },
+                "tile_2_3": {
+                  "pixels": 70312,
+                  "p50": 80.0,
+                  "p90": 592.0,
+                  "p99": 2432.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0053475935828877,
+                  "at_cap_fraction": 0.004736033678461714
+                },
+                "tile_3_0": null,
+                "tile_3_1": {
+                  "pixels": 50537,
+                  "p50": 112.0,
+                  "p90": 464.0,
+                  "p99": 1088.0,
+                  "max": 3952.0,
+                  "near_cap_fraction": 0.00019787482438609336,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_2": {
+                  "pixels": 50628,
+                  "p50": 192.0,
+                  "p90": 896.0,
+                  "p99": 2096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.0007308208896262937,
+                  "at_cap_fraction": 0.00043454215058860707
+                },
+                "tile_3_3": null
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "146fc156089a0fc5a8e13c902af595c7af296227f888054b3a3233847ded0ec6",
+              "bytes": 158867651
+            },
+            "seconds": 67.05672525000409,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "host_stages": [
+          {
+            "operation": "render_setup",
+            "status": "completed",
+            "seconds": 0.02555254199251067,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "load_config",
+            "status": "completed",
+            "seconds": 0.3068449580023298,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "compile",
+            "status": "completed",
+            "seconds": 0.311902999994345,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "sampling_controls",
+            "status": "completed",
+            "seconds": 0.025704749990836717,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "render_attempt",
+            "status": "completed",
+            "seconds": 0.02390966599341482,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "render_execution",
+            "status": "completed",
+            "seconds": 0.03860625000379514,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "process_image",
+            "status": "completed",
+            "seconds": 0.7900169999920763,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "assets": [],
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "af14b5ecb87dd61a8371924e5a258a5665a696e91c5ce26e60e44e2de70e4a59",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "host.py": "ef19c81010c696e7c69e3f6497880551c7a155d13937f09727200f66dabab6e2",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "33fc053324209fcda70fd249b9a1d5259eefc19b36ef459025185fb74f8472e1",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+            "judging.py": "a29ba93733ce7830b1080eabad541f4850403e3aa9c90b58e43564918863e92d",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "86ac35dbd4567633203f87baed2d37cfa0e0b0975de5595d5d622258e275c955",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "publication.py": "4a9f120cfea94d5b1908d07b586c4519059a7e7a07e59e81d56034259a5d8af8",
+            "render.py": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "f58483ce0024c68bc0334d8e7df4f5a7bdfdb07cdad1bcf8baf4d92413750714",
+            "sampling.py": "d10617e808d767cb2477d0a938d3fed0706fbbe9d9614d17761dc9f27794b002",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "clear_glass"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/meshes/extrude_0.ply": "707183ae7dbf64456177d2c08d2f2d453ea488439f36aa6e347a9ae191dcfe39",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/motif.json": "6b73f17a0ed6e105b2781368d81f3875fcdefd94cda4639aa91ce29e0d9ede26",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/motif.svg": "cdf501ef9477936f428b26ad718b899a80b2d43c70d88d5626c50a89b7a4e718",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/scene.toml": "7c454e429e69617737dd9bd426d92d30a2783fe72f74bcefdaefce5a31fbcde3",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/export.py": "af14b5ecb87dd61a8371924e5a258a5665a696e91c5ce26e60e44e2de70e4a59",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/host.py": "ef19c81010c696e7c69e3f6497880551c7a155d13937f09727200f66dabab6e2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/client.py": "33fc053324209fcda70fd249b9a1d5259eefc19b36ef459025185fb74f8472e1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/judging.py": "a29ba93733ce7830b1080eabad541f4850403e3aa9c90b58e43564918863e92d",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/pipeline.py": "86ac35dbd4567633203f87baed2d37cfa0e0b0975de5595d5d622258e275c955",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/publication.py": "4a9f120cfea94d5b1908d07b586c4519059a7e7a07e59e81d56034259a5d8af8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/render.py": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/runlog.py": "f58483ce0024c68bc0334d8e7df4f5a7bdfdb07cdad1bcf8baf4d92413750714",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/sampling.py": "d10617e808d767cb2477d0a938d3fed0706fbbe9d9614d17761dc9f27794b002",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901"
+        },
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "source_key": "74f06646a4aca92526791716cc7e4bdbd841c4d08f0e81011bc11c3fce1d7d0b",
+        "delivered_sha256": "64e6ad74639a638f52d195902d8fac05dafef06635099e3ef1bda20a05509c72",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/attempt-7fa482d80e69465f8adb82553476be2b/final.execution.json",
+        "execution_sha256": "b634f54d43ac509b6db1915fee771934adbe0cdcfad3bca2bb66e61369fdf873",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 68.19283087499207,
+          "remaining_seconds": 831.7960145000106,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 68.19284066700493,
+        "timing_scope": "through publication staging; RenderResult.seconds includes publication, recovery/cleanup and return",
+        "publication": {
+          "journal": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/.build/publication-68070c05f9ea4065bc1e6cb3561828f6.json",
+          "cleanup": "journal retained until cleanup completes"
+        }
+      },
+      "verified_exports": 31,
+      "final_sha256": "64e6ad74639a638f52d195902d8fac05dafef06635099e3ef1bda20a05509c72"
+    },
+    {
+      "case": "prism-raking",
+      "seed": 58,
+      "original_seed": 48,
+      "measurement": {
+        "seconds": 81.60200729199278,
+        "render_seconds": 77.9346277500008,
+        "render_module": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/render.py",
+        "render_module_sha256": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/attempt-f4e46599017c45a4a0d6c366a2963cbc/final.execution.json",
+        "sampling": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/final.sampling.json",
+        "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/final.png",
+        "export_count": 31,
+        "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/exports/manifest.json",
+        "budget": {
+          "wall_seconds": 900,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 81.60439024999505,
+          "remaining_seconds": 818.3956086249964,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "owner_review": "pending",
+        "qualification": "inspection_only_unqualified",
+        "timing_scope": "motif preparation, render setup/tracing/GPU denoise/diagnostics/downsample and full exports; complete outer invocation separately measured",
+        "kernel_cache_state": "unknown",
+        "invocation_seconds": 81.77453612501267,
+        "source_revision": "3d19e4a"
+      },
+      "execution": {
+        "schema": 1,
+        "policy": "metal-gpu-only",
+        "status": "verified",
+        "inputs_sha256": {
+          "compiled_scene": "6f77f6bc6f7f4a9575e98675de4ce473cebeea71aae34ee13ec280f16c5746fb",
+          "meshes/extrude_0.ply": "ecd3aa1e1f206c49ad932f0f98f9e30a19368a442eef22cc15ab179f9259a13b"
+        },
+        "blender": "5.2.3 LTS",
+        "build": "e13b728c6880",
+        "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "devices": [
+          {
+            "name": "Apple M5 Pro",
+            "id": "CPU",
+            "type": "CPU",
+            "use": false
+          },
+          {
+            "name": "Apple M5 Pro (GPU - 20 cores)",
+            "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+            "type": "METAL",
+            "use": true
+          }
+        ],
+        "device_override": "METAL",
+        "metalrt": "AUTO",
+        "sampling": {
+          "samples": 4096,
+          "use_adaptive_sampling": true,
+          "adaptive_threshold": 0.009999999776482582,
+          "adaptive_min_samples": 0,
+          "seed": 58,
+          "use_animated_seed": false
+        },
+        "resolution": [
+          4000,
+          4000
+        ],
+        "resolution_percentage": 100,
+        "denoiser_requested": {
+          "name": "OPENIMAGEDENOISE",
+          "gpu": true,
+          "input_passes": "RGB_ALBEDO_NORMAL"
+        },
+        "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+        "kernel_cache_state": "unknown",
+        "log": "final.execution.log",
+        "seconds": 74.58299249999982,
+        "process_cpu_seconds": 18.248857,
+        "log_sha256": "15d74bccf4fb9555e0aabb479bff3552f3f513325028d6d41ec4e64fa3661d4b",
+        "denoiser_effective": {
+          "device_type": "Metal",
+          "oidn_version": "2.5.0",
+          "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+        },
+        "diagnostics": {
+          "status": "retained",
+          "path": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/attempt-f4e46599017c45a4a0d6c366a2963cbc/final.execution.exr",
+          "bytes": 132711799,
+          "sha256": "f69bc889a6003f55fcc2d36d56336046e49e8450c4a05563a8be3abdb41f1404",
+          "seconds": 0.295045291990391,
+          "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+        },
+        "png_sha256": "1cf4ad8b0614eab432e26acc7448eea8fb79192192ce916196a463d56075b952"
+      },
+      "sampling": {
+        "schema": 1,
+        "quality": "final",
+        "published": true,
+        "attempts": [
+          {
+            "source_key": "22949a543e06e8b407a75f64a170c7afaf0bb255d41e2506d67d2953d9e56397",
+            "quality": {
+              "name": "final",
+              "resolution": 4000,
+              "samples": 4096,
+              "adaptive": true,
+              "adaptive_threshold": 0.01,
+              "min_samples": 0,
+              "seed": 58,
+              "overrides": {
+                "adaptive_threshold": 0.01,
+                "max_samples": 4096.0
+              }
+            },
+            "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/attempt-f4e46599017c45a4a0d6c366a2963cbc/final.execution.json",
+            "execution_sha256": "bd1367b6e9d666be3d1781a817e4256358865e9008e8511b2b832208476b93b8",
+            "delivered_sha256": "e0e1c37b47e2282624a5c06c98072c459a7965cebde047baa0cff95de8be9892",
+            "diagnostics": {
+              "status": "available",
+              "normalization": "normalized X * configured cap",
+              "cap": 4096,
+              "regions": {
+                "foreground": {
+                  "pixels": 2546848,
+                  "p50": 80.0,
+                  "p90": 1424.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.03831598901858297,
+                  "at_cap_fraction": 0.03255671323926673
+                },
+                "dark": {
+                  "pixels": 64085,
+                  "p50": 1648.0,
+                  "p90": 4080.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.1250214558789108,
+                  "at_cap_fraction": 0.09997659358664274
+                },
+                "alpha_boundary": {
+                  "pixels": 20809,
+                  "p50": 640.0,
+                  "p90": 3488.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.08481906867220915,
+                  "at_cap_fraction": 0.0735258782257677
+                },
+                "tile_0_0": null,
+                "tile_0_1": {
+                  "pixels": 16511,
+                  "p50": 208.0,
+                  "p90": 1664.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.05747683362606747,
+                  "at_cap_fraction": 0.052994973048270846
+                },
+                "tile_0_2": null,
+                "tile_0_3": null,
+                "tile_1_0": null,
+                "tile_1_1": {
+                  "pixels": 525878,
+                  "p50": 80.0,
+                  "p90": 336.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.01995139557083582,
+                  "at_cap_fraction": 0.017477437732706064
+                },
+                "tile_1_2": {
+                  "pixels": 466247,
+                  "p50": 80.0,
+                  "p90": 3424.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.08212170802171381,
+                  "at_cap_fraction": 0.06976988591883701
+                },
+                "tile_1_3": {
+                  "pixels": 6598,
+                  "p50": 1392.0,
+                  "p90": 3104.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.04107305244013337,
+                  "at_cap_fraction": 0.030615337981206425
+                },
+                "tile_2_0": null,
+                "tile_2_1": {
+                  "pixels": 525938,
+                  "p50": 80.0,
+                  "p90": 944.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.032606504949252574,
+                  "at_cap_fraction": 0.02774091242694006
+                },
+                "tile_2_2": {
+                  "pixels": 673830,
+                  "p50": 96.0,
+                  "p90": 1536.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.035804282979386495,
+                  "at_cap_fraction": 0.030246501343068728
+                },
+                "tile_2_3": {
+                  "pixels": 85563,
+                  "p50": 464.0,
+                  "p90": 3104.0,
+                  "p99": 4096.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.06299451865876605,
+                  "at_cap_fraction": 0.050898168600913944
+                },
+                "tile_3_0": null,
+                "tile_3_1": {
+                  "pixels": 79529,
+                  "p50": 112.0,
+                  "p90": 816.0,
+                  "p99": 4080.0,
+                  "max": 4096.0,
+                  "near_cap_fraction": 0.011555533201725157,
+                  "at_cap_fraction": 0.009971205472217682
+                },
+                "tile_3_2": {
+                  "pixels": 166754,
+                  "p50": 96.0,
+                  "p90": 272.0,
+                  "p99": 848.0,
+                  "max": 3312.0,
+                  "near_cap_fraction": 0.0,
+                  "at_cap_fraction": 0.0
+                },
+                "tile_3_3": null
+              },
+              "noise_acceptance": "unknown",
+              "subimages": [
+                {
+                  "index": 0,
+                  "channels": [
+                    "ViewLayer.Combined.R",
+                    "ViewLayer.Combined.G",
+                    "ViewLayer.Combined.B",
+                    "ViewLayer.Combined.A"
+                  ]
+                },
+                {
+                  "index": 1,
+                  "channels": [
+                    "ViewLayer.Debug Sample Count.X"
+                  ]
+                },
+                {
+                  "index": 2,
+                  "channels": [
+                    "ViewLayer.Noisy Image.R",
+                    "ViewLayer.Noisy Image.G",
+                    "ViewLayer.Noisy Image.B",
+                    "ViewLayer.Noisy Image.A"
+                  ]
+                },
+                {
+                  "index": 3,
+                  "channels": [
+                    "ViewLayer.Denoising Albedo.R",
+                    "ViewLayer.Denoising Albedo.G",
+                    "ViewLayer.Denoising Albedo.B"
+                  ]
+                },
+                {
+                  "index": 4,
+                  "channels": [
+                    "ViewLayer.Denoising Specular Albedo.R",
+                    "ViewLayer.Denoising Specular Albedo.G",
+                    "ViewLayer.Denoising Specular Albedo.B"
+                  ]
+                },
+                {
+                  "index": 5,
+                  "channels": [
+                    "ViewLayer.Denoising Normal.X",
+                    "ViewLayer.Denoising Normal.Y",
+                    "ViewLayer.Denoising Normal.Z"
+                  ]
+                },
+                {
+                  "index": 6,
+                  "channels": [
+                    "ViewLayer.Denoising Roughness.X"
+                  ]
+                },
+                {
+                  "index": 7,
+                  "channels": [
+                    "ViewLayer.Denoising Depth.Z"
+                  ]
+                }
+              ],
+              "exr_sha256": "f69bc889a6003f55fcc2d36d56336046e49e8450c4a05563a8be3abdb41f1404",
+              "bytes": 132711799
+            },
+            "seconds": 76.57308595800714,
+            "decision": {
+              "state": "unknown",
+              "reason": "no image-bound diagnosis; generic edge failure is insufficient",
+              "settings": null
+            }
+          }
+        ],
+        "host_stages": [
+          {
+            "operation": "render_setup",
+            "status": "completed",
+            "seconds": 0.026855917007196695,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "load_config",
+            "status": "completed",
+            "seconds": 0.40986683299706783,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "compile",
+            "status": "completed",
+            "seconds": 0.3219637909933226,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "sampling_controls",
+            "status": "completed",
+            "seconds": 0.026412958002765663,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "render_attempt",
+            "status": "completed",
+            "seconds": 0.0248958330048481,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "render_execution",
+            "status": "completed",
+            "seconds": 0.04423058399697766,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          },
+          {
+            "operation": "process_image",
+            "status": "completed",
+            "seconds": 0.8586505410057725,
+            "execution": "owned_cpu_worker",
+            "timing_scope": "startup, CPU host work, output transfer and cleanup"
+          }
+        ],
+        "outcomes": {
+          "device": "verified",
+          "noise": "unknown",
+          "cap": "capped",
+          "time": "within_budget",
+          "memory": "unknown",
+          "quality": "unreviewed",
+          "sampling": "review_needed"
+        },
+        "assets": [],
+        "control_files_sha256": {},
+        "context": {
+          "backend": "METAL",
+          "blender": "5.2.3 LTS",
+          "build": "e13b728c6880",
+          "denoiser": "OPENIMAGEDENOISE",
+          "denoising_input_passes": "RGB_ALBEDO_NORMAL",
+          "devices": [
+            {
+              "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+              "name": "Apple M5 Pro (GPU - 20 cores)",
+              "type": "METAL"
+            }
+          ],
+          "hardware": {
+            "hw.memsize": "51539607552",
+            "hw.model": "Mac17,9",
+            "hw.ncpu": "18",
+            "kern.osversion": "26A434",
+            "machdep.cpu.brand_string": "Apple M5 Pro"
+          },
+          "lockfile_sha256": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901",
+          "machine": "arm64",
+          "metalrt": "AUTO",
+          "oidn_libraries_sha256": {
+            "bpy/lib/libOpenImageDenoise.dylib": "1db422de6b24ea9712d07ab7859364402a7824b2ce3961466f37b72e77cb34da",
+            "bpy/lib/libOpenImageDenoise_core.dylib": "ab4bbe7d0b6d94d8f863d887e50ab23abd2125043999dcd135bce09360ba8442",
+            "bpy/lib/libOpenImageDenoise_device_cpu.dylib": "4ab459538d2f2deaa9b7d39412cf4a3a250f97641c24b11b3e8d96adef6f366d",
+            "bpy/lib/libOpenImageDenoise_device_metal.dylib": "014a23d45cfa77f71c68a9d47eb0cc150ebf3a0b68853f00bbe91e1bb2efdf4d"
+          },
+          "oidn_version": "runtime log required",
+          "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+          "python": "3.13.16",
+          "render_stack": {
+            "OpenImageIO": "3.2.2.0",
+            "Pillow": "13.0.0",
+            "build123d": "0.13.0",
+            "fonttools": "4.68.0",
+            "manifold3d": "3.5.4",
+            "numpy": "2.5.4",
+            "pymeshlab": "2025.7.post1",
+            "sdf": "0.1",
+            "skia-pathops": "0.9.2",
+            "trimesh": "5.2.0"
+          },
+          "stage": "final",
+          "resolution": 4000,
+          "settings_key": "ed42d688dc43d9bf13c264fe768e83a317b4e27c3ec6ef5732705909d90827a6",
+          "code_sha256": {
+            "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+            "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+            "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+            "adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+            "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+            "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+            "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+            "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+            "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+            "blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+            "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+            "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+            "blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+            "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+            "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+            "blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+            "brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+            "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+            "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+            "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+            "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+            "checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+            "cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+            "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+            "export.py": "af14b5ecb87dd61a8371924e5a258a5665a696e91c5ce26e60e44e2de70e4a59",
+            "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+            "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+            "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+            "host.py": "ef19c81010c696e7c69e3f6497880551c7a155d13937f09727200f66dabab6e2",
+            "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+            "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+            "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+            "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+            "jev/client.py": "33fc053324209fcda70fd249b9a1d5259eefc19b36ef459025185fb74f8472e1",
+            "jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+            "jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+            "judging.py": "a29ba93733ce7830b1080eabad541f4850403e3aa9c90b58e43564918863e92d",
+            "mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+            "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+            "owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+            "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+            "paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+            "pipeline.py": "86ac35dbd4567633203f87baed2d37cfa0e0b0975de5595d5d622258e275c955",
+            "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+            "publication.py": "4a9f120cfea94d5b1908d07b586c4519059a7e7a07e59e81d56034259a5d8af8",
+            "render.py": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+            "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+            "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+            "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+            "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+            "runlog.py": "f58483ce0024c68bc0334d8e7df4f5a7bdfdb07cdad1bcf8baf4d92413750714",
+            "sampling.py": "d10617e808d767cb2477d0a938d3fed0706fbbe9d9614d17761dc9f27794b002",
+            "sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+            "scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+            "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+            "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+          },
+          "material_presets": [
+            "clear_glass"
+          ]
+        },
+        "profile": {
+          "state": "profile_unqualified",
+          "reason": "no qualified replacement; retain baseline"
+        },
+        "dependencies": {
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/meshes/extrude_0.ply": "ecd3aa1e1f206c49ad932f0f98f9e30a19368a442eef22cc15ab179f9259a13b",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/motif.json": "a0b2285b7e87800063d60ccb58a6a14284817d505c5b40fff402f1638139df47",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/motif.svg": "c4a73a07a83c7674ed3329ff32b49b14c8e5ab0fae1c5d2bb28073de06dbf6c1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/scene.toml": "b36fdd78103f6da9d17b0c2b0a3b1f1ea978e8668656dff3e3a5d03dcda31af1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/components.py": "6523993ae272253d47922a2e7bc5c49c4ff3308345cddbec2d2133702be11f52",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/materials.py": "57730fb1ffe6ee0399c0dad3ea987f08912059b503baf12bc979a8c5e280461f",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/blender/settings.py": "9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/brief.py": "4985ac72145bb538f397ffe4853df1d632cfd46c5d37d72e7712f2e4b9fd1c5e",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/checks.py": "d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/cli.py": "d1cb42b3d7419e9cfb263fa097b2d308ebacb911a9c93b9a3173b7f6ad1ffb29",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/export.py": "af14b5ecb87dd61a8371924e5a258a5665a696e91c5ce26e60e44e2de70e4a59",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/host.py": "ef19c81010c696e7c69e3f6497880551c7a155d13937f09727200f66dabab6e2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/client.py": "33fc053324209fcda70fd249b9a1d5259eefc19b36ef459025185fb74f8472e1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/questions.py": "c37b5386b65ea00e1f08fc40d3fdb63715dc208c3cd234aa70dbc72ceafa18d5",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/jev/worker.py": "456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/judging.py": "a29ba93733ce7830b1080eabad541f4850403e3aa9c90b58e43564918863e92d",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/mcp_server.py": "87cb6b932127bf97db5b30cf147d4a88c451c2860154e311ae5aedcd6917f0a6",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/owned_process.py": "350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/paths.py": "b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/pipeline.py": "86ac35dbd4567633203f87baed2d37cfa0e0b0975de5595d5d622258e275c955",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/publication.py": "4a9f120cfea94d5b1908d07b586c4519059a7e7a07e59e81d56034259a5d8af8",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/render.py": "121d0e7e309915f1568934363d3be5acdffc8625153d4eaa391c9318f5e574a1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/runlog.py": "f58483ce0024c68bc0334d8e7df4f5a7bdfdb07cdad1bcf8baf4d92413750714",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/sampling.py": "d10617e808d767cb2477d0a938d3fed0706fbbe9d9614d17761dc9f27794b002",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/sampling_diagnostics.py": "633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/scene.py": "2499e8400e70f650977853d2b06e4f2a78a6c209a6be389613c2912bb7cafefc",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/logo_maker/twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/pyproject.toml": "f5aacbd9142983d8246d6b66faec7e914324173b15178b0a8ca793def63accdd",
+          "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/source-3d19e4a/uv.lock": "7a388ef1b0301bc4a48ac53f1907c2b4d674f245528f56bd444af5bb30f8f901"
+        },
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "source_key": "22949a543e06e8b407a75f64a170c7afaf0bb255d41e2506d67d2953d9e56397",
+        "delivered_sha256": "e0e1c37b47e2282624a5c06c98072c459a7965cebde047baa0cff95de8be9892",
+        "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/attempt-f4e46599017c45a4a0d6c366a2963cbc/final.execution.json",
+        "execution_sha256": "bd1367b6e9d666be3d1781a817e4256358865e9008e8511b2b832208476b93b8",
+        "budget": {
+          "wall_seconds": 900.0,
+          "attempt_limit": 2,
+          "attempts": 1,
+          "elapsed_seconds": 77.8752414999908,
+          "remaining_seconds": 822.1167534580018,
+          "scope": "whole host job including setup, probes, denoise and output"
+        },
+        "seconds": 77.87524854199728,
+        "timing_scope": "through publication staging; RenderResult.seconds includes publication, recovery/cleanup and return",
+        "publication": {
+          "journal": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/.build/publication-f214b58f0c2f42df9652c0a20cb275d0.json",
+          "cleanup": "journal retained until cleanup completes"
+        }
+      },
+      "verified_exports": 31,
+      "final_sha256": "e0e1c37b47e2282624a5c06c98072c459a7965cebde047baa0cff95de8be9892"
+    }
+  ],
+  "figure": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/independent-noisy-denoised.png",
+  "figure_sha256": "78e45acb13240fcae9d355a2798c16bf029363dd800276e48111383605136742"
+}

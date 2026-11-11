@@ -62,5 +62,22 @@
     "figure_sha256": "af83a5e3fd7506152277f8cfd6642f15214d83bd39f6f0825a00ed1bd86d44cb",
     "evidence": "glass-independent-20261110.json",
     "craftsmanship_or_style_signoff": false
+  },
+  "glass_shape_lighting": {
+    "owner_answer_verbatim": "first 2 I like a lot, the one on the right, inspect it, it may be the shape but theres weird reflections in the shape.",
+    "interpretation": {
+      "orbit": "positive preference expressed; no separate unambiguous technical label inferred",
+      "prism": "positive preference expressed; no separate unambiguous technical label inferred",
+      "clover": "unresolved: requested investigation of angular reflection bands"
+    },
+    "figure_sha256": "856961c03f965e2bbaafb1abfccfcbd1e2c1854f3c9e6b90f1a73d54a0c61ce3",
+    "attachment_sha256": "4058000e389ebc806cd3556af4f648f539ed0174a075017ca6a653912fe77907",
+    "qualified_profile": null
+  },
+  "clover_face_diagnosis_review": {
+    "question": "Does the RIGHT-hand shading probe remove the weird broad face reflections you flagged in the clover? The remaining edge/bevel faceting is still unresolved.",
+    "owner_answer_verbatim": "Yes, the face issue is resolved",
+    "figure_sha256": "4e230cf9881ab523c0e0e8f44cff7194f878d9478e5305d5ebfd6596e51cac14",
+    "scope": "Face shading issue resolved in local diagnostic copy only; no global fix, no remaining-edge approval, no sampling profile approval"
   }
 }
