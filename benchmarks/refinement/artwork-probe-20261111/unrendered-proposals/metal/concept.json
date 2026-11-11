@@ -1,0 +1,8 @@
+{
+  "description": "Two tall blue steel uprights, each pierced by two round mounting bores, have horizontal arms directed toward the center. A broad copper hexagonal front plate covers their central junction. A copper rear lip and narrow waist peek out beneath it. Narrow chamfers outline the planar faces and the dark mounting bores.",
+  "id": "keyed-release|extruded_solid|brushed_metal",
+  "material": "brushed_metal",
+  "metaphor": "keyed-release",
+  "metaphor_text": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+  "treatment": "extruded_solid"
+}

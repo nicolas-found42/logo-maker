@@ -1,0 +1,219 @@
+{
+  "seq": 88,
+  "label": "treatment-fit-synthesis-fold",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "metaphor": "Two complementary S-shaped folded bands share one central fold, using the Skill Swap initials to show separate contributions forming a coherent resource."
+  },
+  "questions": {
+    "fits_extruded_solid": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_embossed_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark raised in relief from a flat plate or tile.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_debossed_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark pressed or carved into a flat plate or tile, sitting below the surface.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_stencil_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark cut all the way through a plate, so the background shows through the shape.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_layered_cutout": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark built from stacked flat cut-out layers at different heights, with visible steps between them.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_inflated_soft": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as a soft, rounded, puffy form, like molded clay or an inflated balloon.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_medallion": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark in relief inside a round disc with a raised rim, with room for text set around the edge.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_shaped_badge": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark on a shaped badge such as a shield, hexagon, or rounded square, framed by a raised border.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_tube_lines": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark's lines as continuous round tubes, like bent wire or neon signage.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_voxel_build": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark assembled from small cubes, like a pixel sculpture.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_engraved_lines": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as fine engraved or drawn lines on a surface, read through line art rather than volume.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_toon_object": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as a solid object shown with flat cel shading and crisp outlines, like an illustration.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    }
+  },
+  "assets": {},
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "fits_extruded_solid": {
+      "type": "noul",
+      "noul": 0.52
+    },
+    "fits_embossed_plate": {
+      "type": "noul",
+      "noul": 0.13
+    },
+    "fits_debossed_plate": {
+      "type": "noul",
+      "noul": 0.1
+    },
+    "fits_stencil_plate": {
+      "type": "noul",
+      "noul": 0.13
+    },
+    "fits_layered_cutout": {
+      "type": "noul",
+      "noul": 0.7
+    },
+    "fits_inflated_soft": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_medallion": {
+      "type": "noul",
+      "noul": 0.05
+    },
+    "fits_shaped_badge": {
+      "type": "noul",
+      "noul": 0.04
+    },
+    "fits_tube_lines": {
+      "type": "noul",
+      "noul": 0.04
+    },
+    "fits_voxel_build": {
+      "type": "noul",
+      "noul": 0.08
+    },
+    "fits_engraved_lines": {
+      "type": "noul",
+      "noul": 0.09
+    },
+    "fits_toon_object": {
+      "type": "noul",
+      "noul": 0.3
+    }
+  },
+  "usage": {
+    "input_tokens": 1812,
+    "output_tokens": 243,
+    "cost": 7.6104e-05
+  },
+  "provider_usage": {
+    "input_tokens": 1812,
+    "output_tokens": 243,
+    "cost": 7.6104e-05,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 7.6104e-05,
+      "upstream_inference_prompt_cost": 7.6104e-05,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

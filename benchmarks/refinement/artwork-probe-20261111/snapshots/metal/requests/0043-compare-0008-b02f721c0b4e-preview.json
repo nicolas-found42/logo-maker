@@ -1,0 +1,199 @@
+{
+  "seq": 43,
+  "label": "compare-0008-b02f721c0b4e-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "before": "7a70d9b6399a48f0a545631d98b884ba",
+    "after": "716d707b209347faa376666db578e317",
+    "before_intent": {
+      "brand_geometry": "Load-bearing bridge sections visibly depend on the central key, matching the platform product rather than a generic technology badge",
+      "current_description": "A supported blue steel arch with two piers and a tapered copper keystone seated against the curved shoulders, with planar machined faces",
+      "dependencies": [],
+      "disproof": "Generic gate without a visible keystone, merged joints, illegible support structure or uncontrolled highlights",
+      "intended_appearance": "Satin brushed blue steel with a warm copper load-bearing key; restrained reflections, no compulsory gloss",
+      "material_construction": "Machined steel and copper sections meet with deliberate clear joints and restrained bevels; all machined cap faces use a shared straight brushing tangent, retaining the original anisotropy and roughness",
+      "symbol": "A keystone holds independent services together as a reliable infrastructure release"
+    },
+    "after_intent": {
+      "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "brand_geometry": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "material_construction": "Two steel rails slide from opposite sides into the waist of a double-shouldered copper connector. The waist has 0.012 clearance from the rail receiver outlines. Rear and front shoulders overlap both rail arms and seat against their back/front planes at z=0.04 and z=0.24; the key cannot pass through those openings. Four mounting eyes allow the rails to be fixed after assembly. Planar cap triangles, explicit chamfer strips and bore walls are authored into three closed mesh assets. The renderer adds no bevel modifier and the PLY stores no averaged vertex normals.",
+      "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "dependencies": [
+        "west-receiver.ply",
+        "east-receiver.ply",
+        "seated-copper-key.ply"
+      ]
+    },
+    "prior_critique": {
+      "inspection.json": {
+        "critiques": [
+          {
+            "action": "Authored a common material tangent; retained roughness, lighting, seed and sample settings.",
+            "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0004-f846d30a559a-preview/render.png",
+            "comparison": "Compare planar highlights to v3 and structural specificity to the generic gate.",
+            "dimension": "anisotropic tangent",
+            "evidence": "The starburst visible in v3 is absent after a shared straight brushing tangent was authored.",
+            "kind": "technical",
+            "resolved": true
+          }
+        ],
+        "observations": "Bounded-provider replay inspected: seated copper key bridges blue arch shoulders; face shading is even without the earlier radial starburst. Recipe seed42, geometry and material intent are unchanged. This is a source-only replay, not a new alternative or owner artistic approval. Custom dependency inventory and production qualification remain unknown.",
+        "revision": "0010-127a6928ec24-preview",
+        "user_feedback": "No owner approval or extra aesthetic preference inferred."
+      },
+      "judgment.json": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.81,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.4,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.41,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.36,
+            "type": "noul"
+          }
+        },
+        "binding": "4d4748e44234825d0a09443ad6f23f1c1af70a63541aa914dd9e00f96b1618cc"
+      }
+    },
+    "current_review": {
+      "inspection": {
+        "critiques": [
+          {
+            "action": "Retain the authored closed meshes with explicit chamfer bands and double retaining shoulders; renderer bevel is disabled.",
+            "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+            "comparison": "Compare 0007 and 0008 at the four mounting eyes and adjacent planar faces. Independent critique-resolution judgment is still required.",
+            "dimension": "receiver_and_hole_edges",
+            "evidence": "Explicit cap and chamfer geometry removes the large triangular cap patches in the viewed new render; regular bore chamfers remain.",
+            "kind": "craftsmanship",
+            "resolved": true
+          }
+        ],
+        "observations": "The blue receiver faces are now continuous planar satin surfaces. The four holes show dark bore walls and small regular chamfer bands. The large triangular bright/dark cap patches seen in 0007 are absent. Copper shoulders are visible in front and behind the central rail arms. The whole mark reads strongly as an H with a central hexagonal coupling; whether that offers enough brand-specific synthesis remains for independent judgment.",
+        "revision": "0008-b02f721c0b4e-preview",
+        "user_feedback": "No artistic approval supplied. Owner clarification about open paper structures applies to the separate paper study."
+      },
+      "judgment": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.82,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.72,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.53,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.7,
+            "type": "noul"
+          }
+        },
+        "binding": "26a41c47b1786d54390f0bc46469f65b64ea3b7047c4b9c4c6f4c8d2fe8b1016"
+      }
+    }
+  },
+  "questions": {
+    "visually_distinct": {
+      "type": "noul",
+      "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+      "criteria": {
+        "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+        "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ."
+      }
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+      "criteria": {
+        "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+        "false": "The concrete critique persists or cannot be evaluated from the images."
+      }
+    }
+  },
+  "assets": {
+    "7a70d9b6399a48f0a545631d98b884ba": {
+      "type": "image",
+      "format": "png",
+      "sha256": "47e79772bc7833bb2dd820d3429eecc215a65cd188959a4c91448f4882479597",
+      "bytes": 355025
+    },
+    "716d707b209347faa376666db578e317": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+      "bytes": 399027
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.71
+    }
+  },
+  "usage": {
+    "input_tokens": 7563,
+    "output_tokens": 44,
+    "cost": 0.000317646
+  },
+  "provider_usage": {
+    "input_tokens": 7563,
+    "output_tokens": 44,
+    "cost": 0.000317646,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000317646,
+      "upstream_inference_prompt_cost": 0.000317646,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

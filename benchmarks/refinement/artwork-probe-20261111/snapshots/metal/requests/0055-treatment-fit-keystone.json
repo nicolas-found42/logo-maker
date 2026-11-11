@@ -1,0 +1,205 @@
+{
+  "seq": 55,
+  "label": "treatment-fit-keystone",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "metaphor": "A load-bearing keystone joins an open arch of independent supports, making one dependable deployment depend on an explicit central part."
+  },
+  "questions": {
+    "fits_extruded_solid": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_embossed_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark raised in relief from a flat plate or tile.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_debossed_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark pressed or carved into a flat plate or tile, sitting below the surface.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_stencil_plate": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark cut all the way through a plate, so the background shows through the shape.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_layered_cutout": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark built from stacked flat cut-out layers at different heights, with visible steps between them.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_inflated_soft": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as a soft, rounded, puffy form, like molded clay or an inflated balloon.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_medallion": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark in relief inside a round disc with a raised rim, with room for text set around the edge.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_shaped_badge": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark on a shaped badge such as a shield, hexagon, or rounded square, framed by a raised border.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_tube_lines": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark's lines as continuous round tubes, like bent wire or neon signage.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_voxel_build": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark assembled from small cubes, like a pixel sculpture.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_engraved_lines": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as fine engraved or drawn lines on a surface, read through line art rather than volume.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    },
+    "fits_toon_object": {
+      "type": "noul",
+      "instructions": "The motif for `brief` is described in `metaphor`. Would this treatment suit it: The mark as a solid object shown with flat cel shading and crisp outlines, like an illustration.",
+      "criteria": {
+        "true": "The treatment suits the brand and keeps the motif recognizable.",
+        "false": "The treatment clashes with the brand or hides the motif."
+      }
+    }
+  },
+  "assets": {},
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "fits_extruded_solid": {
+      "type": "noul",
+      "noul": 0.88
+    },
+    "fits_embossed_plate": {
+      "type": "noul",
+      "noul": 0.8
+    },
+    "fits_debossed_plate": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "fits_stencil_plate": {
+      "type": "noul",
+      "noul": 0.74
+    },
+    "fits_layered_cutout": {
+      "type": "noul",
+      "noul": 0.5
+    },
+    "fits_inflated_soft": {
+      "type": "noul",
+      "noul": 0.06
+    },
+    "fits_medallion": {
+      "type": "noul",
+      "noul": 0.07
+    },
+    "fits_shaped_badge": {
+      "type": "noul",
+      "noul": 0.17
+    },
+    "fits_tube_lines": {
+      "type": "noul",
+      "noul": 0.23
+    },
+    "fits_voxel_build": {
+      "type": "noul",
+      "noul": 0.18
+    },
+    "fits_engraved_lines": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "fits_toon_object": {
+      "type": "noul",
+      "noul": 0.49
+    }
+  },
+  "usage": {
+    "input_tokens": 1539,
+    "output_tokens": 243,
+    "cost": 6.4638e-05
+  },
+  "provider_usage": {
+    "input_tokens": 1539,
+    "output_tokens": 243,
+    "cost": 6.4638e-05,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 6.4638e-05,
+      "upstream_inference_prompt_cost": 6.4638e-05,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

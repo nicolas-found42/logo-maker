@@ -1,0 +1,302 @@
+{
+  "seq": 100,
+  "label": "material-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    }
+  },
+  "questions": {
+    "fits_polished_metal": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Mirror-polished metal such as gold, silver, or chrome, with sharp reflections.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_brushed_metal": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Brushed metal such as steel, brass, or aluminum, with soft directional sheen.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_enamel": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Hard glossy colored enamel, like a pin or a sign.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_porcelain": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Smooth white or tinted porcelain with a soft glaze.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_glazed_ceramic": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Thick glossy ceramic glaze that pools in recesses.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_matte_plastic": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Smooth matte plastic in a solid color, like a toy or a product shell.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_glossy_plastic": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Shiny lacquered plastic in a solid color.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_soft_rubber": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Soft-touch rubber or silicone with a velvety matte finish.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_wood": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Natural wood with visible grain.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_stone": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Polished stone such as marble or granite.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_concrete": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Cast concrete with fine pores and a raw matte surface.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_clear_glass": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Clear or tinted transparent glass with refraction.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_frosted_glass": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Milky frosted glass: soft translucency that keeps its tint on a transparent background.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_paper": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Heavy matte paper or card with a fine fiber texture.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_felt": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Soft felt or wool fabric.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_leather": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Leather with a fine grain, tooled or embossed.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_wax": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Candle or modeling wax with a soft satin sheen and slight translucency.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_clay": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Soft modeling clay with a matte, hand-made look.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    },
+    "fits_neon_glow": {
+      "type": "noul",
+      "instructions": "The brand is described in `brief`. Would this material suit its logo: Glowing light-emitting tubes or surfaces, like neon.",
+      "criteria": {
+        "true": "The material suits the brand and its tone.",
+        "false": "The material clashes with the brand, its tone, or its uses."
+      }
+    }
+  },
+  "assets": {},
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "fits_polished_metal": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_brushed_metal": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_enamel": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_porcelain": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_glazed_ceramic": {
+      "type": "noul",
+      "noul": 0.02
+    },
+    "fits_matte_plastic": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_glossy_plastic": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_soft_rubber": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_wood": {
+      "type": "noul",
+      "noul": 0.15
+    },
+    "fits_stone": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_concrete": {
+      "type": "noul",
+      "noul": 0.05
+    },
+    "fits_clear_glass": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_frosted_glass": {
+      "type": "noul",
+      "noul": 0.03
+    },
+    "fits_paper": {
+      "type": "noul",
+      "noul": 0.85
+    },
+    "fits_felt": {
+      "type": "noul",
+      "noul": 0.12
+    },
+    "fits_leather": {
+      "type": "noul",
+      "noul": 0.08
+    },
+    "fits_wax": {
+      "type": "noul",
+      "noul": 0.04
+    },
+    "fits_clay": {
+      "type": "noul",
+      "noul": 0.04
+    },
+    "fits_neon_glow": {
+      "type": "noul",
+      "noul": 0.04
+    }
+  },
+  "usage": {
+    "input_tokens": 2177,
+    "output_tokens": 369,
+    "cost": 9.1434e-05
+  },
+  "provider_usage": {
+    "input_tokens": 2177,
+    "output_tokens": 369,
+    "cost": 9.1434e-05,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 9.1434e-05,
+      "upstream_inference_prompt_cost": 9.1434e-05,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

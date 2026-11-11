@@ -1,0 +1,209 @@
+{
+  "seq": 79,
+  "label": "compare-0006-cc05c44adb56-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "before": "0ad593923006401f964d81954bbecbc3",
+    "after": "deb59ad6db674b6b93be593fdb210a6a",
+    "before_intent": {
+      "brand_geometry": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+      "current_description": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+      "dependencies": [
+        "west-back.ply",
+        "west-core.ply",
+        "west-face.ply",
+        "east-back.ply",
+        "east-core.ply",
+        "east-face.ply",
+        "shelf-back.ply",
+        "shelf-core.ply",
+        "shelf-face.ply"
+      ],
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "material_construction": "Each card part has a 0.024-unit pale paper core between two 0.006-unit colored skins. Watertight meshes meet at continuous fold lines. Outer upright returns turn sharply away from the open center; the shelf wings rise along one score. Three separate assemblies retain visible seams without a backing plate.",
+      "symbol": "An open shared team library formed by independently contributed parts"
+    },
+    "after_intent": {
+      "symbol": "An open shared team library formed by independently contributed parts",
+      "brand_geometry": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+      "material_construction": "Each card part has a 0.024-unit pale paper core between two 0.006-unit colored skins. Watertight meshes meet at continuous fold lines. Outer upright returns turn sharply away from the open center; the shelf wings rise along one score. Three separate assemblies retain visible seams without a backing plate.",
+      "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+      "dependencies": [
+        "west-back.ply",
+        "west-core.ply",
+        "west-face.ply",
+        "east-back.ply",
+        "east-core.ply",
+        "east-face.ply",
+        "shelf-back.ply",
+        "shelf-core.ply",
+        "shelf-face.ply"
+      ]
+    },
+    "prior_critique": {
+      "inspection.json": {
+        "critiques": [],
+        "observations": "Three laminated paper assemblies surround a central open space. Two upright green leaves fold outward; the terracotta lower assembly bends at both shoulders. Thin pale cores are visible at the edges. There is no backing plate or enclosing border. The pale green right leaf renders nearly white; material credibility, small-size readability and brand specificity still need independent review.",
+        "revision": "0005-cc05c44adb56-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      },
+      "judgment.json": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.64,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.2,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.6,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.46,
+            "type": "noul"
+          }
+        },
+        "binding": "1ac2ec11a8a9ede49267ec2c8d7d48b00ae50a13caf630fc749dbb2dc324567e"
+      }
+    },
+    "current_review": {
+      "inspection": {
+        "critiques": [],
+        "observations": "Three laminated paper assemblies surround a central open space. Two upright green leaves fold outward; the terracotta lower assembly bends at both shoulders. Thin pale cores are visible at the edges. There is no backing plate or enclosing border. The pale green right leaf renders nearly white; material credibility, small-size readability and brand specificity still need independent review. This is a source-identical replay after canonical worktree consolidation, not a new visual decision. The proposed constant-stock/lap-joint source remains unrendered because its plan is unsettled.",
+        "revision": "0006-cc05c44adb56-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      },
+      "judgment": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.62,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.2,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.62,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.47,
+            "type": "noul"
+          }
+        },
+        "binding": "cd4dedc3bc02aef32708d222127865aa4d1df3c016a3de24c5dc5852c9f8dc69"
+      }
+    }
+  },
+  "questions": {
+    "visually_distinct": {
+      "type": "noul",
+      "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+      "criteria": {
+        "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+        "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ."
+      }
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+      "criteria": {
+        "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+        "false": "The concrete critique persists or cannot be evaluated from the images."
+      }
+    }
+  },
+  "assets": {
+    "0ad593923006401f964d81954bbecbc3": {
+      "type": "image",
+      "format": "png",
+      "sha256": "bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5",
+      "bytes": 316489
+    },
+    "deb59ad6db674b6b93be593fdb210a6a": {
+      "type": "image",
+      "format": "png",
+      "sha256": "5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee",
+      "bytes": 316353
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.01
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.05
+    }
+  },
+  "usage": {
+    "input_tokens": 7665,
+    "output_tokens": 44,
+    "cost": 0.00032193
+  },
+  "provider_usage": {
+    "input_tokens": 7665,
+    "output_tokens": 44,
+    "cost": 0.00032193,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.00032193,
+      "upstream_inference_prompt_cost": 0.00032193,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

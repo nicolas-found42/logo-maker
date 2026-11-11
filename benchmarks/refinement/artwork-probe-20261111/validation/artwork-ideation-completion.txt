@@ -1,0 +1,2 @@
+{"study": "paper", "text_metaphors": 20, "pool_combinations": 480, "current_in_pool": {"joined-index|extruded_solid|paper": true, "open-commons|extruded_solid|paper": true}}
+{"study": "metal", "text_metaphors": 20, "pool_combinations": 480, "current_in_pool": {"keyed-release|extruded_solid|brushed_metal": true}}

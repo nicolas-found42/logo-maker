@@ -1,0 +1,20 @@
+schema = 1
+requirements_revision = "8bf3d59cbaf1b50ad5e8ff50df28c46af8a9b901ad561e674653338c09a3f128"
+hypothesis = "An open shared team library formed by independently contributed parts"
+visual_mechanism = "Two broad green card uprights have rounded outward returns along their outer long edges. A terracotta folded lower shelf meets their feet at two separate seams. Thick pale cut cores are visible between colored front and back skins. The large central opening stays open across the full top; there is no backing plate or enclosing border. This is the open-space territory. Joined-index and the retained shared-folio preserve the other two territories. Supplied dark green, pale green and terracotta palette roles distinguish the three paper parts. Manrope 700 and DM Sans 400 remain for adjacent naming and UI; no fine lettering appears inside the mark. The broad three-part core is shared by the flat master for app icons, favicons and monochrome use; laminate edges and rounded scores are hero detail."
+requirement_ids = ["material", "meaning", "territories", "style", "avoid_0", "avoid_1", "avoid_2", "avoid_3", "avoid_4", "avoid_5", "avoid_6", "avoid_7", "avoid_8", "uses", "palette", "fonts", "tone", "initials", "owner_structure_scope"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Constant-thickness laminated card stock"
+purpose = "Make substantial paper edges and layered construction visible rather than plastic slabs"
+intended_scale = "Hero and native detail; the flat silhouette remains broad"
+construction = "Each card has a constant 0.068-unit stock thickness measured normal to its local surface: 0.052 pale core between 0.008 colored skins. Rounded centerline scores carry all layers through the fold at their respective offset radii. The terracotta shelf has two rear lap tabs, one behind the foot of each green upright. Their top faces at z=0.146 contact the green stock back faces at z=0.146 over x=-0.74 to -0.32 (and its mirror), y=-0.30 to -0.16. These are bonded paper lap joints, not detached or intersecting pieces. The shelf contains two controlled score bends leading into those coplanar rear tabs. There is no common backing panel. All nine supported mesh assets are closed, consistently wound and use matte paper fiber materials."
+deletion_test = "Removing the pale core hides the stock construction; removing constant normal thickness creates visibly inconsistent edges around the folds."
+
+[[details]]
+feature = "Rounded outward scores and open shared shelf"
+purpose = "Give each paper part a visible change of plane and a specific role around an accessible common space"
+intended_scale = "Hero folds; three broad contributions survive in the flat mark"
+construction = "The two upper uprights each bend outward once around a 0.05-unit centerline score radius. The lower terracotta sheet bends upward and then back into two short lap tabs at 0.04-unit score radii. Both lap tabs are bonded against the back of the green card feet. The shared central space remains empty and open across the entire top. There is no backing plane, enclosing border or top bridge. All visible surfaces are matte fiber-textured paper, with no metal, plastic, inflated form, text, leaf icon, sparkle, arrows or chain links."
+deletion_test = "Without the score returns the uprights read as flat cutouts. Without the shared low shelf they become unrelated panels. A continuous top or backing would violate the open-structure direction."

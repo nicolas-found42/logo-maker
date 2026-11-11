@@ -1,0 +1,125 @@
+{
+  "seq": 73,
+  "label": "preview-keyed-release--extruded-solid--brushed-metal-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "4b8ea145fa254146a1b813220636e515",
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "Independent blue steel service supports meet through a separately machined copper dependency key with matching receiver contours.",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Brushed metal such as steel, brass, or aluminum, with soft directional sheen.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+    "native_details": {}
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "4b8ea145fa254146a1b813220636e515": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+      "bytes": 399027
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.85
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.65
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.75
+    }
+  },
+  "usage": {
+    "input_tokens": 3522,
+    "output_tokens": 75,
+    "cost": 0.000147924
+  },
+  "provider_usage": {
+    "input_tokens": 3522,
+    "output_tokens": 75,
+    "cost": 0.000147924,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000147924,
+      "upstream_inference_prompt_cost": 0.000147924,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

@@ -1,0 +1,468 @@
+{
+  "case": "metal",
+  "creative": {
+    "details": {
+      "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+      "comparison": {
+        "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+        "answers": {
+          "critique_resolved": {
+            "noul": 0.92,
+            "type": "noul"
+          },
+          "visually_distinct": {
+            "noul": 0.76,
+            "type": "noul"
+          }
+        },
+        "before": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0007-f95d050b17c4-preview/render.png",
+        "binding": "fb11638049653a0eba9dd4a735ba92f38a8fdeb9b9c8bee9f19108774ab0493a"
+      },
+      "dimension": "creative_readiness",
+      "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision",
+      "required_dimensions": {
+        "description_match": {
+          "p": 0.53,
+          "status": "unsettled"
+        }
+      },
+      "revision": "0008-b02f721c0b4e-preview",
+      "verdicts": {
+        "brief_fit": {
+          "noul": 0.82,
+          "type": "noul"
+        },
+        "craftsmanship": {
+          "noul": 0.72,
+          "type": "noul"
+        },
+        "description_match": {
+          "noul": 0.53,
+          "type": "noul"
+        },
+        "material_intent": {
+          "noul": 0.7,
+          "type": "noul"
+        }
+      }
+    },
+    "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/concept.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/construction.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/inspection.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.py\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.svg\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/scene.toml",
+    "status": "authoring_needed"
+  },
+  "eligibility": {
+    "answers": {
+      "aliasing_free": {
+        "noul": 0.65,
+        "type": "noul"
+      },
+      "appearance": {
+        "noul": 0.43,
+        "type": "noul"
+      },
+      "brand_specificity": {
+        "noul": 0.81,
+        "type": "noul"
+      },
+      "communicative_clarity": {
+        "noul": 0.75,
+        "type": "noul"
+      },
+      "constraint_fidelity": {
+        "noul": 0.73,
+        "type": "noul"
+      },
+      "detail_preserved": {
+        "noul": 0.77,
+        "type": "noul"
+      },
+      "meaningful_synthesis": {
+        "noul": 0.89,
+        "type": "noul"
+      },
+      "noise_free": {
+        "noul": 0.85,
+        "type": "noul"
+      },
+      "small_flat": {
+        "noul": 0.74,
+        "type": "noul"
+      },
+      "small_hero": {
+        "noul": 0.78,
+        "type": "noul"
+      },
+      "structure_correct": {
+        "noul": 0.75,
+        "type": "noul"
+      },
+      "symbol": {
+        "noul": 0.9,
+        "type": "noul"
+      }
+    },
+    "concept": "keyed-release|extruded_solid|brushed_metal",
+    "craft": [
+      {
+        "answers": {
+          "detail_finish": {
+            "noul": 0.64,
+            "type": "noul"
+          },
+          "edge_refinement": {
+            "noul": 0.44,
+            "type": "noul"
+          },
+          "form_finish": {
+            "noul": 0.45,
+            "type": "noul"
+          },
+          "lighting_control": {
+            "noul": 0.62,
+            "type": "noul"
+          },
+          "material_construction": {
+            "noul": 0.35,
+            "type": "noul"
+          },
+          "proportion_control": {
+            "noul": 0.56,
+            "type": "noul"
+          },
+          "surface_finish": {
+            "noul": 0.53,
+            "type": "noul"
+          },
+          "visual_hierarchy": {
+            "noul": 0.74,
+            "type": "noul"
+          }
+        },
+        "candidate_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+        "checks": {
+          "detail_finish": "unsettled",
+          "edge_refinement": "unsettled",
+          "form_finish": "unsettled",
+          "lighting_control": "unsettled",
+          "material_construction": "unsettled",
+          "proportion_control": "unsettled",
+          "surface_finish": "unsettled",
+          "visual_hierarchy": "pass"
+        },
+        "order": [
+          "candidate",
+          "reference"
+        ],
+        "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "status": "unsettled"
+      },
+      {
+        "answers": {
+          "detail_finish": {
+            "noul": 0.67,
+            "type": "noul"
+          },
+          "edge_refinement": {
+            "noul": 0.47,
+            "type": "noul"
+          },
+          "form_finish": {
+            "noul": 0.56,
+            "type": "noul"
+          },
+          "lighting_control": {
+            "noul": 0.68,
+            "type": "noul"
+          },
+          "material_construction": {
+            "noul": 0.41,
+            "type": "noul"
+          },
+          "proportion_control": {
+            "noul": 0.62,
+            "type": "noul"
+          },
+          "surface_finish": {
+            "noul": 0.55,
+            "type": "noul"
+          },
+          "visual_hierarchy": {
+            "noul": 0.82,
+            "type": "noul"
+          }
+        },
+        "candidate_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+        "checks": {
+          "detail_finish": "unsettled",
+          "edge_refinement": "unsettled",
+          "form_finish": "unsettled",
+          "lighting_control": "unsettled",
+          "material_construction": "unsettled",
+          "proportion_control": "unsettled",
+          "surface_finish": "unsettled",
+          "visual_hierarchy": "pass"
+        },
+        "order": [
+          "reference",
+          "candidate"
+        ],
+        "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+        "status": "unsettled"
+      },
+      {
+        "answers": {
+          "detail_finish": {
+            "noul": 0.62,
+            "type": "noul"
+          },
+          "edge_refinement": {
+            "noul": 0.44,
+            "type": "noul"
+          },
+          "form_finish": {
+            "noul": 0.51,
+            "type": "noul"
+          },
+          "lighting_control": {
+            "noul": 0.65,
+            "type": "noul"
+          },
+          "material_construction": {
+            "noul": 0.35,
+            "type": "noul"
+          },
+          "proportion_control": {
+            "noul": 0.55,
+            "type": "noul"
+          },
+          "surface_finish": {
+            "noul": 0.59,
+            "type": "noul"
+          },
+          "visual_hierarchy": {
+            "noul": 0.72,
+            "type": "noul"
+          }
+        },
+        "candidate_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+        "checks": {
+          "detail_finish": "unsettled",
+          "edge_refinement": "unsettled",
+          "form_finish": "unsettled",
+          "lighting_control": "unsettled",
+          "material_construction": "unsettled",
+          "proportion_control": "unsettled",
+          "surface_finish": "unsettled",
+          "visual_hierarchy": "pass"
+        },
+        "order": [
+          "candidate",
+          "reference"
+        ],
+        "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+        "status": "unsettled"
+      },
+      {
+        "answers": {
+          "detail_finish": {
+            "noul": 0.65,
+            "type": "noul"
+          },
+          "edge_refinement": {
+            "noul": 0.48,
+            "type": "noul"
+          },
+          "form_finish": {
+            "noul": 0.57,
+            "type": "noul"
+          },
+          "lighting_control": {
+            "noul": 0.66,
+            "type": "noul"
+          },
+          "material_construction": {
+            "noul": 0.37,
+            "type": "noul"
+          },
+          "proportion_control": {
+            "noul": 0.6,
+            "type": "noul"
+          },
+          "surface_finish": {
+            "noul": 0.6,
+            "type": "noul"
+          },
+          "visual_hierarchy": {
+            "noul": 0.76,
+            "type": "noul"
+          }
+        },
+        "candidate_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+        "checks": {
+          "detail_finish": "unsettled",
+          "edge_refinement": "unsettled",
+          "form_finish": "unsettled",
+          "lighting_control": "unsettled",
+          "material_construction": "unsettled",
+          "proportion_control": "unsettled",
+          "surface_finish": "unsettled",
+          "visual_hierarchy": "pass"
+        },
+        "order": [
+          "reference",
+          "candidate"
+        ],
+        "reference_sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+        "status": "unsettled"
+      }
+    ],
+    "detail_obligations": [],
+    "execution": {
+      "sha256": "172b1d41f4b2db443aceafc3bf2f0b6b7bbf49c33f759a2573fbe6a83db412ba",
+      "status": "verified"
+    },
+    "fit": {
+      "appearance": "unsettled",
+      "brand_specificity": "pass",
+      "communicative_clarity": "pass",
+      "constraint_fidelity": "pass",
+      "meaningful_synthesis": "pass",
+      "small_flat": "pass",
+      "small_hero": "pass",
+      "symbol": "pass"
+    },
+    "flat_source_sha256": "ab4cf8f40824525d1b0eb66cd45b9465482cd246040266a0f398b1e7bb95ee7f",
+    "missing": [],
+    "revision": {
+      "brief": {
+        "audience": "Platform engineers",
+        "avoid": [
+          "Text inside the mark",
+          "Decorative backing disc"
+        ],
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "DM Sans:wght=400"
+        },
+        "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+        "name": "Keystone",
+        "palette": {
+          "background": "#F4F5F5",
+          "ink": "#16313B",
+          "primary": "#245064",
+          "secondary": "#B87E48"
+        },
+        "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+        "tone": [
+          "precise",
+          "dependable",
+          "calm"
+        ],
+        "uses": [
+          "release_dashboard",
+          "documentation",
+          "app_icon"
+        ]
+      },
+      "candidate_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+      "eligibility_protocol_sha256": "49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572",
+      "references": [
+        {
+          "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+          "use": "craft"
+        },
+        {
+          "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab",
+          "use": "craft"
+        }
+      ],
+      "render_provenance": {
+        "preview.sampling.json": "ebb48500ea6e07f55c2472af66ee56aa345c7b6b17ce5f379f90962c1c025bca"
+      },
+      "reviewed_requirements": {
+        "baselines": {},
+        "brief_sha256": "311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c",
+        "evidence_sha256": "ec882adda3b52bd218307a36f28c9cd307a4325e98a860a35b1572745c3af2e7",
+        "references": {
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        },
+        "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+        "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+        "sources": {
+          "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/inputs/retained-brief.toml": "7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04"
+        },
+        "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+      },
+      "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+      "sources": {
+        "brief-evidence.toml": "ec882adda3b52bd218307a36f28c9cd307a4325e98a860a35b1572745c3af2e7",
+        "brief.toml": "311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c",
+        "concepts/keyed-release--extruded-solid--brushed-metal/concept.json": "cce24427795629a570e61ee95b7d947d2f6ebbef0560a8259874261659ab2da5",
+        "concepts/keyed-release--extruded-solid--brushed-metal/motif.json": "3339aa5dad1d385b1c096fcfe61153036cb8989e680182f582159c548f2744a7",
+        "concepts/keyed-release--extruded-solid--brushed-metal/motif.svg": "ab4cf8f40824525d1b0eb66cd45b9465482cd246040266a0f398b1e7bb95ee7f",
+        "concepts/keyed-release--extruded-solid--brushed-metal/plan-review.json": "710b4cf1722bb293bb8066c3823914bf69fa4ec47ae823fd45104d6a83e8d649",
+        "concepts/keyed-release--extruded-solid--brushed-metal/plan.toml": "a6fce9a55e5d894647b5480d2ed49f84302a4a50a0e015f77fb9d2803378e367",
+        "concepts/keyed-release--extruded-solid--brushed-metal/scene.toml": "769483d5a1046f81b940775ea93a1ffc4a79a948c120c3ddab32cc3e16374e87",
+        "ideation/metaphors.toml": "25fd46a3e2d3bf48e4ef3b8f8529a7f5b8a4cb781741b952991a585b322fc9a9",
+        "ideation/pool.jsonl": "ea6c16c893d292b768e16b9531e22a19d76d6546fa0923f6feabf84f12a2da69",
+        "ideation/requirements.json": "e3589de6872b083c44f549c641bb8275957e8d1bf801fb97498e0fa52d486a88"
+      }
+    },
+    "revision_sha256": "abe9d661904bf7703ebfbb18d77028f714d5046103dd0db9d09eccb6224aab7e",
+    "sampling": {
+      "acceptance_basis": "independent delivered-image visual judgments; no numerical convergence claim",
+      "convergence": "unknown",
+      "device": "verified",
+      "limit": "capped",
+      "noise": "pass",
+      "outcome": "unknown",
+      "outcomes": {
+        "cap": "capped",
+        "device": "verified",
+        "memory": "unknown",
+        "noise": "unknown",
+        "quality": "unreviewed",
+        "sampling": "review_needed",
+        "time": "within_budget"
+      },
+      "profile": {
+        "reason": "no qualified replacement; retain baseline",
+        "state": "profile_unqualified"
+      },
+      "record_sha256": "ebb48500ea6e07f55c2472af66ee56aa345c7b6b17ce5f379f90962c1c025bca",
+      "settings": {
+        "adaptive_min_samples": 0,
+        "adaptive_threshold": 0.009999999776482582,
+        "samples": 256,
+        "seed": 42,
+        "use_adaptive_sampling": false,
+        "use_animated_seed": false
+      },
+      "visual_acceptance": "unsettled"
+    },
+    "stage": "preview",
+    "status": "unsettled",
+    "technical": {
+      "aliasing_free": "unsettled",
+      "detail_preserved": "pass",
+      "noise_free": "pass",
+      "structure_correct": "pass"
+    },
+    "view_sha256": {
+      "flat-small.png": "c9b38d4a3fb10c926b06adc0ddda9ce931e07e499106d828701b92839731243e",
+      "hero-small.png": "fdfbae999d925c486b00827e2c3c97717f2d63cc5241132ae0201e697a61be83",
+      "reference-0-0-0.png": "53cbdccc73b69f24b31ceb212f03a910c72befc114f024781e4dce149ad303e6",
+      "reference-0-0-1000.png": "281eb8c33dd59c7eefed59781e15edb2695cf68aa23b022c504109860bee81e4",
+      "reference-0-1000-0.png": "a28d40d153ce55dee68f47095fb3d5ee6d68aa4b177aaf935657ab767ff9f5f2",
+      "reference-0-1000-1000.png": "8f4ee4258e104ff734ca22ec53baba85252ca932151fd71d606cb16be54e2606",
+      "reference-1-0-0.png": "87e985d5c01f40eee619c5632bdae7e5dbcfb0b6df5d279f23578c14035e60c4",
+      "reference-1-0-1000.png": "da89f3507f6e6ed46f01781d572c061f9ee2ec52ef511ab1270e14fb061576b2",
+      "reference-1-1000-0.png": "e284917807bea285072f6a2328939b41e0de7b41d911a949201b1b1f876b20cf",
+      "reference-1-1000-1000.png": "9cf57e6d801003a46d814b80c9b75d4b988485d9c778612c82f1baa42091d508"
+    }
+  },
+  "qualification": "authoring_needed; no finalists, winner, production export or owner approval",
+  "revision": "0008-b02f721c0b4e-preview"
+}

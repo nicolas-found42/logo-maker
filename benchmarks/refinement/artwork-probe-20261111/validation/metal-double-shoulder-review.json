@@ -1,0 +1,85 @@
+{
+  "study": "metal",
+  "revision": "0008-b02f721c0b4e-preview",
+  "stop": {
+    "status": "authoring_needed",
+    "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/concept.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/construction.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/inspection.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.py\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/motif.svg\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/scene.toml",
+    "details": {
+      "dimension": "creative_readiness",
+      "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+      "revision": "0008-b02f721c0b4e-preview",
+      "verdicts": {
+        "craftsmanship": {
+          "type": "noul",
+          "noul": 0.72
+        },
+        "brief_fit": {
+          "type": "noul",
+          "noul": 0.82
+        },
+        "material_intent": {
+          "type": "noul",
+          "noul": 0.7
+        },
+        "description_match": {
+          "type": "noul",
+          "noul": 0.53
+        }
+      },
+      "required_dimensions": {
+        "description_match": {
+          "p": 0.53,
+          "status": "unsettled"
+        }
+      },
+      "comparison": {
+        "binding": "fb11638049653a0eba9dd4a735ba92f38a8fdeb9b9c8bee9f19108774ab0493a",
+        "before": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0007-f95d050b17c4-preview/render.png",
+        "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+        "answers": {
+          "visually_distinct": {
+            "type": "noul",
+            "noul": 0.76
+          },
+          "critique_resolved": {
+            "type": "noul",
+            "noul": 0.92
+          }
+        }
+      },
+      "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+    }
+  },
+  "comparisons": {
+    "preceding": {
+      "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+      "answers": {
+        "critique_resolved": {
+          "noul": 0.92,
+          "type": "noul"
+        },
+        "visually_distinct": {
+          "noul": 0.76,
+          "type": "noul"
+        }
+      },
+      "before": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0007-f95d050b17c4-preview/render.png",
+      "binding": "fb11638049653a0eba9dd4a735ba92f38a8fdeb9b9c8bee9f19108774ab0493a"
+    },
+    "retained": {
+      "binding": "eb4e1a5904c51bd3ecdf4463749197f1ffd6d6e2ace944d3f78582664d0bea14",
+      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
+      "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+      "answers": {
+        "visually_distinct": {
+          "type": "noul",
+          "noul": 0.95
+        },
+        "critique_resolved": {
+          "type": "noul",
+          "noul": 0.71
+        }
+      }
+    }
+  }
+}
