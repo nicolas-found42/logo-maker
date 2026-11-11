@@ -1,0 +1,202 @@
+{
+  "issue": "https://github.com/nicolas-found42/logo-maker/issues/5",
+  "baseline": "3ca26d090fd1dc686e7920dfe2638e77255eec66",
+  "branch": "codex/main-ci-health",
+  "failed_ci": {
+    "url": "https://github.com/nicolas-found42/logo-maker/actions/runs/42962498387",
+    "test": "test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[asset_corrupt]",
+    "error": "SamplingLimit: time_limit: qa_checks deadline exhausted; prior artifacts retained",
+    "worker_timeout_seconds": 2.649017208000032,
+    "suite": "1 failed, 249 passed, 2 skipped, 4 deselected in 319.33s"
+  },
+  "diagnosis": {
+    "finding": "The corruption-recovery success case shared the six-second deadline and timing assertion used by deliberate blocking cases. Ordinary elapsed QA time could raise SamplingLimit before the expected AuthoringNeeded stop.",
+    "uncertainty": "The exact source of hosted runner latency was not measured. Local baseline passed without injected latency.",
+    "inspected": {
+      "logo_maker/pipeline.py": "finalize and qa_concept propagate the shared budget to judgments, qa_checks, bookkeeping and publication; an unqualified sampling fixture stops with AuthoringNeeded only after QA.",
+      "logo_maker/owned_process.py": "run reserves one second of remaining budget for session termination and reaping; qa_checks timeout is an operational time limit.",
+      "logo_maker/jev/client.py": "FIFO targets are not regular files and are replaced atomically with the sent image bytes; paid usage is accounted before asset IO; completed retention marks assets ready."
+    },
+    "production_changes": false
+  },
+  "controlled_probe": {
+    "plugin": "import time\nimport pytest\n\n@pytest.fixture(autouse=True)\ndef slow_qa(monkeypatch):\n    from logo_maker import host\n    original = host.run\n    def delayed(payload, *args, **kwargs):\n        if payload['operation'] == 'qa_checks':\n            time.sleep(4)\n        return original(payload, *args, **kwargs)\n    monkeypatch.setattr(host, 'run', delayed)\n",
+    "setup": "Save plugin as /tmp/logo-maker-ci-health/slow_qa.py; prepend its directory to PYTHONPATH; add -p slow_qa to the pytest invocation.",
+    "baseline_without_delay": "1 passed in 3.44s",
+    "baseline_with_four_second_qa_delay": "1 failed in 6.80s; SamplingLimit: time_limit: qa_checks deadline exhausted; prior artifacts retained",
+    "split_recovery_with_same_delay": "1 passed in 7.04s"
+  },
+  "coverage": {
+    "expiry": "provider_retry, provider_log, qa_image_read, image_encode, tiny_image_read still expect SamplingLimit with a six-second budget and the original less-than-nine-second elapsed assertion.",
+    "recovery": "Dedicated success test allows 30 seconds, expects AuthoringNeeded after real QA, and checks ready retention, exact provider bytes and hashes, exact asset set, exact usage, sequence, secret exclusion and prior winner bytes.",
+    "cleanup": "Both tests share bounded server/writer joins and assert the threads stop."
+  },
+  "verification": {
+    "offline": "just test: 252 passed, 4 deselected, 49 warnings in 158.57s",
+    "lint": "just lint: passed; Ruff check and Ruff format --check, 124 files already formatted",
+    "types": "just type: passed; ty check",
+    "hooks": "just hooks: all ten hooks passed",
+    "build": "uv build --out-dir /tmp/logo-maker-ci-health/dist: wheel and sdist built successfully",
+    "build_warning": "Existing setuptools project.license TOML-table deprecation; build succeeded. No dependency or metadata change in this fix.",
+    "gpu_live_doctor": "Not run: no production, dependency, rendering or provider behavior changed.",
+    "landing": "Not landed. Current-head hosted CI is required before landing; local checks do not establish hosted CI success.",
+    "test_file_sha256": "bb7f974e360461ae3175737a82990629323d466d6ffce399b0e3c747b71dbb72",
+    "runtime_diff": "git diff --exit-code origin/main -- logo_maker pyproject.toml uv.lock .github: passed; production sources, dependencies and workflow configuration match the audited baseline."
+  },
+  "reconciliation_20261111": {
+    "base": "db974592b29768f91dddd088d6f25fe740a22d0e",
+    "incorporated_commit": "3a0b8060b2ed0e5dcdbcc5cad86958ced6f4bf02",
+    "runtime_changes": false,
+    "conflict_resolution": [
+      "Preserve frozen brief/plan and retained final capture",
+      "Unlink existing retained asset before substituting the corruption FIFO",
+      "Expect the current sampling-profile authoring stop",
+      "Check paid usage fields and unpriced count while retaining main accounting metadata"
+    ],
+    "test_file_sha256": "5c5e4923d023dca0f946c7b9cdbc3a18a52e33493717e311af62302dd5192a17",
+    "verification": {
+      "qa-baseline-db97459.txt": "============================= test session starts ==============================\nplatform darwin -- Python 3.13.16, pytest-9.2.0, pluggy-1.7.0 -- /Users/nicolas/Documents/github/logo-maker/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/consolidation-20261111/baseline-db97459\nconfigfile: pyproject.toml\nplugins: platformdirs-4.14.5, anyio-4.16.0\ncollecting ... collected 6 items\n\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[provider_retry] PASSED [ 16%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[provider_log] PASSED [ 33%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read] PASSED [ 50%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[image_encode] PASSED [ 66%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[tiny_image_read] PASSED [ 83%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[asset_corrupt] PASSED [100%]\n\n============================== 6 passed in 41.14s ==============================\n",
+      "qa-recovery-integration-red.txt": "============================= test session starts ==============================\nplatform darwin -- Python 3.13.16, pytest-9.2.0, pluggy-1.7.0 -- /Users/nicolas/Documents/github/logo-maker/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /Users/nicolas/Documents/github/logo-maker\nconfigfile: pyproject.toml\nplugins: platformdirs-4.14.5, anyio-4.16.0\ncollecting ... collected 1 item\n\ntests/test_sampling_render.py::test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner[asset_corrupt] FAILED [100%]\n\n=================================== FAILURES ===================================\n_ test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner[asset_corrupt] _\n\nfinalize_qa_case = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pyte...x00\\x04\\x11\\x00\\x00\\x00\\x10D\\x00\\x00\\x00@\\x93\\xe3\\xff\\x03\\xcc[\\x12\\xf8\\xdb\\xa8\\xac\\xac\\x00\\x00\\x00\\x00IEND\\xaeB`\\x82'})\n\n    @pytest.mark.parametrize(\"finalize_qa_case\", [\"asset_corrupt\"], indirect=True)\n    def test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner(finalize_qa_case):\n        import hashlib\n        import time\n    \n        from logo_maker import pipeline\n    \n        case = finalize_qa_case\n        # Recovery succeeds; unlike the stall cases, ordinary worker startup and QA\n        # must finish. A cold CI runner need not complete that work in six seconds.\n        started = time.monotonic()\n>       with pytest.raises(pipeline.AuthoringNeeded, match=\"no finalist qualified\"):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: Regex pattern did not match.\nE         Expected regex: 'no finalist qualified'\nE         Actual message: \"sampling qualification unresolved; creative validity cannot replace #5's profile gate\\n  - /private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-513/test_finalize_recovers_corrupt0/logo/concepts/a--b--c/.build/final.sampling.json\\n  - /private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-513/test_finalize_recovers_corrupt0/logo/concepts/a--b--c/scene.toml\"\n\ntests/test_sampling_render.py:589: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_sampling_render.py::test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner[asset_corrupt]\n============================== 1 failed in 5.94s ===============================\n",
+      "qa-recovery-integration-green.txt": "============================= test session starts ==============================\nplatform darwin -- Python 3.13.16, pytest-9.2.0, pluggy-1.7.0 -- /Users/nicolas/Documents/github/logo-maker/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /Users/nicolas/Documents/github/logo-maker\nconfigfile: pyproject.toml\nplugins: platformdirs-4.14.5, anyio-4.16.0\ncollecting ... collected 6 items\n\ntests/test_sampling_render.py::test_finalize_recovers_corrupt_judgment_assets_and_keeps_prior_winner[asset_corrupt] PASSED [ 16%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[provider_retry] PASSED [ 33%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[provider_log] PASSED [ 50%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read] PASSED [ 66%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[image_encode] PASSED [ 83%]\ntests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[tiny_image_read] PASSED [100%]\n\n============================== 6 passed in 39.96s ==============================\n",
+      "qa-full-offline.txt": "uv run --locked python -m pytest -q -m \"not render and not live\" \n........................................................................ [ 16%]\n........................................................................ [ 33%]\n........................................................................ [ 49%]\n........................................................................ [ 66%]\n........................................................................ [ 82%]\n........................................................................ [ 99%]\n....                                                                     [100%]\n=============================== warnings summary ===============================\ntests/test_geometry.py: 48 warnings\n  /Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.\n  As an alternative, you can create a new view using np.reshape (with copy=False if needed).\n    ar.shape = shape\n\ntests/test_geometry.py::test_sweeps_and_solids_watertight\n  /Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.\n  As an alternative, you can create a new view using np.reshape (with copy=False if needed).\n    faces.shape = -1, 3\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n436 passed, 6 deselected, 49 warnings in 302.49s (0:05:02)\n",
+      "qa-lint.txt": "uv run --locked ruff check .\nAll checks passed!\nuv run --locked ruff format --check .\n185 files already formatted\n",
+      "qa-types.txt": "uv run --locked ty check\nAll checks passed!\n",
+      "qa-hooks.txt": "uvx prek run --all-files\ncheck for added large files..............................................Passed\ncheck for merge conflicts................................................Passed\ncheck toml...............................................................Passed\ncheck yaml...............................................................Passed\nfix end of files.........................................................Passed\ntrim trailing whitespace.................................................Passed\nruff check...............................................................Passed\nruff format..............................................................Passed\ntypos....................................................................Passed\nrumdl check..............................................................Passed\n",
+      "qa-doctor.txt": "uv run --locked logo-maker doctor\nok   environment        jev API key                     \nok   environment        Node.js >= 24                   \nok   environment        Cycles Metal GPU                \nok   environment        Metal kernel cache              \nok   judgment           jev (TypeSafe)                  \nok   color_type         coloraide                       \nok   motif_2d           fontTools                       \nok   motif_2d           skia-pathops                    \nok   motif_2d           drawsvg                         \nok   motif_2d           resvg-py                        \nok   motif_2d           Pillow                          \nok   motif_2d           vtracer                         \nok   motif_2d           vpype                           \nok   motif_2d           FontForge                       \nok   motif_2d           primitive                       \nok   motif_2d           rough.js+svg2roughjs            \nok   motif_2d           perfect-freehand                \nok   motif_2d           d3-delaunay                     \nok   motif_2d           trianglify                      \nok   motif_2d           heerich                         \nok   motif_2d           Google Fonts                    \nok   rendering          bpy/Cycles (Metal)              \nok   rendering          OIDN                            \nok   geometry_3d        Blender cloth                   \nok   rendering          Line Art                        \nok   rendering          compositor glare/DOF            \nok   geometry_3d        manifold3d                      \nok   geometry_3d        trimesh                         \nok   geometry_3d        PyMeshLab                       \nok   geometry_3d        build123d                       \nok   geometry_3d        fogleman/sdf                    \nok   materials_lighting Poly Haven                      \nok   materials_lighting ambientCG                       \nok   rendering          sysctl (macOS hardware identity)\nok   post_export        ps (system process status)      \nok   rendering          Mitsuba 3                       \nok   rendering          LuxCoreRender                   \nok   rendering          three.js                        \nok   rendering          postprocessing                  \nok   rendering          N8AO                            \nok   rendering          Playwright (Chrome)             \nok   post_export        OpenImageIO                     \nok   post_export        SVGO                            \nok   post_export        favicons                        \nok   post_export        pwa-asset-generator             \nok   post_export        gltf-transform                  \nok   post_export        Draco                           \nok   post_export        Chrome                          \n\n48/48 checks passed, 0 failed\n",
+      "qa-gpu.txt": "uv run --locked python -m pytest -q -m render\n..                                                                       [100%]\n2 passed, 440 deselected in 6.72s\n"
+    },
+    "build": "Wheel and sdist built; existing setuptools license-table warning",
+    "reviews": {
+      "qa-spec-review.md": "# Spec review: QA asset-recovery consolidation\n\nReviewed the working-tree diff against `origin/main` (`db97459`) for `tests/test_sampling_render.py` and `benchmarks/sampling/validation/main-ci-health.json`.\n\n**No concrete regression or coverage weakening found.** The split preserves all five deliberate blocking cases with the six-second budget, `SamplingLimit` expectation, less-than-nine-second assertion, fault-reached checks and prior-winner preservation. The corruption-recovery success case keeps main's existing 30-second allowance, now requires the specific sampling-qualification authoring stop, and adds exact sent/retained bytes, asset-set equality, ready status, usage/sequence and QA-outcome assertions. Frozen brief/plan setup, retained capture, FIFO unlinking and expanded usage semantics remain present. Thread cleanup gains explicit termination assertions.\n\n`main-ci-health.json` records historical diagnosis and validation against its explicitly named baseline `3ca26d0`; its 252-test result and recorded test-file hash are not validation of this merged working tree. It explicitly requires current-head hosted CI before landing. Preserve that distinction when reporting results.\n\nObserved read-only checks: `git diff --exit-code origin/main -- logo_maker pyproject.toml uv.lock js` and `git diff --check` both passed. I did not execute the focused cases or full suite, and make no claim about their current results. At inspection time Git still reported the test file as unmerged (`UU`), despite conflict-marker-free resolved contents; completing the merge index is landing bookkeeping, not a code defect.\n",
+      "qa-standards-review.md": "# QA asset-recovery consolidation: Standards review\n\nReviewed the current working-tree delta against `origin/main` (`db97459`) in the canonical checkout. Scope: `tests/test_sampling_render.py` and the historical `benchmarks/sampling/validation/main-ci-health.json` bundle. No concrete documented-standard violation or baseline smell warrants a finding.\n\nThe fixture split preserves main's frozen brief, reviewed plan, retained final capture, finalist binding, provider-log FIFO unlink, and real owned-worker paths. The five deliberate stall cases retain their six-second shared budget, less-than-nine-second assertion, fault-reached checks, provider bookkeeping checks, and prior-winner protection. The separate corruption-recovery case retains a bounded 30-second allowance and now requires the specific sampling-qualification authoring stop. It checks ready asset retention, exact sent bytes and hashes, exact retained asset set, usage totals and reported cost, sequence advancement, secret exclusion, sampling-review bookkeeping, and unchanged prior winner. Cleanup checks server/writer termination.\n\nNo conflict markers remain in the reviewed file. The Git index was still marked unmerged during review; staging the resolved file is a remaining integration step, not a source defect. The runtime/dependency/workflow comparison against origin/main is empty.\n\nThe imported JSON is historical evidence for the `3a0b806` work on `codex/main-ci-health` and its recorded `3ca26d0` baseline. Its test counts, file hash, timings, build results, and \u201cNot landed\u201d statement do not establish current-merge validation or current landing status. Its uncertainty about the exact hosted latency source remains appropriate.\n\nThe six focused cases were running in the parent task; this review does not claim they passed. No additional tests, GPU renders, live-provider requests, or source edits were performed by this reviewer.\n"
+    },
+    "qualification": "No artistic or production qualification; #1/#3/#4 remain open.",
+    "advisory_gate": {
+      "tool": "jev_gate",
+      "model": "typesafe/jev-1.14-20261014",
+      "provider": "openrouter",
+      "truncated": false,
+      "action": "escalate",
+      "reason_codes": [
+        "confidence_below_review",
+        "safe_to_apply_below_review",
+        "review_escalated"
+      ],
+      "review": {
+        "safe_to_apply": 0.33,
+        "scores": {
+          "correctness": {
+            "score": 1.62,
+            "confidence": 0.43,
+            "probabilities": {
+              "0": 0.08,
+              "1": 0.22,
+              "2": 0.7
+            }
+          },
+          "spec_match": {
+            "score": 1.7,
+            "confidence": 0.55,
+            "probabilities": {
+              "0": 0.03,
+              "1": 0.24,
+              "2": 0.73
+            }
+          },
+          "test_gap": {
+            "score": 0.31,
+            "confidence": 0.52,
+            "probabilities": {
+              "0": 0.75,
+              "1": 0.18,
+              "2": 0.07
+            }
+          },
+          "blast_radius": {
+            "score": 0.26,
+            "confidence": 0.61,
+            "probabilities": {
+              "0": 0.77,
+              "1": 0.2,
+              "2": 0.03
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.8362500000000002,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness"
+        ]
+      },
+      "verification": {
+        "action": "auto",
+        "summary": {
+          "verified": 3,
+          "contradicted": 0,
+          "unsupported": 0,
+          "needs_review": 0,
+          "invalid_response": 0
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5
+        },
+        "results": [
+          {
+            "claim": "The six named recovery/stall integration cases passed locally in39.96seconds.",
+            "verdict": "verified",
+            "confidence": 0.98,
+            "probabilities": {
+              "verified": 0.99,
+              "contradicted": 0.01,
+              "unsupported": 0
+            },
+            "action": "auto"
+          },
+          {
+            "claim": "The complete current offline suite passed436tests,6deselected,49warnings in302.49seconds.",
+            "verdict": "verified",
+            "confidence": 0.91,
+            "probabilities": {
+              "verified": 0.94,
+              "contradicted": 0.04,
+              "unsupported": 0.02
+            },
+            "action": "auto"
+          },
+          {
+            "claim": "Lint/format,typecheck,and all repository hooks passed.",
+            "verdict": "verified",
+            "confidence": 1,
+            "probabilities": {
+              "verified": 1,
+              "contradicted": 0,
+              "unsupported": 0
+            },
+            "action": "auto"
+          }
+        ]
+      },
+      "usage": {
+        "input_tokens": 11063,
+        "output_tokens": 198
+      }
+    },
+    "gate_adjudication": "# Independent QA gate adjudication\n\nNo new concrete Spec defect or coverage weakening found in the final test diff. The five deliberate stalls retain six-second limits and their fault/preservation assertions. Corrupt-asset recovery retains its separate 30-second allowance and stronger exact-evidence/accounting checks. No production behavior changes are introduced by this reconciliation.\n\nThe saved Jev result verifies all three submitted factual claims, with confidences **0.98, 0.91 and 1.00**; it reports zero contradicted or unsupported claims. The independent patch review identifies no concrete issue corresponding to its remaining escalation. Its `safe_to_apply = 0.33`, correctness confidence **0.43**, composite **0.83625** and `action = escalate` must remain visible: this is **not automated approval**, even though its composite exceeds the configured floor. No rationale or actionable counterexample is supplied.\n\nIndependently checked the current test-file SHA-256 against `reconciliation_20261111`: it matches. The embedded focused-case, full-offline, lint, types and hook logs exactly match their raw current log files. They show **6 passed in 39.96 s**, **436 passed / 6 deselected / 49 warnings in 302.49 s**, and passing lint/types/hooks. These current reconciliation records are explicitly distinct from the older 252-test baseline evidence and its original test hash.\n\nAdjudication: retain the gate as an unresolved advisory escalation, not a factual contradiction or a demonstrated code defect. The observed local checks support the stated narrow test-consolidation result. Hosted current-head CI, landing status, and artistic/production qualification require their own evidence. No model rerun or runtime edit was performed for this adjudication.\n"
+  }
+}
