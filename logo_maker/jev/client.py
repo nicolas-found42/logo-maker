@@ -384,6 +384,7 @@ class JevClient:
         *,
         assets_status: str = "ready",
         budget: Budget | None = None,
+        seq: int | None = None,
     ) -> Path:
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
@@ -395,8 +396,9 @@ class JevClient:
 
             raise SamplingLimit("time_limit: Jev request log lock deadline exhausted")
         try:
-            seq = self._seq
-            self._seq += 1
+            if seq is None:
+                seq = self._seq
+                self._seq += 1
             return self._publish_log(
                 seq, label, state, questions, stripped_assets, response, assets_status, budget
             )
@@ -441,7 +443,7 @@ class JevClient:
         # Account for a received charge in the parent before persistence can time out.
         # The worker owns only file IO, never the client's sequence/lock/HTTP state.
         if budget is not None:
-            log.jev_usage(response.get("_usage", {}), budget=budget)
+            log.jev_usage(response.get("_usage", {}), budget=budget, request_id=request_path.name)
             self._worker(
                 {
                     "operation": "publish_log",
@@ -490,6 +492,30 @@ class JevClient:
                 ref: {"type": "image", "format": a["format"], "data_base64": a["data_base64"]}
                 for ref, a in assets.items()
             }
+        attempt_seq = None
+        if self.logo is not None and budget is not None:
+            # A provider can charge before a timeout. Persist the exact submitted
+            # context and unknown accounting before allowing dispatch.
+            request_path = self._log(
+                label,
+                ser_state,
+                ser_questions,
+                _asset_metadata(assets),
+                {"_status": "submission_pending", "_usage": self._usage({})},
+                assets_status="pending",
+                budget=budget,
+            )
+            attempt_seq = int(request_path.name.split("-", 1)[0])
+            self._worker(
+                {
+                    "operation": "store_assets",
+                    "logo": str(self.logo.root),
+                    "assets": assets,
+                    "request_path": str(request_path),
+                },
+                budget,
+            )
+
         raw: dict[str, Any] = {}
         error: JevError | None = None
         try:
@@ -521,6 +547,7 @@ class JevClient:
                     raw,
                     assets_status="pending",
                     budget=budget,
+                    seq=attempt_seq,
                 )
                 self._worker(
                     {

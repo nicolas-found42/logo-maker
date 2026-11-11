@@ -120,7 +120,9 @@ class RunLog:
             self.data = data
             return result
 
-    def jev_usage(self, usage: dict[str, Any], *, budget: Budget | None = None) -> None:
+    def jev_usage(
+        self, usage: dict[str, Any], *, budget: Budget | None = None, request_id: str | None = None
+    ) -> None:
         with _locked(budget):
             jev = self.data["jev"]
             fields = (
@@ -149,8 +151,20 @@ class RunLog:
                 for _, _, subtotal, missing in fields:
                     jev[subtotal] = 0
                     jev[missing] = jev["requests"]
-            jev["requests"] += 1
+            previous = None
+            if request_id is not None:
+                entries = jev.setdefault("request_usage", {})
+                previous = entries.get(request_id)
+                entries[request_id] = dict(usage)
+            if previous is None:
+                jev["requests"] += 1
             for field, total, subtotal, missing in fields:
+                if previous is not None:
+                    old = previous.get(field)
+                    if old is None:
+                        jev[missing] -= 1
+                    else:
+                        jev[subtotal] -= old
                 value = usage.get(field)
                 if value is None:
                     jev[missing] += 1

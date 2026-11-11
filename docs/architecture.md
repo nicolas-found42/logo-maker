@@ -485,11 +485,14 @@ Every check is required: there are no optional tools.
 ### Combined qualification and bounded eligibility
 
 Finalization shares one deadline across frozen-input validation, GPU rendering, sampling QA,
-independent visual eligibility, preference ranking and recoverable winner publication. A lone
-QA survivor still needs current craft, fit, technical and owner-feedback proof. Sampling profile
+independent visual eligibility, preference ranking and recoverable winner publication. A lone QA
+survivor still needs current craft, fit, technical and owner-feedback proof. Sampling profile
 qualification cannot substitute for visual proof; visual approval cannot qualify sampling.
 Export pins both the exact sampling record and the winner's exact visual/input proof through
 staging and publication. A provider error, stale proof or overall rejection preserves prior
-winner, exports and same-brand floor. CPU image preparation, hashing and proof checks execute
-in owned workers under that same deadline. Failed provider envelopes and missing telemetry use
-the bounded client and RunLog path; they retain unknown costs, not estimated zero charges.
+winner, exports and same-brand floor. CPU image preparation, hashing and proof checks execute in
+owned workers under that same deadline. A durable `submission_pending` record and unknown usage
+are written before bounded provider dispatch. A received response replaces that attempt's
+accounting rather than counting a second request. If the shared deadline expires, the unresolved
+attempt stays visible with unknown cost. Failed provider envelopes and missing telemetry use the
+bounded client and RunLog path; they retain unknown costs, not estimated zero charges.

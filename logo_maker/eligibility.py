@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 import math
+from collections import Counter
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any
@@ -589,6 +590,63 @@ def _finish_assessment(logo, brief, concept_id, candidate, record, execution):
     return record
 
 
+def _validate_proof(logo: LogoDir, brief: Brief, concept_id: str, proof: dict) -> None:
+    """Recompute essential decisions from retained answers, never a cached pass flag."""
+    from logo_maker import briefing
+
+    try:
+        refs = [r for r in brief.references if r.use == "craft"]
+        expected = Counter(
+            (sha256(r.path), order)
+            for r in refs
+            for order in (("candidate", "reference"), ("reference", "candidate"))
+        )
+        rows = proof["craft"]
+        observed = [(r["reference_sha256"], tuple(r["order"])) for r in rows]
+        if not expected or Counter(observed) != expected:
+            raise ValueError("missing craft comparisons")
+        for row in rows:
+            checks = _statuses(row["answers"], Q.craft_questions())
+            if (
+                checks != row["checks"]
+                or _combined(list(checks.values())) != "pass"
+                or row["status"] != "pass"
+                or row["candidate_sha256"] != proof["revision"]["candidate_sha256"]
+            ):
+                raise ValueError("invalid craft proof")
+        checks = _statuses(proof["answers"], {**Q.fit_questions(), **Q.technical_questions()})
+        if (
+            proof["fit"] != {k: checks[k] for k in Q.fit_questions()}
+            or proof["technical"] != {k: checks[k] for k in Q.technical_questions()}
+            or _combined(list(checks.values())) != "pass"
+        ):
+            raise ValueError("invalid fit/technical proof")
+        obligations = [
+            o for o in briefing.current(logo)["state"]["obligations"] if o["kind"] == "authoring"
+        ]
+        detail_rows = proof["detail_obligations"]
+        if len(detail_rows) != len(obligations) or {r["obligation"] for r in detail_rows} != {
+            o["id"] for o in obligations
+        }:
+            raise ValueError("missing authoring-obligation proof")
+        if obligations:
+            plan = briefing.current_plan(logo, concept_id)["state"]["plan"]
+            for obligation in obligations:
+                row = next(r for r in detail_rows if r["obligation"] == obligation["id"])
+                questions = Q.detail_realization_questions(
+                    plan["details"], baseline=bool(obligation.get("baseline_image"))
+                )
+                checks = _statuses(row["answers"], questions)
+                if (
+                    checks != row["checks"]
+                    or _combined(list(checks.values())) != "pass"
+                    or row["status"] != "pass"
+                ):
+                    raise ValueError("invalid authoring-obligation proof")
+    except (KeyError, TypeError, JevError, ValueError) as exc:
+        raise ValueError("winner eligibility incomplete or inconsistent; rerun finalize") from exc
+
+
 def require_current(
     logo: LogoDir,
     brief: Brief,
@@ -612,8 +670,13 @@ def require_current(
         current = revision(logo, brief, concept_id, candidate)
     except (OSError, ValueError) as exc:
         raise ValueError("winner eligibility stale or missing; rerun finalize") from exc
-    if proof.get("status") != "pass" or proof.get("revision_sha256") != _digest(current):
+    if (
+        proof.get("status") != "pass"
+        or proof.get("revision_sha256") != _digest(current)
+        or proof.get("revision") != current
+    ):
         raise ValueError("winner eligibility stale or absent; rerun finalize")
+    _validate_proof(logo, brief, concept_id, proof)
 
 
 def _pack_images(value):

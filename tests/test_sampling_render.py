@@ -469,6 +469,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
             if first and failure == "provider_log":
                 logs = logo.qa / "jev"
                 logs.mkdir(parents=True, exist_ok=True)
+                (logs / "answers.jsonl").unlink(missing_ok=True)
                 os.mkfifo(logs / "answers.jsonl")
             self.send_response(429 if retry else 200)
             if retry:
@@ -478,7 +479,9 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
                 assets_dir.mkdir(parents=True, exist_ok=True)
                 for asset in body["assets"].values():
                     digest = hashlib.sha256(base64.b64decode(asset["data_base64"])).hexdigest()
-                    os.mkfifo(assets_dir / f"{digest}.{asset['format']}")
+                    target = assets_dir / f"{digest}.{asset['format']}"
+                    target.unlink(missing_ok=True)
+                    os.mkfifo(target)
             response = json.dumps(
                 {
                     "answers": {key: {"type": "noul", "noul": 0.9} for key in body["questions"]},

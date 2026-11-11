@@ -896,3 +896,47 @@ def test_reference_remainder_tiles_retain_native_pixels_without_upscaling(tmp_pa
         logo, brief, cid, logo.concept(cid) / "final.png", InspectViews(), stage="final"
     )
     assert result["status"] == "pass"
+
+
+@pytest.mark.parametrize(
+    "damage", ["stripped", "craft_missing", "contradicted_fit", "contradicted_craft"]
+)
+def test_current_proof_requires_complete_consistent_essential_answers(tmp_path, damage):
+    from logo_maker.brief import load
+    from logo_maker.eligibility import assess, require_current
+
+    logo, cid, _ = candidate_logo(tmp_path)
+    brief = load(logo.brief)
+    proof = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", EligibilityClient(), stage="final"
+    )
+    assert proof["status"] == "pass"
+    if damage == "stripped":
+        proof = {k: proof[k] for k in ("status", "revision", "revision_sha256")}
+    elif damage == "craft_missing":
+        proof["craft"].pop()
+    elif damage == "contradicted_fit":
+        proof["answers"]["appearance"]["noul"] = 0.1
+    else:
+        proof["craft"][0]["answers"]["edge_refinement"]["noul"] = 0.1
+    with pytest.raises(ValueError, match="incomplete or inconsistent"):
+        require_current(logo, brief, cid, proof)
+
+
+def test_repeated_reference_bytes_keep_each_declared_comparison(tmp_path):
+    from dataclasses import replace
+
+    from logo_maker.brief import load
+    from logo_maker.eligibility import assess, require_current
+
+    logo, cid, _ = candidate_logo(tmp_path)
+    brief = load(logo.brief)
+    review_inputs(logo, cid, replace(brief, references=brief.references * 2))
+    attest(logo.concept(cid), "final")
+    brief = load(logo.brief)
+    proof = assess(
+        logo, brief, cid, logo.concept(cid) / "final.png", EligibilityClient(), stage="final"
+    )
+    assert proof["status"] == "pass"
+    assert len(proof["craft"]) == 4
+    require_current(logo, brief, cid, proof)
