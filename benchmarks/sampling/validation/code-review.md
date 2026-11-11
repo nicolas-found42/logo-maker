@@ -278,3 +278,21 @@ Hosted 0698 failed the existing PWA helper's 300-second timeout: 249 passed / 2 
 ci-filesystem-0698-failure.txt; an unchanged failed-job rerun was requested. Local PWA
 exports continue to pass. Startup/shutdown source inspection and a private-browser probe
 have not established the hosted timeout's cause, so no browser correctness fix is claimed.
+
+The unchanged 0698 rerun passed PWA and failed only the image-hash stall regression:
+its six-second budget expired during cold host setup, before any fake native attempt
+(attempt count 0). The fixture now allows 20 seconds, holds its FIFO writer for 35 seconds,
+and still requires the hash-stage attempt/active execution evidence and bounded return
+under 23 seconds. Production budgets are unchanged. The longer stall remains beyond the
+new deadline, so an unbounded implementation cannot pass by natural writer completion.
+The PWA timeout's root cause remains unknown; this is a tests-only timing correction.
+
+Both independent reviews confirmed the timing change preserves the intended regression;
+it removes only the six-second cold-start envelope. The focused adjusted test passed
+in 17.17 s. The tiny Jev gate escalated (safe 0.67, composite 0.883), verifying the local
+result but marking the compound stall/unchanged-runtime claim unsupported from its
+short hunk-only evidence. Spec then inspected the complete producer/reader/finally path:
+the writer holds its descriptor without bytes for 35 s; stop.set occurs only after render
+returns; one-attempt and retained-execution assertions exclude early setup expiry.
+It also verified the runtime diff from d5c0873 is empty. The limited invariant is supported;
+no automatic broad approval is inferred from that gate.

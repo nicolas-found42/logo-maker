@@ -239,7 +239,7 @@ def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path
                         break
                     except OSError:
                         stop.wait(0.01)
-                if descriptor is not None and not stop.wait(10):
+                if descriptor is not None and not stop.wait(35):
                     with contextlib.suppress(BrokenPipeError):
                         os.write(descriptor, b"rendered preview bytes")
             finally:
@@ -254,8 +254,8 @@ def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path
     started = time.monotonic()
     try:
         with pytest.raises(SamplingLimit, match="time_limit"):
-            render.render(tmp_path, "preview", budget=Budget(wall_seconds=6))
-        assert time.monotonic() - started < 9, "image hash overran the wall budget"
+            render.render(tmp_path, "preview", budget=Budget(wall_seconds=20))
+        assert time.monotonic() - started < 23, "image hash overran the wall budget"
         assert prior.read_bytes() == b"approved prior preview"
         report = json.loads((tmp_path / ".build/preview.sampling.json").read_text())
         assert report["published"] is False
