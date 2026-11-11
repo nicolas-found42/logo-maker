@@ -79,24 +79,69 @@ def sections(text: str) -> list[Section]:
     return result
 
 
-def own_body(text: str) -> str:
+def own_body(text: str, *, max_level: int = 6) -> str:
     """Return a section's content before child headings, ignoring headings in code."""
     clean = COMMENT.sub("", text)
     lines = clean.splitlines()
     for index, line in enumerate(outside_code(clean).splitlines()):
-        if HEADING.match(line):
+        if (match := HEADING.match(line)) and len(match[1]) <= max_level:
             return "\n".join(lines[:index])
     return clean
 
 
+def noncode_prose(text: str) -> str:
+    """Blank fenced/indented code, HTML pre/code blocks and inline code while keeping line counts."""
+
+    def blank_lines(match: re.Match[str]) -> str:
+        return "\n" * match.group(0).count("\n")
+
+    clean = outside_code(text)
+    clean = re.sub(r"(?is)<(pre|code)\b[^>]*>.*?(?:</\1\s*>|\Z)", blank_lines, clean)
+    return re.sub(r"(?s)(`+).*?\1", blank_lines, clean)
+
+
+def field_values(text: str, field: str) -> list[str]:
+    """Extract bold-labeled field values declared outside code while preserving code answers."""
+    lines = COMMENT.sub("", text).splitlines()
+    masked = noncode_prose(text).splitlines()
+    label = re.compile(r"^\*\*([^*\n]+):\*\*\s*(.*)$")
+    starts: list[tuple[int, str, str]] = []
+    for index, line in enumerate(masked):
+        if match := label.match(line):
+            starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
+    values = []
+    for position, (start, name, first_line) in enumerate(starts):
+        if name != field:
+            continue
+        end = starts[position + 1][0] if position + 1 < len(starts) else len(lines)
+        values.append("\n".join([first_line, *lines[start + 1 : end]]))
+    return values
+
+
 def answer(text: str, *, allow_none: bool = False) -> bool:
     text = COMMENT.sub("", text)
-    text = re.sub(r"^\s*#{1,6}\s+.*$", "", text, flags=re.MULTILINE)
-    text = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", text, flags=re.MULTILINE)
-    text = IMAGE.sub("", text)
-    text = REFERENCE_IMAGE.sub("", text)
-    text = REFERENCE.sub("", text)
-    text = re.sub(r"<[^>]*>", "", text)
+    prose = noncode_prose(text)
+    prose = re.sub(r"^\s*#{1,6}\s+.*$", "", prose, flags=re.MULTILINE)
+    prose = IMAGE.sub("", prose)
+    prose = REFERENCE_IMAGE.sub("", prose)
+    prose = REFERENCE.sub("", prose)
+    prose = re.sub(r"<[^>]*>", "", prose)
+    code_chunks = [
+        line
+        for line, unmasked in zip(text.splitlines(), outside_code(text).splitlines(), strict=False)
+        if not unmasked
+    ]
+    code_chunks.extend(
+        match.group(1)
+        for match in re.finditer(
+            r"(?is)<(?:pre|code)\b[^>]*>(.*?)(?:</(?:pre|code)\s*>|\Z)", outside_code(text)
+        )
+    )
+    code_chunks.extend(
+        match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", outside_code(text))
+    )
+    code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
+    text = prose + "\n" + code
     text = re.sub(r"[*_`>#\[\]()-]", " ", html.unescape(text))
     text = " ".join(text.split()).casefold().strip(" .:;!?")
     if not re.search(r"\w", text):
@@ -166,8 +211,7 @@ class Images(HTMLParser):
 
 
 def image_urls(text: str, whole_body: str) -> set[str]:
-    clean = outside_code(text)
-    clean = re.sub(r"(`+).*?\1", "", clean)
+    clean = noncode_prose(text)
     references = {
         key.casefold(): value for key, value in REFERENCE.findall(outside_code(whole_body))
     }
@@ -214,7 +258,10 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: expected exactly one section (found {len(matches)})")
             continue
         found = matches[0]
-        if found.level != required.level or (kind == "pr" and found.parent != required.parent):
+        parent_matches = found.parent is None and required.parent is None
+        if found.parent is not None and required.parent is not None:
+            parent_matches = found.parent.casefold() == required.parent.casefold()
+        if found.level != required.level or (kind == "pr" and not parent_matches):
             errors.append(f"{required.title}: use the template's heading level and parent")
         # Containers such as Evidence get their answers in their required child sections.
         container = any(section.parent == required.title for section in expected)
@@ -222,16 +269,23 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             errors.append(f"{required.title}: provide an answer, not comments or placeholders")
         if kind != "pr":
             continue
-        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", own_body(required.body)):
-            values = re.findall(
-                r"(?ms)^\*\*" + re.escape(field) + r":\*\*\s*(.*?)(?=^\*\*[^*\n]+:\*\*|\Z)",
-                own_body(found.body),
-            )
+        max_child_level = max(
+            (
+                section.level
+                for section in expected
+                if section.parent and section.parent.casefold() == required.title.casefold()
+            ),
+            default=0,
+        )
+        required_own = own_body(required.body, max_level=max_child_level)
+        found_own = own_body(found.body, max_level=max_child_level)
+        for field in re.findall(r"(?m)^\*\*([^*\n]+):\*\*", outside_code(required_own)):
+            values = field_values(found_own, field)
             if len(values) != 1 or not answer(values[0]):
                 errors.append(f"{required.title} / {field}: provide a filled answer")
-        expected_rows = table_rows(own_body(required.body))
+        expected_rows = table_rows(required_own)
         try:
-            found_rows = table_rows(own_body(found.body))
+            found_rows = table_rows(found_own)
         except ValueError as exc:
             errors.append(f"{required.title}: {exc}")
             continue
@@ -240,13 +294,15 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             if len(values) != len(cells) or not all(answer(value) for value in values):
                 errors.append(f"{required.title} / {row}: fill every answer cell")
     if kind == "pr":
-        evidence_sections = [section for section in actual if section.title == "Evidence"]
+        evidence_sections = [
+            section for section in actual if section.title.casefold() == "evidence"
+        ]
         declaration = ""
         if len(evidence_sections) == 1:
             # Only the container's own prose can declare screenshot applicability.
-            introduction = own_body(evidence_sections[0].body)
+            introduction = own_body(evidence_sections[0].body, max_level=3)
             declarations = re.findall(
-                r"(?m)^\*\*Visible app change:\*\*\s*([^\n]+)", outside_code(introduction)
+                r"(?m)^\*\*Visible app change:\*\*\s*([^\n]+)", noncode_prose(introduction)
             )
             if len(declarations) == 1:
                 declaration = declarations[0].strip()

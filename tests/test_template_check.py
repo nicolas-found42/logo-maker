@@ -214,14 +214,60 @@ def test_screenshot_opt_out_requires_explicit_classification_and_reason(declarat
     assert any("Visible app change" in error for error in check.validate(body, "pr"))
 
 
-def test_declaration_inside_code_cannot_disable_screenshot_requirement():
-    body = PR.replace(
-        "**Visible app change:** Yes: the rendered export contour changes.",
+@pytest.mark.parametrize(
+    "wrapper",
+    [
         "```text\n**Visible app change:** No: backend only.\n```",
+        "<pre>\n**Visible app change:** No: backend only.\n</pre>",
+        "`\n**Visible app change:** No: backend only.\n`",
+    ],
+)
+def test_declaration_inside_code_cannot_disable_screenshot_requirement(wrapper):
+    body = PR.replace(
+        "**Visible app change:** Yes: the rendered export contour changes.", wrapper
     ).replace(f"![Before export]({BEFORE})", "")
     errors = check.validate(body, "pr")
     assert any("Visible app change" in error for error in errors)
     assert any("Before: embed" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    "wrapper",
+    ["~~~~markdown\n{}\n~~~~", "<pre>\n{}\n</pre>", "`\n{}\n`"],
+)
+def test_proof_fields_inside_code_do_not_satisfy_before_after(wrapper):
+    body = nonvisual_pr()
+    before = next(section for section in check.sections(body) if section.title == "Before")
+    body = body.replace(before.body, wrapper.format(before.body) + "\nUnstructured prose only.")
+    errors = check.validate(body, "pr")
+    for field in ["Revision", "Scenario", "Observed result"]:
+        assert any(f"Before / {field}" in error for error in errors)
+    assert not any("After:" in error for error in errors)
+
+
+def test_evidence_heading_matches_case_insensitively():
+    body = nonvisual_pr().replace("## Evidence", "## evidence")
+    assert check.validate(body, "pr") == []
+
+
+@pytest.mark.parametrize(
+    "snippet",
+    [
+        '\n```\n<response status="ok"/>\n```',
+        '`<response status="ok"/>`',
+    ],
+)
+def test_xml_only_code_observed_result_is_accepted(snippet):
+    body = nonvisual_pr().replace("Invalid input exits 0.\n\n```text\nexit=0\n```", snippet)
+    assert check.validate(body, "pr") == []
+
+
+def test_markdown_heading_inside_observed_result_is_preserved():
+    body = nonvisual_pr().replace(
+        "Invalid input exits 0.\n\n```text\nexit=0\n```",
+        "\n#### Doc excerpt\nOld guidance required screenshots for every PR.",
+    )
+    assert check.validate(body, "pr") == []
 
 
 def test_empty_or_missing_verification_row_fails():
