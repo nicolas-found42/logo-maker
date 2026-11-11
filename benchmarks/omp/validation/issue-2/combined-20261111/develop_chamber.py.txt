@@ -1,0 +1,89 @@
+"""Develop the retained complementary chamber motif into two eased ceramic solids."""
+from pathlib import Path
+import json, math, shutil
+import numpy as np
+import manifold3d as mf
+import trimesh
+import tomlkit
+from logo_maker import pipeline, briefing, render
+from logo_maker.paths import LogoDir
+from logo_maker.jev.client import JevClient
+
+logo=LogoDir(Path('logos/issue-2-completion/rootshare-v3').resolve())
+cid='shared-chamber|extruded_solid|clay'
+folder=logo.concept(cid)
+archive=logo.root/'history/development/shared-chamber-before-ceramic-profile'
+shutil.copytree(folder,archive)
+pipeline.prepare_motif(folder)
+data=json.loads((folder/'motif.json').read_text())
+results=[]
+for index,contour in enumerate(data['layers'][0]['contours']):
+ points=np.array([[(x-500)*.002,(500-y)*.002] for x,y in contour])
+ section=mf.CrossSection([points],mf.FillRule.EvenOdd)
+ poly=np.array(section.to_polygons()[0])
+ vectors=np.roll(poly,-1,axis=0)-poly
+ lengths=np.linalg.norm(vectors,axis=1)
+ keep=lengths>1e-10
+ poly,vectors,lengths=poly[keep],vectors[keep],lengths[keep]
+ cumulative=np.r_[0,np.cumsum(lengths)]
+ at=np.arange(1024)*cumulative[-1]/1024
+ ids=np.minimum(np.searchsorted(cumulative,at,side='right')-1,len(poly)-1)
+ points=poly[ids]+((at-cumulative[ids])/lengths[ids])[:,None]*vectors[ids]
+ tangent=np.roll(points,-1,axis=0)-np.roll(points,1,axis=0)
+ normal=np.stack([-tangent[:,1],tangent[:,0]],axis=1)
+ normal/=np.linalg.norm(normal,axis=1)[:,None]
+ # Outer handling radius is broader; inner chamber wall keeps a finer lip.
+ radial=np.linalg.norm(points,axis=1)
+ radius=.006+.019*np.clip((radial-.4)/.23,0,1)
+ height=.21
+ rings=[]
+ for top in (False,True):
+  for theta in np.linspace(0,math.pi/2,17):
+   if not top:
+    inset=radius*(1-math.sin(theta)); z=radius*(1-math.cos(theta))
+   else:
+    inset=radius*(1-math.cos(theta)); z=height-radius+radius*math.sin(theta)
+   xy=points+normal*inset[:,None]
+   rings.append(np.c_[xy,z])
+ verts=np.concatenate(rings); n=len(points); faces=[]
+ for level in range(len(rings)-1):
+  for k in range(n):
+   a=level*n+k;b=level*n+(k+1)%n
+   faces.extend([(a,b,b+n),(a,b+n,a+n)])
+ faces.extend(tuple(map(int,t[::-1])) for t in mf.triangulate([rings[0][:,:2]]))
+ offset=(len(rings)-1)*n
+ faces.extend(tuple(int(i)+offset for i in t) for t in mf.triangulate([rings[-1][:,:2]]))
+ mesh=trimesh.Trimesh(vertices=verts,faces=faces,process=True)
+ mesh.fix_normals()
+ if not(mesh.is_watertight and mesh.is_winding_consistent and mesh.volume>0):
+  raise ValueError('Ceramic chamber is not a closed, consistently oriented solid')
+ name=f'chamber-{index}.ply';mesh.export(folder/name)
+ results.append({'path':name,'watertight':bool(mesh.is_watertight),'volume':float(mesh.volume),'vertices':len(mesh.vertices)})
+scene=tomlkit.parse((folder/'scene.toml').read_text())
+scene['camera']['tilt_deg']=22
+scene['camera']['azimuth_deg']=-10
+scene['lighting']['hdri']='polyhaven:studio_small_09'
+scene['materials']['primary']['roughness']=.74
+scene['materials']['primary']['bump']=.0015
+scene['materials']['primary']['bump_scale']=70
+scene['components']=[{'kind':'mesh','name':f'Chamber_{i}','path':row['path'],'material':'primary'} for i,row in enumerate(results)]+[{'kind':'bpy'}]
+(folder/'scene.toml').write_text(tomlkit.dumps(scene))
+(folder/'scene.py').write_text('import bpy\n\ndef build(ctx):\n    for obj in bpy.data.objects:\n        if obj.name.startswith("Chamber_") and obj.type == "MESH":\n            for polygon in obj.data.polygons:\n                polygon.use_smooth = abs(polygon.normal.z) < 0.999\n')
+(folder/'construction.json').write_text(json.dumps(results,indent=2)+'\n')
+client=JevClient(logo)
+frozen=pipeline.review_brief(logo,client,revision_reason='Reconcile bounded transport and relative-craft protocol; retain existing owner facts and rejected artifact history')
+plan=tomlkit.parse((folder/'plan.toml').read_text())
+plan['requirements_revision']=frozen['requirements_revision']
+(folder/'plan.toml').write_text(tomlkit.dumps(plan))
+record=briefing.review_plan(logo,cid,client)
+print('plan',record['status'],flush=True)
+if record['status']!='pass':
+ print(json.dumps(record,default=str),flush=True)
+ raise SystemExit(2)
+result=render.render(folder,'preview')
+print('actual preview',result.png,flush=True)
+from logo_maker.eligibility import assess
+from logo_maker.brief import load
+assessment=assess(logo,load(logo.brief),cid,result.png,client,stage='preview')
+print('eligibility',assessment['status'],flush=True)
+(folder/'development-assessment.json').write_text(json.dumps(assessment,indent=2)+'\n')

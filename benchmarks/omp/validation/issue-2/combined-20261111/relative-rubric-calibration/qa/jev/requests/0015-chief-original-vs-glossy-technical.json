@@ -1,0 +1,130 @@
+{
+  "seq": 15,
+  "label": "chief-original-vs-glossy-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "5346850c077a4eaabe16d0d15f28f745",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant that remembers the meeting so you make the call.",
+      "tone": [
+        "deliberate",
+        "clear"
+      ],
+      "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A serif C whose opening holds a check stroke; Chief of Staff remembers the meeting, you make the call.",
+      "treatment": "wax seal with ring legend and crossed ribbons"
+    },
+    "intended_appearance": "A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons.",
+    "native_details": {
+      "x0_y0": "21ee4502365b4944b0afc4e43b565d22",
+      "x1000_y0": "6456b57009454aec8b09eccdafea5e7d",
+      "x0_y1000": "eb749300c242458a8054b8fef8fa1848",
+      "x1000_y1000": "4bd3d0886b7d4cb99d3e0e65f11b8f41"
+    }
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "5346850c077a4eaabe16d0d15f28f745": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "21ee4502365b4944b0afc4e43b565d22": {
+      "type": "image",
+      "format": "png",
+      "sha256": "44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c",
+      "bytes": 352172
+    },
+    "6456b57009454aec8b09eccdafea5e7d": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629",
+      "bytes": 391111
+    },
+    "eb749300c242458a8054b8fef8fa1848": {
+      "type": "image",
+      "format": "png",
+      "sha256": "d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0",
+      "bytes": 407287
+    },
+    "4bd3d0886b7d4cb99d3e0e65f11b8f41": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133",
+      "bytes": 389410
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.83
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.86
+    }
+  },
+  "usage": {
+    "input_tokens": 14592,
+    "output_tokens": 75,
+    "cost": 0.000612864
+  },
+  "provider_usage": {
+    "input_tokens": 14592,
+    "output_tokens": 75,
+    "cost": 0.000612864,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000612864,
+      "upstream_inference_prompt_cost": 0.000612864,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "5e82b209168b4dfa84058c11bc4acfaa6289656306dab68bfcbbb4ba7cd5bd3a",
+    "meshes/Chamber_1.ply": "1d579bebb9f0cbc26e9c3295146f15702c873d3a0a41e265c6c94a9d09b1569b",
+    "meshes/Chamber_0.ply": "0acf412aba888966db780215de5ada5725007867a92974f946038a24b82eeef6"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 1321446,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.812141665999661,
+  "process_cpu_seconds": 1.5646159999999998,
+  "log_sha256": "f3d3545894df52f0f923c5c809c026529d533c5c3913ca00952d4e7e7c7bee3d",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/concepts/shared-chamber--extruded-solid--clay/.build/attempt-4d2fbe86b16f458191ebc8fa3d267f9f/preview.execution.exr",
+    "bytes": 15929476,
+    "sha256": "0710994cd370fba568e04112e0ef5455161c7ab2d6b54ef0c6de80dda7221f9f",
+    "seconds": 0.03995658300118521,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "c02c3795ed1e97bc7b73e8ca8dc21ddf2ba63d3aa7f0f3124d57037cb9c88d9f"
+}

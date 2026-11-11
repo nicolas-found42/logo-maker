@@ -100,7 +100,8 @@ meanings. Every source must pass; no average hides a missing instruction or open
 Direction-preservation receives business, specified direction, its explicit open choices and the
 requirements. Craft-reference notes are excluded from that direction payload: they establish an
 execution floor, so their lettering, material or finish cannot become the candidate's mandate.
-Style and geometry reference directions remain present. These are separate requests from the remaining brief checks, using the same
+Style and geometry reference directions remain present. These are separate requests from the
+remaining brief checks, using the same
 centralized questions and thresholds. Narrow states keep business prose and archival metadata
 from supplying accidental evidence for a different judgment. The freeze retains their combined
 answers and complete underlying source/input revisions; each exact request remains independently

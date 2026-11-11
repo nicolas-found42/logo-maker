@@ -1,0 +1,172 @@
+{
+  "seq": 87,
+  "label": "detail-seed-register|extruded_solid|clay-developed_detail",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "a78a8f5617de42c093c393d38f6d26c2",
+    "detail_plan": {
+      "schema": 1,
+      "requirements_revision": "9a2a3856e58ef46e61485d89843fd6f0111afca4228abc76e493b14893b1096d",
+      "hypothesis": "A compact collection of retained seed counters",
+      "visual_mechanism": "A compact collection of retained seed counters",
+      "requirement_ids": [
+        "digital_uses",
+        "shared_master",
+        "shared_resource",
+        "ceramic"
+      ],
+      "assumptions": [
+        "The intended communication is a design hypothesis, not a new service fact"
+      ],
+      "details": [
+        {
+          "feature": "Three seed counters in a retained collection",
+          "purpose": "A consistent collection relationship carries the seed-library hypothesis",
+          "intended_scale": "Flat and 32px avatar",
+          "construction": "All three aperture contours belong to the shared master and remain open in the hero",
+          "deletion_test": "A single seed loses the collection argument"
+        },
+        {
+          "feature": "Seated pale ceramic aperture collars",
+          "purpose": "Articulate precise aperture walls and credible assembly rather than a floating bright outline",
+          "intended_scale": "Hero; supporting boundaries included in the flat master",
+          "construction": "Collars sit inside purpose-cut body seats with a slightly recessed face and controlled contact gap; update the master roles before modeling",
+          "deletion_test": "Removing the seats makes the material boundary physically ambiguous"
+        },
+        {
+          "feature": "Matte body and differentiated edge profiles",
+          "purpose": "Reveal resolved mass, wall thickness and material credibility",
+          "intended_scale": "Hero and native detail",
+          "construction": "Unglazed terracotta with subtle grain; broad outer radius, finer aperture transition and no coat gloss",
+          "deletion_test": "Grain alone cannot replace the constructed wall and contact hierarchy"
+        }
+      ]
+    },
+    "authoring_obligation": {
+      "id": "developed_detail",
+      "claim": "Develop more visual detail.",
+      "kind": "authoring",
+      "origin": "owner",
+      "priority": "must",
+      "sources": [
+        "owner"
+      ],
+      "baseline_image": "inputs/prior-rejected-final.png"
+    },
+    "native_details": {},
+    "prior_baseline": "310435495a064c3c9d2abf405104e709",
+    "baseline_native_details": {
+      "x0_y0": "dbc28ab3e8014deba719ec5b90fa2cf8",
+      "x1000_y0": "224a62e1fcb8426392add2160093105d",
+      "x0_y1000": "5f45356ba93447cc813badbfc4cbeaab",
+      "x1000_y1000": "1f763181c2824de3bb7478df6f13fc1c"
+    }
+  },
+  "questions": {
+    "realized_detail_0": {
+      "type": "noul",
+      "instructions": "Does the actual candidate visibly realize the contribution of detail_plan.details[0] (Three seed counters in a retained collection) at its declared scale?",
+      "criteria": {
+        "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+        "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels."
+      }
+    },
+    "realized_detail_1": {
+      "type": "noul",
+      "instructions": "Does the actual candidate visibly realize the contribution of detail_plan.details[1] (Seated pale ceramic aperture collars) at its declared scale?",
+      "criteria": {
+        "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+        "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels."
+      }
+    },
+    "realized_detail_2": {
+      "type": "noul",
+      "instructions": "Does the actual candidate visibly realize the contribution of detail_plan.details[2] (Matte body and differentiated edge profiles) at its declared scale?",
+      "criteria": {
+        "true": "The visible geometry, proportion, assembly or material response supports the planned contribution. Hero-only detail can resolve in native views without appearing in a favicon.",
+        "false": "The contribution exists only in the explanation, is absent, or is undermined by unresolved construction in the actual pixels."
+      }
+    },
+    "detail_developed": {
+      "type": "noul",
+      "instructions": "Does the candidate visibly develop purposeful construction or material detail beyond the prior baseline?",
+      "criteria": {
+        "true": "More resolved proportions, junctions, seating, edge hierarchy or credible material detail develop the new direction. A higher ornament count is not required.",
+        "false": "Only gloss, texture density or a more flattering explanation changes; the visible construction remains underdeveloped."
+      }
+    },
+    "obligation_realized": {
+      "type": "noul",
+      "instructions": "Do the actual candidate pixels fulfill the particular correction in authoring_obligation.claim?",
+      "criteria": {
+        "true": "Visible construction or material evidence addresses the stated correction at its relevant scale, rather than only realizing an unrelated self-selected detail plan.",
+        "false": "The specific correction remains visibly unfulfilled, even if other planned details are present."
+      }
+    }
+  },
+  "assets": {
+    "a78a8f5617de42c093c393d38f6d26c2": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8f61c15fa1510c598edcc507af1e0639f5cacca681ca667b51ce8603e34e353a",
+      "bytes": 479180
+    },
+    "310435495a064c3c9d2abf405104e709": {
+      "type": "image",
+      "format": "png",
+      "sha256": "22a8fc84515514d2caa248adebf2b8b984324c69d30826639a91704c73f3fcd2",
+      "bytes": 230392
+    },
+    "dbc28ab3e8014deba719ec5b90fa2cf8": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e58586d01ea9c85a92afcb819400f5a2c370c0b85ffb2e720378839b32c14134",
+      "bytes": 233011
+    },
+    "224a62e1fcb8426392add2160093105d": {
+      "type": "image",
+      "format": "png",
+      "sha256": "c8ab1c6193b6a62eb39bf85dcc8aa63ece0bb2b79fdbfec0806f53e93b907e61",
+      "bytes": 124360
+    },
+    "5f45356ba93447cc813badbfc4cbeaab": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0ce3919de8b8d30d56895b2fa52a16dddb14b02cffe59576c22acdd00557df99",
+      "bytes": 225032
+    },
+    "1f763181c2824de3bb7478df6f13fc1c": {
+      "type": "image",
+      "format": "png",
+      "sha256": "bceaea47b085bc7af64b047fe60bd76f7778636b6ec1c1bbec81c597e7c0e8cf",
+      "bytes": 162161
+    }
+  },
+  "answers": {
+    "realized_detail_0": {
+      "type": "noul",
+      "noul": 0.83
+    },
+    "realized_detail_1": {
+      "type": "noul",
+      "noul": 0.76
+    },
+    "realized_detail_2": {
+      "type": "noul",
+      "noul": 0.52
+    },
+    "detail_developed": {
+      "type": "noul",
+      "noul": 0.75
+    },
+    "obligation_realized": {
+      "type": "noul",
+      "noul": 0.44
+    }
+  },
+  "usage": {
+    "input_tokens": 17984,
+    "output_tokens": 104,
+    "cost": 0.000755328
+  }
+}

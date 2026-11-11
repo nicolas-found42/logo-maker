@@ -71,6 +71,24 @@ a favorable answer, and do not describe historical live passes as current. Final
 whole-issue review remain required. No dependencies changed; doctor was separately observed at
 46/46 checks passed.
 
+## November 11 combined-stack checkpoint
+
+Main `3ca26d0` is merged with the preserved `5460681` workflow and all five dirty files. The
+[combined dossier](../benchmarks/omp/validation/issue-2/combined-20261111/README.md) records the
+backup, bounded failed-attempt accounting, complete-proof validation, exact export snapshots,
+independent reviews, CI-probe repair and actual image controls. The rubric clarification preserves
+all eight craft criteria and thresholds. One diagnostic run passed both Chief self-controls;
+the later fresh live suite still failed the original in one order and passed two other tests.
+Cross-treatment craft and original appearance remain unsettled. No favorable retry was used to
+replace that failure.
+
+Actual Shared Chamber development produced a GPU preview that failed craft and visible-detail
+checks; an offset refinement then stopped at unsettled plan review. The owner rejected the shown
+Seed Register direction overall and redirected artwork to a new non-letter Skill Swap idea.
+Both brands remain development data. No new eligible final, exact final owner approval or untouched
+transfer exists. PR #7 must use Refs #2 and remain open. The older table and verification above are
+historical checkpoint context; the linked combined dossier contains the current verification.
+
 ## Completion rule
 
 No eligible result or owner approval is inferred from an author's rationale, a forced relative

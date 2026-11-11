@@ -1,0 +1,90 @@
+{
+  "seq": 101,
+  "label": "preview-shared-chamber--extruded-solid--clay-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "3da578a1d5834f8398ca84fead8d1978",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "Complementary forms define one shared, retained interior",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Soft modeling clay with a matte, hand-made look.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "3da578a1d5834f8398ca84fead8d1978": {
+      "type": "image",
+      "format": "png",
+      "sha256": "66c0c5fb1c03911a23bc224e253b770e2313902ca14bc8ce5b5f27b7016bd927",
+      "bytes": 457179
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.9
+    }
+  },
+  "usage": {
+    "input_tokens": 3433,
+    "output_tokens": 20,
+    "cost": 0.000144186
+  },
+  "provider_usage": {
+    "input_tokens": 3433,
+    "output_tokens": 20,
+    "cost": 0.000144186,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000144186,
+      "upstream_inference_prompt_cost": 0.000144186,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

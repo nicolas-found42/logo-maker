@@ -1,0 +1,24 @@
+from pathlib import Path
+import json,tempfile
+import httpx
+from logo_maker.jev.client import JevClient,JevError
+from logo_maker.paths import LogoDir
+from logo_maker.sampling import SamplingLimit
+
+root=Path(tempfile.mkdtemp(prefix='logo-accounting-evidence-'))
+for mode in ('provider_error','missing_usage'):
+ logo=LogoDir(root/mode)
+ client=JevClient(logo)
+ def response(request):
+  if mode=='provider_error':return httpx.Response(400,json={'error':'controlled rejection'})
+  return httpx.Response(200,json={'answers':{'ready':{'noul':.9}}})
+ client._http=httpx.Client(transport=httpx.MockTransport(response))
+ try:client.ask({'case':mode},{'ready':{'type':'noul','instructions':'Is the case ready?'}},label=mode)
+ except JevError:pass
+ records=list((logo.qa/'jev/requests').glob('*.json'))
+ run=json.loads(logo.run_json.read_text()) if logo.run_json.exists() else {}
+ usage=run.get('jev',{})
+ print(mode)
+ print('  retained requests:',len(records))
+ print('  cost:',usage.get('cost_usd','absent'))
+ print('  unpriced requests:',usage.get('unpriced_requests','absent'))

@@ -1,0 +1,230 @@
+[
+  {
+    "case": "original-appearance-isolated",
+    "answers": {
+      "appearance": {
+        "type": "noul",
+        "noul": 0.69
+      }
+    },
+    "checks": {
+      "appearance": "unsettled"
+    }
+  },
+  {
+    "case": "reconstruction-appearance-isolated",
+    "answers": {
+      "appearance": {
+        "type": "noul",
+        "noul": 0.8
+      }
+    },
+    "checks": {
+      "appearance": "pass"
+    }
+  },
+  {
+    "case": "original-vs-reconstruction",
+    "order": [
+      "candidate",
+      "reference"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.55
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.72
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.67
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.47
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.54
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.53
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.83
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.75
+      }
+    },
+    "checks": {
+      "form_finish": "unsettled",
+      "surface_finish": "pass",
+      "detail_finish": "unsettled",
+      "edge_refinement": "unsettled",
+      "material_construction": "unsettled",
+      "proportion_control": "unsettled",
+      "visual_hierarchy": "pass",
+      "lighting_control": "pass"
+    }
+  },
+  {
+    "case": "original-vs-reconstruction",
+    "order": [
+      "reference",
+      "candidate"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.57
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.69
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.71
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.49
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.49
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.5
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.75
+      }
+    },
+    "checks": {
+      "form_finish": "unsettled",
+      "surface_finish": "unsettled",
+      "detail_finish": "pass",
+      "edge_refinement": "unsettled",
+      "material_construction": "unsettled",
+      "proportion_control": "unsettled",
+      "visual_hierarchy": "pass",
+      "lighting_control": "pass"
+    }
+  },
+  {
+    "case": "reconstruction-vs-original",
+    "order": [
+      "candidate",
+      "reference"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.44
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.5
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.73
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.45
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.79
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.59
+      }
+    },
+    "checks": {
+      "form_finish": "unsettled",
+      "surface_finish": "unsettled",
+      "detail_finish": "pass",
+      "edge_refinement": "unsettled",
+      "material_construction": "unsettled",
+      "proportion_control": "unsettled",
+      "visual_hierarchy": "pass",
+      "lighting_control": "unsettled"
+    }
+  },
+  {
+    "case": "reconstruction-vs-original",
+    "order": [
+      "reference",
+      "candidate"
+    ],
+    "answers": {
+      "form_finish": {
+        "type": "noul",
+        "noul": 0.49
+      },
+      "surface_finish": {
+        "type": "noul",
+        "noul": 0.48
+      },
+      "detail_finish": {
+        "type": "noul",
+        "noul": 0.78
+      },
+      "edge_refinement": {
+        "type": "noul",
+        "noul": 0.44
+      },
+      "material_construction": {
+        "type": "noul",
+        "noul": 0.46
+      },
+      "proportion_control": {
+        "type": "noul",
+        "noul": 0.44
+      },
+      "visual_hierarchy": {
+        "type": "noul",
+        "noul": 0.81
+      },
+      "lighting_control": {
+        "type": "noul",
+        "noul": 0.53
+      }
+    },
+    "checks": {
+      "form_finish": "unsettled",
+      "surface_finish": "unsettled",
+      "detail_finish": "pass",
+      "edge_refinement": "unsettled",
+      "material_construction": "unsettled",
+      "proportion_control": "unsettled",
+      "visual_hierarchy": "pass",
+      "lighting_control": "unsettled"
+    }
+  }
+]
