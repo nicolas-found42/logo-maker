@@ -36,6 +36,7 @@ jobs:
 
       - name: Skill check
         run: uv run --no-sync python scripts/skill_check.py
+
   prek:
     name: prek
     runs-on: ubuntu-latest
