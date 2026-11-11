@@ -1,0 +1,139 @@
+{
+  "seq": 109,
+  "label": "preview-open-commons--extruded-solid--paper-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "19727e55226e49eda712f13bf9b64e8f",
+    "brief": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ],
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc, enclosing border or backing plate",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "Three different folded card parts provide open sides and a low shared shelf, making an accessible common library space without an enclosing border or backing plate.",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Heavy matte paper or card with a fine fiber texture.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+    "native_details": {}
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "19727e55226e49eda712f13bf9b64e8f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee",
+      "bytes": 316353
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.72
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.49
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.78
+    }
+  },
+  "usage": {
+    "input_tokens": 3799,
+    "output_tokens": 75,
+    "cost": 0.000159558
+  },
+  "provider_usage": {
+    "input_tokens": 3799,
+    "output_tokens": 75,
+    "cost": 0.000159558,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000159558,
+      "upstream_inference_prompt_cost": 0.000159558,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

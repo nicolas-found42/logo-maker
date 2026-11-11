@@ -1,0 +1,17 @@
+# Spec review: artwork probe
+
+Reviewed `90ed2144677357ba11fddb5cfb26c2349cdd6183...5518ce5`, issue #3 body/comments, repository stage contracts and ADR-0001. No actionable spec mismatch found in this evidence-only delta.
+
+## Missing or partial requested requirements
+
+The overall artwork requirement remains incomplete. Issue #3 requires “genuinely distinct visual alternatives and resolved critique” and actual paper/second-brief comparative validation “before declaring success.” Metal 0008 establishes a distinct local structural repair (.76 distinct, .92 critique resolved), but description match remains .53 and independent Chief-relative craft remains unsettled. Paper 0006 is explicitly a replay (.01 distinct, .05 resolved), with creative craft .18 and independent craft failure. The unrendered plans and 20-metaphor/480-combination pools do not fulfill distinct visual exploration. The README and qualification snapshots accurately retain these limitations and both authoring stops; this is remaining issue work, not a regression or a reason to close #3.
+
+## Unasked scope creep
+
+None found. The manifest, request/image retention and verifier extension directly support the requested source-bound render/comparison evidence. Reusing the historical final-runtime fixture is explicitly labeled; it does not claim a fresh final/export qualification. Runtime implementation is unchanged.
+
+## Wrong implementation
+
+None found. README numerical claims match the retained judgments, comparisons and eligibility snapshots. The manifest inventories 72 provider requests, two actual previews and exact source/image bindings. `uv run --locked python scripts/verify_reconciled_refinement.py` passed all three bundles, including the new bundle with 179 source bindings and 140 retained files, native Metal/OIDN evidence, and historical final QA assets. No owner acceptance, qualified finalist, winner or production export is fabricated. Issue #3 should remain open as explicitly required.
+
+Verification scope: archive integrity and retained request/qualification consistency; no fresh artistic approval or production qualification inferred.

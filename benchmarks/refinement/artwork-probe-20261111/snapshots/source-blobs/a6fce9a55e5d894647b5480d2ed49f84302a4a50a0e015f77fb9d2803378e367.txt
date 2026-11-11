@@ -1,0 +1,20 @@
+schema = 1
+requirements_revision = "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6"
+hypothesis = "A release becomes dependable when independent service supports lock through one explicit dependency key"
+visual_mechanism = "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible. The broad joined silhouette is shared with the flat master. Blue #245064 steel and warm #B87E48 copper retain satin brushing and restrained reflections. No text or backing disc enters the mark. Supplied Manrope 700 and DM Sans 400 remain for adjacent naming/UI; the symbol must remain legible in dashboards, documentation and app icons."
+requirement_ids = ["material", "meaning", "avoid_0", "avoid_1", "uses", "palette", "fonts", "tone"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Double-shouldered copper dependency key"
+purpose = "Make the central connector actually capture both independent support arms"
+intended_scale = "Broad shared silhouette at app-icon size; bearing steps resolve in the hero"
+construction = "The copper connector has a narrow waist between wider front and rear heads. The two steel receiver arms enter that waist from opposite sides. Both copper heads are wider than the receiver openings and overlap the steel arms; the rear head contacts the back faces, and the front head contacts the front faces. Four mounting eyes fix the steel rails after assembly. The three parts have matching contours with small transverse clearance and no intersecting volumes."
+deletion_test = "Removing either retaining head leaves one direction of the joint uncaptured; removing the key separates the two independent supports."
+
+[[details]]
+feature = "Planar caps and machined bore lead-ins"
+purpose = "Show coherent satin metal construction without diagonal patches across flat caps"
+intended_scale = "Hero/native detail, secondary to the flat silhouette"
+construction = "Flat cap faces meet explicit narrow chamfer strips and the straight walls of each solid. The through bores have annular lead-ins. All three mesh assets are closed and consistently wound. No downstream bevel modifier or averaged PLY vertex normals is used; the existing material, tangent, lighting and sampling remain fixed."
+deletion_test = "Without the chamfers and bore lead-ins the material loses its machined edge behavior. Visible cap diagonals in the new render would disprove this repair."

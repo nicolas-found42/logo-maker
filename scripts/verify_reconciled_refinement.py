@@ -28,7 +28,16 @@ def verify(root) -> None:
                 raise ValueError(f"changed authored/tool source: {name}")
             sources += 1
         verify_execution(folder)
-    runtime = root / "snapshots/final-runtime"
+    for retained in manifest.get("requests", []):
+        request = json.loads((root / retained["path"]).read_text())
+        if request["assets_status"] != "ready" or not request["answers"]:
+            raise ValueError(f"incomplete provider request: {retained['path']}")
+        if set(retained["assets"]) != set(request["assets"]):
+            raise ValueError(f"incomplete provider assets: {retained['path']}")
+        for ref, path in retained["assets"].items():
+            if digest(root / path) != request["assets"][ref]["sha256"]:
+                raise ValueError(f"changed provider image: {path}")
+    runtime = root / manifest.get("final_runtime", "snapshots/final-runtime")
     verify_execution(runtime)
     sampling = json.loads((runtime / "sampling.json").read_text())
     if digest(runtime / "render.png") != sampling["delivered_sha256"]:
@@ -50,7 +59,7 @@ def verify(root) -> None:
 
 
 def main() -> None:
-    for bundle in ("reconciliation", "review-followup"):
+    for bundle in ("reconciliation", "review-followup", "artwork-probe-20261111"):
         print(f"Checking {bundle}")
         verify(REPO_ROOT / "benchmarks/refinement" / bundle)
 

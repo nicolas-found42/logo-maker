@@ -1,0 +1,13 @@
+{
+  "brand_geometry": "Independent steel supports meet through a distinct copper dependency connector. The hero shows its front head and the lower rear lip; the internal bearing contacts are construction intent rather than a claim that hidden contacts can be seen in this camera view.",
+  "current_description": "Two tall blue steel uprights, each pierced by two round mounting bores, have horizontal arms directed toward the center. A broad copper hexagonal front plate covers their central junction. A copper rear lip and narrow waist peek out beneath it. Narrow chamfers outline the planar faces and the dark mounting bores.",
+  "dependencies": [
+    "west-receiver.ply",
+    "east-receiver.ply",
+    "seated-copper-key.ply"
+  ],
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+  "material_construction": "Two steel rails slide from opposite sides into the waist of a double-shouldered copper connector. The waist has 0.012 clearance from the rail receiver outlines. Rear and front shoulders overlap both rail arms and seat against their back/front planes at z=0.04 and z=0.24; the key cannot pass through those openings. Four mounting eyes allow the rails to be fixed after assembly. Planar cap triangles, explicit chamfer strips and bore walls are authored into three closed mesh assets. The renderer adds no bevel modifier and the PLY stores no averaged vertex normals.",
+  "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key"
+}

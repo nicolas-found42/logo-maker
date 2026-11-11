@@ -1,0 +1,182 @@
+{
+  "seq": 42,
+  "label": "compare-0008-b02f721c0b4e-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "before": "0d6ebb78a92f4423800287975c762990",
+    "after": "3d4c016189984b4fb76be4d289e95f07",
+    "before_intent": {
+      "brand_geometry": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "current_description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "dependencies": [
+        "west-receiver.ply",
+        "east-receiver.ply",
+        "seated-copper-key.ply"
+      ],
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+      "material_construction": "The steel receivers subtract the exact copper-key footprint plus a 0.012-unit clearance. The copper solid protrudes 0.055 units beyond the steel caps. Each rail has two through mounting eyes; all parts retain satin roughness 0.35 and anisotropy 0.8 with an explicit straight brushing tangent. Flat facets and 0.023-unit edge chamfers preserve planar machined caps.",
+      "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key"
+    },
+    "after_intent": {
+      "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "brand_geometry": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "material_construction": "Two steel rails slide from opposite sides into the waist of a double-shouldered copper connector. The waist has 0.012 clearance from the rail receiver outlines. Rear and front shoulders overlap both rail arms and seat against their back/front planes at z=0.04 and z=0.24; the key cannot pass through those openings. Four mounting eyes allow the rails to be fixed after assembly. Planar cap triangles, explicit chamfer strips and bore walls are authored into three closed mesh assets. The renderer adds no bevel modifier and the PLY stores no averaged vertex normals.",
+      "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "dependencies": [
+        "west-receiver.ply",
+        "east-receiver.ply",
+        "seated-copper-key.ply"
+      ]
+    },
+    "prior_critique": {
+      "inspection.json": {
+        "critiques": [
+          {
+            "action": "Resolve the local bevel/cap construction before production selection",
+            "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+            "comparison": "Compare native receiver/mounting-eye detail with the preceding hole-free revision",
+            "dimension": "receiver_and_hole_edges",
+            "evidence": "Triangular light/dark patches near the mounting-eye bevels remain visible",
+            "kind": "craftsmanship",
+            "resolved": false
+          }
+        ],
+        "observations": "Two blue steel supports have matching receiver cutouts and four through mounting eyes. A forward copper key bridges their seats. The planar copper sheen is stable. Triangular light/dark patches around the mounting-eye bevels remain visible; the unresolved craftsmanship critique is retained.",
+        "revision": "0007-f95d050b17c4-preview",
+        "user_feedback": "Open paper structures are allowed, without an enclosing border or backing plate. No artistic approval supplied."
+      }
+    },
+    "current_review": {
+      "inspection": {
+        "critiques": [
+          {
+            "action": "Retain the authored closed meshes with explicit chamfer bands and double retaining shoulders; renderer bevel is disabled.",
+            "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+            "comparison": "Compare 0007 and 0008 at the four mounting eyes and adjacent planar faces. Independent critique-resolution judgment is still required.",
+            "dimension": "receiver_and_hole_edges",
+            "evidence": "Explicit cap and chamfer geometry removes the large triangular cap patches in the viewed new render; regular bore chamfers remain.",
+            "kind": "craftsmanship",
+            "resolved": true
+          }
+        ],
+        "observations": "The blue receiver faces are now continuous planar satin surfaces. The four holes show dark bore walls and small regular chamfer bands. The large triangular bright/dark cap patches seen in 0007 are absent. Copper shoulders are visible in front and behind the central rail arms. The whole mark reads strongly as an H with a central hexagonal coupling; whether that offers enough brand-specific synthesis remains for independent judgment.",
+        "revision": "0008-b02f721c0b4e-preview",
+        "user_feedback": "No artistic approval supplied. Owner clarification about open paper structures applies to the separate paper study."
+      },
+      "judgment": {
+        "answers": {
+          "brief_fit": {
+            "noul": 0.82,
+            "type": "noul"
+          },
+          "craftsmanship": {
+            "noul": 0.72,
+            "type": "noul"
+          },
+          "description_match": {
+            "noul": 0.53,
+            "type": "noul"
+          },
+          "material_intent": {
+            "noul": 0.7,
+            "type": "noul"
+          }
+        },
+        "binding": "26a41c47b1786d54390f0bc46469f65b64ea3b7047c4b9c4c6f4c8d2fe8b1016"
+      }
+    }
+  },
+  "questions": {
+    "visually_distinct": {
+      "type": "noul",
+      "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+      "criteria": {
+        "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+        "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ."
+      }
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+      "criteria": {
+        "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+        "false": "The concrete critique persists or cannot be evaluated from the images."
+      }
+    }
+  },
+  "assets": {
+    "0d6ebb78a92f4423800287975c762990": {
+      "type": "image",
+      "format": "png",
+      "sha256": "ec430ff7fb400e458528f758a816f555be578f905be3627430bb264fe997f4e2",
+      "bytes": 393872
+    },
+    "3d4c016189984b4fb76be4d289e95f07": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+      "bytes": 399027
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "visually_distinct": {
+      "type": "noul",
+      "noul": 0.76
+    },
+    "critique_resolved": {
+      "type": "noul",
+      "noul": 0.92
+    }
+  },
+  "usage": {
+    "input_tokens": 7478,
+    "output_tokens": 44,
+    "cost": 0.000314076
+  },
+  "provider_usage": {
+    "input_tokens": 7478,
+    "output_tokens": 44,
+    "cost": 0.000314076,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000314076,
+      "upstream_inference_prompt_cost": 0.000314076,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

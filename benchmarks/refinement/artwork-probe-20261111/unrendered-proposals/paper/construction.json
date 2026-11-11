@@ -1,0 +1,19 @@
+{
+  "symbol": "An open shared team library formed by independently contributed parts",
+  "brand_geometry": "The three parts contribute different functions to one accessible team library space: two broad folded uprights define its open sides, and a scored low shelf provides a shared place. This is an authored metaphor for Skill Swap, not evidence that viewers independently infer the product.",
+  "material_construction": "Each card has a constant 0.068-unit stock thickness measured normal to its local surface: 0.052 pale core between 0.008 colored skins. Rounded centerline scores carry all layers through the fold at their respective offset radii. The terracotta shelf has two rear lap tabs, one behind the foot of each green upright. Their top faces at z=0.146 contact the green stock back faces at z=0.146 over x=-0.74 to -0.32 (and its mirror), y=-0.30 to -0.16. These are bonded paper lap joints, not detached or intersecting pieces. The shelf contains two controlled score bends leading into those coplanar rear tabs. There is no common backing panel. All nine supported mesh assets are closed, consistently wound and use matte paper fiber materials.",
+  "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two broad green card uprights have rounded outward returns along their outer long edges. A terracotta folded lower shelf meets their feet at two separate seams. Thick pale cut cores are visible between colored front and back skins. The large central opening stays open across the full top; there is no backing plate or enclosing border.",
+  "dependencies": [
+    "west-back.ply",
+    "west-core.ply",
+    "west-face.ply",
+    "east-back.ply",
+    "east-core.ply",
+    "east-face.ply",
+    "shelf-back.ply",
+    "shelf-core.ply",
+    "shelf-face.ply"
+  ]
+}

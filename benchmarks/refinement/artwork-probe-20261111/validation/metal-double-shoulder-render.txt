@@ -1,0 +1,1 @@
+{"revision": "0008-b02f721c0b4e-preview", "image": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png", "sampling": {"device": "verified", "noise": "unknown", "cap": "capped", "time": "within_budget", "memory": "unknown", "quality": "unreviewed", "sampling": "review_needed"}}

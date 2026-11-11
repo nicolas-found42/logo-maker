@@ -1,0 +1,766 @@
+{
+  "artistic_qualification": "not achieved; issues #1, #3 and #4 remain open",
+  "base_main": "90ed2144677357ba11fddb5cfb26c2349cdd6183",
+  "cases": [
+    {
+      "concept": "keyed-release|extruded_solid|brushed_metal",
+      "folder": "snapshots/metal",
+      "image_sha256": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+      "matches_active_sources": true,
+      "production_status": "authoring_needed",
+      "revision": "0008-b02f721c0b4e-preview",
+      "sources": {
+        "brief-evidence.toml": "../reconciliation/snapshots/source-blobs/ec882adda3b52bd218307a36f28c9cd307a4325e98a860a35b1572745c3af2e7.txt",
+        "brief.toml": "../reconciliation/snapshots/source-blobs/311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c.txt",
+        "concept/concept.json": "snapshots/source-blobs/cce24427795629a570e61ee95b7d947d2f6ebbef0560a8259874261659ab2da5.txt",
+        "concept/construction.json": "snapshots/source-blobs/b80aedabdb22e70480215d4d5dc5e5cba064e75dcd856cfc708831a7deac156e.txt",
+        "concept/copper-key.ply": "../reconciliation/snapshots/source-blobs/7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4.ply",
+        "concept/east-rail.ply": "../reconciliation/snapshots/source-blobs/9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4.ply",
+        "concept/east-receiver.ply": "snapshots/source-blobs/ce1dd377b53828001c034f1c9157035d144250cb1dd279c88cc701ded08e6550.ply",
+        "concept/motif.json": "snapshots/source-blobs/3339aa5dad1d385b1c096fcfe61153036cb8989e680182f582159c548f2744a7.txt",
+        "concept/motif.svg": "snapshots/source-blobs/ab4cf8f40824525d1b0eb66cd45b9465482cd246040266a0f398b1e7bb95ee7f.svg",
+        "concept/plan-review.json": "snapshots/source-blobs/710b4cf1722bb293bb8066c3823914bf69fa4ec47ae823fd45104d6a83e8d649.txt",
+        "concept/plan.toml": "snapshots/source-blobs/a6fce9a55e5d894647b5480d2ed49f84302a4a50a0e015f77fb9d2803378e367.txt",
+        "concept/scene.toml": "snapshots/source-blobs/769483d5a1046f81b940775ea93a1ffc4a79a948c120c3ddab32cc3e16374e87.txt",
+        "concept/seated-copper-key.ply": "snapshots/source-blobs/c408e02bb4af1873080eba087ecc6c070f4b02bfbd0fb384935eb20d80330e00.ply",
+        "concept/west-rail.ply": "../reconciliation/snapshots/source-blobs/614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093.ply",
+        "concept/west-receiver.ply": "snapshots/source-blobs/44e600e9bae0cf202f141da48c0619fc678cc988f4c582a34a359569c71df505.ply",
+        "dependency/0/west-receiver.ply": "snapshots/source-blobs/44e600e9bae0cf202f141da48c0619fc678cc988f4c582a34a359569c71df505.ply",
+        "dependency/1/east-receiver.ply": "snapshots/source-blobs/ce1dd377b53828001c034f1c9157035d144250cb1dd279c88cc701ded08e6550.ply",
+        "dependency/2/seated-copper-key.ply": "snapshots/source-blobs/c408e02bb4af1873080eba087ecc6c070f4b02bfbd0fb384935eb20d80330e00.ply",
+        "ideation/requirements.json": "../reconciliation/snapshots/source-blobs/e3589de6872b083c44f549c641bb8275957e8d1bf801fb97498e0fa52d486a88.txt",
+        "reference/0/original-seal-2000.png": "../../omp/assets/original-seal-2000.png",
+        "reference/1/reconstruction-rendered-2000.png": "../../omp/assets/reconstruction-rendered-2000.png",
+        "requirements_source/0/retained-brief.toml": "../reconciliation/snapshots/source-blobs/7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04.txt",
+        "tool/__init__.py": "../reconciliation/snapshots/source-blobs/abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635.txt",
+        "tool/adapters/__init__.py": "../reconciliation/snapshots/source-blobs/df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37.txt",
+        "tool/adapters/jev.py": "../reconciliation/snapshots/source-blobs/832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880.txt",
+        "tool/adapters/render_export.py": "../reconciliation/snapshots/source-blobs/cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6.txt",
+        "tool/adapters/threed.py": "../reconciliation/snapshots/source-blobs/2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec.txt",
+        "tool/adapters/twod.py": "../reconciliation/snapshots/source-blobs/4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec.txt",
+        "tool/benchmark.py": "../reconciliation/snapshots/source-blobs/b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac.txt",
+        "tool/blender/__init__.py": "../reconciliation/snapshots/source-blobs/928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90.txt",
+        "tool/blender/build.py": "../reconciliation/snapshots/source-blobs/c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216.txt",
+        "tool/blender/components.py": "../reconciliation/snapshots/source-blobs/8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6.txt",
+        "tool/blender/execution.py": "../reconciliation/snapshots/source-blobs/aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db.txt",
+        "tool/blender/lighting.py": "../reconciliation/snapshots/source-blobs/82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1.txt",
+        "tool/blender/materials.py": "../reconciliation/snapshots/source-blobs/542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b.txt",
+        "tool/blender/profile.py": "../reconciliation/snapshots/source-blobs/f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec.txt",
+        "tool/blender/replay.py": "../reconciliation/snapshots/source-blobs/1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc.txt",
+        "tool/blender/settings.py": "../reconciliation/snapshots/source-blobs/9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2.txt",
+        "tool/brief.py": "../reconciliation/snapshots/source-blobs/55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5.txt",
+        "tool/briefing.py": "../reconciliation/snapshots/source-blobs/9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9.txt",
+        "tool/catalog/__init__.py": "../reconciliation/snapshots/source-blobs/05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3.txt",
+        "tool/catalog/lighting.toml": "../reconciliation/snapshots/source-blobs/6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253.txt",
+        "tool/catalog/materials.toml": "../reconciliation/snapshots/source-blobs/06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f.txt",
+        "tool/catalog/treatments.toml": "../reconciliation/snapshots/source-blobs/af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9.txt",
+        "tool/checks.py": "../reconciliation/snapshots/source-blobs/d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe.txt",
+        "tool/cli.py": "../reconciliation/snapshots/source-blobs/2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d.txt",
+        "tool/doctor.py": "../reconciliation/snapshots/source-blobs/7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8.txt",
+        "tool/eligibility.py": "../reconciliation/snapshots/source-blobs/49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572.txt",
+        "tool/export.py": "../review-followup/snapshots/source-blobs/4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df.txt",
+        "tool/fonts.py": "../reconciliation/snapshots/source-blobs/28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa.txt",
+        "tool/geometry.py": "../reconciliation/snapshots/source-blobs/57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081.txt",
+        "tool/hdri.py": "../reconciliation/snapshots/source-blobs/acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6.txt",
+        "tool/host.py": "../review-followup/snapshots/source-blobs/06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40.txt",
+        "tool/ideate.py": "../reconciliation/snapshots/source-blobs/36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08.txt",
+        "tool/imageops.py": "../reconciliation/snapshots/source-blobs/9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1.txt",
+        "tool/intake.py": "../reconciliation/snapshots/source-blobs/74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6.txt",
+        "tool/jev/__init__.py": "../reconciliation/snapshots/source-blobs/b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8.txt",
+        "tool/jev/client.py": "../reconciliation/snapshots/source-blobs/bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a.txt",
+        "tool/jev/questions.py": "../reconciliation/snapshots/source-blobs/115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55.txt",
+        "tool/jev/worker.py": "../reconciliation/snapshots/source-blobs/456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd.txt",
+        "tool/judging.py": "../reconciliation/snapshots/source-blobs/d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a.txt",
+        "tool/mcp_server.py": "../reconciliation/snapshots/source-blobs/d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04.txt",
+        "tool/motif.py": "../reconciliation/snapshots/source-blobs/849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975.txt",
+        "tool/owned_process.py": "../reconciliation/snapshots/source-blobs/350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2.txt",
+        "tool/palette.py": "../reconciliation/snapshots/source-blobs/3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538.txt",
+        "tool/paths.py": "../reconciliation/snapshots/source-blobs/b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998.txt",
+        "tool/pipeline.py": "../review-followup/snapshots/source-blobs/2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55.txt",
+        "tool/proc.py": "../reconciliation/snapshots/source-blobs/1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a.txt",
+        "tool/publication.py": "../review-followup/snapshots/source-blobs/4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb.txt",
+        "tool/refinement.py": "../review-followup/snapshots/source-blobs/97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8.txt",
+        "tool/render.py": "../reconciliation/snapshots/source-blobs/2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92.txt",
+        "tool/renderers/__init__.py": "../reconciliation/snapshots/source-blobs/123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff.txt",
+        "tool/renderers/luxcore.py": "../reconciliation/snapshots/source-blobs/4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62.txt",
+        "tool/renderers/mitsuba.py": "../reconciliation/snapshots/source-blobs/4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1.txt",
+        "tool/renderers/three.py": "../reconciliation/snapshots/source-blobs/efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5.txt",
+        "tool/runlog.py": "../review-followup/snapshots/source-blobs/a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3.txt",
+        "tool/sampling.py": "../reconciliation/snapshots/source-blobs/958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2.txt",
+        "tool/sampling_diagnostics.py": "../reconciliation/snapshots/source-blobs/633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732.txt",
+        "tool/scene.py": "../reconciliation/snapshots/source-blobs/6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415.txt",
+        "tool/trace.py": "../reconciliation/snapshots/source-blobs/2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c.txt",
+        "tool/twod_tools.py": "../reconciliation/snapshots/source-blobs/1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3.txt"
+      },
+      "study": "metal"
+    },
+    {
+      "concept": "open-commons|extruded_solid|paper",
+      "folder": "snapshots/paper",
+      "image_sha256": "382c843130d3fcfe72f4f07402c31840b3a4ee5f3b66ef79247a89ed387ff8f5",
+      "matches_active_sources": true,
+      "production_status": "authoring_needed",
+      "revision": "0006-cc05c44adb56-preview",
+      "sources": {
+        "brief-evidence.toml": "../review-followup/snapshots/paper-owner-scope/brief-evidence.toml",
+        "brief.toml": "../review-followup/snapshots/paper-owner-scope/brief.toml",
+        "concept/concept.json": "../reconciliation/snapshots/paper-proposal-blocked/concept.json",
+        "concept/construction.json": "../reconciliation/snapshots/paper-proposal-blocked/construction.json",
+        "concept/east-back.ply": "../review-followup/snapshots/source-blobs/a3f08721077154d57d1e307bd39f2f2cd41379c43bfe4fa26d85dc6458f91d5e.ply",
+        "concept/east-core.ply": "../review-followup/snapshots/source-blobs/19a8d2d9943351cf0d68b97dea52af2e2e19519743f99df20928273f15cf9a60.ply",
+        "concept/east-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/east-face.ply",
+        "concept/east-folded-card.ply": "../reconciliation/snapshots/source-blobs/3b0762cdf5b2130c7fb395cd2f992456a1db0daeb891c7eb13afed9e0569a590.ply",
+        "concept/east-leaf.ply": "../reconciliation/snapshots/source-blobs/535164668cadd8db20bd20dea65905a883262d398f92c74add3c033c22c261d0.ply",
+        "concept/east-return.ply": "../reconciliation/snapshots/source-blobs/58ce88939770aba7d10ba635020bdd832e4b0efcc7797bea598ab6cbe0188df1.ply",
+        "concept/motif.json": "../reconciliation/snapshots/paper-proposal-blocked/motif.json",
+        "concept/motif.svg": "../reconciliation/snapshots/paper-proposal-blocked/motif.svg",
+        "concept/plan-review.json": "../review-followup/snapshots/source-blobs/197221c715aef3eb46b06f64193332e571bc14f3372947533e62b4979bddac47.txt",
+        "concept/plan.toml": "../review-followup/snapshots/source-blobs/cdeb69bb2d2a2a36a4e84552511458833b3b8b621597af4812d10ab096ef10ad.txt",
+        "concept/scene.toml": "../reconciliation/snapshots/paper-proposal-blocked/scene.toml",
+        "concept/shared-shelf.ply": "../reconciliation/snapshots/source-blobs/626ab342db0d705bfc71fcf68a7d9d7afc1a5a3679d439e3e8178e678d8ed4b3.ply",
+        "concept/shelf-back.ply": "../review-followup/snapshots/source-blobs/79ec58e874a7296f39afaedeee475e9be98ac14979bbdf61ba337d01af17146d.ply",
+        "concept/shelf-core.ply": "../review-followup/snapshots/source-blobs/76846a1efa0161b39f4dc2ccd2ad99bd255b082b7bff559108f9bece089f971c.ply",
+        "concept/shelf-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/shelf-face.ply",
+        "concept/west-back.ply": "../review-followup/snapshots/source-blobs/06df74262d6aeb559025bfce055c9ac44d8341c93afe902c8296a437428e1ba7.ply",
+        "concept/west-core.ply": "../review-followup/snapshots/source-blobs/63534a6ec5c3ec3793d389ceca4ff059d43053a8fdd70d4758423174c0ade1e4.ply",
+        "concept/west-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/west-face.ply",
+        "concept/west-folded-card.ply": "../reconciliation/snapshots/source-blobs/f901e6698007acd80307db68afd009835aab426242ba67d4b45480d1ed9d475e.ply",
+        "concept/west-leaf.ply": "../reconciliation/snapshots/source-blobs/d706e8d1fa9684f4b523737ca3afee07f3c0d5275576936a2b3db1f3b0b157f8.ply",
+        "concept/west-return.ply": "../reconciliation/snapshots/source-blobs/d66f1149e7d2417a2481ad34ab0ae472583bac648621f27bc7fe5bf339116bf2.ply",
+        "dependency/0/west-back.ply": "../review-followup/snapshots/source-blobs/06df74262d6aeb559025bfce055c9ac44d8341c93afe902c8296a437428e1ba7.ply",
+        "dependency/1/west-core.ply": "../review-followup/snapshots/source-blobs/63534a6ec5c3ec3793d389ceca4ff059d43053a8fdd70d4758423174c0ade1e4.ply",
+        "dependency/2/west-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/west-face.ply",
+        "dependency/3/east-back.ply": "../review-followup/snapshots/source-blobs/a3f08721077154d57d1e307bd39f2f2cd41379c43bfe4fa26d85dc6458f91d5e.ply",
+        "dependency/4/east-core.ply": "../review-followup/snapshots/source-blobs/19a8d2d9943351cf0d68b97dea52af2e2e19519743f99df20928273f15cf9a60.ply",
+        "dependency/5/east-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/east-face.ply",
+        "dependency/6/shelf-back.ply": "../review-followup/snapshots/source-blobs/79ec58e874a7296f39afaedeee475e9be98ac14979bbdf61ba337d01af17146d.ply",
+        "dependency/7/shelf-core.ply": "../review-followup/snapshots/source-blobs/76846a1efa0161b39f4dc2ccd2ad99bd255b082b7bff559108f9bece089f971c.ply",
+        "dependency/8/shelf-face.ply": "../reconciliation/snapshots/paper-proposal-blocked/shelf-face.ply",
+        "ideation/requirements.json": "../review-followup/snapshots/source-blobs/dd8a46f7c58d6d8d05497ecd91a188a0e75dce91dc4a199bb2557c30104eafdc.txt",
+        "reference/0/original-seal-2000.png": "../../omp/assets/original-seal-2000.png",
+        "reference/1/reconstruction-rendered-2000.png": "../../omp/assets/reconstruction-rendered-2000.png",
+        "requirements_source/0/current-direction.toml": "../review-followup/snapshots/paper-owner-scope/current-direction.toml",
+        "requirements_source/1/owner-clarification-20261111.txt": "../review-followup/snapshots/paper-owner-scope/owner-clarification-20261111.txt",
+        "tool/__init__.py": "../reconciliation/snapshots/source-blobs/abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635.txt",
+        "tool/adapters/__init__.py": "../reconciliation/snapshots/source-blobs/df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37.txt",
+        "tool/adapters/jev.py": "../reconciliation/snapshots/source-blobs/832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880.txt",
+        "tool/adapters/render_export.py": "../reconciliation/snapshots/source-blobs/cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6.txt",
+        "tool/adapters/threed.py": "../reconciliation/snapshots/source-blobs/2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec.txt",
+        "tool/adapters/twod.py": "../reconciliation/snapshots/source-blobs/4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec.txt",
+        "tool/benchmark.py": "../reconciliation/snapshots/source-blobs/b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac.txt",
+        "tool/blender/__init__.py": "../reconciliation/snapshots/source-blobs/928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90.txt",
+        "tool/blender/build.py": "../reconciliation/snapshots/source-blobs/c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216.txt",
+        "tool/blender/components.py": "../reconciliation/snapshots/source-blobs/8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6.txt",
+        "tool/blender/execution.py": "../reconciliation/snapshots/source-blobs/aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db.txt",
+        "tool/blender/lighting.py": "../reconciliation/snapshots/source-blobs/82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1.txt",
+        "tool/blender/materials.py": "../reconciliation/snapshots/source-blobs/542b21edb9e688284ab4ac19ad593b82b23db0e24fdc293e36bc21d48c89d16b.txt",
+        "tool/blender/profile.py": "../reconciliation/snapshots/source-blobs/f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec.txt",
+        "tool/blender/replay.py": "../reconciliation/snapshots/source-blobs/1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc.txt",
+        "tool/blender/settings.py": "../reconciliation/snapshots/source-blobs/9e5e31892d0740a225da33c63be85c01ea1b1fdf4fc50555af3bdd5935473ac2.txt",
+        "tool/brief.py": "../reconciliation/snapshots/source-blobs/55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5.txt",
+        "tool/briefing.py": "../reconciliation/snapshots/source-blobs/9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9.txt",
+        "tool/catalog/__init__.py": "../reconciliation/snapshots/source-blobs/05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3.txt",
+        "tool/catalog/lighting.toml": "../reconciliation/snapshots/source-blobs/6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253.txt",
+        "tool/catalog/materials.toml": "../reconciliation/snapshots/source-blobs/06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f.txt",
+        "tool/catalog/treatments.toml": "../reconciliation/snapshots/source-blobs/af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9.txt",
+        "tool/checks.py": "../reconciliation/snapshots/source-blobs/d138645cf6ee250da547453fc71420188778c2061b591af44266aa3c402240fe.txt",
+        "tool/cli.py": "../reconciliation/snapshots/source-blobs/2c9e95bc22ae04a764d5235f1a41441a7539fe5e02bd91f29be7ec2f5cf71c2d.txt",
+        "tool/doctor.py": "../reconciliation/snapshots/source-blobs/7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8.txt",
+        "tool/eligibility.py": "../reconciliation/snapshots/source-blobs/49d061906cc7c6ea46d9a8697a85ab260efc28a4c283d9c8d6b476a894c40572.txt",
+        "tool/export.py": "../review-followup/snapshots/source-blobs/4d194dd30186a43de5e47825a79139daf56ed21ad66f818c414883edcd5791df.txt",
+        "tool/fonts.py": "../reconciliation/snapshots/source-blobs/28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa.txt",
+        "tool/geometry.py": "../reconciliation/snapshots/source-blobs/57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081.txt",
+        "tool/hdri.py": "../reconciliation/snapshots/source-blobs/acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6.txt",
+        "tool/host.py": "../review-followup/snapshots/source-blobs/06b63cce834b971c56b9d350912a211b71a0fbb3120aa16fdc7682ba443d0d40.txt",
+        "tool/ideate.py": "../reconciliation/snapshots/source-blobs/36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08.txt",
+        "tool/imageops.py": "../reconciliation/snapshots/source-blobs/9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1.txt",
+        "tool/intake.py": "../reconciliation/snapshots/source-blobs/74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6.txt",
+        "tool/jev/__init__.py": "../reconciliation/snapshots/source-blobs/b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8.txt",
+        "tool/jev/client.py": "../reconciliation/snapshots/source-blobs/bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a.txt",
+        "tool/jev/questions.py": "../reconciliation/snapshots/source-blobs/115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55.txt",
+        "tool/jev/worker.py": "../reconciliation/snapshots/source-blobs/456e624c2bd90acc79d84e8ef380caa45e94b747f7046d680f991a0d8cad87dd.txt",
+        "tool/judging.py": "../reconciliation/snapshots/source-blobs/d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a.txt",
+        "tool/mcp_server.py": "../reconciliation/snapshots/source-blobs/d8c593e01a2e44751a6cf276787e8404d3c8241c2b87b1a4d1b3c405d8aecf04.txt",
+        "tool/motif.py": "../reconciliation/snapshots/source-blobs/849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975.txt",
+        "tool/owned_process.py": "../reconciliation/snapshots/source-blobs/350975f078a2b20056fd7c7d538372c39affbf3872825d2738f5e025021bf8d2.txt",
+        "tool/palette.py": "../reconciliation/snapshots/source-blobs/3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538.txt",
+        "tool/paths.py": "../reconciliation/snapshots/source-blobs/b8d2ea4b5d4dabee2f819386501d4a658030daec604978bb83e44acf2ff9d998.txt",
+        "tool/pipeline.py": "../review-followup/snapshots/source-blobs/2ab0c43ec4b2fb93492418f0647136664783bc8974d8e533929a55b5a8d79c55.txt",
+        "tool/proc.py": "../reconciliation/snapshots/source-blobs/1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a.txt",
+        "tool/publication.py": "../review-followup/snapshots/source-blobs/4690b0abe7be10c2765b919f71bc2b6cb6052da79ddb7ddc8556478ab6ba8dcb.txt",
+        "tool/refinement.py": "../review-followup/snapshots/source-blobs/97bc8638c879c48f5a3fd6b8c30b9263a36b49d31d3917a8959ad6058d1438e8.txt",
+        "tool/render.py": "../reconciliation/snapshots/source-blobs/2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92.txt",
+        "tool/renderers/__init__.py": "../reconciliation/snapshots/source-blobs/123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff.txt",
+        "tool/renderers/luxcore.py": "../reconciliation/snapshots/source-blobs/4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62.txt",
+        "tool/renderers/mitsuba.py": "../reconciliation/snapshots/source-blobs/4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1.txt",
+        "tool/renderers/three.py": "../reconciliation/snapshots/source-blobs/efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5.txt",
+        "tool/runlog.py": "../review-followup/snapshots/source-blobs/a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3.txt",
+        "tool/sampling.py": "../reconciliation/snapshots/source-blobs/958a08cba422138970772ccfdb97f2d8359127a005d362d0315fcd05bf2a37e2.txt",
+        "tool/sampling_diagnostics.py": "../reconciliation/snapshots/source-blobs/633aef10fe2a54fe7a2f9512315d0f7191a20e3034a078ff22e7661ccecd1732.txt",
+        "tool/scene.py": "../reconciliation/snapshots/source-blobs/6120ab5c5fa4f6fd05937dcc54fd579d880aaa6e34005b9d912d8241cc4c7415.txt",
+        "tool/trace.py": "../reconciliation/snapshots/source-blobs/2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c.txt",
+        "tool/twod_tools.py": "../reconciliation/snapshots/source-blobs/1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3.txt"
+      },
+      "study": "paper"
+    }
+  ],
+  "files": {
+    "snapshots/final-runtime/assets/4bb950c620d55f0a1c1f236495e66b8db9c440fd1e7e018cde8d486ea9c0daad.png": "4bb950c620d55f0a1c1f236495e66b8db9c440fd1e7e018cde8d486ea9c0daad",
+    "snapshots/final-runtime/assets/86dcaacdca6f8cfa480298fd7b765f9cef663141391c79639627d30d99e49a9e.png": "86dcaacdca6f8cfa480298fd7b765f9cef663141391c79639627d30d99e49a9e",
+    "snapshots/final-runtime/execution.json": "a52f3836a7cdfb665f5a2a0642db53f0141eeaaeff958c4aeb9ddf308c859878",
+    "snapshots/final-runtime/execution.log": "76cc40b11a13e1d0298b0ad2c82fcc56fbebc810ebec97038ec27a81f0474972",
+    "snapshots/final-runtime/export-manifest.json": "643c04ff3e30933aeaecef054590dd383eca8065bc7e5ea2feec9e393e3a16b7",
+    "snapshots/final-runtime/measurement.json": "017b54870a37b143f2d47b0b99ab48866fd29ad9ef9cb679d53fcebe1ec261f9",
+    "snapshots/final-runtime/render.png": "e97c672796262e550e8bb0d885af05a53caf6d9366ed839870e42e5a44ebe5da",
+    "snapshots/final-runtime/requests/0001-qa-sampling-typography--embossed-plate--polished-metal.json": "b9e71e79306e323fb3082abd2234e798545e03dfbcb70a5e0a76cbcc64ea2f08",
+    "snapshots/final-runtime/sampling.json": "6337bd2846236f1fc328cc60ce53715794cc8f14a82f49a99a0874dbd17763fe",
+    "snapshots/metal/comparison.json": "3f32b328f1f3f42147f72a260687ecd9e3ab0e0979691542a77cd49adcfd44be",
+    "snapshots/metal/current-inspection.json": "2dbea645078f9e902aa15492474b866f85820b1590f3186515d29a6cf4311854",
+    "snapshots/metal/eligibility-history.jsonl": "7643aee78b6f7ae35df46f38be1c07a5f34006f85f84fb71876fd45333a05351",
+    "snapshots/metal/execution.json": "172b1d41f4b2db443aceafc3bf2f0b6b7bbf49c33f759a2573fbe6a83db412ba",
+    "snapshots/metal/execution.log": "8b88218ba23c6552c4bfc5ca6d638597cafdceb98dcaf66cb47c4be62a9c1a38",
+    "snapshots/metal/ideation/before-metaphors.toml": "234f27bff81d1eefccb65074b92aaf325c4704d954738199bebca81b04c2f93c",
+    "snapshots/metal/ideation/metaphors.toml": "25fd46a3e2d3bf48e4ef3b8f8529a7f5b8a4cb781741b952991a585b322fc9a9",
+    "snapshots/metal/ideation/pool.jsonl": "ea6c16c893d292b768e16b9531e22a19d76d6546fa0923f6feabf84f12a2da69",
+    "snapshots/metal/inspection.json": "2dbea645078f9e902aa15492474b866f85820b1590f3186515d29a6cf4311854",
+    "snapshots/metal/judgment.json": "90be91ea4c2c8e4adae77ead4cd15987002776c748e31891c23cdd696b096aca",
+    "snapshots/metal/qualification.json": "6c592a4f2631c709b93b09c42cc142f43288d8477806c2ad221197b811448325",
+    "snapshots/metal/render.png": "3af987d0cf8c6a56076ef8e79a494603c696c15f69f8a2a723727c707d26bd6c",
+    "snapshots/metal/requests/0037-plan-keyed-release-extruded_solid-brushed_metal.json": "6b2b400fea65fb5ac9505d45b794c12a31012eb10887734c3fd79dd2a241536b",
+    "snapshots/metal/requests/0038-plan-keyed-release-extruded_solid-brushed_metal.json": "1bc83dd685ae3ce94a72db78241bacf296bac25de03f200f87ee5e6d2c6b9c13",
+    "snapshots/metal/requests/0039-plan-keyed-release-extruded_solid-brushed_metal.json": "23a627352823f8bc2f4c05a3b5c20f1dc9040934bf71509cb04cd287a049653c",
+    "snapshots/metal/requests/0040-plan-keyed-release-extruded_solid-brushed_metal.json": "987d4c5038e383eb84192ea5de5b4d492d8adb5542f437372c6619abbadfb550",
+    "snapshots/metal/requests/0041-creative-keyed-release--extruded-solid--brushed-metal-0008-b02f721c0b4e-preview.json": "1e9bde7e0f742673f30fa826b455d7bcda3e9560356fe28ece50bebcd6fff493",
+    "snapshots/metal/requests/0042-compare-0008-b02f721c0b4e-preview.json": "0d498418cbcf076a8796146f8b34d76e21388f25d486f0a396e96c78c32c67c7",
+    "snapshots/metal/requests/0043-compare-0008-b02f721c0b4e-preview.json": "e3c5c2da58404582ccc7d99acd7eebb0838c00943a51fa97fab5900d86434a8c",
+    "snapshots/metal/requests/0044-plan-keyed-release-extruded_solid-brushed_metal.json": "474ab889b81240d8f5da9ec4a33f60f9ce0b2892290ef991049be71161193ad1",
+    "snapshots/metal/requests/0045-plan-keyed-release-extruded_solid-brushed_metal.json": "c610e9045309d9fc5c39ef8c32d9f22e23015ec93146f6eab94aff1670abd60a",
+    "snapshots/metal/requests/0046-treatment-fit-staged-gantry.json": "0235a732bdf1a12588849ef9d8a4b84f5143e3b9c3dc909b5f05c76e4e2347e0",
+    "snapshots/metal/requests/0047-treatment-fit-docking-rail.json": "00bda19a0290e88af2048f7dba67c1bff3dacb39235cea033b3f3751a886655c",
+    "snapshots/metal/requests/0048-treatment-fit-sync-shuttle.json": "18c0bb0eee123144f5f9888ee8350a76bbc61371c2bba42fc2f7c035e0df9560",
+    "snapshots/metal/requests/0049-treatment-fit-dovetail-slide.json": "87029dc6f012aa6a50744036eb97eadaa7c4b00e943e22cae2ea8928729b617c",
+    "snapshots/metal/requests/0050-treatment-fit-alignment-jig.json": "757f465c651287b6abb2b761d2c80ddc2b80fdc06056d943818446d0c1c932dc",
+    "snapshots/metal/requests/0051-treatment-fit-release-press.json": "068ba88d77e923401ba3cb7d28445e4d43e69ec40ffd9fc42749bde42f51b226",
+    "snapshots/metal/requests/0052-treatment-fit-toggle-clamp.json": "f0dfff5b13c35216b9030e134bbabac84bf1e9e497e76cb63ee0fd81b34765c1",
+    "snapshots/metal/requests/0053-treatment-fit-keyed-spine.json": "4d6909924a01d1371c3d2020f78c0cbeaf781893616d0287788d0a94a23d9202",
+    "snapshots/metal/requests/0054-treatment-fit-registration-pins.json": "d87f5f55e3d43c3252bb6aaab112675c0d39b7f58320169d5ee7bebf0d45cb10",
+    "snapshots/metal/requests/0055-treatment-fit-keystone.json": "8c9078c0773fab0193a8aac6cbd0946a4d06a4c6caa15ebcee563a7a9b41da6e",
+    "snapshots/metal/requests/0056-treatment-fit-locking-collar.json": "9111cacfe33ba1f0037873d71f08f8bbe0e0cf003e1f4add579596a8ba329088",
+    "snapshots/metal/requests/0057-treatment-fit-supported-k.json": "62f8e74063cf0f3639b775b1c50a6edb410d0190c9c3545ff06cedbe7ad9ce3b",
+    "snapshots/metal/requests/0058-treatment-fit-bridge-bearing.json": "3bd61384b44086148858ce47054a1046226c448a450044a8551a1935ef6e2c5e",
+    "snapshots/metal/requests/0059-treatment-fit-dependency-fork.json": "99669331b2a5b889fd858fe97c250b13b2dad46ae0cc4c45d3944f5d64c665f4",
+    "snapshots/metal/requests/0060-treatment-fit-keyed-release.json": "b3983adcc9ee1e945ac6de22c5ed275d388f2f66a1e9712a1dc5f9540cc58dd3",
+    "snapshots/metal/requests/0061-treatment-fit-service-hub.json": "66289e6220861dbb9cef59aeba61d09e693169ebcbcf6a0014bb047b3226682e",
+    "snapshots/metal/requests/0062-treatment-fit-datum-ramp.json": "3258d8e104ffd2c8e6c23b7358b3e84ead9465c8be53736c37f3a6ed414ed7bf",
+    "snapshots/metal/requests/0063-treatment-fit-tensile-yoke.json": "6df8bac15ba3e2276f06acd5a66162d28ba0c0fc452cbb72a1b3a71d215abbec",
+    "snapshots/metal/requests/0064-treatment-fit-castellated-joint.json": "2719dc6474fac97f026fa7631e38ec06c7fbcd2acc6667ffa245f68999d9ee26",
+    "snapshots/metal/requests/0065-treatment-fit-spring-latch.json": "1414b0f9e6e32d381cdc8241625a5aa0f1fc6f303054a8e167b31ab36962284b",
+    "snapshots/metal/requests/0066-material-fit.json": "a03972babfd83b9ee00b3b721d0cea700c3bd2226760f50dc61b1ce2ae2c260e",
+    "snapshots/metal/requests/0067-preview-keyed-release--extruded-solid--brushed-metal-craft-0-candidate-first.json": "80d3a21b6b542460277708c2665bd01ca9bf44998ada74dc0b26491c793e6bd4",
+    "snapshots/metal/requests/0068-preview-keyed-release--extruded-solid--brushed-metal-craft-0-reference-first.json": "c95eed3f8b690b43ac4780e355a870244b3ac7fb3af23e61e4cb9ceaddf11230",
+    "snapshots/metal/requests/0069-preview-keyed-release--extruded-solid--brushed-metal-craft-1-candidate-first.json": "9e1bbd0ecc2f5119dff0184514f3447c6363eda569af2061d23b7304a2f182fc",
+    "snapshots/metal/requests/0070-preview-keyed-release--extruded-solid--brushed-metal-craft-1-reference-first.json": "5be4988d45742e465aae57c25e837502dfdfb3b4871eb701bc85ae26845dda11",
+    "snapshots/metal/requests/0071-preview-keyed-release--extruded-solid--brushed-metal-symbol-fit.json": "202de150cff977499456e6c7acd5316a7970820964dd94983a7a28e5bff1447e",
+    "snapshots/metal/requests/0072-preview-keyed-release--extruded-solid--brushed-metal-fit.json": "5a406d1a05a9279e62fa78fd983e75271d2ec7af0843cc86ff2ff2a8fe706b7f",
+    "snapshots/metal/requests/0073-preview-keyed-release--extruded-solid--brushed-metal-technical.json": "71fead320f5d20db309a7b31619ab2af3c0f3dc3642def1b61902b7307c52a6e",
+    "snapshots/metal/revision.json": "17a4f05c9dc16a6d926ceeab6f524bb68d439f25838ff402491e09fcb828afa2",
+    "snapshots/metal/sampling.json": "13bbd8002add3a0390a798e583bba0203d319784cf4290f814ea84bacf5d03ec",
+    "snapshots/paper/comparison.json": "7d07ddfb845eb160f9ccaf602999851a7c4ca00bf27171850aa9e26c2d7c710f",
+    "snapshots/paper/current-inspection.json": "c29cd8802235e8ca15b008e19084904f78fe13fe149f13188010a25666aed0a0",
+    "snapshots/paper/eligibility-history.jsonl": "4256f763f796224b84af63632609c7c7a852985c6d0155ba8ecaf6409bdd68fe",
+    "snapshots/paper/execution.json": "b9755f7a3c8531fb140a4a500c1a18d2f87e62588d7f96cac1f6e9cbddfd26b8",
+    "snapshots/paper/execution.log": "1b5ddaf61f01fecf44e2f1e9a298f739aca2e833c9f92ae5d90d1b3d35f82300",
+    "snapshots/paper/ideation/before-metaphors.toml": "234f27bff81d1eefccb65074b92aaf325c4704d954738199bebca81b04c2f93c",
+    "snapshots/paper/ideation/metaphors.toml": "3ed591aa5e99582c0491ce601983d9c2a861fa79698d61a642df29d1dd754a76",
+    "snapshots/paper/ideation/pool.jsonl": "ee796bb0c2dacc85031a65889692f11b18d2740056cd954183779dde955c6a4f",
+    "snapshots/paper/inspection.json": "c29cd8802235e8ca15b008e19084904f78fe13fe149f13188010a25666aed0a0",
+    "snapshots/paper/judgment.json": "fcc8a4a3f652c99cd573d2910d97529cc343f65e3ec875d698ad756fe3d5e24c",
+    "snapshots/paper/qualification.json": "e97222f154787a0c2bd07f77b9850567701c2afe037867b888b1654e4d5e7895",
+    "snapshots/paper/render.png": "382c843130d3fcfe72f4f07402c31840b3a4ee5f3b66ef79247a89ed387ff8f5",
+    "snapshots/paper/requests/0075-compare-0005-cc05c44adb56-preview.json": "bb930bd8b31b9b7ad504cb695b3fcc929ca799a51e9bd796d098505002976fe5",
+    "snapshots/paper/requests/0076-plan-open-commons-extruded_solid-paper.json": "4fe2ad2927bc6e893d970fe7d8438d85aaf26069bdf42150155a3cc8ad8b9842",
+    "snapshots/paper/requests/0077-plan-open-commons-extruded_solid-paper.json": "a8e0dde1e5c0bf7e3dd9978c95d3088c34249250321a9feb328a5d77a61c8e69",
+    "snapshots/paper/requests/0078-creative-open-commons--extruded-solid--paper-0006-cc05c44adb56-preview.json": "1c0956b688287a5c46b7631fa38ff9428b04538ffacdb029e1cc0e1dcd15f66f",
+    "snapshots/paper/requests/0079-compare-0006-cc05c44adb56-preview.json": "8230d1a1d3417a27b92b747a3b14e0fded6040850bc1c90b216f58a5c33dd132",
+    "snapshots/paper/requests/0080-treatment-fit-skill-spool.json": "d8642139c46e9dfb1044c1d1a4b71fd3370ac5d9d0113e4561093f5554685c9e",
+    "snapshots/paper/requests/0081-treatment-fit-source-ledger.json": "5a09ce3b1f83046d836c6d7890bf98110e486e030541eb9cefd7315a870360f0",
+    "snapshots/paper/requests/0082-treatment-fit-permission-key.json": "66a99c6690443603ab755ec407ff7ebc1f779c847486b2e44ea1e1bc47942619",
+    "snapshots/paper/requests/0083-treatment-fit-release-tab.json": "8dc9e07d701c0682d8a22537dc0ea584f23398496063ce31600da6f71c80b11f",
+    "snapshots/paper/requests/0084-treatment-fit-shared-typeblock.json": "5365327204a54066ab359841a53eab2cfe1f7c6fd47a8870db8b92f49b575eb9",
+    "snapshots/paper/requests/0085-treatment-fit-branching-route.json": "a0d74910d4da5165c70e9e765b7dca0c3141dae12fe4185118221b2debee0f84",
+    "snapshots/paper/requests/0086-treatment-fit-team-rostrum.json": "8ebf3d8c891e525e405f606b294f4dbb416fc138a364528250633e683e075509",
+    "snapshots/paper/requests/0087-treatment-fit-review-weir.json": "751ff8ed62b4af951dfdfb3265cf5d1fefbdeb56970e2939041af73e5a602b39",
+    "snapshots/paper/requests/0088-treatment-fit-synthesis-fold.json": "c05e8207b243f08fb805d4217fb1a4538442fcafebef5e99e20c388b4b025733",
+    "snapshots/paper/requests/0089-treatment-fit-shared-folio.json": "495462d254f0bae740d9b7a5baf244bc4a6e95aaaad0ed54d774bf4105704a47",
+    "snapshots/paper/requests/0090-treatment-fit-approval-impression.json": "fe9a702a66b6ad58190527a6f52129132c8d839db12f2abd7cfe5104591b40f6",
+    "snapshots/paper/requests/0091-treatment-fit-release-ramp.json": "a9619b7295e0443290e4c31701cd3c0b37e3b9a0d90dd75efd7376aea8c625fe",
+    "snapshots/paper/requests/0092-treatment-fit-open-commons.json": "206b099957910ab3188918a5bd7ccb6e70265dd3d0221355ad036683b1d1083b",
+    "snapshots/paper/requests/0093-treatment-fit-library-staircase.json": "b0a451a7d276de35039383246e3edbec5702e88f563ec6dc6194766faa9b8d2d",
+    "snapshots/paper/requests/0094-treatment-fit-joined-index.json": "0f88630766aa6aee85dd4b08c6ae4552f70e02018c48cf9475c90f2caf5cdda0",
+    "snapshots/paper/requests/0095-treatment-fit-tool-sleeve.json": "ce5bafc1c7862814b38a38063be2f0d4b61563bad006a28247aaeaa75286fa32",
+    "snapshots/paper/requests/0096-treatment-fit-reference-fan.json": "c1eca9c9472c2853ae7041dd4a3340da51e384d3d1f44c93a13bf98016979de5",
+    "snapshots/paper/requests/0097-treatment-fit-capability-bench.json": "ce98bfb6997c89e5ff6e663d87a0e59ca33cabc04d4ce2071d732713e0fccb75",
+    "snapshots/paper/requests/0098-treatment-fit-common-pocket.json": "4c9305eb7b30250f217ef80d137213af5a01bd9f30c5e02212d77874a2c5005e",
+    "snapshots/paper/requests/0099-treatment-fit-contribution-joint.json": "5c167a0738e2a6be740fc49612eea62a4412c1ee740c0a17ae7b4bfcea9a62c4",
+    "snapshots/paper/requests/0100-material-fit.json": "c4413ec8598e24975a5e657d7733525e36d3e89688f1a711da9f280de2521508",
+    "snapshots/paper/requests/0101-creative-open-commons--extruded-solid--paper-0006-cc05c44adb56-preview.json": "1ead8ef465fe797aff6b542f8ef3317ee655b0f44e5983406b97f0a54f54e263",
+    "snapshots/paper/requests/0102-compare-0006-cc05c44adb56-preview.json": "f7f2ec75a2008487d41d706791b0460cdd75fbc93d6b4c3ade4b3182d5c931da",
+    "snapshots/paper/requests/0103-preview-open-commons--extruded-solid--paper-craft-0-candidate-first.json": "0086423be5db2ea2b88fc3198fe576ea2bab05d2f5cb8126e860b98b108e5937",
+    "snapshots/paper/requests/0104-preview-open-commons--extruded-solid--paper-craft-0-reference-first.json": "bd6bfbd299f805aa4d82be3baf1d269abd5c4f717dbf93f1605fc9fc67c142ca",
+    "snapshots/paper/requests/0105-preview-open-commons--extruded-solid--paper-craft-1-candidate-first.json": "f462e4af1cde9e38690bd849d9aa6c779c0fc3b6c8ab272e7a7705be7f089cf3",
+    "snapshots/paper/requests/0106-preview-open-commons--extruded-solid--paper-craft-1-reference-first.json": "53de75c398187a432e69223633aedb30dcddc020e74bfe8fe6a3302cbd761c3e",
+    "snapshots/paper/requests/0107-preview-open-commons--extruded-solid--paper-symbol-fit.json": "7eb343e471a27e1df8117d57c56326ab9901f773577f9e826bfb923864d2c438",
+    "snapshots/paper/requests/0108-preview-open-commons--extruded-solid--paper-fit.json": "95b076a771a1013defcdbfbf2b8d00114d52910abd0bf8ff57c7807392625270",
+    "snapshots/paper/requests/0109-preview-open-commons--extruded-solid--paper-technical.json": "3c418a5c194e93439d62d9a5681ac556ffa2acf42e29b35fa59cc229c2c1be1c",
+    "snapshots/paper/revision.json": "3c284ca761bcdebb1d4199612d9759a24345f473885dda384ab864453b59fdd5",
+    "snapshots/paper/sampling.json": "b0d58cebfc0d11962d13b9c8a25d98642b65be44a0558696e8bcdf71f7e7b570",
+    "snapshots/source-blobs/2bdcc38f576593d1afde75502b91ff9bb3c01bbee54847863273d182e7887e6c.png": "2bdcc38f576593d1afde75502b91ff9bb3c01bbee54847863273d182e7887e6c",
+    "snapshots/source-blobs/3339aa5dad1d385b1c096fcfe61153036cb8989e680182f582159c548f2744a7.txt": "3339aa5dad1d385b1c096fcfe61153036cb8989e680182f582159c548f2744a7",
+    "snapshots/source-blobs/44e600e9bae0cf202f141da48c0619fc678cc988f4c582a34a359569c71df505.ply": "44e600e9bae0cf202f141da48c0619fc678cc988f4c582a34a359569c71df505",
+    "snapshots/source-blobs/47e79772bc7833bb2dd820d3429eecc215a65cd188959a4c91448f4882479597.png": "47e79772bc7833bb2dd820d3429eecc215a65cd188959a4c91448f4882479597",
+    "snapshots/source-blobs/4d9bc893c6d16e6b5ad2adfbb38f792715629d077574da822a18705f868c52ba.png": "4d9bc893c6d16e6b5ad2adfbb38f792715629d077574da822a18705f868c52ba",
+    "snapshots/source-blobs/55c23c8248dd85320a6ae4784e7cce95821afa071b2d109d5568bfe2e4ef560f.png": "55c23c8248dd85320a6ae4784e7cce95821afa071b2d109d5568bfe2e4ef560f",
+    "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png": "5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee",
+    "snapshots/source-blobs/65a40805cc38bf4bc29b044f1aa558c61a168edf4e8574882f4f66ca9b2d4d4d.png": "65a40805cc38bf4bc29b044f1aa558c61a168edf4e8574882f4f66ca9b2d4d4d",
+    "snapshots/source-blobs/710b4cf1722bb293bb8066c3823914bf69fa4ec47ae823fd45104d6a83e8d649.txt": "710b4cf1722bb293bb8066c3823914bf69fa4ec47ae823fd45104d6a83e8d649",
+    "snapshots/source-blobs/769483d5a1046f81b940775ea93a1ffc4a79a948c120c3ddab32cc3e16374e87.txt": "769483d5a1046f81b940775ea93a1ffc4a79a948c120c3ddab32cc3e16374e87",
+    "snapshots/source-blobs/a6fce9a55e5d894647b5480d2ed49f84302a4a50a0e015f77fb9d2803378e367.txt": "a6fce9a55e5d894647b5480d2ed49f84302a4a50a0e015f77fb9d2803378e367",
+    "snapshots/source-blobs/a7c4e97456d2a7038d2ee7d91096ab8ad1a4e8e6bbab8289c620c0fcef599700.png": "a7c4e97456d2a7038d2ee7d91096ab8ad1a4e8e6bbab8289c620c0fcef599700",
+    "snapshots/source-blobs/ab4cf8f40824525d1b0eb66cd45b9465482cd246040266a0f398b1e7bb95ee7f.svg": "ab4cf8f40824525d1b0eb66cd45b9465482cd246040266a0f398b1e7bb95ee7f",
+    "snapshots/source-blobs/b80aedabdb22e70480215d4d5dc5e5cba064e75dcd856cfc708831a7deac156e.txt": "b80aedabdb22e70480215d4d5dc5e5cba064e75dcd856cfc708831a7deac156e",
+    "snapshots/source-blobs/bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5.png": "bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5",
+    "snapshots/source-blobs/c25d82e4e84f3eaf75faed3065a9992ff80ea284187d4edb373e3dcbc29681b0.png": "c25d82e4e84f3eaf75faed3065a9992ff80ea284187d4edb373e3dcbc29681b0",
+    "snapshots/source-blobs/c408e02bb4af1873080eba087ecc6c070f4b02bfbd0fb384935eb20d80330e00.ply": "c408e02bb4af1873080eba087ecc6c070f4b02bfbd0fb384935eb20d80330e00",
+    "snapshots/source-blobs/cce24427795629a570e61ee95b7d947d2f6ebbef0560a8259874261659ab2da5.txt": "cce24427795629a570e61ee95b7d947d2f6ebbef0560a8259874261659ab2da5",
+    "snapshots/source-blobs/ce1dd377b53828001c034f1c9157035d144250cb1dd279c88cc701ded08e6550.ply": "ce1dd377b53828001c034f1c9157035d144250cb1dd279c88cc701ded08e6550",
+    "snapshots/source-blobs/d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72.png": "d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72",
+    "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+    "snapshots/source-blobs/ec430ff7fb400e458528f758a816f555be578f905be3627430bb264fe997f4e2.png": "ec430ff7fb400e458528f758a816f555be578f905be3627430bb264fe997f4e2",
+    "snapshots/source-blobs/f84d88365cc24d8114a8c5e87d733e3e94745c0c875bbcfef7c9e082bf81ab4a.png": "f84d88365cc24d8114a8c5e87d733e3e94745c0c875bbcfef7c9e082bf81ab4a",
+    "snapshots/source-blobs/f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a.png": "f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a",
+    "unrendered-proposals/metal/concept.json": "4b96402dac2e5a85ab21db30d6cfe3fbd8a4bf846f4d524f4a0768db7a4516e4",
+    "unrendered-proposals/metal/construction.json": "18892d56a1a5ab26d2d9a392d8df35150f6651384aa7678f9c5e91d26b0b89d8",
+    "unrendered-proposals/metal/plan-reviews.jsonl": "ae493a5be4dbbc027cfcd1b6099dc04e29447955cd1a135376fc09af572338a7",
+    "unrendered-proposals/metal/plan.toml": "4e30cac23db4b2211b40a72917da3a01b341c6e790c8ed11591b9cf2b17542d1",
+    "unrendered-proposals/paper/concept.json": "c89968cdf8e25111b369c14a1a4372f0422a645dca9e530d564b998ef950dd48",
+    "unrendered-proposals/paper/construction.json": "f2b432a5be2032c89f19822bf66b2d4de1e18fb4aa3ed052b18c7b86e4526a06",
+    "unrendered-proposals/paper/plan-reviews.jsonl": "0b09b4e0f12612b1130e27d5e1a2d9522ccce8747b897358f469122fa430d8ed",
+    "unrendered-proposals/paper/plan.toml": "51c86dd63df0b07d87063f024ff1fe64ea432c49811c5d7cd824d46ea426efaa",
+    "validation/artwork-ideation-completion.txt": "def0ede26020cfadc9d9ebbffef47d12c5318e77695373cdec5a8f44d5c65a00",
+    "validation/artwork-probe-judgments-after-pool.txt": "8bba94115ad6c02112dbeee4016c3417be1746d1b31c8292037389d2fac8d033",
+    "validation/artwork-probe-judgments.txt": "ee4e1d4bde6cecacb71694752010c976abf0b2acfe82a02212b815a92b0f05ee",
+    "validation/artwork-proposal-disposition.json": "101f79f5f14f02325940ba5726dab2243bb727c919fb3b6b21971241f8de1988",
+    "validation/artwork-restored-bindings.txt": "058c1ca7f965c04f4997ce632df955643492efa8d7b136df8ebcdd43510cb613",
+    "validation/build.txt": "729dd92a673edfe68c29c088b98e2220f99b852b7f5431d85f62cac89d0570d3",
+    "validation/doctor.txt": "25d458974011aff630be5aa8051e3a4546c89664fb233e46c6bf32f5ee844640",
+    "validation/final-spec-review.txt": "046b150bec350b5b1cf5a096a4338296ba70a685c4d8efc83bf3bc35e838f1a1",
+    "validation/final-standards-review.txt": "3665e628748a1303ab4f068804f74d381c65e0c91d9fa596758e524006d4f617",
+    "validation/gate-adjudication.txt": "0539c23ee2f1755c33b2d2921f98767791e133626e83dce147ec2de41a8a398d",
+    "validation/gate.json": "2ce8cf5170337fb15fbb570dd039edb72d23bb87603ce75ef30f009a4781412f",
+    "validation/gpu.txt": "f1149da6ae90427f5a8876d87ec0385b2afc3e0cb8e9de6d716f29d909779390",
+    "validation/hooks.txt": "02efa37d000d52f21a10b19d735c1b89c70a4e5d24f87f5c13c60efc5220be40",
+    "validation/lint.txt": "245ff8a81615ce483eb4bcebaedb7be654d4a54163166a92ac563b87a82748f9",
+    "validation/live.txt": "e7bda05bfe0385489e9fd1121f030a93f8d5000c5fd88e5b80dd9f053bfce9d4",
+    "validation/metal-dimensioned-plan.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
+    "validation/metal-double-shoulder-plan.txt": "53bc92bee76cfa33b68dfa5ca11bb361f9aca1149f0e1ed708d4832beb08ea88",
+    "validation/metal-double-shoulder-render.txt": "9c3128320b16266f732b26930e41d9289e4cc9c0328772c5a652994f70127eb3",
+    "validation/metal-double-shoulder-review.json": "bde173427fa05e9188e8ea6d4cc852b2b5bd2f892506e123b0320e71e3b188b6",
+    "validation/metal-visible-description.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
+    "validation/offline.txt": "f7cef73481f0bc3dcfb684472afbcf29de15273a5387f3a5de9edf653cfd24e0",
+    "validation/paper-bonded-lap-plan.txt": "e1d9b1d7e70e615d89d6dd591ac3720c08c3fdd03fccdf1d86cd2993dffc0a44",
+    "validation/paper-constant-stock-plan.txt": "f6ae7854cf618102a79a42258eb470efca91fa4e7098e8830daed2a649e8e661",
+    "validation/source-binding.json": "442dfee386700d3d67934c7efa11b0b79a4bf97aebcd71affad7a19fb4ba3fdf",
+    "validation/spec-review.txt": "cbcb31b321e036a38341b706e791ce51b995024d58dce9a3bb37868cbf11a440",
+    "validation/standards-review.txt": "981f868fda2cee608b17970be471094b164473e7eacfdefc54aee29fadfcbcd7",
+    "validation/types.txt": "f9f0719cac8825f7e2a69f772b278b1da271efc5b227fa0bd042c7934ade2f7a"
+  },
+  "requests": [
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0037-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0038-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0039-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0040-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {
+        "41a2b1e9e7cc455ab90635498f378e41": "snapshots/source-blobs/2bdcc38f576593d1afde75502b91ff9bb3c01bbee54847863273d182e7887e6c.png",
+        "d6ceb07d284344ca93363817ed88b7dd": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png"
+      },
+      "path": "snapshots/metal/requests/0041-creative-keyed-release--extruded-solid--brushed-metal-0008-b02f721c0b4e-preview.json"
+    },
+    {
+      "assets": {
+        "0d6ebb78a92f4423800287975c762990": "snapshots/source-blobs/ec430ff7fb400e458528f758a816f555be578f905be3627430bb264fe997f4e2.png",
+        "3d4c016189984b4fb76be4d289e95f07": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png"
+      },
+      "path": "snapshots/metal/requests/0042-compare-0008-b02f721c0b4e-preview.json"
+    },
+    {
+      "assets": {
+        "716d707b209347faa376666db578e317": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png",
+        "7a70d9b6399a48f0a545631d98b884ba": "snapshots/source-blobs/47e79772bc7833bb2dd820d3429eecc215a65cd188959a4c91448f4882479597.png"
+      },
+      "path": "snapshots/metal/requests/0043-compare-0008-b02f721c0b4e-preview.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0044-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0045-plan-keyed-release-extruded_solid-brushed_metal.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0046-treatment-fit-staged-gantry.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0047-treatment-fit-docking-rail.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0048-treatment-fit-sync-shuttle.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0049-treatment-fit-dovetail-slide.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0050-treatment-fit-alignment-jig.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0051-treatment-fit-release-press.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0052-treatment-fit-toggle-clamp.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0053-treatment-fit-keyed-spine.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0054-treatment-fit-registration-pins.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0055-treatment-fit-keystone.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0056-treatment-fit-locking-collar.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0057-treatment-fit-supported-k.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0058-treatment-fit-bridge-bearing.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0059-treatment-fit-dependency-fork.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0060-treatment-fit-keyed-release.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0061-treatment-fit-service-hub.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0062-treatment-fit-datum-ramp.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0063-treatment-fit-tensile-yoke.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0064-treatment-fit-castellated-joint.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0065-treatment-fit-spring-latch.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/metal/requests/0066-material-fit.json"
+    },
+    {
+      "assets": {
+        "1e4a59fcb10e4001a7fab65b5eef2083": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "41e86899a82d4e3889b10017cfe1d923": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "4eb44e32efec4cd1bb5395d0fdfe6b15": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "cbc2f419c3644c0584bb7099d6ed1c3b": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "e3dcd263866f416799f0f70b15c8745e": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "f754df930c1d4d37b2ca8328f7ba6e2e": "snapshots/source-blobs/d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72.png"
+      },
+      "path": "snapshots/metal/requests/0067-preview-keyed-release--extruded-solid--brushed-metal-craft-0-candidate-first.json"
+    },
+    {
+      "assets": {
+        "197d48350e4e487da73243a3fe628900": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "58933154e28148988c755989f6f4e596": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "7f4c9d19a2da45b788e3cdca75d38df0": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "808249f45c4a42b1b903120d6320be1b": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "ba5113b57aa045a38676e12a0fd0d144": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "d145ed341bcd4bb4aa15405494d5a8b0": "snapshots/source-blobs/d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72.png"
+      },
+      "path": "snapshots/metal/requests/0068-preview-keyed-release--extruded-solid--brushed-metal-craft-0-reference-first.json"
+    },
+    {
+      "assets": {
+        "633600c4d52f42c08d7970521df4f0b6": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "741e74913d84419b868c4e60b5806521": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "98c414a8be78486ab71c457082e8ce6b": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "9e4cb4eb681b430cba0d2260ebae4774": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "db4d6677ac0d44c39daaee1c2e05ab81": "snapshots/source-blobs/d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72.png",
+        "f5d24ce9529444098171c1862f83be5e": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png"
+      },
+      "path": "snapshots/metal/requests/0069-preview-keyed-release--extruded-solid--brushed-metal-craft-1-candidate-first.json"
+    },
+    {
+      "assets": {
+        "79926d8d94094bb5a0a37a7ada341844": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "8187f248a1bb436a8f2c36706f94086b": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "853085ba71b149ef96cab90103a27e1a": "snapshots/source-blobs/d3212858314301e8af62babc7dab55409c33b67150505e1b9ed52bae3ff63d72.png",
+        "976b2a219bfb490daf78ea17a1d33969": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "dc9950177a3f4b1dbdce1608e72b62d9": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png",
+        "e649b9d1a530401f9db5f3f44ddf36ef": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png"
+      },
+      "path": "snapshots/metal/requests/0070-preview-keyed-release--extruded-solid--brushed-metal-craft-1-reference-first.json"
+    },
+    {
+      "assets": {
+        "3b9d3d872db6451c87d9a4448df8f68d": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png"
+      },
+      "path": "snapshots/metal/requests/0071-preview-keyed-release--extruded-solid--brushed-metal-symbol-fit.json"
+    },
+    {
+      "assets": {
+        "3e16365ac37b44d19d49259ba5f9cf42": "snapshots/source-blobs/f84d88365cc24d8114a8c5e87d733e3e94745c0c875bbcfef7c9e082bf81ab4a.png",
+        "65878af019d6499c8e2c91617d201da9": "snapshots/source-blobs/c25d82e4e84f3eaf75faed3065a9992ff80ea284187d4edb373e3dcbc29681b0.png",
+        "91c45d2b85294ebeb72c813ced44cad1": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png"
+      },
+      "path": "snapshots/metal/requests/0072-preview-keyed-release--extruded-solid--brushed-metal-fit.json"
+    },
+    {
+      "assets": {
+        "4b8ea145fa254146a1b813220636e515": "snapshots/source-blobs/e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019.png"
+      },
+      "path": "snapshots/metal/requests/0073-preview-keyed-release--extruded-solid--brushed-metal-technical.json"
+    },
+    {
+      "assets": {
+        "b8856f60581f44b2ba72ff79f745f6b5": "snapshots/source-blobs/bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5.png",
+        "fa148ade91e3442b9c68af675f1ba557": "snapshots/source-blobs/4d9bc893c6d16e6b5ad2adfbb38f792715629d077574da822a18705f868c52ba.png"
+      },
+      "path": "snapshots/paper/requests/0075-compare-0005-cc05c44adb56-preview.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0076-plan-open-commons-extruded_solid-paper.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0077-plan-open-commons-extruded_solid-paper.json"
+    },
+    {
+      "assets": {
+        "4fb534aac2404c749b4f03370270b901": "snapshots/source-blobs/55c23c8248dd85320a6ae4784e7cce95821afa071b2d109d5568bfe2e4ef560f.png",
+        "a955bbe9132b4678aef37d2332cec8ad": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png"
+      },
+      "path": "snapshots/paper/requests/0078-creative-open-commons--extruded-solid--paper-0006-cc05c44adb56-preview.json"
+    },
+    {
+      "assets": {
+        "0ad593923006401f964d81954bbecbc3": "snapshots/source-blobs/bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5.png",
+        "deb59ad6db674b6b93be593fdb210a6a": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png"
+      },
+      "path": "snapshots/paper/requests/0079-compare-0006-cc05c44adb56-preview.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0080-treatment-fit-skill-spool.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0081-treatment-fit-source-ledger.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0082-treatment-fit-permission-key.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0083-treatment-fit-release-tab.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0084-treatment-fit-shared-typeblock.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0085-treatment-fit-branching-route.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0086-treatment-fit-team-rostrum.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0087-treatment-fit-review-weir.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0088-treatment-fit-synthesis-fold.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0089-treatment-fit-shared-folio.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0090-treatment-fit-approval-impression.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0091-treatment-fit-release-ramp.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0092-treatment-fit-open-commons.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0093-treatment-fit-library-staircase.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0094-treatment-fit-joined-index.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0095-treatment-fit-tool-sleeve.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0096-treatment-fit-reference-fan.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0097-treatment-fit-capability-bench.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0098-treatment-fit-common-pocket.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0099-treatment-fit-contribution-joint.json"
+    },
+    {
+      "assets": {},
+      "path": "snapshots/paper/requests/0100-material-fit.json"
+    },
+    {
+      "assets": {
+        "77e65f57070c45dca9dbda27473f207a": "snapshots/source-blobs/55c23c8248dd85320a6ae4784e7cce95821afa071b2d109d5568bfe2e4ef560f.png",
+        "90965edc4fa643c5b0f58ec7b7993bce": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png"
+      },
+      "path": "snapshots/paper/requests/0101-creative-open-commons--extruded-solid--paper-0006-cc05c44adb56-preview.json"
+    },
+    {
+      "assets": {
+        "6cf24175d2cd407a8fc2bc63ae095954": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png",
+        "a318389b788f40aca0331cb03d68d073": "snapshots/source-blobs/bfefedaa4d4befcb7dbbb5473b0bd1e564d9e59488233869bce8d3b7f9e9f7e5.png"
+      },
+      "path": "snapshots/paper/requests/0102-compare-0006-cc05c44adb56-preview.json"
+    },
+    {
+      "assets": {
+        "002f3f90aaa24c589f593691031314dd": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "25cfb8f0e81849b0a80a90713718c144": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "43a6371429004502962905c6ff1a3315": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png",
+        "a7c2e5212238454d983c70b1bd17ba00": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "d81c9e2af260453c96fef156da09e792": "snapshots/source-blobs/f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a.png",
+        "f58abc65b4404b7ebccc1f3af2ae2f65": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png"
+      },
+      "path": "snapshots/paper/requests/0103-preview-open-commons--extruded-solid--paper-craft-0-candidate-first.json"
+    },
+    {
+      "assets": {
+        "24986d4ba070452290be44278b12a653": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286.png",
+        "3bd70e02da9d41f8ae63a23d418617d7": "snapshots/source-blobs/f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a.png",
+        "59bade45f9274fa69c6afbd8ece8561c": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133.png",
+        "e5d39ac97fca468686bb94f6a4aa5b59": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c.png",
+        "ec8a9e61e170429ca0fc529572546ffd": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629.png",
+        "fcfe2b80aace4a0bbd83ffa91d2dc179": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0.png"
+      },
+      "path": "snapshots/paper/requests/0104-preview-open-commons--extruded-solid--paper-craft-0-reference-first.json"
+    },
+    {
+      "assets": {
+        "2bc3b3dfbdc5485487845b7e42b9dc1e": "snapshots/source-blobs/f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a.png",
+        "2c78eb411f0043ffbdf368e9706d1175": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "3f656c0f83b041b9ba6c6eded4b8d2e6": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "4d3e1b72102b404192ec85eec4a6995c": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "7291711c234c475c9301a780682ab1ff": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "ccf7b4162fdb4050a3503a51909d3121": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png"
+      },
+      "path": "snapshots/paper/requests/0105-preview-open-commons--extruded-solid--paper-craft-1-candidate-first.json"
+    },
+    {
+      "assets": {
+        "059cbc0e29da486bad2dc2c2659b2e22": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/90fbcb33c3ca7d28c8155836a0e28ea266d5bb68eab78296ac06dd481861f962.png",
+        "3011e8228d9c4e8a8d4af2e8ab32d3cf": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/b29394fb53a15e99b839b7ec4237c3ca16465b7e780ce32db2a117457a8b8381.png",
+        "7dc91ce789534833ab3cf510d3806d45": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/533cf46b0a56fd53e2d30a580789ab1c4165d92b4cebd889d71135722b6e26ca.png",
+        "932537d853014906adebb922e05c35fe": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a.png",
+        "b2995464805c48d7ba0146fa370a450e": "snapshots/source-blobs/f8b094d042e1cd65ae0e1585b24421dfd4a991361351d5f1aa0ea0ecef404e5a.png",
+        "d3a6b7bd98aa4f3ba05e33e70a74451c": "../../omp/validation/issue-2/combined-20261111/appearance-scope-controls/qa/jev/assets/a708c8e378341f03b141984aa2637348a4c03d97222e5bf68023cd41a8f628f3.png"
+      },
+      "path": "snapshots/paper/requests/0106-preview-open-commons--extruded-solid--paper-craft-1-reference-first.json"
+    },
+    {
+      "assets": {
+        "baca7a2bfb1747c397effbb3ad765af2": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png"
+      },
+      "path": "snapshots/paper/requests/0107-preview-open-commons--extruded-solid--paper-symbol-fit.json"
+    },
+    {
+      "assets": {
+        "9d91822e1d55447394388d26ca02f3f7": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png",
+        "ec40f9add1d9478194c120125bb5e9a3": "snapshots/source-blobs/65a40805cc38bf4bc29b044f1aa558c61a168edf4e8574882f4f66ca9b2d4d4d.png",
+        "fbf0407576454da9a71101814527451b": "snapshots/source-blobs/a7c4e97456d2a7038d2ee7d91096ab8ad1a4e8e6bbab8289c620c0fcef599700.png"
+      },
+      "path": "snapshots/paper/requests/0108-preview-open-commons--extruded-solid--paper-fit.json"
+    },
+    {
+      "assets": {
+        "19727e55226e49eda712f13bf9b64e8f": "snapshots/source-blobs/5858d79ca715d4cbe8f7e9bd7e22185cdfef394e059d003986a2ce60b26016ee.png"
+      },
+      "path": "snapshots/paper/requests/0109-preview-open-commons--extruded-solid--paper-technical.json"
+    }
+  ],
+  "runtime_note": "Fresh synthetic runtime fixture: actual 4000-to-2000 Metal/OIDN render, low-level export hash verification and live final QA. Brief/plan answers are canned; sampling review stop preserves the prior winner. No artwork finalist/winner/export qualification is claimed.",
+  "schema": 1,
+  "validation_source_commit": "5518ce5"
+}

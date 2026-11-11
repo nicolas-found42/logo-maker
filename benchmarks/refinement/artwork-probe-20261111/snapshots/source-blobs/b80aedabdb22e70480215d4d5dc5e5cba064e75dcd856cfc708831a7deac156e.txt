@@ -1,0 +1,13 @@
+{
+  "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+  "brand_geometry": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+  "material_construction": "Two steel rails slide from opposite sides into the waist of a double-shouldered copper connector. The waist has 0.012 clearance from the rail receiver outlines. Rear and front shoulders overlap both rail arms and seat against their back/front planes at z=0.04 and z=0.24; the key cannot pass through those openings. Four mounting eyes allow the rails to be fixed after assembly. Planar cap triangles, explicit chamfer strips and bore walls are authored into three closed mesh assets. The renderer adds no bevel modifier and the PLY stores no averaged vertex normals.",
+  "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+  "dependencies": [
+    "west-receiver.ply",
+    "east-receiver.ply",
+    "seated-copper-key.ply"
+  ]
+}

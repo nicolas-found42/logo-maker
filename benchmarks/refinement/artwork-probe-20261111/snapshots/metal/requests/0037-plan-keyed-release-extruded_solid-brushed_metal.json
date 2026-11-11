@@ -1,0 +1,265 @@
+{
+  "seq": 37,
+  "label": "plan-keyed-release|extruded_solid|brushed_metal",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "requirements": {
+      "business": {
+        "name": "Keystone",
+        "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+        "tone": [
+          "precise",
+          "dependable",
+          "calm"
+        ],
+        "audience": "Platform engineers",
+        "uses": [
+          "release_dashboard",
+          "documentation",
+          "app_icon"
+        ]
+      },
+      "design_direction": {
+        "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+        "avoid": [
+          "Text inside the mark",
+          "Decorative backing disc"
+        ],
+        "palette": {
+          "primary": "#245064",
+          "secondary": "#B87E48",
+          "background": "#F4F5F5",
+          "ink": "#16313B"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "DM Sans:wght=400"
+        },
+        "open_choices": [
+          "Symbol construction within the stated material intent",
+          "Proportions and visible structural detail"
+        ],
+        "references": [
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png",
+            "use": "craft",
+            "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+            "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+          },
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png",
+            "use": "craft",
+            "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+            "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+          }
+        ]
+      },
+      "communication_priority": "Independent service supports become one dependable release through an explicit key",
+      "design_latitude": [
+        "Symbol construction within the stated material intent",
+        "Proportions and visible structural detail"
+      ],
+      "facts": [
+        {
+          "id": "service",
+          "claim": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+          "status": "established",
+          "sources": [
+            "retained"
+          ],
+          "essential": true
+        }
+      ],
+      "requirements": [
+        {
+          "id": "material",
+          "claim": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+          "kind": "visual",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "meaning",
+          "claim": "Make the supporting dependency key visible in the construction",
+          "kind": "communication",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "avoid_0",
+          "claim": "Text inside the mark",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_1",
+          "claim": "Decorative backing disc",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "uses",
+          "claim": "The mark must work for: release_dashboard, documentation, app_icon",
+          "kind": "usage",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "palette",
+          "claim": "Use the supplied palette: {'primary': '#245064', 'secondary': '#B87E48', 'background': '#F4F5F5', 'ink': '#16313B'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "fonts",
+          "claim": "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "tone",
+          "claim": "Communicate the stated tone: precise, dependable, calm",
+          "kind": "communication",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        }
+      ]
+    },
+    "authoring_obligations": [],
+    "concept": {
+      "id": "keyed-release|extruded_solid|brushed_metal",
+      "metaphor": "keyed-release",
+      "metaphor_text": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "treatment": "extruded_solid",
+      "material": "brushed_metal"
+    },
+    "plan": {
+      "schema": 1,
+      "requirements_revision": "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6",
+      "hypothesis": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "visual_mechanism": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "requirement_ids": [
+        "material",
+        "meaning"
+      ],
+      "assumptions": [
+        "These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"
+      ],
+      "details": [
+        {
+          "feature": "Mating key receivers and mounting eyes",
+          "purpose": "Show where the independent rails seat on the key and how the assembly could be anchored",
+          "intended_scale": "Hero and native detail; core silhouette remains recognizable in the flat mark",
+          "construction": "The original silhouettes, exact receivers, 0.012 clearance, through eyes, depth, palette and straight brushing tangent are held fixed. Explicit 0.023-unit chamfer strips meet planar cap meshes; the renderer adds no bevel modifier and the PLY stores no averaged vertex normals. This controlled construction probe tests whether the mounting-eye triangles came from cap/bevel shading; visible diagonal patches would disprove it.",
+          "deletion_test": "Removing the receivers makes the copper key an applied ornament; removing mounting eyes loses attachment plausibility"
+        }
+      ]
+    }
+  },
+  "questions": {
+    "plan_grounded": {
+      "type": "noul",
+      "instructions": "Is the plan's visual hypothesis connected to the frozen communication priority?",
+      "criteria": {
+        "true": "The proposed relationship addresses the priority; assumptions stay separate from business facts.",
+        "false": "The rationale invents a business fact or has no stated connection to the priority."
+      }
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "instructions": "Does the plan preserve mandatory frozen requirements?",
+      "criteria": {
+        "true": "The proposed concept respects mandates while using declared design latitude.",
+        "false": "A mandatory requirement is contradicted or silently treated as optional."
+      }
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "instructions": "Does the plan place its primary recognition contours in the shared flat master?",
+      "criteria": {
+        "true": "The same primary identity can serve flat and hero; secondary finish may resolve only at hero scale.",
+        "false": "The hero introduces the only primary identity relationship or an incompatible mark."
+      }
+    },
+    "plan_construction": {
+      "type": "noul",
+      "instructions": "Are the plan's stated physical construction relationships mutually compatible?",
+      "criteria": {
+        "true": "The described parts, contacts and material roles form a coherent proposed construction.",
+        "false": "The plan describes conflicting physical relationships or leaves its central assembly undefined."
+      }
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "instructions": "Does plan.details[0] identify a purposeful visible contribution for 'Mating key receivers and mounting eyes'?",
+      "criteria": {
+        "true": "The feature serves recognition, proportion, hierarchy or construction/material credibility at its named scale; its removal consequence is explicit.",
+        "false": "Only additional ornament, polygons or texture are offered as evidence of quality, with no visible role."
+      }
+    }
+  },
+  "assets": {},
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "plan_grounded": {
+      "type": "noul",
+      "noul": 0.91
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "noul": 0.69
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "noul": 0.89
+    },
+    "plan_construction": {
+      "type": "noul",
+      "noul": 0.64
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "noul": 0.98
+    }
+  },
+  "usage": {
+    "input_tokens": 2397,
+    "output_tokens": 100,
+    "cost": 0.000100674
+  },
+  "provider_usage": {
+    "input_tokens": 2397,
+    "output_tokens": 100,
+    "cost": 0.000100674,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000100674,
+      "upstream_inference_prompt_cost": 0.000100674,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

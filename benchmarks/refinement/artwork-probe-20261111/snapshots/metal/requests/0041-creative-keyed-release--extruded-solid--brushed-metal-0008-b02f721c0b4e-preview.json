@@ -1,0 +1,152 @@
+{
+  "seq": 41,
+  "label": "creative-keyed-release--extruded-solid--brushed-metal-0008-b02f721c0b4e-preview",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "construction": {
+      "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "brand_geometry": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "material_construction": "Two steel rails slide from opposite sides into the waist of a double-shouldered copper connector. The waist has 0.012 clearance from the rail receiver outlines. Rear and front shoulders overlap both rail arms and seat against their back/front planes at z=0.04 and z=0.24; the key cannot pass through those openings. Four mounting eyes allow the rails to be fixed after assembly. Planar cap triangles, explicit chamfer strips and bore walls are authored into three closed mesh assets. The renderer adds no bevel modifier and the PLY stores no averaged vertex normals.",
+      "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+      "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+      "current_description": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+      "dependencies": [
+        "west-receiver.ply",
+        "east-receiver.ply",
+        "seated-copper-key.ply"
+      ]
+    },
+    "render": "d6ceb07d284344ca93363817ed88b7dd",
+    "motif": "41a2b1e9e7cc455ab90635498f378e41",
+    "inspection": {
+      "critiques": [
+        {
+          "action": "Retain the authored closed meshes with explicit chamfer bands and double retaining shoulders; renderer bevel is disabled.",
+          "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0008-b02f721c0b4e-preview/render.png",
+          "comparison": "Compare 0007 and 0008 at the four mounting eyes and adjacent planar faces. Independent critique-resolution judgment is still required.",
+          "dimension": "receiver_and_hole_edges",
+          "evidence": "Explicit cap and chamfer geometry removes the large triangular cap patches in the viewed new render; regular bore chamfers remain.",
+          "kind": "craftsmanship",
+          "resolved": true
+        }
+      ],
+      "observations": "The blue receiver faces are now continuous planar satin surfaces. The four holes show dark bore walls and small regular chamfer bands. The large triangular bright/dark cap patches seen in 0007 are absent. Copper shoulders are visible in front and behind the central rail arms. The whole mark reads strongly as an H with a central hexagonal coupling; whether that offers enough brand-specific synthesis remains for independent judgment.",
+      "revision": "0008-b02f721c0b4e-preview",
+      "user_feedback": "No artistic approval supplied. Owner clarification about open paper structures applies to the separate paper study."
+    }
+  },
+  "questions": {
+    "craftsmanship": {
+      "type": "noul",
+      "instructions": "Does `render` show deliberate, coherent construction with well-resolved junctions, edges and secondary details, relative to `construction.intended_appearance`? A simple core silhouette may have rich hero detail. Gloss and roundness alone do not establish craft.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "brief_fit": {
+      "type": "noul",
+      "instructions": "Do the visible symbol and geometry specifically communicate this brand's purpose and the meaning in `construction`, rather than merely presenting a generic pleasant object?",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "material_intent": {
+      "type": "noul",
+      "instructions": "Does the object visibly form as described in `construction.material_construction` and achieve its intended appearance? For paper examine changes of plane, folds, edges and layers. Matte and glossy treatments can each succeed when intended.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    },
+    "description_match": {
+      "type": "noul",
+      "instructions": "Does the actual visible motif match `construction.current_description` and remain recognizable as the flat mark in `motif`? Judge the current description, not historical pool text. Ambiguity is unresolved, not success.",
+      "criteria": {
+        "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+        "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient."
+      }
+    }
+  },
+  "assets": {
+    "d6ceb07d284344ca93363817ed88b7dd": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+      "bytes": 399027
+    },
+    "41a2b1e9e7cc455ab90635498f378e41": {
+      "type": "image",
+      "format": "png",
+      "sha256": "2bdcc38f576593d1afde75502b91ff9bb3c01bbee54847863273d182e7887e6c",
+      "bytes": 53236
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "craftsmanship": {
+      "type": "noul",
+      "noul": 0.72
+    },
+    "brief_fit": {
+      "type": "noul",
+      "noul": 0.82
+    },
+    "material_intent": {
+      "type": "noul",
+      "noul": 0.7
+    },
+    "description_match": {
+      "type": "noul",
+      "noul": 0.53
+    }
+  },
+  "usage": {
+    "input_tokens": 6834,
+    "output_tokens": 76,
+    "cost": 0.000287028
+  },
+  "provider_usage": {
+    "input_tokens": 6834,
+    "output_tokens": 76,
+    "cost": 0.000287028,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000287028,
+      "upstream_inference_prompt_cost": 0.000287028,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

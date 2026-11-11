@@ -1,0 +1,88 @@
+{
+  "seq": 71,
+  "label": "preview-keyed-release--extruded-solid--brushed-metal-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "3b9d3d872db6451c87d9a4448df8f68d",
+    "brief": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ],
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "Independent blue steel service supports meet through a separately machined copper dependency key with matching receiver contours.",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Brushed metal such as steel, brass, or aluminum, with soft directional sheen.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections"
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "3b9d3d872db6451c87d9a4448df8f68d": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e399485dbdc1148e371978c9ef24c544c6bc22101a44801c91183f2c98a2f019",
+      "bytes": 399027
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.9
+    }
+  },
+  "usage": {
+    "input_tokens": 3346,
+    "output_tokens": 20,
+    "cost": 0.000140532
+  },
+  "provider_usage": {
+    "input_tokens": 3346,
+    "output_tokens": 20,
+    "cost": 0.000140532,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000140532,
+      "upstream_inference_prompt_cost": 0.000140532,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

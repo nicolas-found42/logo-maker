@@ -426,6 +426,10 @@ macOS can report EPERM for a group containing only exited, unreaped processes. O
 error, bounded `/bin/ps` inspection checks only group IDs and process states. An empty or
 all-zombie group has stopped work; a live member or failed inspection is an explicit
 unconfirmed-cleanup failure. Permission errors are never silently treated as success.
+Process-state inspection spends the existing cleanup reserve, retaining time for immediate-child
+reaping. It is not restricted to a 200 ms query on a loaded host. Cleanup signals the owned session
+before inspection, avoids repeating an inactive-group proof, and attempts termination/reaping even
+when inspection fails. Unknown state still returns an operational failure rather than success.
 
 ### Qualification fixtures
 

@@ -1,0 +1,2 @@
+{"case": "metal", "revision": "0008-b02f721c0b4e-preview", "creative": "authoring_needed", "eligibility": "missing_evidence"}
+{"case": "paper", "revision": "0006-cc05c44adb56-preview", "creative": "authoring_needed", "eligibility": "missing_evidence"}

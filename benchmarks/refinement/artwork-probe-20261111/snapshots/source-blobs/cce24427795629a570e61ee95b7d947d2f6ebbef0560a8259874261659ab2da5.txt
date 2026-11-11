@@ -1,0 +1,8 @@
+{
+  "id": "keyed-release|extruded_solid|brushed_metal",
+  "metaphor": "keyed-release",
+  "metaphor_text": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+  "description": "Two blue steel support posts have open receiver arms facing a central copper key. Front and rear retaining shoulders on that key capture the two arms. Four through mounting eyes and clean machined edges make the three-part dependency joint visible.",
+  "treatment": "extruded_solid",
+  "material": "brushed_metal"
+}
