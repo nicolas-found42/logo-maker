@@ -498,6 +498,13 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
         rev = revision(logo, brief, concept_id, candidate)
         if rev["reviewed_requirements"] != reviewed_context["inputs"]:
             raise ValueError("requirements changed while preparing judgment context")
+        folder = logo.concept(concept_id)
+        if any(
+            rev["sources"].get(str((folder / name).relative_to(logo.root)))
+            != reviewed_plan["inputs"][key]
+            for name, key in (("concept.json", "concept_sha256"), ("plan.toml", "plan_sha256"))
+        ):
+            raise ValueError("concept or plan changed while preparing judgment context")
     except (OSError, ValueError) as exc:
         record["missing"].append(f"source evidence unavailable: {exc}")
         _append(logo, record)

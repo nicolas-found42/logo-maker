@@ -280,6 +280,36 @@ def test_structural_review_uses_current_description_instead_of_ideation_text(tmp
     assert all(c["metaphor"] == plan["hypothesis"] for c in literal)
 
 
+def test_description_edit_during_context_preparation_never_reaches_provider(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    from logo_maker.eligibility import assess
+
+    logo, cid, brief = candidate_logo(tmp_path)
+    folder = logo.concept(cid)
+    original_read = Path.read_text
+    edited = False
+
+    def read_text(path, *args, **kwargs):
+        nonlocal edited
+        raw = original_read(path, *args, **kwargs)
+        if path == logo.metaphors and not edited:
+            edited = True
+            info_path = folder / "concept.json"
+            info = json.loads(original_read(info_path))
+            info["description"] = "A later authoring revision"
+            info_path.write_text(json.dumps(info))
+        return raw
+
+    monkeypatch.setattr(Path, "read_text", read_text)
+    client = EligibilityClient()
+    result = assess(logo, brief, cid, folder / "final.png", client, stage="final")
+    assert edited
+    assert result["status"] == "missing_evidence"
+    assert "changed while preparing" in " ".join(result["missing"])
+    assert not client.states
+
+
 def test_missing_current_description_stops_before_visual_judgments(tmp_path):
     from test_brief_workflow import BriefJudge
 
