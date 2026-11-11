@@ -58,8 +58,22 @@ An arbitrary `on_asset` callback now returns an explicit `budget_conflict`, beca
 cannot both retain parent-process side effects and run in a killable worker. Direct
 `scene.compile` still supports caller-managed callbacks. Export provenance loading and
 delivered-image hashing run inside the owned export worker, bound to the exact parsed
-provenance bytes. Light publication/orchestration and final QA/provider work still use cooperative checks;
-complete whole-job hard-bound qualification remains open.
+provenance bytes.
+
+Final QA and its tournament bind a `JevClient.with_budget` view to the same job deadline.
+HTTP retries/backoff/response decoding, image loading/encoding, tiny-image preparation,
+asset persistence and CPU alpha/margin/edge/color checks use owned workers. Split and
+concurrent requests share that deadline. Request sequence allocation and aggregate
+usage remain in the parent client; no HTTP/lock/client object is copied into a worker.
+Received answers and usage are logged before budgeted asset persistence. The request
+record says `assets_status=pending` until verified image bytes are atomically stored;
+interrupted provider completion/usage can remain unknown. Custom clients at these
+bounded entry points must explicitly support budget binding, or fail with
+`budget_conflict`; unbudgeted judging interfaces keep their existing client contract.
+Default finalize timing begins before input/client setup, and exhausted caller budgets
+stop before finalist loading. Parent input/QA bookkeeping, provider log publication and
+render/export publication remain cooperative; complete whole-job hard-bound qualification
+is still open.
 
 Job timing includes scene compilation, environment probing, attempts, denoise, diagnostic
 EXR writing/reading/hashing, PNG output, downsampling and cleanup. The export manifest adds

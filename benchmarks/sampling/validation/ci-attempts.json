@@ -22,5 +22,14 @@
     "conclusion": "failure",
     "observed": "Process-state regressions pass. Lifecycle tests4s deadline expired before fakebrowserstart on slowrunner; heartbeat missing or wrongexpectedexception.",
     "test_only_change": "Allow20s coldsetup; heartbeatfailsafe60s outlivesdeadline. Delayedhook/stoppedheartbeat/prioroutput assertions remain. Production code/budgets unchanged. Final hosted validation pending."
+  },
+  "control_provenance_followup": {
+    "run": 42927837809,
+    "head": "e8834a6952a4b7517b2f14bdc955ede88a4352d4",
+    "attempt1": "failure:1failed232passed2skipped3deselected; PWA Node300s timeout",
+    "attempt2": "success:233passed2skipped3deselected139.36s",
+    "source_change_between_attempts": false,
+    "focused_local_export_replays": "5passed about3s each",
+    "root_cause": "unknown; passing rerun does not prove intermittent timeout fixed"
   }
 }

@@ -16,7 +16,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from logo_maker import owned_process
+from logo_maker.host import run as _host_work
 from logo_maker.proc import ToolError
 from logo_maker.sampling import Budget, SamplingLimit, Settings, decide
 from logo_maker.sampling_diagnostics import sha256
@@ -139,35 +139,6 @@ def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
 
     collect({k: v for k, v in scene_data.items() if k != "sampling"})
     return {str(p): sha256(p) for p in sorted(paths)}
-
-
-def _host_work(payload: dict, budget: Budget, stages: list[dict]) -> dict:
-    started = time.monotonic()
-    status = "failed"
-    try:
-        proc = owned_process.run(
-            [sys.executable, "-m", "logo_maker.host"],
-            input_text=json.dumps(payload),
-            budget=budget,
-            label=payload["operation"],
-        )
-        if proc.returncode:
-            raise ToolError(
-                f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
-            )
-        result = json.loads(proc.stdout.strip().splitlines()[-1])
-        status = "completed"
-        return result
-    finally:
-        stages.append(
-            {
-                "operation": payload["operation"],
-                "status": status,
-                "seconds": time.monotonic() - started,
-                "execution": "owned_cpu_worker",
-                "timing_scope": "startup, CPU host work, output transfer and cleanup",
-            }
-        )
 
 
 def render(

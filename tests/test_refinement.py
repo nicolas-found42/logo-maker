@@ -162,6 +162,11 @@ class Judge:
         self.p = p
         self.states = []
 
+    def with_budget(self, budget):
+        # This fake performs immediate in-memory work; real transports own killable workers.
+        budget.check()
+        return self
+
     def ask(self, state, questions, *, label):
         self.states.append(state)
         return {name: {"noul": self.p} for name in questions}
@@ -596,3 +601,73 @@ def test_custom_preview_can_be_inspected_without_qualifying_production_reuse(tmp
         pipeline.refine(logo, Judge())
     assert pipeline.status(logo)["rendered_variants"] == 1
     assert not render.artifact_current(folder, "preview", check_machine=False)
+
+
+@pytest.mark.parametrize("identity", ["model", "url"])
+def test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches(
+    tmp_path, monkeypatch, identity
+):
+    from logo_maker.jev.client import JevClient
+    from logo_maker.sampling import Budget
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+    with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+        pipeline.refine(logo, Judge())
+    with (folder / "scene.toml").open("a") as stream:
+        stream.write("\n# fold: structurally distinct second fixture")
+    with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+        pipeline.refine(logo)
+    inspect_current(logo, cid, folder)
+    monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
+    client = JevClient(logo)
+    labels = []
+
+    def immediate_provider(state, questions, *, label, budget=None):
+        assert budget is not None, "creative/comparison request lost its explicit deadline"
+        budget.check()
+        labels.append(label)
+        return Judge().ask(state, questions, label=label)
+
+    monkeypatch.setattr(client, "ask", immediate_provider)
+    budget = Budget()
+    try:
+        assert pipeline.refine(logo, client, budget=budget)["rendered_variants"] == 2
+        assert any(label.startswith("creative-") for label in labels)
+        assert any(label.startswith("compare-") for label in labels)
+        labels.clear()
+        pipeline.refine(logo, client, budget=budget)
+        assert not labels, "unchanged bounded judge should reuse its current judgments"
+        setattr(client, identity, getattr(client, identity) + "-other-judge")
+        pipeline.refine(logo, client, budget=budget)
+        assert any(label.startswith("creative-") for label in labels)
+        assert any(label.startswith("compare-") for label in labels)
+    finally:
+        client._http.close()
+
+
+@pytest.mark.parametrize("stage", ["refine", "qa"])
+def test_bounded_creative_entry_rejects_clients_without_budget_binding(
+    tmp_path, monkeypatch, stage
+):
+    from logo_maker.proc import ToolError
+    from logo_maker.sampling import Budget
+
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    if stage == "refine":
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+    if stage == "refine":
+        with pytest.raises(ToolError, match="budget_conflict"):
+            pipeline.refine(logo, object(), budget=Budget())
+    else:
+        with pytest.raises(ToolError, match="budget_conflict"):
+            pipeline.qa_concept(logo, cid, object(), pipeline.Brand({}, {}), budget=Budget())

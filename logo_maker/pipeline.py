@@ -19,6 +19,7 @@ from typing import Any
 import tomlkit
 
 from logo_maker import brief as brief_mod
+from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
 from logo_maker.paths import LogoDir
 from logo_maker.runlog import runlog
@@ -67,6 +68,15 @@ def _client(logo: LogoDir):
     from logo_maker.jev.client import JevClient
 
     return JevClient(logo)
+
+
+def _budgeted_client(client, budget: Budget):
+    from logo_maker.proc import ToolError
+
+    binder = getattr(client, "with_budget", None)
+    if not callable(binder):
+        raise ToolError("budget_conflict: bounded judgments require explicit client budget binding")
+    return binder(budget)
 
 
 def _read_json(path: Path) -> Any:
@@ -355,6 +365,8 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
     """Inspect image-backed creative readiness before presenting finalists."""
     from logo_maker import refinement
 
+    if budget is not None:
+        budget.check()
     ids = shortlist(logo)
     for cid in ids:
         refinement.construction(logo.concept(cid))
@@ -366,7 +378,11 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
         inspection_path = logo.concept(cid) / "inspection.json"
         inspection_binding = refinement.digest(inspection_path) if inspection_path.exists() else ""
         inspection = refinement.inspected(logo, cid, record)
-        refinement.judge_revision(logo, cid, record, inspection, client or _client(logo))
+        if client is None:
+            client = _client(logo)
+        if budget is not None and not records:
+            client = _budgeted_client(client, budget)
+        refinement.judge_revision(logo, cid, record, inspection, client)
         refinement.require_current(
             logo, cid, record, budget=budget, inspection_sha256=inspection_binding
         )
@@ -407,6 +423,8 @@ def preview(
     client = client or _client(logo)
     brief = brief_mod.load(logo.brief)
     previews = {cid: logo.concept(cid) / "preview.png" for cid in ids}
+    if budget is not None:
+        client = _budgeted_client(client, budget)
     try:
         finalists = judging.screen_previews(logo, brief, previews, client, keep=keep)
     except ValueError as exc:  # no preview survived screening
@@ -445,21 +463,22 @@ def qa_concept(
     logo: LogoDir, concept_id: str, client, brand_: Brand, *, budget: Budget | None = None
 ) -> dict[str, Any]:
     """One retained final per revision; diagnosis returns work rather than guessing repairs."""
-    from logo_maker import checks, judging, refinement
+    from logo_maker import judging, refinement
 
+    budget = Budget(attempt_limit=4, parent=budget)
+    budget.check()
+    client = _budgeted_client(client, budget)
     brief = brief_mod.load(logo.brief)
     folder = logo.concept(concept_id)
-    budget = budget or Budget(attempt_limit=4)
-    budget.check()
     record = refinement.capture(logo, concept_id, "final", budget=budget)
     final = folder / "final.png"
-    verdicts = judging.qa_judgments(logo, brief, concept_id, final, client)
-    code = {
-        "alpha": checks.alpha_report(final),
-        "margin": checks.margin_report(final),
-        "edges": checks.edge_report(final),
-        "colors": checks.color_report(final, brand_.palette),
-    }
+    verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
+    host_stages: list[dict] = []
+    code = host.run(
+        {"operation": "qa_checks", "png": str(final), "palette": brand_.palette},
+        budget,
+        host_stages,
+    )
     failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
     failures |= {"veil"} if code["alpha"]["veil"] else set()
     failures |= {"margin"} if code["margin"]["cut_off"] else set()
@@ -473,6 +492,7 @@ def qa_concept(
         "unsettled": sorted(n for n, v in verdicts.items() if v.status == "unsettled"),
         "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
         "code": code,
+        "host_stages": host_stages,
         "result": "authoring_needed" if failures else "technical_pass",
         "sampling": record.get("sampling", {}),
         "budget": budget.record(),
@@ -536,6 +556,10 @@ def qa_concept(
 def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str:
     from logo_maker import judging
 
+    caller_budget = budget
+    bootstrap = budget or Budget(attempt_limit=64)
+    job_started = bootstrap.clock()
+    bootstrap.check()
     finalists_path = logo.ideation / "finalists.json"
     if not finalists_path.exists():
         raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
@@ -548,8 +572,14 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
     client = client or _client(logo)
     brand_ = brand(logo)
     # One finalist at a time: each final render saturates the GPU.
-    budget = budget or Budget(attempt_limit=min(64, max(1, len(finalists)) * 4))
+    budget = Budget(
+        attempt_limit=min(64, max(1, len(finalists)) * 4),
+        parent=caller_budget,
+        clock=bootstrap.clock,
+        started_at=job_started,
+    )
     budget.check()
+    client = _budgeted_client(client, budget)
     results = {cid: qa_concept(logo, cid, client, brand_, budget=budget) for cid in finalists}
     passed = [cid for cid, r in results.items() if r["result"] == "pass"]
     log = runlog(logo.run_json)

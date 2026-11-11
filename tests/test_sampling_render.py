@@ -20,6 +20,26 @@ def compiled(tmp_path):
     (tmp_path / "motif.json").write_text('{"layers":[]}')
 
 
+def creative_intent(logo, cid):
+    from logo_maker import refinement
+
+    folder = logo.concept(cid)
+    description = "Sampling regression fixture; artistic acceptance is outside this test"
+    (folder / "concept.json").write_text(json.dumps({"id": cid, "description": description}))
+    intent: dict[str, object] = dict.fromkeys(refinement.CONSTRUCTION_FIELDS, description)
+    intent["dependencies"] = []
+    (folder / "construction.json").write_text(json.dumps(intent))
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": [cid]}))
+
+
+def bind_finalists(logo, cid):
+    from logo_maker import refinement
+
+    (logo.ideation / "finalists.json").write_text(
+        json.dumps({"ids": [cid], "binding": refinement.campaign_key(logo, [cid])})
+    )
+
+
 def test_failed_builder_keeps_prior_final_and_records_operational_failure(tmp_path, monkeypatch):
     compiled(tmp_path)
     prior = tmp_path / "final.png"
@@ -379,6 +399,200 @@ def test_deadline_during_publication_keeps_prior_final(tmp_path, monkeypatch):
     assert prior.read_bytes() == b"approved prior image"
 
 
+@pytest.mark.parametrize(
+    "failure",
+    ["provider_retry", "qa_image_read", "image_encode", "tiny_image_read", "asset_corrupt"],
+)
+def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
+    tmp_path, monkeypatch, failure
+):
+    import base64
+    import contextlib
+    import hashlib
+    import os
+    import threading
+    import time
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    from PIL import ImageDraw
+
+    from logo_maker import pipeline, refinement
+    from logo_maker.jev.client import JevClient
+    from logo_maker.paths import LogoDir
+    from logo_maker.sampling import SamplingLimit
+
+    logo = LogoDir(tmp_path / "logo")
+    pipeline.new(logo, "Test")
+    logo.brief.write_text(
+        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n'
+        '[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+    )
+    concept_id = "a|b|c"
+    folder = logo.concept(concept_id)
+    compiled(folder)
+    creative_intent(logo, concept_id)
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        target = Path(json.loads(path.read_text())["output_dir"])
+        image = Image.new("RGBA", (4000, 4000))
+        ImageDraw.Draw(image).ellipse((1000, 1000, 3000, 3000), fill=(36, 88, 70, 255))
+        image.save(target / "final.png")
+        (target / "final.execution.json").write_text(
+            json.dumps(
+                {
+                    "status": "verified",
+                    "policy": "metal-gpu-only",
+                    "denoiser_effective": {"device_type": "Metal"},
+                }
+            )
+        )
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    refinement.capture(logo, concept_id, "final")
+    bind_finalists(logo, concept_id)
+    prior = logo.ideation / "winner.json"
+    prior.write_text('{"winner":"approved prior"}')
+    seen = threading.Event()
+    image_read_started = threading.Event()
+    stop = threading.Event()
+    image_bytes = (folder / "final.png").read_bytes()
+    writers = []
+
+    def release_old_unbounded_image_read():
+        delayed = False
+        while not stop.is_set():
+            try:
+                descriptor = os.open(folder / "final.png", os.O_WRONLY | os.O_NONBLOCK)
+                image_read_started.set()
+            except OSError:
+                stop.wait(0.01)
+                continue
+            try:
+                if not delayed:
+                    delayed = True
+                    if stop.wait(10):
+                        return
+                os.set_blocking(descriptor, True)
+                remaining = memoryview(image_bytes)
+                with contextlib.suppress(BrokenPipeError):
+                    while remaining:
+                        remaining = remaining[os.write(descriptor, remaining) :]
+            finally:
+                os.close(descriptor)
+            stop.wait(0.01)
+
+    class Provider(BaseHTTPRequestHandler):
+        def log_message(self, format, *args):
+            pass
+
+        def do_POST(self):
+            body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            first = not seen.is_set()
+            seen.set()
+            retry = first and failure == "provider_retry"
+            if first and failure in {"qa_image_read", "image_encode"}:
+                (folder / "final.png").unlink()
+                os.mkfifo(folder / "final.png")
+                writer = threading.Thread(target=release_old_unbounded_image_read, daemon=True)
+                writer.start()
+                writers.append(writer)
+            self.send_response(429 if retry else 200)
+            if retry:
+                self.send_header("Retry-After", "10")
+            if first and failure == "asset_corrupt":
+                assets_dir = logo.qa / "jev/assets"
+                assets_dir.mkdir(parents=True, exist_ok=True)
+                for asset in body["assets"].values():
+                    digest = hashlib.sha256(base64.b64decode(asset["data_base64"])).hexdigest()
+                    os.mkfifo(assets_dir / f"{digest}.{asset['format']}")
+            response = json.dumps(
+                {
+                    "answers": {key: {"type": "noul", "noul": 0.9} for key in body["questions"]},
+                    "usage": {"input_tokens": 123, "output_tokens": 7, "cost": 0.001},
+                }
+            ).encode()
+            self.send_header("Content-Length", str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Provider)
+    worker = threading.Thread(target=server.serve_forever, daemon=True)
+    worker.start()
+    monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
+    if failure == "image_encode":
+        # Exercise the existing request-splitting path with the same QA questions.
+        monkeypatch.setattr("logo_maker.jev.client.MAX_QUESTIONS_PER_REQUEST", 1)
+    client = JevClient(logo)
+    client.url = f"http://127.0.0.1:{server.server_port}"
+    if failure == "tiny_image_read":
+
+        def preflight_after_cache_check(*args):
+            (folder / "final.png").unlink()
+            os.mkfifo(folder / "final.png")
+            writer = threading.Thread(target=release_old_unbounded_image_read, daemon=True)
+            writer.start()
+            writers.append(writer)
+            return {}
+
+        monkeypatch.setattr(render, "machine_context", preflight_after_cache_check)
+    started = time.monotonic()
+    try:
+        if failure == "asset_corrupt":
+            with pytest.raises(pipeline.AuthoringNeeded):
+                pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
+            requests = list((logo.qa / "jev/requests").glob("*.json"))
+            assert len(requests) == 1
+            request = json.loads(requests[0].read_text())
+            for asset in request["assets"].values():
+                retained = logo.qa / f"jev/assets/{asset['sha256']}.{asset['format']}"
+                assert retained.is_file(), "retained judgment image is not a regular file"
+                assert hashlib.sha256(retained.read_bytes()).hexdigest() == asset["sha256"]
+            usage = json.loads(logo.run_json.read_text())["jev"]
+            assert usage == {
+                "requests": 1,
+                "input_tokens": 123,
+                "output_tokens": 7,
+                "cost_usd": 0.001,
+            }
+            assert "synthetic-test-key" not in requests[0].read_text()
+        else:
+            with pytest.raises(SamplingLimit, match="time_limit"):
+                pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
+        if failure == "tiny_image_read":
+            assert image_read_started.is_set(), "test did not reach tiny image preparation"
+            assert not seen.is_set(), (
+                "provider started after image preparation exhausted its budget"
+            )
+        else:
+            assert seen.is_set(), "test did not reach the provider"
+            if failure not in {"provider_retry", "asset_corrupt"}:
+                assert image_read_started.is_set(), "test did not reach the blocked image read"
+        assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+        assert prior.read_text() == '{"winner":"approved prior"}'
+    finally:
+        stop.set()
+        server.shutdown()
+        server.server_close()
+        worker.join(timeout=1)
+        for writer in writers:
+            writer.join(timeout=1)
+
+
+def test_exhausted_finalize_budget_stops_before_loading_inputs(tmp_path):
+    from logo_maker import pipeline
+    from logo_maker.paths import LogoDir
+    from logo_maker.sampling import SamplingLimit
+
+    now = [0.0]
+    budget = Budget(wall_seconds=1, clock=lambda: now[0])
+    now[0] = 2
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        pipeline.finalize(LogoDir(tmp_path / "not-created"), object(), budget=budget)
+
+
 def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp_path, monkeypatch):
     import shutil
 
@@ -541,3 +755,139 @@ def test_unbounded_asset_callback_is_an_explicit_budget_conflict(tmp_path, monke
     report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
     assert report["published"] is False
     assert report["outcomes"]["time"] == "budget_conflict"
+
+
+@pytest.mark.live
+def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_path):
+    """Explicit on-machine final/export/live-provider check; no quality approval implied."""
+    import hashlib
+    import os
+    import time
+
+    from logo_maker import export, pipeline, refinement
+    from logo_maker.blender.execution import verify_denoiser_log
+    from logo_maker.jev.client import JevClient
+    from logo_maker.paths import LogoDir, concept_slug
+
+    if os.environ.get("LOGO_MAKER_LIVE_GPU_VALIDATION") != "1":
+        pytest.skip("set LOGO_MAKER_LIVE_GPU_VALIDATION=1 for the explicit M5/provider check")
+    from runpy import run_path
+
+    fixture = run_path(str(Path(__file__).resolve().parents[1] / "scripts/validate_sampling.py"))[
+        "fixture"
+    ]
+    root = Path(os.environ.get("LOGO_MAKER_LIVE_ROOT", str(tmp_path / "live-logo")))
+    if root.exists():
+        pytest.fail("live validation requires a new output folder")
+    started = time.monotonic()
+    budget = Budget(wall_seconds=1800, attempt_limit=4)
+    logo = LogoDir(root)
+    pipeline.new(logo, "OPTICS")
+    palette = {"primary": "#245846", "background": "#F4F1EA", "ink": "#131D18"}
+    logo.brief.write_text(
+        'name="OPTICS"\nsummary="A precise green directional instrument mark with metal lettering"\n'
+        'tone=["precise", "calm"]\n[palette]\nprimary="#245846"\n'
+        'background="#F4F1EA"\nink="#131D18"\n[fonts]\ndisplay="Open Sans:wght=700"\n'
+    )
+    cid = "sampling-typography|embossed_plate|polished_metal"
+    folder = logo.concepts / concept_slug(cid)
+    fixture(folder, "typography", 0, 0.01, 4096)
+    pipeline.prepare_motif(folder)
+    creative_intent(logo, cid)
+    final_record = refinement.capture(logo, cid, "final", budget=budget)
+    rendered = render.RenderResult(
+        folder / "final.png",
+        folder / "scene.blend",
+        folder / "model.glb",
+        final_record["host_total_seconds"],
+        "final",
+        Path(final_record["sampling"]["execution"]),
+        folder / ".build/final.sampling.json",
+    )
+    assert rendered.execution is not None
+    execution = json.loads(rendered.execution.read_text())
+    assert execution["status"] == "verified"
+    assert execution["resolution"] == [4000, 4000]
+    assert any(
+        "M5 Pro" in d["name"] and d["type"] == "METAL" and d["use"] for d in execution["devices"]
+    )
+    assert all(not d["use"] for d in execution["devices"] if d["type"] == "CPU")
+    native_log = rendered.execution.parent / execution["log"]
+    assert hashlib.sha256(native_log.read_bytes()).hexdigest() == execution["log_sha256"]
+    assert verify_denoiser_log(native_log.read_text())["device_type"] == "Metal"
+    assert Image.open(rendered.png).size == (2000, 2000)
+    export_started = time.monotonic()
+    paths = export.export_all(
+        folder,
+        folder / "exports",
+        name="OPTICS",
+        palette=palette,
+        motif_svg=folder / "motif.svg",
+        budget=budget,
+    )
+    export_seconds = time.monotonic() - export_started
+    manifest = json.loads((folder / "exports/manifest.json").read_text())
+    for key, entry in manifest["files"].items():
+        assert hashlib.sha256(paths[key].read_bytes()).hexdigest() == entry["sha256"]
+    assert len(paths) == 31
+    assert rendered.sampling is not None
+    sampling = json.loads(rendered.sampling.read_text())
+    assert sampling["profile"]["state"] == "profile_unqualified"
+    assert (
+        manifest["sampling"]["record_sha256"]
+        == hashlib.sha256(rendered.sampling.read_bytes()).hexdigest()
+    )
+    execution_hash = hashlib.sha256(rendered.execution.read_bytes()).hexdigest()
+    assert final_record["image_sha256"] == hashlib.sha256(rendered.png.read_bytes()).hexdigest()
+    bind_finalists(logo, cid)
+    prior = logo.ideation / "winner.json"
+    prior.write_text('{"winner":"prior test winner"}')
+    native_attempts_before_qa = budget.attempts
+    qa_started = time.monotonic()
+    with pytest.raises(pipeline.AuthoringNeeded) as stop:
+        pipeline.finalize(logo, JevClient(logo), budget=budget)
+    qa_seconds = time.monotonic() - qa_started
+    assert prior.read_text() == '{"winner":"prior test winner"}'
+    assert hashlib.sha256(rendered.execution.read_bytes()).hexdigest() == execution_hash
+    assert budget.attempts == native_attempts_before_qa, (
+        "finalize repeated an unchanged native render"
+    )
+    requests = list((logo.qa / "jev/requests").glob("*.json"))
+    assert requests, "no completed live judgments were retained"
+    recorded_usage = []
+    for path in requests:
+        request = json.loads(path.read_text())
+        recorded_usage.append(request["usage"])
+        assert request["answers"]
+        assert request["assets_status"] == "ready"
+        for asset in request["assets"].values():
+            image = logo.qa / f"jev/assets/{asset['sha256']}.{asset['format']}"
+            assert hashlib.sha256(image.read_bytes()).hexdigest() == asset["sha256"]
+    rounds = [json.loads(line) for line in (logo.qa / "rounds.jsonl").read_text().splitlines()]
+    assert rounds[-1]["result"] != "pass"
+    usage = json.loads(logo.run_json.read_text())["jev"]
+    assert usage["requests"] == len(requests)
+    assert usage["input_tokens"] == sum(row["input_tokens"] for row in recorded_usage)
+    assert usage["output_tokens"] == sum(row["output_tokens"] for row in recorded_usage)
+    assert abs(usage["cost_usd"] - sum(row["cost"] for row in recorded_usage)) <= 0.000001 * len(
+        requests
+    )
+    report = {
+        "seconds": time.monotonic() - started,
+        "render_seconds": rendered.seconds,
+        "export_seconds": export_seconds,
+        "finalize_seconds": qa_seconds,
+        "budget": budget.record(),
+        "request_count": len(requests),
+        "usage": usage,
+        "qa_result": rounds[-1]["result"],
+        "stop": str(stop.value),
+        "execution": str(rendered.execution),
+        "sampling": str(rendered.sampling),
+        "verified_exports": len(paths),
+        "qualification": "incomplete",
+        "timing_scope": "fixture and job setup, motif, native render/denoise/diagnostics, delivery, full export and actual final QA/provider work; excludes pytest/import startup and later evidence copy/review",
+        "kernel_cache_state": "unknown",
+        "owner_acceptance": "not inferred",
+    }
+    (root / "measurement.json").write_text(json.dumps(report, indent=2) + "\n")

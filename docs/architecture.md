@@ -234,7 +234,28 @@ Configuration uses the caller's deadline or the default 1800 s bootstrap ceiling
 its settings are known; the scene deadline then includes that elapsed setup time.
 `render_many` has no compilation prepass outside those concept budgets. Host-phase timings
 and the execution paths of interrupted attempts remain available in the sampling record.
-Light publication/orchestration and QA/provider work remain
+Finalize binds its Jev client to the shared budget. Image loading/encoding and provider
+transport (including retries, Retry-After sleeps and response decoding) use owned CPU
+workers. The client retains request numbering, logging ownership and aggregate usage
+in the parent process. Concurrent requests and split question sets share one deadline.
+Sent image assets are hash-verified and atomically stored in an owned worker. Budgeted
+requests record answers/usage before this IO, with `assets_status=pending` until that
+worker completes. A later timeout therefore does not erase an already received charge;
+an interrupted provider call can still have unknown completion/usage.
+The final's CPU alpha/margin/edge/color checks also run in an owned worker; a blocked
+image read raises an operational time limit and cannot replace the prior winner.
+Custom clients used for bounded finalization must explicitly support budget binding;
+unsupported clients fail with a budget conflict before making a judgment request.
+Creative refinement and preview screening bind the same client when the caller supplies a budget;
+all creative and before/after comparisons use that view. Final creative judgments and tournament
+comparisons inherit the finalization deadline. These transport bounds do not replace the frozen
+source/image/inspection checks or winner rollback, and unbudgeted clients retain their existing API.
+Budget views preserve the underlying model and endpoint identity so creative and comparison caches
+cannot reuse judgments after the selected provider or model changes.
+The shared host-operation interface is `host.run`; render keeps its existing private
+alias for stacked callers. Default finalize timing starts before input/client setup,
+and a supplied exhausted deadline is rejected before loading finalists.
+Light publication/orchestration, QA bookkeeping and provider log publication remain
 cooperative and are not yet qualified as a hard whole-job bound.
 Creative refinement's caller-side source/image hashing, construction validation and revision
 archival also remain cooperative. They can overrun the shared deadline during an operation;

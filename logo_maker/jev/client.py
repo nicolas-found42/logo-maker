@@ -20,6 +20,7 @@ import io
 import json
 import os
 import re
+import sys
 import threading
 import time
 import uuid
@@ -32,6 +33,7 @@ from PIL import Image as _PILImage
 from PIL import ImageOps as _ImageOps
 
 from logo_maker.paths import LogoDir
+from logo_maker.sampling import Budget
 
 TYPESAFE_URL = "https://api.typesafe.ai/v1/systemone"
 TYPESAFE_MODEL = "jev-1.14"
@@ -152,6 +154,47 @@ def _slug_label(label: str) -> str:
     return slug[:80]
 
 
+def _asset_metadata(assets: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        ref: {
+            "type": "image",
+            "format": asset["format"],
+            "sha256": asset["_sha256"],
+            "bytes": asset["_bytes"],
+        }
+        for ref, asset in assets.items()
+    }
+
+
+def _store_image_assets(logo: LogoDir, assets: dict[str, dict[str, Any]]) -> dict:
+    dest = logo.qa / "jev" / "assets"
+    dest.mkdir(parents=True, exist_ok=True)
+    for asset in assets.values():
+        digest = asset["_sha256"]
+        target = dest / f"{digest}.{asset['format']}"
+        if target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest() == digest:
+            continue
+        pending = dest / (".pending-" + uuid.uuid4().hex)
+        try:
+            pending.write_bytes(base64.b64decode(asset["data_base64"]))
+            pending.replace(target)
+        finally:
+            pending.unlink(missing_ok=True)
+    return _asset_metadata(assets)
+
+
+def _finish_asset_storage(logo: LogoDir, assets: dict, request_path: Path) -> None:
+    _store_image_assets(logo, assets)
+    record = json.loads(request_path.read_text())
+    record["assets_status"] = "ready"
+    pending = request_path.with_suffix(".json.pending")
+    try:
+        pending.write_text(json.dumps(record, indent=2))
+        pending.replace(request_path)
+    finally:
+        pending.unlink(missing_ok=True)
+
+
 class JevAsker(Protocol):
     """Structural jev surface: ask one job set, or many concurrently.
 
@@ -190,6 +233,24 @@ class JevClient:
         self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
         self._seq = self._first_seq()
 
+    def with_budget(self, budget: Budget) -> BudgetedJevClient:
+        """A view sharing this client's sequence/log ownership and one job deadline."""
+        return BudgetedJevClient(self, budget)
+
+    def _worker(self, payload: dict, budget: Budget) -> dict:
+        from logo_maker import owned_process
+
+        proc = owned_process.run(
+            [sys.executable, "-m", "logo_maker.jev.worker"],
+            input_text=json.dumps(payload),
+            budget=budget,
+            label="Jev " + payload["operation"],
+        )
+        if proc.returncode:
+            raise JevError((proc.stderr or proc.stdout)[-2000:].replace(self._key, "<REDACTED>"))
+        budget.check()
+        return json.loads(proc.stdout.strip().splitlines()[-1])
+
     def _first_seq(self) -> int:
         if self.logo is None:
             return 1
@@ -206,24 +267,46 @@ class JevClient:
     # -- serialization ----------------------------------------------------
 
     def _serialize(
-        self, value: Any, assets: dict[str, dict[str, Any]], pending: dict[str, tuple[Any, str]]
+        self,
+        value: Any,
+        assets: dict[str, dict[str, Any]],
+        pending: dict[str, Any],
+        *,
+        defer_images: bool = False,
     ) -> Any:
         if isinstance(value, Image):
             ref = uuid.uuid4().hex
-            pending[ref] = _load_image(value.path)
+            pending[ref] = value.path if defer_images else _load_image(value.path)
             assets[ref] = {"_path": str(value.path)}
             return ref
         if isinstance(value, Path):
             return str(value)
         if isinstance(value, dict):
-            return {k: self._serialize(v, assets, pending) for k, v in value.items()}
+            return {
+                k: self._serialize(v, assets, pending, defer_images=defer_images)
+                for k, v in value.items()
+            }
         if isinstance(value, (list, tuple)):
-            return [self._serialize(v, assets, pending) for v in value]
+            return [self._serialize(v, assets, pending, defer_images=defer_images) for v in value]
         return value
 
     # -- transport --------------------------------------------------------
 
-    def _post(self, payload: dict[str, Any], has_images: bool) -> dict[str, Any]:
+    def _post(
+        self, payload: dict[str, Any], has_images: bool, budget: Budget | None = None
+    ) -> dict[str, Any]:
+        if budget is not None:
+            return self._worker(
+                {
+                    "operation": "post",
+                    "url": self.url,
+                    "key": self._key,
+                    "direct": self._direct,
+                    "body": payload,
+                    "has_images": has_images,
+                },
+                budget,
+            )
         headers = {"Authorization": f"Bearer {self._key}"}
         if has_images:
             headers["TypeSafe-Danger-Zone-Images"] = "true"
@@ -272,24 +355,10 @@ class JevClient:
     # -- logging ----------------------------------------------------------
 
     def _store_assets(self, assets: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
-        """Write each image once under qa/jev/assets/; return stripped asset metadata."""
+        """Persist content-addressed images and return their logged metadata."""
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
-        dest = self.logo.qa / "jev" / "assets"
-        dest.mkdir(parents=True, exist_ok=True)
-        stripped = {}
-        for ref, asset in assets.items():
-            digest = asset["_sha256"]
-            target = dest / f"{digest}.{asset['format']}"
-            if not target.exists():
-                target.write_bytes(base64.b64decode(asset["data_base64"]))
-            stripped[ref] = {
-                "type": "image",
-                "format": asset["format"],
-                "sha256": digest,
-                "bytes": asset["_bytes"],
-            }
-        return stripped
+        return _store_image_assets(self.logo, assets)
 
     def _log(
         self,
@@ -298,7 +367,9 @@ class JevClient:
         questions: dict[str, Any],
         stripped_assets: dict[str, Any],
         response: dict[str, Any],
-    ) -> None:
+        *,
+        assets_status: str = "ready",
+    ) -> Path:
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
         from logo_maker.runlog import runlog
@@ -313,12 +384,14 @@ class JevClient:
             "state": state,
             "questions": questions,
             "assets": stripped_assets,
+            "assets_status": assets_status,
             "answers": response.get("answers", {}),
             "usage": response.get("_usage", {}),
         }
         req_dir = self.logo.qa / "jev" / "requests"
         req_dir.mkdir(parents=True, exist_ok=True)
-        (req_dir / f"{seq:04d}-{_slug_label(label)}.json").write_text(json.dumps(record, indent=2))
+        request_path = req_dir / f"{seq:04d}-{_slug_label(label)}.json"
+        request_path.write_text(json.dumps(record, indent=2))
         line = {
             "seq": seq,
             "label": label,
@@ -330,15 +403,28 @@ class JevClient:
         with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
             fh.write(json.dumps(line, sort_keys=True) + "\n")
         runlog(self.logo.run_json).jev_usage(response.get("_usage", {}))
+        return request_path
 
     # -- public API -------------------------------------------------------
 
-    def _send_one(self, state: Any, questions: dict[str, Any], label: str) -> dict[str, dict]:
+    def _send_one(
+        self, state: Any, questions: dict[str, Any], label: str, budget: Budget | None = None
+    ) -> dict[str, dict]:
         assets: dict[str, dict[str, Any]] = {}
-        pending: dict[str, tuple[Any, str]] = {}
-        ser_state = self._serialize(state, assets, pending)
-        ser_questions = self._serialize(questions, assets, pending)
-        for ref, entry in _encode_images(pending).items():
+        pending: dict[str, Any] = {}
+        if budget is not None:
+            budget.check()
+        ser_state = self._serialize(state, assets, pending, defer_images=budget is not None)
+        ser_questions = self._serialize(questions, assets, pending, defer_images=budget is not None)
+        encoded = (
+            self._worker(
+                {"operation": "encode_images", "paths": {k: str(v) for k, v in pending.items()}},
+                budget,
+            )
+            if budget is not None and pending
+            else _encode_images(pending)
+        )
+        for ref, entry in encoded.items():
             assets[ref].update(entry)
         body: dict[str, Any] = {"model": self.model, "state": ser_state, "questions": ser_questions}
         if assets:
@@ -346,22 +432,57 @@ class JevClient:
                 ref: {"type": "image", "format": a["format"], "data_base64": a["data_base64"]}
                 for ref, a in assets.items()
             }
-        raw = self._post(body, has_images=bool(assets))
+        raw = (
+            self._post(body, has_images=bool(assets))
+            if budget is None
+            else self._post(body, has_images=bool(assets), budget=budget)
+        )
         if "answers" not in raw:
             raise JevError(f"jev response has no answers: {json.dumps(raw)[:500]}")
         usage = self._usage(raw, self._direct)
         raw["_usage"] = usage
         if self.logo is not None:
-            stripped = self._store_assets(assets)
-            self._log(label, ser_state, ser_questions, stripped, raw)
+            if budget is None:
+                stripped = self._store_assets(assets)
+                self._log(label, ser_state, ser_questions, stripped, raw)
+            else:
+                # Keep paid response/usage even if later asset IO exhausts the budget.
+                request_path = self._log(
+                    label,
+                    ser_state,
+                    ser_questions,
+                    _asset_metadata(assets),
+                    raw,
+                    assets_status="pending",
+                )
+                self._worker(
+                    {
+                        "operation": "store_assets",
+                        "logo": str(self.logo.root),
+                        "assets": assets,
+                        "request_path": str(request_path),
+                    },
+                    budget,
+                )
         return raw["answers"]  # type: ignore[no-any-return]
 
-    def ask(self, state: Any, questions: dict[str, Any], *, label: str) -> dict[str, dict]:
+    def ask(
+        self,
+        state: Any,
+        questions: dict[str, Any],
+        *,
+        label: str,
+        budget: Budget | None = None,
+    ) -> dict[str, dict]:
         """Ask one question set; splits above `MAX_QUESTIONS_PER_REQUEST` and merges."""
         if not questions:
             raise JevError(f"jev ask {label!r}: no questions")
         if len(questions) <= MAX_QUESTIONS_PER_REQUEST:
-            return self._send_one(state, questions, label)
+            return (
+                self._send_one(state, questions, label)
+                if budget is None
+                else self._send_one(state, questions, label, budget)
+            )
         merged: dict[str, dict] = {}
         items = list(questions.items())
         chunks = [
@@ -369,7 +490,12 @@ class JevClient:
             for i in range(0, len(items), MAX_QUESTIONS_PER_REQUEST)
         ]
         for i, chunk in enumerate(chunks, 1):
-            part = self._send_one(state, chunk, f"{label}-p{i}of{len(chunks)}")
+            part_label = f"{label}-p{i}of{len(chunks)}"
+            part = (
+                self._send_one(state, chunk, part_label)
+                if budget is None
+                else self._send_one(state, chunk, part_label, budget)
+            )
             merged.update(part)
         return merged
 
@@ -396,3 +522,37 @@ class JevClient:
                 f"{len(failures)}/{len(jobs)} jev requests failed: " + "; ".join(failures)
             )
         return [r for r in results if r is not None]
+
+
+class BudgetedJevClient:
+    """The same request interface, with all requests charged to one shared deadline."""
+
+    def __init__(self, client: JevClient, budget: Budget):
+        self.client = client
+        self.budget = budget
+
+    @property
+    def model(self) -> str:
+        return self.client.model
+
+    @property
+    def url(self) -> str:
+        return self.client.url
+
+    def with_budget(self, budget: Budget) -> BudgetedJevClient:
+        self.budget.check()
+        budget.check()
+        return BudgetedJevClient(
+            self.client,
+            Budget(min(self.budget.remaining, budget.remaining), parent=budget, clock=budget.clock),
+        )
+
+    def ask(self, state: Any, questions: dict[str, Any], *, label: str) -> dict[str, dict]:
+        self.budget.check()
+        return self.client.ask(state, questions, label=label, budget=self.budget)
+
+    def ask_many(self, jobs: list[tuple[Any, dict[str, Any], str]]) -> list[dict[str, dict]]:
+        self.budget.check()
+        with ThreadPoolExecutor(max_workers=max(1, self.client.concurrency)) as pool:
+            futures = [pool.submit(self.ask, s, q, label=label) for s, q, label in jobs]
+            return [future.result() for future in futures]

@@ -4,7 +4,41 @@ from __future__ import annotations
 
 import json
 import sys
+import time
 from pathlib import Path
+
+from logo_maker import owned_process
+from logo_maker.proc import ToolError
+from logo_maker.sampling import Budget
+
+
+def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
+    started = time.monotonic()
+    status = "failed"
+    try:
+        proc = owned_process.run(
+            [sys.executable, "-m", "logo_maker.host"],
+            input_text=json.dumps(payload),
+            budget=budget,
+            label=payload["operation"],
+        )
+        if proc.returncode:
+            raise ToolError(
+                f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
+            )
+        result = json.loads(proc.stdout.strip().splitlines()[-1])
+        status = "completed"
+        return result
+    finally:
+        stages.append(
+            {
+                "operation": payload["operation"],
+                "status": status,
+                "seconds": time.monotonic() - started,
+                "execution": "owned_cpu_worker",
+                "timing_scope": "startup, CPU host work, output transfer and cleanup",
+            }
+        )
 
 
 def main(payload: dict) -> dict:
@@ -121,6 +155,21 @@ def main(payload: dict) -> dict:
             else {}
         )
         return {"current": current, "context": record.get("context", {})}
+    if operation == "qa_checks":
+        from logo_maker import checks
+
+        png = Path(payload["png"])
+        return {
+            "alpha": checks.alpha_report(png),
+            "margin": checks.margin_report(png),
+            "edges": checks.edge_report(png),
+            "colors": checks.color_report(png, payload["palette"]),
+        }
+    if operation == "tiny_image":
+        from logo_maker.judging import tiny_version
+
+        tiny_version(Path(payload["png"]), Path(payload["dest"]))
+        return {"prepared": True}
     raise ValueError(f"unknown host operation {operation!r}")
 
 

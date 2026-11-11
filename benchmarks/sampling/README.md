@@ -310,3 +310,71 @@ are resolved by direct evidence; the broad escalation remains unresolved, withou
 automatic merge approval. See
 [the raw gate](validation/jev-gate-controls-provenance.json) and
 [review record](validation/code-review.md).
+
+## Bounded final QA and provider operations
+
+Finalization now binds a view of the original Jev client to the shared budget.
+The parent retains request numbering and aggregate usage. HTTP retries/backoff,
+response decoding, sent-image loading/encoding, tiny-image preparation, verified
+asset persistence and CPU QA image checks use owned workers. Split/concurrent calls
+share the deadline. Unsupported custom clients fail explicitly; other unbudgeted
+judging interfaces keep their client contract. Default finalize timing begins
+before setup, and an exhausted caller is rejected before reading finalists.
+
+Public finalize regressions reproduced six-second budgets overrunning on provider
+Retry-After (10.987 s call), CPU QA image reading (12.099 s), split-request image
+encoding (10.247 s), and tiny-image preparation (10.098 s). The individual green
+suites finished in 6.32 / 6.43 / 6.36 / 6.61 s, including fixture rendering/setup;
+these are suite durations, not precise operation timings. Each retains the prior
+winner. A separate regression caught a FIFO accepted as an existing judgment asset;
+hash verification and atomic replacement repair it. Received answers/usage are
+recorded before budgeted asset IO, whose request status remains pending if interrupted.
+
+Local checks passed **241 offline / 3 render / 48 doctor**, lint/types. The explicit
+`-m live` M5 final/export/finalize test passed: **one native attempt**, actual Metal
+tracing and executed Metal OIDN, **4000→2000** output and **31 verified exports**.
+The same budget covered all phases. Live judgments and CPU checks completed, while
+finalize returned **sampling_review_needed**, retained the prior test winner and
+left the profile unqualified. Five legacy QA pass verdicts do not establish owner
+sampling/detail, craft or held-out acceptance.
+
+Its measured body cost was **52.03 s**: render **45.92**, export **3.73**, final QA
+**2.36**; the remainder is fixture/job/motif setup. This includes actual provider and
+retained-image IO, but excludes pytest/import startup and later evidence-copy/review.
+One request used 6275 input / 103 output tokens, client-recorded cost **$0.000264**
+(potentially estimated), reconciled
+against request records. One observation, unknown other workload/cache and missing
+owner qualification prevent a performance or quality conclusion. The first live
+invocation failed before GPU/API work because the test could not import its fixture
+script; loading that local script explicitly fixed the test setup.
+
+Whole-job hard bounds remain **partial**: parent input/QA bookkeeping, provider-log
+publication, render/export staging/publication and refinement caller archival still
+need hard deadline qualification. Interrupted provider completion/usage may be unknown.
+No sampling control, GPU enforcement, owner label or numeric quality tolerance changed.
+
+A separate same-setting render/export pair after the QA worker changes recorded
+**47.19 s baseline / 49.38 s current** complete invocation; body times **46.96 / 49.15 s**.
+Both ran sequentially after the checks, with explicit cap4096 / threshold0.01 / seed0.
+Each has verified Metal tracing/OIDN, 4000→2000 delivery and 31 export hashes.
+[Pair provenance](validation/qa-workers-production.json) and
+[live shared-budget evidence](validation/qa-workers-live.json) keep their scopes distinct:
+the pair excludes live QA; the live job includes it. One observation per arm,
+unknown other workload/cache and no qualified replacement prevent a speedup or
+amortized profile claim. Complete original calibration/confirmation costs remain
+reported above; no extra search is required for normal concepts.
+
+The preceding core `e8834a6` CI first failed the existing PWA export helper at300s;
+an unchanged failed-job rerun passed (233passed/2skipped/3deselected). The exact
+export test passed five focused local invocations. The intermittent root cause
+remains unknown; a passing rerun is not a fix. This history stays separate from
+new-source CI and from the budget regression fixes.
+
+The QA worker auxiliary gate escalated (composite0.71975, safe-to-apply0.46,
+test-gap confidence0.16). Its live GPU/export claim was unsupported at confidence0.20
+with measurement-only evidence. An independent reviewer then audited the raw native
+logs, original images, 64 current dependencies, 31 export hashes, both sent assets,
+provider/usage/QA/prior-winner records, both comparison jobs and all check logs.
+That audit supports the limited operational claim. Broad escalation remains open;
+no automated merge or owner-quality approval is claimed. See
+[raw gate](validation/jev-gate-qa-workers.json) and [review](validation/code-review.md).

@@ -160,3 +160,30 @@ It confirmed synthetic max_samples=1 survives a reviewed-profile cap4096 request
 with override_conflict/review_needed and stale-review invalidation assertions.
 The factual contradictions are inconsistent with direct records. Precise render-time
 claims were corrected to test-suite durations. Broad review escalation remains open.
+
+## Final QA/provider worker increment
+
+Fresh parallel Standards and Spec reviews used the owner-approved fixed point
+`38ba86b9ccff305cb453c46920824509ae989f76`, including the working worker module.
+Standards found no blocking documented breach. Its two ownership smells were
+repaired: general orchestration is now host.run, with render's legacy private
+alias retained, and client-owned helpers update asset-log schema/status.
+Spec found no new confirmed defect. Default finalize setup is now charged from
+entry; an exhausted caller fails before finalist loading. Input/log/publication
+work remains cooperative and whole-job hard qualification remains incomplete.
+Both reviewed the opt-in live test and its limits. Actual source-frozen execution
+then passed: native Metal/OIDN/full exports plus live provider QA, returning
+sampling_review_needed with an unqualified profile. Owner approval is not inferred.
+The measured request usage reconciles against parent records, and only one native
+attempt occurred. New code does not claim qualified profiles or held-out acceptance.
+
+The QA worker Jev gate escalated: composite 0.71975, safe-to-apply 0.46,
+test-gap confidence 0.16. Counts were verified at 0.79; timing at 0.91.
+The live GPU/export claim was labeled unsupported at confidence 0.20 because
+its supplied evidence only contained the measurement and paths, not raw native
+records. An independent reviewer then audited the originals: Metal OIDN RT filters
+at 4000 square, 2000 delivery, log/execution hashes, all 64 current dependencies,
+31 export hashes, exact embedded sampling record, one request/two retained assets,
+usage, sampling_review_needed and prior winner retention. It also checked both
+pair originals and the 241/3/1/48 logs. These support the limited factual claim;
+the broad escalation remains unresolved and is not automatic merge approval.
