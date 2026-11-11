@@ -149,3 +149,37 @@ attempt_limit = 1
         "seed": 99,
     }
     assert scene["sampling"]["attempt_limit"] == 1
+
+
+def test_authored_mesh_shading_preserves_explicit_flat_faces(tmp_path):
+    path = tmp_path / "scene.toml"
+    path.write_text(
+        MINIMAL.replace('kind = "plate"', 'kind = "mesh"\npath = "fold.ply"\nsmooth=false')
+    )
+    assert load_scene(path)["components"][0]["smooth"] is False
+    path.write_text(path.read_text().replace("smooth=false", 'smooth="false"'))
+    with pytest.raises(SceneError, match="smooth must be a boolean"):
+        load_scene(path)
+
+
+@pytest.mark.parametrize("vector", ["[0,0,0]", "[1,0]", '[1,"x",0]', "[nan,0,0]"])
+def test_material_tangent_requires_finite_nonzero_direction(tmp_path, vector):
+    path = tmp_path / "scene.toml"
+    text = MINIMAL.replace('preset = "wax"', 'preset = "brushed_metal"\ntangent = [1,0,0]')
+    path.write_text(text)
+    assert load_scene(path)["materials"]["surface"]["tangent"] == [1, 0, 0]
+    path.write_text(text.replace("[1,0,0]", vector))
+    with pytest.raises(SceneError, match="tangent must be"):
+        load_scene(path)
+
+
+def test_compilation_forwards_authored_brushing_direction(tmp_path):
+    import json
+
+    from logo_maker.scene import compile
+
+    text = MINIMAL.replace('preset = "wax"', 'preset = "brushed_metal"\ntangent = [1,0,0]')
+    (tmp_path / "scene.toml").write_text(text + '\n[lighting]\nhdri="none"\n')
+    (tmp_path / "motif.json").write_text('{"viewbox":1000,"layers":[]}')
+    compiled = json.loads(compile(tmp_path, "preview").read_text())
+    assert compiled["materials"]["surface"]["tangent"] == [1, 0, 0]

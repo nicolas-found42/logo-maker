@@ -1,0 +1,112 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches[model] _
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-381/test_budget_view_preserves_jud0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bfede00>
+identity = 'model'
+
+    @pytest.mark.parametrize("identity", ["model", "url"])
+    def test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches(
+        tmp_path, monkeypatch, identity
+    ):
+        from logo_maker.jev.client import JevClient
+        from logo_maker.sampling import Budget
+    
+        logo, cid, folder = job(tmp_path)
+        construction(folder)
+        fake_gpu(monkeypatch)
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+        with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+            pipeline.refine(logo, Judge())
+        with (folder / "scene.toml").open("a") as stream:
+            stream.write("\n# fold: structurally distinct second fixture")
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
+        client = JevClient(logo)
+        labels = []
+    
+        def immediate_provider(state, questions, *, label, budget=None):
+            assert budget is not None, "creative/comparison request lost its explicit deadline"
+            budget.check()
+            labels.append(label)
+            return Judge().ask(state, questions, label=label)
+    
+        monkeypatch.setattr(client, "ask", immediate_provider)
+        budget = Budget()
+        try:
+            assert pipeline.refine(logo, client, budget=budget)["rendered_variants"] == 2
+            assert any(label.startswith("creative-") for label in labels)
+            assert any(label.startswith("compare-") for label in labels)
+            labels.clear()
+            pipeline.refine(logo, client, budget=budget)
+            assert not labels, "unchanged bounded judge should reuse its current judgments"
+            setattr(client, identity, getattr(client, identity) + "-other-judge")
+            pipeline.refine(logo, client, budget=budget)
+>           assert any(label.startswith("creative-") for label in labels)
+E           assert False
+E            +  where False = any(<generator object test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches.<locals>.<genexpr> at 0x110bb35e0>)
+
+tests/test_refinement.py:648: AssertionError
+_ test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches[url] _
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-381/test_budget_view_preserves_jud1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b7ee780>
+identity = 'url'
+
+    @pytest.mark.parametrize("identity", ["model", "url"])
+    def test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches(
+        tmp_path, monkeypatch, identity
+    ):
+        from logo_maker.jev.client import JevClient
+        from logo_maker.sampling import Budget
+    
+        logo, cid, folder = job(tmp_path)
+        construction(folder)
+        fake_gpu(monkeypatch)
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+        with pytest.raises(pipeline.AuthoringNeeded, match="alternatives"):
+            pipeline.refine(logo, Judge())
+        with (folder / "scene.toml").open("a") as stream:
+            stream.write("\n# fold: structurally distinct second fixture")
+        with pytest.raises(pipeline.AuthoringNeeded, match="inspect"):
+            pipeline.refine(logo)
+        inspect_current(logo, cid, folder)
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
+        client = JevClient(logo)
+        labels = []
+    
+        def immediate_provider(state, questions, *, label, budget=None):
+            assert budget is not None, "creative/comparison request lost its explicit deadline"
+            budget.check()
+            labels.append(label)
+            return Judge().ask(state, questions, label=label)
+    
+        monkeypatch.setattr(client, "ask", immediate_provider)
+        budget = Budget()
+        try:
+            assert pipeline.refine(logo, client, budget=budget)["rendered_variants"] == 2
+            assert any(label.startswith("creative-") for label in labels)
+            assert any(label.startswith("compare-") for label in labels)
+            labels.clear()
+            pipeline.refine(logo, client, budget=budget)
+            assert not labels, "unchanged bounded judge should reuse its current judgments"
+            setattr(client, identity, getattr(client, identity) + "-other-judge")
+            pipeline.refine(logo, client, budget=budget)
+>           assert any(label.startswith("creative-") for label in labels)
+E           assert False
+E            +  where False = any(<generator object test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches.<locals>.<genexpr> at 0x1110160c0>)
+
+tests/test_refinement.py:648: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_refinement.py::test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches[model]
+FAILED tests/test_refinement.py::test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches[url]
+2 failed in 1.75s

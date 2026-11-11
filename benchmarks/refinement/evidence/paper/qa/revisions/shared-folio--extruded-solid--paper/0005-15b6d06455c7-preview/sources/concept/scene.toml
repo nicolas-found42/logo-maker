@@ -1,0 +1,40 @@
+[meta]
+concept = "shared-folio|extruded_solid|paper"
+treatment = "extruded_solid"
+seed = 1820117
+
+[camera]
+tilt_deg = 25.0
+lens_mm = 100.0
+framing = 0.82
+
+[mark]
+scale = 1.0
+
+[lighting]
+rig = "studio_soft"
+hdri = "none"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+
+[materials.surface]
+preset = "paper"
+color = "#F8F7F2"
+
+[materials.primary]
+preset = "paper"
+color = "#285640"
+
+[materials.secondary]
+preset = "paper"
+color = "#DCE7D6"
+
+[[components]]
+kind = "bpy"
+module = "scene"
+function = "build"

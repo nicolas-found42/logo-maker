@@ -1,0 +1,13 @@
+{
+  "symbol": "An open shared team library formed by independently contributed parts",
+  "brand_geometry": "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.",
+  "material_construction": "Each upright is a single watertight folded-card solid: a broad plane and an inward-return plane meet continuously along one shared fold edge. A third thick terracotta card solid lies below. The three objects are deliberately separated by visible gaps; they do not claim to support or fasten one another. Facet normals preserve actual planar folds.",
+  "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.",
+  "dependencies": [
+    "west-folded-card.ply",
+    "east-folded-card.ply",
+    "shared-shelf.ply"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "status": "authoring_needed",
+  "message": "creative readiness failed or remains uncertain; inspect the named dimensions before choosing a revision\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/concept.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/construction.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/inspection.json\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.py\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/motif.svg\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.py\n  - /tmp/logo-issue3-validation/metal/concepts/keystone--extruded-solid--brushed-metal/scene.toml",
+  "details": {
+    "dimension": "creative_readiness",
+    "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
+    "revision": "0010-127a6928ec24-preview",
+    "verdicts": {
+      "craftsmanship": {
+        "type": "noul",
+        "noul": 0.4
+      },
+      "brief_fit": {
+        "type": "noul",
+        "noul": 0.81
+      },
+      "material_intent": {
+        "type": "noul",
+        "noul": 0.36
+      },
+      "description_match": {
+        "type": "noul",
+        "noul": 0.41
+      }
+    },
+    "required_dimensions": {
+      "craftsmanship": {
+        "p": 0.4,
+        "status": "unsettled"
+      },
+      "material_intent": {
+        "p": 0.36,
+        "status": "unsettled"
+      },
+      "description_match": {
+        "p": 0.41,
+        "status": "unsettled"
+      }
+    },
+    "comparison": {
+      "binding": "992edb5fd47eca3927bbd645486666eeb85e805a5ad258bff758fd8e6e81c818",
+      "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0009-bee7bbaadf5f-preview/render.png",
+      "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
+      "answers": {
+        "visually_distinct": {
+          "type": "noul",
+          "noul": 0.01
+        },
+        "critique_resolved": {
+          "type": "noul",
+          "noul": 0.67
+        }
+      }
+    },
+    "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  },
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 0,
+    "elapsed_seconds": 2.391654708000715,
+    "remaining_seconds": 1797.6083450419974,
+    "scope": "whole host job including setup, probes, denoise and output"
+  }
+}

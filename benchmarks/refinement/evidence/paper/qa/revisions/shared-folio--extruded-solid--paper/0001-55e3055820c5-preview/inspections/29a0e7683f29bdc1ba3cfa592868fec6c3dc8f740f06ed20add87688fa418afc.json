@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Reauthor as facing paper leaves with an open spine and turned corner.",
+      "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0001-55e3055820c5-preview/render.png",
+      "comparison": "Compare S ribbon versus open folio, retaining flat/hero recognizability and distinct paper planes.",
+      "dimension": "shared library symbol",
+      "evidence": "The generic S ribbon does not show a shared open library.",
+      "kind": "brief_fit",
+      "resolved": false
+    }
+  ],
+  "observations": "An angular green and sage S ribbon; repeated sheet edges and a shallow slab-like middle panel. No facing leaves or open library spine are visible.",
+  "revision": "0001-55e3055820c5-preview",
+  "user_feedback": "Owner rejected historical paper slab studies. Preserve the matte paper brief."
+}

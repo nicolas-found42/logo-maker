@@ -1,13 +1,16 @@
 ---
 name: logo-maker
-description: Logos and brand marks. Use when making, redesigning, or improving a logo, app icon, favicon set, or social avatar for any project, business, product, or profile, from an idea, a reference image, a repository, or a brainstorm.
+description: Logos and brand marks. Use when making, redesigning, or improving a logo, app icon,
+favicon set, or social avatar for any project, business, product, or profile, from an idea, a
+reference image, a repository, or a brainstorm.
 ---
 
 # logo-maker
 
 `logo-maker` turns a brief into a rendered 3D logo and a full export set. You supply the thinking
 that needs a designer's eye: the brief, the metaphors, and each concept's motif and scene. The tool
-builds and judges everything else with Jev and real renderers. Every image comes from geometry, fonts,
+builds and judges everything else with Jev and real renderers. Every image comes from geometry,
+fonts,
 materials, and light.
 
 Derive every design choice from the brief: the brand's own name, purpose, audience, and tone. Each
@@ -21,7 +24,8 @@ repository, then `uv run python scripts/install.py --agent <host>`.
 
 ## 2. Write the brief
 
-Create the folder: `logo-maker new <slug> --name "<Brand Name>"` (`--out DIR` puts it elsewhere). Fill
+Create the folder: `logo-maker new <slug> --name "<Brand Name>"` (`--out DIR` puts it elsewhere).
+Fill
 `brief.toml` and `brief-evidence.toml` from available project/owner evidence. Keep business facts,
 owner mandates, assumptions and design proposals separate. The business summary describes the
 service; a proposed symbol's rationale belongs in its concept plan.
@@ -40,7 +44,8 @@ evidence; optional design choices may remain explicit latitude. An owner stateme
 intent and does not independently prove audience behavior.
 
 Leave `[palette]` and `[fonts]` out unless the user or brand already has them. Run
-`logo-maker brief <slug>`; this step is done when it freezes `ideation/requirements.json` with a pass.
+`logo-maker brief <slug>`; this step is done when it freezes `ideation/requirements.json` with a
+pass.
 Changed facts or mandates require `brief --revision-reason "..."`; retain the prior revision and
 rework affected concepts. Then run intake for palette/font work.
 
@@ -62,7 +67,8 @@ drops palettes that fail WCAG AA (the rejects are recorded under `dropped_wcag` 
 ## 3. Write the metaphors
 
 Fill `ideation/metaphors.toml` with 20 `[[metaphor]]` entries: what the mark could show and why that
-fits the brief. Spread them across kinds: literal objects from the brand's world, actions it enables,
+fits the brief. Spread them across kinds: literal objects from the brand's world, actions it
+enables,
 abstract forms of its tone, letterforms from its name or initials, and double meanings that join two
 of these. Done when 20 distinct ideas are written and no two depict the same thing.
 
@@ -70,7 +76,8 @@ of these. Done when 20 distinct ideas are written and no two depict the same thi
 
 `logo-maker run <slug>`. It runs intake, builds up to 1000 concepts (metaphor x 3D treatment x
 material), judges them in three rounds, and keeps a shortlist of 8. It then stops with `AUTHORING
-NEEDED` and lists one `concepts/<concept>/motif.py` per shortlisted concept. Those files do not exist
+NEEDED` and lists one `concepts/<concept>/motif.py` per shortlisted concept. Those files do not
+exist
 yet — the listed paths are what you create in step 5.
 
 ## 5. Author each concept
@@ -84,59 +91,82 @@ descriptions), then:
    A detail may serve proportion or material credibility without encoding another metaphor.
 2. **Motif.** Write `motif.py` with the motif API
    ([references/motif-api.md](references/motif-api.md)). Build a clear primary silhouette with
-   deliberate proportions and junctions; let negative space carry a second meaning where the metaphor
+   deliberate proportions and junctions; use two or three bold core shapes without limiting
+secondary hero craft; let negative space carry a second meaning where the metaphor
    allows; use one to three palette roles, one role per part that should read as its own color or
    material. Shape it for the treatment: solids and extrusions want chunky shapes, plates want the
    mark well inside the rim. Read "How a treatment consumes the motif" in
    [references/scene-grammar.md](references/scene-grammar.md) so you know what the treatment builds
    from your shapes (for example, `tube_lines` traces filled shapes into tubes).
 3. **Check.** `logo-maker motifs <slug>` builds every motif and writes `motif-sizes.png` beside it.
-   Look at each sheet: done when the mark reads at 16 px and 32 px and matches its metaphor. On first
+   Look at each sheet: done when the mark reads at 16 px and 32 px and matches its metaphor. On
+first
    success it also writes each concept's starting `scene.toml` from the treatment and stops once for
    scene tuning.
 4. **Scene.** Tune each `scene.toml` with the scene grammar
    ([references/scene-grammar.md](references/scene-grammar.md)): each palette role has its own
    `[materials.<role>]` table and component, so set heights, edges, material presets, colors, camera
-   tilt, and light per concept. Size the mark with `[mark] scale` so it clears every rim, recess wall,
+   tilt, and light per concept. Size the mark with `[mark] scale` so it clears every rim, recess
+wall,
    and ring of text. Per-kind component fields and defaults:
    `logo_maker/catalog/components.md`; material presets and their parameters:
    `logo_maker/catalog/materials.toml`; tuning ranges (tilt, framing, tube radius): the grammar's
    "Tuning ranges" section. Write `scene.py` only when the components cannot express the concept.
+5. **Construction intent.** Write `construction.json` for each concept using the contract in
+   [references/refinement.md](references/refinement.md). Name its meaning, brand-specific geometry,
+   material construction, intended appearance and visual disproof. Keep `concept.json.description`
+   equal to the current description. Declare external dependencies read by bespoke code.
 
 Inspect the flat studies together before expanding finishes. Identify the distinct visual argument
 each tests; material variants do not demonstrate conceptual breadth. Read the image in its required
 name/application context before its rationale. For the selected construction, test the highest-risk
 visible relationship with a bounded controlled probe before polishing everything.
 
-Done when `logo-maker motifs <slug>` exits 0, scenes use catalog materials/lighting or the documented
+Done when `logo-maker motifs <slug>` exits 0, scenes use catalog materials/lighting or the
+documented
 custom-scene fallback, and `logo-maker plan <slug>` passes. The plan pass records intent; actual
 preview/final pixels still need independent craft, fit and technical acceptance.
 
-## 6. Run to the end
+## 6. Inspect, critique, revise and compare
 
-Before final rendering, follow [profile activation](../../docs/automatic-sampling.md#profile-activation)
+Run `logo-maker refine <slug>`. It retains GPU previews and returns an inspection stop. Open every
+listed image and prior revision, then write the current `inspection.json` per
+[references/refinement.md](references/refinement.md). Classify critique as craftsmanship, brief fit,
+aesthetic preference or technical diagnosis. Record user feedback and the intended comparison.
+Before final rendering, follow [profile
+activation](../../docs/automatic-sampling.md#profile-activation)
 and set the matching reviewed profile in each concept's `[sampling]` configuration.
 An unavailable or stale match keeps the comparator and an explicit review stop.
 
-`logo-maker run <slug>` again. It renders GPU previews, keeps 3 finalists judged on the images,
-renders finals at 4000 px, and runs up to five QA rounds per finalist (readable, nothing cut off,
-clean edges, no veil or box, recognizable at 32 px), fixing scenes after a clear fail (Jev P < 0.3
-on a check, or a code-detected veil or cut-off). An edge failure returns scoped diagnosis work.
-A head-to-head picks an eligible winner and
-the export set lands in `exports/`.
+Rerun refinement. Jev independently judges dimensions; code returns failing or uncertain dimensions,
+probabilities and artifacts as scoped authoring work. You perform structural revisions in
+motif/scene
+sources and update descriptions. For paper, inspect changes of plane, fold/edge behavior, layering
+and
+the brand idea. Repeated sheets or a valid starter scene need deliberate visual justification.
 
-When finalize stops with `AUTHORING NEEDED`, read `qa/rounds.jsonl` and the concept’s
-`.build/final.sampling.json`. `sampling_review_needed` means the machine profile, diagnostics or
-comparison still needs qualification; `refinement_needed` names the artifact and dimension to
-repair. For sampling/profile/budget work, read [the sampling policy](../../docs/automatic-sampling.md)
-before editing controls. Retain user overrides and compare independent-seed noisy/denoised detail
-before changing one sampling control. Route geometry, typography, filtering, resolution, denoiser
-detail loss and alpha defects to scoped refinement. Report device, cap, noise and budget outcomes
-separately from craftsmanship, brief fit and preference.
+Compare retained before/after renders to resolve critique. Explore genuinely distinct symbol or
+construction alternatives; text/material combinations do not establish visual exploration. There is
+no ritual number of edits. Both muted and reflective finishes can succeed when intended; record a
+preference between successful finishes as direction rather than a defect. Preserve ADR-0001's shared
+motif so the flat mark and hero remain recognizable as the same symbol.
 
-In `qa/rounds.jsonl`, a `needs_simpler_motif` result
-means the mark lost its shape at 32 px. Simplify that motif (fewer, larger shapes; thicker strokes)
-and run again.
+Once refinement passes, `logo-maker run <slug>` selects finalists and renders 4000→2000 px finals.
+Inspect `inspection-final.json` when requested; final creative readiness is checked independently.
+Technical failures return a diagnosis stop rather than guessing repairs. Generic
+jaggies/halos/smears
+do not prove sampling noise. Use #5's bounded diagnostic policy for stochastic noise or cap
+limitation;
+keep scene/material intent fixed during sampling comparisons. Persistent geometry, typography,
+material, filtering/resolution, alpha or denoiser-detail problems need their own revision/probe.
+Preserve explicit render overrides; no blind 8192/threshold-halving repair is performed.
+
+All new refinement renders require Cycles Metal-only tracing and runtime-verified GPU OIDN. Device
+failure is operational work, separate from creative critique. CPU scene construction,
+synchronization,
+submission, analysis and file I/O are permitted. Reuse retained evidence only while content hashes
+remain current. `logo-maker status <slug>` reports text combinations, motifs, renders and completed
+comparisons separately. Finalize/export reject stale eligibility even when run.json says done.
 
 ## 7. Report
 
@@ -180,5 +210,15 @@ repeated sample increases. #5 owns qualified diagnosis-driven sampling profiles.
 ## MCP
 
 `logo-maker mcp` serves each stage as a tool (`logo_new`, `logo_intake`, `logo_ideate`,
-`logo_motifs`, `logo_preview`, `logo_finalize`, `logo_export`, `logo_run`, `logo_improve`,
+`logo_motifs`, `logo_refine`, `logo_status`, `logo_preview`, `logo_finalize`, `logo_export`,
+`logo_run`, `logo_improve`,
 `logo_doctor`). A tool that needs files from you returns `authoring_needed` with the exact paths.
+
+## Sampling qualification
+
+Read [the sampling policy](../../docs/automatic-sampling.md) when diagnosing noise or a sampling
+profile/budget stop. The shared bounded renderer owns settings, diagnostics and comparison attempts.
+Creative intent and inspection do not qualify its machine profile. A final/export needs both current
+creative eligibility and sampling qualification. Preserve all explicit overrides and reported
+unknown,
+device, cap, time and memory outcomes; use the returned sampling sidecar for technical work.

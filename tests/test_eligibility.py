@@ -11,6 +11,9 @@ from logo_maker.jev.questions import eligibility_decision
 @pytest.fixture(autouse=True)
 def synthetic_machine_context(monkeypatch):
     monkeypatch.setattr("logo_maker.render.machine_context", lambda *a: {})
+    from test_refinement import inline_refinement_workers
+
+    inline_refinement_workers(monkeypatch)
 
 
 def attest(folder, stage):
@@ -122,6 +125,11 @@ def review_inputs(logo, cid, brief):
     logo.brief.write_text(tomlkit.dumps(state))
     freeze_for_stage_test(logo)
     plan_for_stage_test(logo, cid)
+    for stage in ("preview", "final"):
+        if (logo.concept(cid) / f"{stage}.png").exists():
+            attest(logo.concept(cid), stage)
+    if (logo.concept(cid) / "render-state.json").exists():
+        prepare_creative_final(logo, cid)
 
 
 def complete_fit(symbol="pass", appearance="pass"):
@@ -292,7 +300,9 @@ def test_changed_detail_plan_invalidates_final_eligibility(tmp_path):
     )
     assert result["status"] == "pass"
     (logo.concept(cid) / "plan.toml").write_text('hypothesis = "New construction"\n')
-    with pytest.raises(ValueError, match="eligibility stale"):
+    from logo_maker.proc import ToolError
+
+    with pytest.raises((ValueError, ToolError), match="stale"):
         require_current(logo, brief, cid, result)
 
 
@@ -589,8 +599,7 @@ note = "Deliberately restrained matte finish"
     im = Image.new("RGBA", (512, 512))
     ImageDraw.Draw(im).ellipse((100, 100, 412, 412), fill=(100, 100, 100, 255))
     im.resize((128, 128), Image.Resampling.LANCZOS).save(logo.concept(cid) / "final.png")
-    attest(logo.concept(cid), "final")
-    (logo.ideation / "finalists.json").write_text(json.dumps({"ids": [cid]}))
+    prepare_creative_final(logo, cid)
     return logo, cid
 
 
@@ -621,12 +630,12 @@ def test_generic_edge_failure_requests_diagnosis_without_sample_escalation(tmp_p
     logo, cid = finalize_logo(tmp_path)
     scene = logo.concept(cid) / "scene.toml"
     before = scene.read_bytes()
-    with pytest.raises(AuthoringNeeded, match="no finalist qualified"):
+    with pytest.raises(AuthoringNeeded, match="technical diagnosis"):
         finalize(logo, EligibilityClient({"clean_edges": 0.1}))
     assert scene.read_bytes() == before
     rows = [json.loads(row) for row in (logo.qa / "rounds.jsonl").read_text().splitlines()]
     assert len(rows) == 1
-    assert rows[0]["result"] == "refinement_needed"
+    assert rows[0]["result"] == "authoring_needed"
 
 
 @pytest.mark.parametrize(
@@ -795,6 +804,7 @@ def test_reviewed_detail_plan_cannot_supply_missing_visible_detail(tmp_path):
 
     pipeline.review_brief(logo, BriefJudge(), revision_reason="Detail-development obligation")
     plan_for_stage_test(logo, cid)
+    attest(logo.concept(cid), "final")
     result = assess(
         logo,
         brief,
@@ -823,6 +833,7 @@ def test_specific_authoring_correction_is_judged_separately_from_plan_realizatio
     )
     pipeline.review_brief(logo, BriefJudge(), revision_reason="Specific seating correction")
     plan_for_stage_test(logo, cid)
+    attest(logo.concept(cid), "final")
 
     class CorrectionJudge(EligibilityClient):
         def ask(self, state, questions, *, label):
@@ -860,6 +871,7 @@ def test_changed_detail_baseline_during_judgment_never_returns_pass(tmp_path):
     )
     pipeline.review_brief(logo, BriefJudge(), revision_reason="Retain a detail baseline")
     plan_for_stage_test(logo, cid)
+    attest(logo.concept(cid), "final")
 
     class ChangingBaseline(EligibilityClient):
         def ask(self, state, questions, *, label):
@@ -968,3 +980,60 @@ def test_sampling_execution_resolves_meshes_against_compiled_build_directory(tmp
     mesh.write_bytes(b"changed mesh")
     with pytest.raises(ToolError, match="changed render input"):
         verify_execution(folder, "final")
+
+
+def prepare_creative_final(logo, cid):
+    """Retained synthetic creative evidence supplements the independent craft fixture."""
+    from test_brief_workflow import plan_for_stage_test
+
+    from logo_maker import refinement
+
+    folder = logo.concept(cid)
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": [cid]}))
+    info = json.loads((folder / "concept.json").read_text())
+    info["description"] = "A single purposeful contour"
+    (folder / "concept.json").write_text(json.dumps(info))
+    (folder / "construction.json").write_text(
+        json.dumps(
+            {
+                "symbol": "Shared contour",
+                "brand_geometry": "One recognizable contour",
+                "material_construction": "Solid matte body",
+                "intended_appearance": "Matte clay",
+                "disproof": "Unclear silhouette",
+                "current_description": info["description"],
+                "dependencies": [],
+            }
+        )
+    )
+    plan_for_stage_test(logo, cid)
+    attest(folder, "final")
+    build = folder / ".build"
+    staged = refinement._archive(
+        logo,
+        cid,
+        "final",
+        refinement.source_hashes(logo, folder),
+        folder / "final.png",
+        build / "final.execution.json",
+        build / "final.sampling.json",
+        0,
+    )
+    for entry in staged["entries"]:
+        if "source" in entry:
+            __import__("pathlib").Path(entry["source"]).rename(entry["target"])
+        else:
+            __import__("pathlib").Path(entry["target"]).write_text(entry["text"])
+    record = staged["record"]
+    (folder / "inspection-final.json").write_text(
+        json.dumps(
+            {
+                "revision": record["revision"],
+                "observations": "Controlled synthetic contour",
+                "critiques": [],
+            }
+        )
+    )
+    (logo.ideation / "finalists.json").write_text(
+        json.dumps({"ids": [cid], "binding": refinement.campaign_key(logo, [cid])})
+    )

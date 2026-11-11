@@ -1,0 +1,43 @@
+{
+  "seconds": 73.14695195900276,
+  "render_seconds": 63.485363957996015,
+  "export_seconds": 4.733993125002598,
+  "finalize_seconds": 3.8728580419847276,
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 1,
+    "elapsed_seconds": 73.14695416702307,
+    "remaining_seconds": 1726.8530441249895,
+    "scope": "whole host job including setup, probes, denoise and output"
+  },
+  "request_count": 1,
+  "usage": {
+    "requests": 1,
+    "cost_usd": 0.000263298,
+    "input_tokens": 6269,
+    "output_tokens": 103,
+    "reported_cost_usd": 0.000263298,
+    "unpriced_requests": 0,
+    "reported_input_tokens": 6269,
+    "uncounted_input_requests": 0,
+    "reported_output_tokens": 103,
+    "uncounted_output_requests": 0,
+    "request_usage": {
+      "0001-qa-sampling-typography--embossed-plate--polished-metal.json": {
+        "input_tokens": 6269,
+        "output_tokens": 103,
+        "cost": 0.000263298
+      }
+    }
+  },
+  "qa_result": "sampling_review_needed",
+  "stop": "sampling qualification unresolved; creative validity cannot replace #5's profile gate\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/review-followup-runtime/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json\n  - /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/review-followup-runtime/concepts/sampling-typography--embossed-plate--polished-metal/scene.toml",
+  "execution": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/review-followup-runtime/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-2aae13c903a842e0b108e7700d4b56b0/final.execution.json",
+  "sampling": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/review-followup-runtime/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json",
+  "verified_exports": 31,
+  "qualification": "incomplete",
+  "timing_scope": "fixture and job setup, motif, native render/denoise/diagnostics, delivery, full export and actual final QA/provider work; excludes pytest/import startup and later evidence copy/review",
+  "kernel_cache_state": "unknown",
+  "owner_acceptance": "not inferred"
+}

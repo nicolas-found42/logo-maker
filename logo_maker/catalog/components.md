@@ -46,9 +46,13 @@ marks are built: one copy per role, each in its own material).
 - `cad` — a build123d primitive. `op` box|rounded_box|cylinder, plus
   `size`|`radius`+`height`, `center`.
 - `mesh` — an imported OBJ/STL/PLY/GLB. `path` (relative to the concept),
-  `scale` 1.0, `location` [0,0,0].
+  `scale` 1.0, `location` [0,0,0], `smooth` true. Set `smooth = false` for planar
+  folded or machined faces whose normals must not be averaged across the solid.
 - `bpy` — agent-written `scene.py` with `build(ctx)`; `ctx` exposes
   `materials`, `scene`, and `link(obj)`. Escape hatch only.
+
+Material tables can set `tangent = [1.0, 0.0, 0.0]` (any finite nonzero 3D vector)
+to author a consistent brushing direction independently of mesh-generated tangents.
 
 Every mark kind reads the motif after the scene-wide `[mark] scale` (0.1-2.0,
 about the plate center); treatment presets set it so the mark clears plate

@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Added binding geometry and matched flap hinge elevation to the leaf surface.",
+      "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+      "comparison": "Compare against the disconnected v2 folio and original S ribbon; confirm shared-library reading and flat/hero match.",
+      "dimension": "binding and corner connection",
+      "evidence": "A continuous recessed binding joins the leaves, and the raised triangular flap is attached along the outer diagonal of the right leaf.",
+      "kind": "craftsmanship",
+      "resolved": true
+    }
+  ],
+  "observations": "Bounded-provider replay inspected: green matte leaves join at the recessed binding; the raised triangular corner is attached. Recipe seed1820117, geometry and matte intent are unchanged. This is a source-only replay, not a new alternative or owner artistic approval. Custom dependency inventory and production qualification remain unknown.",
+  "revision": "0010-bc8902e6c67c-preview",
+  "user_feedback": "Retain the paper brief; no additional finish preference inferred."
+}

@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.16, pytest-9.2.0, pluggy-1.7.0 -- /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker
+configfile: pyproject.toml
+plugins: platformdirs-4.14.5, anyio-4.16.0
+collecting ... collected 2 items
+
+tests/test_combined_stack.py::test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output PASSED [ 50%]
+tests/test_publication.py::test_finalize_interrupted_winner_publication_restores_winner_and_run_state PASSED [100%]
+
+============================== 2 passed in 30.58s ==============================

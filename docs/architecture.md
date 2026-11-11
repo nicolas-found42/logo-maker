@@ -20,10 +20,11 @@ renderers.
 flowchart LR
   brief[brief: evidence review + freeze] --> intake[intake: references + palette/fonts]
   intake --> ideate[ideate: pool -> screen -> score -> tournament -> top 8]
-  ideate --> author[agent authors plan + motif + scene for 8]
+  ideate --> author[agent authors plan + motif + scene]
   author --> plan[plan: intent + detail review]
-  plan --> preview[preview: GPU 256 spp, jev picks 3]
-  preview --> finalize[finalize: 4000 px adaptive, QA loop <= 5 rounds, final head-to-head]
+  plan --> refine[refine: retain image, inspect, judge, revise, compare]
+  refine --> preview[preview: craft + creative gates, pick finalists]
+  preview --> finalize[finalize: 4000 px adaptive, diagnosis, final tournament]
   finalize --> export[export set]
   export --> improve[improve: new round must beat the floor]
 ```
@@ -36,13 +37,15 @@ flowchart LR
 | author motifs | (agent) | `concept.json` | `concepts/<slug>/motif.py` or `motif.svg` |
 | motifs | `motifs` | motif sources | `motif.svg`, `motif.json`, `motif-sizes.png`; starter `scene.toml` once (layer-aware, one material per motif role) |
 | author scenes | (agent) | starter `scene.toml` | tuned `scene.toml`, optional `scene.py` |
+| refine | `refine`, `status` | construction, motif, scene, inspection | retained revisions, judgments, comparisons and separate counts |
+| preview | `preview` | current creative eligibility | `preview.png`, `ideation/finalists.json` |
 | plan | `plan` | current requirements, `concept.json`, `plan.toml` | `plan-review.json`, `qa/plan-reviews.jsonl` |
-| preview | `preview` | concepts | `preview.png`, `ideation/finalists.json` |
 | finalize | `finalize` | finalists | `final.png`, `scene.blend`, `model.glb`, `qa/rounds.jsonl`, `ideation/winner.json` |
 | export | `export` | winner | `exports/*` |
 
-Every stage records its status in `run.json` and skips work whose outputs exist, so any stage can be
-resumed. `run` chains the stages and stops with a clear message where agent authoring is needed.
+Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
+rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains
+the stages and stops with a clear message where agent authoring is needed.
 
 ## Logo folder
 
@@ -53,10 +56,13 @@ brief.toml            the brief (logo_maker.brief)
 brief-evidence.toml   sourced facts, mandates, proposals, unknowns and design latitude
 inputs/               references the user supplied
 ideation/             metaphors.toml, pool + chain results, shortlist/finalists/winner
-concepts/<slug>/      motif.py|motif.svg, motif.json, scene.toml, preview.png, final.png, scene.blend, model.glb
-qa/                   jev/requests/*.json (images replaced by sha256), jev/assets/<sha256>.png, rounds.jsonl
+concepts/<slug>/      motif.py|motif.svg, motif.json, scene.toml, preview.png, final.png,
+scene.blend, model.glb
+qa/                   jev/requests/*.json (images replaced by sha256), jev/assets/<sha256>.png,
+rounds.jsonl
 exports/              the export set
-run.json              seeds, versions, stage status, jev usage and cost, asset licenses (logo_maker.runlog)
+run.json              seeds, versions, stage status, jev usage and cost, asset licenses
+(logo_maker.runlog)
 ```
 
 Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment--material`.
@@ -84,6 +90,8 @@ or marked as assumptions. Optional design choices can remain open; essential unk
 contradictions cannot silently pass. No bundled brand supplies defaults or implied constraints.
 
 `logo-maker brief` / MCP `logo_brief` review this evidence through narrow typed questions.
+Requirement-support questions include the frozen mandatory, preference, prohibition or open-choice
+scope explicitly; an avoided property is not judged as a required positive attribute.
 Code validates structure, source excerpts/revisions and references before asking Jev about
 fact support, source-to-requirements completeness, activity, audience, communication priority,
 grounding and consistency. The completeness question is unconditional: omitting an extracted
@@ -119,7 +127,8 @@ hypothesis separately from facts, requirement IDs, assumptions, and a detail led
 purpose, intended scale, physical construction and deletion test. The shared flat master carries
 the primary identity; secondary construction and material detail may resolve in the hero.
 `logo-maker plan` / MCP `logo_plan` review each shortlisted plan, retaining exact answers and hashes
-in `qa/plan-reviews.jsonl` and its current `concepts/<id>/plan-review.json`. Plan review must complete
+in `qa/plan-reviews.jsonl` and its current `concepts/<id>/plan-review.json`. Plan review must
+complete
 before preview rendering. A plan is authoring intent, never evidence
 that the rendered pixels achieve it. Final visual eligibility still judges actual pixels.
 
@@ -217,6 +226,13 @@ color = "#F8F6F1"                # overrides the preset's base color
 kind = "plate"                   # see catalog/components.md for every kind and its fields
 material = "surface"
 ```
+
+Mesh components can set `smooth = false` to retain planar facet normals on authored folded or
+machined assets. The default remains smooth shading; this is a per-concept geometry decision,
+not a material or sampling repair. The flag is boolean and participates in compiled dependency keys.
+Materials may also declare a finite nonzero three-component `tangent` vector for an explicit
+brushing direction. Without it Blender retains its existing tangent behavior. This authored
+material orientation is inventoried in the scene and never selected by sampling QA.
 
 Component kinds (each documented in `logo_maker/catalog/components.md`): `plate` (outline from a
 shape or the motif silhouette, optional irregular edge, bevel), `recess` (pressed or cut area in a
@@ -347,9 +363,37 @@ The final's CPU alpha/margin/edge/color checks also run in an owned worker; a bl
 image read raises an operational time limit and cannot replace the prior winner.
 Custom clients used for bounded finalization must explicitly support budget binding;
 unsupported clients fail with a budget conflict before making a judgment request.
+Creative refinement and preview screening bind the same client when the caller supplies a budget;
+all creative and before/after comparisons use that view. Final creative judgments and tournament
+comparisons inherit the finalization deadline. These transport bounds do not replace the frozen
+source/image/inspection checks or winner rollback, and unbudgeted clients retain their existing API.
+Budget views preserve the underlying model and endpoint identity so creative and comparison caches
+cannot reuse judgments after the selected provider or model changes.
 The shared host-operation interface is `host.run`; render keeps its existing private
 alias for stacked callers. Default finalize timing starts before input/client setup,
 and a supplied exhausted deadline is rejected before loading finalists.
+Refinement's source/image hashing, construction and frozen brief/plan validation, inspection
+retention,
+comparison preparation and revision archival run in owned CPU workers under the shared deadline.
+A revision is staged under a private name, then its archive and active render-state are published
+through the same recoverable journal interface. Interrupted staging cannot become an active
+revision. History reads only public numeric revision directories; private archival stages remain
+outside revision counts and comparisons.
+Refinement returns the exact creative proof admitted during judging. Preview carries those frozen
+inspection/judgment hashes forward instead of independently rebinding newer files to an older pass.
+Preview selection similarly publishes finalists and run bookkeeping only after craft and creative
+bindings are rechecked. Before and after final tournaments, all eligible candidate bindings are
+rechecked; export revalidates the exact winner's source/image/inspection/judgment and craft proof.
+Publication preconditions recheck frozen creative/craft proofs inside the owned worker after staging
+and after target renames/journal publication. A changed source, inspection, judgment, winner or pinned
+sampling snapshot raises a publication conflict and restores the prior outputs and run bookkeeping.
+These checks share the original deadline and recovery reserve; they start no nested worker session.
+Retained custom previews remain inspection-only; unknown custom dependencies deny production reuse.
+CI provisions and launches PWA's lockfile-pinned headless Chrome during dependency setup.
+Offline tests select that installed revision through `PAG_USE_LOCAL_REV=1`, avoiding the
+system-browser default profile and a hidden download fallback during the test phase.
+Browser provisioning failures surface separately from export/creative qualification.
+
 Filesystem publication uses an owned worker and a journal written before any target
 rename. Staging includes provenance; three seconds of the original deadline are
 reserved for owned recovery after interruption. Recovery restores prior paths before
@@ -484,6 +528,100 @@ checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns 
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
 Every check is required: there are no optional tools.
+
+### Creative refinement (#3)
+
+Before preview, each concept requires `construction.json`: `symbol`, `brand_geometry`,
+`material_construction`, `intended_appearance`, `disproof`, `current_description` (nonempty
+strings),
+and `dependencies` (paths relative to the concept, including external files read by bespoke code).
+This is the current design intent; update it and `concept.json` when the symbol changes. The
+original
+text pool remains historical ideation, never the description used to judge a revised image.
+
+`refine` renders previews sequentially through the verified Cycles Metal/OIDN path. Each
+source/image
+revision is retained under `qa/revisions/<concept>/<revision>/`: source copies and hashes, delivered
+PNG/hash, compiled inputs, device/settings sidecar and native log. Old evidence survives
+reauthoring.
+`inspection.json` is agent-written after opening that image: it names the revision, observations,
+user feedback and critiques (`kind`: craftsmanship, brief_fit, preference, or technical;
+`dimension`,
+`artifact`, `evidence`, `action`, `comparison`, `resolved`). An unresolved preference asks for
+direction;
+it is never converted into a technical defect. No fixed number of revision rounds establishes craft.
+
+Jev judges craftsmanship, brief fit, construction/material intent and current-description match
+independently. Clear failures and uncertainty return scoped `authoring_needed` work with artifacts,
+probabilities and the next comparison. Jev supplies judgments, never geometry or art direction.
+A finalist needs current inspection, resolved critique and positive creative readiness. A brand also
+needs image-backed distinct alternatives: pairwise visual comparison across retained revisions or
+concepts must establish a meaningful difference in symbol or construction, beyond finish/text swaps.
+Comparison is against each revision's own intent; glossy and muted treatments can both succeed.
+The two/three-bold-shapes guidance governs core-symbol legibility, not secondary hero craft.
+
+Fingerprints include frozen requirements and their source evidence, reviewed plans,
+brief/references, concept/intent, motif sources and derived geometry, scene,
+local assets, declared dependencies, rendering code/catalog and question definitions. Content
+changes
+invalidate render reuse, creative judgments, comparison results, sampling calibration and downstream
+finalist/winner/export eligibility, including direct finalize/export and `run` resumes. Undeclared
+external reads by custom Python are outside automatic dependency discovery: declare them explicitly.
+Execution failures are operational errors; their absence is never a creative pass.
+
+Generic edge failures no longer edit sampling. Technical uncertainty returns a diagnosis stop:
+stochastic/cap noise goes to #5's bounded policy; persistent design, geometry, material, typography,
+filtering, resolution, alpha or denoising concerns return to the corresponding authoring/probe path.
+Explicit sampling overrides survive. No profile is claimed qualified by this creative workflow.
+Normal jobs retain baseline settings until #5 supplies qualified profiles and diagnosed actions.
+CLI/MCP `status` reports text combinations, authored motifs, rendered variants and completed
+refinement comparisons separately; none is a proxy for quality.
+
+Technical stops can consume `diagnosis.json` bound to a retained `revision`, with a `cause` from
+`sampling_noise`, `cap_limitation`, `design`, `geometry`, `material`, `typography`, `denoising`,
+`filtering`, `resolution`, `alpha`, `unknown`, and nonempty `evidence` entries (`artifact`,
+`sha256`,
+`observation`). Changed/missing evidence or a stale revision returns unknown. Sampling causes route
+to #5; other causes route to authoring or a diagnostic probe. This record supplies diagnosis
+evidence,
+not a second sampling policy or a claimed convergence result. The workflow performs one render per
+unchanged revision and stops for unresolved work; there is no automatic numeric escalation loop.
+Final inspection uses `inspection-final.json`; editing it also revokes winner/export eligibility.
+
+### Integration with #5's bounded sampling foundation
+
+The creative pipeline composes with `sampling.Budget`, `render.artifact_current` and
+`sampling.sampling_qualified`; `sampling.decide` remains the sole numeric policy owner.
+`refinement.capture` passes the caller's budget to rendering, retains the sampling report beside
+execution evidence and checks the renderer's hardware/control-file/dependency freshness before
+reuse.
+The sampling renderer consumes the shared concept-source inventory plus the brand brief/references,
+so structural/intent/dependency revisions invalidate sampling keys too. Owner inspection/preferences
+remain judgment dependencies rather than image-generation inputs.
+
+Final QA and export require both current creative eligibility (including resolved comparative
+critique) and a qualified sampling profile/result. Neither gate substitutes for the other. Budget,
+device and sampling-profile stops stay distinct from craft/fit/preference. Winner and export
+publication use #5's recoverable transactional boundary. Sampling diagnostics and raw
+attempts remain in #5's bounded storage; creative snapshots retain reports and selected scene/mesh
+provenance without recursively copying previous attempt trees.
+
+The creative `diagnosis.json` is not silently converted into sampling approval. #5's configured
+diagnosis must bind its actual `source_key`, delivered `image_sha256`, independent seeds and
+reviewed
+noisy/denoised detail. Its `kind=denoiser_detail_loss` is a scoped denoising probe; generic edges
+and
+missing evidence remain unknown. No duplicate sample-selection rule is added by this integration.
+
+Retained custom-bpy previews can be reopened for critique through
+`render.inspection_artifact_current`; their complete dependency inventory stays explicitly unknown.
+The known source/declared dependency/image/runtime bindings are checked, while normal
+`render.artifact_current` and sampling qualification still reject custom production reuse. This
+prevents a render→inspection→rerender loop without inventing a complete Python dependency inventory.
+Finalist metadata records creative readiness and sampling qualification separately. Active source
+and
+inspection bindings are frozen before online judgments and final tournaments; in-flight edits cannot
+be rebound as approved winner metadata and roll back to the prior winner.
 
 ### Combined qualification and bounded eligibility
 

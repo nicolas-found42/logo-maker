@@ -1,0 +1,13 @@
+{
+  "symbol": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+  "brand_geometry": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+  "material_construction": "The steel receivers subtract the exact copper-key footprint plus a 0.012-unit clearance. The copper solid protrudes 0.055 units beyond the steel caps. Each rail has two through mounting eyes; all parts retain satin roughness 0.35 and anisotropy 0.8 with an explicit straight brushing tangent. Flat facets and 0.023-unit edge chamfers preserve planar machined caps.",
+  "intended_appearance": "Machined satin blue steel and warm copper with deliberate visible joints and restrained highlights",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+  "dependencies": [
+    "west-receiver.ply",
+    "east-receiver.ply",
+    "seated-copper-key.ply"
+  ]
+}

@@ -257,3 +257,11 @@ class Budget:
             "remaining_seconds": self.remaining,
             "scope": "whole host job including setup, probes, denoise and output",
         }
+
+
+def sampling_qualified(report: dict) -> bool:
+    """Production sampling eligibility is separate from creative acceptance."""
+    return (
+        report.get("profile", {}).get("state") == "qualified"
+        and report.get("outcomes", {}).get("sampling") == "profile_baseline"
+    )

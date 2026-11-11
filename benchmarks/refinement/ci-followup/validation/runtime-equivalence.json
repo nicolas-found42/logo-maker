@@ -1,0 +1,22 @@
+{
+  "reference": "64a342c6efc54f18f4e2f01fc2d94b71d7f2c71e",
+  "compared_paths": [
+    "logo_maker",
+    "js",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "changed_paths": [],
+  "command": [
+    "git",
+    "diff",
+    "--exit-code",
+    "64a342c",
+    "--",
+    "logo_maker",
+    "js",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "returncode": 0
+}

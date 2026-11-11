@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Resolve the local bevel/cap construction before production selection",
+      "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+      "comparison": "Compare native receiver/mounting-eye detail with the preceding hole-free revision",
+      "dimension": "receiver_and_hole_edges",
+      "evidence": "Triangular light/dark patches near the mounting-eye bevels remain visible",
+      "kind": "craftsmanship",
+      "resolved": false
+    }
+  ],
+  "observations": "The actual matching receiver cutouts and four through mounting eyes make the separate steel supports explicit. The copper cap has a stable planar sheen after authored tangent forwarding. Triangular shading remains visible around the new mounting holes and must not be called resolved craftsmanship.",
+  "revision": "0006-e18a2cd94b98-preview",
+  "user_feedback": "No new owner approval. These are fixture studies, not an approved client logo."
+}

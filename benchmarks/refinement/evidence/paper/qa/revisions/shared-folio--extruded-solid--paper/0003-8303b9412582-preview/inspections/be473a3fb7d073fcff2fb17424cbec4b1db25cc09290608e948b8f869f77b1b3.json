@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Added binding geometry and matched flap hinge elevation to the leaf surface.",
+      "artifact": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+      "comparison": "Compare against the disconnected v2 folio and original S ribbon; confirm shared-library reading and flat/hero match.",
+      "dimension": "binding and corner connection",
+      "evidence": "A continuous recessed binding joins the leaves, and the raised triangular flap is attached along the outer diagonal of the right leaf.",
+      "kind": "craftsmanship",
+      "resolved": true
+    }
+  ],
+  "observations": "Facing green and sage leaves are connected by a dark recessed spine. The green corner now meets the sage face at its diagonal hinge and creates an inward paper flap/shadow. The large silhouette reads as an open folio. The leaf faces remain intentionally matte.",
+  "revision": "0003-8303b9412582-preview",
+  "user_feedback": "Retain the paper brief; no additional finish preference inferred."
+}

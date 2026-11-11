@@ -1,0 +1,15 @@
+{
+  "after": "qa/revisions/shared-folio--extruded-solid--paper/0003-8303b9412582-preview/render.png",
+  "answers": {
+    "critique_resolved": {
+      "noul": 0.89,
+      "type": "noul"
+    },
+    "visually_distinct": {
+      "noul": 0.62,
+      "type": "noul"
+    }
+  },
+  "before": "qa/revisions/shared-folio--extruded-solid--paper/0002-8e920410535b-preview/render.png",
+  "binding": "b6e766ac5d7fb73f502c98c18874df7fbea5448e55de5f77cb40c722f8e1aa3c"
+}

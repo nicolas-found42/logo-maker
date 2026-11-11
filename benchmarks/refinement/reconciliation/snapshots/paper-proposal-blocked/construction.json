@@ -1,0 +1,19 @@
+{
+  "symbol": "An open shared team library formed by independently contributed parts",
+  "brand_geometry": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+  "material_construction": "Each card part has a 0.024-unit pale paper core between two 0.006-unit colored skins. Watertight meshes meet at continuous fold lines. Outer upright returns turn sharply away from the open center; the shelf wings rise along one score. Three separate assemblies retain visible seams without a backing plate.",
+  "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips.",
+  "dependencies": [
+    "west-back.ply",
+    "west-core.ply",
+    "west-face.ply",
+    "east-back.ply",
+    "east-core.ply",
+    "east-face.ply",
+    "shelf-back.ply",
+    "shelf-core.ply",
+    "shelf-face.ply"
+  ]
+}

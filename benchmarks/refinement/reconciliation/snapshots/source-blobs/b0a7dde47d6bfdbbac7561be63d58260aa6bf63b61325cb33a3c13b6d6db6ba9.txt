@@ -1,0 +1,341 @@
+{
+  "status": "pass",
+  "concept_id": "open-commons|extruded_solid|paper",
+  "missing": [],
+  "files": [],
+  "questions": [],
+  "state": {
+    "requirements": {
+      "business": {
+        "name": "Skill Swap",
+        "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+        "tone": [
+          "approachable",
+          "capable",
+          "trustworthy",
+          "warm",
+          "precise"
+        ],
+        "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+        "uses": [
+          "login_hero",
+          "brand_introduction",
+          "favicon",
+          "app_icon",
+          "monochrome_mark"
+        ]
+      },
+      "design_direction": {
+        "initials": "SS",
+        "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+        "avoid": [
+          "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+          "Inflated toy shapes",
+          "A badge, medallion, backing disc or frame",
+          "Generic AI sparkles, chain links or recycling arrows",
+          "Slack hashtag or Dropbox diamond-box topology",
+          "Cohere cell cluster and Miro chevrons",
+          "Existing leaf icon",
+          "Fine text or hairline geometry inside the symbol",
+          "Confusing peer-to-peer skill barter with a team AI skills library"
+        ],
+        "palette": {
+          "primary": "#285640",
+          "secondary": "#DCE7D6",
+          "accent": "#C47D5A",
+          "highlight": "#F8F7F2",
+          "background": "#F8F7F2",
+          "ink": "#243B31"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "DM Sans:wght=400"
+        },
+        "open_choices": [
+          "Symbol construction within the stated material intent",
+          "Proportions and visible structural detail"
+        ],
+        "references": [
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png",
+            "use": "craft",
+            "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+            "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+          },
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png",
+            "use": "craft",
+            "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+            "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+          }
+        ]
+      },
+      "communication_priority": "A team\u2019s contributed AI know-how becomes an accessible shared library",
+      "design_latitude": [
+        "Symbol construction within the stated material intent",
+        "Proportions and visible structural detail"
+      ],
+      "facts": [
+        {
+          "id": "service",
+          "claim": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use.",
+          "status": "established",
+          "sources": [
+            "retained"
+          ],
+          "essential": true
+        }
+      ],
+      "requirements": [
+        {
+          "id": "material",
+          "claim": "The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. ",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "meaning",
+          "claim": "Communicate shared accessible team capability rather than peer barter",
+          "kind": "communication",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "territories",
+          "claim": "Across the exploration set, explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space. Each candidate tests one territory; the study covers all three.",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "style",
+          "claim": "The visual identity is warm and editorial.",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_0",
+          "claim": "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_1",
+          "claim": "Inflated toy shapes",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_2",
+          "claim": "A badge, medallion, backing disc or frame",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_3",
+          "claim": "Generic AI sparkles, chain links or recycling arrows",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_4",
+          "claim": "Slack hashtag or Dropbox diamond-box topology",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_5",
+          "claim": "Cohere cell cluster and Miro chevrons",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_6",
+          "claim": "Existing leaf icon",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_7",
+          "claim": "Fine text or hairline geometry inside the symbol",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_8",
+          "claim": "Confusing peer-to-peer skill barter with a team AI skills library",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "uses",
+          "claim": "The mark must work for: login_hero, brand_introduction, favicon, app_icon, monochrome_mark",
+          "kind": "usage",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "palette",
+          "claim": "Use the supplied palette: {'primary': '#285640', 'secondary': '#DCE7D6', 'accent': '#C47D5A', 'highlight': '#F8F7F2', 'background': '#F8F7F2', 'ink': '#243B31'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "fonts",
+          "claim": "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "tone",
+          "claim": "Communicate the stated tone: approachable, capable, trustworthy, warm, precise",
+          "kind": "communication",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "initials",
+          "claim": "The available brand initials are SS; do not substitute different initials if lettering is used",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        }
+      ]
+    },
+    "authoring_obligations": [],
+    "concept": {
+      "id": "open-commons|extruded_solid|paper",
+      "metaphor": "open-commons",
+      "metaphor_text": "Independently contributed parts make an accessible shared team library",
+      "description": "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.",
+      "treatment": "extruded_solid",
+      "material": "paper"
+    },
+    "plan": {
+      "schema": 1,
+      "requirements_revision": "989979cc2aa8c52c6345729f95cdd03218213c3bc804af8efd335f772461ec36",
+      "hypothesis": "An open shared team library formed by independently contributed parts",
+      "visual_mechanism": "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.; This plan tests one territory in the three-part family. Compare joined-index (joined modules), the retained folio (folded shared object), and open-commons (open shared space); each uses its own authored construction and shared flat master.",
+      "requirement_ids": [
+        "material",
+        "meaning"
+      ],
+      "assumptions": [
+        "These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"
+      ],
+      "details": [
+        {
+          "feature": "Folded structural joins",
+          "purpose": "Make independently contributed parts legible as one shared support structure",
+          "intended_scale": "Hero and native detail; core silhouette remains recognizable in the flat mark",
+          "construction": "Each upright is a single watertight folded-card solid: a broad plane and an inward-return plane meet continuously along one shared fold edge. A third thick terracotta card solid lies below. The three objects are deliberately separated by visible gaps; they do not claim to support or fasten one another. Facet normals preserve actual planar folds.",
+          "deletion_test": "Removing the joint or key turns a shared assembled object into disconnected generic pieces"
+        }
+      ]
+    }
+  },
+  "inputs": {
+    "requirements_revision": "989979cc2aa8c52c6345729f95cdd03218213c3bc804af8efd335f772461ec36",
+    "plan_sha256": "cba4b6859014fba126589a54b03839d33bfb786253d377c40be96ded74459e1e",
+    "concept_sha256": "118d3341922698a3582335cdb6f28ce50a1f5c535f645d8015ff5d9c107687e7",
+    "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+  },
+  "answers": {
+    "plan_grounded": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "noul": 0.74
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "noul": 0.82
+    },
+    "plan_construction": {
+      "type": "noul",
+      "noul": 0.83
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "noul": 0.98
+    }
+  },
+  "checks": {
+    "plan_grounded": "pass",
+    "plan_mandates": "pass",
+    "plan_shared_identity": "pass",
+    "plan_construction": "pass",
+    "plan_detail_0": "pass"
+  }
+}

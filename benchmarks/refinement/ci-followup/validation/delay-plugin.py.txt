@@ -1,0 +1,17 @@
+import time
+import pytest
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_call(item):
+ from logo_maker import pipeline
+ original=pipeline.finalize
+ if item.name=='test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output': delay=4.2
+ elif item.name=='test_finalize_interrupted_winner_publication_restores_winner_and_run_state': delay=8.2
+ else:
+  yield
+  return
+ def delayed(*args,**kwargs):
+  time.sleep(delay)
+  return original(*args,**kwargs)
+ pipeline.finalize=delayed
+ try: yield
+ finally: pipeline.finalize=original

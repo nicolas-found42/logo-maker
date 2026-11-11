@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "5195e6606befe0573bbbc7cff1519919282c231cb86ba8ee247c1bab78a78939",
+    "meshes/key.ply": "e55c1f67e300147cd7437adbe30eb77fbdd1f48c48840eb2d670f6781d559673",
+    "meshes/extrude_0.ply": "d8fc86ee9ea87d5c039cc7543e0f94bd3c6a2bed49e1b7f08c1e74d6b2da3e05",
+    "meshes/east-arch.ply": "d8292f14c7aa218c0fb2f62fde662e11accd9117062b29389a24f5466d060e9a",
+    "meshes/west-arch.ply": "73c35c6fbb63e5f0cf4cda513043c98cebc4648084bbe89a2a3287f9384ccacd",
+    "meshes/east-pier.ply": "36add5c665b8dbc1ae105d0c77df114456d4adcb9549ce35ecf4aea402451839",
+    "meshes/west-pier.ply": "27496c719e8e70222ebebde3584b7df6e4490187c655a6e9a9e77840f3447d8c"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.911417082999833,
+  "process_cpu_seconds": 1.6710480000000003,
+  "log_sha256": "1553aab0dd6e929a61cab0f6c3478ccb0519a19c4f5a19d8e86efadd448b7b40",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "be035d8046dbb89844da59e080906995dd4e3836c1ca762b0cfd9b2ee8cee8bd"
+}

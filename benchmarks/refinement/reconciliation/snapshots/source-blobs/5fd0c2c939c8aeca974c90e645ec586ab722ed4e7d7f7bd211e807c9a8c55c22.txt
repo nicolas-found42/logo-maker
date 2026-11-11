@@ -1,0 +1,433 @@
+{
+  "status": "pass",
+  "missing": [],
+  "files": [
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/brief-evidence.toml"
+  ],
+  "questions": [],
+  "state": {
+    "business": {
+      "name": "Skill Swap",
+      "summary": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.",
+      "tone": [
+        "approachable",
+        "capable",
+        "trustworthy",
+        "warm",
+        "precise"
+      ],
+      "audience": "Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.",
+      "uses": [
+        "login_hero",
+        "brand_introduction",
+        "favicon",
+        "app_icon",
+        "monochrome_mark"
+      ]
+    },
+    "design_direction": {
+      "initials": "SS",
+      "intended_appearance": "Warm editorial layered heavyweight matte paper and card, controlled folds, visible substantial edges and restrained fiber texture",
+      "avoid": [
+        "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "Inflated toy shapes",
+        "A badge, medallion, backing disc or frame",
+        "Generic AI sparkles, chain links or recycling arrows",
+        "Slack hashtag or Dropbox diamond-box topology",
+        "Cohere cell cluster and Miro chevrons",
+        "Existing leaf icon",
+        "Fine text or hairline geometry inside the symbol",
+        "Confusing peer-to-peer skill barter with a team AI skills library"
+      ],
+      "palette": {
+        "primary": "#285640",
+        "secondary": "#DCE7D6",
+        "accent": "#C47D5A",
+        "highlight": "#F8F7F2",
+        "background": "#F8F7F2",
+        "ink": "#243B31"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      },
+      "open_choices": [
+        "Symbol construction within the stated material intent",
+        "Proportions and visible structural detail"
+      ],
+      "references": [
+        {
+          "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png",
+          "use": "craft",
+          "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+        },
+        {
+          "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png",
+          "use": "craft",
+          "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        }
+      ]
+    },
+    "communication_priority": "A team\u2019s contributed AI know-how becomes an accessible shared library",
+    "design_latitude": [
+      "Symbol construction within the stated material intent",
+      "Proportions and visible structural detail"
+    ],
+    "facts": [
+      {
+        "id": "service",
+        "claim": "A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use.",
+        "status": "established",
+        "sources": [
+          "retained"
+        ],
+        "essential": true
+      }
+    ],
+    "sources": {
+      "retained": {
+        "id": "retained",
+        "kind": "fixture",
+        "path": "inputs/retained-brief.toml",
+        "excerpt": "name = \"Skill Swap\"\nsummary = \"A private team workspace for reusable AI skills and plugins. Individual contributions become shared capability through a clear library, independent review and approved releases. The promise is: Your team's know-how, ready to use. The visual identity is warm and editorial. The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. Explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space.\"\naudience = \"Teammates with mixed technical confidence, including newcomers discovering and using AI skills; Builders and trusted approvers maintain the shared library.\"\ntone = [\"approachable\", \"capable\", \"trustworthy\", \"warm\", \"precise\"]\ninitials = \"SS\"\nuses = [\"login_hero\", \"brand_introduction\", \"favicon\", \"app_icon\", \"monochrome_mark\"]\navoid = [\"Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay\", \"Inflated toy shapes\", \"A badge, medallion, backing disc or frame\", \"Generic AI sparkles, chain links or recycling arrows\", \"Slack hashtag or Dropbox diamond-box topology\", \"Cohere cell cluster and Miro chevrons\", \"Existing leaf icon\", \"Fine text or hairline geometry inside the symbol\", \"Confusing peer-to-peer skill barter with a team AI skills library\"]\n\n[palette]\nprimary = \"#285640\"\nsecondary = \"#DCE7D6\"\naccent = \"#C47D5A\"\nhighlight = \"#F8F7F2\"\nbackground = \"#F8F7F2\"\nink = \"#243B31\"\n\n[fonts]\ndisplay = \"Manrope:wght=700\"\ntext = \"DM Sans:wght=400\"\n",
+        "sha256": "3b455d768cb86ca2a3c59934b59d0e38632388deb34d6684e7c49dc2a194e405"
+      }
+    },
+    "requirements": [
+      {
+        "id": "material",
+        "claim": "The dimensional logo MUST be built from layered heavyweight paper or card, with broad geometric pieces, controlled folds, substantial thickness, visible edges and restrained fiber texture. ",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "meaning",
+        "claim": "Communicate shared accessible team capability rather than peer barter",
+        "kind": "communication",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "territories",
+        "claim": "Across the exploration set, explore three distinct territories: joined modules, a folded shared object, and parts framing an open shared space. Each candidate tests one territory; the study covers all three.",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "style",
+        "claim": "The visual identity is warm and editorial.",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_0",
+        "claim": "Any non-paper material including ceramic, porcelain, metal, rubber, glass, wax or clay",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_1",
+        "claim": "Inflated toy shapes",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_2",
+        "claim": "A badge, medallion, backing disc or frame",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_3",
+        "claim": "Generic AI sparkles, chain links or recycling arrows",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_4",
+        "claim": "Slack hashtag or Dropbox diamond-box topology",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_5",
+        "claim": "Cohere cell cluster and Miro chevrons",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_6",
+        "claim": "Existing leaf icon",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_7",
+        "claim": "Fine text or hairline geometry inside the symbol",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_8",
+        "claim": "Confusing peer-to-peer skill barter with a team AI skills library",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "uses",
+        "claim": "The mark must work for: login_hero, brand_introduction, favicon, app_icon, monochrome_mark",
+        "kind": "usage",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "palette",
+        "claim": "Use the supplied palette: {'primary': '#285640', 'secondary': '#DCE7D6', 'accent': '#C47D5A', 'highlight': '#F8F7F2', 'background': '#F8F7F2', 'ink': '#243B31'}",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "fonts",
+        "claim": "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "tone",
+        "claim": "Communicate the stated tone: approachable, capable, trustworthy, warm, precise",
+        "kind": "communication",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "initials",
+        "claim": "The available brand initials are SS; do not substitute different initials if lettering is used",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      }
+    ],
+    "obligations": [],
+    "previous_briefs": {}
+  },
+  "inputs": {
+    "brief_sha256": "fa1d2818e8c9427cb05dafb6ca5bb27afe40096cbfa08da646903510cefdb00d",
+    "evidence_sha256": "ce991ac214331e2cc576932b8a24c5c463400c5683a6ec45ab83918916aa5b05",
+    "sources": {
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/inputs/retained-brief.toml": "3b455d768cb86ca2a3c59934b59d0e38632388deb34d6684e7c49dc2a194e405"
+    },
+    "references": {
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+    },
+    "baselines": {},
+    "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+  },
+  "requirements_revision": "989979cc2aa8c52c6345729f95cdd03218213c3bc804af8efd335f772461ec36",
+  "answers": {
+    "activity": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.86
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "fact_service": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "requirement_material": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "requirement_meaning": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "requirement_territories": {
+      "type": "noul",
+      "noul": 0.7
+    },
+    "requirement_style": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_avoid_0": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "requirement_avoid_1": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "requirement_avoid_2": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "requirement_avoid_3": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "requirement_avoid_4": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "requirement_avoid_5": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "requirement_avoid_6": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "requirement_avoid_7": {
+      "type": "noul",
+      "noul": 0.92
+    },
+    "requirement_avoid_8": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "requirement_uses": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_palette": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_fonts": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_tone": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "requirement_initials": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "source_retained_directions": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "mandates": {
+      "type": "noul",
+      "noul": 0.93
+    }
+  },
+  "checks": {
+    "activity": "pass",
+    "audience": "pass",
+    "communication": "pass",
+    "grounding": "pass",
+    "consistent": "pass",
+    "source_retained_directions": "pass",
+    "fact_service": "pass",
+    "requirement_material": "pass",
+    "requirement_meaning": "pass",
+    "requirement_territories": "pass",
+    "requirement_style": "pass",
+    "requirement_avoid_0": "pass",
+    "requirement_avoid_1": "pass",
+    "requirement_avoid_2": "pass",
+    "requirement_avoid_3": "pass",
+    "requirement_avoid_4": "pass",
+    "requirement_avoid_5": "pass",
+    "requirement_avoid_6": "pass",
+    "requirement_avoid_7": "pass",
+    "requirement_avoid_8": "pass",
+    "requirement_uses": "pass",
+    "requirement_palette": "pass",
+    "requirement_fonts": "pass",
+    "requirement_tone": "pass",
+    "requirement_initials": "pass",
+    "mandates": "pass"
+  }
+}

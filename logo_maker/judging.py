@@ -48,37 +48,79 @@ def _image_state(brief: Brief, extra: dict[str, Any]) -> dict[str, Any]:
 
 
 def _concept_states(logo: LogoDir, brief: Brief) -> dict[str, dict[str, Any]]:
-    """Full concept states for preview screening, looked up from pool.jsonl."""
-    from logo_maker.ideate import load_pool_concepts
+    """Use current authored intent; the text pool remains historical ideation."""
+    from logo_maker.pipeline import shortlist
 
-    return {
-        c.id: concept_state(
-            brief,
-            metaphor=c.metaphor_text,
-            treatment=c.treatment_desc,
-            material=c.material_desc,
-            treatment_id=c.treatment,
-            material_id=c.material,
-        )
-        for c in load_pool_concepts(logo, brief)
-    }
+    states = {}
+    ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
+    for cid in ids:
+        folder = logo.concept(cid)
+        path = folder / "construction.json"
+        if path.exists():
+            construction = json.loads(path.read_text())
+            info = json.loads((folder / "concept.json").read_text())
+            states[cid] = {
+                "brief": brief.as_state(),
+                "concept": construction["current_description"],
+                "construction": construction,
+                "authored_concept": {
+                    "id": info["id"],
+                    "description": construction["current_description"],
+                },
+            }
+    # Legacy direct judging callers without authored files still use original pool concepts.
+    if not states:
+        from logo_maker.ideate import load_pool_concepts
+
+        states = {
+            c.id: concept_state(
+                brief,
+                metaphor=c.metaphor_text,
+                treatment=c.treatment_desc,
+                material=c.material_desc,
+                treatment_id=c.treatment,
+                material_id=c.material,
+            )
+            for c in load_pool_concepts(logo, brief)
+        }
+    return states
 
 
-def screen_previews(
-    logo: LogoDir, brief: Brief, previews: dict[str, Path], client: JevAsker, *, keep: int = 3
-) -> list[str]:
+def screen_previews(logo, brief, previews, client, *, keep=3):
+    doc = screen_previews_record(logo, brief, previews, client, keep=keep)
+    (logo.ideation / "finalists.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
+    return doc["ids"]
+
+
+def screen_previews_record(
+    logo: LogoDir,
+    brief: Brief,
+    previews: dict[str, Path],
+    client: JevAsker,
+    *,
+    keep: int = 3,
+    budget: Budget | None = None,
+) -> dict:
     """Screen preview renders down to finalists; writes `ideation/finalists.json`."""
     from logo_maker.eligibility import assess
 
     eligibility = {
-        cid: assess(logo, brief, cid, p, client, stage="preview") for cid, p in previews.items()
+        cid: assess(logo, brief, cid, p, client, stage="preview", budget=budget)
+        for cid, p in previews.items()
     }
     previews = {cid: p for cid, p in previews.items() if eligibility[cid]["status"] == "pass"}
     if not previews:
         detail = "; ".join(f"{cid}: {r['status']}" for cid, r in eligibility.items())
         raise ValueError(f"no preview survived eligibility: {detail}")
     questions = preview_screen_questions()
-    states = _concept_states(logo, brief)
+    if budget is not None:
+        from logo_maker import host
+
+        states = host.run({"operation": "concept_states", "root": str(logo.root)}, budget, [])[
+            "states"
+        ]
+    else:
+        states = _concept_states(logo, brief)
     jobs = [
         (dict(states[cid], preview=Image(p)), questions, f"preview-{concept_slug(cid)}")
         for cid, p in previews.items()
@@ -108,15 +150,14 @@ def screen_previews(
     from logo_maker.eligibility import require_current
 
     for cid in finalists:
-        require_current(logo, brief, cid, eligibility[cid], stage="preview")
+        require_current(logo, brief, cid, eligibility[cid], stage="preview", budget=budget)
     doc = {
         "ids": finalists,
         "reasons": {cid: decisions[cid][1] for cid in finalists},
         "pleasant_cutoff": PREVIEW_MIN_PLEASANT,
         "eligibility": eligibility,
     }
-    (logo.ideation / "finalists.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
-    return finalists
+    return doc
 
 
 def tiny_version(final_png: Path, dest: Path, *, budget: Budget | None = None) -> Path:
@@ -255,9 +296,8 @@ def final_tournament_record(
             f"; tied with {', '.join(s for s in tied if s != winner_slug)} on wins, "
             "decided by deterministic slug ordering"
         )
-    require_current(
-        logo, brief, by_slug[winner_slug], eligibility[by_slug[winner_slug]], budget=budget
-    )
+    for cid in finalists:
+        require_current(logo, brief, cid, eligibility[cid], budget=budget)
     return {
         "winner": by_slug[winner_slug],
         "slug": winner_slug,

@@ -1,0 +1,221 @@
+{
+  "status": "pass",
+  "concept_id": "keyed-release|extruded_solid|brushed_metal",
+  "missing": [],
+  "files": [],
+  "questions": [],
+  "state": {
+    "requirements": {
+      "business": {
+        "name": "Keystone",
+        "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+        "tone": [
+          "precise",
+          "dependable",
+          "calm"
+        ],
+        "audience": "Platform engineers",
+        "uses": [
+          "release_dashboard",
+          "documentation",
+          "app_icon"
+        ]
+      },
+      "design_direction": {
+        "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+        "avoid": [
+          "Text inside the mark",
+          "Decorative backing disc"
+        ],
+        "palette": {
+          "primary": "#245064",
+          "secondary": "#B87E48",
+          "background": "#F4F5F5",
+          "ink": "#16313B"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "DM Sans:wght=400"
+        },
+        "open_choices": [
+          "Symbol construction within the stated material intent",
+          "Proportions and visible structural detail"
+        ],
+        "references": [
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png",
+            "use": "craft",
+            "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+            "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+          },
+          {
+            "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png",
+            "use": "craft",
+            "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+            "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+          }
+        ]
+      },
+      "communication_priority": "Independent service supports become one dependable release through an explicit key",
+      "design_latitude": [
+        "Symbol construction within the stated material intent",
+        "Proportions and visible structural detail"
+      ],
+      "facts": [
+        {
+          "id": "service",
+          "claim": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+          "status": "established",
+          "sources": [
+            "retained"
+          ],
+          "essential": true
+        }
+      ],
+      "requirements": [
+        {
+          "id": "material",
+          "claim": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+          "kind": "visual",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "meaning",
+          "claim": "Make the supporting dependency key visible in the construction",
+          "kind": "communication",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "avoid_0",
+          "claim": "Text inside the mark",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "avoid_1",
+          "claim": "Decorative backing disc",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "avoid",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "uses",
+          "claim": "The mark must work for: release_dashboard, documentation, app_icon",
+          "kind": "usage",
+          "origin": "proposal",
+          "priority": "must",
+          "sources": []
+        },
+        {
+          "id": "palette",
+          "claim": "Use the supplied palette: {'primary': '#245064', 'secondary': '#B87E48', 'background': '#F4F5F5', 'ink': '#16313B'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "fonts",
+          "claim": "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        },
+        {
+          "id": "tone",
+          "claim": "Communicate the stated tone: precise, dependable, calm",
+          "kind": "communication",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "retained"
+          ]
+        }
+      ]
+    },
+    "authoring_obligations": [],
+    "concept": {
+      "id": "keyed-release|extruded_solid|brushed_metal",
+      "metaphor": "keyed-release",
+      "metaphor_text": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "treatment": "extruded_solid",
+      "material": "brushed_metal"
+    },
+    "plan": {
+      "schema": 1,
+      "requirements_revision": "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6",
+      "hypothesis": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+      "visual_mechanism": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+      "requirement_ids": [
+        "material",
+        "meaning"
+      ],
+      "assumptions": [
+        "These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"
+      ],
+      "details": [
+        {
+          "feature": "Mating key receivers and mounting eyes",
+          "purpose": "Show where the independent rails seat on the key and how the assembly could be anchored",
+          "intended_scale": "Hero and native detail; core silhouette remains recognizable in the flat mark",
+          "construction": "The steel receivers subtract the exact copper-key footprint plus a 0.012-unit clearance. The copper solid protrudes 0.055 units beyond the steel caps. Each rail has two through mounting eyes; all parts retain satin roughness 0.35 and anisotropy 0.8 with an explicit straight brushing tangent. Flat facets and 0.023-unit edge chamfers preserve planar machined caps.",
+          "deletion_test": "Removing the receivers makes the copper key an applied ornament; removing mounting eyes loses attachment plausibility"
+        }
+      ]
+    }
+  },
+  "inputs": {
+    "requirements_revision": "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6",
+    "plan_sha256": "ff2d06378be77e33f206dd3a897b54aacb5870115e633a5ee6ab01da28289658",
+    "concept_sha256": "65fb4d23fc25e1b6a984762ed7612090c8f02f0efadaf00c27305cf4d1cecfd6",
+    "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+  },
+  "answers": {
+    "plan_grounded": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "plan_mandates": {
+      "type": "noul",
+      "noul": 0.8
+    },
+    "plan_shared_identity": {
+      "type": "noul",
+      "noul": 0.89
+    },
+    "plan_construction": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "plan_detail_0": {
+      "type": "noul",
+      "noul": 0.99
+    }
+  },
+  "checks": {
+    "plan_grounded": "pass",
+    "plan_mandates": "pass",
+    "plan_shared_identity": "pass",
+    "plan_construction": "pass",
+    "plan_detail_0": "pass"
+  }
+}

@@ -1,0 +1,226 @@
+# Surface materials. `description` is what jev reads; the remaining keys are the
+# Principled BSDF parameters the Blender builder uses (base color comes from the
+# scene's palette unless the scene overrides it). `texture` names a procedural
+# recipe built from noise/voronoi/wave nodes: none, noise_bump, wood, stone,
+# brushed, fibers, pores.
+[polished_metal]
+description = "Mirror-polished metal such as gold, silver, or chrome, with sharp reflections."
+metallic = 1.0
+roughness = 0.08
+coat = 0.0
+transmission = 0.0
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[brushed_metal]
+description = "Brushed metal such as steel, brass, or aluminum, with soft directional sheen."
+metallic = 1.0
+roughness = 0.35
+anisotropy = 0.8
+coat = 0.0
+transmission = 0.0
+emission_strength = 0.0
+texture = "brushed"
+bump = 0.0
+bump_scale = 40.0
+
+[enamel]
+description = "Hard glossy colored enamel, like a pin or a sign."
+metallic = 0.0
+roughness = 0.15
+coat = 1.0
+coat_roughness = 0.1
+transmission = 0.0
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[porcelain]
+description = "Smooth white or tinted porcelain with a soft glaze."
+metallic = 0.0
+roughness = 0.25
+coat = 0.6
+coat_roughness = 0.2
+subsurface = 0.04
+transmission = 0.0
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[glazed_ceramic]
+description = "Thick glossy ceramic glaze that pools in recesses."
+metallic = 0.0
+roughness = 0.1
+coat = 1.0
+coat_roughness = 0.08
+transmission = 0.0
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[matte_plastic]
+description = "Smooth matte plastic in a solid color, like a toy or a product shell."
+metallic = 0.0
+roughness = 0.7
+coat = 0.0
+transmission = 0.0
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.02
+bump_scale = 120.0
+
+[glossy_plastic]
+description = "Shiny lacquered plastic in a solid color."
+metallic = 0.0
+roughness = 0.2
+coat = 0.8
+coat_roughness = 0.15
+transmission = 0.0
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[soft_rubber]
+description = "Soft-touch rubber or silicone with a velvety matte finish."
+metallic = 0.0
+roughness = 0.9
+coat = 0.0
+sheen = 0.3
+transmission = 0.0
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.03
+bump_scale = 150.0
+
+[wood]
+description = "Natural wood with visible grain."
+metallic = 0.0
+roughness = 0.5
+coat = 0.1
+transmission = 0.0
+emission_strength = 0.0
+texture = "wood"
+bump = 0.04
+bump_scale = 30.0
+
+[stone]
+description = "Polished stone such as marble or granite."
+metallic = 0.0
+roughness = 0.35
+coat = 0.4
+transmission = 0.0
+emission_strength = 0.0
+texture = "stone"
+bump = 0.03
+bump_scale = 60.0
+
+[concrete]
+description = "Cast concrete with fine pores and a raw matte surface."
+metallic = 0.0
+roughness = 0.85
+coat = 0.0
+transmission = 0.0
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.08
+bump_scale = 90.0
+
+[clear_glass]
+description = "Clear or tinted transparent glass with refraction."
+metallic = 0.0
+roughness = 0.05
+coat = 0.0
+transmission = 1.0
+ior = 1.45
+emission_strength = 0.0
+texture = "none"
+bump = 0.0
+bump_scale = 40.0
+
+[frosted_glass]
+description = "Milky frosted glass: soft translucency that keeps its tint on a transparent background."
+metallic = 0.0
+roughness = 0.5
+coat = 0.0
+transmission = 0.6
+ior = 1.45
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.02
+bump_scale = 80.0
+
+[paper]
+description = "Heavy matte paper or card with a fine fiber texture."
+metallic = 0.0
+roughness = 0.8
+coat = 0.0
+sheen = 0.2
+transmission = 0.0
+emission_strength = 0.0
+texture = "fibers"
+bump = 0.02
+bump_scale = 200.0
+
+[felt]
+description = "Soft felt or wool fabric."
+metallic = 0.0
+roughness = 0.95
+coat = 0.0
+sheen = 0.6
+transmission = 0.0
+emission_strength = 0.0
+texture = "fibers"
+bump = 0.05
+bump_scale = 120.0
+
+[leather]
+description = "Leather with a fine grain, tooled or embossed."
+metallic = 0.0
+roughness = 0.55
+coat = 0.2
+transmission = 0.0
+emission_strength = 0.0
+texture = "pores"
+bump = 0.05
+bump_scale = 100.0
+
+[wax]
+description = "Candle or modeling wax with a soft satin sheen and slight translucency."
+metallic = 0.0
+roughness = 0.26
+coat = 0.5
+coat_roughness = 0.18
+subsurface = 0.06
+transmission = 0.0
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.06
+bump_scale = 55.0
+
+[clay]
+description = "Soft modeling clay with a matte, hand-made look."
+metallic = 0.0
+roughness = 0.8
+coat = 0.0
+transmission = 0.0
+emission_strength = 0.0
+texture = "noise_bump"
+bump = 0.04
+bump_scale = 70.0
+
+[neon_glow]
+description = "Glowing light-emitting tubes or surfaces, like neon."
+metallic = 0.0
+roughness = 0.4
+coat = 0.0
+transmission = 0.0
+emission_strength = 1.5
+texture = "none"
+bump = 0.0
+bump_scale = 40.0

@@ -123,3 +123,20 @@ def test_option_names_are_descriptive():
     assert a[:8] == "palette_"
     f = font_option_name({"display": "Some Family:wght=700"}, set())
     assert "some-family" in f
+
+
+def test_brief_requirement_support_includes_prohibition_scope():
+    questions = Q.brief_review_questions(
+        [],
+        [
+            {
+                "id": "no_badge",
+                "origin": "project",
+                "sources": ["brief"],
+                "claim": "Badge or backing disc",
+                "priority": "avoid",
+                "kind": "visual",
+            }
+        ],
+    )
+    assert Q.REQUIREMENT_SCOPES["avoid"] in questions["requirement_no_badge"]["instructions"]

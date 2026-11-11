@@ -1,0 +1,421 @@
+Building source distribution...
+/Users/nicolas/.cache/uv/builds-v0/.tmpnUd3Gk/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running egg_info
+writing logo_maker.egg-info/PKG-INFO
+writing dependency_links to logo_maker.egg-info/dependency_links.txt
+writing entry points to logo_maker.egg-info/entry_points.txt
+writing requirements to logo_maker.egg-info/requires.txt
+writing top-level names to logo_maker.egg-info/top_level.txt
+reading manifest file 'logo_maker.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'logo_maker.egg-info/SOURCES.txt'
+/Users/nicolas/.cache/uv/builds-v0/.tmpnUd3Gk/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running sdist
+running egg_info
+writing logo_maker.egg-info/PKG-INFO
+writing dependency_links to logo_maker.egg-info/dependency_links.txt
+writing entry points to logo_maker.egg-info/entry_points.txt
+writing requirements to logo_maker.egg-info/requires.txt
+writing top-level names to logo_maker.egg-info/top_level.txt
+reading manifest file 'logo_maker.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'logo_maker.egg-info/SOURCES.txt'
+running check
+creating logo_maker-0.1.0
+creating logo_maker-0.1.0/logo_maker
+creating logo_maker-0.1.0/logo_maker.egg-info
+creating logo_maker-0.1.0/logo_maker/adapters
+creating logo_maker-0.1.0/logo_maker/blender
+creating logo_maker-0.1.0/logo_maker/catalog
+creating logo_maker-0.1.0/logo_maker/jev
+creating logo_maker-0.1.0/logo_maker/renderers
+creating logo_maker-0.1.0/tests
+copying files to logo_maker-0.1.0...
+copying LICENSE -> logo_maker-0.1.0
+copying README.md -> logo_maker-0.1.0
+copying pyproject.toml -> logo_maker-0.1.0
+copying logo_maker/__init__.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/benchmark.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/brief.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/briefing.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/checks.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/cli.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/doctor.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/eligibility.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/export.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/fonts.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/geometry.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/hdri.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/host.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/ideate.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/imageops.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/intake.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/judging.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/mcp_server.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/motif.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/owned_process.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/palette.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/paths.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/pipeline.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/proc.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/publication.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/refinement.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/render.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/runlog.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/sampling.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/sampling_diagnostics.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/scene.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/trace.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker/twod_tools.py -> logo_maker-0.1.0/logo_maker
+copying logo_maker.egg-info/PKG-INFO -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker.egg-info/SOURCES.txt -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker.egg-info/dependency_links.txt -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker.egg-info/entry_points.txt -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker.egg-info/requires.txt -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker.egg-info/top_level.txt -> logo_maker-0.1.0/logo_maker.egg-info
+copying logo_maker/adapters/__init__.py -> logo_maker-0.1.0/logo_maker/adapters
+copying logo_maker/adapters/jev.py -> logo_maker-0.1.0/logo_maker/adapters
+copying logo_maker/adapters/render_export.py -> logo_maker-0.1.0/logo_maker/adapters
+copying logo_maker/adapters/threed.py -> logo_maker-0.1.0/logo_maker/adapters
+copying logo_maker/adapters/twod.py -> logo_maker-0.1.0/logo_maker/adapters
+copying logo_maker/blender/__init__.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/build.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/components.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/execution.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/lighting.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/materials.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/profile.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/replay.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/blender/settings.py -> logo_maker-0.1.0/logo_maker/blender
+copying logo_maker/catalog/__init__.py -> logo_maker-0.1.0/logo_maker/catalog
+copying logo_maker/catalog/components.md -> logo_maker-0.1.0/logo_maker/catalog
+copying logo_maker/catalog/lighting.toml -> logo_maker-0.1.0/logo_maker/catalog
+copying logo_maker/catalog/materials.toml -> logo_maker-0.1.0/logo_maker/catalog
+copying logo_maker/catalog/treatments.toml -> logo_maker-0.1.0/logo_maker/catalog
+copying logo_maker/jev/__init__.py -> logo_maker-0.1.0/logo_maker/jev
+copying logo_maker/jev/client.py -> logo_maker-0.1.0/logo_maker/jev
+copying logo_maker/jev/questions.py -> logo_maker-0.1.0/logo_maker/jev
+copying logo_maker/jev/worker.py -> logo_maker-0.1.0/logo_maker/jev
+copying logo_maker/renderers/__init__.py -> logo_maker-0.1.0/logo_maker/renderers
+copying logo_maker/renderers/luxcore.py -> logo_maker-0.1.0/logo_maker/renderers
+copying logo_maker/renderers/mitsuba.py -> logo_maker-0.1.0/logo_maker/renderers
+copying logo_maker/renderers/three.py -> logo_maker-0.1.0/logo_maker/renderers
+copying tests/test_benchmark.py -> logo_maker-0.1.0/tests
+copying tests/test_brief_workflow.py -> logo_maker-0.1.0/tests
+copying tests/test_checks.py -> logo_maker-0.1.0/tests
+copying tests/test_combined_stack.py -> logo_maker-0.1.0/tests
+copying tests/test_eligibility.py -> logo_maker-0.1.0/tests
+copying tests/test_eligibility_live.py -> logo_maker-0.1.0/tests
+copying tests/test_example_render.py -> logo_maker-0.1.0/tests
+copying tests/test_export.py -> logo_maker-0.1.0/tests
+copying tests/test_fonts.py -> logo_maker-0.1.0/tests
+copying tests/test_geometry.py -> logo_maker-0.1.0/tests
+copying tests/test_gpu_execution.py -> logo_maker-0.1.0/tests
+copying tests/test_imageops.py -> logo_maker-0.1.0/tests
+copying tests/test_jev_client.py -> logo_maker-0.1.0/tests
+copying tests/test_jev_questions.py -> logo_maker-0.1.0/tests
+copying tests/test_jev_stages.py -> logo_maker-0.1.0/tests
+copying tests/test_layer_roles.py -> logo_maker-0.1.0/tests
+copying tests/test_motif.py -> logo_maker-0.1.0/tests
+copying tests/test_palette.py -> logo_maker-0.1.0/tests
+copying tests/test_publication.py -> logo_maker-0.1.0/tests
+copying tests/test_refinement.py -> logo_maker-0.1.0/tests
+copying tests/test_refinement_owned.py -> logo_maker-0.1.0/tests
+copying tests/test_render_downsample.py -> logo_maker-0.1.0/tests
+copying tests/test_ring_text.py -> logo_maker-0.1.0/tests
+copying tests/test_sampling.py -> logo_maker-0.1.0/tests
+copying tests/test_sampling_diagnostics.py -> logo_maker-0.1.0/tests
+copying tests/test_sampling_render.py -> logo_maker-0.1.0/tests
+copying tests/test_scene.py -> logo_maker-0.1.0/tests
+copying tests/test_scene_treatment.py -> logo_maker-0.1.0/tests
+copying tests/test_template_check.py -> logo_maker-0.1.0/tests
+copying tests/test_twod_tools.py -> logo_maker-0.1.0/tests
+Writing logo_maker-0.1.0/setup.cfg
+Creating tar archive
+removing 'logo_maker-0.1.0' (and everything under it)
+Building wheel from source distribution...
+/Users/nicolas/.cache/uv/builds-v0/.tmpebxnbG/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running egg_info
+writing logo_maker.egg-info/PKG-INFO
+writing dependency_links to logo_maker.egg-info/dependency_links.txt
+writing entry points to logo_maker.egg-info/entry_points.txt
+writing requirements to logo_maker.egg-info/requires.txt
+writing top-level names to logo_maker.egg-info/top_level.txt
+reading manifest file 'logo_maker.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'logo_maker.egg-info/SOURCES.txt'
+/Users/nicolas/.cache/uv/builds-v0/.tmpebxnbG/lib/python3.13/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running bdist_wheel
+running build
+running build_py
+creating build/lib/logo_maker
+copying logo_maker/intake.py -> build/lib/logo_maker
+copying logo_maker/trace.py -> build/lib/logo_maker
+copying logo_maker/hdri.py -> build/lib/logo_maker
+copying logo_maker/twod_tools.py -> build/lib/logo_maker
+copying logo_maker/benchmark.py -> build/lib/logo_maker
+copying logo_maker/paths.py -> build/lib/logo_maker
+copying logo_maker/proc.py -> build/lib/logo_maker
+copying logo_maker/render.py -> build/lib/logo_maker
+copying logo_maker/host.py -> build/lib/logo_maker
+copying logo_maker/ideate.py -> build/lib/logo_maker
+copying logo_maker/checks.py -> build/lib/logo_maker
+copying logo_maker/owned_process.py -> build/lib/logo_maker
+copying logo_maker/brief.py -> build/lib/logo_maker
+copying logo_maker/__init__.py -> build/lib/logo_maker
+copying logo_maker/scene.py -> build/lib/logo_maker
+copying logo_maker/refinement.py -> build/lib/logo_maker
+copying logo_maker/export.py -> build/lib/logo_maker
+copying logo_maker/palette.py -> build/lib/logo_maker
+copying logo_maker/judging.py -> build/lib/logo_maker
+copying logo_maker/imageops.py -> build/lib/logo_maker
+copying logo_maker/sampling_diagnostics.py -> build/lib/logo_maker
+copying logo_maker/cli.py -> build/lib/logo_maker
+copying logo_maker/motif.py -> build/lib/logo_maker
+copying logo_maker/pipeline.py -> build/lib/logo_maker
+copying logo_maker/geometry.py -> build/lib/logo_maker
+copying logo_maker/sampling.py -> build/lib/logo_maker
+copying logo_maker/publication.py -> build/lib/logo_maker
+copying logo_maker/runlog.py -> build/lib/logo_maker
+copying logo_maker/briefing.py -> build/lib/logo_maker
+copying logo_maker/fonts.py -> build/lib/logo_maker
+copying logo_maker/doctor.py -> build/lib/logo_maker
+copying logo_maker/mcp_server.py -> build/lib/logo_maker
+copying logo_maker/eligibility.py -> build/lib/logo_maker
+creating build/lib/logo_maker/renderers
+copying logo_maker/renderers/luxcore.py -> build/lib/logo_maker/renderers
+copying logo_maker/renderers/three.py -> build/lib/logo_maker/renderers
+copying logo_maker/renderers/mitsuba.py -> build/lib/logo_maker/renderers
+copying logo_maker/renderers/__init__.py -> build/lib/logo_maker/renderers
+creating build/lib/logo_maker/catalog
+copying logo_maker/catalog/__init__.py -> build/lib/logo_maker/catalog
+creating build/lib/logo_maker/adapters
+copying logo_maker/adapters/jev.py -> build/lib/logo_maker/adapters
+copying logo_maker/adapters/threed.py -> build/lib/logo_maker/adapters
+copying logo_maker/adapters/twod.py -> build/lib/logo_maker/adapters
+copying logo_maker/adapters/render_export.py -> build/lib/logo_maker/adapters
+copying logo_maker/adapters/__init__.py -> build/lib/logo_maker/adapters
+creating build/lib/logo_maker/jev
+copying logo_maker/jev/worker.py -> build/lib/logo_maker/jev
+copying logo_maker/jev/client.py -> build/lib/logo_maker/jev
+copying logo_maker/jev/questions.py -> build/lib/logo_maker/jev
+copying logo_maker/jev/__init__.py -> build/lib/logo_maker/jev
+creating build/lib/logo_maker/blender
+copying logo_maker/blender/build.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/execution.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/profile.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/materials.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/__init__.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/lighting.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/replay.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/settings.py -> build/lib/logo_maker/blender
+copying logo_maker/blender/components.py -> build/lib/logo_maker/blender
+running egg_info
+writing logo_maker.egg-info/PKG-INFO
+writing dependency_links to logo_maker.egg-info/dependency_links.txt
+writing entry points to logo_maker.egg-info/entry_points.txt
+writing requirements to logo_maker.egg-info/requires.txt
+writing top-level names to logo_maker.egg-info/top_level.txt
+reading manifest file 'logo_maker.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'logo_maker.egg-info/SOURCES.txt'
+copying logo_maker/catalog/materials.toml -> build/lib/logo_maker/catalog
+copying logo_maker/catalog/treatments.toml -> build/lib/logo_maker/catalog
+copying logo_maker/catalog/lighting.toml -> build/lib/logo_maker/catalog
+copying logo_maker/catalog/components.md -> build/lib/logo_maker/catalog
+installing to build/bdist.macosx-11.0-arm64/wheel
+running install
+running install_lib
+creating build/bdist.macosx-11.0-arm64/wheel
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker
+copying build/lib/logo_maker/intake.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker/renderers
+copying build/lib/logo_maker/renderers/luxcore.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/renderers
+copying build/lib/logo_maker/renderers/three.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/renderers
+copying build/lib/logo_maker/renderers/mitsuba.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/renderers
+copying build/lib/logo_maker/renderers/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/renderers
+copying build/lib/logo_maker/trace.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/hdri.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/twod_tools.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/benchmark.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/paths.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/proc.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/render.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/host.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/ideate.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/checks.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/owned_process.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker/catalog
+copying build/lib/logo_maker/catalog/materials.toml -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/catalog
+copying build/lib/logo_maker/catalog/components.md -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/catalog
+copying build/lib/logo_maker/catalog/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/catalog
+copying build/lib/logo_maker/catalog/treatments.toml -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/catalog
+copying build/lib/logo_maker/catalog/lighting.toml -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/catalog
+copying build/lib/logo_maker/brief.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/scene.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/refinement.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/export.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/palette.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/judging.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker/adapters
+copying build/lib/logo_maker/adapters/jev.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/adapters
+copying build/lib/logo_maker/adapters/threed.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/adapters
+copying build/lib/logo_maker/adapters/twod.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/adapters
+copying build/lib/logo_maker/adapters/render_export.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/adapters
+copying build/lib/logo_maker/adapters/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/adapters
+copying build/lib/logo_maker/imageops.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/sampling_diagnostics.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/cli.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/motif.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/pipeline.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker/jev
+copying build/lib/logo_maker/jev/worker.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/jev
+copying build/lib/logo_maker/jev/client.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/jev
+copying build/lib/logo_maker/jev/questions.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/jev
+copying build/lib/logo_maker/jev/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/jev
+copying build/lib/logo_maker/geometry.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/sampling.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/publication.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/runlog.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/briefing.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/fonts.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker/blender
+copying build/lib/logo_maker/blender/build.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/execution.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/profile.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/materials.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/__init__.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/lighting.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/replay.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/settings.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/blender/components.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker/blender
+copying build/lib/logo_maker/doctor.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/mcp_server.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+copying build/lib/logo_maker/eligibility.py -> build/bdist.macosx-11.0-arm64/wheel/./logo_maker
+running install_egg_info
+Copying logo_maker.egg-info to build/bdist.macosx-11.0-arm64/wheel/./logo_maker-0.1.0-py3.13.egg-info
+running install_scripts
+creating build/bdist.macosx-11.0-arm64/wheel/logo_maker-0.1.0.dist-info/WHEEL
+creating '/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/dist/.tmp-ntfu2xxf/logo_maker-0.1.0-py3-none-any.whl' and adding 'build/bdist.macosx-11.0-arm64/wheel' to it
+adding 'logo_maker/__init__.py'
+adding 'logo_maker/benchmark.py'
+adding 'logo_maker/brief.py'
+adding 'logo_maker/briefing.py'
+adding 'logo_maker/checks.py'
+adding 'logo_maker/cli.py'
+adding 'logo_maker/doctor.py'
+adding 'logo_maker/eligibility.py'
+adding 'logo_maker/export.py'
+adding 'logo_maker/fonts.py'
+adding 'logo_maker/geometry.py'
+adding 'logo_maker/hdri.py'
+adding 'logo_maker/host.py'
+adding 'logo_maker/ideate.py'
+adding 'logo_maker/imageops.py'
+adding 'logo_maker/intake.py'
+adding 'logo_maker/judging.py'
+adding 'logo_maker/mcp_server.py'
+adding 'logo_maker/motif.py'
+adding 'logo_maker/owned_process.py'
+adding 'logo_maker/palette.py'
+adding 'logo_maker/paths.py'
+adding 'logo_maker/pipeline.py'
+adding 'logo_maker/proc.py'
+adding 'logo_maker/publication.py'
+adding 'logo_maker/refinement.py'
+adding 'logo_maker/render.py'
+adding 'logo_maker/runlog.py'
+adding 'logo_maker/sampling.py'
+adding 'logo_maker/sampling_diagnostics.py'
+adding 'logo_maker/scene.py'
+adding 'logo_maker/trace.py'
+adding 'logo_maker/twod_tools.py'
+adding 'logo_maker/adapters/__init__.py'
+adding 'logo_maker/adapters/jev.py'
+adding 'logo_maker/adapters/render_export.py'
+adding 'logo_maker/adapters/threed.py'
+adding 'logo_maker/adapters/twod.py'
+adding 'logo_maker/blender/__init__.py'
+adding 'logo_maker/blender/build.py'
+adding 'logo_maker/blender/components.py'
+adding 'logo_maker/blender/execution.py'
+adding 'logo_maker/blender/lighting.py'
+adding 'logo_maker/blender/materials.py'
+adding 'logo_maker/blender/profile.py'
+adding 'logo_maker/blender/replay.py'
+adding 'logo_maker/blender/settings.py'
+adding 'logo_maker/catalog/__init__.py'
+adding 'logo_maker/catalog/components.md'
+adding 'logo_maker/catalog/lighting.toml'
+adding 'logo_maker/catalog/materials.toml'
+adding 'logo_maker/catalog/treatments.toml'
+adding 'logo_maker/jev/__init__.py'
+adding 'logo_maker/jev/client.py'
+adding 'logo_maker/jev/questions.py'
+adding 'logo_maker/jev/worker.py'
+adding 'logo_maker/renderers/__init__.py'
+adding 'logo_maker/renderers/luxcore.py'
+adding 'logo_maker/renderers/mitsuba.py'
+adding 'logo_maker/renderers/three.py'
+adding 'logo_maker-0.1.0.dist-info/licenses/LICENSE'
+adding 'logo_maker-0.1.0.dist-info/METADATA'
+adding 'logo_maker-0.1.0.dist-info/WHEEL'
+adding 'logo_maker-0.1.0.dist-info/entry_points.txt'
+adding 'logo_maker-0.1.0.dist-info/top_level.txt'
+adding 'logo_maker-0.1.0.dist-info/RECORD'
+removing build/bdist.macosx-11.0-arm64/wheel
+Successfully built dist/logo_maker-0.1.0.tar.gz
+Successfully built dist/logo_maker-0.1.0-py3-none-any.whl

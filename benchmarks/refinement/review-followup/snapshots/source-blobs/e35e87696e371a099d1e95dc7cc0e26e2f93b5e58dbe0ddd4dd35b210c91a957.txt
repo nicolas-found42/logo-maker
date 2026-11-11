@@ -1,0 +1,13 @@
+schema = 1
+requirements_revision = "8bf3d59cbaf1b50ad5e8ff50df28c46af8a9b901ad561e674653338c09a3f128"
+hypothesis = "Individual contributions become a reviewed, navigable shared capability"
+visual_mechanism = "Two folded card channels with offset inward tabs join across a single central shelf opening; one dark green and one pale green module form a shared index; This plan tests one territory in the three-part family. Compare joined-index (joined modules), the retained folio (folded shared object), and open-commons (open shared space); each uses its own authored construction and shared flat master."
+requirement_ids = ["material", "meaning", "owner_structure_scope"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Folded structural joins"
+purpose = "Make independently contributed parts legible as one shared support structure"
+intended_scale = "Hero and native detail; core silhouette remains recognizable in the flat mark"
+construction = "Thick folded card channels carry contrasting inset tongues; the visible score and raised edge make the join structural, not printed ornament"
+deletion_test = "Removing the joint or key turns a shared assembled object into disconnected generic pieces"

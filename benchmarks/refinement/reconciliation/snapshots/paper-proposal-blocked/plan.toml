@@ -1,0 +1,27 @@
+schema = 1
+requirements_revision = "989979cc2aa8c52c6345729f95cdd03218213c3bc804af8efd335f772461ec36"
+hypothesis = "An open shared team library formed by independently contributed parts"
+visual_mechanism = "Two broad card uprights with steep outward-folded edges stand above a low terracotta shelf. Pale laminated cores show at the cut edges. The central space stays open across the entire top, replacing the earlier near-enclosing upper tips."
+requirement_ids = ["material", "meaning"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Laminated card edge"
+purpose = "Make heavyweight paper stock visible through a pale core rather than a uniformly colored slab"
+intended_scale = "Hero and native detail; not a separate favicon feature"
+construction = "Each card assembly uses three touching layers, measured along z: a colored back from 0 to 0.006, a pale paper core from 0.006 to 0.030, and a colored face from 0.030 to 0.036, offset together along the authored plane. The layers meet at their faces with no gap."
+deletion_test = "Without the pale core the substantial cut edge loses its paper-laminate cue"
+
+[[details]]
+feature = "Continuous outward upright fold"
+purpose = "Make changes of plane legible and keep the central shared space open"
+intended_scale = "Hero; primary projected contour remains in the SVG master"
+construction = "For each upright layer the broad face meets its outer return on x=-0.82 (mirrored for the right). Both surfaces have z=0.08 plus the same layer offset at this edge. The face and return are boolean-unioned into one watertight PLY before rendering. The return turns outward, away from the central opening."
+deletion_test = "Without the return there is no intentional paper fold; without the open top the object becomes an enclosing badge-like frame"
+
+[[details]]
+feature = "Separate scored shelf"
+purpose = "Suggest a usable shared library space while keeping three contributed parts distinct"
+intended_scale = "Hero and the broad flat silhouette"
+construction = "The lower terracotta shelf is a separate card assembly. Its two wings turn upward along y=-0.6, where both plane formulas have the same height. No structural fastening to the uprights is claimed; small air gaps are intentional separation between the three logo parts."
+deletion_test = "Without the low shared shelf the uprights read as unrelated panels"

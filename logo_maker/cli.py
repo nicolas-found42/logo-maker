@@ -16,6 +16,8 @@ STAGES = (
     "ideate",
     "plan",
     "motifs",
+    "refine",
+    "status",
     "preview",
     "finalize",
     "export",
@@ -95,6 +97,8 @@ def cmd_stage(args: argparse.Namespace) -> int:
                 "plan": pipeline.review_plans,
                 "motifs": pipeline.motifs,
                 "preview": pipeline.preview,
+                "refine": pipeline.refine,
+                "status": pipeline.status,
                 "finalize": pipeline.finalize,
                 "run": pipeline.run,
                 "improve": pipeline.improve,
@@ -102,6 +106,21 @@ def cmd_stage(args: argparse.Namespace) -> int:
             result = fn(logo)
     except pipeline.AuthoringNeeded as exc:
         print(f"AUTHORING NEEDED: {exc}", file=sys.stderr)
+        if exc.details:
+            print(json.dumps(exc.details, indent=2), file=sys.stderr)
+        print(
+            json.dumps(
+                {
+                    "counts": {
+                        k: v
+                        for k, v in pipeline.status(logo).items()
+                        if k not in {"revisions", "comparisons"}
+                    }
+                },
+                default=str,
+            ),
+            file=sys.stderr,
+        )
         return 3
     _print(result)
     return 0
@@ -124,8 +143,10 @@ def build_parser() -> argparse.ArgumentParser:
         "ideate": "build the concept pool and run the judging chain to a shortlist of 8",
         "plan": "review concept hypotheses and purposeful detail before rendering",
         "motifs": "build each shortlisted motif and its size sheet; write starter scenes once",
+        "refine": "retain previews, inspect, judge and compare creative revisions",
+        "status": "report text combinations, authored motifs, renders and refinement rounds",
         "preview": "render previews on the GPU, keep 3 finalists",
-        "finalize": "final renders, QA loop (up to 5 rounds), pick the winner",
+        "finalize": "retained final renders, scoped diagnosis and creative QA, pick the winner",
         "export": "write the export set for the winner",
         "run": "run every remaining stage",
         "improve": "new round of ideas; replace the logo only if a new winner beats it",

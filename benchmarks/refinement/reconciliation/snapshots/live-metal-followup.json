@@ -1,0 +1,86 @@
+{
+  "status": "authoring_needed",
+  "details": {
+    "dimension": "creative_readiness",
+    "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+    "revision": "0006-e18a2cd94b98-preview",
+    "verdicts": {
+      "craftsmanship": {
+        "type": "noul",
+        "noul": 0.17
+      },
+      "brief_fit": {
+        "type": "noul",
+        "noul": 0.94
+      },
+      "material_intent": {
+        "type": "noul",
+        "noul": 0.33
+      },
+      "description_match": {
+        "type": "noul",
+        "noul": 0.63
+      }
+    },
+    "required_dimensions": {
+      "craftsmanship": {
+        "p": 0.17,
+        "status": "no"
+      },
+      "material_intent": {
+        "p": 0.33,
+        "status": "unsettled"
+      },
+      "description_match": {
+        "p": 0.63,
+        "status": "unsettled"
+      }
+    },
+    "comparison": {
+      "binding": "13adb63cc7fc907463217146c0b5f68c179405837abca999d197b7e41ce62f84",
+      "before": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0005-0ef91837c7e2-preview/render.png",
+      "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+      "answers": {
+        "visually_distinct": {
+          "type": "noul",
+          "noul": 0.87
+        },
+        "critique_resolved": {
+          "type": "noul",
+          "noul": 0.53
+        }
+      }
+    },
+    "next_comparison": "inspect the named dimensions and retained comparison; uncertain evidence may need a diagnostic probe or owner direction, while a confirmed defect needs an intent-led revision"
+  },
+  "against_retained": {
+    "binding": "aa6e12f3509cd63f51b26159bc80b611fc84579230d10d5fdc25e8e888bbe71e",
+    "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0010-127a6928ec24-preview/render.png",
+    "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+    "answers": {
+      "visually_distinct": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "critique_resolved": {
+        "type": "noul",
+        "noul": 0.56
+      }
+    }
+  },
+  "inspection_stop": {
+    "dimension": "inspection",
+    "revision": "0006-e18a2cd94b98-preview",
+    "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+    "next_comparison": "open retained image and prior revision; record observations, critique and user direction",
+    "critique": {
+      "action": "Resolve the local bevel/cap construction before production selection",
+      "artifact": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+      "comparison": "Compare native receiver/mounting-eye detail with the preceding hole-free revision",
+      "dimension": "receiver_and_hole_edges",
+      "evidence": "Triangular light/dark patches near the mounting-eye bevels remain visible",
+      "kind": "craftsmanship",
+      "resolved": false
+    }
+  }
+}

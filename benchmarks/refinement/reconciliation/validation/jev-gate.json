@@ -1,0 +1,1143 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "safe_to_apply_below_review",
+    "review_escalated",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "mode": "per-file",
+    "action": "escalate",
+    "composite": 0.5955166666666666,
+    "safe_to_apply": 0.23,
+    "reason_codes": [
+      "confidence_below_review",
+      "safe_to_apply_below_review"
+    ],
+    "limiting": [
+      {
+        "file": "logo_maker/pipeline.py",
+        "rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/refinement.py",
+        "rubrics": [
+          "correctness",
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/host.py",
+        "rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/render.py",
+        "rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/export.py",
+        "rubrics": [
+          "correctness",
+          "test_gap",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "logo_maker/judging.py",
+        "rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/jev/questions.py",
+        "rubrics": [
+          "correctness",
+          "test_gap"
+        ]
+      },
+      {
+        "file": "logo_maker/scene.py",
+        "rubrics": [
+          "correctness",
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "logo_maker/blender/components.py",
+        "rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "logo_maker/blender/materials.py",
+        "rubrics": [
+          "correctness",
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "logo_maker/cli.py",
+        "rubrics": [
+          "spec_match",
+          "test_gap",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "logo_maker/mcp_server.py",
+        "rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "tests/test_refinement_owned.py",
+        "rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "file": "tests/test_sampling_render.py",
+        "rubrics": [
+          "spec_match"
+        ]
+      },
+      {
+        "file": "tests/test_refinement.py",
+        "rubrics": [
+          "test_gap"
+        ]
+      }
+    ],
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "files": [
+      {
+        "path": "logo_maker/pipeline.py",
+        "safe_to_apply": 0.23,
+        "scores": {
+          "correctness": {
+            "score": 1.18,
+            "confidence": 0.25,
+            "probabilities": {
+              "0": 0.16,
+              "1": 0.5,
+              "2": 0.34
+            }
+          },
+          "spec_match": {
+            "score": 1.53,
+            "confidence": 0.29,
+            "probabilities": {
+              "0": 0.07,
+              "1": 0.33,
+              "2": 0.6
+            }
+          },
+          "test_gap": {
+            "score": 1.02,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.36,
+              "1": 0.26,
+              "2": 0.38
+            }
+          },
+          "blast_radius": {
+            "score": 1.95,
+            "confidence": 0.92,
+            "probabilities": {
+              "0": 0.01,
+              "1": 0.03,
+              "2": 0.96
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.54275,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/refinement.py",
+        "safe_to_apply": 0.25,
+        "scores": {
+          "correctness": {
+            "score": 1.22,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.19,
+              "1": 0.4,
+              "2": 0.41
+            }
+          },
+          "spec_match": {
+            "score": 1.58,
+            "confidence": 0.37,
+            "probabilities": {
+              "0": 0.08,
+              "1": 0.26,
+              "2": 0.66
+            }
+          },
+          "test_gap": {
+            "score": 0.85,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.4,
+              "1": 0.34,
+              "2": 0.26
+            }
+          },
+          "blast_radius": {
+            "score": 1.96,
+            "confidence": 0.92,
+            "probabilities": {
+              "0": 0.01,
+              "1": 0.03,
+              "2": 0.96
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.57025,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness",
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/host.py",
+        "safe_to_apply": 0.56,
+        "scores": {
+          "correctness": {
+            "score": 1.41,
+            "confidence": 0.13,
+            "probabilities": {
+              "0": 0.09,
+              "1": 0.4,
+              "2": 0.51
+            }
+          },
+          "spec_match": {
+            "score": 1.36,
+            "confidence": 0.02,
+            "probabilities": {
+              "0": 0.11,
+              "1": 0.43,
+              "2": 0.46
+            }
+          },
+          "test_gap": {
+            "score": 0.93,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.37,
+              "1": 0.32,
+              "2": 0.31
+            }
+          },
+          "blast_radius": {
+            "score": 1.47,
+            "confidence": 0.2,
+            "probabilities": {
+              "0": 0.13,
+              "1": 0.27,
+              "2": 0.6
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6059999999999999,
+        "reason_codes": [
+          "confidence_below_review"
+        ],
+        "limiting_rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/render.py",
+        "safe_to_apply": 0.5,
+        "scores": {
+          "correctness": {
+            "score": 1.52,
+            "confidence": 0.26,
+            "probabilities": {
+              "0": 0.09,
+              "1": 0.31,
+              "2": 0.6
+            }
+          },
+          "spec_match": {
+            "score": 1.6,
+            "confidence": 0.4,
+            "probabilities": {
+              "0": 0.05,
+              "1": 0.3,
+              "2": 0.65
+            }
+          },
+          "test_gap": {
+            "score": 0.77,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.42,
+              "1": 0.39,
+              "2": 0.19
+            }
+          },
+          "blast_radius": {
+            "score": 1.78,
+            "confidence": 0.66,
+            "probabilities": {
+              "0": 0.04,
+              "1": 0.15,
+              "2": 0.81
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6527499999999999,
+        "reason_codes": [
+          "confidence_below_review"
+        ],
+        "limiting_rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/export.py",
+        "safe_to_apply": 0.43,
+        "scores": {
+          "correctness": {
+            "score": 1.32,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.15,
+              "1": 0.38,
+              "2": 0.47
+            }
+          },
+          "spec_match": {
+            "score": 1.47,
+            "confidence": 0.2,
+            "probabilities": {
+              "0": 0.09,
+              "1": 0.35,
+              "2": 0.56
+            }
+          },
+          "test_gap": {
+            "score": 0.86,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.39,
+              "1": 0.36,
+              "2": 0.25
+            }
+          },
+          "blast_radius": {
+            "score": 0.97,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.4,
+              "1": 0.23,
+              "2": 0.37
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6472500000000001,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness",
+          "test_gap",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "logo_maker/judging.py",
+        "safe_to_apply": 0.41,
+        "scores": {
+          "correctness": {
+            "score": 1.38,
+            "confidence": 0.08,
+            "probabilities": {
+              "0": 0.12,
+              "1": 0.37,
+              "2": 0.51
+            }
+          },
+          "spec_match": {
+            "score": 1.46,
+            "confidence": 0.17,
+            "probabilities": {
+              "0": 0.1,
+              "1": 0.35,
+              "2": 0.55
+            }
+          },
+          "test_gap": {
+            "score": 0.9,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.38,
+              "1": 0.35,
+              "2": 0.27
+            }
+          },
+          "blast_radius": {
+            "score": 1.45,
+            "confidence": 0.17,
+            "probabilities": {
+              "0": 0.12,
+              "1": 0.31,
+              "2": 0.57
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.61875,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/jev/questions.py",
+        "safe_to_apply": 0.43,
+        "scores": {
+          "correctness": {
+            "score": 1.32,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.16,
+              "1": 0.36,
+              "2": 0.48
+            }
+          },
+          "spec_match": {
+            "score": 1.39,
+            "confidence": 0.07,
+            "probabilities": {
+              "0": 0.14,
+              "1": 0.34,
+              "2": 0.52
+            }
+          },
+          "test_gap": {
+            "score": 0.81,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.45,
+              "1": 0.28,
+              "2": 0.27
+            }
+          },
+          "blast_radius": {
+            "score": 1.34,
+            "confidence": 0.02,
+            "probabilities": {
+              "0": 0.16,
+              "1": 0.33,
+              "2": 0.51
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.61125,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness",
+          "test_gap"
+        ]
+      },
+      {
+        "path": "logo_maker/scene.py",
+        "safe_to_apply": 0.57,
+        "scores": {
+          "correctness": {
+            "score": 1.24,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.2,
+              "1": 0.36,
+              "2": 0.44
+            }
+          },
+          "spec_match": {
+            "score": 1.26,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.21,
+              "1": 0.33,
+              "2": 0.46
+            }
+          },
+          "test_gap": {
+            "score": 0.64,
+            "confidence": 0.04,
+            "probabilities": {
+              "0": 0.58,
+              "1": 0.2,
+              "2": 0.22
+            }
+          },
+          "blast_radius": {
+            "score": 1.09,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.32,
+              "1": 0.27,
+              "2": 0.41
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6072500000000001,
+        "reason_codes": [
+          "confidence_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness",
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "logo_maker/blender/components.py",
+        "safe_to_apply": 0.55,
+        "scores": {
+          "correctness": {
+            "score": 1.35,
+            "confidence": 0.02,
+            "probabilities": {
+              "0": 0.17,
+              "1": 0.31,
+              "2": 0.52
+            }
+          },
+          "spec_match": {
+            "score": 1.31,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.19,
+              "1": 0.31,
+              "2": 0.5
+            }
+          },
+          "test_gap": {
+            "score": 0.65,
+            "confidence": 0.04,
+            "probabilities": {
+              "0": 0.57,
+              "1": 0.22,
+              "2": 0.21
+            }
+          },
+          "blast_radius": {
+            "score": 0.99,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.38,
+              "1": 0.25,
+              "2": 0.37
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6435,
+        "reason_codes": [
+          "confidence_below_review"
+        ],
+        "limiting_rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "logo_maker/blender/materials.py",
+        "safe_to_apply": 0.47,
+        "scores": {
+          "correctness": {
+            "score": 1.23,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.21,
+              "1": 0.36,
+              "2": 0.43
+            }
+          },
+          "spec_match": {
+            "score": 1.27,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.22,
+              "1": 0.29,
+              "2": 0.49
+            }
+          },
+          "test_gap": {
+            "score": 0.61,
+            "confidence": 0.1,
+            "probabilities": {
+              "0": 0.59,
+              "1": 0.22,
+              "2": 0.19
+            }
+          },
+          "blast_radius": {
+            "score": 1.19,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.28,
+              "1": 0.25,
+              "2": 0.47
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.6015,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "correctness",
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "logo_maker/cli.py",
+        "safe_to_apply": 0.49,
+        "scores": {
+          "correctness": {
+            "score": 1.11,
+            "confidence": 0.12,
+            "probabilities": {
+              "0": 0.24,
+              "1": 0.41,
+              "2": 0.35
+            }
+          },
+          "spec_match": {
+            "score": 1.29,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.19,
+              "1": 0.32,
+              "2": 0.49
+            }
+          },
+          "test_gap": {
+            "score": 0.68,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.53,
+              "1": 0.26,
+              "2": 0.21
+            }
+          },
+          "blast_radius": {
+            "score": 1.23,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.24,
+              "1": 0.29,
+              "2": 0.47
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.57225,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "spec_match",
+          "test_gap",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "logo_maker/mcp_server.py",
+        "safe_to_apply": 0.5,
+        "scores": {
+          "correctness": {
+            "score": 1.15,
+            "confidence": 0.1,
+            "probabilities": {
+              "0": 0.23,
+              "1": 0.4,
+              "2": 0.37
+            }
+          },
+          "spec_match": {
+            "score": 1.29,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.19,
+              "1": 0.33,
+              "2": 0.48
+            }
+          },
+          "test_gap": {
+            "score": 0.65,
+            "confidence": 0.04,
+            "probabilities": {
+              "0": 0.55,
+              "1": 0.26,
+              "2": 0.19
+            }
+          },
+          "blast_radius": {
+            "score": 1.3,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.21,
+              "1": 0.27,
+              "2": 0.52
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.57725,
+        "reason_codes": [
+          "confidence_below_review"
+        ],
+        "limiting_rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "tests/test_refinement_owned.py",
+        "safe_to_apply": 0.48,
+        "scores": {
+          "correctness": {
+            "score": 1.15,
+            "confidence": 0.08,
+            "probabilities": {
+              "0": 0.23,
+              "1": 0.39,
+              "2": 0.38
+            }
+          },
+          "spec_match": {
+            "score": 1.26,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.21,
+              "1": 0.32,
+              "2": 0.47
+            }
+          },
+          "test_gap": {
+            "score": 0.63,
+            "confidence": 0.05,
+            "probabilities": {
+              "0": 0.56,
+              "1": 0.25,
+              "2": 0.19
+            }
+          },
+          "blast_radius": {
+            "score": 1.2,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.28,
+              "1": 0.24,
+              "2": 0.48
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.58175,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "spec_match",
+          "blast_radius"
+        ]
+      },
+      {
+        "path": "tests/test_sampling_render.py",
+        "safe_to_apply": 0.39,
+        "scores": {
+          "correctness": {
+            "score": 1.06,
+            "confidence": 0.1,
+            "probabilities": {
+              "0": 0.27,
+              "1": 0.4,
+              "2": 0.33
+            }
+          },
+          "spec_match": {
+            "score": 1.24,
+            "confidence": 0,
+            "probabilities": {
+              "0": 0.23,
+              "1": 0.3,
+              "2": 0.47
+            }
+          },
+          "test_gap": {
+            "score": 0.63,
+            "confidence": 0.05,
+            "probabilities": {
+              "0": 0.57,
+              "1": 0.23,
+              "2": 0.2
+            }
+          },
+          "blast_radius": {
+            "score": 1.51,
+            "confidence": 0.28,
+            "probabilities": {
+              "0": 0.16,
+              "1": 0.16,
+              "2": 0.68
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.5375,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "spec_match"
+        ]
+      },
+      {
+        "path": "tests/test_refinement.py",
+        "safe_to_apply": 0.43,
+        "scores": {
+          "correctness": {
+            "score": 1.07,
+            "confidence": 0.14,
+            "probabilities": {
+              "0": 0.25,
+              "1": 0.43,
+              "2": 0.32
+            }
+          },
+          "spec_match": {
+            "score": 1.37,
+            "confidence": 0.07,
+            "probabilities": {
+              "0": 0.16,
+              "1": 0.3,
+              "2": 0.54
+            }
+          },
+          "test_gap": {
+            "score": 0.66,
+            "confidence": 0.01,
+            "probabilities": {
+              "0": 0.54,
+              "1": 0.26,
+              "2": 0.2
+            }
+          },
+          "blast_radius": {
+            "score": 1.43,
+            "confidence": 0.16,
+            "probabilities": {
+              "0": 0.19,
+              "1": 0.18,
+              "2": 0.63
+            }
+          }
+        },
+        "weights": {
+          "correctness": 0.4,
+          "spec_match": 0.3,
+          "test_gap": 0.15,
+          "blast_radius": 0.15
+        },
+        "thresholds": {
+          "auto_accept": 0.8,
+          "review_at": 0.5,
+          "composite_floor": 0.7
+        },
+        "action": "escalate",
+        "composite": 0.56275,
+        "reason_codes": [
+          "confidence_below_review",
+          "safe_to_apply_below_review"
+        ],
+        "limiting_rubrics": [
+          "test_gap"
+        ]
+      }
+    ]
+  },
+  "verification": {
+    "action": "review",
+    "summary": {
+      "verified": 4,
+      "contradicted": 0,
+      "unsupported": 0,
+      "needs_review": 2,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "The reconciled offline suite passed 423 tests with 6 render/live tests deselected; historical 270-test results are not used to qualify this head.",
+        "verdict": "verified",
+        "confidence": 0.92,
+        "probabilities": {
+          "verified": 0.95,
+          "contradicted": 0.03,
+          "unsupported": 0.02
+        },
+        "action": "auto"
+      },
+      {
+        "claim": "Lint, ty, staged repository hooks, the full two-test GPU regression, wheel/sdist build and 48-check doctor passed.",
+        "verdict": "verified",
+        "confidence": 0.89,
+        "probabilities": {
+          "verified": 0.93,
+          "contradicted": 0.04,
+          "unsupported": 0.03
+        },
+        "action": "auto"
+      },
+      {
+        "claim": "A fresh explicit live synthetic-fixture final runtime test passed actual GPU render, 31 low-level exports and live QA, stopped at sampling review, and preserved its prior winner. Canned brief/plan answers in that fixture are not artistic approval.",
+        "verdict": "verified",
+        "confidence": 0.68,
+        "probabilities": {
+          "verified": 0.79,
+          "contradicted": 0.11,
+          "unsupported": 0.1
+        },
+        "action": "review"
+      },
+      {
+        "claim": "Actual live creative comparisons show distinct new paper and metal constructions (about .95-.97 distinctness); creative readiness and critique resolution still fail, and no new artistic finalist/winner/production export is claimed. A further paper proposal is blocked and unrendered.",
+        "verdict": "verified",
+        "confidence": 0.67,
+        "probabilities": {
+          "verified": 0.78,
+          "contradicted": 0.14,
+          "unsupported": 0.08
+        },
+        "action": "review"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 55697,
+    "output_tokens": 1553
+  }
+}

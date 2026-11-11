@@ -1,0 +1,131 @@
+# 3D treatments: how a flat motif becomes an object. `description` is what jev
+# reads when judging concepts; `components` is the starting scene the agent edits
+# (see catalog/components.md). Ids are stable: concept ids and logged chains
+# refer to them. Scene defaults (camera tilt, lighting rig, render look, and
+# `mark_scale`, the motif's size relative to the 2.0-unit box so it clears
+# plate edges and text) ride alongside so `from_treatment` can emit a complete
+# scene.toml.
+
+[extruded_solid]
+description = "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+components = [
+  { kind = "extrude", material = "surface", depth = 0.22, bevel = 0.02 },
+]
+
+[embossed_plate]
+description = "The mark raised in relief from a flat plate or tile."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+mark_scale = 0.82
+components = [
+  { kind = "plate", material = "surface", radius = 1.0, thickness = 0.17 },
+  { kind = "relief", material = "surface", height = 0.03 },
+]
+
+[debossed_plate]
+description = "The mark pressed or carved into a flat plate or tile, sitting below the surface."
+camera_tilt = 28.0
+lighting_rig = "raking"
+look = "photoreal"
+mark_scale = 0.82
+components = [
+  { kind = "plate", material = "surface", radius = 1.0, thickness = 0.17 },
+  { kind = "relief", material = "surface", height = 0.035, mode = "cut" },
+]
+
+[stencil_plate]
+description = "The mark cut all the way through a plate, so the background shows through the shape."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+mark_scale = 0.82
+components = [
+  { kind = "plate", material = "surface", radius = 1.0, thickness = 0.12 },
+  { kind = "relief", material = "surface", height = 0.12, mode = "through" },
+]
+
+[layered_cutout]
+description = "The mark built from stacked flat cut-out layers at different heights, with visible steps between them."
+camera_tilt = 32.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+components = [
+  { kind = "layers", material = "surface", base = 0.0, step = 0.05, slab = 0.05 },
+]
+
+[inflated_soft]
+description = "The mark as a soft, rounded, puffy form, like molded clay or an inflated balloon."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+components = [
+  { kind = "inflate", material = "surface", puff = 0.16, depth = 0.05 },
+]
+
+[medallion]
+description = "The mark in relief inside a round disc with a raised rim, with room for text set around the edge."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+mark_scale = 0.6
+components = [
+  { kind = "plate", material = "surface", radius = 1.0, thickness = 0.17, edge = "smooth" },
+  { kind = "recess", material = "surface", radius = 0.82, depth = 0.06 },
+  { kind = "rim", material = "surface", major = 0.85, minor = 0.03 },
+  { kind = "rim", material = "surface", major = 0.6, minor = 0.007, z = 0.114 },
+  { kind = "ring_text", material = "surface", radius = 0.7, cap_height = 0.07, base = 0.11 },
+  { kind = "relief", material = "surface", height = 0.025, base = 0.108 },
+]
+
+[shaped_badge]
+description = "The mark on a shaped badge such as a shield, hexagon, or rounded square, framed by a raised border."
+camera_tilt = 28.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+mark_scale = 0.78
+components = [
+  { kind = "cad", material = "surface", op = "rounded_box", size = [1.7, 1.7, 0.16] },
+  { kind = "relief", material = "surface", height = 0.03 },
+]
+
+[tube_lines]
+description = "The mark's lines as continuous round tubes, like bent wire or neon signage."
+camera_tilt = 24.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+components = [
+  { kind = "tube", material = "surface", radius = 0.022 },
+]
+
+[voxel_build]
+description = "The mark assembled from small cubes, like a pixel sculpture."
+camera_tilt = 32.0
+lighting_rig = "studio_soft"
+look = "photoreal"
+components = [
+  { kind = "voxels", material = "surface", cube = 0.07, height = 0.14 },
+]
+
+[engraved_lines]
+description = "The mark as fine engraved or drawn lines on a surface, read through line art rather than volume."
+camera_tilt = 20.0
+lighting_rig = "raking"
+look = "lineart"
+mark_scale = 0.82
+components = [
+  { kind = "plate", material = "surface", radius = 1.0, thickness = 0.14 },
+  { kind = "relief", material = "surface", height = 0.012, mode = "cut" },
+]
+
+[toon_object]
+description = "The mark as a solid object shown with flat cel shading and crisp outlines, like an illustration."
+camera_tilt = 28.0
+lighting_rig = "top_flat"
+look = "toon"
+components = [
+  { kind = "extrude", material = "surface", depth = 0.22, bevel = 0.02 },
+]

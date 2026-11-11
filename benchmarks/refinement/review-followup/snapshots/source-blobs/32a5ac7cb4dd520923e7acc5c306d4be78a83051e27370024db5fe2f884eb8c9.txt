@@ -1,0 +1,107 @@
+[meta]
+concept = "open-commons|extruded_solid|paper"
+treatment = "extruded_solid"
+seed = 1820117
+
+[camera]
+tilt_deg = 25.0
+lens_mm = 100.0
+framing = 0.82
+
+[lighting]
+rig = "studio_soft"
+hdri = "none"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+
+[materials.primary]
+preset = "paper"
+color = "#285640"
+
+[materials.secondary]
+preset = "paper"
+color = "#DCE7D6"
+
+[materials.accent]
+preset = "paper"
+color = "#C47D5A"
+
+[materials.core]
+preset = "paper"
+color = "#F8F7F2"
+[[components]]
+kind = "mesh"
+name = "west-back"
+path = "west-back.ply"
+material = "primary"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "west-core"
+path = "west-core.ply"
+material = "core"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "west-face"
+path = "west-face.ply"
+material = "primary"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "east-back"
+path = "east-back.ply"
+material = "secondary"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "east-core"
+path = "east-core.ply"
+material = "core"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "east-face"
+path = "east-face.ply"
+material = "secondary"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "shelf-back"
+path = "shelf-back.ply"
+material = "accent"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "shelf-core"
+path = "shelf-core.ply"
+material = "core"
+smooth = false
+bevel = 0.003
+
+[[components]]
+kind = "mesh"
+name = "shelf-face"
+path = "shelf-face.ply"
+material = "accent"
+smooth = false
+bevel = 0.003

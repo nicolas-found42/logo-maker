@@ -1,0 +1,27 @@
+from pathlib import Path
+import json,os,sys,signal,time
+from logo_maker import owned_process
+from logo_maker.sampling import Budget,SamplingLimit
+from logo_maker.paths import REPO_ROOT
+base=REPO_ROOT/'benchmarks/refinement/local/pr-captures';fake=base/'nonresponsive-chrome';pidfile=base/'nonresponsive-chrome.pid'
+fake.write_text('#!'+sys.executable+'\nimport os,time\nfrom pathlib import Path\nPath('+repr(str(pidfile))+').write_text(str(os.getpid()))\ntime.sleep(60)\n');fake.chmod(0o755)
+os.environ['CHROME_PATH']=str(fake)
+source=REPO_ROOT/'benchmarks/refinement/local/review-followup-runtime/concepts/sampling-typography--embossed-plate--polished-metal/final.png'
+try:
+ for mode in ['system','local']:
+  if mode=='system':os.environ.pop('PAG_USE_LOCAL_REV',None)
+  else:os.environ['PAG_USE_LOCAL_REV']='1'
+  out=base/('pwa-probe-'+mode);payload={'source':str(source),'out_dir':str(out),'manifest':str(out/'manifest.json'),'background':'#F4F1EA','opaque':True};start=time.monotonic()
+  try:
+   result=owned_process.run(['node',str(REPO_ROOT/'js/pwa.mjs')],input_text=json.dumps(payload),budget=Budget(wall_seconds=8 if mode=='system' else 60),label='PWA probe')
+   print(json.dumps({'mode':mode,'seconds':time.monotonic()-start,'returncode':result.returncode,'output':result.stdout[-800:],'error':result.stderr[-800:]}),flush=True)
+   assert mode=='local' and result.returncode==0
+   from PIL import Image
+   assert Image.open(out/'manifest-icon-512.maskable.png').size==(512,512)
+  except SamplingLimit as exc:
+   print(json.dumps({'mode':mode,'seconds':time.monotonic()-start,'stop':str(exc)}),flush=True)
+   assert mode=='system'
+finally:
+ if pidfile.exists():
+  try: os.kill(int(pidfile.read_text()),signal.SIGKILL)
+  except ProcessLookupError:pass

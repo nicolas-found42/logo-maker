@@ -1,0 +1,53 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_________ test_unpublished_archive_stages_never_enter_revision_history _________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-498/test_unpublished_archive_stage0')
+
+    def test_unpublished_archive_stages_never_enter_revision_history(tmp_path):
+        from logo_maker.paths import LogoDir, concept_slug
+    
+        logo = LogoDir(tmp_path)
+        cid = "test|paper|paper"
+        root = logo.qa / "revisions" / concept_slug(cid)
+        for name in ("0001-published-preview", ".archiving-interrupted", ".publishing-interrupted"):
+            path = root / name / "revision.json"
+            path.parent.mkdir(parents=True)
+            path.write_text(json.dumps({"revision": name}))
+>       assert refinement.history(logo, cid) == [{"revision": "0001-published-preview"}]
+E       AssertionError: assert [{'revision':...hed-preview'}] == [{'revision':...hed-preview'}]
+E         
+E         At index 0 diff: {'revision': '.archiving-interrupted'} != {'revision': '0001-published-preview'}
+E         Left contains 2 more items, first extra item: {'revision': '.publishing-interrupted'}
+E         Use -v to get more diff
+
+tests/test_refinement_owned.py:102: AssertionError
+___ test_final_publication_input_edit_restores_prior_winner_and_run[staging] ___
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-498/test_final_publication_input_e0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107e3c770>
+phase = 'staging'
+
+    @pytest.mark.parametrize("phase", ["staging", "renamed"])
+    def test_final_publication_input_edit_restores_prior_winner_and_run(tmp_path, monkeypatch, phase):
+        from test_eligibility import EligibilityClient, finalize_logo
+    
+        logo, cid = finalize_logo(tmp_path / "logo")
+        monkeypatch.setattr(render, "machine_context", lambda *a: {})
+        result = pipeline.qa_concept(logo, cid, EligibilityClient(), pipeline.brand(logo))
+        monkeypatch.setattr(pipeline, "qa_concept", lambda *a, **k: result)
+        winner = logo.ideation / "winner.json"
+        winner.write_text('{"winner":"approved prior"}')
+        previous_run = logo.run_json.read_bytes()
+        marker = edit_during_publication(
+            tmp_path, monkeypatch, "winner.json", logo.concept(cid) / "inspection-final.json", phase
+        )
+>       with pytest.raises(pipeline.AuthoringNeeded, match="publication"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AuthoringNeeded
+
+tests/test_publication_guards.py:60: Failed
+=========================== short test summary info ============================
+FAILED tests/test_refinement_owned.py::test_unpublished_archive_stages_never_enter_revision_history
+FAILED tests/test_publication_guards.py::test_final_publication_input_edit_restores_prior_winner_and_run[staging]
+2 failed in 3.35s

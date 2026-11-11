@@ -1,0 +1,16 @@
+{
+  "critiques": [
+    {
+      "action": "Set planar-face normals, seat the key and remove pier overlap while retaining samples, lighting and material presets.",
+      "artifact": "qa/revisions/keystone--extruded-solid--brushed-metal/0003-25394af3aabd-preview/render.png",
+      "comparison": "Compare against the floating-key/pinwheel v2 and original generic gate.",
+      "dimension": "cap normals and seated key",
+      "evidence": "Planar caps read evenly and the crown key meets the arch shoulder edges.",
+      "kind": "craftsmanship",
+      "resolved": true
+    }
+  ],
+  "observations": "The copper key now seats against both curved shoulders and the arch meets both piers. Planar faces no longer show radial pinwheel normals. Restrained blue steel and copper reflections reveal bevels and assembly; the flat mark and hero share the arch silhouette.",
+  "revision": "0003-25394af3aabd-preview",
+  "user_feedback": "No owner approval or additional finish preference inferred."
+}

@@ -1,0 +1,15 @@
+{
+  "after": "qa/revisions/keystone--extruded-solid--brushed-metal/0007-90eaefb82fef-preview/render.png",
+  "answers": {
+    "critique_resolved": {
+      "noul": 0.61,
+      "type": "noul"
+    },
+    "visually_distinct": {
+      "noul": 0.01,
+      "type": "noul"
+    }
+  },
+  "before": "qa/revisions/keystone--extruded-solid--brushed-metal/0006-c6dd703a3bc2-preview/render.png",
+  "binding": "8ee81dc115846f4f731e1909600079ea995f2b15d1fd4c37bddaadd4d8b8cf98"
+}

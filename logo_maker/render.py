@@ -9,6 +9,7 @@ import json
 import subprocess
 import sys
 import time
+import tomllib
 import uuid
 from collections.abc import Sequence
 from dataclasses import dataclass
@@ -89,17 +90,34 @@ def machine_context(budget: Budget) -> dict:
     return json.loads(proc.stdout.strip().splitlines()[-1])
 
 
+def control_paths(concept_dir: Path, config: dict) -> dict[str, Path]:
+    """Policy records bind image evidence; they are not inputs to their own image key."""
+    return {
+        field: (concept_dir / config[field]).resolve()
+        for field in ("profile", "diagnosis")
+        if config.get(field)
+    }
+
+
 def source_files(concept_dir: Path) -> set[Path]:
-    names = ("scene.toml", "motif.json", "motif.svg", "concept.json")
-    paths = {concept_dir / name for name in names if (concept_dir / name).is_file()}
-    paths.update(concept_dir.glob("*.py"))
+    from logo_maker.refinement import concept_sources
+
+    paths = set(concept_sources(concept_dir).values())
+    brief = concept_dir.parent.parent / "brief.toml"
+    if concept_dir.parent.name == "concepts" and brief.is_file():
+        from logo_maker.brief import load
+
+        paths.add(brief)
+        paths.update(reference.path for reference in load(brief).references)
     package = Path(__file__).parent
     paths.update(package.rglob("*.py"))
     paths.update(package.rglob("*.toml"))
     paths.update(
         p for name in ("uv.lock", "pyproject.toml") if (p := package.parent / name).is_file()
     )
-    return {p.resolve() for p in paths}
+    recipe = concept_dir / "scene.toml"
+    config = tomllib.loads(recipe.read_text()).get("sampling", {}) if recipe.exists() else {}
+    return {p.resolve() for p in paths} - set(control_paths(concept_dir, config).values())
 
 
 def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
@@ -120,7 +138,7 @@ def dependency_hashes(concept_dir: Path, scene_data: dict) -> dict:
             if path.is_absolute() and path.is_file():
                 paths.add(path.resolve())
 
-    collect(scene_data)
+    collect({k: v for k, v in scene_data.items() if k != "sampling"})
     return {str(p): sha256(p) for p in sorted(paths)}
 
 
@@ -628,6 +646,34 @@ def artifact_current(
     budget: Budget | None = None,
     expected_record_sha256: str | None = None,
 ) -> bool:
+    """Production reuse requires complete supported sampling/runtime scope."""
+    return _artifact_current(
+        concept_dir,
+        quality,
+        check_machine=check_machine,
+        budget=budget,
+        expected_record_sha256=expected_record_sha256,
+    )
+
+
+def inspection_artifact_current(
+    concept_dir: Path, quality: str, *, budget: Budget | None = None
+) -> bool:
+    """Reopen retained previews for critique without granting production reuse/qualification."""
+    return _artifact_current(
+        concept_dir, quality, budget=budget, inspection_only=quality == "preview"
+    )
+
+
+def _artifact_current(
+    concept_dir: Path,
+    quality: str,
+    *,
+    check_machine: bool = True,
+    budget: Budget | None = None,
+    inspection_only: bool = False,
+    expected_record_sha256: str | None = None,
+) -> bool:
     """Content freshness includes source, code, devices, seed, execution and delivered bytes."""
     budget = budget or Budget()
     budget.check()
@@ -637,6 +683,7 @@ def artifact_current(
             "concept_dir": str(concept_dir),
             "quality": quality,
             "expected_record_sha256": expected_record_sha256,
+            "inspection_only": inspection_only,
         },
         budget,
         [],
@@ -651,12 +698,16 @@ def artifact_current(
     return True
 
 
-def _artifact_current_local(concept_dir: Path, quality: str, *, record: dict | None = None) -> bool:
+def _artifact_current_local(
+    concept_dir: Path, quality: str, *, record: dict | None = None, inspection_only: bool = False
+) -> bool:
     """Disk/hash work only; called by the owned host worker."""
     try:
         if record is None:
             record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
-        if "custom_scene_sha256" in record.get("context", {}):
+        if "custom_scene_sha256" in record.get("context", {}) and not (
+            inspection_only and quality == "preview"
+        ):
             return False
         if (
             not record["published"]

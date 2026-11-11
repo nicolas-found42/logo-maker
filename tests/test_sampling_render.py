@@ -20,6 +20,26 @@ def compiled(tmp_path):
     (tmp_path / "motif.json").write_text('{"layers":[]}')
 
 
+def creative_intent(logo, cid):
+    from logo_maker import refinement
+
+    folder = logo.concept(cid)
+    description = "Sampling regression fixture; artistic acceptance is outside this test"
+    (folder / "concept.json").write_text(json.dumps({"id": cid, "description": description}))
+    intent: dict[str, object] = dict.fromkeys(refinement.CONSTRUCTION_FIELDS, description)
+    intent["dependencies"] = []
+    (folder / "construction.json").write_text(json.dumps(intent))
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": [cid]}))
+
+
+def bind_finalists(logo, cid):
+    from logo_maker import refinement
+
+    (logo.ideation / "finalists.json").write_text(
+        json.dumps({"ids": [cid], "binding": refinement.campaign_key(logo, [cid])})
+    )
+
+
 def test_failed_builder_keeps_prior_final_and_records_operational_failure(tmp_path, monkeypatch):
     compiled(tmp_path)
     prior = tmp_path / "final.png"
@@ -200,6 +220,7 @@ def test_successful_final_binds_delivered_hash_after_real_downsample(tmp_path, m
     assert render.artifact_current(tmp_path, "final", check_machine=False)
     (tmp_path / "scene.py").write_text("# new authored source\n")
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
+    assert not render.inspection_artifact_current(tmp_path, "final", budget=Budget())
     (tmp_path / "scene.py").unlink()
     assert render.artifact_current(tmp_path, "final", check_machine=False)
     result.png.write_bytes(b"changed exported image")
@@ -272,40 +293,24 @@ def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path
 def test_generic_edge_failure_returns_scoped_refinement_without_changing_sampling(
     tmp_path, monkeypatch
 ):
-    from types import SimpleNamespace
+    import tomlkit
+    from test_refinement import Judge, construction, fake_gpu, job
 
-    from logo_maker import judging, pipeline
-    from logo_maker.paths import LogoDir
+    from logo_maker import pipeline
 
-    logo = LogoDir(tmp_path / "logo")
-    pipeline.new(logo, "Test")
-    logo.brief.write_text('name = "Test"\nsummary = "Test mark"\ntone = ["calm"]\n')
-    folder = logo.concept("a|b|c")
-    recipe = "[render]\nmax_samples = 128\nadaptive_threshold = 0.02\n"
-    (folder / "scene.toml").write_text(recipe)
-    Image.new("RGBA", (64, 64), (10, 20, 30, 255)).save(folder / "final.png")
-    monkeypatch.setattr(render, "artifact_current", lambda *a, **k: True)
-    monkeypatch.setattr(
-        judging,
-        "qa_judgments",
-        lambda *a, **kw: {"clean_edges": SimpleNamespace(status="fail", p=0.1)},
-    )
-
-    class ImmediateClient:
-        def with_budget(self, budget):
-            return self
-
-    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
-
-    freeze_for_stage_test(logo)
-    plan_for_stage_test(logo, "a|b|c")
-    result = pipeline.qa_concept(
-        logo, "a|b|c", ImmediateClient(), pipeline.Brand({"primary": "#0A141E"}, {})
-    )
-    assert result["result"] == "refinement_needed"
-    assert result["refinement"]["dimension"] == "edges_unknown_cause"
-    assert (folder / "scene.toml").read_text() == recipe
-    assert result["round"] == 1
+    logo, cid, folder = job(tmp_path)
+    construction(folder)
+    fake_gpu(monkeypatch)
+    doc = tomlkit.parse((folder / "scene.toml").read_text())
+    doc["render"]["max_samples"] = 128
+    doc["render"]["adaptive_threshold"] = 0.02
+    (folder / "scene.toml").write_text(tomlkit.dumps(doc))
+    before = (folder / "scene.toml").read_bytes()
+    with pytest.raises(pipeline.AuthoringNeeded, match="diagnosis") as stop:
+        pipeline.qa_concept(logo, cid, Judge(0.1), pipeline.Brand({"primary": "#123456"}, {}))
+    assert "clean_edges" in stop.value.details["failures"]
+    assert stop.value.details["diagnosis"]["sampling_action"] == "none"
+    assert (folder / "scene.toml").read_bytes() == before
 
 
 def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
@@ -389,7 +394,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
 
     from PIL import ImageDraw
 
-    from logo_maker import pipeline
+    from logo_maker import pipeline, refinement
     from logo_maker.jev.client import JevClient
     from logo_maker.paths import LogoDir
     from logo_maker.sampling import SamplingLimit
@@ -403,6 +408,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
     concept_id = "a|b|c"
     folder = logo.concept(concept_id)
     compiled(folder)
+    creative_intent(logo, concept_id)
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
 
     def builder(path, *args, budget):
@@ -411,15 +417,23 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
         image = Image.new("RGBA", (4000, 4000))
         ImageDraw.Draw(image).ellipse((1000, 1000, 3000, 3000), fill=(36, 88, 70, 255))
         image.save(target / "final.png")
-        (target / "final.execution.json").write_text('{"status":"verified"}')
+        (target / "final.execution.json").write_text(
+            json.dumps(
+                {
+                    "status": "verified",
+                    "policy": "metal-gpu-only",
+                    "denoiser_effective": {"device_type": "Metal"},
+                }
+            )
+        )
 
     from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
 
     freeze_for_stage_test(logo)
     plan_for_stage_test(logo, concept_id)
     monkeypatch.setattr(render, "_run_builder", builder)
-    render.render(folder, "final")
-    (logo.ideation / "finalists.json").write_text(json.dumps({"ids": [concept_id]}))
+    refinement.capture(logo, concept_id, "final")
+    bind_finalists(logo, concept_id)
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"approved prior"}')
     seen = threading.Event()
@@ -574,29 +588,58 @@ def test_exhausted_finalize_budget_stops_before_loading_inputs(tmp_path):
 
 
 def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp_path, monkeypatch):
-    from logo_maker import pipeline
-    from logo_maker.paths import LogoDir
+    import shutil
 
-    logo = LogoDir(tmp_path / "logo")
-    logo.brief.parent.mkdir(parents=True, exist_ok=True)
-    logo.brief.write_text(
-        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+    from test_refinement import Judge, construction, fake_gpu, job
+
+    from logo_maker import pipeline, refinement
+    from logo_maker.paths import REPO_ROOT
+
+    logo, cid, folder = job(tmp_path)
+    with logo.brief.open("a") as stream:
+        stream.write('\n[palette]\nprimary="#123456"\n[fonts]\ndisplay="Manrope:wght=700"\n')
+    construction(folder)
+    from test_refinement import refresh_reviews
+
+    refresh_reviews(logo)
+    pipeline.motifs(logo)
+    shutil.copyfile(REPO_ROOT / "examples/chief-of-staff/reference-256.png", folder / "preview.png")
+    (logo.ideation / "finalists.json").write_text(
+        json.dumps({"ids": [cid], "binding": refinement.campaign_key(logo, [cid])})
     )
-    (logo.ideation / "finalists.json").write_text('{"ids":["a|b|c"]}')
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"approved-prior"}')
-    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
-
-    freeze_for_stage_test(logo)
-    plan_for_stage_test(logo, "a|b|c")
-    monkeypatch.setattr(pipeline, "brand", lambda logo: pipeline.Brand({}, {}))
-    monkeypatch.setattr(
-        pipeline, "qa_concept", lambda *a, **k: {"result": "sampling_review_needed"}
+    fake_gpu(
+        monkeypatch,
+        REPO_ROOT / "examples/chief-of-staff/reference-256.png",
+        sampling_qualified=False,
     )
-    with pytest.raises(pipeline.AuthoringNeeded) as caught:
-        pipeline.finalize(logo, client=object())
-    assert logo.concept("a|b|c") / ".build/final.sampling.json" in caught.value.files
+    with pytest.raises(pipeline.AuthoringNeeded, match="sampling qualification") as stop:
+        pipeline.finalize(logo, client=Judge())
+    assert folder / ".build/final.sampling.json" in stop.value.files
     assert prior.read_text() == '{"winner":"approved-prior"}'
+
+
+def test_creative_sources_join_sampling_keys_without_diagnosis_self_dependency(tmp_path):
+    import tomlkit
+    from test_refinement import construction, job
+
+    logo, _, folder = job(tmp_path)
+    construction(folder)
+    geometry = folder / "fold-geometry.json"
+    geometry.write_text('{"crease":12}')
+    diagnosis = folder / "sampling-diagnosis.json"
+    diagnosis.write_text('{"kind":"sampling_noise","source_key":"bind-to-output"}')
+    profile = folder / "machine-profile.json"
+    profile.write_text('{"schema":1}')
+    doc = tomlkit.parse((folder / "scene.toml").read_text())
+    doc["sampling"] = {"diagnosis": str(diagnosis), "profile": str(profile)}
+    (folder / "scene.toml").write_text(tomlkit.dumps(doc))
+    deps = render.dependency_hashes(folder, {"sampling": dict(doc["sampling"])})
+    assert str(geometry.resolve()) in deps
+    assert str(logo.brief.resolve()) in deps
+    assert str(diagnosis.resolve()) not in deps
+    assert str(profile.resolve()) not in deps
 
 
 def test_custom_bpy_cache_without_dependency_inventory_is_unknown(tmp_path, monkeypatch):
@@ -718,7 +761,7 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
     import os
     import time
 
-    from logo_maker import export, pipeline
+    from logo_maker import export, pipeline, refinement
     from logo_maker.blender.execution import verify_denoiser_log
     from logo_maker.jev.client import JevClient
     from logo_maker.paths import LogoDir, concept_slug
@@ -747,7 +790,23 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
     folder = logo.concepts / concept_slug(cid)
     fixture(folder, "typography", 0, 0.01, 4096)
     pipeline.prepare_motif(folder)
-    rendered = render.render(folder, "final", budget=budget)
+    creative_intent(logo, cid)
+    # These canned brief/plan answers qualify only the synthetic runtime fixture.
+    # Actual creative and comparative judgments are exercised by the retained studies.
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, cid)
+    final_record = refinement.capture(logo, cid, "final", budget=budget)
+    rendered = render.RenderResult(
+        folder / "final.png",
+        folder / "scene.blend",
+        folder / "model.glb",
+        final_record["host_total_seconds"],
+        "final",
+        Path(final_record["sampling"]["execution"]),
+        folder / ".build/final.sampling.json",
+    )
     assert rendered.execution is not None
     execution = json.loads(rendered.execution.read_text())
     assert execution["status"] == "verified"
@@ -763,14 +822,14 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
     export_started = time.monotonic()
     paths = export.export_all(
         folder,
-        folder / "exports",
+        logo.exports,
         name="OPTICS",
         palette=palette,
         motif_svg=folder / "motif.svg",
         budget=budget,
     )
     export_seconds = time.monotonic() - export_started
-    manifest = json.loads((folder / "exports/manifest.json").read_text())
+    manifest = json.loads((logo.exports / "manifest.json").read_text())
     for key, entry in manifest["files"].items():
         assert hashlib.sha256(paths[key].read_bytes()).hexdigest() == entry["sha256"]
     assert len(paths) == 31
@@ -782,7 +841,8 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
         == hashlib.sha256(rendered.sampling.read_bytes()).hexdigest()
     )
     execution_hash = hashlib.sha256(rendered.execution.read_bytes()).hexdigest()
-    (logo.ideation / "finalists.json").write_text(json.dumps({"ids": [cid]}))
+    assert final_record["image_sha256"] == hashlib.sha256(rendered.png.read_bytes()).hexdigest()
+    bind_finalists(logo, cid)
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"prior test winner"}')
     native_attempts_before_qa = budget.attempts

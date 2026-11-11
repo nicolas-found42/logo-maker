@@ -241,6 +241,16 @@ def _validate_material(name: str, spec: Any) -> dict:
             out[key] = value
         elif key in spec:
             out[key] = _num(where, spec, key, lo=0.0)
+    if "tangent" in spec:
+        tangent = spec["tangent"]
+        if (
+            not isinstance(tangent, list)
+            or len(tangent) != 3
+            or any(type(v) not in (int, float) or not math.isfinite(v) for v in tangent)
+            or not any(tangent)
+        ):
+            raise SceneError(f"scene.toml: [{where}] tangent must be a finite nonzero 3D vector")
+        out["tangent"] = tangent
     return out
 
 
@@ -301,6 +311,8 @@ def _check_kind_fields(where: str, comp: dict) -> None:
     for key in nums:
         if key in scalar and not isinstance(scalar[key], (int, float)):
             raise SceneError(f"scene.toml: [{where}] {key}={scalar[key]!r} must be a number")
+    if "smooth" in comp and type(comp["smooth"]) is not bool:
+        raise SceneError(f"scene.toml: [{where}] smooth must be a boolean")
     if kind == "ring_text":
         for key in ("text", "font"):
             if not comp.get(key):
@@ -757,6 +769,7 @@ def _resolve_material(name: str, preset: str, base_hex: str, params: dict) -> di
         "emission_linear": list(geometry.hex_to_linear(emission_hex)),
         "emission_strength": float(params.get("emission_strength", 0.0)),
         "anisotropy": float(params.get("anisotropy", 0.0)),
+        **({"tangent": params["tangent"]} if "tangent" in params else {}),
         "texture": params.get("texture", "none") or "none",
         "bump": float(params.get("bump", 0.0)),
         "bump_scale": float(params.get("bump_scale", 40.0)),

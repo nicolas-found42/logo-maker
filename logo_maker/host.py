@@ -43,6 +43,44 @@ def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
 
 def main(payload: dict) -> dict:
     operation = payload["operation"]
+    if operation == "selection_guard":
+        from logo_maker import refinement
+        from logo_maker.brief import load
+        from logo_maker.eligibility import require_current
+        from logo_maker.paths import LogoDir
+
+        logo = LogoDir(Path(payload["root"]))
+        refinement.selection_bindings(
+            logo, payload["binding"], payload["proofs"], payload["quality"], check_machine=False
+        )
+        brief = load(logo.brief)
+        for cid, proof in payload["eligibility"].items():
+            require_current(logo, brief, cid, proof, stage=payload["quality"])
+        return {}
+    if operation == "export_guard":
+        from logo_maker.export import ExportError, _verify_eligibility
+        from logo_maker.refinement import digest, read
+        from logo_maker.sampling import sampling_qualified
+
+        expected = payload.get("sampling_sha256")
+        if expected is not None:
+            path = Path(payload["sampling_path"])
+            if digest(path) != expected or not sampling_qualified(read(path)):
+                raise ExportError("qualified sampling snapshot changed during publication")
+        if payload.get("eligibility") is not None:
+            _verify_eligibility(payload["eligibility"])
+        return {}
+    if operation == "concept_states":
+        from logo_maker.brief import load
+        from logo_maker.judging import _concept_states
+        from logo_maker.paths import LogoDir
+
+        logo = LogoDir(Path(payload["root"]))
+        return {"states": _concept_states(logo, load(logo.brief))}
+    if operation == "refinement":
+        from logo_maker.refinement import host_operation
+
+        return host_operation(payload)
     if operation == "export_eligibility":
         from logo_maker.export import _verify_eligibility
 
@@ -120,7 +158,10 @@ def main(payload: dict) -> dict:
         from logo_maker import publication
 
         if operation == "publish":
-            return publication.apply(payload)
+            try:
+                return publication.apply(payload)
+            except publication.PublicationConflict as exc:
+                return {"precondition_error": str(exc)}
         if operation == "recover_publication":
             return publication.recover(Path(payload["journal"]), Path(payload["lock"]))
         return publication.clean(Path(payload["journal"]))
@@ -271,7 +312,12 @@ def main(payload: dict) -> dict:
             record = json.loads(raw)
         except (OSError, ValueError):
             return {"current": False}
-        current = _artifact_current_local(folder, payload["quality"], record=record)
+        current = _artifact_current_local(
+            folder,
+            payload["quality"],
+            record=record,
+            inspection_only=payload.get("inspection_only", False),
+        )
         return {"current": current, "context": record.get("context", {})}
     if operation == "qa_checks":
         from logo_maker import checks

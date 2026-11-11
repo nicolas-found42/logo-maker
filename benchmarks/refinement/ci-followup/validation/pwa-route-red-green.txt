@@ -1,0 +1,2 @@
+{"mode": "system", "seconds": 7.085480833979091, "stop": "time_limit: PWA probe deadline exhausted; prior artifacts retained"}
+{"mode": "local", "seconds": 0.6625337500008754, "returncode": 0, "output": "{\"ok\":true,\"out_dir\":\"/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/pr-captures/pwa-probe-local\",\"files\":[\"apple-icon-180.png\",\"favicon-196.png\",\"manifest-icon-192.maskable.png\",\"manifest-icon-512.maskable.png\",\"manifest.json\"]}\n", "error": ""}

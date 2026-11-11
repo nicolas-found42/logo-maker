@@ -242,7 +242,8 @@ def brief_review_questions(
             "type": "noul",
             "instructions": (
                 f"Do source excerpts with IDs {requirement['sources']} establish this "
-                f"{requirement['origin']} requirement: {requirement['claim']}"
+                f"{requirement['origin']} requirement: {requirement['claim']}. "
+                f"Required scope: {OBLIGATION_SCOPES[requirement['kind']] if prefix == 'obligation' else REQUIREMENT_SCOPES[requirement['priority']]}"
             ),
             "criteria": {
                 "true": "The source establishes the stated requirement and its mandatory or optional scope.",
@@ -887,6 +888,56 @@ def preview_decision(answers: dict[str, dict[str, Any]]) -> tuple[bool, str]:
     return True, f"P(pleasant) {pleasant:.2f}, appeal {appeal:.2f}" + (f" {flags}" if flags else "")
 
 
+# -- creative refinement ---------------------------------------------------------------
+
+CREATIVE_SPECS = {
+    "craftsmanship": "Does `render` show deliberate, coherent construction with well-resolved junctions, edges and secondary details, relative to `construction.intended_appearance`? A simple core silhouette may have rich hero detail. Gloss and roundness alone do not establish craft.",
+    "brief_fit": "Do the visible symbol and geometry specifically communicate this brand's purpose and the meaning in `construction`, rather than merely presenting a generic pleasant object?",
+    "material_intent": "Does the object visibly form as described in `construction.material_construction` and achieve its intended appearance? For paper examine changes of plane, folds, edges and layers. Matte and glossy treatments can each succeed when intended.",
+    "description_match": "Does the actual visible motif match `construction.current_description` and remain recognizable as the flat mark in `motif`? Judge the current description, not historical pool text. Ambiguity is unresolved, not success.",
+}
+
+
+def creative_questions() -> dict[str, dict[str, Any]]:
+    return {
+        name: {
+            "type": "noul",
+            "instructions": instruction,
+            "criteria": {
+                "true": "The image clearly demonstrates this dimension relative to the stated intent.",
+                "false": "The image fails this dimension; technical validity or generic pleasantness is insufficient.",
+            },
+        }
+        for name, instruction in CREATIVE_SPECS.items()
+    }
+
+
+def revision_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "visually_distinct": {
+            "type": "noul",
+            "instructions": "Do `before` and `after` explore genuinely different symbol geometry or material-specific construction? Text labels, descriptions, color/material swaps, camera, sampling or finish alone do not count. Compare images with their own construction intents.",
+            "criteria": {
+                "true": "Meaningfully distinct visual alternatives in symbol or construction are visible.",
+                "false": "Essentially the same geometry/idea, or only finish/text/technical settings differ.",
+            },
+        },
+        "critique_resolved": {
+            "type": "noul",
+            "instructions": "Does `after` visibly address the concrete critique in `prior_critique` relative to its intended appearance and user direction? If no defect was asserted, does it succeed as its own deliberate alternative? A glossier or rounder finish is not automatically better. Preserve uncertainty when the images cannot establish resolution.",
+            "criteria": {
+                "true": "The revision resolves the stated issue, or succeeds as a deliberate alternative with no invented defect.",
+                "false": "The concrete critique persists or cannot be evaluated from the images.",
+            },
+        },
+    }
+
+
+def creative_ready(answers: dict[str, dict[str, Any]]) -> bool:
+    """Positive per-dimension evidence is required; uncertainty remains authoring work."""
+    return all(noul_status(float(answers[name]["noul"])) == "yes" for name in CREATIVE_SPECS)
+
+
 # -- final QA ----------------------------------------------------------------------------
 
 QA_CHECK_SPECS: dict[str, dict[str, str]] = {
@@ -976,6 +1027,7 @@ def describe() -> list[dict[str, Any]]:
         {
             "id": "visual",
             "claim": "Preserve the owner's stated visual requirement.",
+            "priority": "must",
             "origin": "owner",
             "sources": ["sample"],
         }
@@ -1021,6 +1073,8 @@ def describe() -> list[dict[str, Any]]:
     built.update(fit_questions())
     built.update(technical_questions())
     built.update(qa_questions())
+    built.update(creative_questions())
+    built.update(revision_questions())
 
     feeds = {
         **dict.fromkeys(
@@ -1060,6 +1114,15 @@ def describe() -> list[dict[str, Any]]:
             "eligibility_decision -> qa/eligibility.jsonl (only pass advances)",
         ),
     }
+    feeds.update(
+        dict.fromkeys(CREATIVE_SPECS, "creative_ready -> scoped refinement authoring stop")
+    )
+    feeds.update(
+        {
+            "visually_distinct": "image alternatives gate -> qa/comparisons.json",
+            "critique_resolved": "revision comparison -> retained comparison.json",
+        }
+    )
     thresholds = {
         "noul": f"yes >= {NOUL_YES}, no < {NOUL_NO}, else unsettled",
         "choice": "top choice wins (a companion Noul guards the null case where one exists)",

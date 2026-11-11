@@ -1,0 +1,65 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____ test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output _____
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-505/test_provider_timeout_keeps_pe0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b2268b0>
+
+    def test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output(tmp_path, monkeypatch):
+        logo, _, prior = prepared_run(tmp_path, monkeypatch)
+        reached = threading.Event()
+        release = threading.Event()
+    
+        def respond(body):
+            reached.set()
+            release.wait(8)
+            return 200, {"answers": {key: {"noul": 0.9} for key in body["questions"]}}
+    
+        try:
+            with provider(monkeypatch, respond) as url:
+                client = JevClient(logo)
+                client.url = url
+                with pytest.raises(SamplingLimit, match="time_limit"):
+                    pipeline.finalize(logo, client, budget=Budget(wall_seconds=4))
+        finally:
+            release.set()
+>       assert reached.is_set(), "timeout must reach the actual owned provider worker"
+E       AssertionError: timeout must reach the actual owned provider worker
+E       assert False
+E        +  where False = is_set()
+E        +    where is_set = <threading.Event at 0x10cc502d0: unset>.is_set
+
+tests/test_combined_stack.py:149: AssertionError
+__ test_finalize_interrupted_winner_publication_restores_winner_and_run_state __
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-505/test_finalize_interrupted_winn0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10c82a520>
+
+    def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
+        tmp_path, monkeypatch
+    ):
+        from test_eligibility import EligibilityClient, finalize_logo
+    
+        from logo_maker import pipeline, render
+    
+        logo, cid = finalize_logo(tmp_path / "logo")
+        monkeypatch.setattr(render, "machine_context", lambda *a: {})
+        prior = logo.ideation / "winner.json"
+        prior.write_text('{"winner":"approved-prior"}')
+        result = pipeline.qa_concept(logo, cid, EligibilityClient(), pipeline.brand(logo))
+        previous_state = json.loads(logo.run_json.read_text())
+        monkeypatch.setattr(pipeline, "qa_concept", lambda *a, **kw: result)
+        marker = inject_stall(tmp_path, monkeypatch, "rename", ".publishing-", after=True)
+        started = time.monotonic()
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=8))
+>       assert marker.exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-505/test_finalize_interrupted_winn0/fault-started').exists
+
+tests/test_publication.py:109: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_combined_stack.py::test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output
+FAILED tests/test_publication.py::test_finalize_interrupted_winner_publication_restores_winner_and_run_state
+2 failed in 15.41s

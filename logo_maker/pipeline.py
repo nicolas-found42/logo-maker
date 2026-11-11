@@ -22,8 +22,9 @@ from logo_maker import brief as brief_mod
 from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
 from logo_maker.paths import LogoDir, concept_slug
+from logo_maker.refinement import bounded_entry
 from logo_maker.runlog import runlog
-from logo_maker.sampling import Budget
+from logo_maker.sampling import Budget, sampling_qualified
 
 METAPHORS_TEMPLATE = """# Metaphors for this brand: 8-40 distinct ideas the mark could show, each in one or two sentences that
 # say what it depicts and why it fits the brief. Ids are short slugs. Derive every idea from the brief.
@@ -54,7 +55,14 @@ MAX_QA_ROUNDS = 5
 class AuthoringNeeded(RuntimeError):
     """The agent must write files before the stage can continue. `files` lists them."""
 
-    def __init__(self, message: str, files: list[Path], *, questions: list[str] | None = None):
+    def __init__(
+        self,
+        message: str,
+        files: list[Path],
+        *,
+        questions: list[str] | None = None,
+        details: dict | None = None,
+    ):
         self.questions = questions or []
         super().__init__(
             message
@@ -63,6 +71,7 @@ class AuthoringNeeded(RuntimeError):
             + "".join(f"\n  Question: {question}" for question in self.questions)
         )
         self.files = files
+        self.details = details or {}
 
 
 @dataclass(frozen=True)
@@ -84,7 +93,12 @@ def _bounded_inputs(logo: LogoDir, budget: Budget, *, brand_required: bool = Fal
         [],
     )
     if "authoring_needed" in data:
-        raise AuthoringNeeded(data["authoring_needed"], [Path(p) for p in data["files"]])
+        raise AuthoringNeeded(
+            data["authoring_needed"],
+            [Path(p) for p in data["files"]],
+            questions=data.get("questions"),
+            details=data.get("details"),
+        )
     fields = data["brief"]
     fields["references"] = tuple(
         brief_mod.Reference(Path(r["path"]), r["use"], r["note"]) for r in fields["references"]
@@ -312,12 +326,29 @@ def prepare_motif(concept_dir: Path) -> Path:
         concept_dir / "motif.svg",
         concept_dir / "motif.json",
     )
-    newest_source = max((p.stat().st_mtime for p in (script, svg) if p.exists()), default=None)
-    if newest_source is None:
+    from logo_maker.refinement import concept_sources, digest
+
+    if not script.exists() and not svg.exists():
         raise AuthoringNeeded("author a motif", [script])
-    if flat.exists() and flat.stat().st_mtime >= newest_source:
+    receipt = concept_dir / ".motif-state.json"
+    previous = _read_json(receipt) if receipt.exists() else {}
+    dependencies = {
+        name: digest(path)
+        for name, path in concept_sources(concept_dir, exclude={"motif.json", "motif.svg"}).items()
+    }
+    source_hashes = {p.name: digest(p) for p in (script, svg) if p.exists()}
+    if (
+        flat.exists()
+        and previous.get("sources") == source_hashes
+        and previous.get("flat") == digest(flat)
+        and previous.get("dependencies") == dependencies
+    ):
         return flat
-    if script.exists() and (not svg.exists() or script.stat().st_mtime > svg.stat().st_mtime):
+    if script.exists() and (
+        not svg.exists()
+        or previous.get("sources", {}).get("motif.py") != digest(script)
+        or previous.get("dependencies") != dependencies
+    ):
         motif.run_motif_script(concept_dir)
     problems = motif.validate(svg)
     if problems:
@@ -326,6 +357,14 @@ def prepare_motif(concept_dir: Path) -> Path:
             [script if script.exists() else svg],
         )
     motif.flatten(svg, flat)
+    _write_json(
+        receipt,
+        {
+            "sources": {p.name: digest(p) for p in (script, svg) if p.exists()},
+            "flat": digest(flat),
+            "dependencies": dependencies,
+        },
+    )
     return flat
 
 
@@ -380,8 +419,16 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     out: dict[str, dict[str, str]] = {}
     for cid, folder in dirs.items():
         svg, sizes = folder / "motif.svg", folder / "motif-sizes.png"
-        if not sizes.exists() or sizes.stat().st_mtime < svg.stat().st_mtime:
+        from logo_maker.refinement import digest
+
+        receipt = folder / ".sizes-state.json"
+        if (
+            not sizes.exists()
+            or not receipt.exists()
+            or _read_json(receipt).get("svg") != digest(svg)
+        ):
             motif.size_sheet(svg, sizes)
+            _write_json(receipt, {"svg": digest(svg)})
         if not (folder / "scene.toml").exists():
             new_scenes.append(_starter_scene(logo, cid, folder))
         out[cid] = {"motif": str(svg), "sizes": str(sizes), "scene": str(folder / "scene.toml")}
@@ -407,38 +454,132 @@ def motifs(logo: LogoDir) -> dict[str, dict[str, str]]:
     return out
 
 
-def preview(logo: LogoDir, client=None, *, keep: int = 3) -> list[str]:
-    from logo_maker import judging, render
+@bounded_entry
+def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[str, Any]:
+    """Inspect image-backed creative readiness before presenting finalists."""
+    from logo_maker import refinement
 
-    _require_brief(logo)
-    ids = shortlist(logo)
-    dirs = [logo.concept(cid) for cid in ids]
-    review_plans(logo, client)
-    motifs(logo)
-    todo = [d for d in dirs if not _fresh(d / "preview.png", d)]
-    if todo:
-        render.render_many(todo, "preview")
-    log = runlog(logo.run_json)
-    client = client or _client(logo)
-    brief = brief_mod.load(logo.brief)
-    previews = {cid: logo.concept(cid) / "preview.png" for cid in ids}
+    if budget is not None:
+        budget.check()
+    ids = refinement.prepare(logo)
+    records = []
+    inspection_bindings = {}
+    creative_proofs = {}
+    for cid in ids:
+        record = refinement.capture(logo, cid, "preview", budget=budget)
+        snapshot = refinement.inspection_snapshot(logo, cid, record)
+        inspection_binding, inspection = snapshot["sha256"], snapshot["data"]
+        if client is None:
+            client = _client(logo, budget=budget)
+        if budget is not None and not records:
+            client = _budgeted_client(client, budget)
+        creative_proofs[cid] = refinement.judge_revision_proof(
+            logo, cid, record, inspection, inspection_binding, client
+        )
+        refinement.require_current(
+            logo, cid, record, budget=budget, inspection_sha256=inspection_binding
+        )
+        inspection_bindings[cid] = inspection_binding
+        records.append(record)
+    refinement.alternatives(logo, records, client or _client(logo))
+    for record in records:
+        refinement.require_current(
+            logo,
+            record["concept"],
+            record,
+            budget=budget,
+            inspection_sha256=inspection_bindings[record["concept"]],
+        )
+    report = refinement.report(logo, ids)
+    report["selection"] = {
+        "binding": refinement.key(
+            {
+                record["concept"]: {
+                    "sources": record["source_sha256"],
+                    "preview": record["image_sha256"],
+                    "inspection": creative_proofs[record["concept"]]["inspection_sha256"],
+                }
+                for record in records
+            }
+        ),
+        "creative": creative_proofs,
+    }
+    return report
+
+
+def status(logo: LogoDir) -> dict[str, Any]:
+    """Separate ideation combinations, authored motifs, renders and refinement evidence."""
+    from logo_maker import refinement
+
+    ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
+    return refinement.report(logo, ids)
+
+
+@bounded_entry
+def preview(
+    logo: LogoDir, client=None, *, keep: int = 3, budget: Budget | None = None
+) -> list[str]:
+    from logo_maker import judging, refinement
+
+    budget = budget or Budget(attempt_limit=64)
+    ids = refinement.prepare(logo)
+    refined = refine(logo, client, budget=budget)["selection"]
+    refinement.require_binding(logo, refined, "preview")
+    binding = refined["binding"]
+    log = runlog(logo.run_json, budget=budget)
+    client = client or _client(logo, budget=budget)
+    brief = _bounded_inputs(logo, budget, reviewed=True, plans=ids)[0]
+    previews = {cid: (logo.root / "concepts" / concept_slug(cid)) / "preview.png" for cid in ids}
+    if budget is not None:
+        client = _budgeted_client(client, budget)
     try:
-        finalists = judging.screen_previews(logo, brief, previews, client, keep=keep)
+        doc = judging.screen_previews_record(
+            logo, brief, previews, client, keep=keep, budget=budget
+        )
+        finalists = doc["ids"]
     except ValueError as exc:  # no preview survived screening
-        log.stage("preview", "review_needed", reason=str(exc))
         raise AuthoringNeeded(
-            f"review qa/eligibility.jsonl and revise the brief, references, motifs or scenes: {exc}",
-            [logo.brief, *(logo.concept(cid) / "motif.py" for cid in ids)],
+            f"revise the motifs and scenes: {exc}",
+            [(logo.root / "concepts" / concept_slug(cid)) / "motif.py" for cid in ids],
         ) from exc
-    log.stage("preview", "done", finalists=finalists)
+    if refinement.campaign_key(logo, ids) != binding:
+        raise AuthoringNeeded(
+            "inputs changed while judging previews; refresh refinement",
+            [(logo.root / "ideation") / "finalists.json"],
+        )
+    doc["binding"] = binding
+    qualification = {}
+    for cid in finalists:
+        active = refinement.current(logo, cid, "preview", budget=budget)
+        if active is None:
+            raise AuthoringNeeded(
+                "inputs changed while judging previews; refresh refinement",
+                [(logo.root / "concepts" / concept_slug(cid)) / "inspection.json"],
+            )
+        qualification[cid] = {
+            "creative": "ready",
+            "sampling": active.get("sampling", {}).get("profile", {"state": "unknown"}),
+        }
+    doc["qualification"] = qualification
+    doc["creative"] = {cid: refined["creative"][cid] for cid in finalists}
+    _publish_selection(
+        logo,
+        log,
+        "preview",
+        logo.root / "ideation/finalists.json",
+        doc,
+        budget,
+        {
+            "operation": "selection_guard",
+            "root": str(logo.root),
+            "binding": binding,
+            "proofs": doc["creative"],
+            "quality": "preview",
+            "eligibility": {cid: doc["eligibility"][cid] for cid in finalists},
+        },
+        finalists=finalists,
+    )
     return finalists
-
-
-def _fresh(output: Path, concept_dir: Path) -> bool:
-    """Only content-bound verified renders are reusable; mtime is insufficient."""
-    from logo_maker.render import artifact_current
-
-    return artifact_current(concept_dir, output.stem)
 
 
 # ---------------------------------------------------------------- finalize + QA loop
@@ -473,108 +614,122 @@ def _apply_fixes(scene_path: Path, failures: set[str]) -> list[str]:
     return changes
 
 
+@bounded_entry
 def qa_concept(
     logo: LogoDir, concept_id: str, client, brand_: Brand, *, budget: Budget | None = None
 ) -> dict[str, Any]:
-    """Render final, judge, fix, re-render: up to MAX_QA_ROUNDS. Returns the last round's record."""
-    from logo_maker import judging, render
+    """One retained final per revision; diagnosis returns work rather than guessing repairs."""
+    from logo_maker import judging, refinement
 
-    budget = Budget(attempt_limit=4, parent=budget) if budget else Budget(attempt_limit=4)
+    budget = Budget(attempt_limit=4, parent=budget)
     budget.check()
     client = _budgeted_client(client, budget)
     brief = _bounded_inputs(logo, budget, reviewed=True, plans=[concept_id])[0]
     folder = logo.root / "concepts" / concept_slug(concept_id)
-    rounds_path = logo.root / "qa" / "rounds.jsonl"
-    log = runlog(logo.run_json, budget=budget)
-    record: dict[str, Any] = {}
-    for round_no in range(1, MAX_QA_ROUNDS + 1):
-        budget.check()
-        if not render.artifact_current(folder, "final", budget=budget):
-            render.render(folder, "final", budget=budget)
-        final = folder / "final.png"
-        verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
-        host_stages: list[dict] = []
-        code = host.run(
-            {"operation": "qa_checks", "png": str(final), "palette": brand_.palette},
-            budget,
-            host_stages,
-        )
-        # Only clear fails block and get fixed (questions.qa_blocks); unsettled is recorded.
-        failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
-        failures |= {"veil"} if code["alpha"]["veil"] else set()
-        failures |= {"margin"} if code["margin"]["cut_off"] else set()
-        failures |= {"edges"} if code["edges"]["aliased"] else set()
-        unsettled = sorted(name for name, v in verdicts.items() if v.status == "unsettled")
-        record = {
-            "concept": concept_id,
-            "round": round_no,
-            "failures": sorted(failures),
-            "unsettled": unsettled,
-            "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
-            "code": code,
-            "host_stages": host_stages,
-            "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-        }
-        budget.check()
-        sampling_path = folder / ".build/final.sampling.json"
-        sampling = host.run(
-            {"operation": "read_json", "path": str(sampling_path), "default": {}}, budget, []
-        )["data"]
-        record["sampling"] = sampling.get("outcomes", {"noise": "unknown", "device": "unknown"})
-        record["sampling_profile"] = sampling.get("profile", {"state": "profile_unqualified"})
-        record["budget"] = budget.record()
-        fixable = failures - {"recognizable_at_32px"}
-        if failures & {"clean_edges", "edges"}:
-            record["result"] = "refinement_needed"
-            record["refinement"] = {
-                "dimension": "edges_unknown_cause",
-                "artifact": str(final),
-                "source_key": sampling.get("source_key"),
-                "image_sha256": sampling.get("delivered_sha256"),
-                "next": "compare independent-seed noisy/denoised detail; distinguish noise, geometry, typography, filtering, resolution and alpha before repair",
-            }
-        elif not failures and (
-            record["sampling_profile"]["state"] != "qualified"
-            or record["sampling"].get("sampling") != "profile_baseline"
-        ):
-            record["result"] = "sampling_review_needed"
-        elif not failures:
-            record["result"] = "pass"
-        elif not fixable:
-            record["result"] = "needs_diagnosis"
-        else:
-            record["changes"] = host.run(
-                {
-                    "operation": "apply_fixes",
-                    "path": str(folder / "scene.toml"),
-                    "failures": sorted(fixable),
-                },
-                budget,
-                [],
-            )["changes"]
-            record["result"] = "fixing" if record["changes"] else "needs_diagnosis"
+    record = refinement.capture(logo, concept_id, "final", budget=budget)
+    final = folder / "final.png"
+    verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
+    host_stages: list[dict] = []
+    code = host.run(
+        {"operation": "qa_checks", "png": str(final), "palette": brand_.palette},
+        budget,
+        host_stages,
+    )
+    failures = {name for name, v in verdicts.items() if qa_blocks(v.status)}
+    failures |= {"veil"} if code["alpha"]["veil"] else set()
+    failures |= {"margin"} if code["margin"]["cut_off"] else set()
+    failures |= {"edges"} if code["edges"]["aliased"] else set()
+    result = {
+        "concept": concept_id,
+        "revision": record["revision"],
+        "artifact": record["image"],
+        "image_sha256": record["image_sha256"],
+        "failures": sorted(failures),
+        "unsettled": sorted(n for n, v in verdicts.items() if v.status == "unsettled"),
+        "verdicts": {k: {"status": v.status, "p": v.p} for k, v in verdicts.items()},
+        "code": code,
+        "host_stages": host_stages,
+        "result": "authoring_needed" if failures else "technical_pass",
+        "sampling": record.get("sampling", {}),
+        "budget": budget.record(),
+        "diagnosis": {
+            "cause": "unknown",
+            "sampling_action": "none",
+            "next_comparison": "independent-seed noisy/denoised detail for stochastic noise (#5); inspect persistent geometry, material, typography, filtering/resolution and alpha separately",
+        },
+    }
+    result["diagnosis"] = refinement.diagnosis(logo, concept_id, record, result["diagnosis"])
+
+    def retain() -> None:
         host.run(
-            {"operation": "append_jsonl", "path": str(rounds_path), "data": record}, budget, []
+            {
+                "operation": "append_jsonl",
+                "path": str(logo.root / "qa/rounds.jsonl"),
+                "data": result,
+            },
+            budget,
+            [],
         )
-        log.event(
-            f"qa {concept_id} round {round_no}: {record['result']}",
-            failures=sorted(failures),
-            budget=budget,
+        refinement.write(logo.root / record["evidence"] / "qa.json", result)
+
+    if failures:
+        retain()
+        raise AuthoringNeeded(
+            "technical diagnosis required; generic edge failure does not establish sampling noise",
+            [
+                folder / "diagnosis.json",
+                folder / "inspection-final.json",
+                folder / "scene.toml",
+                folder / "construction.json",
+            ],
+            details=result,
         )
-        if record["result"] != "fixing":
-            break
-    if record.get("result") == "fixing":
-        record["result"] = "failed"
-    return record
+    if not sampling_qualified(record.get("sampling", {})):
+        result["result"] = "sampling_review_needed"
+        retain()
+        raise AuthoringNeeded(
+            "sampling qualification unresolved; creative validity cannot replace #5's profile gate",
+            [folder / ".build/final.sampling.json", folder / "scene.toml"],
+            details={
+                "dimension": "sampling_profile",
+                "sampling": record.get("sampling", {}),
+                "artifact": record["image"],
+            },
+        )
+    try:
+        budget.check()
+        snapshot = refinement.inspection_snapshot(logo, concept_id, record)
+        inspection_binding, inspection = snapshot["sha256"], snapshot["data"]
+        creative_proof = refinement.judge_revision_proof(
+            logo, concept_id, record, inspection, inspection_binding, client
+        )
+        refinement.require_current(
+            logo, concept_id, record, budget=budget, inspection_sha256=inspection_binding
+        )
+        result.update(creative_proof)
+        budget.check()
+    except AuthoringNeeded:
+        result["result"] = "creative_review_needed"
+        retain()
+        raise
+    result["result"] = "pass"
+    retain()
+    return result
 
 
+@bounded_entry
 def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str:
-    from logo_maker import judging
+    from logo_maker import judging, refinement
 
     caller_budget = budget
     bootstrap = budget or Budget(attempt_limit=64)
     job_started = bootstrap.clock()
     bootstrap.check()
+    runlog(logo.run_json, budget=bootstrap)
+    _bounded_inputs(logo, bootstrap, finalists=True, reviewed=True)
+    finalist_doc = refinement.read(logo.root / "ideation/finalists.json")
+    refinement.require_binding(logo, finalist_doc, "preview")
+    campaign_binding = finalist_doc["binding"]
     brief, brand_, setup = _bounded_inputs(
         logo, bootstrap, brand_required=True, finalists=True, reviewed=True
     )
@@ -609,6 +764,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             files,
         )
     try:
+        refinement.final_bindings(logo, campaign_binding, {cid: results[cid] for cid in passed})
         winner_record = judging.final_tournament_record(
             brief,
             {cid: (logo.root / "concepts" / concept_slug(cid)) / "final.png" for cid in passed},
@@ -617,6 +773,8 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             budget=budget,
         )
         winner = winner_record["winner"]
+        refinement.final_bindings(logo, campaign_binding, {cid: results[cid] for cid in passed})
+        winner_record.update(binding=campaign_binding, creative=results[winner])
     except ValueError as exc:
         log.stage("finalize", "review_needed", budget=budget, reason=str(exc))
         raise AuthoringNeeded(
@@ -626,20 +784,51 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
                 *[logo.root / "concepts" / concept_slug(cid) / "scene.toml" for cid in passed],
             ],
         ) from exc
-    log.publish_stage(
+    _publish_selection(
+        logo,
+        log,
         "finalize",
-        [
-            {
-                "target": str(logo.root / "ideation" / "winner.json"),
-                "text": json.dumps(winner_record, indent=2),
-            },
-        ],
-        logo.root / "ideation" / (".finalize-publication-" + str(time.monotonic_ns()) + ".json"),
+        logo.root / "ideation/winner.json",
+        winner_record,
         budget,
+        {
+            "operation": "selection_guard",
+            "root": str(logo.root),
+            "binding": campaign_binding,
+            "proofs": {cid: results[cid] for cid in passed},
+            "quality": "final",
+            "eligibility": {
+                cid: proof
+                for cid, proof in winner_record["candidate_eligibility"].items()
+                if proof["status"] == "pass"
+            },
+        },
         winner=winner,
         qa={k: v["result"] for k, v in results.items()},
     )
     return winner
+
+
+def _publish_selection(logo, log, stage, target, document, budget, precondition, **detail):
+    from logo_maker.publication import PublicationConflict
+
+    try:
+        return log.publish_stage(
+            stage,
+            [{"target": str(target), "text": json.dumps(document, indent=2)}],
+            logo.root
+            / "ideation"
+            / (f".{stage}-publication-" + str(time.monotonic_ns()) + ".json"),
+            budget,
+            preconditions=[precondition],
+            **detail,
+        )
+    except PublicationConflict as exc:
+        raise AuthoringNeeded(
+            "inputs changed during publication; prior selection retained",
+            [logo.brief, target],
+            details={"dimension": "stale_publication", "reason": str(exc)},
+        ) from exc
 
 
 def winner(logo: LogoDir) -> str:
@@ -652,12 +841,20 @@ def winner(logo: LogoDir) -> str:
 # ---------------------------------------------------------------- export, run, improve
 
 
+@bounded_entry
 def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     from logo_maker import export as export_mod
     from logo_maker.eligibility import require_current
 
     budget = budget or Budget()
     budget.check()
+    from logo_maker import refinement
+
+    _bounded_inputs(logo, budget, reviewed=True)
+    winner_snapshot = host.run(
+        {"operation": "read_json", "path": str(logo.root / "ideation/winner.json")}, budget, []
+    )
+    refinement.verify_winner(logo, winner_snapshot["data"] or {})
     brief, brand_, setup = _bounded_inputs(
         logo, budget, brand_required=True, winner=True, reviewed=True
     )
@@ -683,24 +880,36 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     winner_snapshot = host.run(
         {"operation": "read_json", "path": str(logo.root / "ideation/winner.json")}, budget, []
     )
+    from logo_maker import refinement
+
+    refinement.verify_winner(logo, winner_snapshot["data"] or {})
     proof = (winner_snapshot["data"] or {}).get("eligibility", {})
     require_current(logo, brief, setup["winner"], proof, budget=budget)
-    manifest = export_mod.export_all(
-        folder,
-        logo.root / "exports",
-        name=brief.name,
-        palette=brand_.palette,
-        motif_svg=folder / "motif.svg",
-        budget=budget,
-        publication_log=runlog(logo.run_json, budget=budget),
-        expected_sampling_sha256=snapshot["sha256"],
-        expected_eligibility={
-            "root": str(logo.root),
-            "concept_id": setup["winner"],
-            "proof": proof,
-            "winner_sha256": winner_snapshot["sha256"],
-        },
-    )
+    from logo_maker.publication import PublicationConflict
+
+    try:
+        manifest = export_mod.export_all(
+            folder,
+            logo.root / "exports",
+            name=brief.name,
+            palette=brand_.palette,
+            motif_svg=folder / "motif.svg",
+            budget=budget,
+            publication_log=runlog(logo.run_json, budget=budget),
+            expected_sampling_sha256=snapshot["sha256"],
+            expected_eligibility={
+                "root": str(logo.root),
+                "concept_id": setup["winner"],
+                "proof": proof,
+                "winner_sha256": winner_snapshot["sha256"],
+            },
+        )
+    except PublicationConflict as exc:
+        raise AuthoringNeeded(
+            "inputs changed during export publication; prior exports retained",
+            [logo.brief, folder / "inspection-final.json"],
+            details={"dimension": "stale_publication", "reason": str(exc)},
+        ) from exc
     return manifest
 
 
@@ -713,10 +922,8 @@ def run(logo: LogoDir, client=None) -> dict[str, Path]:
         intake(logo, client)
     if log.stage_status("ideate") != "done":
         ideate(logo, client)
-    if log.stage_status("preview") != "done":
-        preview(logo, client)
-    if log.stage_status("finalize") != "done":
-        finalize(logo, client, budget=budget)
+    preview(logo, client, budget=budget)
+    finalize(logo, client, budget=budget)
     return export(logo, budget=budget)
 
 

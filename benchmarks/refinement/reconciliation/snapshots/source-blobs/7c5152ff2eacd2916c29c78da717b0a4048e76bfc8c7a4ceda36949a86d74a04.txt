@@ -1,0 +1,13 @@
+name="Keystone"
+summary="Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible."
+audience="Platform engineers"
+tone=["precise", "dependable", "calm"]
+avoid=["Text inside the mark", "Decorative backing disc"]
+[palette]
+primary="#245064"
+secondary="#B87E48"
+background="#F4F5F5"
+ink="#16313B"
+[fonts]
+display="Manrope:wght=700"
+text="DM Sans:wght=400"
