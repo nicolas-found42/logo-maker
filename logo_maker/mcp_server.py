@@ -20,8 +20,11 @@ from logo_maker.cli import resolve_logo
 
 INSTRUCTIONS = (
     "logo-maker turns a brief into a judged, rendered 3D logo and export set. Read the logo-maker skill "
-    "first. Order: logo_new -> fill brief.toml and ideation/metaphors.toml -> logo_run. When a tool returns "
-    "authoring_needed, write the listed files (motif.py per concept, proposals, metaphors) and call it again."
+    "first. Order: logo_new -> gather project/owner evidence into brief.toml and brief-evidence.toml -> "
+    "logo_brief freezes reviewed requirements -> write ideation/metaphors.toml -> logo_run. "
+    "Before previews, author each concept's plan.toml, motif and scene; logo_plan reviews intent. "
+    "When a tool returns authoring_needed, consult evidence first, resolve consequential unknowns, "
+    "write the listed files and call again. Plan approval never establishes actual-image quality."
 )
 
 server = MCPServer(name="logo-maker", version=__version__, instructions=INSTRUCTIONS)
@@ -54,6 +57,7 @@ async def _stage(fn: Callable[..., Any], target: str, out: str | None) -> dict[s
             "status": "authoring_needed",
             "message": str(exc).splitlines()[0],
             "files": [str(f) for f in exc.files],
+            "questions": exc.questions,
             "logo_dir": str(logo.root),
             "details": exc.details,
             "counts": {
@@ -73,8 +77,20 @@ async def logo_new(slug: str, name: str, out: str | None = None) -> dict[str, An
     return {
         "status": "done",
         "logo_dir": str(logo.root),
-        "next": [str(logo.brief), str(logo.metaphors)],
+        "next": [str(logo.brief), str(logo.root / "brief-evidence.toml"), str(logo.metaphors)],
     }
+
+
+@server.tool()
+async def logo_brief(
+    target: str, out: str | None = None, revision_reason: str = ""
+) -> dict[str, Any]:
+    """Review project/owner evidence and freeze requirements; name missing evidence before authoring."""
+    from logo_maker import pipeline
+
+    return await _stage(
+        lambda logo: pipeline.review_brief(logo, revision_reason=revision_reason), target, out
+    )
 
 
 @server.tool()
@@ -91,6 +107,14 @@ async def logo_ideate(target: str, out: str | None = None) -> dict[str, Any]:
     from logo_maker import pipeline
 
     return await _stage(pipeline.ideate, target, out)
+
+
+@server.tool()
+async def logo_plan(target: str, out: str | None = None) -> dict[str, Any]:
+    """Review shortlisted concept hypotheses and purposeful detail plans before rendering."""
+    from logo_maker import pipeline
+
+    return await _stage(pipeline.review_plans, target, out)
 
 
 @server.tool()

@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "117f459a66fe355cc24ccf1ba722b5a96a4baf11fbf434f89d08a9d2377ab37e",
+    "meshes/left-body.ply": "4bc0a8c303952238ce5c1e9898fa38a5b017ee080dd2c5164f6b661114b01d19",
+    "meshes/right-body.ply": "d5646d58a3f0812a2e2ef370f89b1e5c4844464a56cd13af18b3e571b7975801",
+    "meshes/right-fold.ply": "e6888b1f71495b04afbac99d0f75a3874219628db9efb3e8e4ef722355f6b9a4",
+    "meshes/left-fold.ply": "6d7a9c0644411c4be8fef8f40814794b263edf3837c6ad0a4f00e734365fa37b"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 1820117,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 6.270684374991106,
+  "process_cpu_seconds": 2.541428,
+  "log_sha256": "aa9c211a9b681df5ab47c38f040afb76812d24a63839240f3a2c07d48a00289b",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/joined-index--extruded-solid--paper/.build/attempt-6d197d9c26104b68af60bc7527dca053/preview.execution.exr",
+    "bytes": 12794394,
+    "sha256": "efaf0e8a9fd9a6d50639406cd4075433fcb6c05c2d951b6c04b1569babb35369",
+    "seconds": 0.08793833300296683,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "d65a165f739bcac13bb13faeaaddee8a0e1bd1d442121eb42807a7d4920a2317"
+}

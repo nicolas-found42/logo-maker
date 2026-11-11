@@ -1,0 +1,64 @@
+{
+  "seq": 8,
+  "label": "chief-reconstruction-self-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "7a1418b945934c0c8bb0ef1c9749cf39",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant that remembers the meeting so you make the call.",
+      "tone": [
+        "deliberate",
+        "clear"
+      ],
+      "intended_appearance": "A blue wax seal with highly reflective gold lettering and C/check, strong highlights and rounded edges; folded green ribbon tips."
+    },
+    "concept": {
+      "metaphor": "A serif C whose opening holds a check stroke; Chief of Staff remembers the meeting, you make the call.",
+      "treatment": "wax seal with ring legend and crossed ribbons"
+    },
+    "intended_appearance": "A blue wax seal with highly reflective gold lettering and C/check, strong highlights and rounded edges; folded green ribbon tips."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "7a1418b945934c0c8bb0ef1c9749cf39": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.92
+    }
+  },
+  "usage": {
+    "input_tokens": 3292,
+    "output_tokens": 20,
+    "cost": 0.000138264
+  },
+  "provider_usage": {
+    "input_tokens": 3292,
+    "output_tokens": 20,
+    "cost": 0.000138264,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000138264,
+      "upstream_inference_prompt_cost": 0.000138264,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

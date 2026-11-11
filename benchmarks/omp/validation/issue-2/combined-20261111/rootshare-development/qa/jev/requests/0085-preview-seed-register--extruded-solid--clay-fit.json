@@ -1,0 +1,201 @@
+{
+  "seq": 85,
+  "label": "preview-seed-register--extruded-solid--clay-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "caed0937dc9b4c3ba30cf36e6380087f",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      },
+      "open_choices": [
+        "initial-led or nonliteral mark",
+        "custom lettering",
+        "shared-space or collection relationship",
+        "exact geometry and ceramic assembly"
+      ],
+      "communication_priority": "A welcoming resource held in common, supported by grounded care. This is a proposed positioning direction, not a new business fact.",
+      "identity_requirements": [
+        {
+          "id": "digital_uses",
+          "claim": "Required output uses: favicon, app_icon and social_avatar.",
+          "kind": "usage",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "applications"
+          ]
+        },
+        {
+          "id": "shared_resource",
+          "claim": "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service.",
+          "kind": "communication",
+          "origin": "proposal",
+          "priority": "prefer",
+          "sources": []
+        },
+        {
+          "id": "ceramic",
+          "claim": "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open.",
+          "kind": "visual",
+          "origin": "proposal",
+          "priority": "prefer",
+          "sources": []
+        },
+        {
+          "id": "shared_master",
+          "claim": "Flat exports and 3D components use the same primary motif contours.",
+          "kind": "visual",
+          "origin": "project",
+          "priority": "must",
+          "sources": [
+            "shared_master"
+          ]
+        }
+      ]
+    },
+    "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+    "hero_32px": "e5e8dd297fa14c7594bf4f6b44776e6d",
+    "flat_32px": "2206d8fd90f74b6ba2a285905aa1b993"
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "instructions": "Does `candidate` contain a developed visual idea specific to the purpose or identity in `brief`?",
+      "criteria": {
+        "true": "Authored relationships, negative space, letterform integration or distinctive construction connect this mark to the brand beyond its broad category.",
+        "false": "A stock category icon or arrangement of generic primitives could be reassigned to many brands without meaningful change; the explanation supplies the specificity."
+      }
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "instructions": "Do the visible shape relationships in `candidate` express the brand promise in `brief`?",
+      "criteria": {
+        "true": "The actual construction communicates a purposeful relationship, action or visual idea grounded in the brand promise, with a coherent shared core motif.",
+        "false": "The shapes merely illustrate a category object or sit together decoratively while the claimed brand relationship remains in the prose."
+      }
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "instructions": "Does `candidate` honor the explicit direction and avoid-list in `brief`?",
+      "criteria": {
+        "true": "The visible design follows the actual user constraints, including required materials, topology and identity.",
+        "false": "The design contradicts a stated user constraint, despite being attractive or competently rendered."
+      }
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "instructions": "Can the intended audience in `brief` read the core visual idea in `candidate` without the concept explanation?",
+      "criteria": {
+        "true": "The intended relationship is perceptible from the mark itself and supports the brand's purpose.",
+        "false": "A viewer needs the written concept explanation to discover the claimed meaning, or reads a conflicting idea."
+      }
+    },
+    "small_flat": {
+      "type": "noul",
+      "instructions": "Does `flat_32px` preserve the intended core motif shown in `candidate`?",
+      "criteria": {
+        "true": "The flat master preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
+        "false": "The shared core collapses, merges or becomes a different mark at 32 px."
+      }
+    },
+    "small_hero": {
+      "type": "noul",
+      "instructions": "Does `hero_32px` retain the core motif's identity from `candidate`?",
+      "criteria": {
+        "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
+        "false": "The core motif becomes unreadable or loses its identity at 32 px."
+      }
+    }
+  },
+  "assets": {
+    "caed0937dc9b4c3ba30cf36e6380087f": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e7169e790d9bae17595181e95b9dfa7977389f94d05b330408e0adc63e5d4bac",
+      "bytes": 475916
+    },
+    "e5e8dd297fa14c7594bf4f6b44776e6d": {
+      "type": "image",
+      "format": "png",
+      "sha256": "73ae3f7ba6633284b4c943e6bbed54c478b61b3aa2a880348806211e9eeb7143",
+      "bytes": 7877
+    },
+    "2206d8fd90f74b6ba2a285905aa1b993": {
+      "type": "image",
+      "format": "png",
+      "sha256": "429a85291ea137edf754c79ff07b00ca9ece3122439ea01c9857f10243fed190",
+      "bytes": 5779
+    }
+  },
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.68
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.42
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.64
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.63
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.45
+    },
+    "small_flat": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.88
+    }
+  },
+  "usage": {
+    "input_tokens": 9496,
+    "output_tokens": 136,
+    "cost": 0.000398832
+  }
+}

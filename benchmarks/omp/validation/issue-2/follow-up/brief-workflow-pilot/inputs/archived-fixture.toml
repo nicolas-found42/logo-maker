@@ -1,0 +1,16 @@
+name = "Rootshare"
+summary = "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection. A bespoke R shelters a seed-shaped counter: the identity's initial and the seed it keeps form one inseparable mark."
+audience = "Neighborhood gardeners borrowing and contributing seeds."
+tone = ["grounded", "welcoming", "careful"]
+initials = "R"
+uses = ["favicon", "app_icon", "social_avatar"]
+avoid = ["wax seals", "metallic lettering", "ribbons", "generic sprout icons"]
+intended_appearance = "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc."
+[palette]
+primary = "#B95E3F"
+accent = "#E4CBA7"
+background = "#F8F2E8"
+ink = "#422D24"
+[fonts]
+display = "Manrope:wght=700"
+text = "Manrope:wght=400"

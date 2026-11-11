@@ -1,0 +1,12 @@
+"""Held-out Rootshare brief: a sprout; no OMP geometry or palette transfer."""
+from pathlib import Path
+from logo_maker.motif import Motif
+
+m = Motif()
+left = m.intersection(m.circle(320, 420, 190), m.circle(430, 310, 190))
+right = m.intersection(m.circle(680, 420, 190), m.circle(570, 310, 190))
+stem = m.stroke([(500, 740), (500, 485), (400, 385)], 64)
+stem = m.union(stem, m.stroke([(500, 485), (600, 385)], 64))
+shape = m.union(m.union(left, right), stem)
+m.add("sprout", shape, fill="#B95E3F", role="primary")
+m.save(Path(__file__).parent)

@@ -1,0 +1,91 @@
+test	Offline tests	﻿2026-11-11T04:33:58.4678960Z ##[group]Run uv run --no-sync python -m pytest -q -m "not render and not live"
+test	Offline tests	2026-11-11T04:33:58.4679650Z ^[[36;1muv run --no-sync python -m pytest -q -m "not render and not live"^[[0m
+test	Offline tests	2026-11-11T04:33:58.4746550Z shell: /bin/bash -e {0}
+test	Offline tests	2026-11-11T04:33:58.4747490Z env:
+test	Offline tests	2026-11-11T04:33:58.4748140Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Offline tests	2026-11-11T04:33:58.4749120Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Offline tests	2026-11-11T04:33:58.4751030Z ##[endgroup]
+test	Offline tests	2026-11-11T04:35:32.6659280Z ........................................................................ [ 28%]
+test	Offline tests	2026-11-11T04:35:57.4202960Z ........................................................................ [ 57%]
+test	Offline tests	2026-11-11T04:38:46.4575390Z .............F.......................................................... [ 85%]
+test	Offline tests	2026-11-11T04:38:49.0635710Z .................................ss.                                     [100%]
+test	Offline tests	2026-11-11T04:38:49.0678630Z =================================== FAILURES ===================================
+test	Offline tests	2026-11-11T04:38:49.0876290Z _____ test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result ______
+test	Offline tests	2026-11-11T04:38:49.0978400Z
+test	Offline tests	2026-11-11T04:38:49.1014800Z tmp_path = PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytest-0/test_stalled_image_hash_stops_0')
+test	Offline tests	2026-11-11T04:38:49.1118630Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110da6e40>
+test	Offline tests	2026-11-11T04:38:49.1173470Z
+test	Offline tests	2026-11-11T04:38:49.1218840Z     def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path, monkeypatch):
+test	Offline tests	2026-11-11T04:38:49.1239330Z         import contextlib
+test	Offline tests	2026-11-11T04:38:49.1266630Z         import os
+test	Offline tests	2026-11-11T04:38:49.1269120Z         import threading
+test	Offline tests	2026-11-11T04:38:49.1270220Z         import time
+test	Offline tests	2026-11-11T04:38:49.1271080Z
+test	Offline tests	2026-11-11T04:38:49.1272290Z         from logo_maker.sampling import SamplingLimit
+test	Offline tests	2026-11-11T04:38:49.1274960Z
+test	Offline tests	2026-11-11T04:38:49.1276060Z         if os.name != "posix":
+test	Offline tests	2026-11-11T04:38:49.1277650Z             pytest.skip("bounded host workers target macOS/Linux")
+test	Offline tests	2026-11-11T04:38:49.1279220Z         compiled(tmp_path)
+test	Offline tests	2026-11-11T04:38:49.1280680Z         prior = tmp_path / "preview.png"
+test	Offline tests	2026-11-11T04:38:49.1281960Z         prior.write_bytes(b"approved prior preview")
+test	Offline tests	2026-11-11T04:38:49.1283260Z         stop = threading.Event()
+test	Offline tests	2026-11-11T04:38:49.1284330Z         writers = []
+test	Offline tests	2026-11-11T04:38:49.1285710Z         monkeypatch.setattr(render, "machine_context", lambda *a: {})
+test	Offline tests	2026-11-11T04:38:49.1287260Z
+test	Offline tests	2026-11-11T04:38:49.1288400Z         def builder(path, *args, budget):
+test	Offline tests	2026-11-11T04:38:49.1289730Z             budget.begin_attempt()
+test	Offline tests	2026-11-11T04:38:49.1291560Z             folder = Path(json.loads(path.read_text())["output_dir"])
+test	Offline tests	2026-11-11T04:38:49.1294970Z             image = folder / "preview.png"
+test	Offline tests	2026-11-11T04:38:49.1296450Z             os.mkfifo(image)
+test	Offline tests	2026-11-11T04:38:49.1299620Z             (folder / "preview.execution.json").write_text('{"status":"verified"}')
+test	Offline tests	2026-11-11T04:38:49.1300430Z
+test	Offline tests	2026-11-11T04:38:49.1300860Z             def release_old_unbounded_call():
+test	Offline tests	2026-11-11T04:38:49.1301460Z                 descriptor = None
+test	Offline tests	2026-11-11T04:38:49.1301880Z                 try:
+test	Offline tests	2026-11-11T04:38:49.1302210Z                     while not stop.is_set():
+test	Offline tests	2026-11-11T04:38:49.1302540Z                         try:
+test	Offline tests	2026-11-11T04:38:49.1302980Z                             descriptor = os.open(image, os.O_WRONLY | os.O_NONBLOCK)
+test	Offline tests	2026-11-11T04:38:49.1303540Z                             break
+test	Offline tests	2026-11-11T04:38:49.1304470Z                         except OSError:
+test	Offline tests	2026-11-11T04:38:49.1305000Z                             stop.wait(0.01)
+test	Offline tests	2026-11-11T04:38:49.1306780Z                     if descriptor is not None and not stop.wait(10):
+test	Offline tests	2026-11-11T04:38:49.1308730Z                         with contextlib.suppress(BrokenPipeError):
+test	Offline tests	2026-11-11T04:38:49.1310700Z                             os.write(descriptor, b"rendered preview bytes")
+test	Offline tests	2026-11-11T04:38:49.1312050Z                 finally:
+test	Offline tests	2026-11-11T04:38:49.1320740Z                     if descriptor is not None:
+test	Offline tests	2026-11-11T04:38:49.1321280Z                         os.close(descriptor)
+test	Offline tests	2026-11-11T04:38:49.1321730Z
+test	Offline tests	2026-11-11T04:38:49.1322230Z             writer = threading.Thread(target=release_old_unbounded_call, daemon=True)
+test	Offline tests	2026-11-11T04:38:49.1322910Z             writer.start()
+test	Offline tests	2026-11-11T04:38:49.1323330Z             writers.append(writer)
+test	Offline tests	2026-11-11T04:38:49.1342520Z
+test	Offline tests	2026-11-11T04:38:49.1343390Z         monkeypatch.setattr(render, "_run_builder", builder)
+test	Offline tests	2026-11-11T04:38:49.1344350Z         started = time.monotonic()
+test	Offline tests	2026-11-11T04:38:49.1345120Z         try:
+test	Offline tests	2026-11-11T04:38:49.1346000Z             with pytest.raises(SamplingLimit, match="time_limit"):
+test	Offline tests	2026-11-11T04:38:49.1351300Z                 render.render(tmp_path, "preview", budget=Budget(wall_seconds=6))
+test	Offline tests	2026-11-11T04:38:49.1353020Z             assert time.monotonic() - started < 9, "image hash overran the wall budget"
+test	Offline tests	2026-11-11T04:38:49.1353680Z             assert prior.read_bytes() == b"approved prior preview"
+test	Offline tests	2026-11-11T04:38:49.1354250Z             report = json.loads((tmp_path / ".build/preview.sampling.json").read_text())
+test	Offline tests	2026-11-11T04:38:49.1354770Z             assert report["published"] is False
+test	Offline tests	2026-11-11T04:38:49.1355250Z             assert report["outcomes"]["time"] == "time_limit"
+test	Offline tests	2026-11-11T04:38:49.1355740Z >           assert report["budget"]["attempts"] == 1
+test	Offline tests	2026-11-11T04:38:49.1356370Z E           assert 0 == 1
+test	Offline tests	2026-11-11T04:38:49.1356590Z
+test	Offline tests	2026-11-11T04:38:49.1356800Z tests/test_sampling_render.py:263: AssertionError
+test	Offline tests	2026-11-11T04:38:49.1357420Z =============================== warnings summary ===============================
+test	Offline tests	2026-11-11T04:38:49.1358010Z tests/test_geometry.py: 48 warnings
+test	Offline tests	2026-11-11T04:38:49.1359120Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T04:38:49.1360380Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T04:38:49.1360900Z     ar.shape = shape
+test	Offline tests	2026-11-11T04:38:49.1361020Z
+test	Offline tests	2026-11-11T04:38:49.1361630Z tests/test_geometry.py::test_sweeps_and_solids_watertight
+test	Offline tests	2026-11-11T04:38:49.1362640Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T04:38:49.1363890Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T04:38:49.1364520Z     faces.shape = -1, 3
+test	Offline tests	2026-11-11T04:38:49.1364680Z
+test	Offline tests	2026-11-11T04:38:49.1365110Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test	Offline tests	2026-11-11T04:38:49.1365870Z =========================== short test summary info ============================
+test	Offline tests	2026-11-11T04:38:49.1366810Z FAILED tests/test_sampling_render.py::test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result - assert 0 == 1
+test	Offline tests	2026-11-11T04:38:49.1367780Z 1 failed, 249 passed, 2 skipped, 4 deselected, 49 warnings in 288.77s (0:04:48)
+test	Offline tests	2026-11-11T04:38:51.0187270Z ##[error]Process completed with exit code 1.

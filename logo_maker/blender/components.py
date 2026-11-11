@@ -25,12 +25,12 @@ def build_objects(scene: dict, build_dir: Path, materials: dict) -> list:
             raise RuntimeError(f"PLY import produced no object: {mesh_path}")
         bl_obj = imported[0]
         bl_obj.name = obj["name"]
+        params = obj.get("params", {})
         for poly in bl_obj.data.polygons:
-            poly.use_smooth = True
+            poly.use_smooth = params.get("smooth", True)
         mat = materials.get(obj["material"])
         if mat is not None:
             bl_obj.data.materials.append(mat)
-        params = obj.get("params", {})
         if params.get("bevel"):
             mod = bl_obj.modifiers.new("edge", "BEVEL")
             mod.width = float(params["bevel"])

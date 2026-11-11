@@ -1,0 +1,15 @@
+{
+  "after": "qa/revisions/joined-index--extruded-solid--paper/0005-6cb52ec684e0-preview/render.png",
+  "answers": {
+    "critique_resolved": {
+      "noul": 0.1,
+      "type": "noul"
+    },
+    "visually_distinct": {
+      "noul": 0.02,
+      "type": "noul"
+    }
+  },
+  "before": "qa/revisions/joined-index--extruded-solid--paper/0004-9d5099d56125-preview/render.png",
+  "binding": "0a03563b876faf78c94b97e3cdaf9e19936eede607b927e1088f7d5e280471d4"
+}

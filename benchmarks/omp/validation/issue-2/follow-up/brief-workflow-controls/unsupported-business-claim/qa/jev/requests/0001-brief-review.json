@@ -1,0 +1,140 @@
+{
+  "seq": 1,
+  "label": "brief-review",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "business": {
+      "name": "Sample",
+      "summary": "A repair workshop where neighbors mend household objects during repair sessions. It includes free home pickup in every city.",
+      "tone": [
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighbors identifying their repair workshop before a session",
+      "uses": [
+        "app_icon"
+      ]
+    },
+    "design_direction": {},
+    "communication_priority": "A welcoming place to care for household objects",
+    "design_latitude": [
+      "material",
+      "symbol construction"
+    ],
+    "facts": [
+      {
+        "id": "activity",
+        "claim": "Neighbors mend household objects at a repair workshop",
+        "status": "established",
+        "sources": [
+          "owner"
+        ],
+        "essential": true
+      }
+    ],
+    "sources": {
+      "owner": {
+        "id": "owner",
+        "kind": "owner",
+        "path": "inputs/owner.txt",
+        "excerpt": "Sample is a repair workshop where neighbors mend household objects during repair sessions. Material is deliberately open.",
+        "sha256": "84b6ab5ba9db920c85b078eeb74b14161800aee8da6241b3c5087e8a24a6bbbe"
+      }
+    },
+    "requirements": []
+  },
+  "questions": {
+    "requirements_complete": {
+      "type": "noul",
+      "instructions": "Are explicit owner/project directions in the source excerpts represented in requirements with their stated authority and scope?",
+      "criteria": {
+        "true": "Relevant explicit directions are retained. Sources without directions require no invented constraints. Owner mandates remain mandates; stated preferences and open choices keep their scope.",
+        "false": "A relevant explicit owner/project direction is omitted, weakened into a designer proposal, or given unsupported mandatory scope."
+      }
+    },
+    "activity": {
+      "type": "noul",
+      "instructions": "Does `business` specify a concrete activity or service?",
+      "criteria": {
+        "true": "A reader can identify what happens for the people served.",
+        "false": "Only broad category words or a proposed symbol are supplied."
+      }
+    },
+    "audience": {
+      "type": "noul",
+      "instructions": "Does `business` identify an intended audience situation for the identity?",
+      "criteria": {
+        "true": "The audience and the context in which it encounters the identity are sufficiently clear.",
+        "false": "The audience or encounter remains an essential unknown."
+      }
+    },
+    "communication": {
+      "type": "noul",
+      "instructions": "Does `communication_priority` name a clear primary impression for this identity?",
+      "criteria": {
+        "true": "It provides a useful communication priority grounded in the service and audience.",
+        "false": "It only prescribes a shape, or leaves the communication priority unclear."
+      }
+    },
+    "grounding": {
+      "type": "noul",
+      "instructions": "Are factual claims in `business` supported by the established facts and their cited excerpts?",
+      "criteria": {
+        "true": "Business claims are supported; assumptions and design proposals remain explicitly separate.",
+        "false": "The factual brief relies on an unsupported claim, assumption or proposed visual explanation."
+      }
+    },
+    "consistent": {
+      "type": "noul",
+      "instructions": "Can the mandatory requirements in `requirements` be satisfied together?",
+      "criteria": {
+        "true": "Requirements are compatible, including deliberately open design choices.",
+        "false": "Two mandatory requirements conflict or require an unresolved choice."
+      }
+    },
+    "fact_activity": {
+      "type": "noul",
+      "instructions": "Do source excerpts with IDs ['owner'] support this claim: Neighbors mend household objects at a repair workshop",
+      "criteria": {
+        "true": "The cited excerpts support the claim without inventing additional facts.",
+        "false": "The excerpts contradict the claim, are silent, or require unsupported inference."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "requirements_complete": {
+      "type": "noul",
+      "noul": 0.33
+    },
+    "activity": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.92
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.09
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "fact_activity": {
+      "type": "noul",
+      "noul": 0.99
+    }
+  },
+  "usage": {
+    "input_tokens": 1052,
+    "output_tokens": 123,
+    "cost": 4.4184e-05
+  }
+}

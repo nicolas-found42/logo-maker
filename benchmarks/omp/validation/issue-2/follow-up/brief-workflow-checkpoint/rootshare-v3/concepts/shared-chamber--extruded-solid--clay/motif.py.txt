@@ -1,0 +1,8 @@
+from pathlib import Path
+from logo_maker.motif import Motif
+m = Motif()
+half = m.path("M490 150 C330 150 190 280 190 455 L190 610 C190 755 290 845 420 845 L420 700 C365 700 335 660 335 600 L335 455 C335 360 400 295 490 295 Z")
+other = m.transform(half, rotate_deg=180, translate=(1000, 1000))
+form = m.fit(m.union(half, other))
+m.add("shared_chamber", form, fill="#B95E3F", role="primary")
+m.save(Path(__file__).parent)

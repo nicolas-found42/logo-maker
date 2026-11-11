@@ -1,0 +1,173 @@
+{
+  "seq": 3,
+  "label": "rootshare-v2-final-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "293ae9a69aa742869a45482b814e2b01",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection. A bespoke R shelters a seed-shaped counter: the identity's initial and the seed it keeps form one inseparable mark.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners borrowing and contributing seeds.",
+      "initials": "R",
+      "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout icons"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A bespoke R shelters a seed-shaped counter: the brand initial and the seed it keeps form one mark.",
+      "treatment": "Sculpted ceramic solid with a pale inlay around the seed opening."
+    },
+    "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+    "hero_32px": "b28e432665c1403f81524525d40ace7a",
+    "flat_32px": "ef9806e11f82465fb624efc0292a8071"
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    },
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "instructions": "Does `candidate` contain a developed visual idea specific to the purpose or identity in `brief`?",
+      "criteria": {
+        "true": "Authored relationships, negative space, letterform integration or distinctive construction connect this mark to the brand beyond its broad category.",
+        "false": "A stock category icon or arrangement of generic primitives could be reassigned to many brands without meaningful change; the explanation supplies the specificity."
+      }
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "instructions": "Do the visible shape relationships in `candidate` express the brand promise in `brief`?",
+      "criteria": {
+        "true": "The actual construction communicates a purposeful relationship, action or visual idea grounded in the brand promise, with a coherent shared core motif.",
+        "false": "The shapes merely illustrate a category object or sit together decoratively while the claimed brand relationship remains in the prose."
+      }
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "instructions": "Does `candidate` honor the explicit direction and avoid-list in `brief`?",
+      "criteria": {
+        "true": "The visible design follows the actual user constraints, including required materials, topology and identity.",
+        "false": "The design contradicts a stated user constraint, despite being attractive or competently rendered."
+      }
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "instructions": "Can the intended audience in `brief` read the core visual idea in `candidate` without the concept explanation?",
+      "criteria": {
+        "true": "The intended relationship is perceptible from the mark itself and supports the brand's purpose.",
+        "false": "A viewer needs the written concept explanation to discover the claimed meaning, or reads a conflicting idea."
+      }
+    },
+    "small_flat": {
+      "type": "noul",
+      "instructions": "Does `flat_32px` preserve the intended core motif shown in `candidate`?",
+      "criteria": {
+        "true": "The flat master preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
+        "false": "The shared core collapses, merges or becomes a different mark at 32 px."
+      }
+    },
+    "small_hero": {
+      "type": "noul",
+      "instructions": "Does `hero_32px` retain the core motif's identity from `candidate`?",
+      "criteria": {
+        "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
+        "false": "The core motif becomes unreadable or loses its identity at 32 px."
+      }
+    }
+  },
+  "assets": {
+    "293ae9a69aa742869a45482b814e2b01": {
+      "type": "image",
+      "format": "png",
+      "sha256": "22a8fc84515514d2caa248adebf2b8b984324c69d30826639a91704c73f3fcd2",
+      "bytes": 230392
+    },
+    "b28e432665c1403f81524525d40ace7a": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e23f1bf19b2a71da2fd2126a6f583852fcacb85f3704089a272a3a52a464f6bf",
+      "bytes": 7432
+    },
+    "ef9806e11f82465fb624efc0292a8071": {
+      "type": "image",
+      "format": "png",
+      "sha256": "ffaf3eaa2bb5d3fc5353f603b63863b8887683b74e5690e4d8227b145ff0ae1a",
+      "bytes": 5555
+    }
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.63
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.64
+    },
+    "small_flat": {
+      "type": "noul",
+      "noul": 0.48
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.81
+    }
+  },
+  "usage": {
+    "input_tokens": 9747,
+    "output_tokens": 152,
+    "cost": 0.000409374
+  }
+}

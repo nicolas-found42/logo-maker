@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "b624e54ff7f4f9bd5e644501a2c30d3677ad5afadc975f20fbf449ce8bf29257",
+    "meshes/extrude_0.ply": "ec10ef8a685d7b41328d520df390c21945327ef95b07fbcdda555706bee59af6"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 2.46703533300024,
+  "process_cpu_seconds": 1.172018,
+  "log_sha256": "8f2dcb999f32edf8fbc2c830c7338669b4a545759f097ad74db31bafce26c5a9",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "775f2a26f81e3c1b1b1425b9165ea355a597df0746b101c8b9dca1b31696ed9a",
+  "delivered_sha256": "775f2a26f81e3c1b1b1425b9165ea355a597df0746b101c8b9dca1b31696ed9a",
+  "host_sources_sha256": {
+    "scene.toml": "c235f30c0eb8d0b037bd686b309f940ce8a478af5c34f853769ec092951cd219",
+    "motif.json": "685a7917717b24d160f33d47461711b5e11ce28c2c9fbcca4eef58b78a7a198e"
+  }
+}

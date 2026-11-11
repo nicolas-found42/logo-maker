@@ -1,0 +1,91 @@
+"""Construct seated ceramic parts from the shared motif, with matched offset contours."""
+
+import json
+import math
+from pathlib import Path
+
+import manifold3d as mf
+import numpy as np
+import trimesh
+
+from logo_maker import pipeline
+
+ROOT = Path(__file__).parent
+pipeline.prepare_motif(ROOT)
+data = json.loads((ROOT / "motif.json").read_text())
+
+
+def area(poly):
+    p = np.asarray(poly)
+    return np.sum(p[:, 0] * np.roll(p[:, 1], -1) - p[:, 1] * np.roll(p[:, 0], -1)) / 2
+
+
+def sample(poly, count, anchor):
+    a = np.asarray(poly)
+    vec = np.roll(a, -1, axis=0) - a
+    lengths = np.linalg.norm(vec, axis=1)
+    keep = lengths > 1e-10
+    a, vec, lengths = a[keep], vec[keep], lengths[keep]
+    u = np.clip(np.sum((anchor - a) * vec, axis=1) / lengths**2, 0, 1)
+    closest = a + u[:, None] * vec
+    k = np.argmin(np.linalg.norm(closest - anchor, axis=1))
+    cumulative = np.r_[0, np.cumsum(lengths)]
+    start = cumulative[k] + u[k] * lengths[k]
+    positions = (start + np.arange(count) * cumulative[-1] / count) % cumulative[-1]
+    idx = np.searchsorted(cumulative, positions, side="right") - 1
+    return a[idx] + ((positions - cumulative[idx]) / lengths[idx])[:, None] * vec[idx]
+
+
+def sculpt(layer, height, radius, zbase, name):
+    contours = [np.asarray([[(x - 500) * 0.002, (500 - y) * 0.002] for x, y in c]) for c in layer["contours"]]
+    section = mf.CrossSection(contours, mf.FillRule.EvenOdd)
+    base = sorted(section.to_polygons(), key=lambda p: (-abs(area(p)), float(np.mean(p, axis=0)[1])))
+    anchors = [p[np.lexsort((p[:, 1], p[:, 0]))[0]] for p in base]
+    centers = [np.mean(p, axis=0) for p in base]
+    counts = [512 if abs(area(p)) == max(abs(area(q)) for q in base) else 256 for p in base]
+    profiles = [(radius * (1 - math.cos(t)), radius * (1 - math.sin(t))) for t in np.linspace(0, math.pi / 2, 13)]
+    profiles += [(height - radius + radius * math.sin(t), radius * (1 - math.cos(t))) for t in np.linspace(0, math.pi / 2, 13)]
+    rings, vertices = [], []
+    for z, inset in profiles:
+        available = list(section.offset(-inset, circular_segments=96).to_polygons())
+        if len(available) != len(base):
+            raise ValueError("Edge profile changed the shared motif's topology")
+        ordered = []
+        for center, original in zip(centers, base, strict=True):
+            compatible = [i for i, poly in enumerate(available) if area(poly) * area(original) > 0]
+            if not compatible:
+                raise ValueError("Offset lost an outer boundary or counter")
+            index = min(compatible, key=lambda i: float(np.linalg.norm(np.mean(available[i], axis=0) - center)))
+            ordered.append(available.pop(index))
+        ring = [sample(poly, count, anchor) for poly, count, anchor in zip(ordered, counts, anchors, strict=True)]
+        rings.append(ring)
+        vertices.extend((float(x), float(y), z + zbase) for poly in ring for x, y in poly)
+    n = sum(counts)
+    faces = []
+    for level in range(len(rings) - 1):
+        offset = 0
+        for count in counts:
+            for k in range(count):
+                a = level * n + offset + k
+                b = level * n + offset + (k + 1) % count
+                faces.extend([(a, b, b + n), (a, b + n, a + n)])
+            offset += count
+    faces.extend(tuple(map(int, tri[::-1])) for tri in mf.triangulate(rings[0]))
+    top = (len(rings) - 1) * n
+    faces.extend(tuple(int(i) + top for i in tri) for tri in mf.triangulate(rings[-1]))
+    mesh = trimesh.Trimesh(vertices=np.asarray(vertices), faces=np.asarray(faces), process=True)
+    mesh.fix_normals()
+    if not (mesh.is_watertight and mesh.is_winding_consistent and mesh.volume > 0):
+        raise ValueError("Constructed ceramic part is not a consistently oriented closed solid")
+    mesh.export(ROOT / name)
+    return {"path": name, "vertices": len(mesh.vertices), "faces": len(mesh.faces), "volume": float(mesh.volume), "watertight": bool(mesh.is_watertight)}
+
+
+results = []
+for layer in data["layers"]:
+    if layer["id"] == "body":
+        results.append(sculpt(layer, 0.23, 0.022, 0.0, "register-body.ply"))
+    else:
+        results.append(sculpt(layer, 0.188, 0.003, 0.025, f"{layer['id']}.ply"))
+(ROOT / "construction.json").write_text(json.dumps(results, indent=2) + "\n")
+print(json.dumps(results))

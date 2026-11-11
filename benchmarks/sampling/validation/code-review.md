@@ -207,3 +207,92 @@ Identity/source claims retain review confidence0.76/0.50; check counts0.80.
 Independent source comparison, Git-blob verification, the public integration tests
 and both reasoning reviews support these narrow facts. This is not a new broad
 approval of the complete sampling feature or its incomplete qualification.
+
+## Whole-job filesystem follow-up from 8261315
+
+Fresh code-review skill agents reviewed `8261315...b0b79ab` separately.
+Standards found one hard breach: recovery's random quarantine destinations were absent
+from the journal, contrary to the documented discoverability contract. Recovery now uses
+predeclared journal paths, and cleanup includes them. The dictionary transaction protocol
+was also flagged as a possible Primitive Obsession; this is an optional heuristic, not a
+hard repository rule.
+
+Spec found two P1 issues. Failed-render finalization replaced restored active provenance
+with a `published=false` failure record, leaving the old PNG present but unusable through
+normal currency/export checks. Failure evidence now uses a separate report when a published
+active record exists. A public render/retry regression checks byte-identical prior pixels
+and active provenance, a separate failure report, and successful current-artifact validation.
+
+The second finding was a qualification race beyond the final-image byte race: pipeline
+qualification could precede a concurrent unqualified or missing sidecar, which low-level
+export allowed as inspection/legacy data. Pipeline now pins the exact qualified record hash
+through current-artifact validation and into the snapshot export worker. Public pipeline
+regressions substitute unqualified/missing records after the check and verify rejection and
+preserved prior exports. The original hash/decode regression still exercises a concurrent
+live-final replacement after hashing.
+
+Seven focused review-fix/publication tests passed in 21.64 s. Fresh re-review and final
+current-source checks remain pending. The earlier 249-test run and three GPU regression
+checks retain their original source scope; new glass studies use archived 8261315.
+
+Both fresh follow-up reviews closed the findings at `3d19e4a`. Standards confirmed
+journaled quarantine paths and found no new documented breach in the focused fixes.
+Spec independently ran the three public active-provenance/qualification race cases:
+**3 passed in 2.46 s**, and found no additional actionable issue in that delta.
+The optional dictionary protocol maintainability observation remains nonblocking.
+
+Current-source offline validation then passed **252 tests / 4 deselected** in 147.50 s.
+The actual final/export/live-QA check passed **1 test** in 52.59 s. Its 52.42 s job body
+contains one native attempt, 4000→2000 delivery, 31 exports, one provider request/two
+retained assets, reconciled usage, sampling_review_needed and prior-winner retention.
+A fresh raw audit matched all 65 dependencies to the current runtime source, native
+Metal/OIDN logs and hashes, every export, both sent assets and the prior winner.
+This is operational validation; qualification and owner artistic approval are not inferred.
+
+The two final subset Jev gates preserve the complete (untruncated) filesystem and
+QA/provider deltas. All three limited factual claims were verified without contradiction,
+but both broad reviews escalated: safe-to-apply 0.20, composites 0.65775/0.593,
+correctness confidences 0.34/0.13. No automatic merge approval is inferred.
+The Spec reviewer then independently audited the original current files—not just the
+report—and confirmed all 252/1 check counts, native Metal/OIDN execution, 65 dependencies,
+31 exports, two sent assets, usage and prior-winner preservation. It found no concrete new
+implementation gap in that audit. This supports the limited facts; broad uncertainty and
+profile qualification remain separate. See `jev-gate-filesystem-filesystem.json` and
+`jev-gate-filesystem-qa.json`.
+
+The final narrow profile-data review checked the original files and found no blocking
+qualification mismatch: owner positive/rejected-detail/held-out labels, all evidence and
+package hashes, matching runtime contexts, actual qualified consumption and 31 pinned
+exports. Clover's unresolved craft defect received no approval. Historical pending fields
+are epoch-explained rather than rewritten. The skill's focused profile-activation addition
+passed quick_validate (ephemeral PyYAML environment; project dependencies unchanged).
+
+The first metadata gate included oversized generated-report additions and was explicitly
+truncated/escalated. The corrected complete metadata/guidance-only gate verified both claims
+(confidences 0.94/0.96) but still escalated broad uncertainty (safe-to-apply 0.43,
+composite 0.7495, test-gap confidence 0.16). These signals are retained, not represented as
+automatic approval. The stronger independent data review supports the scoped qualification.
+
+Hosted 0698 failed the existing PWA helper's 300-second timeout: 249 passed / 2 skipped,
+4 deselected. No deadline/provenance regression failed. The exact failure is retained in
+ci-filesystem-0698-failure.txt; an unchanged failed-job rerun was requested. Local PWA
+exports continue to pass. Startup/shutdown source inspection and a private-browser probe
+have not established the hosted timeout's cause, so no browser correctness fix is claimed.
+
+The unchanged 0698 rerun passed PWA and failed only the image-hash stall regression:
+its six-second budget expired during cold host setup, before any fake native attempt
+(attempt count 0). The fixture now allows 20 seconds, holds its FIFO writer for 35 seconds,
+and still requires the hash-stage attempt/active execution evidence and bounded return
+under 23 seconds. Production budgets are unchanged. The longer stall remains beyond the
+new deadline, so an unbounded implementation cannot pass by natural writer completion.
+The PWA timeout's root cause remains unknown; this is a tests-only timing correction.
+
+Both independent reviews confirmed the timing change preserves the intended regression;
+it removes only the six-second cold-start envelope. The focused adjusted test passed
+in 17.17 s. The tiny Jev gate escalated (safe 0.67, composite 0.883), verifying the local
+result but marking the compound stall/unchanged-runtime claim unsupported from its
+short hunk-only evidence. Spec then inspected the complete producer/reader/finally path:
+the writer holds its descriptor without bytes for 35 s; stop.set occurs only after render
+returns; one-attempt and retained-execution assertions exclude early setup expiry.
+It also verified the runtime diff from d5c0873 is empty. The limited invariant is supported;
+no automatic broad approval is inferred from that gate.

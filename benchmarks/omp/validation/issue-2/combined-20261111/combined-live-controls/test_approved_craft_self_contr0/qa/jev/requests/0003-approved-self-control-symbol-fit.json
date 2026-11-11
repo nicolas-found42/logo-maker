@@ -1,0 +1,62 @@
+{
+  "seq": 3,
+  "label": "approved-self-control-symbol-fit",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "1ffa85f542bd4214a621f51ede055f00",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant",
+      "tone": [
+        "clear"
+      ],
+      "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A C whose opening holds a check"
+    },
+    "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons."
+  },
+  "questions": {
+    "symbol": {
+      "type": "noul",
+      "instructions": "Does `candidate` visibly express the motif described in `concept` for `brief`?",
+      "criteria": {
+        "true": "The described symbolic relationship is visible in the actual shapes and fits the brand direction.",
+        "false": "The symbolic relationship is absent, contradicted or depends only on the written explanation."
+      }
+    }
+  },
+  "assets": {
+    "1ffa85f542bd4214a621f51ede055f00": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.93
+    }
+  },
+  "usage": {
+    "input_tokens": 3227,
+    "output_tokens": 20,
+    "cost": 0.000135534
+  },
+  "provider_usage": {
+    "input_tokens": 3227,
+    "output_tokens": 20,
+    "cost": 0.000135534,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000135534,
+      "upstream_inference_prompt_cost": 0.000135534,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

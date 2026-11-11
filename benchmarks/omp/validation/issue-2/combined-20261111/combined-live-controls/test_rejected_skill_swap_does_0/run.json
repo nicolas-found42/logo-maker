@@ -1,0 +1,19 @@
+{
+  "assets": {},
+  "events": [],
+  "jev": {
+    "cost_usd": 0.002089626,
+    "input_tokens": 49753,
+    "output_tokens": 514,
+    "reported_cost_usd": 0.002089626,
+    "reported_input_tokens": 49753,
+    "reported_output_tokens": 514,
+    "requests": 5,
+    "uncounted_input_requests": 0,
+    "uncounted_output_requests": 0,
+    "unpriced_requests": 0
+  },
+  "seeds": {},
+  "stages": {},
+  "versions": {}
+}

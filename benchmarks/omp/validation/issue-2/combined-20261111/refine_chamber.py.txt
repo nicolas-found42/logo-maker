@@ -1,0 +1,39 @@
+"""Repair self-intersecting variable offsets using topology-preserving section offsets.
+The rejected render remains history; neither watertightness nor this repair implies craft approval.
+"""
+from pathlib import Path
+import ast,json,math,shutil
+import numpy as np
+import manifold3d as mf
+import trimesh,tomlkit
+from logo_maker.paths import LogoDir
+from logo_maker import render,briefing
+from logo_maker.jev.client import JevClient
+from logo_maker.eligibility import assess
+from logo_maker.brief import load
+
+logo=LogoDir(Path('logos/issue-2-completion/rootshare-v3').resolve());cid='shared-chamber|extruded_solid|clay';folder=logo.concept(cid)
+archive=logo.root/'history/development/shared-chamber-rejected-variable-offsets';archive.mkdir()
+for name in ('preview.png','scene.toml','plan.toml','plan-review.json','development-assessment.json','chamber-0.ply','chamber-1.ply'):
+ shutil.copy2(folder/name,archive/name)
+# Reuse the existing proven section-offset construction, not its brand geometry.
+source=folder.parent/'seed-register--extruded-solid--clay/prepare_register.py'
+module=ast.parse(source.read_text())
+functions=ast.Module(body=[node for node in module.body if isinstance(node,ast.FunctionDef)],type_ignores=[])
+env={'np':np,'mf':mf,'math':math,'trimesh':trimesh,'ROOT':folder}
+exec(compile(functions,str(source),'exec'),env)
+data=json.loads((folder/'motif.json').read_text())
+results=[]
+for index,contour in enumerate(data['layers'][0]['contours']):
+ results.append(env['sculpt']({'contours':[contour]},.21,.014,0,f'chamber-{index}.ply'))
+(folder/'construction.json').write_text(json.dumps(results,indent=2)+'\n')
+plan=tomlkit.parse((folder/'plan.toml').read_text())
+plan['details'][1]['construction']='Topology-preserving offset profiles create a continuous 0.014-unit handling radius around each ceramic perimeter, with a planar face and consistently closed gap terminals'
+plan['details'][1]['deletion_test']='Removing the offset profile leaves sharp raw extrusion edges instead of a continuous handling radius'
+(folder/'plan.toml').write_text(tomlkit.dumps(plan))
+client=JevClient(logo);review=briefing.review_plan(logo,cid,client)
+print('plan',review['status'],flush=True)
+if review['status']!='pass':raise SystemExit(2)
+result=render.render(folder,'preview');print('render',result.png,flush=True)
+record=assess(logo,load(logo.brief),cid,result.png,client,stage='preview')
+(folder/'development-assessment.json').write_text(json.dumps(record,indent=2)+'\n');print('eligibility',record['status'],flush=True)

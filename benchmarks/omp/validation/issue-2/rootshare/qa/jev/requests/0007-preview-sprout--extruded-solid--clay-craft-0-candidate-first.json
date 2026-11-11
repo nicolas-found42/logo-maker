@@ -1,0 +1,72 @@
+{
+  "seq": 7,
+  "label": "preview-sprout--extruded-solid--clay-craft-0-candidate-first",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "2d8d764b8ca848ab80505d1025846857",
+    "reference": "3f091af4ac244bc5b6b6e2e92f6a83fe",
+    "intended_appearances": {
+      "candidate": "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc.",
+      "reference": "A deliberately finished blue wax seal with restrained reflections and evenly shaded gold details."
+    }
+  },
+  "questions": {
+    "form_finish": {
+      "type": "noul",
+      "instructions": "Are the candidate's contours and joins at least as deliberately finished as the reference's?",
+      "criteria": {
+        "true": "Contours and joins have comparable or better control for each object's intended treatment. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate has visibly accidental joins, malformed contours or unfinished intersections compared with the reference."
+      }
+    },
+    "surface_finish": {
+      "type": "noul",
+      "instructions": "Is the candidate's surface execution at least as controlled as the reference's for their respective intended appearances?",
+      "criteria": {
+        "true": "Each treatment has intentional surface transitions; muted and glossy finishes can be equally well executed. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate has uncontrolled surface artifacts or poorly resolved shading compared with the reference."
+      }
+    },
+    "detail_finish": {
+      "type": "noul",
+      "instructions": "Is the candidate's visible detail resolved at least as carefully as the reference's?",
+      "criteria": {
+        "true": "The candidate's own details are deliberate and resolved at the demonstrated execution level, including simpler designs. Equality passes. Different palette, lettering, geometry, material and edge roundness are allowed. Execution quality is the comparison, not imitation or personal preference.",
+        "false": "The candidate's details look crude, damaged, merged or unfinished relative to the demonstrated execution level."
+      }
+    }
+  },
+  "assets": {
+    "2d8d764b8ca848ab80505d1025846857": {
+      "type": "image",
+      "format": "png",
+      "sha256": "463317202b4d818a450bf12b7899bf80a0297bdc8158746ca98291d9ff3fa453",
+      "bytes": 249881
+    },
+    "3f091af4ac244bc5b6b6e2e92f6a83fe": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "form_finish": {
+      "type": "noul",
+      "noul": 0.67
+    },
+    "surface_finish": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "detail_finish": {
+      "type": "noul",
+      "noul": 0.74
+    }
+  },
+  "usage": {
+    "input_tokens": 6216,
+    "output_tokens": 55,
+    "cost": 0.000261072
+  }
+}

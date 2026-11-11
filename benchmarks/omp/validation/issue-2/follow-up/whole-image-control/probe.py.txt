@@ -1,0 +1,24 @@
+from pathlib import Path
+import json
+from logo_maker.jev.client import Image,JevClient
+from logo_maker.jev.questions import craft_questions
+from logo_maker.paths import LogoDir
+
+root=Path('logos/issue-2-whole-only')
+root.mkdir(exist_ok=False)
+client=JevClient(LogoDir(root))
+assets=Path('benchmarks/omp/assets')
+original=assets/'original-seal-2000.png'
+glossy=assets/'reconstruction-rendered-2000.png'
+intent_original='A blue wax seal with evenly shaded gold lettering and C/check, restrained reflections and muted finish; green ribbons.'
+intent_glossy='A blue wax seal with highly reflective gold lettering and C/check, strong highlights and rounded edges; folded green ribbon tips.'
+rows=[]
+for name,candidate,reference,intended,ref_intended in [('original',original,glossy,intent_original,intent_glossy),('glossy',glossy,original,intent_glossy,intent_original)]:
+ for order in [('candidate','reference'),('reference','candidate')]:
+  images={'candidate':Image(candidate),'reference':Image(reference)}
+  state={**{key:images[key] for key in order},'intended_appearances':{'candidate':intended,'reference':ref_intended}}
+  answers=client.ask(state,craft_questions(),label=f'whole-only-{name}-{order[0]}-first')
+  row={'case':name,'order':order,'answers':answers,'all_essential_pass':all(a['noul']>=.7 for a in answers.values())}
+  rows.append(row)
+  print(name,order,row['all_essential_pass'],{k:a['noul'] for k,a in answers.items()},flush=True)
+(root/'results.json').write_text(json.dumps(rows,indent=2)+'\n')

@@ -1,0 +1,114 @@
+{
+  "seq": 86,
+  "label": "preview-seed-register--extruded-solid--clay-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "75bf9d5181a240d18eba26653869235a",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A compact collection of retained seed counters",
+      "treatment": "The mark itself as a solid object with depth and softly beveled edges, standing free with no backing.",
+      "material": "Soft modeling clay with a matte, hand-made look.",
+      "treatment_id": "",
+      "material_id": ""
+    },
+    "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+    "native_details": {}
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "75bf9d5181a240d18eba26653869235a": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e7169e790d9bae17595181e95b9dfa7977389f94d05b330408e0adc63e5d4bac",
+      "bytes": 475916
+    }
+  },
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.76
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.66
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.54
+    }
+  },
+  "usage": {
+    "input_tokens": 3606,
+    "output_tokens": 75,
+    "cost": 0.000151452
+  }
+}

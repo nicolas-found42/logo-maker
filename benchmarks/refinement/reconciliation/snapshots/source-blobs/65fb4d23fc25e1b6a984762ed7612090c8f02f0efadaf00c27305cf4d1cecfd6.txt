@@ -1,0 +1,8 @@
+{
+  "id": "keyed-release|extruded_solid|brushed_metal",
+  "metaphor": "keyed-release",
+  "metaphor_text": "A release becomes dependable when independent service supports lock through one explicit dependency key",
+  "description": "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible.",
+  "treatment": "extruded_solid",
+  "material": "brushed_metal"
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1000" height="1000" viewBox="0 0 1000 1000">
+<path d="M250 220 L750 220 L750 370 L400 370 L250 510 Z" fill="#285640" id="upper-plane" data-role="primary" data-height="1" data-layer="0" />
+<path d="M250 510 L400 370 L750 490 L600 630 Z" fill="#DCE7D6" id="turning-plane" data-role="secondary" data-height="1" data-layer="1" />
+<path d="M600 630 L750 490 L750 780 L250 780 L250 630 Z" fill="#285640" id="lower-plane" data-role="primary" data-height="1" data-layer="2" />
+</svg>

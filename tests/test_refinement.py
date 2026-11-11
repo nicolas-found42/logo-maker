@@ -8,6 +8,27 @@ from logo_maker import pipeline
 from logo_maker.paths import LogoDir
 
 
+def inline_refinement_workers(monkeypatch):
+    """Keep synthetic renderer/client patches in process; real ownership has separate tests."""
+    from logo_maker import host, refinement
+
+    original = host.run
+
+    def run(payload, budget, stages):
+        if payload["operation"] in {"refinement", "concept_states", "pipeline_inputs"}:
+            budget.check()
+            with refinement.owned_scope(None):
+                return host.main(payload)
+        return original(payload, budget, stages)
+
+    monkeypatch.setattr(host, "run", run)
+
+
+@pytest.fixture(autouse=True)
+def synthetic_refinement_workers(monkeypatch):
+    inline_refinement_workers(monkeypatch)
+
+
 def job(tmp_path):
     logo = LogoDir(tmp_path / "logo")
     pipeline.new(logo, "Commons")
@@ -20,6 +41,10 @@ def job(tmp_path):
     (folder / "concept.json").write_text(
         json.dumps({"id": cid, "metaphor_text": "Interlocked teaching paths"})
     )
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, cid)
     return logo, cid, folder
 
 
@@ -28,6 +53,14 @@ def test_refine_requires_construction_intent_before_rendering(tmp_path):
     with pytest.raises(pipeline.AuthoringNeeded, match="construction") as stop:
         pipeline.refine(logo)
     assert folder / "construction.json" in stop.value.files
+
+
+def refresh_reviews(logo):
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    freeze_for_stage_test(logo)
+    for cid in pipeline.shortlist(logo):
+        plan_for_stage_test(logo, cid)
 
 
 def construction(folder):
@@ -61,9 +94,15 @@ def construction(folder):
             seed=42,
         )
     )
+    from test_brief_workflow import freeze_for_stage_test, plan_for_stage_test
+
+    logo = LogoDir(folder.parents[1])
+    freeze_for_stage_test(logo)
+    plan_for_stage_test(logo, info["id"])
 
 
 def fake_gpu(monkeypatch, image_path=None, *, sampling_qualified=True, custom_scope=False):
+    inline_refinement_workers(monkeypatch)
     from PIL import Image
 
     from logo_maker import render
@@ -393,6 +432,7 @@ def test_final_revision_cannot_pass_with_unresolved_comparative_critique(tmp_pat
 
     logo, cid, folder = job(tmp_path)
     construction(folder)
+    refresh_reviews(logo)
     pipeline.motifs(logo)
     fake_gpu(monkeypatch, REPO_ROOT / "examples/chief-of-staff/reference-256.png")
     judge = UnresolvedComparison()
@@ -450,6 +490,7 @@ def test_creative_final_cannot_bypass_unqualified_sampling(tmp_path, monkeypatch
 
     logo, cid, folder = job(tmp_path)
     construction(folder)
+    refresh_reviews(logo)
     pipeline.motifs(logo)
     fake_gpu(
         monkeypatch,
@@ -511,7 +552,7 @@ def test_source_edit_during_judgment_cannot_become_current_eligibility(tmp_path,
                     stream.write("\n# edit while judgment request is in flight")
             return super().ask(state, questions, label=label)
 
-    with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
+    with pytest.raises(pipeline.AuthoringNeeded, match=r"changed (while|during).*judging"):
         pipeline.refine(logo, EditingJudge())
     assert not (logo.ideation / "finalists.json").exists()
 
@@ -534,6 +575,7 @@ def test_final_tournament_cannot_approve_in_flight_edits(tmp_path, monkeypatch, 
     info["id"] = other
     (other_folder / "concept.json").write_text(json.dumps(info))
     (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": [cid, other]}))
+    refresh_reviews(logo)
     pipeline.motifs(logo)
     reference = REPO_ROOT / "examples/chief-of-staff/reference-256.png"
     fake_gpu(monkeypatch, reference)
@@ -583,7 +625,9 @@ def test_final_tournament_cannot_approve_in_flight_edits(tmp_path, monkeypatch, 
                 }
             return super().ask(state, questions, label=label)
 
-    with pytest.raises(pipeline.AuthoringNeeded, match="changed while judging"):
+    monkeypatch.setattr("logo_maker.eligibility.assess", lambda *a, **kw: {"status": "pass"})
+    monkeypatch.setattr("logo_maker.eligibility.require_current", lambda *a, **kw: None)
+    with pytest.raises(pipeline.AuthoringNeeded, match=r"changed (while|during).*judging"):
         pipeline.finalize(logo, EditingTournament())
     assert winner.read_text() == '{"winner":"approved-prior"}'
 
@@ -648,7 +692,8 @@ def test_budget_view_preserves_judge_identity_for_creative_and_comparison_caches
         assert any(label.startswith("creative-") for label in labels)
         assert any(label.startswith("compare-") for label in labels)
     finally:
-        client._http.close()
+        if client._http is not None:
+            client._http.close()
 
 
 @pytest.mark.parametrize("stage", ["refine", "qa"])

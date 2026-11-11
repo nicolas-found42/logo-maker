@@ -1,0 +1,16 @@
+[
+  {
+    "path": "chamber-0.ply",
+    "vertices": 13312,
+    "faces": 26620,
+    "volume": 0.08421854767023934,
+    "watertight": true
+  },
+  {
+    "path": "chamber-1.ply",
+    "vertices": 13312,
+    "faces": 26620,
+    "volume": 0.08421803263756038,
+    "watertight": true
+  }
+]

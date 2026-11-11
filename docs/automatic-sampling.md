@@ -57,8 +57,11 @@ Asset-use events return as `RenderResult.assets` records and in the sampling sid
 An arbitrary `on_asset` callback now returns an explicit `budget_conflict`, because it
 cannot both retain parent-process side effects and run in a killable worker. Direct
 `scene.compile` still supports caller-managed callbacks. Export provenance loading and
-delivered-image hashing run inside the owned export worker, bound to the exact parsed
-provenance bytes.
+delivered-image hashing run inside the owned export worker. A private final-image snapshot
+is both hashed and decoded into the hero, so a concurrent final replacement cannot substitute
+unverified pixels after the provenance check. Pipeline export additionally pins the exact
+qualified record hash through freshness validation and into that worker; missing, replaced
+or unqualified records stop publication. The manifest embeds the exact parsed record.
 
 Final QA and its tournament bind a `JevClient.with_budget` view to the same job deadline.
 HTTP retries/backoff/response decoding, image loading/encoding, tiny-image preparation,
@@ -73,9 +76,29 @@ interrupted provider completion/usage can remain unknown. Custom clients at thes
 bounded entry points must explicitly support budget binding, or fail with
 `budget_conflict`; unbudgeted judging interfaces keep their existing client contract.
 Default finalize timing begins before input/client setup, and exhausted caller budgets
-stop before finalist loading. Parent input/QA bookkeeping, provider log publication and
-render/export publication remain cooperative; complete whole-job hard-bound qualification
-is still open.
+stop before finalist loading. Brief/brand/finalist/winner reads, RunLog loading/saving,
+QA record appends and scene
+fix writes use owned host operations. Client bootstrap scans request sequences in a worker;
+its bounded constructor defers HTTP/SSL initialization to the provider worker. Parent
+request and RunLog locks use remaining-time acquisition; received usage is retained in
+parent memory before blocking persistence. An interrupted provider call still has unknown
+completion/usage, and interrupted log IO may leave an in-memory charge without a saved record.
+
+Render setup, candidate JSON and execution reads, prior-record archival and failure-report
+writing are also owned. Two seconds of the original render deadline are reserved for failure
+reporting. A failed retry retains an existing published active record, placing its failure
+report in a distinct `.sampling.failed-<id>.json` instead. Render artifacts and sampling
+provenance are staged together. Publication owns
+blocking copies/renames under a journal and reserves three seconds of the same deadline for
+recovery; a competing publisher fails explicitly. On interruption, recovery restores prior
+paths before cleanup. A failed recovery reports cleanup-unconfirmed and retains its journal
+and backups; it never claims restoration without evidence. Post-commit cleanup is bounded
+and reported independently: an interrupted cleanup retains its journal/remaining backups.
+`RenderResult.publication` exposes that outcome. Successful sampling-record timing ends at
+staging; `RenderResult.seconds` and external invocation measurements include publication and
+cleanup. Winner and final stage state publish in one recoverable set; export publishes its
+directory with its completed stage state. No parent TemporaryDirectory cleanup can block
+a return. Fresh GPU/live/current-head qualification of this increment remains required.
 
 Job timing includes scene compilation, environment probing, attempts, denoise, diagnostic
 EXR writing/reading/hashing, PNG output, downsampling and cleanup. The export manifest adds
@@ -87,11 +110,30 @@ a deadline. Time, attempt, memory, device, cap, noise and visual outcomes have s
 
 ## Profiles and reuse
 
-No qualified numeric replacement ships with this change. Missing, invalid, stale or
+No faster numeric replacement ships with this change. The retained 4096 / 0.01
+comparator has a scoped owner-reviewed M5 Pro profile. Missing, invalid, stale or
 out-of-scope profiles retain the unchanged adaptive baseline and return a review stop at
 finalize. Low-level `render` and `export_all` can produce inspection artifacts explicitly
 labeled unqualified; they cannot become pipeline winners. Legacy direct image exports are
 marked `unattested_legacy_image` in the manifest.
+
+### Profile activation
+
+Before a normal final job, select a retained profile matching the actual runtime context
+and reviewed material/stage scope. The M5 Pro profile is
+[`apple-m5-pro-final.json`](../benchmarks/sampling/profiles/apple-m5-pro-final.json).
+Set `[sampling] profile` to its absolute path (or a path relative to that concept).
+The host validates context and review hashes before rendering, fills only unspecified
+controls, and records `qualified`, `profile_stale`, `profile_out_of_scope` or an explicit
+conflict. No matching record means the unchanged comparator and a review stop.
+
+This profile retains 4096 / 0.01; it enables a reviewed starting policy without a
+per-concept candidate search. Its positive, rejected-detail and held-out labels are
+technical sampling judgments. Cap16 was accepted in its shown typography control and
+is not qualified across the material scope. Clover shading/edge defects remain separate
+refinement work. Current-image QA, craftsmanship, brief fit and preference remain
+independent, including for capped outputs. Changes to its recorded runtime or package-source
+context invalidate this exact profile; recalibrate instead of editing its context to match.
 
 A schema-1 profile contains:
 

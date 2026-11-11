@@ -11,8 +11,10 @@ from logo_maker import __version__
 from logo_maker.paths import LogoDir, slugify
 
 STAGES = (
+    "brief",
     "intake",
     "ideate",
+    "plan",
     "motifs",
     "refine",
     "status",
@@ -67,8 +69,9 @@ def cmd_new(args: argparse.Namespace) -> int:
     logo = resolve_logo(args.slug, args.out)
     pipeline.new(logo, args.name or args.slug.replace("-", " ").title())
     print(
-        f"created {logo.root}\nnext: fill in {logo.brief}, then {logo.metaphors}, then `logo-maker run "
-        f"{args.out or logo.slug}`"
+        f"created {logo.root}\nnext: fill {logo.brief} and {logo.root / 'brief-evidence.toml'} "
+        f"from project/owner evidence; run `logo-maker brief {args.out or logo.slug}`, "
+        f"then author {logo.metaphors} and run `logo-maker run {args.out or logo.slug}`"
     )
     return 0
 
@@ -85,10 +88,13 @@ def cmd_stage(args: argparse.Namespace) -> int:
     try:
         if args.command == "export":
             result = pipeline.export(logo)
+        elif args.command == "brief":
+            result = pipeline.review_brief(logo, revision_reason=args.revision_reason)
         else:
             fn = {
                 "intake": pipeline.intake,
                 "ideate": pipeline.ideate,
+                "plan": pipeline.review_plans,
                 "motifs": pipeline.motifs,
                 "preview": pipeline.preview,
                 "refine": pipeline.refine,
@@ -132,8 +138,10 @@ def build_parser() -> argparse.ArgumentParser:
     new.set_defaults(func=cmd_new)
 
     helps = {
+        "brief": "review source evidence and freeze requirements before authoring",
         "intake": "judge references; pick palette and fonts when the brief lacks them",
         "ideate": "build the concept pool and run the judging chain to a shortlist of 8",
+        "plan": "review concept hypotheses and purposeful detail before rendering",
         "motifs": "build each shortlisted motif and its size sheet; write starter scenes once",
         "refine": "retain previews, inspect, judge and compare creative revisions",
         "status": "report text combinations, authored motifs, renders and refinement rounds",
@@ -147,6 +155,10 @@ def build_parser() -> argparse.ArgumentParser:
         stage = sub.add_parser(name, help=helps[name])
         stage.add_argument("target", help="logo slug (logos/<slug>) or folder path")
         stage.add_argument("--out", type=Path, help="logo folder (overrides the slug's default)")
+        if name == "brief":
+            stage.add_argument(
+                "--revision-reason", default="", help="reason for reopening changed requirements"
+            )
         stage.set_defaults(func=cmd_stage)
 
     sub.add_parser("doctor", help="check every adapter, the GPU, and API keys").set_defaults(

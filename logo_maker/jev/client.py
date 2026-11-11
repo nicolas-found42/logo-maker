@@ -18,6 +18,7 @@ import base64
 import hashlib
 import io
 import json
+import math
 import os
 import re
 import sys
@@ -112,7 +113,6 @@ def _pad_to(im: Any, size: tuple[int, int]) -> Any:
     canvas.paste(
         im,
         ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2),
-        im if "A" in im.mode else None,
     )
     return canvas
 
@@ -210,7 +210,12 @@ class JevClient:
     """Sends typed questions to jev and logs every request under the logo's qa/ dir."""
 
     def __init__(
-        self, logo: LogoDir | None = None, *, model: str | None = None, concurrency: int = 16
+        self,
+        logo: LogoDir | None = None,
+        *,
+        model: str | None = None,
+        concurrency: int = 16,
+        budget: Budget | None = None,
     ) -> None:
         if os.environ.get("TYPESAFE_API_KEY"):
             self.url = TYPESAFE_URL
@@ -230,8 +235,12 @@ class JevClient:
         self.logo = logo
         self.concurrency = concurrency
         self._lock = threading.Lock()
-        self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
-        self._seq = self._first_seq()
+        self._http = httpx.Client(timeout=REQUEST_TIMEOUT) if budget is None else None
+        self._seq = (
+            self._worker({"operation": "first_seq", "logo": str(logo.root)}, budget)["seq"]
+            if budget is not None and logo is not None
+            else self._first_seq()
+        )
 
     def with_budget(self, budget: Budget) -> BudgetedJevClient:
         """A view sharing this client's sequence/log ownership and one job deadline."""
@@ -307,6 +316,8 @@ class JevClient:
                 },
                 budget,
             )
+        if self._http is None:
+            self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
         headers = {"Authorization": f"Bearer {self._key}"}
         if has_images:
             headers["TypeSafe-Danger-Zone-Images"] = "true"
@@ -341,15 +352,18 @@ class JevClient:
         raise JevError(f"jev request failed after {MAX_TRIES} tries: {last}")
 
     @staticmethod
-    def _usage(raw: dict[str, Any], direct: bool) -> dict[str, Any]:
-        usage = dict(raw.get("usage", {}))
-        out = {
-            "input_tokens": int(usage.get("input_tokens", 0) or 0),
-            "output_tokens": int(usage.get("output_tokens", 0) or 0),
-            "cost": float(usage.get("cost", 0.0) or 0.0),
-        }
-        if direct and not out["cost"]:
-            out["cost"] = round(out["input_tokens"] * 42e-9, 6)  # $42 per Btok in, out free
+    def _usage(raw: dict[str, Any]) -> dict[str, Any]:
+        """Reported quantities only; missing or malformed telemetry stays unknown."""
+        usage = raw.get("usage")
+        if not isinstance(usage, dict):
+            usage = {}
+        out: dict[str, Any] = {}
+        for field in ("input_tokens", "output_tokens", "cost"):
+            value = usage.get(field)
+            valid = type(value) is int and value >= 0
+            if field == "cost" and type(value) is float:
+                valid = math.isfinite(value) and value >= 0
+            out[field] = value if valid else None
         return out
 
     # -- logging ----------------------------------------------------------
@@ -369,14 +383,36 @@ class JevClient:
         response: dict[str, Any],
         *,
         assets_status: str = "ready",
+        budget: Budget | None = None,
+        seq: int | None = None,
     ) -> Path:
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
+
+        if budget is None:
+            self._lock.acquire()
+        elif not self._lock.acquire(timeout=budget.remaining):
+            from logo_maker.sampling import SamplingLimit
+
+            raise SamplingLimit("time_limit: Jev request log lock deadline exhausted")
+        try:
+            if seq is None:
+                seq = self._seq
+                self._seq += 1
+            return self._publish_log(
+                seq, label, state, questions, stripped_assets, response, assets_status, budget
+            )
+        finally:
+            self._lock.release()
+
+    def _publish_log(
+        self, seq, label, state, questions, stripped_assets, response, assets_status, budget
+    ):
         from logo_maker.runlog import runlog
 
-        with self._lock:
-            seq = self._seq
-            self._seq += 1
+        if self.logo is None:
+            raise JevError("logging needs a LogoDir client")
+
         record = {
             "seq": seq,
             "label": label,
@@ -385,24 +421,44 @@ class JevClient:
             "questions": questions,
             "assets": stripped_assets,
             "assets_status": assets_status,
+            "status": response.get("_status", "response_received"),
             "answers": response.get("answers", {}),
             "usage": response.get("_usage", {}),
+            "provider_usage": response.get("usage"),
         }
-        req_dir = self.logo.qa / "jev" / "requests"
-        req_dir.mkdir(parents=True, exist_ok=True)
+        if "_error" in response:
+            record["error"] = response["_error"]
+        req_dir = self.logo.root / "qa" / "jev" / "requests"
         request_path = req_dir / f"{seq:04d}-{_slug_label(label)}.json"
-        request_path.write_text(json.dumps(record, indent=2))
         line = {
             "seq": seq,
             "label": label,
             "model": response.get("model", self.model),
             "questions": sorted(questions),
+            "status": record["status"],
             "usage": response.get("_usage", {}),
             "answers": response.get("answers", {}),
         }
-        with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
-            fh.write(json.dumps(line, sort_keys=True) + "\n")
-        runlog(self.logo.run_json).jev_usage(response.get("_usage", {}))
+        log = runlog(self.logo.run_json, budget=budget)
+        # Account for a received charge in the parent before persistence can time out.
+        # The worker owns only file IO, never the client's sequence/lock/HTTP state.
+        if budget is not None:
+            log.jev_usage(response.get("_usage", {}), budget=budget, request_id=request_path.name)
+            self._worker(
+                {
+                    "operation": "publish_log",
+                    "path": str(request_path),
+                    "record": record,
+                    "line": line,
+                },
+                budget,
+            )
+        else:
+            req_dir.mkdir(parents=True, exist_ok=True)
+            request_path.write_text(json.dumps(record, indent=2))
+            with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
+                fh.write(json.dumps(line, sort_keys=True) + "\n")
+            log.jev_usage(response.get("_usage", {}))
         return request_path
 
     # -- public API -------------------------------------------------------
@@ -414,6 +470,10 @@ class JevClient:
         pending: dict[str, Any] = {}
         if budget is not None:
             budget.check()
+            if self.logo is not None:
+                from logo_maker.runlog import runlog
+
+                runlog(self.logo.run_json, budget=budget)
         ser_state = self._serialize(state, assets, pending, defer_images=budget is not None)
         ser_questions = self._serialize(questions, assets, pending, defer_images=budget is not None)
         encoded = (
@@ -432,21 +492,53 @@ class JevClient:
                 ref: {"type": "image", "format": a["format"], "data_base64": a["data_base64"]}
                 for ref, a in assets.items()
             }
-        raw = (
-            self._post(body, has_images=bool(assets))
-            if budget is None
-            else self._post(body, has_images=bool(assets), budget=budget)
-        )
-        if "answers" not in raw:
-            raise JevError(f"jev response has no answers: {json.dumps(raw)[:500]}")
-        usage = self._usage(raw, self._direct)
-        raw["_usage"] = usage
+        attempt_seq = None
+        if self.logo is not None and budget is not None:
+            # A provider can charge before a timeout. Persist the exact submitted
+            # context and unknown accounting before allowing dispatch.
+            request_path = self._log(
+                label,
+                ser_state,
+                ser_questions,
+                _asset_metadata(assets),
+                {"_status": "submission_pending", "_usage": self._usage({})},
+                assets_status="pending",
+                budget=budget,
+            )
+            attempt_seq = int(request_path.name.split("-", 1)[0])
+            self._worker(
+                {
+                    "operation": "store_assets",
+                    "logo": str(self.logo.root),
+                    "assets": assets,
+                    "request_path": str(request_path),
+                },
+                budget,
+            )
+
+        raw: dict[str, Any] = {}
+        error: JevError | None = None
+        try:
+            response = (
+                self._post(body, has_images=bool(assets))
+                if budget is None
+                else self._post(body, has_images=bool(assets), budget=budget)
+            )
+            if not isinstance(response, dict):
+                raise JevError("jev response must be an object")
+            raw = response
+            if not isinstance(raw.get("answers"), dict):
+                raise JevError("jev response has no answers object")
+        except JevError as exc:
+            error = exc
+            raw.update(_status="api_error", _error=str(exc).replace(self._key, "<REDACTED>"))
+        raw["_usage"] = self._usage(raw)
         if self.logo is not None:
             if budget is None:
                 stripped = self._store_assets(assets)
                 self._log(label, ser_state, ser_questions, stripped, raw)
             else:
-                # Keep paid response/usage even if later asset IO exhausts the budget.
+                # The same bounded logging path retains failed and paid responses.
                 request_path = self._log(
                     label,
                     ser_state,
@@ -454,6 +546,8 @@ class JevClient:
                     _asset_metadata(assets),
                     raw,
                     assets_status="pending",
+                    budget=budget,
+                    seq=attempt_seq,
                 )
                 self._worker(
                     {
@@ -464,6 +558,8 @@ class JevClient:
                     },
                     budget,
                 )
+        if error is not None:
+            raise error
         return raw["answers"]  # type: ignore[no-any-return]
 
     def ask(

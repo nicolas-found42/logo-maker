@@ -1,0 +1,8 @@
+{
+  "id": "open-commons|extruded_solid|paper",
+  "metaphor": "open-commons",
+  "metaphor_text": "Independently contributed parts make an accessible shared team library",
+  "description": "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.",
+  "treatment": "extruded_solid",
+  "material": "paper"
+}

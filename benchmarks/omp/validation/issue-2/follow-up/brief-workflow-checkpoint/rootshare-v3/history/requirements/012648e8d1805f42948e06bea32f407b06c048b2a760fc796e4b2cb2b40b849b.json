@@ -1,0 +1,348 @@
+{
+  "status": "pass",
+  "missing": [],
+  "files": [
+    "logos/issue-2-completion/rootshare-v3/brief-evidence.toml"
+  ],
+  "questions": [],
+  "state": {
+    "business": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners borrow and contribute seeds to a shared local collection.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners identifying the service in its favicon, app icon or social avatar.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ]
+    },
+    "design_direction": {
+      "intended_appearance": "A deliberately constructed matte terracotta object with a restrained pale ceramic accent only where it serves hierarchy or construction. Resolve primary contours, junctions, edge profiles and material contacts. Fine clay response supports the form at hero scale. The same primary identity must work in flat form.",
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout decoration"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      },
+      "open_choices": [
+        "initial-led or nonliteral mark",
+        "custom lettering",
+        "shared-space or collection relationship",
+        "exact geometry and ceramic assembly"
+      ],
+      "references": [
+        {
+          "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png",
+          "use": "craft",
+          "note": "The reference's blue seal and raised gold lettering/check have controlled relief and reflective highlights. Judge the care of its own construction; its styling is not the candidate's design.",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+        },
+        {
+          "path": "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png",
+          "use": "craft",
+          "note": "The reference's blue seal and gold lettering/check have a glossy reflective finish with rounded relief. Judge its own intended construction; gloss is not a universal quality target.",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        }
+      ]
+    },
+    "communication_priority": "A welcoming resource held in common, supported by grounded care. This is a proposed positioning direction, not a new business fact.",
+    "design_latitude": [
+      "initial-led or nonliteral mark",
+      "custom lettering",
+      "shared-space or collection relationship",
+      "exact geometry and ceramic assembly"
+    ],
+    "facts": [
+      {
+        "id": "activity",
+        "claim": "Rootshare is a neighborhood seed library; gardeners borrow and contribute seeds to a shared local collection.",
+        "status": "established",
+        "sources": [
+          "fixture",
+          "purpose"
+        ],
+        "essential": true
+      },
+      {
+        "id": "return_rules",
+        "claim": "Whether borrowers must return seeds, and whether provenance tracking exists, is unknown.",
+        "status": "unknown",
+        "sources": [],
+        "essential": false
+      }
+    ],
+    "sources": {
+      "fixture": {
+        "id": "fixture",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "audience = \"Neighborhood gardeners borrowing and contributing seeds.\"",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "purpose": {
+        "id": "purpose",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection.",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "applications": {
+        "id": "applications",
+        "kind": "fixture",
+        "path": "inputs/archived-fixture.toml",
+        "excerpt": "uses = [\"favicon\", \"app_icon\", \"social_avatar\"]",
+        "sha256": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+      },
+      "owner": {
+        "id": "owner",
+        "kind": "owner",
+        "path": "inputs/owner-feedback.txt",
+        "excerpt": "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.",
+        "sha256": "112fa9f4fe3ce4d937e5060ac69ce2201ee6192fd88c815066062ae02b5a1a15"
+      },
+      "shared_master": {
+        "id": "shared_master",
+        "kind": "project",
+        "path": "inputs/identity-contract.md",
+        "excerpt": "Flat exports come straight from the motif; every 3D component reads the same contours.",
+        "sha256": "d2e7b024587c4f6cc33134bca260ab4d6fb41e94683b03269821bfa824d1158a"
+      }
+    },
+    "requirements": [
+      {
+        "id": "digital_uses",
+        "claim": "Required output uses: favicon, app_icon and social_avatar.",
+        "kind": "usage",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "applications"
+        ]
+      },
+      {
+        "id": "shared_resource",
+        "claim": "Prioritize the impression of a welcoming resource held in common, without requiring the symbol to explain the complete service.",
+        "kind": "communication",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      },
+      {
+        "id": "ceramic",
+        "claim": "Explore matte terracotta and pale ceramic as the fixture's current material direction; shape, lettering and assembly remain open.",
+        "kind": "visual",
+        "origin": "proposal",
+        "priority": "prefer",
+        "sources": []
+      },
+      {
+        "id": "shared_master",
+        "claim": "Flat exports and 3D components use the same primary motif contours.",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "shared_master"
+        ]
+      }
+    ],
+    "obligations": [
+      {
+        "id": "developed_detail",
+        "claim": "Develop more visual detail.",
+        "kind": "authoring",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "baseline_image": "inputs/prior-rejected-final.png"
+      },
+      {
+        "id": "both_craft_references",
+        "claim": "Compare to both Chief craft logos.",
+        "kind": "validation",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "minimum_references": 2
+      },
+      {
+        "id": "specific_brief",
+        "claim": "Create a more specific brief.",
+        "kind": "brief",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "baseline": "inputs/archived-fixture.toml"
+      }
+    ],
+    "previous_briefs": {
+      "specific_brief": {
+        "name": "Rootshare",
+        "summary": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection. A bespoke R shelters a seed-shaped counter: the identity's initial and the seed it keeps form one inseparable mark.",
+        "tone": [
+          "grounded",
+          "welcoming",
+          "careful"
+        ],
+        "audience": "Neighborhood gardeners borrowing and contributing seeds.",
+        "initials": "R",
+        "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+        "uses": [
+          "favicon",
+          "app_icon",
+          "social_avatar"
+        ],
+        "avoid": [
+          "wax seals",
+          "metallic lettering",
+          "ribbons",
+          "generic sprout icons"
+        ],
+        "palette": {
+          "primary": "#B95E3F",
+          "accent": "#E4CBA7",
+          "background": "#F8F2E8",
+          "ink": "#422D24"
+        },
+        "fonts": {
+          "display": "Manrope:wght=700",
+          "text": "Manrope:wght=400"
+        }
+      }
+    }
+  },
+  "inputs": {
+    "brief_sha256": "5dfdbb408f72da8126ce0455a38add6aaba7d5eaafefe5cd6c6cfa51e82a69a3",
+    "evidence_sha256": "992dda0d8c24e12caa1232f4ef7bad10da7715120dcbc80c9d07dbdac76d0521",
+    "sources": {
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/archived-fixture.toml": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606",
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/owner-feedback.txt": "112fa9f4fe3ce4d937e5060ac69ce2201ee6192fd88c815066062ae02b5a1a15",
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/identity-contract.md": "d2e7b024587c4f6cc33134bca260ab4d6fb41e94683b03269821bfa824d1158a"
+    },
+    "references": {
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "/Users/nicolas/.codex/worktrees/e70e/logo-maker/logos/issue-2-completion/rootshare-v3/inputs/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+    },
+    "baselines": {
+      "logos/issue-2-completion/rootshare-v3/inputs/prior-rejected-final.png": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "logos/issue-2-completion/rootshare-v3/inputs/archived-fixture.toml": "b4343794692a276ba997019a80908fcae1050d3e4a493a28214677b64bf22606"
+    },
+    "rubric_sha256": "1f2ad6269648ccac8f043b442c7f54090a265cfe5d31081d2f35fdbc32c69426"
+  },
+  "requirements_revision": "012648e8d1805f42948e06bea32f407b06c048b2a760fc796e4b2cb2b40b849b",
+  "answers": {
+    "activity": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "fact_activity": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_digital_uses": {
+      "type": "noul",
+      "noul": 0.78
+    },
+    "requirement_shared_master": {
+      "type": "noul",
+      "noul": 0.99
+    },
+    "obligation_developed_detail": {
+      "type": "noul",
+      "noul": 0.96
+    },
+    "obligation_both_craft_references": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "obligation_specific_brief": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "brief_clarified_specific_brief": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "source_fixture_directions": {
+      "type": "noul",
+      "noul": 0.92
+    },
+    "source_purpose_directions": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "source_applications_directions": {
+      "type": "noul",
+      "noul": 0.89
+    },
+    "source_owner_directions": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "source_shared_master_directions": {
+      "type": "noul",
+      "noul": 0.77
+    },
+    "mandates": {
+      "type": "noul",
+      "noul": 0.82
+    }
+  },
+  "checks": {
+    "activity": "pass",
+    "audience": "pass",
+    "communication": "pass",
+    "grounding": "pass",
+    "consistent": "pass",
+    "source_fixture_directions": "pass",
+    "source_purpose_directions": "pass",
+    "source_applications_directions": "pass",
+    "source_owner_directions": "pass",
+    "source_shared_master_directions": "pass",
+    "fact_activity": "pass",
+    "requirement_digital_uses": "pass",
+    "requirement_shared_master": "pass",
+    "obligation_developed_detail": "pass",
+    "obligation_both_craft_references": "pass",
+    "obligation_specific_brief": "pass",
+    "brief_clarified_specific_brief": "pass",
+    "mandates": "pass"
+  }
+}

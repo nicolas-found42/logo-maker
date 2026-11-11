@@ -1,0 +1,13 @@
+schema = 1
+requirements_revision = "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6"
+hypothesis = "A release becomes dependable when independent service supports lock through one explicit dependency key"
+visual_mechanism = "Two blue steel H-like support rails terminate in angled receivers fitted around a forward copper key. Two round mounting eyes in each rail and controlled chamfered edges make the separate machined solids and connector visible."
+requirement_ids = ["material", "meaning"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Mating key receivers and mounting eyes"
+purpose = "Show where the independent rails seat on the key and how the assembly could be anchored"
+intended_scale = "Hero and native detail; core silhouette remains recognizable in the flat mark"
+construction = "The steel receivers subtract the exact copper-key footprint plus a 0.012-unit clearance. The copper solid protrudes 0.055 units beyond the steel caps. Each rail has two through mounting eyes; all parts retain satin roughness 0.35 and anisotropy 0.8 with an explicit straight brushing tangent. Flat facets and 0.023-unit edge chamfers preserve planar machined caps."
+deletion_test = "Removing the receivers makes the copper key an applied ornament; removing mounting eyes loses attachment plausibility"

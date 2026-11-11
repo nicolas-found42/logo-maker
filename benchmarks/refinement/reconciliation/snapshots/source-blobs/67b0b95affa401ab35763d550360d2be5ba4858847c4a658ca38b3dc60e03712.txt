@@ -1,0 +1,64 @@
+[meta]
+concept = "joined-index|extruded_solid|paper"
+treatment = "extruded_solid"
+seed = 1820117
+
+[camera]
+tilt_deg = 25.0
+lens_mm = 100.0
+framing = 0.82
+
+[lighting]
+rig = "studio_soft"
+hdri = "none"
+hdri_strength = 0.45
+
+[render]
+renderer = "cycles"
+look = "photoreal"
+glare = 0.0
+dof_fstop = 0.0
+
+[materials.primary]
+preset = "paper"
+color = "#285640"
+
+[materials.secondary]
+preset = "paper"
+color = "#DCE7D6"
+
+[materials.accent]
+preset = "paper"
+color = "#C47D5A"
+
+[[components]]
+kind = "mesh"
+name = "left-body"
+path = "left-body.ply"
+material = "primary"
+bevel = 0.004
+smooth = false
+
+[[components]]
+kind = "mesh"
+name = "right-body"
+path = "right-body.ply"
+material = "secondary"
+bevel = 0.004
+smooth = false
+
+[[components]]
+kind = "mesh"
+name = "left-fold"
+path = "left-fold.ply"
+material = "primary"
+bevel = 0.004
+smooth = false
+
+[[components]]
+kind = "mesh"
+name = "right-fold"
+path = "right-fold.ply"
+material = "secondary"
+bevel = 0.004
+smooth = false

@@ -1,0 +1,80 @@
+schema = 1
+communication_priority = "Independent service supports become one dependable release through an explicit key"
+design_latitude = ["Symbol construction within the stated material intent", "Proportions and visible structural detail"]
+
+[[sources]]
+id = "retained"
+kind = "fixture"
+path = "inputs/retained-brief.toml"
+excerpt = "name=\"Keystone\"\nsummary=\"Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.\"\naudience=\"Platform engineers\"\ntone=[\"precise\", \"dependable\", \"calm\"]\navoid=[\"Text inside the mark\", \"Decorative backing disc\"]\n[palette]\nprimary=\"#245064\"\nsecondary=\"#B87E48\"\nbackground=\"#F4F5F5\"\nink=\"#16313B\"\n[fonts]\ndisplay=\"Manrope:wght=700\"\ntext=\"DM Sans:wght=400\"\n"
+
+[[facts]]
+id = "service"
+claim = "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible."
+status = "established"
+sources = ["retained"]
+essential = true
+
+[[requirements]]
+id = "material"
+claim = "Satin brushed blue steel and warm copper, machined joints and restrained reflections"
+kind = "visual"
+origin = "proposal"
+priority = "must"
+sources = []
+
+[[requirements]]
+id = "meaning"
+claim = "Make the supporting dependency key visible in the construction"
+kind = "communication"
+origin = "proposal"
+priority = "must"
+sources = []
+
+[[requirements]]
+id = "avoid_0"
+claim = "Text inside the mark"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["retained"]
+
+[[requirements]]
+id = "avoid_1"
+claim = "Decorative backing disc"
+kind = "visual"
+origin = "project"
+priority = "avoid"
+sources = ["retained"]
+
+[[requirements]]
+id = "uses"
+claim = "The mark must work for: release_dashboard, documentation, app_icon"
+kind = "usage"
+origin = "proposal"
+priority = "must"
+sources = []
+
+[[requirements]]
+id = "palette"
+claim = "Use the supplied palette: {'primary': '#245064', 'secondary': '#B87E48', 'background': '#F4F5F5', 'ink': '#16313B'}"
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["retained"]
+
+[[requirements]]
+id = "fonts"
+claim = "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}"
+kind = "visual"
+origin = "project"
+priority = "must"
+sources = ["retained"]
+
+[[requirements]]
+id = "tone"
+claim = "Communicate the stated tone: precise, dependable, calm"
+kind = "communication"
+origin = "project"
+priority = "must"
+sources = ["retained"]

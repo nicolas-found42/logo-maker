@@ -1,0 +1,14 @@
+{
+  "symbol": "Individual contributions become a reviewed, navigable shared capability",
+  "brand_geometry": "Two folded card channels with offset inward tabs join across a single central shelf opening; one dark green and one pale green module form a shared index",
+  "material_construction": "Thick folded card channels carry contrasting inset tongues; the visible score and raised edge make the join structural, not printed ornament",
+  "intended_appearance": "Warm editorial heavyweight matte card with substantial cut edges and controlled changes of plane",
+  "disproof": "Generic unrelated icon, incoherent joins, unsupported floating pieces or a description that contradicts the visible construction",
+  "current_description": "Two folded card channels with offset inward tabs join across a single central shelf opening; one dark green and one pale green module form a shared index",
+  "dependencies": [
+    "left-body.ply",
+    "right-body.ply",
+    "left-fold.ply",
+    "right-fold.ply"
+  ]
+}

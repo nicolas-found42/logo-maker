@@ -1,0 +1,248 @@
+{
+  "status": "pass",
+  "missing": [],
+  "files": [
+    "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/brief-evidence.toml"
+  ],
+  "questions": [],
+  "state": {
+    "business": {
+      "name": "Keystone",
+      "summary": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+      "tone": [
+        "precise",
+        "dependable",
+        "calm"
+      ],
+      "audience": "Platform engineers",
+      "uses": [
+        "release_dashboard",
+        "documentation",
+        "app_icon"
+      ]
+    },
+    "design_direction": {
+      "intended_appearance": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+      "avoid": [
+        "Text inside the mark",
+        "Decorative backing disc"
+      ],
+      "palette": {
+        "primary": "#245064",
+        "secondary": "#B87E48",
+        "background": "#F4F5F5",
+        "ink": "#16313B"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "DM Sans:wght=400"
+      },
+      "open_choices": [
+        "Symbol construction within the stated material intent",
+        "Proportions and visible structural detail"
+      ],
+      "references": [
+        {
+          "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png",
+          "use": "craft",
+          "note": "Owner accepted muted, sculpted dimensional object; reference only for execution quality, never its shape, palette, typography or finish",
+          "sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7"
+        },
+        {
+          "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png",
+          "use": "craft",
+          "note": "Owner accepted reflective dimensional object; execution quality only, never a mandate for reflective styling",
+          "sha256": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+        }
+      ]
+    },
+    "communication_priority": "Independent service supports become one dependable release through an explicit key",
+    "design_latitude": [
+      "Symbol construction within the stated material intent",
+      "Proportions and visible structural detail"
+    ],
+    "facts": [
+      {
+        "id": "service",
+        "claim": "Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.",
+        "status": "established",
+        "sources": [
+          "retained"
+        ],
+        "essential": true
+      }
+    ],
+    "sources": {
+      "retained": {
+        "id": "retained",
+        "kind": "fixture",
+        "path": "inputs/retained-brief.toml",
+        "excerpt": "name=\"Keystone\"\nsummary=\"Infrastructure release tooling: independent services assemble into a reliable supported deployment. The load-bearing keystone makes the dependencies visible.\"\naudience=\"Platform engineers\"\ntone=[\"precise\", \"dependable\", \"calm\"]\navoid=[\"Text inside the mark\", \"Decorative backing disc\"]\n[palette]\nprimary=\"#245064\"\nsecondary=\"#B87E48\"\nbackground=\"#F4F5F5\"\nink=\"#16313B\"\n[fonts]\ndisplay=\"Manrope:wght=700\"\ntext=\"DM Sans:wght=400\"\n",
+        "sha256": "7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04"
+      }
+    },
+    "requirements": [
+      {
+        "id": "material",
+        "claim": "Satin brushed blue steel and warm copper, machined joints and restrained reflections",
+        "kind": "visual",
+        "origin": "proposal",
+        "priority": "must",
+        "sources": []
+      },
+      {
+        "id": "meaning",
+        "claim": "Make the supporting dependency key visible in the construction",
+        "kind": "communication",
+        "origin": "proposal",
+        "priority": "must",
+        "sources": []
+      },
+      {
+        "id": "avoid_0",
+        "claim": "Text inside the mark",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "avoid_1",
+        "claim": "Decorative backing disc",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "avoid",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "uses",
+        "claim": "The mark must work for: release_dashboard, documentation, app_icon",
+        "kind": "usage",
+        "origin": "proposal",
+        "priority": "must",
+        "sources": []
+      },
+      {
+        "id": "palette",
+        "claim": "Use the supplied palette: {'primary': '#245064', 'secondary': '#B87E48', 'background': '#F4F5F5', 'ink': '#16313B'}",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "fonts",
+        "claim": "Use the supplied font choices: {'display': 'Manrope:wght=700', 'text': 'DM Sans:wght=400'}",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      },
+      {
+        "id": "tone",
+        "claim": "Communicate the stated tone: precise, dependable, calm",
+        "kind": "communication",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "retained"
+        ]
+      }
+    ],
+    "obligations": [],
+    "previous_briefs": {}
+  },
+  "inputs": {
+    "brief_sha256": "311cc1afe639c6701151d92ff821ed41c566abb8b3e4389a0c883c2df353f65c",
+    "evidence_sha256": "ec882adda3b52bd218307a36f28c9cd307a4325e98a860a35b1572745c3af2e7",
+    "sources": {
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/inputs/retained-brief.toml": "7c5152ff2eacd2916c29c78da717b0a4048e76bfc8c7a4ceda36949a86d74a04"
+    },
+    "references": {
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/original-seal-2000.png": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/omp/assets/reconstruction-rendered-2000.png": "b2df4ce651408f54f4f8c8495b74beeac87277fec5972b8c03c397b2bb7625ab"
+    },
+    "baselines": {},
+    "rubric_sha256": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+    "review_protocol_sha256": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+    "transport_sha256": "bbb24f78c75d58f34735705378afe4af71a25261a9c5a57cd8310c21d07b554a"
+  },
+  "requirements_revision": "999b01a47ef99e0f630e1fb69b931fc9d210e13246a230d32cd59ead706c24c6",
+  "answers": {
+    "activity": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "audience": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "communication": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "grounding": {
+      "type": "noul",
+      "noul": 0.88
+    },
+    "consistent": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "fact_service": {
+      "type": "noul",
+      "noul": 0.98
+    },
+    "requirement_avoid_0": {
+      "type": "noul",
+      "noul": 0.78
+    },
+    "requirement_avoid_1": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "requirement_palette": {
+      "type": "noul",
+      "noul": 0.93
+    },
+    "requirement_fonts": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "requirement_tone": {
+      "type": "noul",
+      "noul": 0.86
+    },
+    "source_retained_directions": {
+      "type": "noul",
+      "noul": 0.72
+    },
+    "mandates": {
+      "type": "noul",
+      "noul": 0.87
+    }
+  },
+  "checks": {
+    "activity": "pass",
+    "audience": "pass",
+    "communication": "pass",
+    "grounding": "pass",
+    "consistent": "pass",
+    "source_retained_directions": "pass",
+    "fact_service": "pass",
+    "requirement_avoid_0": "pass",
+    "requirement_avoid_1": "pass",
+    "requirement_palette": "pass",
+    "requirement_fonts": "pass",
+    "requirement_tone": "pass",
+    "mandates": "pass"
+  }
+}

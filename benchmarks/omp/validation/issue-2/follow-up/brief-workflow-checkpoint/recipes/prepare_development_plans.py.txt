@@ -1,0 +1,81 @@
+"""Authored development subset from flat studies; not finalist or winner selection."""
+
+import json
+import shutil
+from pathlib import Path
+
+import tomlkit
+
+from logo_maker import briefing, catalog, pipeline
+from logo_maker.paths import LogoDir
+
+root = (Path(__file__).parent / "rootshare-v3").resolve()
+logo = LogoDir(root)
+frozen = briefing.current(logo)
+studies = root / "ideation/flat-studies"
+ideas = [
+    ("shared-chamber", "Complementary forms define one shared, retained interior"),
+    ("seed-register", "A compact collection of retained seed counters"),
+    ("shared-initials", "Rootshare's R and S share one constructed contact"),
+    ("common-plot", "A small set of garden plots shares one boundary"),
+    ("seed-pocket", "A seed pocket protects a shared interior"),
+    ("collection-index", "An indexed collection of related but distinct seed forms"),
+    ("contribution-notch", "One deliberate opening makes room for a contribution"),
+    ("paired-shelves", "Two shelves form one compact retained collection"),
+    ("woven-name", "A custom Rootshare wordmark with interdependent terminals"),
+    ("shared-counter", "Two name-derived forms depend on one counter"),
+    ("seed-archive", "A carefully arranged archive of seed-shaped apertures"),
+    ("nested-cups", "Nested retaining forms express collective care"),
+    ("commons-grid", "An open center belongs equally to surrounding forms"),
+    ("joined-terminals", "Distinct letter terminals join into one stable name rhythm"),
+    ("seed-tray", "A tray-like retained group is punctuated by one access opening"),
+    ("neighborhood-ring", "Neighboring forms share an interior without a seal treatment"),
+    ("careful-fold", "A retaining fold protects a seed-shaped negative space"),
+    ("gathered-parts", "Distinct contributing parts form one balanced silhouette"),
+    ("rootshare-word", "Custom lettering gives Rootshare a recognizable compact rhythm"),
+    ("common-vessel", "One vessel is formed from complementary contributions"),
+]
+logo.metaphors.write_text(tomlkit.dumps({"metaphor": [{"id": name, "text": text} for name, text in ideas]}))
+details = {
+    "shared-chamber": [
+        {"feature": "Complementary chamber contours", "purpose": "Both forms define one recognizable interior rather than two unrelated ornaments", "intended_scale": "Flat and 32px avatar", "construction": "Two separately made ceramic forms retain the same master contours; no unsupported physical interlock is claimed", "deletion_test": "Removing either form opens and unbalances the common interior"},
+        {"feature": "Coordinated terminal and inner-wall profiles", "purpose": "Resolve the two gaps and material thickness deliberately", "intended_scale": "Hero and native detail", "construction": "Controlled outer handling radius with a finer inner lip, continuous matte ceramic surfaces", "deletion_test": "Uniform raw extrusion loses the deliberate edge hierarchy"},
+    ],
+    "seed-register": [
+        {"feature": "Three seed counters in a retained collection", "purpose": "A consistent collection relationship carries the seed-library hypothesis", "intended_scale": "Flat and 32px avatar", "construction": "All three aperture contours belong to the shared master and remain open in the hero", "deletion_test": "A single seed loses the collection argument"},
+        {"feature": "Seated pale ceramic aperture collars", "purpose": "Articulate precise aperture walls and credible assembly rather than a floating bright outline", "intended_scale": "Hero; supporting boundaries included in the flat master", "construction": "Collars sit inside purpose-cut body seats with a slightly recessed face and controlled contact gap; update the master roles before modeling", "deletion_test": "Removing the seats makes the material boundary physically ambiguous"},
+        {"feature": "Matte body and differentiated edge profiles", "purpose": "Reveal resolved mass, wall thickness and material credibility", "intended_scale": "Hero and native detail", "construction": "Unglazed terracotta with subtle grain; broad outer radius, finer aperture transition and no coat gloss", "deletion_test": "Grain alone cannot replace the constructed wall and contact hierarchy"},
+    ],
+    "shared-initials": [
+        {"feature": "Shared R/S contact", "purpose": "Create a name-led construction instead of an interchangeable seed ornament", "intended_scale": "Flat and avatar", "construction": "Resolve a custom shared junction in the master contours before extrusion", "deletion_test": "Separating the letters removes the proposed shared construction"},
+        {"feature": "Resolved letter counters and leg transitions", "purpose": "Preserve readability while developing deliberate proportion and contact", "intended_scale": "Flat, hero and native detail", "construction": "Continuous ceramic solid with coordinated counter walls and controlled bevel terminations", "deletion_test": "Unrefined overlaps leave accidental pinches instead of a purposeful ligature"},
+    ],
+}
+pool = []
+ids = []
+for name, metaphor in ideas[:3]:
+    cid = f"{name}|extruded_solid|clay"
+    ids.append(cid)
+    folder = logo.concept(cid)
+    for filename in ("motif.py", "motif.svg", "motif.json", "sizes.png"):
+        shutil.copyfile(studies / name / filename, folder / filename)
+    concept = {"id": cid, "metaphor": name, "metaphor_text": metaphor,
+               "treatment": "extruded_solid", "treatment_text": catalog.treatments()["extruded_solid"].description,
+               "material": "clay", "material_text": catalog.materials()["clay"].description,
+               "source": "authored flat development study; not an eligibility selection"}
+    (folder / "concept.json").write_text(json.dumps(concept, indent=2) + "\n")
+    plan = {"schema": 1, "requirements_revision": frozen["requirements_revision"],
+            "hypothesis": metaphor, "visual_mechanism": metaphor,
+            "requirement_ids": ["digital_uses", "shared_master", "shared_resource", "ceramic"],
+            "assumptions": ["The intended communication is a design hypothesis, not a new service fact"],
+            "details": details[name]}
+    (folder / "plan.toml").write_text(tomlkit.dumps(plan))
+    pool.append({"id": cid, "metaphor": name, "treatment": "extruded_solid", "material": "clay", "scores": {}})
+(logo.ideation / "pool.jsonl").write_text("".join(json.dumps(row) + "\n" for row in pool))
+(logo.ideation / "shortlist.json").write_text(json.dumps({"ids": ids, "source": "authored development subset", "not_finalists": True}, indent=2) + "\n")
+try:
+    records = pipeline.review_plans(logo)
+    print(json.dumps({key: value["status"] for key, value in records.items()}))
+except pipeline.AuthoringNeeded as exc:
+    print(str(exc))
+    raise

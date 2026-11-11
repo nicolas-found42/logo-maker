@@ -1,0 +1,44 @@
+{
+  "seq": 61,
+  "label": "brief-source-applications",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "source": {
+      "kind": "fixture",
+      "excerpt": "uses = [\"favicon\", \"app_icon\", \"social_avatar\"]",
+      "context": "Fictional exercise record: its stated inputs and constraints apply to the exercise; they are not independently verified market facts or human owner approval."
+    },
+    "recorded_directions": [
+      {
+        "id": "digital_uses",
+        "kind": "usage",
+        "claim": "Required output uses: favicon, app_icon and social_avatar.",
+        "origin": "project",
+        "priority": "must",
+        "scope": "Mandatory: every candidate must meet this direction."
+      }
+    ]
+  },
+  "questions": {
+    "source_applications_directions": {
+      "type": "noul",
+      "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+      "criteria": {
+        "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+        "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "source_applications_directions": {
+      "type": "noul",
+      "noul": 0.89
+    }
+  },
+  "usage": {
+    "input_tokens": 530,
+    "output_tokens": 27,
+    "cost": 2.226e-05
+  }
+}

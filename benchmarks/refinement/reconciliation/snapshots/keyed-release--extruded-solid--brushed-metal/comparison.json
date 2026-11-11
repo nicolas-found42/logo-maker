@@ -1,0 +1,15 @@
+{
+  "after": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0006-e18a2cd94b98-preview/render.png",
+  "answers": {
+    "critique_resolved": {
+      "noul": 0.53,
+      "type": "noul"
+    },
+    "visually_distinct": {
+      "noul": 0.87,
+      "type": "noul"
+    }
+  },
+  "before": "qa/revisions/keyed-release--extruded-solid--brushed-metal/0005-0ef91837c7e2-preview/render.png",
+  "binding": "13adb63cc7fc907463217146c0b5f68c179405837abca999d197b7e41ce62f84"
+}

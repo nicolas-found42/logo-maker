@@ -1,0 +1,72 @@
+{
+  "seq": 47,
+  "label": "brief-source-owner",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "source": {
+      "kind": "owner",
+      "excerpt": "rootshare fails. needs more specific brief and more detail. compare to both chief craft logos.",
+      "context": "Owner statement: establishes the owner's intent, not independently observed audience behavior."
+    },
+    "recorded_directions": [
+      {
+        "id": "developed_detail",
+        "claim": "Develop more visual detail.",
+        "kind": "authoring",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "baseline_image": "inputs/prior-rejected-final.png",
+        "scope": "Mandatory workflow obligation: develop the detail plan before preview and verify its visible realization before image advancement. Recording intent does not establish completed artwork."
+      },
+      {
+        "id": "both_craft_references",
+        "claim": "Compare to both Chief craft logos.",
+        "kind": "validation",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "minimum_references": 2,
+        "scope": "Mandatory workflow obligation: perform the declared reference comparisons before finalist or winner selection. This does not prescribe the references' styling."
+      },
+      {
+        "id": "specific_brief",
+        "claim": "Create a more specific brief.",
+        "kind": "brief",
+        "origin": "owner",
+        "priority": "must",
+        "sources": [
+          "owner"
+        ],
+        "baseline": "inputs/archived-fixture.toml",
+        "scope": "Mandatory workflow obligation: complete brief development before freezing, using the retained earlier brief as evidence. This is not an attribute every logo must depict."
+      }
+    ]
+  },
+  "questions": {
+    "source_owner_directions": {
+      "type": "noul",
+      "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+      "criteria": {
+        "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+        "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "source_owner_directions": {
+      "type": "noul",
+      "noul": 0.81
+    }
+  },
+  "usage": {
+    "input_tokens": 779,
+    "output_tokens": 25,
+    "cost": 3.2718e-05
+  }
+}

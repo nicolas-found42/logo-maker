@@ -1,0 +1,9 @@
+"""Shade actual sculpted geometry; no bevel modifier or sampling edits."""
+import bpy
+
+
+def build(ctx):
+    for name in ("Rootshare_body", "Rootshare_inlay"):
+        obj = bpy.data.objects[name]
+        for polygon in obj.data.polygons:
+            polygon.use_smooth = abs(polygon.normal.z) < 0.999

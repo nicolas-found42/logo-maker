@@ -1,0 +1,52 @@
+{
+  "assets": {
+    "font:Manrope": {
+      "license": "OFL-1.1",
+      "path": "/Users/nicolas/.cache/logo-maker/fonts/static/manrope-4c65ab74dbda.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf"
+    }
+  },
+  "events": [],
+  "jev": {
+    "cost_usd": 0.009245,
+    "input_tokens": 220209,
+    "output_tokens": 6073,
+    "requests": 87
+  },
+  "seeds": {
+    "seed-register|extruded_solid|clay": 1275232,
+    "shared-chamber|extruded_solid|clay": 1321446,
+    "shared-initials|extruded_solid|clay": 335997
+  },
+  "stages": {
+    "brief": {
+      "at": "2026-11-10T19:58:09",
+      "revision": "9a2a3856e58ef46e61485d89843fd6f0111afca4228abc76e493b14893b1096d",
+      "status": "done"
+    },
+    "intake": {
+      "at": "2026-11-10T19:38:10",
+      "status": "done"
+    },
+    "new": {
+      "at": "2026-11-10T18:48:06",
+      "status": "done"
+    }
+  },
+  "versions": {
+    "bpy": "5.2.3",
+    "build123d": "0.13.0",
+    "coloraide": "8.14.1",
+    "fonttools": "4.68.0",
+    "logo-maker": "0.1.0",
+    "manifold3d": "3.5.4",
+    "mitsuba": "3.9.1",
+    "pillow": "13.0.0",
+    "pyluxcore": "2.11.2",
+    "pymeshlab": "2025.7.post1",
+    "resvg-py": "0.5.0",
+    "skia-pathops": "0.9.2",
+    "trimesh": "5.2.0",
+    "vtracer": "0.6.15"
+  }
+}

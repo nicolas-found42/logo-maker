@@ -1,0 +1,13 @@
+schema = 1
+requirements_revision = "989979cc2aa8c52c6345729f95cdd03218213c3bc804af8efd335f772461ec36"
+hypothesis = "An open shared team library formed by independently contributed parts"
+visual_mechanism = "Two thick folded card uprights, green and pale green, face a low terracotta shelf across an open central space. Each upright is one solid with an inward-turned upper return; three separate parts suggest an accessible shared library.; This plan tests one territory in the three-part family. Compare joined-index (joined modules), the retained folio (folded shared object), and open-commons (open shared space); each uses its own authored construction and shared flat master."
+requirement_ids = ["material", "meaning"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Folded structural joins"
+purpose = "Make independently contributed parts legible as one shared support structure"
+intended_scale = "Hero and native detail; core silhouette remains recognizable in the flat mark"
+construction = "Each upright is a single watertight folded-card solid: a broad plane and an inward-return plane meet continuously along one shared fold edge. A third thick terracotta card solid lies below. The three objects are deliberately separated by visible gaps; they do not claim to support or fasten one another. Facet normals preserve actual planar folds."
+deletion_test = "Removing the joint or key turns a shared assembled object into disconnected generic pieces"

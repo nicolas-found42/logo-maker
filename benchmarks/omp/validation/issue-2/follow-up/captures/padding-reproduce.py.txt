@@ -1,0 +1,27 @@
+"""Run the same public transport test at an isolated source revision."""
+import argparse
+import importlib.util
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+import pytest
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--revision', required=True)
+args = parser.parse_args()
+with tempfile.TemporaryDirectory(prefix='logo-padding-before-') as tmp:
+    source = Path(tmp) / 'client.py'
+    source.write_bytes(subprocess.run(['git', 'show', args.revision + ':logo_maker/jev/client.py'], check=True, capture_output=True).stdout)
+    name = 'logo_maker.jev.client'
+    spec = importlib.util.spec_from_file_location(name, source)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    import logo_maker.jev
+    logo_maker.jev.client = module
+    print('Jev image padding: transmitted translucent source pixels', flush=True)
+    print('Source revision: ' + args.revision, flush=True)
+    code = pytest.main(['-q', '--tb=short', 'tests/test_jev_client.py::test_mixed_image_dimensions_preserve_translucent_source_pixels'])
+    raise SystemExit(code)

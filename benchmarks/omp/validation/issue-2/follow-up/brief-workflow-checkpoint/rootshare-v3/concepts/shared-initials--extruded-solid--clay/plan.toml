@@ -1,0 +1,20 @@
+schema = 1
+requirements_revision = "9a2a3856e58ef46e61485d89843fd6f0111afca4228abc76e493b14893b1096d"
+hypothesis = "Rootshare's R and S share one constructed contact"
+visual_mechanism = "Rootshare's R and S share one constructed contact"
+requirement_ids = ["digital_uses", "shared_master", "shared_resource", "ceramic"]
+assumptions = ["The intended communication is a design hypothesis, not a new service fact"]
+
+[[details]]
+feature = "Shared R/S contact"
+purpose = "Create a name-led construction instead of an interchangeable seed ornament"
+intended_scale = "Flat and avatar"
+construction = "Resolve a custom shared junction in the master contours before extrusion"
+deletion_test = "Separating the letters removes the proposed shared construction"
+
+[[details]]
+feature = "Resolved letter counters and leg transitions"
+purpose = "Preserve readability while developing deliberate proportion and contact"
+intended_scale = "Flat, hero and native detail"
+construction = "Continuous ceramic solid with coordinated counter walls and controlled bevel terminations"
+deletion_test = "Unrefined overlaps leave accidental pinches instead of a purposeful ligature"

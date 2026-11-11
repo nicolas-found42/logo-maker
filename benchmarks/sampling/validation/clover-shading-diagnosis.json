@@ -1,0 +1,157 @@
+{
+  "request": "Inspect owner-reported weird reflections in clover; sampling quality separate from geometry/shading",
+  "source_base": "8261315",
+  "control_change": "Only cap polygon smoothing flag, in an isolated source copy; package/default geometry unchanged",
+  "before": {
+    "folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/clover-top-light",
+    "normals": [
+      {
+        "object": "extrude_0",
+        "vertices": 1056,
+        "faces": 1302,
+        "modifiers": [
+          [
+            "edge",
+            "BEVEL"
+          ]
+        ],
+        "flat_top_faces": 120,
+        "flat_top_corner_normal_tilt_degrees": {
+          "0": 3.5892147190494805,
+          "0.5": 7.2926673610069015,
+          "0.9": 8.596787832341041,
+          "1": 9.932660643207559
+        }
+      }
+    ],
+    "final_sha256": "4c4385cf4bbc9af77d082f93850b0576b6272151d769589962859bebea7664a1"
+  },
+  "probe": {
+    "folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps",
+    "normals": [
+      {
+        "object": "extrude_0",
+        "vertices": 1056,
+        "faces": 1302,
+        "modifiers": [
+          [
+            "edge",
+            "BEVEL"
+          ]
+        ],
+        "flat_top_faces": 120,
+        "flat_top_corner_normal_tilt_degrees": {
+          "0": 0.0,
+          "0.5": 0.0,
+          "0.9": 0.019782341029446364,
+          "1": 0.019782341029446364
+        }
+      }
+    ],
+    "final_sha256": "f3fca62ebae39e83b2e2100c9ac095ac8926c331c0077261a45fd9434e9c3d1f",
+    "execution": {
+      "schema": 1,
+      "policy": "metal-gpu-only",
+      "status": "verified",
+      "inputs_sha256": {
+        "compiled_scene": "2f0182b3f08f04d8a999994fe8b927d78af41df884d2b7042a94fabc7f16fdcb",
+        "meshes/extrude_0.ply": "402bc7df1c9ddc4c2ae3d71874c07450524a2e81b8d064916002e37f0fdf2769"
+      },
+      "blender": "5.2.3 LTS",
+      "build": "e13b728c6880",
+      "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "machine": "arm64",
+      "devices": [
+        {
+          "name": "Apple M5 Pro",
+          "id": "CPU",
+          "type": "CPU",
+          "use": false
+        },
+        {
+          "name": "Apple M5 Pro (GPU - 20 cores)",
+          "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+          "type": "METAL",
+          "use": true
+        }
+      ],
+      "device_override": "METAL",
+      "metalrt": "AUTO",
+      "sampling": {
+        "samples": 4096,
+        "use_adaptive_sampling": true,
+        "adaptive_threshold": 0.009999999776482582,
+        "adaptive_min_samples": 0,
+        "seed": 49,
+        "use_animated_seed": false
+      },
+      "resolution": [
+        4000,
+        4000
+      ],
+      "resolution_percentage": 100,
+      "denoiser_requested": {
+        "name": "OPENIMAGEDENOISE",
+        "gpu": true,
+        "input_passes": "RGB_ALBEDO_NORMAL"
+      },
+      "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+      "kernel_cache_state": "unknown",
+      "log": "final.execution.log",
+      "seconds": 100.11902520900185,
+      "process_cpu_seconds": 18.961121000000002,
+      "log_sha256": "40ee41cb34f21111304eed46c442618c3205f0eaaf0e7818d3c763dccc1c4e54",
+      "denoiser_effective": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostics": {
+        "status": "retained",
+        "path": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/.build/attempt-ddee43016c8d4d798b382bb69fe925db/final.execution.exr",
+        "bytes": 146880375,
+        "sha256": "85981d7ea900739d40e73934011a6003bcbb0e1904d377659de2022216d07bb1",
+        "seconds": 0.3089916250028182,
+        "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+      },
+      "png_sha256": "69450dca43a4f01d24a9c085bd7a3dc95529ab9782210f0909e79eaf5298f5e5"
+    },
+    "measurement": {
+      "seconds": 106.52760537499853,
+      "render_seconds": 103.0646921669977,
+      "render_module": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/source-cap-flat-probe/logo_maker/render.py",
+      "render_module_sha256": "a1576f7ef7f9c2cebcb1961db538284ce6341444e984384febd051cd0687b14e",
+      "execution": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/.build/attempt-ddee43016c8d4d798b382bb69fe925db/final.execution.json",
+      "sampling": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/.build/final.sampling.json",
+      "png": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/final.png",
+      "export_count": 31,
+      "export_manifest": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/exports/manifest.json",
+      "budget": {
+        "wall_seconds": 900,
+        "attempt_limit": 2,
+        "attempts": 1,
+        "elapsed_seconds": 106.52791687499848,
+        "remaining_seconds": 793.4720830000006,
+        "scope": "whole host job including setup, probes, denoise and output"
+      },
+      "owner_review": "pending",
+      "qualification": "inspection_only_unqualified",
+      "timing_scope": "motif preparation, render setup/tracing/GPU denoise/diagnostics/downsample and full exports; complete outer invocation separately measured",
+      "kernel_cache_state": "unknown",
+      "invocation_seconds": 106.69089695801085
+    },
+    "verified_exports": 31
+  },
+  "equalities": {
+    "sampling": true,
+    "mesh_ply": true,
+    "scene_toml": true,
+    "motif_svg": true
+  },
+  "observation": "Broad angular face bands appear in the original noisy and denoised passes. Flat-cap probe removes the broad face bands; some edge faceting remains. Mesh normal probe red before (max9.93deg), green after (max0.02deg).",
+  "diagnosis": "non-sampling shading defect; residual edge geometry needs separate craft review",
+  "owner_review": "pending",
+  "figure": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/before-after-flat-caps.png",
+  "figure_sha256": "4e230cf9881ab523c0e0e8f44cff7194f878d9478e5305d5ebfd6596e51cac14",
+  "scope": "local diagnostic render only; not a globally applied fix or qualified profile"
+}

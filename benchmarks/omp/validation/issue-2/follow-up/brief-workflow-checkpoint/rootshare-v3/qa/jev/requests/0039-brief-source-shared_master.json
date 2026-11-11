@@ -1,0 +1,47 @@
+{
+  "seq": 39,
+  "label": "brief-source-shared_master",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "source": {
+      "kind": "project",
+      "excerpt": "Flat exports come straight from the motif; every 3D component reads the same contours.",
+      "context": "Project record: its stated design constraints have project authority."
+    },
+    "recorded_directions": [
+      {
+        "id": "shared_master",
+        "claim": "Flat exports and 3D components use the same primary motif contours.",
+        "kind": "visual",
+        "origin": "project",
+        "priority": "must",
+        "sources": [
+          "shared_master"
+        ],
+        "scope": "Mandatory: every candidate must meet this direction."
+      }
+    ]
+  },
+  "questions": {
+    "source_shared_master_directions": {
+      "type": "noul",
+      "instructions": "Do `recorded_directions` retain every explicit design instruction, preference, prohibition and open choice in `source.excerpt`?",
+      "criteria": {
+        "true": "Each explicit direction is recorded with the source's authority and scope. Descriptive business facts and feedback about a previous artifact are not new design instructions. A source without design directions needs none invented.",
+        "false": "An explicit direction is missing, its authority is weakened, or its mandatory, preference, prohibition or open-choice scope is changed."
+      }
+    }
+  },
+  "assets": {},
+  "answers": {
+    "source_shared_master_directions": {
+      "type": "noul",
+      "noul": 0.78
+    }
+  },
+  "usage": {
+    "input_tokens": 529,
+    "output_tokens": 26,
+    "cost": 2.2218e-05
+  }
+}

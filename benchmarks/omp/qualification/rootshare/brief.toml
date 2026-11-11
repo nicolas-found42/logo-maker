@@ -1,0 +1,13 @@
+name = "Rootshare"
+summary = "A neighborhood seed library where gardeners share seeds and grow local biodiversity. The mark shows a sprout with two broad leaves on a central stem."
+tone = ["grounded", "welcoming", "practical"]
+uses = ["favicon", "app_icon", "social_avatar"]
+avoid = ["wax seals", "metallic lettering", "ribbons"]
+intended_appearance = "Unglazed terracotta ceramic sprout, warm earthy orange, broad matte surfaces with very restrained reflections, deliberate rounded edges and visible solid depth. No lettering or backing disc."
+[palette]
+primary = "#B95E3F"
+background = "#F8F2E8"
+ink = "#422D24"
+[fonts]
+display = "Manrope:wght=700"
+text = "Manrope:wght=400"

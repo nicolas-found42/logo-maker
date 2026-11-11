@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "abe6b61685c3f86b4e6e5cc36d6c1ae369a7d934e1579e9d622ba2988939d055",
+    "meshes/Register_body.ply": "18d2f95692df0af8c10c5ac1eaa53d94e11a4bee7d079373d1fbff4db66b9944",
+    "meshes/Register_collar_2.ply": "94df092bbfcb4855cad98f87531a6cf01496e7029eb47e0ed533dcf72dc7199f",
+    "meshes/Register_collar_1.ply": "bad5cee61eb3f5ad548f083ff59988bbed9435d755fc303eb887caadb445d62e",
+    "meshes/Register_collar_0.ply": "24212633a2dd562b28cb92dc6c616e9a5a9d633f247b133eaf7b92bba17b1864"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 0,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.738786333007738,
+  "process_cpu_seconds": 1.4721000000000002,
+  "log_sha256": "4c70978421a7d08e0876f44d417f0133344000482fb70f0c205e8e73ad68b3ec",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "png_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+  "delivered_sha256": "64ed4713b098e629e6cd71af16b11f0d50f941403db5285470ae2d3f8218284d",
+  "host_sources_sha256": {
+    "scene.toml": "85dc8a5b48d22c08d56ac3b8717d050e7d053132e9433dde7c7f92ee25f49c9c",
+    "motif.json": "0fb85bff785fcd6e3e2d6fadb186e5376b2f2f30f7ab1f27abb38658d248d2e7",
+    "scene.py": "e5b266aca12872a2dece270da4f1555d54d7c32048c201f0c96c7817580805cc"
+  }
+}

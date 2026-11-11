@@ -43,6 +43,129 @@ def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
 
 def main(payload: dict) -> dict:
     operation = payload["operation"]
+    if operation == "concept_states":
+        from logo_maker.brief import load
+        from logo_maker.judging import _concept_states
+        from logo_maker.paths import LogoDir
+
+        logo = LogoDir(Path(payload["root"]))
+        return {"states": _concept_states(logo, load(logo.brief))}
+    if operation == "refinement":
+        from logo_maker.refinement import host_operation
+
+        return host_operation(payload)
+    if operation == "export_eligibility":
+        from logo_maker.export import _verify_eligibility
+
+        _verify_eligibility(payload["expected"])
+        return {}
+    if operation == "eligibility":
+        from logo_maker.eligibility import host_operation
+
+        return host_operation(payload)
+    if operation == "write_json":
+        from logo_maker.publication import _record
+
+        _record(Path(payload["path"]), payload["data"])
+        return {}
+    if operation == "read_json":
+        import hashlib
+
+        path = Path(payload["path"])
+        if not path.exists():
+            return {"data": payload.get("default"), "sha256": None}
+        raw = path.read_bytes()
+        return {"data": json.loads(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+    if operation == "append_jsonl":
+        path = Path(payload["path"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a") as handle:
+            handle.write(json.dumps(payload["data"]) + "\n")
+        return {}
+    if operation == "runlog_load":
+        from logo_maker.runlog import RunLog
+
+        return {"data": RunLog(Path(payload["path"])).data}
+    if operation == "pipeline_inputs":
+        from dataclasses import asdict
+
+        from logo_maker import brief, pipeline
+        from logo_maker.paths import LogoDir
+
+        logo = LogoDir(Path(payload["root"]))
+        data = asdict(brief.load(logo.brief))
+        for reference in data["references"]:
+            reference["path"] = str(reference["path"])
+        result = {"brief": data}
+        if payload.get("reviewed"):
+            try:
+                pipeline._require_brief(logo)
+                for cid in payload.get("plans", []):
+                    pipeline._require_plan(logo, cid)
+            except pipeline.AuthoringNeeded as exc:
+                return {"authoring_needed": str(exc), "files": [str(p) for p in exc.files]}
+        if payload.get("brand"):
+            result["brand"] = asdict(pipeline.brand(logo))
+        if payload.get("finalists"):
+            result["finalists"] = json.loads((logo.ideation / "finalists.json").read_text())["ids"]
+            if payload.get("reviewed"):
+                try:
+                    for cid in result["finalists"]:
+                        pipeline._require_plan(logo, cid)
+                except pipeline.AuthoringNeeded as exc:
+                    return {"authoring_needed": str(exc), "files": [str(p) for p in exc.files]}
+
+        if payload.get("winner"):
+            result["winner"] = pipeline.winner(logo)
+        return result
+    if operation == "apply_fixes":
+        from logo_maker.pipeline import _apply_fixes
+
+        return {"changes": _apply_fixes(Path(payload["path"]), set(payload["failures"]))}
+    if operation == "remove_path":
+        from logo_maker.publication import _remove
+
+        _remove(Path(payload["path"]))
+        return {}
+    if operation in {"publish", "recover_publication", "clean_publication"}:
+        from logo_maker import publication
+
+        if operation == "publish":
+            return publication.apply(payload)
+        if operation == "recover_publication":
+            return publication.recover(Path(payload["journal"]), Path(payload["lock"]))
+        return publication.clean(Path(payload["journal"]))
+    if operation == "render_setup":
+        (Path(payload["concept_dir"]) / ".build").mkdir(exist_ok=True)
+        return {}
+    if operation == "render_attempt":
+        folder = Path(payload["directory"])
+        folder.mkdir()
+        (folder / "scene.json").write_text(json.dumps(payload["scene"], indent=2))
+        return {}
+    if operation == "render_execution":
+        import hashlib
+
+        path = Path(payload["path"])
+        raw = path.read_bytes()
+        return {"record": json.loads(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+    if operation == "render_record":
+        import shutil
+        import uuid
+
+        from logo_maker.publication import _record
+
+        path = Path(payload["path"])
+        if path.exists():
+            if json.loads(path.read_text()).get("published"):
+                failed = path.with_name(path.stem + ".failed-" + uuid.uuid4().hex + ".json")
+                _record(failed, payload["record"])
+                return {"path": str(failed)}
+            shutil.copyfile(
+                path, path.with_name(path.stem + ".prior-" + uuid.uuid4().hex + ".json")
+            )
+        _record(path, payload["record"])
+        return {"path": str(path)}
     if operation == "load_config":
         from logo_maker.scene import load_scene
 
@@ -143,16 +266,27 @@ def main(payload: dict) -> dict:
             "delivered_sha256": sha256(png),
         }
     if operation == "artifact_current":
+        import hashlib
+
         from logo_maker.render import _artifact_current_local
 
         folder = Path(payload["concept_dir"])
+        try:
+            raw = (folder / ".build" / f"{payload['quality']}.sampling.json").read_bytes()
+            digest = hashlib.sha256(raw).hexdigest()
+            if (
+                payload.get("expected_record_sha256")
+                and payload["expected_record_sha256"] != digest
+            ):
+                return {"current": False}
+            record = json.loads(raw)
+        except (OSError, ValueError):
+            return {"current": False}
         current = _artifact_current_local(
-            folder, payload["quality"], inspection_only=payload.get("inspection_only", False)
-        )
-        record = (
-            json.loads((folder / ".build" / f"{payload['quality']}.sampling.json").read_text())
-            if current
-            else {}
+            folder,
+            payload["quality"],
+            record=record,
+            inspection_only=payload.get("inspection_only", False),
         )
         return {"current": current, "context": record.get("context", {})}
     if operation == "qa_checks":
@@ -168,7 +302,9 @@ def main(payload: dict) -> dict:
     if operation == "tiny_image":
         from logo_maker.judging import tiny_version
 
-        tiny_version(Path(payload["png"]), Path(payload["dest"]))
+        dest = Path(payload["dest"])
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        tiny_version(Path(payload["png"]), dest)
         return {"prepared": True}
     raise ValueError(f"unknown host operation {operation!r}")
 

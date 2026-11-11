@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "cebcf41c05fb6aded6911fc5e03e5d58a4552d178994efd9f59a0678c8725f23",
+    "meshes/east-folded-card.ply": "3b0762cdf5b2130c7fb395cd2f992456a1db0daeb891c7eb13afed9e0569a590",
+    "meshes/west-folded-card.ply": "f901e6698007acd80307db68afd009835aab426242ba67d4b45480d1ed9d475e",
+    "meshes/shared-shelf.ply": "626ab342db0d705bfc71fcf68a7d9d7afc1a5a3679d439e3e8178e678d8ed4b3"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 1820117,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 7.07913345900306,
+  "process_cpu_seconds": 2.7747139999999995,
+  "log_sha256": "110b8f2965f3ca0254dd251d7259bb9e01ea050416af5fd9f7f856175c8ce5d7",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/open-commons--extruded-solid--paper/.build/attempt-2124bd6ce0e44860865fd7fdaa783c9c/preview.execution.exr",
+    "bytes": 12652847,
+    "sha256": "7880055578fc3451007f8bc6d6b50de0cc4ae55c4e41ba97886e63855a0ee31f",
+    "seconds": 0.07379216600384098,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "1f5c04ef3802fc546d683924da0b3eebe973af28d85e181a4acb16e07cfc30f8"
+}

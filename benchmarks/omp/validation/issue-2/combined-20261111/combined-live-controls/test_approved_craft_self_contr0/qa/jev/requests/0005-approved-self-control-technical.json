@@ -1,0 +1,128 @@
+{
+  "seq": 5,
+  "label": "approved-self-control-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "abb94ecf108d44cd80bd840103589bb3",
+    "brief": {
+      "name": "Chief of Staff",
+      "summary": "A meeting assistant",
+      "tone": [
+        "clear"
+      ],
+      "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons."
+    },
+    "concept": {
+      "metaphor": "A C whose opening holds a check"
+    },
+    "intended_appearance": "Blue wax seal, evenly shaded gold C/check and legend, restrained reflections; green ribbons.",
+    "native_details": {
+      "x0_y0": "f2222082bd2c45018e9c34bea7ffdeb2",
+      "x1000_y0": "0e30a798b1a74333a894141272978d83",
+      "x0_y1000": "df81a42abf5948ffa2be69d07ce19749",
+      "x1000_y1000": "4b51f4e866cf460688746720ecc8a198"
+    }
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "abb94ecf108d44cd80bd840103589bb3": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    },
+    "f2222082bd2c45018e9c34bea7ffdeb2": {
+      "type": "image",
+      "format": "png",
+      "sha256": "44496a4391d90ce43222a78db04c09fa027ae8a0ce2bca56f134b504017e7d7c",
+      "bytes": 352172
+    },
+    "0e30a798b1a74333a894141272978d83": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0d62f68c931aa1e249eb9ba2fffaa4cebd92f230b61c534cab06ce5567d6f629",
+      "bytes": 391111
+    },
+    "df81a42abf5948ffa2be69d07ce19749": {
+      "type": "image",
+      "format": "png",
+      "sha256": "d76c130204d39768d2bfc86f9735cbc2a131729dab132681c3cb317d388dcce0",
+      "bytes": 407287
+    },
+    "4b51f4e866cf460688746720ecc8a198": {
+      "type": "image",
+      "format": "png",
+      "sha256": "8aa13c179f25d18c0e931a2d44f4f61c150cb6765fd554ab8d1a29f0b9a2d133",
+      "bytes": 389410
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.73
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.76
+    }
+  },
+  "usage": {
+    "input_tokens": 14526,
+    "output_tokens": 75,
+    "cost": 0.000610092
+  },
+  "provider_usage": {
+    "input_tokens": 14526,
+    "output_tokens": 75,
+    "cost": 0.000610092,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000610092,
+      "upstream_inference_prompt_cost": 0.000610092,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

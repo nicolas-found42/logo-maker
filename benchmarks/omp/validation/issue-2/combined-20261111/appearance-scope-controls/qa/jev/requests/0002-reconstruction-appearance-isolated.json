@@ -1,0 +1,51 @@
+{
+  "seq": 2,
+  "label": "reconstruction-appearance-isolated",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "b94cd7a71d5a45b1a99d22325f93abeb",
+    "intended_appearance": "Blue wax seal body with reflective highlights; raised gold C/check and ring legend have strongly reflective gold faces with rounded bright bevels. Crossed green ribbons have folded tips."
+  },
+  "questions": {
+    "appearance": {
+      "type": "noul",
+      "instructions": "Does `candidate` match `intended_appearance`?",
+      "criteria": {
+        "true": "Gloss, reflection strength, highlight contrast and edge roundness suit the stated finish, whether restrained or glossy.",
+        "false": "The visible finish contradicts the stated direction, even if it is competently executed in another style."
+      }
+    }
+  },
+  "assets": {
+    "b94cd7a71d5a45b1a99d22325f93abeb": {
+      "type": "image",
+      "format": "png",
+      "sha256": "4bd9c0c3ac3eb9bee925e125891eba054637f5c66353fa42079959d519ca506a",
+      "bytes": 562739
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "appearance": {
+      "type": "noul",
+      "noul": 0.8
+    }
+  },
+  "usage": {
+    "input_tokens": 3166,
+    "output_tokens": 20,
+    "cost": 0.000132972
+  },
+  "provider_usage": {
+    "input_tokens": 3166,
+    "output_tokens": 20,
+    "cost": 0.000132972,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.000132972,
+      "upstream_inference_prompt_cost": 0.000132972,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}

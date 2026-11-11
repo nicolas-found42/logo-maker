@@ -1,0 +1,9 @@
+from pathlib import Path
+from logo_maker.motif import Motif
+m = Motif()
+outer = m.path("M300 145 L700 145 C760 145 800 190 800 250 L800 745 C800 815 755 855 685 855 L315 855 C245 855 200 815 200 745 L200 250 C200 190 240 145 300 145 Z")
+for y in (300, 500, 700):
+    pocket = m.path(f"M310 {y} C375 {y-90} 560 {y-90} 690 {y} C560 {y+80} 375 {y+80} 310 {y} Z")
+    outer = m.difference(outer, pocket)
+m.add("seed_register", m.fit(outer), fill="#B95E3F", role="primary")
+m.save(Path(__file__).parent)

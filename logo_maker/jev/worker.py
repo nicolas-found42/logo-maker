@@ -9,6 +9,22 @@ from pathlib import Path
 
 
 def main(payload: dict) -> dict:
+    if payload["operation"] == "first_seq":
+        from logo_maker.jev.client import JevClient
+        from logo_maker.paths import LogoDir
+
+        reader = object.__new__(JevClient)
+        reader.logo = LogoDir(Path(payload["logo"]))
+        return {"seq": reader._first_seq()}
+    if payload["operation"] == "publish_log":
+        from logo_maker.publication import _record
+
+        path = Path(payload["path"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        _record(path, payload["record"])
+        with (path.parent.parent / "answers.jsonl").open("a") as handle:
+            handle.write(json.dumps(payload["line"], sort_keys=True) + "\n")
+        return {"published": True}
     if payload["operation"] == "store_assets":
         from logo_maker.jev.client import _finish_asset_storage
         from logo_maker.paths import LogoDir

@@ -1,0 +1,32 @@
+[
+  {
+    "study": "shared-chamber",
+    "hypothesis": "Complementary forms create one retained interior",
+    "communication": "A resource held in common",
+    "risk": "Generic chain-link or app icon without enough name specificity",
+    "requirements_revision": "637be845ffda55bbc5c9292104307f70f44c7cc878c54cf8be565cf116a5e6a9",
+    "status": "preliminary_study",
+    "owner_review": "unknown",
+    "eligibility": "not_assessed"
+  },
+  {
+    "study": "seed-register",
+    "hypothesis": "Three retained seed counters form a compact collection",
+    "communication": "A maintained collection rather than one generic sprout",
+    "risk": "Container or interface-list reading overwhelms seed-library context",
+    "requirements_revision": "637be845ffda55bbc5c9292104307f70f44c7cc878c54cf8be565cf116a5e6a9",
+    "status": "preliminary_study",
+    "owner_review": "unknown",
+    "eligibility": "not_assessed"
+  },
+  {
+    "study": "shared-initials",
+    "hypothesis": "R and S share a constructed contact",
+    "communication": "Name-led identity, supported by the surrounding service name",
+    "risk": "Stock initials or unclear ligature rather than a distinctive relationship",
+    "requirements_revision": "637be845ffda55bbc5c9292104307f70f44c7cc878c54cf8be565cf116a5e6a9",
+    "status": "preliminary_study",
+    "owner_review": "unknown",
+    "eligibility": "not_assessed"
+  }
+]

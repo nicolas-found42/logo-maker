@@ -1,0 +1,141 @@
+{
+  "seq": 4,
+  "label": "rootshare-v2-final-technical",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "0eeef4cc080c49a89e5598abd82a268c",
+    "brief": {
+      "name": "Rootshare",
+      "summary": "A neighborhood seed library where gardeners contribute seeds and grow a shared local collection. A bespoke R shelters a seed-shaped counter: the identity's initial and the seed it keeps form one inseparable mark.",
+      "tone": [
+        "grounded",
+        "welcoming",
+        "careful"
+      ],
+      "audience": "Neighborhood gardeners borrowing and contributing seeds.",
+      "initials": "R",
+      "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+      "uses": [
+        "favicon",
+        "app_icon",
+        "social_avatar"
+      ],
+      "avoid": [
+        "wax seals",
+        "metallic lettering",
+        "ribbons",
+        "generic sprout icons"
+      ],
+      "palette": {
+        "primary": "#B95E3F",
+        "accent": "#E4CBA7",
+        "background": "#F8F2E8",
+        "ink": "#422D24"
+      },
+      "fonts": {
+        "display": "Manrope:wght=700",
+        "text": "Manrope:wght=400"
+      }
+    },
+    "concept": {
+      "metaphor": "A bespoke R shelters a seed-shaped counter: the brand initial and the seed it keeps form one mark.",
+      "treatment": "Sculpted ceramic solid with a pale inlay around the seed opening."
+    },
+    "intended_appearance": "A substantial unglazed terracotta R with a seed-shaped opening, precisely softened ceramic edges and fine restrained clay grain. Broad matte face, gentle grazing highlights along the edge, darker warm side walls and one pale ceramic inlay around the seed opening. A freestanding object with no backing disc.",
+    "native_details": {
+      "x0_y0": "4bca9add317d416ab82a95ba4986d456",
+      "x1000_y0": "21a52c16c6e54348b565b0f7af7f1bdc",
+      "x0_y1000": "600779ed87cb4dde8dc3bc0371dcc5f2",
+      "x1000_y1000": "0610b922d9a1436193334486b7eb4bc6"
+    }
+  },
+  "questions": {
+    "noise_free": {
+      "type": "noul",
+      "instructions": "Is `candidate` free of distracting stochastic grain?",
+      "criteria": {
+        "true": "Gradients and shadows are visually clean.",
+        "false": "Distracting random grain remains in gradients or shadows."
+      }
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "instructions": "Are the intended fine details in `candidate` preserved?",
+      "criteria": {
+        "true": "Strokes, counters and fine relief remain distinct.",
+        "false": "Fine details are smeared, erased or merged, including by denoising."
+      }
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "instructions": "Are the edges in `candidate` free of persistent stair-stepping or halos?",
+      "criteria": {
+        "true": "Edges have clean transitions at the delivered size.",
+        "false": "Edges have visible jaggies, ringing or halos."
+      }
+    },
+    "structure_correct": {
+      "type": "noul",
+      "instructions": "Does `candidate` have the intended structure described in `concept`?",
+      "criteria": {
+        "true": "The actual geometry and any lettering have the intended shapes and spelling.",
+        "false": "Geometry or lettering is structurally wrong even if smooth and noise-free."
+      }
+    }
+  },
+  "assets": {
+    "0eeef4cc080c49a89e5598abd82a268c": {
+      "type": "image",
+      "format": "png",
+      "sha256": "22a8fc84515514d2caa248adebf2b8b984324c69d30826639a91704c73f3fcd2",
+      "bytes": 230392
+    },
+    "4bca9add317d416ab82a95ba4986d456": {
+      "type": "image",
+      "format": "png",
+      "sha256": "e58586d01ea9c85a92afcb819400f5a2c370c0b85ffb2e720378839b32c14134",
+      "bytes": 233011
+    },
+    "21a52c16c6e54348b565b0f7af7f1bdc": {
+      "type": "image",
+      "format": "png",
+      "sha256": "c8ab1c6193b6a62eb39bf85dcc8aa63ece0bb2b79fdbfec0806f53e93b907e61",
+      "bytes": 124360
+    },
+    "600779ed87cb4dde8dc3bc0371dcc5f2": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0ce3919de8b8d30d56895b2fa52a16dddb14b02cffe59576c22acdd00557df99",
+      "bytes": 225032
+    },
+    "0610b922d9a1436193334486b7eb4bc6": {
+      "type": "image",
+      "format": "png",
+      "sha256": "bceaea47b085bc7af64b047fe60bd76f7778636b6ec1c1bbec81c597e7c0e8cf",
+      "bytes": 162161
+    }
+  },
+  "answers": {
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.89
+    }
+  },
+  "usage": {
+    "input_tokens": 14880,
+    "output_tokens": 75,
+    "cost": 0.00062496
+  }
+}

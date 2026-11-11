@@ -1,0 +1,2 @@
+Verified 3 rendered cases, 243 source bindings, 162 retained files, Metal/OIDN evidence and 1 final QA request(s).
+Artistic qualification remains authoring_needed; the blocked paper proposal has no render.

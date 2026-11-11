@@ -53,6 +53,11 @@ def _build_principled(mat, spec) -> None:
             b.inputs["Emission Color"].default_value = tuple(spec["emission_linear"])
         if "Emission Strength" in b.inputs:
             b.inputs["Emission Strength"].default_value = emission_strength
+    if "tangent" in spec:
+        tangent = nt.nodes.new("ShaderNodeCombineXYZ")
+        for axis, value in zip(("X", "Y", "Z"), spec["tangent"], strict=True):
+            tangent.inputs[axis].default_value = value
+        nt.links.new(tangent.outputs["Vector"], b.inputs["Tangent"])
     _apply_texture(nt, b, spec)
     nt.links.new(b.outputs["BSDF"], out.inputs["Surface"])
 

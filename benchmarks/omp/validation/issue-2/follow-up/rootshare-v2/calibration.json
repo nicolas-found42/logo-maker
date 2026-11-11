@@ -1,0 +1,190 @@
+{
+  "craft": [
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "candidate",
+        "reference"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.36
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.48
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.44
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.42
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.35
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.61
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.78
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.72
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "pass"
+      },
+      "status": "unsettled"
+    },
+    {
+      "reference_sha256": "47414fe742418eeff25ec8b17c2011173ce089c09c3e0724e0fbce74e5bb97e7",
+      "candidate_sha256": "27e06fb55845c44c16d9178dd6023c035ba87e2102f5d3649819423784806081",
+      "order": [
+        "reference",
+        "candidate"
+      ],
+      "answers": {
+        "form_finish": {
+          "type": "noul",
+          "noul": 0.43
+        },
+        "surface_finish": {
+          "type": "noul",
+          "noul": 0.54
+        },
+        "detail_finish": {
+          "type": "noul",
+          "noul": 0.59
+        },
+        "edge_refinement": {
+          "type": "noul",
+          "noul": 0.43
+        },
+        "material_construction": {
+          "type": "noul",
+          "noul": 0.33
+        },
+        "proportion_control": {
+          "type": "noul",
+          "noul": 0.57
+        },
+        "visual_hierarchy": {
+          "type": "noul",
+          "noul": 0.8
+        },
+        "lighting_control": {
+          "type": "noul",
+          "noul": 0.65
+        }
+      },
+      "checks": {
+        "form_finish": "unsettled",
+        "surface_finish": "unsettled",
+        "detail_finish": "unsettled",
+        "edge_refinement": "unsettled",
+        "material_construction": "unsettled",
+        "proportion_control": "unsettled",
+        "visual_hierarchy": "pass",
+        "lighting_control": "unsettled"
+      },
+      "status": "unsettled"
+    }
+  ],
+  "fit": {
+    "symbol": "pass",
+    "appearance": "unsettled",
+    "brand_specificity": "pass",
+    "meaningful_synthesis": "pass",
+    "constraint_fidelity": "unsettled",
+    "communicative_clarity": "unsettled",
+    "small_flat": "unsettled",
+    "small_hero": "pass"
+  },
+  "technical": {
+    "noise_free": "pass",
+    "detail_preserved": "unsettled",
+    "aliasing_free": "pass",
+    "structure_correct": "pass"
+  },
+  "answers": {
+    "symbol": {
+      "type": "noul",
+      "noul": 0.95
+    },
+    "appearance": {
+      "type": "noul",
+      "noul": 0.56
+    },
+    "brand_specificity": {
+      "type": "noul",
+      "noul": 0.97
+    },
+    "meaningful_synthesis": {
+      "type": "noul",
+      "noul": 0.94
+    },
+    "constraint_fidelity": {
+      "type": "noul",
+      "noul": 0.63
+    },
+    "communicative_clarity": {
+      "type": "noul",
+      "noul": 0.64
+    },
+    "small_flat": {
+      "type": "noul",
+      "noul": 0.48
+    },
+    "small_hero": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "noise_free": {
+      "type": "noul",
+      "noul": 0.81
+    },
+    "detail_preserved": {
+      "type": "noul",
+      "noul": 0.61
+    },
+    "aliasing_free": {
+      "type": "noul",
+      "noul": 0.71
+    },
+    "structure_correct": {
+      "type": "noul",
+      "noul": 0.89
+    }
+  },
+  "view_sha256": {
+    "reference-0-0-0.png": "53cbdccc73b69f24b31ceb212f03a910c72befc114f024781e4dce149ad303e6",
+    "candidate-1000-1000.png": "ddb6b7939d35e9284fdf1f1f0624cdd4b0d69a54c4fb7cf0fa5a85c35f471ce6",
+    "reference-0-0-1000.png": "281eb8c33dd59c7eefed59781e15edb2695cf68aa23b022c504109860bee81e4",
+    "candidate-0-0.png": "e282c7baa4350b52f816381f381c0a5c2a79f69137ec1521e35cdc246837822c",
+    "candidate-1000-0.png": "a6aa3075777f43c0750b4785f87f811f10829e1b587c6a84936c75f383eaf3f0",
+    "flat-small.png": "6977e0276b8069cae2605e6ffc9f708f878dd9c3568c7137a3abcc9cb9c11064",
+    "candidate-0-1000.png": "51f1c1f7896a84c4290298dd4966cc03d4c5cfc4fc394a0fc9858ad018a3e92b",
+    "reference-0-1000-0.png": "a28d40d153ce55dee68f47095fb3d5ee6d68aa4b177aaf935657ab767ff9f5f2",
+    "reference-0-1000-1000.png": "8f4ee4258e104ff734ca22ec53baba85252ca932151fd71d606cb16be54e2606",
+    "hero-small.png": "8e841f517155ac3177acf91800c50a58d433ad26f3ce63cc2e7a3a91954a2cb5"
+  },
+  "flat_source_sha256": "023e7049289fd208678759808928e989683c648210e022561cfc4ca0098c2ba9",
+  "status": "unsettled"
+}

@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "485a5e403854df4ea25f60aeef1c4582e42ca6bccb42ff17283aedd651b72056",
+    "meshes/copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+    "meshes/seated-copper-key.ply": "7f46881267c593dc1206440703b4492fcc5a2993baf9ed7a08ca4fc25fc9abe4",
+    "meshes/east-receiver.ply": "ef6671234749c9604fc945c37bfda2f750a0d157a22cee1b80efb71dc4855866",
+    "meshes/east-rail.ply": "9d70806fdb4e192b4aa9c99aac130bebb72320ad32f13e0f4287583a70c522b4",
+    "meshes/west-rail.ply": "614793d95f697fb35a9d41c946dc279e9d4e29d415676ce3beca4e1cebe74093",
+    "meshes/west-receiver.ply": "4f99b1f0c20dd4f216f1bcc4a53c9da77afae853375f29f8154ab6cd5e3b04ae"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 42,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.1493987500143703,
+  "process_cpu_seconds": 1.4174809999999998,
+  "log_sha256": "3f8531826704a2679b4cac248448d6cc47934f0bcb5717049afc12b54d1ab897",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/metal/concepts/keyed-release--extruded-solid--brushed-metal/.build/attempt-2098313d60c94b84a6651b6ceff1daff/preview.execution.exr",
+    "bytes": 10586759,
+    "sha256": "74cc30e7f80d5b69d376b2c654e2d5b1f3996a7417fd69f7c2fe282a63e9e091",
+    "seconds": 0.02902154199546203,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "989d807758c3e0087f2d394aa571a63665dad9737828f58d83304c30f1fc1528"
+}

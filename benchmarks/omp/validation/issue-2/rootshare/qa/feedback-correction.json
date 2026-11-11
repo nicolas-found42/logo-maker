@@ -1,0 +1,13 @@
+{
+  "reason": "Owner reviewed only the displayed final image. The preview label was inferred incorrectly by the agent and is withdrawn.",
+  "withdrawn_preview_sha256": "775f2a26f81e3c1b1b1425b9165ea355a597df0746b101c8b9dca1b31696ed9a",
+  "reviewed_final_sha256": "05a6d175ad9fc072420bf1cecfa9d055ce2d4ea4c022fd10e8d1254adde13d50",
+  "preview_owner_labels": {
+    "craftsmanship": "unknown",
+    "brief_fit": "unknown",
+    "preference": "unranked"
+  },
+  "superseded_file": "owner-feedback.superseded.json",
+  "superseded_sha256": "658ef84ab30d24c0267f7db7bfa7d48e0ac9f93cffd12f1fd25187de7c544410",
+  "historical_eligibility_records": "Retained as measured; their owner-feedback source hash identifies the superseded file. Only the corrected owner-feedback.json is current authority."
+}

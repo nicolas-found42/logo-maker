@@ -1,0 +1,80 @@
+{
+  "seq": 9,
+  "label": "surface-intent-blue seal body",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "candidate": "50269862af754c5782b43adab919f912",
+    "surface_to_inspect": "blue seal body",
+    "intended_appearance": {
+      "sheen": "Glossy clear-coated blue wax with visible highlights.",
+      "reflections": "Soft studio reflections across the face, distinct highlights around the lip.",
+      "contrast": "Gradual face shading with brighter rim highlights and a darker recessed interior.",
+      "edges": "Rounded poured outer lip and recessed concentric ridges."
+    }
+  },
+  "questions": {
+    "gloss_intent": {
+      "type": "noul",
+      "instructions": "Does the surface sheen of `surface_to_inspect` in `candidate` match `intended_appearance.sheen`?",
+      "criteria": {
+        "true": "The visible surface sheen follows the stated treatment direction.",
+        "false": "The visible surface sheen contradicts the stated treatment direction."
+      }
+    },
+    "reflection_intent": {
+      "type": "noul",
+      "instructions": "Does the reflection character of `surface_to_inspect` in `candidate` match `intended_appearance.reflections`?",
+      "criteria": {
+        "true": "The visible reflection character follows the stated treatment direction.",
+        "false": "The visible reflection character contradicts the stated treatment direction."
+      }
+    },
+    "contrast_intent": {
+      "type": "noul",
+      "instructions": "Does the highlight-to-shadow contrast of `surface_to_inspect` in `candidate` match `intended_appearance.contrast`?",
+      "criteria": {
+        "true": "The visible highlight-to-shadow contrast follows the stated treatment direction.",
+        "false": "The visible highlight-to-shadow contrast contradicts the stated treatment direction."
+      }
+    },
+    "edge_intent": {
+      "type": "noul",
+      "instructions": "Does the edge sharpness or roundness of `surface_to_inspect` in `candidate` match `intended_appearance.edges`?",
+      "criteria": {
+        "true": "The visible edge sharpness or roundness follows the stated treatment direction.",
+        "false": "The visible edge sharpness or roundness contradicts the stated treatment direction."
+      }
+    }
+  },
+  "assets": {
+    "50269862af754c5782b43adab919f912": {
+      "type": "image",
+      "format": "png",
+      "sha256": "6dd031b1c39c5f23b24f7826b6679bb8636ff8660bf2d351efe6ca4502ec8286",
+      "bytes": 333697
+    }
+  },
+  "answers": {
+    "gloss_intent": {
+      "type": "noul",
+      "noul": 0.88
+    },
+    "reflection_intent": {
+      "type": "noul",
+      "noul": 0.79
+    },
+    "contrast_intent": {
+      "type": "noul",
+      "noul": 0.83
+    },
+    "edge_intent": {
+      "type": "noul",
+      "noul": 0.78
+    }
+  },
+  "usage": {
+    "input_tokens": 3461,
+    "output_tokens": 77,
+    "cost": 0.000145362
+  }
+}

@@ -1,0 +1,5 @@
+name = "Sample"
+summary = "A repair workshop where neighbors mend household objects during repair sessions."
+audience = "Neighbors identifying their repair workshop before a session"
+tone = ["welcoming", "careful"]
+uses = ["app_icon"]

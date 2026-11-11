@@ -1,0 +1,13 @@
+[
+  {
+    "concept": "sprout|extruded_solid|clay",
+    "candidate_sha256": "05a6d175ad9fc072420bf1cecfa9d055ce2d4ea4c022fd10e8d1254adde13d50",
+    "brief_sha256": "bf50a35b9c7ff68ccfa5550cea08bfbd630beb203a2735593bd7e2c414894349",
+    "craftsmanship": "fail",
+    "brief_fit": "fail",
+    "preference": "unranked",
+    "statement": "both below floor",
+    "source": "Owner review in this implementation chat, 2026-11-10",
+    "stage": "final"
+  }
+]
