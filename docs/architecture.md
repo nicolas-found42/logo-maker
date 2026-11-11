@@ -235,6 +235,8 @@ Finalize binds its Jev client to the shared budget. Image loading/encoding and p
 transport (including retries, Retry-After sleeps and response decoding) use owned CPU
 workers. The client retains request numbering, logging ownership and aggregate usage
 in the parent process. Concurrent requests and split question sets share one deadline.
+The view forwards read-only model/endpoint identity from the original client, including
+after rebinding, so #3 can invalidate creative/comparison caches when either changes.
 Sent image assets are hash-verified and atomically stored in an owned worker. Budgeted
 requests record answers/usage before this IO, with `assets_status=pending` until that
 worker completes. A later timeout therefore does not erase an already received charge;

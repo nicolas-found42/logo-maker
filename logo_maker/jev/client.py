@@ -531,6 +531,14 @@ class BudgetedJevClient:
         self.client = client
         self.budget = budget
 
+    @property
+    def model(self) -> str:
+        return self.client.model
+
+    @property
+    def url(self) -> str:
+        return self.client.url
+
     def with_budget(self, budget: Budget) -> BudgetedJevClient:
         self.budget.check()
         budget.check()

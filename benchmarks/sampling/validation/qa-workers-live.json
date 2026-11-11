@@ -854,5 +854,7 @@
   "verified_export_hashes": 31,
   "all_current_dependencies_verified": true,
   "retained_folder": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/live-qa-workers-run1",
-  "limits": "One job. Body timing excludes pytest/import startup and later audit/copy/review. Cache/other workload unknown. Five legacy QA passes do not qualify sampling detail, craftsmanship or held-out owner acceptance. Profile remains unqualified; prior test winner retained."
+  "limits": "One job. Body timing excludes pytest/import startup and later audit/copy/review. Cache/other workload unknown. Five legacy QA passes do not qualify sampling detail, craftsmanship or held-out owner acceptance. Profile remains unqualified; prior test winner retained.",
+  "measured_core_revision": "3189304df674651fa3ccc84695103fa4e3286e6b",
+  "measurement_scope_note": "Measured before the later eight-line model/url identity forwarding backport; retained historical measured scope. Combined refinement-qa-live.json audits the byte-identical patched client on M5."
 }

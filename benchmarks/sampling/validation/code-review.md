@@ -187,3 +187,23 @@ at 4000 square, 2000 delivery, log/execution hashes, all 64 current dependencies
 usage, sampling_review_needed and prior winner retention. It also checked both
 pair originals and the 241/3/1/48 logs. These support the limited factual claim;
 the broad escalation remains unresolved and is not automatic merge approval.
+
+### Integration identity follow-up
+
+Issue #3 found that the new budget view omitted model/url, collapsing distinct judges'
+creative/comparison cache identity. Two public regressions reproduced the defect;
+the exact eight-line forwarding patch is now backported. Both reviewers checked
+this follow-up and found no additional issue; Spec also checked dynamic forwarding
+through rebinding and read-only assignment failures without network calls.
+The complete client source is byte-identical with published2f0. Root241offline and
+3render passed after the patch; independently extracted #3 subset50/2 also passed.
+The combined M5 final/runtime and its actual original logs/hashes were audited,
+while the root31852.03s live run remains labeled at its measured revision.
+
+The small identity backport's separate gate verified all three limited claims,
+without contradictions/unsupported claims, but escalated broad uncertainty:
+composite0.83325, safe-to-apply0.68, test-gap confidence0.24, blast-radius confidence0.
+Identity/source claims retain review confidence0.76/0.50; check counts0.80.
+Independent source comparison, Git-blob verification, the public integration tests
+and both reasoning reviews support these narrow facts. This is not a new broad
+approval of the complete sampling feature or its incomplete qualification.

@@ -65,6 +65,8 @@ HTTP retries/backoff/response decoding, image loading/encoding, tiny-image prepa
 asset persistence and CPU alpha/margin/edge/color checks use owned workers. Split and
 concurrent requests share that deadline. Request sequence allocation and aggregate
 usage remain in the parent client; no HTTP/lock/client object is copied into a worker.
+Read-only `model` and `url` forwarding preserves the judge identity through rebinding;
+Issue #3's creative/comparison caches must invalidate when the original model or endpoint changes.
 Received answers and usage are logged before budgeted asset persistence. The request
 record says `assets_status=pending` until verified image bytes are atomically stored;
 interrupted provider completion/usage can remain unknown. Custom clients at these
