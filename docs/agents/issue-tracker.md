@@ -71,9 +71,14 @@ metadata layouts fail validation rather than silently dropping requirements.
 
 The PR template supplies required heading levels, table rows and Merge Danger fields.
 Every response cell needs an answer; `N/A` or `not run` needs an explanation. `Gaps`
-may say `None`. Before and After each require a distinct HTTPS image reference and
-a caption identifying the revision and scenario. Comments, code samples of image
-markup, local paths and placeholder answers do not satisfy these requirements.
+may say `None`. Evidence must declare `Visible app change` as `Yes: reason` or
+`No: reason`. Before and After each require Revision, Scenario and Observed result
+fields with detailed proof. Visible app changes (including rendered visual output)
+also require distinct HTTPS image references. Nonvisual changes use text output,
+responses, measurements or old/new document excerpts; code, diffs, logs and docs
+must not be converted to screenshots. Mixed PRs declare Yes and provide both forms
+of evidence as appropriate. Comments, code samples of image markup, local image
+paths and placeholder answers do not satisfy image requirements.
 
 The workflow revalidates current PR bodies on open/edit/reopen/synchronize/ready events
 and publishes the commit status **`template/pr`** on the current PR head. It checks
@@ -87,7 +92,8 @@ keep their existing labels; triage decides the next role after information arriv
 Issues stay open, and the workflow posts no comments.
 
 Image references are checked structurally, without fetching their URLs. CI cannot
-prove that images show the claimed result or that a written test result is truthful;
+prove that the visible-change declaration is accurate, images show the claimed result,
+or written evidence is truthful or sufficient;
 the `pr` skill's evidence capture and saved-page inspection remain required.
 
 ### Making the PR check required

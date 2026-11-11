@@ -7,19 +7,31 @@
 
 ## Evidence
 
+**Visible app change:** <!-- Yes: name the affected app surface or rendered visual output;
+     or No: explain why there is no visible app change. Mixed PRs use Yes. -->
+
 ### Before
 
-<!-- Attach a real screenshot of the baseline result and identify its revision,
-     command/scenario and inputs. For CLI/config/docs changes, use the relevant
-     terminal output or rendered document. For render changes, attach the PNG or
-     contact sheet. Describe what the reviewer should notice. -->
+**Revision:** <!-- Baseline commit and any local changes. -->
+
+**Scenario:** <!-- Inputs, environment and exact command/request or reproduction steps. -->
+
+**Observed result:** <!-- Actual output, response, measurement or relevant old text excerpt,
+     with a durable evidence link where useful. For visible app changes only, embed a
+     real screenshot or rendered output image and explain what the reviewer should notice.
+     Keep code, diffs, logs and docs excerpts as text; never screenshot them. -->
 
 ### After
 
-<!-- Attach the matching result from this revision with the same scenario and inputs.
-     Describe the observed change. The pr skill requires both real captures for every
-     PR, including CLI/config/docs changes. Record unavailable evidence under Gaps;
-     missing captures keep PR verification incomplete. -->
+**Revision:** <!-- Final commit and any local changes. -->
+
+**Scenario:** <!-- Matching inputs, environment and exact command/request or steps;
+     explain any unavoidable differences from Before. -->
+
+**Observed result:** <!-- Matching observed proof and explanation of what changed or stayed
+     equivalent. Visible app changes require a distinct real after image. Other changes
+     require detailed text evidence, not screenshots. A bare "tests pass" is insufficient.
+     Missing baseline/results remain unresolved under Gaps. -->
 
 ### Verification
 
