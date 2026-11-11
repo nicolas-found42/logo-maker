@@ -1,0 +1,3 @@
+uv run --locked python -m pytest -q -m render
+...                                                                      [100%]
+3 passed, 242 deselected in 9.82s

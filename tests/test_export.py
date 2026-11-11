@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 from pathlib import Path
@@ -81,3 +82,240 @@ def test_broken_hero_refuses_to_export(tmp_path: Path, draw, message: str) -> No
     concept, motif = _concept(tmp_path, draw)
     with pytest.raises(ExportError, match=message):
         export_all(concept, tmp_path / "exports", name="Sample", palette=PALETTE, motif_svg=motif)
+
+
+def test_export_deadline_keeps_prior_exports(tmp_path):
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    concept, motif = _concept(tmp_path, _disc)
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("last approved export")
+    clock = [0.0]
+    budget = Budget(wall_seconds=1, clock=lambda: clock[0])
+    clock[0] = 2
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        export_all(concept, out, name="Sample", palette=PALETTE, motif_svg=motif, budget=budget)
+    assert (out / "prior.txt").read_text() == "last approved export"
+
+
+def test_export_uses_verified_snapshot_when_live_final_changes(tmp_path, monkeypatch):
+    from logo_maker import export
+
+    concept, motif = _concept(tmp_path, _disc)
+    original = (concept / "final.png").read_bytes()
+    (concept / ".build").mkdir()
+    (concept / ".build/final.sampling.json").write_text(
+        json.dumps({"published": True, "delivered_sha256": hashlib.sha256(original).hexdigest()})
+    )
+    real_hash, real_hero = export._sha256, export._hero
+
+    def replace_after_hash(path):
+        digest = real_hash(path)
+        if digest == hashlib.sha256(original).hexdigest():
+            Image.new("RGBA", (1200, 900), (255, 0, 0, 255)).save(concept / "final.png")
+        return digest
+
+    class InspectedHero(Exception):
+        pass
+
+    def inspect_hero(*args, **kwargs):
+        hero = real_hero(*args, **kwargs)
+        assert Image.open(hero).convert("RGBA").getpixel((1000, 1000)) == (30, 74, 122, 255)
+        assert (concept / "final.png").read_bytes() != original
+        raise InspectedHero
+
+    monkeypatch.setattr(export, "_sha256", replace_after_hash)
+    monkeypatch.setattr(export, "_hero", inspect_hero)
+    with pytest.raises(InspectedHero):
+        export._export_all(
+            concept, tmp_path / "out", name="Sample", palette=PALETTE, motif_svg=motif
+        )
+
+
+def test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline(tmp_path):
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded workers target macOS/Linux")
+    concept, motif = _concept(tmp_path, _disc)
+    (concept / ".build").mkdir()
+    source = concept / ".build/final.sampling.json"
+    os.mkfifo(source)
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("last approved export")
+    stop = threading.Event()
+
+    def release_old_unbounded_call():
+        descriptor = None
+        try:
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                    break
+                except OSError:
+                    stop.wait(0.01)
+            if descriptor is not None and not stop.wait(10):
+                with contextlib.suppress(BrokenPipeError):
+                    os.write(descriptor, b"{}")
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+
+    releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+    releaser.start()
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            export_all(
+                concept,
+                out,
+                name="Sample",
+                palette=PALETTE,
+                motif_svg=motif,
+                budget=Budget(wall_seconds=6),
+            )
+        assert time.monotonic() - started < 9, "provenance read overran the wall budget"
+        assert (out / "prior.txt").read_text() == "last approved export"
+    finally:
+        stop.set()
+        releaser.join(timeout=1)
+
+
+@pytest.mark.parametrize("failure", ["deadline", "inner_error", "denied_live"])
+def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypatch, failure):
+    """A browser launcher cleans its detached child only when it receives termination."""
+    import os
+    import signal
+    import sys
+    import time
+
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("production process-session cleanup targets macOS/Linux")
+    real_killpg = os.killpg
+
+    def denied_signals(group, sig):
+        if failure == "denied_live" or sig == 0:
+            raise PermissionError("simulated signal denial")
+        return real_killpg(group, sig)
+
+    if failure in {"inner_error", "denied_live"}:
+        monkeypatch.setattr(os, "killpg", denied_signals)
+    concept, motif = _concept(tmp_path, _disc)
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    heartbeat = tmp_path / "heartbeat"
+    pids = tmp_path / "pids.json"
+    child_code = (
+        "import sys,time; from pathlib import Path; p=Path(sys.argv[1]); "
+        "end=time.monotonic()+60\n"
+        "while time.monotonic()<end:\n p.write_text('alive'); time.sleep(0.03)\n"
+    )
+    helper = bin_dir / "node"
+    launcher_code = (
+        "import json,os,signal,subprocess,sys,time\n"
+        "from pathlib import Path\n"
+        f"child=subprocess.Popen([sys.executable,'-c',{child_code!r},{str(heartbeat)!r}],start_new_session=True)\n"
+        "def stop(*args):\n"
+        " time.sleep(0.3)\n"
+        " try: os.killpg(child.pid,signal.SIGKILL)\n"
+        " except ProcessLookupError: pass\n"
+        " child.wait(); sys.exit(143)\n"
+        "signal.signal(signal.SIGTERM,stop)\n"
+        f"Path({str(pids)!r}).write_text(json.dumps({{'tool':os.getpid(),'browser':child.pid}}))\n"
+        "child.wait()\n"
+    )
+    launcher = tmp_path / "launcher.py"
+    launcher.write_text(launcher_code)
+    driver_code = (
+        "import subprocess,sys,time\nfrom pathlib import Path\n"
+        f"subprocess.Popen([sys.executable,{str(launcher)!r}],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n"
+        "end=time.monotonic()+2\n"
+        f"while not Path({str(heartbeat)!r}).exists() and time.monotonic()<end: time.sleep(0.01)\n"
+        "sys.exit(2)\n"
+    )
+    helper.write_text(
+        f"#!{sys.executable}\n" + (driver_code if failure == "inner_error" else launcher_code)
+    )
+    helper.chmod(0o755)
+    monkeypatch.setenv("PATH", str(bin_dir) + os.pathsep + os.environ["PATH"])
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("approved prior export")
+    try:
+        expected_error = ExportError if failure == "inner_error" else SamplingLimit
+        with pytest.raises(
+            expected_error, match="cleanup unconfirmed" if failure == "denied_live" else None
+        ):
+            export_all(
+                concept,
+                out,
+                name="Sample",
+                palette=PALETTE,
+                motif_svg=motif,
+                # Include cold imports/format setup on the slower hosted Mac before
+                # the external-tool lifecycle this regression is intended to reach.
+                budget=Budget(wall_seconds=20),
+            )
+        assert heartbeat.exists(), "did not reach external-tool/browser lifecycle"
+        if failure != "denied_live":
+            stamp = heartbeat.stat().st_mtime_ns
+            time.sleep(0.2)
+            assert heartbeat.stat().st_mtime_ns == stamp, (
+                "browser still performs work after export deadline"
+            )
+        assert (out / "prior.txt").read_text() == "approved prior export"
+    finally:
+        if pids.exists():
+            spawned = json.loads(pids.read_text())
+            group = None
+            with contextlib.suppress(ProcessLookupError):
+                group = os.getpgid(spawned["tool"])
+                real_killpg(group, signal.SIGTERM)
+            for pid in spawned.values():
+                with contextlib.suppress(ProcessLookupError):
+                    os.kill(pid, signal.SIGTERM)
+            if group is not None:
+                with contextlib.suppress(ChildProcessError):
+                    os.waitpid(group, 0)
+
+
+@pytest.mark.parametrize("replacement", ["unqualified", "missing"])
+def test_pipeline_export_rejects_concurrent_qualification_replacement(
+    tmp_path, monkeypatch, replacement
+):
+    from test_eligibility import EligibilityClient, finalize_logo
+
+    from logo_maker import export, pipeline, render
+
+    logo, cid = finalize_logo(tmp_path / "logo")
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+    pipeline.finalize(logo, EligibilityClient())
+    folder = logo.concept(cid)
+    sidecar = folder / ".build/final.sampling.json"
+    record = json.loads(sidecar.read_text())
+    prior = logo.exports / "prior.txt"
+    prior.write_text("approved prior exports")
+    monkeypatch.setattr(render, "artifact_current", lambda *a, **kw: True)
+    real_export = export.export_all
+
+    def race_after_qualification(*args, **kwargs):
+        if replacement == "missing":
+            sidecar.unlink()
+        else:
+            record["profile"]["state"] = "profile_unqualified"
+            sidecar.write_text(json.dumps(record))
+        return real_export(*args, **kwargs)
+
+    monkeypatch.setattr(export, "export_all", race_after_qualification)
+    with pytest.raises(ExportError, match="qualified sampling snapshot"):
+        pipeline.export(logo)
+    assert prior.read_text() == "approved prior exports"
+    assert {p.name for p in logo.exports.iterdir()} == {"prior.txt"}

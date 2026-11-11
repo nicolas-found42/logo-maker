@@ -1,0 +1,125 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "review_escalated",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.68,
+    "scores": {
+      "correctness": {
+        "score": 1.86,
+        "confidence": 0.8,
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.11,
+          "2": 0.88
+        }
+      },
+      "spec_match": {
+        "score": 1.87,
+        "confidence": 0.8,
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.11,
+          "2": 0.88
+        }
+      },
+      "test_gap": {
+        "score": 0.51,
+        "confidence": 0.24,
+        "probabilities": {
+          "0": 0.56,
+          "1": 0.37,
+          "2": 0.07
+        }
+      },
+      "blast_radius": {
+        "score": 1.08,
+        "confidence": 0,
+        "probabilities": {
+          "0": 0.29,
+          "1": 0.34,
+          "2": 0.37
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.83325,
+    "reason_codes": [
+      "confidence_below_review"
+    ],
+    "limiting_rubrics": [
+      "blast_radius"
+    ]
+  },
+  "verification": {
+    "action": "review",
+    "summary": {
+      "verified": 3,
+      "contradicted": 0,
+      "unsupported": 0,
+      "needs_review": 2,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "BudgetedJevClient now forwards read-only model and url dynamically from the original client. Rebinding retains that same client; this repairs the reported cache-identity collapse.",
+        "verdict": "verified",
+        "confidence": 0.76,
+        "probabilities": {
+          "verified": 0.84,
+          "contradicted": 0.01,
+          "unsupported": 0.15
+        },
+        "action": "review"
+      },
+      {
+        "claim": "Post-backport root checks passed 241 offline and three render checks, lint/types/hooks. A separate published #3 source archive passed 50 sampling/refinement tests with two render/live tests deselected; its reported 270-test full suite was not independently rerun here.",
+        "verdict": "verified",
+        "confidence": 0.8,
+        "probabilities": {
+          "verified": 0.87,
+          "contradicted": 0.05,
+          "unsupported": 0.08
+        },
+        "action": "auto"
+      },
+      {
+        "claim": "The entire patched client source is byte-identical with published #3 revision 2f0c5f228d35f8da923ec534c611219c9edc83c0. The archive's tracked blobs were verified against Git. This does not claim all current root modules are identical to the #3 stack.",
+        "verdict": "verified",
+        "confidence": 0.5,
+        "probabilities": {
+          "verified": 0.67,
+          "contradicted": 0.12,
+          "unsupported": 0.21
+        },
+        "action": "review"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 4094,
+    "output_tokens": 198
+  }
+}

@@ -28,6 +28,7 @@ from logo_maker.jev.questions import (
     qa_status,
 )
 from logo_maker.paths import LogoDir, concept_slug
+from logo_maker.sampling import Budget
 
 #: 32 px test size, upscaled with nearest-neighbor so pixels stay honest.
 TINY_PX = 32
@@ -118,8 +119,13 @@ def screen_previews(
     return finalists
 
 
-def tiny_version(final_png: Path, dest: Path) -> Path:
+def tiny_version(final_png: Path, dest: Path, *, budget: Budget | None = None) -> Path:
     """Downscale to 32 px, then upscale with nearest-neighbor for the `tiny` state image."""
+    if budget is not None:
+        from logo_maker.host import run
+
+        run({"operation": "tiny_image", "png": str(final_png), "dest": str(dest)}, budget, [])
+        return dest
     im = _PILImage.open(final_png).convert("RGB")
     tiny = im.resize((TINY_PX, TINY_PX), _PILImage.Resampling.LANCZOS)
     tiny.resize((TINY_VIEW_PX, TINY_VIEW_PX), _PILImage.Resampling.NEAREST).save(dest, "PNG")
@@ -131,11 +137,18 @@ QA_CHECKS = tuple(QA_CHECK_SPECS)
 
 
 def qa_judgments(
-    logo: LogoDir, brief: Brief, concept_id: str, final_png: Path, client: JevAsker
+    logo: LogoDir,
+    brief: Brief,
+    concept_id: str,
+    final_png: Path,
+    client: JevAsker,
+    *,
+    budget: Budget | None = None,
 ) -> dict[str, Verdict]:
     """QA one final render (makes the 32 px version itself); returns per-check verdicts."""
-    tiny_path = logo.qa / f"{concept_slug(concept_id)}-tiny256.png"
-    tiny_version(final_png, tiny_path)
+    qa_dir = logo.root / "qa" if budget is not None else logo.qa
+    tiny_path = qa_dir / f"{concept_slug(concept_id)}-tiny256.png"
+    tiny_version(final_png, tiny_path, budget=budget)
     state = _image_state(
         brief, {"concept_id": concept_id, "render": Image(final_png), "tiny": Image(tiny_path)}
     )
@@ -201,15 +214,31 @@ def final_tournament(
     logo: LogoDir, brief: Brief, finalists: dict[str, Path], client: JevAsker
 ) -> str:
     """Full round-robin over final renders, both orders; writes `ideation/winner.json`."""
-    from logo_maker.eligibility import assess
+    record = final_tournament_record(brief, finalists, client, logo=logo)
+    (logo.ideation / "winner.json").write_text(json.dumps(record, indent=2, sort_keys=True))
+    return record["winner"]
+
+
+def final_tournament_record(
+    brief: Brief,
+    finalists: dict[str, Path],
+    client: JevAsker,
+    *,
+    logo: LogoDir,
+    budget: Budget | None = None,
+) -> dict:
+    """Choose without publishing; bounded callers commit winner and run state together."""
+    from logo_maker.eligibility import assess, require_current
 
     eligibility = {
-        cid: assess(logo, brief, cid, path, client, stage="final")
+        cid: assess(logo, brief, cid, path, client, stage="final", budget=budget)
         for cid, path in finalists.items()
     }
-    finalists = {cid: p for cid, p in finalists.items() if eligibility[cid]["status"] == "pass"}
+    finalists = {
+        cid: path for cid, path in finalists.items() if eligibility[cid]["status"] == "pass"
+    }
     if not finalists:
-        detail = "; ".join(f"{cid}: {r['status']}" for cid, r in eligibility.items())
+        detail = "; ".join(f"{cid}: {row['status']}" for cid, row in eligibility.items())
         raise ValueError(f"no final candidate meets the floor: {detail}")
     slugs = {cid: concept_slug(cid) for cid in finalists}
     images = {slugs[cid]: Image(p) for cid, p in finalists.items()}
@@ -226,26 +255,19 @@ def final_tournament(
             f"; tied with {', '.join(s for s in tied if s != winner_slug)} on wins, "
             "decided by deterministic slug ordering"
         )
-    from logo_maker.eligibility import require_current
-
-    require_current(logo, brief, by_slug[winner_slug], eligibility[by_slug[winner_slug]])
-    (logo.ideation / "winner.json").write_text(
-        json.dumps(
-            {
-                "winner": by_slug[winner_slug],
-                "slug": winner_slug,
-                "reason": reason,
-                "wins": wins,
-                "matches": rows,
-                "ranking_dimension": "aesthetic preference among eligible candidates",
-                "eligibility": eligibility[by_slug[winner_slug]],
-                "candidate_eligibility": eligibility,
-            },
-            indent=2,
-            sort_keys=True,
-        )
+    require_current(
+        logo, brief, by_slug[winner_slug], eligibility[by_slug[winner_slug]], budget=budget
     )
-    return by_slug[winner_slug]
+    return {
+        "winner": by_slug[winner_slug],
+        "slug": winner_slug,
+        "reason": reason,
+        "wins": wins,
+        "matches": rows,
+        "ranking_dimension": "aesthetic preference among eligible candidates",
+        "eligibility": eligibility[by_slug[winner_slug]],
+        "candidate_eligibility": eligibility,
+    }
 
 
 def beats_floor(

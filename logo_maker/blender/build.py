@@ -25,6 +25,8 @@ def main(scene_json: str) -> None:
     build_dir = scene_path.parent
     concept_dir = build_dir.parent
     scene = json.loads(scene_path.read_text())
+    build_dir = Path(scene.get("build_dir", build_dir))
+    concept_dir = Path(scene.get("output_dir", concept_dir))
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -56,7 +58,12 @@ def main(scene_json: str) -> None:
     inputs.update(
         {str(p.relative_to(build_dir)): p for p in (build_dir / "meshes").rglob("*") if p.is_file()}
     )
-    render_verified(png, build_dir / f"{scene['quality']['name']}.execution.json", inputs=inputs)
+    render_verified(
+        png,
+        concept_dir / f"{scene['quality']['name']}.execution.json",
+        inputs=inputs,
+        diagnostic_bytes=scene.get("sampling", {}).get("diagnostic_bytes", 0),
+    )
 
     blend = concept_dir / "scene.blend"
     bpy.ops.wm.save_as_mainfile(filepath=str(blend))

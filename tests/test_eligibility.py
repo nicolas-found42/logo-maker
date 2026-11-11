@@ -8,6 +8,11 @@ from PIL import Image
 from logo_maker.jev.questions import eligibility_decision
 
 
+@pytest.fixture(autouse=True)
+def synthetic_machine_context(monkeypatch):
+    monkeypatch.setattr("logo_maker.render.machine_context", lambda *a: {})
+
+
 def attest(folder, stage):
     """A retained render result at the filesystem boundary; no Blender in offline tests."""
     from logo_maker.eligibility import sha256
@@ -19,7 +24,7 @@ def attest(folder, stage):
     log.write_text(
         "Intel(R) Open Image Denoise 2.5.0\nType : Metal\nFilter: RT\nImage size: 32x32\n"
     )
-    (build / f"{stage}.json").write_text("{}")
+    (build / "scene.json").write_text("{}")
     report = {
         "status": "verified",
         "policy": "metal-gpu-only",
@@ -29,10 +34,26 @@ def attest(folder, stage):
         "log_sha256": sha256(log),
         "host_sources_sha256": source_hashes(folder),
         "delivered_sha256": sha256(folder / f"{stage}.png"),
-        "inputs_sha256": {"compiled_scene": sha256(build / f"{stage}.json")},
+        "inputs_sha256": {"compiled_scene": sha256(build / "scene.json")},
         "sampling": {"samples": 4096, "adaptive_threshold": 0.01, "seed": 42},
     }
     (build / f"{stage}.execution.json").write_text(json.dumps(report))
+    from logo_maker.render import source_files
+
+    (build / f"{stage}.sampling.json").write_text(
+        json.dumps(
+            {
+                "published": True,
+                "context": {},
+                "dependencies": {str(p): sha256(p) for p in source_files(folder)},
+                "delivered_sha256": sha256(folder / f"{stage}.png"),
+                "execution": str(build / f"{stage}.execution.json"),
+                "execution_sha256": sha256(build / f"{stage}.execution.json"),
+                "profile": {"state": "qualified"},
+                "outcomes": {"sampling": "profile_baseline", "cap": "unknown", "noise": "unknown"},
+            }
+        )
+    )
 
 
 def qualified_brief(image):
@@ -53,6 +74,10 @@ class EligibilityClient:
     def __init__(self, overrides=None):
         self.overrides = overrides or {}
         self.states = []
+
+    def with_budget(self, budget):
+        budget.check()
+        return self
 
     def ask(self, state, questions, *, label):
         self.states.append((state, label))
@@ -81,6 +106,8 @@ def candidate_logo(tmp_path):
         attest(folder, stage)
     brief = qualified_brief(folder / "preview.png")
     review_inputs(logo, cid, brief)
+    for stage in ("preview", "final"):
+        attest(folder, stage)
     return logo, cid, brief
 
 
@@ -594,12 +621,12 @@ def test_generic_edge_failure_requests_diagnosis_without_sample_escalation(tmp_p
     logo, cid = finalize_logo(tmp_path)
     scene = logo.concept(cid) / "scene.toml"
     before = scene.read_bytes()
-    with pytest.raises(AuthoringNeeded, match="no finalist passed QA"):
+    with pytest.raises(AuthoringNeeded, match="no finalist qualified"):
         finalize(logo, EligibilityClient({"clean_edges": 0.1}))
     assert scene.read_bytes() == before
     rows = [json.loads(row) for row in (logo.qa / "rounds.jsonl").read_text().splitlines()]
     assert len(rows) == 1
-    assert rows[0]["result"] == "needs_diagnosis"
+    assert rows[0]["result"] == "refinement_needed"
 
 
 @pytest.mark.parametrize(

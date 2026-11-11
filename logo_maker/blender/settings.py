@@ -46,6 +46,9 @@ def apply_quality(quality: dict) -> None:
     sc.cycles.use_adaptive_sampling = bool(quality.get("adaptive", False))
     sc.cycles.adaptive_threshold = float(quality.get("adaptive_threshold", 0.01))
     sc.cycles.samples = int(quality.get("samples", 256))
+    sc.cycles.adaptive_min_samples = int(quality.get("min_samples", 0))
+    sc.cycles.seed = int(quality.get("seed", 0))
+    sc.cycles.use_animated_seed = False
     sc.cycles.use_denoising = True
     sc.cycles.denoiser = "OPENIMAGEDENOISE"
     sc.cycles.denoising_input_passes = "RGB_ALBEDO_NORMAL"

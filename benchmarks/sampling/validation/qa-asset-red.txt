@@ -1,0 +1,158 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[asset_corrupt] _
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-354/test_finalize_blocked_qa_canno0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10ba02780>
+failure = 'asset_corrupt'
+
+    @pytest.mark.parametrize(
+        "failure",
+        ["provider_retry", "qa_image_read", "image_encode", "tiny_image_read", "asset_corrupt"],
+    )
+    def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
+        tmp_path, monkeypatch, failure
+    ):
+        import contextlib
+        import base64
+        import hashlib
+        import os
+        import threading
+        import time
+        from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+        from PIL import ImageDraw
+
+        from logo_maker import pipeline
+        from logo_maker.jev.client import JevClient
+        from logo_maker.paths import LogoDir
+        from logo_maker.sampling import SamplingLimit
+
+        logo = LogoDir(tmp_path / "logo")
+        pipeline.new(logo, "Test")
+        logo.brief.write_text(
+            'name="Test"\nsummary="Test mark"\ntone=["calm"]\n'
+            '[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+        )
+        concept_id = "a|b|c"
+        folder = logo.concept(concept_id)
+        compiled(folder)
+        monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+        def builder(path, *args, budget):
+            budget.begin_attempt()
+            target = Path(json.loads(path.read_text())["output_dir"])
+            image = Image.new("RGBA", (4000, 4000))
+            ImageDraw.Draw(image).ellipse((1000, 1000, 3000, 3000), fill=(36, 88, 70, 255))
+            image.save(target / "final.png")
+            (target / "final.execution.json").write_text('{"status":"verified"}')
+
+        monkeypatch.setattr(render, "_run_builder", builder)
+        render.render(folder, "final")
+        (logo.ideation / "finalists.json").write_text(json.dumps({"ids": [concept_id]}))
+        prior = logo.ideation / "winner.json"
+        prior.write_text('{"winner":"approved prior"}')
+        seen = threading.Event()
+        image_read_started = threading.Event()
+        stop = threading.Event()
+        image_bytes = (folder / "final.png").read_bytes()
+        writers = []
+
+        def release_old_unbounded_image_read():
+            delayed = False
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(folder / "final.png", os.O_WRONLY | os.O_NONBLOCK)
+                    image_read_started.set()
+                except OSError:
+                    stop.wait(0.01)
+                    continue
+                try:
+                    if not delayed:
+                        delayed = True
+                        if stop.wait(10):
+                            return
+                    os.set_blocking(descriptor, True)
+                    remaining = memoryview(image_bytes)
+                    with contextlib.suppress(BrokenPipeError):
+                        while remaining:
+                            remaining = remaining[os.write(descriptor, remaining) :]
+                finally:
+                    os.close(descriptor)
+                stop.wait(0.01)
+
+        class Provider(BaseHTTPRequestHandler):
+            def log_message(self, format, *args):
+                pass
+
+            def do_POST(self):
+                body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+                first = not seen.is_set()
+                seen.set()
+                retry = first and failure == "provider_retry"
+                if first and failure in {"qa_image_read", "image_encode"}:
+                    (folder / "final.png").unlink()
+                    os.mkfifo(folder / "final.png")
+                    writer = threading.Thread(target=release_old_unbounded_image_read, daemon=True)
+                    writer.start()
+                    writers.append(writer)
+                self.send_response(429 if retry else 200)
+                if retry:
+                    self.send_header("Retry-After", "10")
+                if first and failure == "asset_corrupt":
+                    assets_dir = logo.qa / "jev/assets"
+                    assets_dir.mkdir(parents=True, exist_ok=True)
+                    for asset in body["assets"].values():
+                        digest = hashlib.sha256(base64.b64decode(asset["data_base64"])).hexdigest()
+                        os.mkfifo(assets_dir / f"{digest}.{asset['format']}")
+                response = json.dumps(
+                    {
+                        "answers": {key: {"type": "noul", "noul": 0.9} for key in body["questions"]},
+                        "usage": {"input_tokens": 123, "output_tokens": 7, "cost": 0.001},
+                    }
+                ).encode()
+                self.send_header("Content-Length", str(len(response)))
+                self.end_headers()
+                self.wfile.write(response)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Provider)
+        worker = threading.Thread(target=server.serve_forever, daemon=True)
+        worker.start()
+        monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
+        monkeypatch.setenv("OPENROUTER_API_KEY", "synthetic-test-key")
+        if failure == "image_encode":
+            # Exercise the existing request-splitting path with the same QA questions.
+            monkeypatch.setattr("logo_maker.jev.client.MAX_QUESTIONS_PER_REQUEST", 1)
+        client = JevClient(logo)
+        client.url = f"http://127.0.0.1:{server.server_port}"
+        if failure == "tiny_image_read":
+
+            def preflight_after_cache_check(*args):
+                (folder / "final.png").unlink()
+                os.mkfifo(folder / "final.png")
+                writer = threading.Thread(target=release_old_unbounded_image_read, daemon=True)
+                writer.start()
+                writers.append(writer)
+                return {}
+
+            monkeypatch.setattr(render, "machine_context", preflight_after_cache_check)
+        started = time.monotonic()
+        try:
+            if failure == "asset_corrupt":
+                with pytest.raises(pipeline.AuthoringNeeded):
+                    pipeline.finalize(logo, client, budget=Budget(wall_seconds=6))
+                requests = list((logo.qa / "jev/requests").glob("*.json"))
+                assert len(requests) == 1
+                request = json.loads(requests[0].read_text())
+                for asset in request["assets"].values():
+                    retained = logo.qa / f"jev/assets/{asset['sha256']}.{asset['format']}"
+>                   assert retained.is_file(), "retained judgment image is not a regular file"
+E                   AssertionError: retained judgment image is not a regular file
+E                   assert False
+E                    +  where False = is_file()
+E                    +    where is_file = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-354/test_finalize_blocked_qa_canno0/logo/qa/jev/assets/b2d2e037ad3527a12573de509bfd1e7a8f10cc6bf86a0e258d4a3a099bb49af0.png').is_file
+
+tests/test_sampling_render.py:535: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[asset_corrupt]
+1 failed, 20 deselected in 2.44s

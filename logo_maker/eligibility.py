@@ -18,6 +18,7 @@ from logo_maker.jev import questions as Q
 from logo_maker.jev.client import Image, JevAsker, JevError
 from logo_maker.paths import LogoDir
 from logo_maker.proc import ToolError
+from logo_maker.sampling import Budget
 
 OWNER_DIMENSIONS = ("overall", "craftsmanship", "brief_fit", "intended_appearance")
 
@@ -80,6 +81,11 @@ def revision(logo: LogoDir, brief: Brief, concept_id: str, candidate: Path) -> d
         },
         "rubric_sha256": sha256(Path(Q.__file__)),
         "eligibility_protocol_sha256": sha256(Path(__file__)),
+        "render_provenance": {
+            name: sha256(folder / ".build" / name)
+            for name in (f"{candidate.stem}.sampling.json", f"{candidate.stem}.execution.json")
+            if (folder / ".build" / name).is_file()
+        },
     }
 
 
@@ -155,6 +161,7 @@ def compare_visual(
     label: str,
     flat_mark: Path | None = None,
     identity_context: dict | None = None,
+    budget: Budget | None = None,
 ) -> dict:
     """Visual comparison only; historical CPU art is valid visual evidence.
 
@@ -163,7 +170,7 @@ def compare_visual(
     """
     with TemporaryDirectory(prefix="logo-eligibility-") as tmp:
         return _compare_views(
-            brief, concept, candidate, client, label, flat_mark, Path(tmp), identity_context
+            brief, concept, candidate, client, label, flat_mark, Path(tmp), identity_context, budget
         )
 
 
@@ -176,11 +183,17 @@ def _compare_views(
     flat_mark: Path | None,
     dest: Path,
     identity_context: dict | None = None,
+    budget: Budget | None = None,
 ) -> dict:
+    views = (
+        _host_images(brief, candidate, flat_mark, dest, budget)
+        if budget is not None
+        else _prepare_images(brief, candidate, flat_mark, dest)
+    )
     craft_rows: list[dict[str, Any]] = []
-    details = _native_details(candidate, dest, "candidate")
+    details = {k: Image(v) for k, v in views["candidate"].items()}
     for index, ref in enumerate(ref for ref in brief.references if ref.use == "craft"):
-        ref_details = _native_details(ref.path, dest, f"reference-{index}")
+        ref_details = {k: Image(v) for k, v in views["references"][index].items()}
         for order in (("candidate", "reference"), ("reference", "candidate")):
             images = {"candidate": Image(candidate), "reference": Image(ref.path)}
             state = {
@@ -199,8 +212,8 @@ def _compare_views(
             statuses = _statuses(answers, questions)
             craft_rows.append(
                 {
-                    "reference_sha256": sha256(ref.path),
-                    "candidate_sha256": sha256(candidate),
+                    "reference_sha256": views["reference_sha256"][index],
+                    "candidate_sha256": views["candidate_sha256"],
                     "order": list(order),
                     "answers": answers,
                     "checks": statuses,
@@ -233,15 +246,11 @@ def _compare_views(
         "brief": fit_brief,
         "intended_appearance": brief.intended_appearance,
     }
-    with PILImage.open(candidate) as source:
-        state["hero_32px"] = _small_view(source, dest / "hero-small.png")
+    state["hero_32px"] = Image(dest / "hero-small.png")
     questions = Q.fit_questions()
     questions.pop("symbol")
-    if flat_mark is not None and flat_mark.is_file():
-        flat = PILImage.open(
-            io.BytesIO(resvg_py.svg_to_bytes(svg_string=flat_mark.read_text(), width=32, height=32))
-        )
-        state["flat_32px"] = _small_view(flat, dest / "flat-small.png")
+    if views["flat_source_sha256"] is not None:
+        state["flat_32px"] = Image(dest / "flat-small.png")
     else:
         questions.pop("small_flat")
     answers = client.ask(state, questions, label=f"{label}-fit")
@@ -258,10 +267,8 @@ def _compare_views(
         "fit": fit,
         "technical": technical,
         "answers": {**symbol_answers, **answers, **technical_answers},
-        "view_sha256": {p.name: sha256(p) for p in dest.glob("*.png")},
-        "flat_source_sha256": sha256(flat_mark)
-        if flat_mark is not None and flat_mark.is_file()
-        else None,
+        "view_sha256": views["view_sha256"],
+        "flat_source_sha256": views["flat_source_sha256"],
         "status": Q.eligibility_decision(
             craft=[r["status"] for r in craft_rows],
             fit=fit,
@@ -271,14 +278,25 @@ def _compare_views(
     }
 
 
-def _append(logo: LogoDir, record: dict) -> None:
+def _append(logo: LogoDir, record: dict, *, budget: Budget | None = None) -> None:
+    if budget is not None:
+        from logo_maker import host
+
+        host.run(
+            {
+                "operation": "append_jsonl",
+                "path": str(logo.root / "qa/eligibility.jsonl"),
+                "data": record,
+            },
+            budget,
+            [],
+        )
+        return
     with (logo.qa / "eligibility.jsonl").open("a") as fh:
         fh.write(json.dumps(record, sort_keys=True) + "\n")
 
 
-def _detail_reviews(
-    logo: LogoDir, concept_id: str, candidate: Path, client: JevAsker
-) -> list[dict]:
+def _detail_inputs(logo, concept_id, candidate, dest):
     from logo_maker import briefing
 
     frozen = briefing.current(logo)
@@ -286,33 +304,55 @@ def _detail_reviews(
     if not obligations:
         return []
     plan = briefing.current_plan(logo, concept_id)["state"]["plan"]
-    rows = []
-    with TemporaryDirectory(prefix="logo-detail-obligations-") as tmp:
-        dest = Path(tmp)
-        for obligation in obligations:
-            state = {
-                "candidate": Image(candidate),
-                "detail_plan": plan,
-                "authoring_obligation": obligation,
-                "native_details": _native_details(candidate, dest, "candidate"),
+    jobs = []
+    for obligation in obligations:
+        state = {
+            "candidate": Image(candidate),
+            "detail_plan": plan,
+            "authoring_obligation": obligation,
+            "native_details": _native_details(candidate, dest, "candidate"),
+        }
+        baseline = obligation.get("baseline_image")
+        if baseline:
+            path = logo.root / baseline
+            state["prior_baseline"] = Image(path)
+            state["baseline_native_details"] = _native_details(path, dest, "baseline")
+        jobs.append(
+            {
+                "state": _pack_images(state),
+                "obligation": obligation["id"],
+                "questions": Q.detail_realization_questions(
+                    plan["details"], baseline=bool(baseline)
+                ),
             }
-            baseline = obligation.get("baseline_image")
-            if baseline:
-                path = logo.root / baseline
-                state["prior_baseline"] = Image(path)
-                state["baseline_native_details"] = _native_details(path, dest, "baseline")
-            questions = Q.detail_realization_questions(plan["details"], baseline=bool(baseline))
-            answers = client.ask(state, questions, label=f"detail-{concept_id}-{obligation['id']}")
-            checks = _statuses(answers, questions)
+        )
+    return jobs
+
+
+def _detail_reviews(logo, concept_id, candidate, client, *, budget=None):
+    with TemporaryDirectory(prefix="logo-detail-obligations-") as tmp:
+        jobs = (
+            _host_call("details", logo, None, concept_id, candidate, budget, dest=tmp)
+            if budget is not None
+            else _detail_inputs(logo, concept_id, candidate, Path(tmp))
+        )
+        rows = []
+        for job in jobs:
+            answers = client.ask(
+                _unpack_images(job["state"]),
+                job["questions"],
+                label=f"detail-{concept_id}-{job['obligation']}",
+            )
+            checks = _statuses(answers, job["questions"])
             rows.append(
                 {
-                    "obligation": obligation["id"],
+                    "obligation": job["obligation"],
                     "answers": answers,
                     "checks": checks,
                     "status": _combined(list(checks.values())),
                 }
             )
-    return rows
+        return rows
 
 
 def assess(
@@ -323,7 +363,57 @@ def assess(
     client: JevAsker,
     *,
     stage: str,
+    budget: Budget | None = None,
 ) -> dict[str, Any]:
+    prepared = (
+        _host_call("prepare", logo, brief, concept_id, candidate, budget, stage=stage)
+        if budget is not None
+        else _prepare_assessment(logo, brief, concept_id, candidate, stage)
+    )
+    record = prepared["record"]
+    if "concept" not in prepared:
+        return record
+    try:
+        record.update(
+            compare_visual(
+                brief,
+                prepared["concept"],
+                candidate,
+                client,
+                label=f"{stage}-{candidate.parent.name}",
+                flat_mark=logo.root / "concepts" / candidate.parent.name / "motif.svg",
+                identity_context=prepared["context"]["state"],
+                budget=budget,
+            )
+        )
+        detail_reviews = _detail_reviews(logo, concept_id, candidate, client, budget=budget)
+        record["detail_obligations"] = detail_reviews
+        record["status"] = _combined([record["status"], *[row["status"] for row in detail_reviews]])
+    except JevError as exc:
+        record.update(status="api_error", error=str(exc))
+        _append(logo, record, budget=budget)
+        raise
+    except (OSError, ValueError) as exc:
+        record.update(
+            status="missing_evidence", missing=[f"image evidence changed during judgment: {exc}"]
+        )
+        _append(logo, record, budget=budget)
+        return record
+    if budget is not None:
+        return _host_call(
+            "finish",
+            logo,
+            brief,
+            concept_id,
+            candidate,
+            budget,
+            record=record,
+            execution=prepared["execution"],
+        )
+    return _finish_assessment(logo, brief, concept_id, candidate, record, prepared["execution"])
+
+
+def _prepare_assessment(logo, brief, concept_id, candidate, stage):
     from logo_maker import briefing
     from logo_maker.brief import load
 
@@ -364,7 +454,7 @@ def assess(
     }
     if missing:
         _append(logo, record)
-        return record
+        return {"record": record}
     from logo_maker.ideate import load_pool_concepts
     from logo_maker.render import verify_execution
 
@@ -372,7 +462,7 @@ def assess(
         execution = verify_execution(candidate.parent, stage)
         record["execution"] = {
             "status": "verified",
-            "sha256": sha256(candidate.parent / ".build" / f"{stage}.execution.json"),
+            "sha256": sha256(Path(execution["evidence_path"])),
         }
     except ToolError as exc:
         record.update(status="execution_policy_error", error=str(exc))
@@ -383,11 +473,11 @@ def assess(
     except (OSError, KeyError, ValueError) as exc:
         record["missing"].append(f"current concept evidence unavailable: {exc}")
         _append(logo, record)
-        return record
+        return {"record": record}
     if concept_id not in concepts:
         record["missing"].append("current concept revision missing")
         _append(logo, record)
-        return record
+        return {"record": record}
     c = concepts[concept_id]
     concept = Q.concept_state(
         brief, metaphor=c.metaphor_text, treatment=c.treatment_desc, material=c.material_desc
@@ -400,33 +490,18 @@ def assess(
     except (OSError, ValueError) as exc:
         record["missing"].append(f"source evidence unavailable: {exc}")
         _append(logo, record)
-        return record
+        return {"record": record}
     record.update(revision=rev, revision_sha256=_digest(rev))
-    try:
-        record.update(
-            compare_visual(
-                brief,
-                concept,
-                candidate,
-                client,
-                label=f"{stage}-{candidate.parent.name}",
-                flat_mark=flat_mark,
-                identity_context=reviewed_context["state"],
-            )
-        )
-        detail_reviews = _detail_reviews(logo, concept_id, candidate, client)
-        record["detail_obligations"] = detail_reviews
-        record["status"] = _combined([record["status"], *[row["status"] for row in detail_reviews]])
-    except JevError as exc:
-        record.update(status="api_error", error=str(exc))
-        _append(logo, record)
-        raise
-    except (OSError, ValueError) as exc:
-        record.update(
-            status="missing_evidence", missing=[f"image evidence changed during judgment: {exc}"]
-        )
-        _append(logo, record)
-        return record
+    return {
+        "record": record,
+        "concept": concept,
+        "context": reviewed_context,
+        "execution": execution,
+    }
+
+
+def _finish_assessment(logo, brief, concept_id, candidate, record, execution):
+    rev = record["revision"]
     record["sampling"] = {
         "settings": execution["sampling"],
         "noise": record["technical"]["noise_free"],
@@ -437,6 +512,18 @@ def assess(
         "visual_acceptance": _combined(list(record["technical"].values())),
         "acceptance_basis": "independent delivered-image visual judgments; no numerical convergence claim",
     }
+    sampling_path = candidate.parent / ".build" / f"{record['stage']}.sampling.json"
+    if sampling_path.is_file():
+        sampling = json.loads(sampling_path.read_text())
+        outcomes = sampling.get("outcomes", {})
+        limit = outcomes.get("cap", "unknown")
+        record["sampling"].update(
+            profile=sampling.get("profile", {}),
+            outcomes=outcomes,
+            limit=limit,
+            outcome=Q.sampling_decision(record["technical"], limit=limit, device="verified"),
+            record_sha256=sha256(sampling_path),
+        )
     feedback = logo.qa / "owner-feedback.json"
     if feedback.is_file():
         try:
@@ -503,9 +590,18 @@ def assess(
 
 
 def require_current(
-    logo: LogoDir, brief: Brief, concept_id: str, proof: dict, *, stage: str = "final"
+    logo: LogoDir,
+    brief: Brief,
+    concept_id: str,
+    proof: dict,
+    *,
+    stage: str = "final",
+    budget: Budget | None = None,
 ) -> None:
     """Export only a winner whose final pixels and complete inputs still match the gate."""
+    if budget is not None:
+        _host_call("current", logo, brief, concept_id, None, budget, proof=proof, stage=stage)
+        return
     from logo_maker import briefing
     from logo_maker.render import verify_execution
 
@@ -518,3 +614,131 @@ def require_current(
         raise ValueError("winner eligibility stale or missing; rerun finalize") from exc
     if proof.get("status") != "pass" or proof.get("revision_sha256") != _digest(current):
         raise ValueError("winner eligibility stale or absent; rerun finalize")
+
+
+def _pack_images(value):
+    if isinstance(value, Image):
+        return {"__image_path__": str(value.path)}
+    if isinstance(value, dict):
+        return {key: _pack_images(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_pack_images(item) for item in value]
+    return value
+
+
+def _unpack_images(value):
+    if isinstance(value, dict):
+        if set(value) == {"__image_path__"}:
+            return Image(value["__image_path__"])
+        return {key: _unpack_images(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_unpack_images(item) for item in value]
+    return value
+
+
+def _prepare_images(brief, candidate, flat_mark, dest):
+    details = _native_details(candidate, dest, "candidate")
+    refs = [r for r in brief.references if r.use == "craft"]
+    references = [_native_details(r.path, dest, f"reference-{i}") for i, r in enumerate(refs)]
+    with PILImage.open(candidate) as source:
+        _small_view(source, dest / "hero-small.png")
+    if flat_mark is not None and flat_mark.is_file():
+        with PILImage.open(
+            io.BytesIO(resvg_py.svg_to_bytes(svg_string=flat_mark.read_text(), width=32, height=32))
+        ) as flat:
+            _small_view(flat, dest / "flat-small.png")
+    return {
+        "candidate": {k: str(v.path) for k, v in details.items()},
+        "references": [{k: str(v.path) for k, v in row.items()} for row in references],
+        "candidate_sha256": sha256(candidate),
+        "reference_sha256": [sha256(r.path) for r in refs],
+        "view_sha256": {p.name: sha256(p) for p in dest.glob("*.png")},
+        "flat_source_sha256": sha256(flat_mark)
+        if flat_mark is not None and flat_mark.is_file()
+        else None,
+    }
+
+
+def _brief_payload(brief):
+    from dataclasses import asdict
+
+    return json.loads(json.dumps(asdict(brief), default=str))
+
+
+def _host_call(action, logo, brief, concept_id, candidate, budget, **extra):
+    from logo_maker import host
+
+    result = host.run(
+        {
+            "operation": "eligibility",
+            "action": action,
+            "root": str(logo.root) if logo else None,
+            "brief": _brief_payload(brief) if brief else None,
+            "concept_id": concept_id,
+            "candidate": str(candidate) if candidate else None,
+            **extra,
+        },
+        budget,
+        [],
+    )
+    if "error" in result:
+        if result["error_type"] == "ToolError":
+            raise ToolError(result["error"])
+        raise ValueError(result["error"])
+    return result["result"]
+
+
+def _host_images(brief, candidate, flat_mark, dest, budget):
+    return _host_call(
+        "images",
+        None,
+        brief,
+        None,
+        candidate,
+        budget,
+        flat_mark=str(flat_mark) if flat_mark else None,
+        dest=str(dest),
+    )
+
+
+def host_operation(payload):
+    from logo_maker.brief import Reference
+
+    logo = LogoDir(Path(payload["root"])) if payload["root"] else None
+    data = payload["brief"]
+    if data is not None:
+        data["references"] = tuple(
+            Reference(Path(r["path"]), r["use"], r["note"]) for r in data["references"]
+        )
+        for key in ("tone", "uses", "avoid"):
+            data[key] = tuple(data[key])
+    brief = Brief(**data) if data is not None else None
+    cid = payload["concept_id"]
+    candidate = Path(payload["candidate"]) if payload["candidate"] else None
+    try:
+        match payload["action"]:
+            case "prepare":
+                result = _prepare_assessment(logo, brief, cid, candidate, payload["stage"])
+            case "finish":
+                result = _finish_assessment(
+                    logo, brief, cid, candidate, payload["record"], payload["execution"]
+                )
+            case "current":
+                if logo is None or brief is None:
+                    raise ValueError("current proof requires logo and brief")
+                require_current(logo, brief, cid, payload["proof"], stage=payload["stage"])
+                result = None
+            case "images":
+                result = _prepare_images(
+                    brief,
+                    candidate,
+                    Path(payload["flat_mark"]) if payload["flat_mark"] else None,
+                    Path(payload["dest"]),
+                )
+            case "details":
+                result = _detail_inputs(logo, cid, candidate, Path(payload["dest"]))
+            case _:
+                raise ValueError("unknown eligibility operation")
+        return {"result": result}
+    except (OSError, ValueError, ToolError) as exc:
+        return {"error": str(exc), "error_type": type(exc).__name__}

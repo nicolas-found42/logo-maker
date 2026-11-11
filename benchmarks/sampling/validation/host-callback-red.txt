@@ -1,0 +1,33 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_unbounded_asset_callback_is_an_explicit_budget_conflict _________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-235/test_unbounded_asset_callback_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106d768b0>
+
+    def test_unbounded_asset_callback_is_an_explicit_budget_conflict(tmp_path, monkeypatch):
+        from logo_maker.proc import ToolError
+
+        compiled(tmp_path)
+        prior = tmp_path / "final.png"
+        prior.write_bytes(b"approved prior final")
+        called = []
+        monkeypatch.setattr(
+            render, "machine_context", lambda *args: pytest.fail("callback conflict started GPU work")
+        )
+        with pytest.raises(ToolError, match="budget_conflict"):
+            render.render(tmp_path, "final", on_asset=lambda *args: called.append(args), budget=Budget())
+        assert not called
+        assert prior.read_bytes() == b"approved prior final"
+        report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
+        assert report["published"] is False
+>       assert report["outcomes"]["time"] == "budget_conflict"
+E       AssertionError: assert 'within_budget' == 'budget_conflict'
+E
+E         - budget_conflict
+E         + within_budget
+
+tests/test_sampling_render.py:440: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_unbounded_asset_callback_is_an_explicit_budget_conflict
+1 failed, 13 deselected in 0.05s

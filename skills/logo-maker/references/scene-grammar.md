@@ -31,9 +31,19 @@ look = "photoreal"             # photoreal | toon | lineart
 glare = 0.0                    # compositor bloom mix, 0 = off (unavailable in
                                # headless pip bpy: renders without it, loudly)
 dof_fstop = 0.0                # 0 = no depth of field
-adaptive_threshold = 0.01      # optional: adaptive sampling noise target
-max_samples = 256              # optional: overrides the quality sample count
+adaptive_threshold = 0.01      # optional: convergence control, not image-error percent
+max_samples = 4096             # optional: resource ceiling, not a quality guarantee
+min_samples = 0                # optional: 0 delegates the minimum to Cycles
+adaptive = true                # optional: explicit false overrides inference
+seed = 1234                    # optional: defaults to meta.seed
 alpha_cleanup = false          # optional: clear faint background haze host-side
+
+[sampling]
+wall_seconds = 1800            # optional whole concept job deadline
+attempt_limit = 2              # optional 1-4, including crash retries
+diagnostic_bytes = 2147483648  # optional EXR storage/decoded IO ceiling; 0 disables
+# profile = "machine-profile.json"  # owner-reviewed qualification record
+# diagnosis = "diagnosis.json"     # image/source/seed-bound technical review
 
 [materials.surface]
 preset = "porcelain"           # catalog/materials.toml
@@ -69,9 +79,11 @@ accept `height_scale`, a multiplier on their vertical params
 `mode = "cut"` or `"through"` punches the target plate and lays a floor;
 `recess` punches a round (`radius`) or motif-shaped (`layers`) pocket.
 
-The QA loop may only adjust `camera.framing`, `[render]` `adaptive_threshold`
-and `max_samples`, `height_scale` on mark components, `render.alpha_cleanup`,
-and `lighting.rig`. Anything structural means re-authoring the scene.
+The QA loop may adjust `camera.framing`, `height_scale` on mark components,
+`render.alpha_cleanup`,
+and `lighting.rig`. Sampling comparisons use the separate image-bound diagnosis policy;
+generic edge failures return refinement work and preserve sampling overrides. Anything structural
+means re-authoring the scene.
 
 ## How a treatment consumes the motif
 
@@ -114,3 +126,7 @@ Per-kind component fields and their defaults live in
   multiplies that for readability fixes.
 - `Motif.regular_polygon(cx, cy, r, n, rotation_deg=-90)` puts a vertex at the
   top; pass `rotation_deg=0` for a flat top edge.
+
+Sampling qualification, profile schema, diagnostics, budgets and stop states are defined in
+[automatic-sampling.md](../../../docs/automatic-sampling.md). Explicit overrides are preserved;
+resolve conflicts deliberately. Use actual 4000→2000 output and requested tiny exports for review.

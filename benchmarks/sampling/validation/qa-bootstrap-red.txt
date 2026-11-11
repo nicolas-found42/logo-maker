@@ -1,0 +1,36 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_exhausted_finalize_budget_stops_before_loading_inputs __________
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-365/test_exhausted_finalize_budget0')
+
+    def test_exhausted_finalize_budget_stops_before_loading_inputs(tmp_path):
+        from logo_maker import pipeline
+        from logo_maker.paths import LogoDir
+        from logo_maker.sampling import SamplingLimit
+
+        now = [0.0]
+        budget = Budget(wall_seconds=1, clock=lambda: now[0])
+        now[0] = 2
+        with pytest.raises(SamplingLimit, match="time_limit"):
+>           pipeline.finalize(LogoDir(tmp_path / "not-created"), object(), budget=budget)
+
+tests/test_sampling_render.py:575:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+logo = LogoDir(root=PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-365/test_exhausted_finalize_budget0/not-created'))
+client = <object object at 0x10773c8c0>
+budget = <logo_maker.sampling.Budget object at 0x1087eacf0>
+
+    def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str:
+        from logo_maker import judging
+
+        finalists_path = logo.ideation / "finalists.json"
+        if not finalists_path.exists():
+>           raise RuntimeError(f"{logo.slug}: no finalists; run `logo-maker preview {logo.slug}`")
+E           RuntimeError: not-created: no finalists; run `logo-maker preview not-created`
+
+logo_maker/pipeline.py:479: RuntimeError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_exhausted_finalize_budget_stops_before_loading_inputs
+1 failed, 21 deselected in 0.11s

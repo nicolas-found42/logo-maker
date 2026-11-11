@@ -1,0 +1,129 @@
+{
+  "tool": "jev_gate",
+  "model": "typesafe/jev-1.14-20261014",
+  "provider": "openrouter",
+  "truncated": false,
+  "action": "escalate",
+  "reason_codes": [
+    "confidence_below_review",
+    "safe_to_apply_below_review",
+    "review_escalated",
+    "claims_unsupported",
+    "claim_confidence_low",
+    "claim_confidence_below_auto_accept"
+  ],
+  "review": {
+    "safe_to_apply": 0.46,
+    "scores": {
+      "correctness": {
+        "score": 1.69,
+        "confidence": 0.53,
+        "probabilities": {
+          "0": 0.04,
+          "1": 0.23,
+          "2": 0.73
+        }
+      },
+      "spec_match": {
+        "score": 1.82,
+        "confidence": 0.74,
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.15,
+          "2": 0.84
+        }
+      },
+      "test_gap": {
+        "score": 0.57,
+        "confidence": 0.16,
+        "probabilities": {
+          "0": 0.51,
+          "1": 0.42,
+          "2": 0.07
+        }
+      },
+      "blast_radius": {
+        "score": 1.98,
+        "confidence": 0.97,
+        "probabilities": {
+          "0": 0,
+          "1": 0.02,
+          "2": 0.98
+        }
+      }
+    },
+    "weights": {
+      "correctness": 0.4,
+      "spec_match": 0.3,
+      "test_gap": 0.15,
+      "blast_radius": 0.15
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5,
+      "composite_floor": 0.7
+    },
+    "action": "escalate",
+    "composite": 0.7197500000000001,
+    "reason_codes": [
+      "confidence_below_review",
+      "safe_to_apply_below_review"
+    ],
+    "limiting_rubrics": [
+      "test_gap"
+    ]
+  },
+  "verification": {
+    "action": "escalate",
+    "summary": {
+      "verified": 2,
+      "contradicted": 0,
+      "unsupported": 1,
+      "needs_review": 2,
+      "invalid_response": 0
+    },
+    "thresholds": {
+      "auto_accept": 0.8,
+      "review_at": 0.5
+    },
+    "results": [
+      {
+        "claim": "Local checks passed 241 offline tests, three render checks, one explicitly enabled live M5/provider test, 48 doctor checks, lint, types and hooks.",
+        "verdict": "verified",
+        "confidence": 0.79,
+        "probabilities": {
+          "verified": 0.86,
+          "contradicted": 0.09,
+          "unsupported": 0.05
+        },
+        "action": "review"
+      },
+      {
+        "claim": "The live test used actual exclusive Metal tracing and executed Metal OIDN, 4000-to-2000 delivery and 31 verified exports. It recorded one native attempt, one completed live judgment request and returned sampling_review_needed with the profile unqualified and prior test winner preserved. This does not establish owner sampling/visual acceptance.",
+        "verdict": "unsupported",
+        "confidence": 0.2,
+        "probabilities": {
+          "verified": 0.43,
+          "contradicted": 0.1,
+          "unsupported": 0.47
+        },
+        "action": "escalate"
+      },
+      {
+        "claim": "The measured live job body took 52.03 seconds, including render 45.92, export 3.73 and final QA 2.36; fixture setup is included, pytest/import startup and later copy/review excluded. This is one operational observation with unknown cache/workload, not a speedup or quality claim.",
+        "verdict": "verified",
+        "confidence": 0.91,
+        "probabilities": {
+          "verified": 0.94,
+          "contradicted": 0.05,
+          "unsupported": 0.01
+        },
+        "action": "auto"
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 15715,
+    "output_tokens": 198
+  }
+}

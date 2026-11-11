@@ -1,0 +1,117 @@
+{
+  "known_job_latencies_seconds": 1152.6720643330045,
+  "complete_invocation_count": 15,
+  "body_only_count": 2,
+  "jobs": [
+    {
+      "role": "owner_seed_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-independent-20261110/glass-current-seed44-t0.01-runowner-more-1/measurement.json",
+      "seconds": 64.14103774999967,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "owner_seed_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-independent-20261110/glass-current-seed45-t0.01-runowner-more-2/measurement.json",
+      "seconds": 63.158896166001796,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "owner_seed_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-independent-20261110/glass-current-seed46-t0.01-runowner-more-3/measurement.json",
+      "seconds": 63.49595891700301,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "authored_shape_lighting_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/prism-raking/measurement.json",
+      "seconds": 83.06203445799474,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "authored_shape_lighting_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/orbit-three-point/measurement.json",
+      "seconds": 76.296769166991,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "authored_shape_lighting_control",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/clover-top-light/measurement.json",
+      "seconds": 142.05609425000148,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "separate_shading_diagnosis",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/clover-cap-shading-probe-20261110/clover-flat-caps/measurement.json",
+      "seconds": 106.69089695801085,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "heldout_independent_confirmation",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57/measurement.json",
+      "seconds": 71.77104233400314,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "heldout_independent_confirmation",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58/measurement.json",
+      "seconds": 81.77453612501267,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "repeated_cost_comparison",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-1/measurement.json",
+      "seconds": 47.20010504199308,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "repeated_cost_comparison",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-1/measurement.json",
+      "seconds": 50.088967207993846,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "repeated_cost_comparison",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-baseline-seed0-t0.01-runcost-2/measurement.json",
+      "seconds": 46.92934562500159,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "repeated_cost_comparison",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/filesystem-cost-current-20261110/typography-current-seed0-t0.01-runcost-2/measurement.json",
+      "seconds": 50.20010354100668,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "normal_profile_consumption_complete",
+      "measurement": "benchmarks/sampling/validation/profile-consumption.json",
+      "seconds": 51.747952666992205,
+      "scope": "complete_invocation"
+    },
+    {
+      "role": "earlier_consumption_body",
+      "measurement": "benchmarks/sampling/validation/profile-consumption-initial.json",
+      "seconds": 50.344059499999275,
+      "scope": "body_only_startup_or_preflight_unknown"
+    },
+    {
+      "role": "actual_live_qa_validation_body",
+      "measurement": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/live-filesystem-followup-b0/measurement.json",
+      "seconds": 52.42033666699717,
+      "scope": "body_only_startup_or_preflight_unknown"
+    },
+    {
+      "role": "earlier_complete_consumption_epoch",
+      "measurement": "benchmarks/sampling/validation/profile-consumption-complete-epoch.json",
+      "seconds": 51.293927958002314,
+      "scope": "complete_invocation"
+    }
+  ],
+  "limits": [
+    "Sum of retained automatic job latencies, not elapsed session wall or GPU active time; other host work/cache uncontrolled",
+    "Two historical body-only checks omit startup/preflight; unknown overhead is not zero",
+    "Fixture authorship, review-sheet/analysis time and human review are unmeasured",
+    "Original 25-job matrix and earlier engineering validation epochs are additional costs retained separately; no amortized speedup claim"
+  ],
+  "original_matrix_job_body_seconds_separately": 955.51,
+  "normal_profile_complete_invocation_seconds": 51.747952666992205
+}

@@ -665,42 +665,42 @@ def craft_questions() -> dict[str, dict[str, Any]]:
         "form_finish": (
             "Are the candidate's contours and joins at least as deliberately finished as the reference's?",
             "Contours and joins have comparable or better control for each object's intended treatment.",
-            "The candidate has visibly accidental joins, malformed contours or unfinished intersections compared with the reference.",
+            "The candidate has less controlled joins, contours or intersections than the reference for their intended treatments.",
         ),
         "surface_finish": (
             "Is the candidate's surface execution at least as controlled as the reference's for their respective intended appearances?",
             "Each treatment has intentional surface transitions; muted and glossy finishes can be equally well executed.",
-            "The candidate has uncontrolled surface artifacts or poorly resolved shading compared with the reference.",
+            "Surface artifacts or unresolved shading reduce the candidate below the execution level demonstrated by the reference.",
         ),
         "detail_finish": (
             "Is the candidate's visible detail resolved at least as carefully as the reference's?",
             "The candidate's own details are deliberate and resolved at the demonstrated execution level, including simpler designs.",
-            "The candidate's details look crude, damaged, merged or unfinished relative to the demonstrated execution level.",
+            "The candidate's details are less resolved than the reference's: crude, damaged, merged or unfinished below that demonstrated execution level.",
         ),
         "edge_refinement": (
             "Are the candidate's designed edge transitions as resolved as the reference's for their intended treatments?",
             "Sharp, folded, cut, rounded or beveled edges each have deliberate consistent transitions; equality meets the floor.",
-            "Unintended pinching, crude bevel ends, abrupt thickness changes or unfinished rims weaken the candidate.",
+            "Pinching, bevel ends, thickness changes or rims are less resolved in the candidate than in the reference for their intended treatments.",
         ),
         "material_construction": (
             "Is the candidate's intended material realized with execution control comparable to the reference's intended material?",
             "Thickness, surface response and transitions convincingly form the stated material, including deliberately matte or restrained materials.",
-            "The candidate looks like an unrefined generic extrusion or has inconsistent material behavior for its intended treatment.",
+            "The candidate's thickness, surface response or transitions realize its intended material less convincingly than the reference realizes its own.",
         ),
         "proportion_control": (
             "Are the candidate's proportions as deliberately resolved as the reference's?",
             "Relative masses, spacing and negative space look intentional and balanced at the demonstrated execution level.",
-            "The candidate has accidental spacing, clumsy relative masses or unresolved negative spaces.",
+            "The candidate's spacing, relative masses or negative spaces are less deliberately controlled than the reference's.",
         ),
         "visual_hierarchy": (
             "Does the candidate organize its primary and supporting forms with control comparable to the reference?",
             "The core motif dominates clearly and supporting detail serves it; a simple design can fully meet this standard.",
-            "Competing forms, weak focal structure or incidental detail obscure the core motif.",
+            "The candidate's core motif is less clearly organized than the reference's because of competing forms, weak focal structure or incidental detail.",
         ),
         "lighting_control": (
             "Does the candidate's lighting articulate its intended form with control comparable to the reference?",
             "Light reveals intended depth and material without obscuring important shapes, in either a restrained or high-contrast treatment.",
-            "Flat, confusing, clipped or misplaced shading obscures the form or destroys the intended material response.",
+            "The candidate's light reveals its intended form and material less clearly than the reference's, through confusing, clipped or misplaced shading.",
         ),
     }
     return {

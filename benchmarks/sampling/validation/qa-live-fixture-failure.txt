@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments _____
+
+tmp_path = PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pytest-370/test_live_m5_finalization_reta0')
+
+    @pytest.mark.live
+    def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_path):
+        """Explicit on-machine final/export/live-provider check; no quality approval implied."""
+        import hashlib
+        import os
+        import time
+
+        from logo_maker import export, pipeline
+        from logo_maker.blender.execution import verify_denoiser_log
+        from logo_maker.jev.client import JevClient
+        from logo_maker.paths import LogoDir, concept_slug
+>       from scripts.validate_sampling import fixture
+E       ModuleNotFoundError: No module named 'scripts'
+
+tests/test_sampling_render.py:719: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments
+1 failed, 22 deselected in 0.15s

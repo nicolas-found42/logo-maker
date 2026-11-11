@@ -249,6 +249,8 @@ def test_screen_previews_rank_and_keep(tmp_path):
     brief = qualified_brief(tmp_path / "a.png")
     for cid in previews:
         review_inputs(logo, cid, brief)
+    for path in previews.values():
+        attest(path.parent, "preview")
     finalists = screen_previews(logo, brief, previews, client, keep=2)
     assert finalists == ["m|medallion|enamel", "m|embossed_plate|clay"]
     doc = json.loads((logo.ideation / "finalists.json").read_text())

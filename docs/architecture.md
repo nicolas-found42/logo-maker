@@ -1,15 +1,18 @@
 # Architecture
 
-logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the work:
+logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the
+work:
 
 - **The agent** (guided by `skills/logo-maker/SKILL.md`) writes the brief, drafts metaphors, and
   authors a motif and a scene for each shortlisted concept.
-- **Jev** (TypeSafe's System One model) answers typed questions about text and images. It never decides;
+- **Jev** (TypeSafe's System One model) answers typed questions about text and images. It never
+  decides;
   code turns its answers into actions through truth tables.
 - **The tool** does everything else: builds the concept pool, runs the judging chain, renders, runs
   the QA loop, exports, and logs.
 
-No stage generates images with an AI model. Every pixel comes from geometry, fonts, materials, and renderers.
+No stage generates images with an AI model. Every pixel comes from geometry, fonts, materials, and
+renderers.
 
 ## Pipeline
 
@@ -153,9 +156,11 @@ review; it never substitutes for essential model or rendering-policy evidence.
 and every 3D relief come from it, so flat and 3D always match.
 
 - `viewBox="0 0 1000 1000"`, y down. The mark fits inside a centered circle of radius 470.
-- Only `<path>` elements, absolute coordinates, no transforms, no strokes (strokes are outlined first).
+- Only `<path>` elements, absolute coordinates, no transforms, no strokes (strokes are outlined
+  first).
 - Each path has a unique `id`, a `fill="#RRGGBB"`, and optional attributes:
-  - `data-role`: palette role (`primary`, `secondary`, `accent`, `highlight`, `ink`); the mono export
+  - `data-role`: palette role (`primary`, `secondary`, `accent`, `highlight`, `ink`); the mono
+export
     recolors every role to one ink.
   - `data-height`: relief height multiplier for 3D (default `1`).
   - `data-layer`: integer stacking order for layered treatments (default `0`).
@@ -237,17 +242,143 @@ verified GPU tracing/denoising and are rejected operationally at the public rend
 GPU contract (#4, shared with #5): the actual bpy process refreshes devices, disables all CPU
 tracing selections, selects one available Metal device, and forces the Cycles Metal device override.
 MetalRT stays `AUTO`. GPU denoising is a separate requirement: support/request flags alone do not
-prove execution. Each render must retain effective OIDN Metal runtime evidence or fail operationally;
-CPU/hybrid tracing and CPU denoising are never accepted. Normal CPU scene construction, synchronization,
-Metal submission, image analysis and file I/O remain permitted. Execution verification is independent
+prove execution. Each render must retain effective OIDN Metal runtime evidence or fail
+operationally;
+CPU/hybrid tracing and CPU denoising are never accepted. Normal CPU scene construction,
+synchronization,
+Metal submission, image analysis and file I/O remain permitted. Execution verification is
+independent
 of craftsmanship, fidelity, brief fit and aesthetic preference.
-First runs compile Metal kernels (1.5-5 min, no output); renders time out at 900 s and retry once
-on a crash.
+First runs compile Metal kernels (1.5-5 min, no output); a builder attempt is limited to 900 s
+and the remaining job deadline. Crash retries consume the same attempt and wall-clock budget.
 Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
 Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
 timing scope; #5 can consume it without changing numeric defaults.
 The alternate renderer modules remain available for development, but cannot supply production
 eligibility under the GPU-only contract until they have equivalent independent execution evidence.
+
+### Bounded sampling (#5)
+
+The sampling policy is a separate technical contract, not a craftsmanship gate. See
+[automatic-sampling.md](automatic-sampling.md) for the profile schema and qualification protocol.
+`[render]` exposes `adaptive`, `adaptive_threshold`, `min_samples`, `max_samples`, and `seed`.
+Explicit values (including false and zero) are retained in compiled `quality.overrides` and never
+rewritten by QA. Zero minimum delegates to Cycles; zero threshold means Cycles automatic threshold,
+not zero error. `meta.seed` supplies the deterministic seed unless explicitly overridden.
+
+`[sampling]` exposes `profile` (optional JSON path), `diagnosis` (optional JSON path),
+`wall_seconds` (default 1800), `attempt_limit` (default 2, maximum 4), and
+`diagnostic_bytes` (default 2147483648, maximum 2147483648 per attempt).
+The retained 4096 / 0.01 comparator has a scoped owner-reviewed M5 Pro final profile in
+`benchmarks/sampling/profiles/apple-m5-pro-final.json`; no faster numeric default is enabled.
+Missing/stale/out-of-scope profiles retain the
+4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
+A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,
+Python and image/geometry library versions plus the project lockfile,
+stage, resolution, render configuration and dependency scope. Owner-reviewed controls and held-out
+cases are required. Profile timing distributions exclude seed; image/diagnosis identity includes
+seed.
+No image result is reused solely on an mtime or a machine timing key. Custom `bpy` components
+remain outside profile qualification and image reuse until their arbitrary file dependencies
+can be inventoried; direct inspection renders retain an unresolved state.
+
+`sampling.decide` consumes an image-bound diagnosis naming the reviewed diagnostic region
+plus that region’s sample statistics. Saturation elsewhere cannot select a cap repair. Generic edge
+QA
+alone never increases sampling. Verified cap-limited stochastic noise can increase only the cap;
+verified below-cap noise can tighten only the threshold. Structural, typography, resolution,
+filtering, alpha and denoiser-detail defects return `refinement_needed` for #3; missing/uncertain
+sampling evidence returns `unknown`. Overrides that prevent a proposed repair return
+`override_conflict`. Every optional comparison needs remaining attempts and estimated whole-job
+cost; otherwise retain the prior artifact and report `attempt_limit` or `time_limit`.
+
+Each attempt runs through #4's `render_verified` boundary. Optional bounded multilayer EXR retains
+Combined, noisy image and normalized Debug Sample Count subimages. Summaries decode counts by
+multiplying by the cap, report foreground, dark, alpha-boundary and spatial difficult regions, and
+retain missing diagnostics as unknown. Summaries are diagnostics, never an automated quality
+verdict.
+The final passes through the real 4000→2000 Lanczos path and optional alpha cleanup before
+publication.
+A failed/device-unverified/over-budget attempt does not replace prior output.
+Its failure report uses a separate `.sampling.failed-<id>.json` when an active
+published sampling record already exists; normal freshness/export validation can
+still use that prior record.
+`RenderResult.publication` reports committed publication and completed/pending cleanup;
+the retained journal identifies backup/quarantine paths when cleanup is pending.
+`RenderResult.sampling`
+points to a job record with full input/settings/image keys, delivered hash, attempts, total host
+wall
+time, execution/denoiser evidence and distinct profile/noise/cap/time/memory/device/quality
+outcomes.
+Cold/kernel state remains unknown unless observed. Calibration and confirmations are part of cost,
+not a free prelude. Heavy CPU host stages (compilation and image processing/diagnostics) run
+in owned workers, interrupted at the remaining deadline, including startup and cleanup.
+Workers may perform required CPU host work; GPU tracing and denoising still use #4.
+Asset-use records return as typed `RenderResult.assets` and in the sampling sidecar.
+An arbitrary `on_asset`
+callback conflicts with bounded rendering: its in-process effects cannot be preserved in
+a killable worker. Rendering reports that conflict before invoking it. Direct `scene.compile`
+still supports callbacks for caller-managed work. Light
+orchestration checks the shared deadline between operations. Native render work is interrupted
+at the remaining deadline.
+Configuration loading and cached-image/dependency validation also run in owned workers.
+Profile/control JSON loading and qualification evidence reads use the same owned-worker
+deadline. The worker returns effective settings with explicit overrides preserved, the
+qualification result, diagnosis and hashes of the control bytes it loaded. A timeout
+retains prior output and cannot start a GPU attempt.
+Configuration uses the caller's deadline or the default 1800 s bootstrap ceiling until
+its settings are known; the scene deadline then includes that elapsed setup time.
+`render_many` has no compilation prepass outside those concept budgets. Host-phase timings
+and the execution paths of interrupted attempts remain available in the sampling record.
+Finalize binds its Jev client to the shared budget. Image loading/encoding and provider
+transport (including retries, Retry-After sleeps and response decoding) use owned CPU
+workers. The client retains request numbering, logging ownership and aggregate usage
+in the parent process. Concurrent requests and split question sets share one deadline.
+The view forwards read-only model/endpoint identity from the original client, including
+after rebinding, so #3 can invalidate creative/comparison caches when either changes.
+Sent image assets are hash-verified and atomically stored in an owned worker. Budgeted
+requests record answers/usage before this IO, with `assets_status=pending` until that
+worker completes. A later timeout therefore does not erase an already received charge;
+an interrupted provider call can still have unknown completion/usage.
+The final's CPU alpha/margin/edge/color checks also run in an owned worker; a blocked
+image read raises an operational time limit and cannot replace the prior winner.
+Custom clients used for bounded finalization must explicitly support budget binding;
+unsupported clients fail with a budget conflict before making a judgment request.
+The shared host-operation interface is `host.run`; render keeps its existing private
+alias for stacked callers. Default finalize timing starts before input/client setup,
+and a supplied exhausted deadline is rejected before loading finalists.
+Filesystem publication uses an owned worker and a journal written before any target
+rename. Staging includes provenance; three seconds of the original deadline are
+reserved for owned recovery after interruption. Recovery restores prior paths before
+cleanup. Committed sets report cleanup separately; interrupted cleanup retains its
+journal and prior bytes for later maintenance instead of blocking the caller.
+Parent input/QA bookkeeping and provider log publication remain under review while
+their blocking operations move to the shared host boundary.
+
+Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
+Standalone export starts its own explicit budget and retains the final's sampling provenance in the
+export manifest. Unqualified sampling returns an authoring/review stop and cannot advance to winner.
+The owned export worker loads and hashes sampling provenance, checks the delivered final
+image hash against a private byte snapshot, and builds the hero from that same snapshot.
+A concurrent replacement of `final.png` cannot change the bytes after verification.
+Pipeline export pins the exact qualified sampling-record hash through currency
+validation and into the export worker. A missing/replaced/unqualified snapshot
+fails before publication; legacy unattested exports remain low-level inspection only.
+A blocked provenance read therefore consumes
+the same deadline as image and adapter work, before export publication.
+Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a
+technically
+accepted or capped image. A capped image is never described as proven convergence.
+
+Bounded export on macOS/Linux starts the worker in its own process session. One second
+of the remaining budget is reserved for termination/reaping: SIGTERM reaches Node/Chrome
+launcher cleanup hooks, followed by SIGKILL for remaining session members. Insufficient
+cleanup reserve rejects the attempt before launch. Arbitrary uncooperative processes that
+escape that session are outside the supported adapter contract.
+macOS can report EPERM for a group containing only exited, unreaped processes. On this
+error, bounded `/bin/ps` inspection checks only group IDs and process states. An empty or
+all-zombie group has stopped work; a live member or failed inspection is an explicit
+unconfirmed-cleanup failure. Permission errors are never silently treated as success.
 
 ### Qualification fixtures
 
@@ -256,7 +387,8 @@ retained image, flat mark and recipe dependency to a SHA-256, origin and permitt
 Historical CPU-rendered originals, the 256 px renderer golden, the fresh 2000 px reconstruction,
 and new GPU replays retain separate identities. Replays do not replace original bytes.
 The verifier rejects missing/changed assets and reports owner labels per dimension: reproduction
-fidelity, craftsmanship, brief fit and preference. Unknown/missing labels remain unknown. No aggregate
+fidelity, craftsmanship, brief fit and preference. Unknown/missing labels remain unknown. No
+aggregate
 quality winner is inferred from SSIM, gloss or hardware. Transfer qualification needs owner-reviewed
 different-material successes and held-out briefs, plus rejected Skill Swap controls; missing cases
 leave qualification open. The small SSIM check covers renderer regression only.
@@ -280,6 +412,8 @@ and lighting. Own-brief fit additionally requires a developed brand-specific ide
 visual synthesis, constraint fidelity and communicative clarity: merely depicting a category
 icon is insufficient. Every criterion is essential; appeal cannot compensate for one failure.
 Preference ranks only eligible candidates.
+Both true and false craft criteria compare execution against the demonstrated reference floor,
+including its imperfections. An absolute defect judgment cannot silently replace that relative task.
 Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
 position cannot establish eligibility. Literal concept match receives the candidate's declared
 concept. Own-brief fit receives the frozen business context, communication priority and identity
@@ -338,10 +472,24 @@ without using their alpha as a second mask; translucency must not change during 
 
 ### Adapters
 
-Every external tool is an `Adapter` (`logo_maker/adapters/__init__.py`): name, stage, license, one-line
+Every external tool is an `Adapter` (`logo_maker/adapters/__init__.py`): name, stage, license,
+one-line
 summary, the callable that runs it, a health check, and the exact fix command. See
-[adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the environment
+[adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the
+environment
 checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns one row per check:
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
 Every check is required: there are no optional tools.
+
+### Combined qualification and bounded eligibility
+
+Finalization shares one deadline across frozen-input validation, GPU rendering, sampling QA,
+independent visual eligibility, preference ranking and recoverable winner publication. A lone
+QA survivor still needs current craft, fit, technical and owner-feedback proof. Sampling profile
+qualification cannot substitute for visual proof; visual approval cannot qualify sampling.
+Export pins both the exact sampling record and the winner's exact visual/input proof through
+staging and publication. A provider error, stale proof or overall rejection preserves prior
+winner, exports and same-brand floor. CPU image preparation, hashing and proof checks execute
+in owned workers under that same deadline. Failed provider envelopes and missing telemetry use
+the bounded client and RunLog path; they retain unknown costs, not estimated zero charges.
