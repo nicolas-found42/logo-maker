@@ -695,3 +695,34 @@ def test_mcp_plan_returns_named_authoring_work(tmp_path):
     result = anyio.run(mcp_server.logo_plan, str(tmp_path))
     assert result["status"] == "authoring_needed"
     assert str(tmp_path / "brief-evidence.toml") in result["files"]
+
+
+def test_direction_review_excludes_craft_style_but_keeps_inspiration_roles(tmp_path):
+    from PIL import Image
+
+    logo = business_brief(tmp_path)
+    evidence_record(logo)
+    Image.new("RGB", (32, 32), "green").save(logo.inputs / "reference.png")
+    with logo.brief.open("a") as handle:
+        for role in ("craft", "style", "geometry"):
+            handle.write(
+                f'\n[[references]]\npath="inputs/reference.png"\nuse="{role}"\nnote="{role} context"\n'
+            )
+
+    class RoleJudge(BriefJudge):
+        def ask(self, state, questions, *, label):
+            if label == "brief-direction-preservation":
+                assert {ref["use"] for ref in state["design_direction"]["references"]} == {
+                    "style",
+                    "geometry",
+                }
+                assert "craft context" not in json.dumps(state)
+            return super().ask(state, questions, label=label)
+
+    review = pipeline.review_brief(logo, RoleJudge())
+    assert review["status"] == "pass"
+    assert {r["use"] for r in review["state"]["design_direction"]["references"]} == {
+        "craft",
+        "style",
+        "geometry",
+    }

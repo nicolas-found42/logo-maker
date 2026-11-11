@@ -98,7 +98,9 @@ to that source with established authority. Designer proposals cannot prove sourc
 an owner source requires owner-origin records. Named priority values include their explicit scope
 meanings. Every source must pass; no average hides a missing instruction or open choice.
 Direction-preservation receives business, specified direction, its explicit open choices and the
-requirements. These are separate requests from the remaining brief checks, using the same
+requirements. Craft-reference notes are excluded from that direction payload: they establish an
+execution floor, so their lettering, material or finish cannot become the candidate's mandate.
+Style and geometry reference directions remain present. These are separate requests from the remaining brief checks, using the same
 centralized questions and thresholds. Narrow states keep business prose and archival metadata
 from supplying accidental evidence for a different judgment. The freeze retains their combined
 answers and complete underlying source/input revisions; each exact request remains independently

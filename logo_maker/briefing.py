@@ -590,9 +590,17 @@ def review(logo: LogoDir, client: JevAsker | None = None, *, revision_reason: st
                 )
             )
         if "mandates" in questions:
+            direction = dict(state["design_direction"])
+            references = [r for r in direction.pop("references", []) if r["use"] != "craft"]
+            if references:
+                direction["references"] = references
             jobs.append(
                 (
-                    {key: state[key] for key in ("business", "design_direction", "requirements")},
+                    {
+                        "business": state["business"],
+                        "design_direction": direction,
+                        "requirements": state["requirements"],
+                    },
                     {"mandates": questions["mandates"]},
                     "brief-direction-preservation",
                 )
