@@ -361,38 +361,16 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
     assert not render.artifact_current(tmp_path, "final", check_machine=False)
 
 
-def test_deadline_during_publication_keeps_prior_final(tmp_path, monkeypatch):
-    compiled(tmp_path)
-    clock = [0.0]
-    budget = Budget(wall_seconds=10, clock=lambda: clock[0])
-    prior = tmp_path / "final.png"
-    prior.write_bytes(b"approved prior image")
-    monkeypatch.setattr(render, "machine_context", lambda *a: {})
-
-    def builder(path, *args, budget):
-        budget.begin_attempt()
-        spec = json.loads(path.read_text())
-        folder = Path(spec["output_dir"])
-        Image.new("RGBA", (64, 64), (1, 2, 3, 255)).save(folder / "final.png")
-        (folder / "final.execution.json").write_text('{"status":"verified"}')
-
-    monkeypatch.setattr(render, "_run_builder", builder)
-    copy = render.shutil.copyfile
-
-    def slow_copy(src, dst, *args, **kwargs):
-        result = copy(src, dst, *args, **kwargs)
-        clock[0] = 11
-        return result
-
-    monkeypatch.setattr(render.shutil, "copyfile", slow_copy)
-    with pytest.raises(RuntimeError, match="time_limit"):
-        render.render(tmp_path, "final", budget=budget)
-    assert prior.read_bytes() == b"approved prior image"
-
-
 @pytest.mark.parametrize(
     "failure",
-    ["provider_retry", "qa_image_read", "image_encode", "tiny_image_read", "asset_corrupt"],
+    [
+        "provider_retry",
+        "provider_log",
+        "qa_image_read",
+        "image_encode",
+        "tiny_image_read",
+        "asset_corrupt",
+    ],
 )
 def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
     tmp_path, monkeypatch, failure
@@ -480,6 +458,10 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
                 writer = threading.Thread(target=release_old_unbounded_image_read, daemon=True)
                 writer.start()
                 writers.append(writer)
+            if first and failure == "provider_log":
+                logs = logo.qa / "jev"
+                logs.mkdir(parents=True, exist_ok=True)
+                os.mkfifo(logs / "answers.jsonl")
             self.send_response(429 if retry else 200)
             if retry:
                 self.send_header("Retry-After", "10")
@@ -550,8 +532,13 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(
             )
         else:
             assert seen.is_set(), "test did not reach the provider"
-            if failure not in {"provider_retry", "asset_corrupt"}:
+            if failure not in {"provider_retry", "provider_log", "asset_corrupt"}:
                 assert image_read_started.is_set(), "test did not reach the blocked image read"
+        if failure == "provider_log":
+            from logo_maker.runlog import runlog
+
+            assert runlog(logo.run_json).data["jev"]["requests"] == 1
+            assert client._seq == 2
         assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
         assert prior.read_text() == '{"winner":"approved prior"}'
     finally:
@@ -580,6 +567,10 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
     from logo_maker.paths import LogoDir
 
     logo = LogoDir(tmp_path / "logo")
+    logo.brief.parent.mkdir(parents=True, exist_ok=True)
+    logo.brief.write_text(
+        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+    )
     (logo.ideation / "finalists.json").write_text('{"ids":["a|b|c"]}')
     prior = logo.ideation / "winner.json"
     prior.write_text('{"winner":"approved-prior"}')
@@ -828,3 +819,39 @@ def test_live_m5_finalization_retains_gpu_exports_and_budgeted_judgments(tmp_pat
         "owner_acceptance": "not inferred",
     }
     (root / "measurement.json").write_text(json.dumps(report, indent=2) + "\n")
+
+
+@pytest.mark.parametrize("blocked", ["brief", "finalists", "runlog"])
+def test_finalize_blocked_input_terminates_and_keeps_winner(tmp_path, blocked):
+    import os
+    import time
+
+    from logo_maker import pipeline
+    from logo_maker.paths import LogoDir
+    from logo_maker.sampling import SamplingLimit
+
+    logo = LogoDir(tmp_path / "logo")
+    pipeline.new(logo, "Test")
+    logo.brief.write_text(
+        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+    )
+    (logo.ideation / "finalists.json").write_text('{"ids":[]}')
+    winner_path = logo.ideation / "winner.json"
+    winner_path.write_text('{"winner":"approved prior"}')
+    paths = {
+        "brief": logo.brief,
+        "finalists": logo.ideation / "finalists.json",
+        "runlog": logo.run_json,
+    }
+    source = paths[blocked]
+    source.unlink()
+    os.mkfifo(source)
+    # Avoid an already cached RunLog masking the actual blocked initial read.
+    from logo_maker import runlog as log_module
+
+    log_module._OPEN.pop(logo.run_json.resolve(), None)
+    started = time.monotonic()
+    with pytest.raises(SamplingLimit, match="time_limit"):
+        pipeline.finalize(logo, object(), budget=Budget(wall_seconds=5))
+    assert time.monotonic() - started < 7
+    assert winner_path.read_text() == '{"winner":"approved prior"}'

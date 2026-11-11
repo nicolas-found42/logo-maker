@@ -210,7 +210,12 @@ class JevClient:
     """Sends typed questions to jev and logs every request under the logo's qa/ dir."""
 
     def __init__(
-        self, logo: LogoDir | None = None, *, model: str | None = None, concurrency: int = 16
+        self,
+        logo: LogoDir | None = None,
+        *,
+        model: str | None = None,
+        concurrency: int = 16,
+        budget: Budget | None = None,
     ) -> None:
         if os.environ.get("TYPESAFE_API_KEY"):
             self.url = TYPESAFE_URL
@@ -230,8 +235,12 @@ class JevClient:
         self.logo = logo
         self.concurrency = concurrency
         self._lock = threading.Lock()
-        self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
-        self._seq = self._first_seq()
+        self._http = httpx.Client(timeout=REQUEST_TIMEOUT) if budget is None else None
+        self._seq = (
+            self._worker({"operation": "first_seq", "logo": str(logo.root)}, budget)["seq"]
+            if budget is not None and logo is not None
+            else self._first_seq()
+        )
 
     def with_budget(self, budget: Budget) -> BudgetedJevClient:
         """A view sharing this client's sequence/log ownership and one job deadline."""
@@ -307,6 +316,8 @@ class JevClient:
                 },
                 budget,
             )
+        if self._http is None:
+            self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
         headers = {"Authorization": f"Bearer {self._key}"}
         if has_images:
             headers["TypeSafe-Danger-Zone-Images"] = "true"
@@ -369,14 +380,34 @@ class JevClient:
         response: dict[str, Any],
         *,
         assets_status: str = "ready",
+        budget: Budget | None = None,
     ) -> Path:
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
-        from logo_maker.runlog import runlog
 
-        with self._lock:
+        if budget is None:
+            self._lock.acquire()
+        elif not self._lock.acquire(timeout=budget.remaining):
+            from logo_maker.sampling import SamplingLimit
+
+            raise SamplingLimit("time_limit: Jev request log lock deadline exhausted")
+        try:
             seq = self._seq
             self._seq += 1
+            return self._publish_log(
+                seq, label, state, questions, stripped_assets, response, assets_status, budget
+            )
+        finally:
+            self._lock.release()
+
+    def _publish_log(
+        self, seq, label, state, questions, stripped_assets, response, assets_status, budget
+    ):
+        from logo_maker.runlog import runlog
+
+        if self.logo is None:
+            raise JevError("logging needs a LogoDir client")
+
         record = {
             "seq": seq,
             "label": label,
@@ -388,10 +419,8 @@ class JevClient:
             "answers": response.get("answers", {}),
             "usage": response.get("_usage", {}),
         }
-        req_dir = self.logo.qa / "jev" / "requests"
-        req_dir.mkdir(parents=True, exist_ok=True)
+        req_dir = self.logo.root / "qa" / "jev" / "requests"
         request_path = req_dir / f"{seq:04d}-{_slug_label(label)}.json"
-        request_path.write_text(json.dumps(record, indent=2))
         line = {
             "seq": seq,
             "label": label,
@@ -400,9 +429,26 @@ class JevClient:
             "usage": response.get("_usage", {}),
             "answers": response.get("answers", {}),
         }
-        with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
-            fh.write(json.dumps(line, sort_keys=True) + "\n")
-        runlog(self.logo.run_json).jev_usage(response.get("_usage", {}))
+        log = runlog(self.logo.run_json, budget=budget)
+        # Account for a received charge in the parent before persistence can time out.
+        # The worker owns only file IO, never the client's sequence/lock/HTTP state.
+        if budget is not None:
+            log.jev_usage(response.get("_usage", {}), budget=budget)
+            self._worker(
+                {
+                    "operation": "publish_log",
+                    "path": str(request_path),
+                    "record": record,
+                    "line": line,
+                },
+                budget,
+            )
+        else:
+            req_dir.mkdir(parents=True, exist_ok=True)
+            request_path.write_text(json.dumps(record, indent=2))
+            with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
+                fh.write(json.dumps(line, sort_keys=True) + "\n")
+            log.jev_usage(response.get("_usage", {}))
         return request_path
 
     # -- public API -------------------------------------------------------
@@ -414,6 +460,10 @@ class JevClient:
         pending: dict[str, Any] = {}
         if budget is not None:
             budget.check()
+            if self.logo is not None:
+                from logo_maker.runlog import runlog
+
+                runlog(self.logo.run_json, budget=budget)
         ser_state = self._serialize(state, assets, pending, defer_images=budget is not None)
         ser_questions = self._serialize(questions, assets, pending, defer_images=budget is not None)
         encoded = (
@@ -454,6 +504,7 @@ class JevClient:
                     _asset_metadata(assets),
                     raw,
                     assets_status="pending",
+                    budget=budget,
                 )
                 self._worker(
                     {

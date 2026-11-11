@@ -132,7 +132,8 @@ def qa_judgments(
     budget: Budget | None = None,
 ) -> dict[str, Verdict]:
     """QA one final render (makes the 32 px version itself); returns per-check verdicts."""
-    tiny_path = logo.qa / f"{concept_slug(concept_id)}-tiny256.png"
+    qa_dir = logo.root / "qa" if budget is not None else logo.qa
+    tiny_path = qa_dir / f"{concept_slug(concept_id)}-tiny256.png"
     tiny_version(final_png, tiny_path, budget=budget)
     state = _image_state(
         brief, {"concept_id": concept_id, "render": Image(final_png), "tiny": Image(tiny_path)}
@@ -199,6 +200,13 @@ def final_tournament(
     logo: LogoDir, brief: Brief, finalists: dict[str, Path], client: JevAsker
 ) -> str:
     """Full round-robin over final renders, both orders; writes `ideation/winner.json`."""
+    record = final_tournament_record(brief, finalists, client)
+    (logo.ideation / "winner.json").write_text(json.dumps(record, indent=2, sort_keys=True))
+    return record["winner"]
+
+
+def final_tournament_record(brief: Brief, finalists: dict[str, Path], client: JevAsker) -> dict:
+    """Choose without publishing; bounded callers commit winner and run state together."""
     slugs = {cid: concept_slug(cid) for cid in finalists}
     images = {slugs[cid]: Image(p) for cid, p in finalists.items()}
     descs = {slugs[cid]: f"The final render of {cid}." for cid in finalists}
@@ -214,20 +222,13 @@ def final_tournament(
             f"; tied with {', '.join(s for s in tied if s != winner_slug)} on wins, "
             "decided by deterministic slug ordering"
         )
-    (logo.ideation / "winner.json").write_text(
-        json.dumps(
-            {
-                "winner": by_slug[winner_slug],
-                "slug": winner_slug,
-                "reason": reason,
-                "wins": wins,
-                "matches": rows,
-            },
-            indent=2,
-            sort_keys=True,
-        )
-    )
-    return by_slug[winner_slug]
+    return {
+        "winner": by_slug[winner_slug],
+        "slug": winner_slug,
+        "reason": reason,
+        "wins": wins,
+        "matches": rows,
+    }
 
 
 def beats_floor(

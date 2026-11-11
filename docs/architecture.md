@@ -206,6 +206,8 @@ verdict.
 The final passes through the real 4000→2000 Lanczos path and optional alpha cleanup before
 publication.
 A failed/device-unverified/over-budget attempt does not replace prior output.
+`RenderResult.publication` reports committed publication and completed/pending cleanup;
+the retained journal identifies backup/quarantine paths when cleanup is pending.
 `RenderResult.sampling`
 points to a job record with full input/settings/image keys, delivered hash, attempts, total host
 wall
@@ -248,14 +250,21 @@ unsupported clients fail with a budget conflict before making a judgment request
 The shared host-operation interface is `host.run`; render keeps its existing private
 alias for stacked callers. Default finalize timing starts before input/client setup,
 and a supplied exhausted deadline is rejected before loading finalists.
-Light publication/orchestration, QA bookkeeping and provider log publication remain
-cooperative and are not yet qualified as a hard whole-job bound.
+Filesystem publication uses an owned worker and a journal written before any target
+rename. Staging includes provenance; three seconds of the original deadline are
+reserved for owned recovery after interruption. Recovery restores prior paths before
+cleanup. Committed sets report cleanup separately; interrupted cleanup retains its
+journal and prior bytes for later maintenance instead of blocking the caller.
+Parent input/QA bookkeeping and provider log publication remain under review while
+their blocking operations move to the shared host boundary.
 
 Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
 Standalone export starts its own explicit budget and retains the final's sampling provenance in the
 export manifest. Unqualified sampling returns an authoring/review stop and cannot advance to winner.
 The owned export worker loads and hashes sampling provenance, checks the delivered final
-image hash, and builds the export manifest. A blocked provenance read therefore consumes
+image hash against a private byte snapshot, and builds the hero from that same snapshot.
+A concurrent replacement of `final.png` cannot change the bytes after verification.
+A blocked provenance read therefore consumes
 the same deadline as image and adapter work, before export publication.
 Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a
 technically

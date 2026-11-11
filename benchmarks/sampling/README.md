@@ -2,8 +2,11 @@
 
 This is technical evidence for [#5](https://github.com/nicolas-found42/logo-maker/issues/5),
 not a catalog/default design reference. No qualified replacement profile is shipped.
-The owner rejected 0.02 detail in the shown typography/glass comparisons. Positive and
-held-out qualification, and the unrated cap-16 control, remain open. Both Chief finishes retain
+The owner rejected 0.02 detail in the shown typography/glass comparisons. Follow-up
+owner review accepts the shown 0.01 typography/material controls and cap-16
+typography control; cap-16 is therefore not a rejected control. Three further 0.01 glass
+seed repetitions were accepted technically. Fresh held-out qualification and a scoped
+profile remain open. Both Chief finishes retain
 their existing positive craftsmanship labels;
 these synthetic fixtures do not redefine that standard.
 
@@ -404,3 +407,36 @@ finalize retained the prior winner and stopped at sampling_review_needed. See
 Issue #3 implementation, not a rerun of every later root file. The earlier root52.03s live
 job and47.19/49.38 pair remain explicitly tied to measured core318. No new GPU
 policy, sampling control or owner approval follows from forwarding judge metadata.
+
+## Owner follow-up and additional glass studies
+
+[Owner follow-up](validation/owner-review-followup.json) records actual answers with
+figure/source hashes. The owner accepts the technical sampling detail of the left
+4096 / 0.01 typography control **and** the cap-16 control. The latter is an accepted
+low-sample example, not a negative control. The earlier 0.02 detail-loss rejection
+remains unchanged. The shown matte, metal and different optics/glass 0.01 controls were
+also accepted technically. These ratings do not imply craftsmanship, style preference
+or approval of unshown briefs.
+
+The owner requested three further glass samples. Independent seeds **44, 45, 46** used
+archived checkpoint `8261315`, unchanged 4096 / 0.01 and the production 4000→2000/full-export
+path. All native runtime and delivered-image hashes and **93 export hashes** were checked;
+complete invocations were **64.14 / 63.16 / 63.50 s** (unknown cache/other workload; offline
+checks also ran on the host). These are additional qualification cost, not a speedup trial.
+[Retained job records](validation/glass-independent-20261110.json) bind the original EXRs,
+images and sources under the persistent local bundle. The owner answered “they look good”
+to their technical-detail question, then requested different shapes and lighting.
+These jobs validate checkpoint 8261315, not the uncommitted deadline increment.
+
+Three separately authored glass studies use an orbit/three-point rig, split prism/raking
+rig and clover/top-flat rig. Their recipes and outputs are retained under
+`/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/`.
+Geometry and lighting intentionally differ for the owner's requested studies; they are
+not one-control sampling-repair comparisons. Their owner review remains pending.
+
+The first auxiliary glass verification used a compound claim with incomplete dimensional
+evidence and returned a low-confidence contradiction (0.61 contradicts, confidence 0.42).
+The raw image dimensions, recorded floating-point controls and source/seed/export checks
+were then supplied explicitly with separate claims. All three limited claims were verified
+without contradiction; [verification](validation/glass-independent-jev.json). This is
+factual verification, not visual approval or broad patch acceptance.

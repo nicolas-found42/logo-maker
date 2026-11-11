@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import shutil
 import subprocess
 import sys
 import time
@@ -15,6 +14,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from logo_maker import owned_process
 from logo_maker.host import run as _host_work
 from logo_maker.proc import ToolError
 from logo_maker.sampling import Budget, SamplingLimit, Settings, decide
@@ -47,6 +47,7 @@ class RenderResult:
     execution: Path | None = None
     sampling: Path | None = None
     assets: tuple[AssetUse, ...] = ()
+    publication: dict | None = None
 
 
 def _alpha_cleanup_png(png: Path) -> Path:
@@ -135,14 +136,15 @@ def render(
     An unqualified baseline may be inspected, but is explicitly not a sampling
     acceptance. Finalize cannot call it a qualified winner.
     """
-    concept_dir = Path(concept_dir).resolve()
+    concept_dir = Path(concept_dir).absolute()
     started = time.monotonic()
     caller_budget = budget
-    budget = budget or Budget()
+    completion_budget = budget or Budget()
+    budget = Budget(parent=completion_budget, attempt_limit=completion_budget.attempt_limit)
+    budget.deadline -= 2
     job_started = budget.clock()
     budget.check()
     build = concept_dir / ".build"
-    build.mkdir(exist_ok=True)
     job_path = build / f"{quality}.sampling.json"
     job: dict = {
         "schema": 1,
@@ -160,6 +162,11 @@ def render(
         },
     }
     try:
+        _host_work(
+            {"operation": "render_setup", "concept_dir": str(concept_dir)},
+            budget,
+            job["host_stages"],
+        )
         if on_asset is not None:
             raise ToolError(
                 "budget_conflict: arbitrary on_asset callbacks cannot preserve parent-side effects "
@@ -170,13 +177,15 @@ def render(
             budget,
             job["host_stages"],
         )["sampling"]
-        budget = Budget(
+        completion_budget = Budget(
             config["wall_seconds"],
             config["attempt_limit"],
             parent=caller_budget,
             clock=budget.clock,
             started_at=job_started,
         )
+        budget = Budget(parent=completion_budget, attempt_limit=completion_budget.attempt_limit)
+        budget.deadline -= 2
         budget.check()
         compiled = _host_work(
             {"operation": "compile", "concept_dir": str(concept_dir), "quality": quality},
@@ -246,7 +255,6 @@ def render(
             budget.check()
             candidate_started = time.monotonic()
             attempt_dir = build / ("attempt-" + uuid.uuid4().hex)
-            attempt_dir.mkdir()
             scene_data["output_dir"] = str(attempt_dir)
             image_scene = {
                 k: v
@@ -263,7 +271,11 @@ def render(
             candidate_json = attempt_dir / "scene.json"
             # Meshes are relative to the original build directory; keep that explicit.
             scene_data["build_dir"] = str(build)
-            candidate_json.write_text(json.dumps(scene_data, indent=2))
+            _host_work(
+                {"operation": "render_attempt", "directory": str(attempt_dir), "scene": scene_data},
+                budget,
+                job["host_stages"],
+            )
             job["active_attempt"] = {
                 "directory": str(attempt_dir),
                 "compiled_scene": str(candidate_json),
@@ -271,7 +283,12 @@ def render(
             }
             _run_builder(candidate_json, concept_dir, quality, budget=budget)
             evidence_path = attempt_dir / f"{quality}.execution.json"
-            execution = json.loads(evidence_path.read_text())
+            execution_info = _host_work(
+                {"operation": "render_execution", "path": str(evidence_path)},
+                budget,
+                job["host_stages"],
+            )
+            execution = execution_info["record"]
             if execution.get("status") != "verified":
                 raise ToolError("GPU-only rendering/denoising unverified")
             png = attempt_dir / f"{quality}.png"
@@ -288,8 +305,8 @@ def render(
                     quality,
                     str(effective["resolution"]),
                 ]
-                proc = subprocess.run(
-                    command, capture_output=True, text=True, timeout=budget.remaining, check=False
+                proc = owned_process.run(
+                    command, budget=budget, label="explicit alternate renderer"
                 )
                 if proc.returncode:
                     raise ToolError(f"explicit alternate renderer failed: {proc.stderr[-2000:]}")
@@ -348,7 +365,7 @@ def render(
                 "source_key": source_key,
                 "quality": dict(effective),
                 "execution": str(evidence_path),
-                "execution_sha256": sha256(evidence_path),
+                "execution_sha256": execution_info["sha256"],
                 "delivered_sha256": delivered_hash,
                 "diagnostics": diagnostics,
                 "seconds": elapsed,
@@ -371,17 +388,23 @@ def render(
                 effective.update(decision.settings.quality())
                 diagnosis = None
                 continue
-            publish_artifacts(attempt_dir, concept_dir, quality, budget)
             job.update(
                 published=True,
                 delivered_sha256=delivered_hash,
                 source_key=source_key,
                 execution=str(evidence_path),
-                execution_sha256=sha256(evidence_path),
+                execution_sha256=execution_info["sha256"],
             )
+            job["budget"] = completion_budget.record()
+            job["seconds"] = time.monotonic() - started
+            job["timing_scope"] = (
+                "through publication staging; RenderResult.seconds includes publication, recovery/cleanup and return"
+            )
+            publication = publish_artifacts(attempt_dir, concept_dir, quality, budget, record=job)
             break
     except Exception as exc:
         message = str(exc)
+        job["published"] = False
         job["error"] = message
         if "budget_conflict" in message:
             job["outcomes"]["time"] = "budget_conflict"
@@ -397,16 +420,17 @@ def render(
     finally:
         if budget.remaining <= 0:
             job["outcomes"]["time"] = "time_limit"
-        job["budget"] = budget.record()
+        job["budget"] = completion_budget.record()
         job["seconds"] = time.monotonic() - started
         job["timing_scope"] = (
             "configuration, compile/dependency hashes, environment probe, all attempts/denoise/diagnostic IO/downsample/hash; excludes caller QA and export"
         )
-        if job_path.exists():
-            shutil.copyfile(
-                job_path, build / (quality + ".prior-" + uuid.uuid4().hex + ".sampling.json")
+        if not job["published"] and completion_budget.remaining > 1:
+            _host_work(
+                {"operation": "render_record", "path": str(job_path), "record": job},
+                completion_budget,
+                job["host_stages"],
             )
-        job_path.write_text(json.dumps(job, indent=2) + "\n")
     return RenderResult(
         concept_dir / f"{quality}.png",
         concept_dir / "scene.blend",
@@ -418,62 +442,56 @@ def render(
         else None,
         job_path,
         tuple(AssetUse(**asset) for asset in job.get("assets", [])),
+        publication,
     )
 
 
-def publish_artifacts(attempt_dir: Path, concept_dir: Path, quality: str, budget: Budget) -> None:
-    """Stage all I/O before committing, with rollback if publication hits its limit."""
-    token = uuid.uuid4().hex
-    staged = {}
-    backups = {}
-    committed = []
-    succeeded = False
-    try:
-        for name in ("scene.blend", "model.glb", f"{quality}.png"):
-            source = attempt_dir / name
-            if source.exists():
-                budget.check()
-                target = concept_dir / name
-                temp = concept_dir / (".publishing-" + token + "-" + name)
-                staged[target] = temp
-                shutil.copyfile(source, temp)
-        budget.check()
-        for target, temp in staged.items():
-            if target.exists():
-                backup = target.with_name(".prior-" + token + "-" + target.name)
-                target.replace(backup)
-                backups[target] = backup
-            temp.replace(target)
-            committed.append(target)
-            budget.check()
-        succeeded = True
-    except BaseException:
-        for target in committed:
-            target.unlink(missing_ok=True)
-        for target, backup in backups.items():
-            backup.replace(target)
-        raise
-    finally:
-        for path in staged.values():
-            path.unlink(missing_ok=True)
-        if succeeded:
-            for path in backups.values():
-                path.unlink(missing_ok=True)
+def publish_artifacts(
+    attempt_dir: Path,
+    concept_dir: Path,
+    quality: str,
+    budget: Budget,
+    *,
+    record: dict | None = None,
+) -> dict:
+    """Own blocking copies and recover interrupted publication within the deadline."""
+    from logo_maker.publication import publish
+
+    entries = [
+        {"source": str(attempt_dir / name), "target": str(concept_dir / name), "optional": True}
+        for name in ("scene.blend", "model.glb", f"{quality}.png")
+    ]
+    journal = concept_dir / ".build" / ("publication-" + uuid.uuid4().hex + ".json")
+    if record is not None:
+        record["publication"] = {
+            "journal": str(journal),
+            "cleanup": "journal retained until cleanup completes",
+        }
+        entries.append(
+            {
+                "target": str(concept_dir / ".build" / f"{quality}.sampling.json"),
+                "text": json.dumps(record, indent=2) + "\n",
+            }
+        )
+    return publish(
+        entries,
+        journal,
+        budget,
+        [],
+    )
 
 
 def _run_builder(scene_json: Path, concept_dir: Path, quality: str, *, budget: Budget) -> None:
     cmd = [sys.executable, "-m", "logo_maker.blender.build", str(scene_json)]
     for retry in range(2):
         attempt = budget.begin_attempt()
-        timeout = min(RENDER_TIMEOUT, budget.remaining)
-        try:
-            proc = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=timeout, cwd=Path.cwd()
-            )
-        except subprocess.TimeoutExpired as exc:
-            raise SamplingLimit(
-                f"time_limit: bpy exceeded {timeout:.1f}s (attempt {attempt})"
-            ) from exc
+        proc = owned_process.run(
+            cmd,
+            budget=budget,
+            timeout=RENDER_TIMEOUT,
+            cwd=Path.cwd(),
+            label=f"bpy attempt {attempt}",
+        )
         if proc.returncode == 0:
             budget.check()
             return

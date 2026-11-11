@@ -1,0 +1,66 @@
+{
+  "recorded_on": "2026-11-10",
+  "source": "Explicit owner answers to two questions in this Codex chat",
+  "dimension": "technical sampling detail; separate from craftsmanship, brief fit and preference",
+  "figure": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-comparison.png",
+  "figure_sha256": "96b0b5fbeb099092a30ef36b409705e874b2ccac8e44005e990bf62d9e850fde",
+  "ratings": [
+    {
+      "position": "left",
+      "settings": {
+        "cap": 4096,
+        "adaptive_threshold": 0.01,
+        "seed": 0
+      },
+      "owner_answer_verbatim": "Accept technical sampling detail",
+      "scope": "shown typography control; lettering/counters, highlights, dark gradients and alpha edges"
+    },
+    {
+      "position": "right",
+      "settings": {
+        "cap": 16,
+        "adaptive_threshold": 0.01,
+        "seed": 0
+      },
+      "owner_answer_verbatim": "Accept technical sampling detail",
+      "scope": "shown low-sample typography control; not a rejected control"
+    }
+  ],
+  "rejected_control": "0.02 detail-loss rejection retained in owner-review.json",
+  "transfer_approval": false,
+  "qualified_profile": null,
+  "materials": {
+    "owner_answer_verbatim": "Accept all three technically",
+    "scope": [
+      "matte-current-seed0-t0.01-run3",
+      "metal-current-seed0-t0.01-run3",
+      "glass-current-seed0-t0.01-run3"
+    ],
+    "settings": {
+      "cap": 4096,
+      "adaptive_threshold": 0.01,
+      "seed": 0
+    },
+    "figure": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/owner-positive-heldout-20261110.png",
+    "figure_sha256": "054bfc28d888f9ab2dcc733f9a91d7f751e6849427c14356f1867eaba037a4fe",
+    "sources": {
+      "matte-current-seed0-t0.01-run3": "be4fb62c04d8fe36c4a42dada16dee9e55d2fb70200714647311dfc1b4cae88f",
+      "metal-current-seed0-t0.01-run3": "143ff972113127ffab65e0630d7a6a9a73eb759f008871281f7033282a5e737a",
+      "glass-current-seed0-t0.01-run3": "0f9bd2acdc8d902288f4e1e047e22e72b966f56bf6df153d6c0dd884375cca40"
+    },
+    "held_out": false
+  },
+  "glass_independent_seeds": {
+    "question": "Do you accept technical sampling detail in all three new glass samples, including enlarged highlights, dark gradients and alpha boundaries?",
+    "owner_answer_verbatim": "they look good, generate 3 more with different shapes and different lighting",
+    "interpretation": "technical acceptance of shown seed repetitions; request for separate authored shape/lighting studies",
+    "seeds": [
+      44,
+      45,
+      46
+    ],
+    "figure_sha256": "af83a5e3fd7506152277f8cfd6642f15214d83bd39f6f0825a00ed1bd86d44cb",
+    "evidence": "glass-independent-20261110.json",
+    "craftsmanship_or_style_signoff": false
+  }
+}

@@ -99,6 +99,40 @@ def test_export_deadline_keeps_prior_exports(tmp_path):
     assert (out / "prior.txt").read_text() == "last approved export"
 
 
+def test_export_uses_verified_snapshot_when_live_final_changes(tmp_path, monkeypatch):
+    from logo_maker import export
+
+    concept, motif = _concept(tmp_path, _disc)
+    original = (concept / "final.png").read_bytes()
+    (concept / ".build").mkdir()
+    (concept / ".build/final.sampling.json").write_text(
+        json.dumps({"published": True, "delivered_sha256": hashlib.sha256(original).hexdigest()})
+    )
+    real_hash, real_hero = export._sha256, export._hero
+
+    def replace_after_hash(path):
+        digest = real_hash(path)
+        if digest == hashlib.sha256(original).hexdigest():
+            Image.new("RGBA", (1200, 900), (255, 0, 0, 255)).save(concept / "final.png")
+        return digest
+
+    class InspectedHero(Exception):
+        pass
+
+    def inspect_hero(*args, **kwargs):
+        hero = real_hero(*args, **kwargs)
+        assert Image.open(hero).convert("RGBA").getpixel((1000, 1000)) == (30, 74, 122, 255)
+        assert (concept / "final.png").read_bytes() != original
+        raise InspectedHero
+
+    monkeypatch.setattr(export, "_sha256", replace_after_hash)
+    monkeypatch.setattr(export, "_hero", inspect_hero)
+    with pytest.raises(InspectedHero):
+        export._export_all(
+            concept, tmp_path / "out", name="Sample", palette=PALETTE, motif_svg=motif
+        )
+
+
 def test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline(tmp_path):
     import os
     import threading
