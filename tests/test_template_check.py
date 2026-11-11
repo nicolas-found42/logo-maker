@@ -301,7 +301,8 @@ def test_unterminated_html_code_in_pr_body_reports_errors_instead_of_raising():
     body = nonvisual_pr().replace(
         "**Observed result:**", "**Observed result:** has <pre> here:\n```\n**Observed result:**", 1
     )
-    assert isinstance(check.validate(body, "pr"), list)
+    errors = check.validate(body, "pr")
+    assert any("After:" in error or "Before / Observed result" in error for error in errors)
 
 
 def test_declaration_reason_with_only_inline_code_is_accepted():
@@ -349,6 +350,59 @@ def test_unicode_line_separator_in_proof_field_does_not_misalign_or_crash():
         "**Revision:** 1111\u2028111 `inline\u2028code` <pre>\u2028</pre>",
     )
     assert check.validate(body, "pr") == []
+
+
+def test_long_unmatched_backtick_run_and_malformed_html_prefixes_finish_quickly():
+    ticks = "`" * 2500 + (" word `" * 400)
+    malformed_html = "<pre attr " * 1500 + "<code attr " * 1500
+    body = nonvisual_pr().replace(
+        "**Observed result:** Invalid input exits 0.\n\n```text\nexit=0\n```",
+        f"**Observed result:** {ticks}\n{malformed_html}",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_child_heading_with_inline_code_title_stops_parent_field_scan():
+    body = nonvisual_pr().replace(
+        "## Evidence\n**Visible app change:** No: CLI validation only; app and rendered output are unchanged.",
+        "## Evidence\n#### `Nested`\n**Visible app change:** No: hidden under code-titled heading.",
+    )
+    assert any("Evidence / Visible app change" in error for error in check.validate(body, "pr"))
+    section_names = [s.title for s in check.sections("### `Title`\nBody")]
+    assert section_names == ["`Title`"]
+
+
+def test_longer_backtick_run_inside_inline_code_does_not_close_span_early():
+    assert (
+        check.noncode_prose("`open ``\n**Revision:** 1111111\n`", marker="\x00")
+        == "\x00\n\x00\n\x00"
+    )
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "`open\n``\n**Revision:** 1111111\n` `x`",
+    )
+    assert any("Before / Revision" in error for error in check.validate(body, "pr"))
+
+
+def test_nested_code_tags_mask_until_outer_closing_tag():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "<code>outer <code>inner</code>\n**Revision:** 1111111\n</code>",
+    )
+    assert any("Before / Revision" in error for error in check.validate(body, "pr"))
+
+
+@pytest.mark.parametrize(
+    "wrapped_def",
+    [
+        f"<pre>\n[before]: {BEFORE}\n</pre>",
+        f"<code>\n[before]: {BEFORE}\n</code>",
+        f"`\n[before]: {BEFORE}\n`",
+    ],
+)
+def test_reference_definition_inside_html_or_inline_code_does_not_satisfy_screenshot(wrapped_def):
+    body = PR.replace(f"![Before export]({BEFORE})", f"![Before export][before]\n\n{wrapped_def}")
+    assert any("Before: embed" in error for error in check.validate(body, "pr"))
 
 
 @pytest.mark.parametrize(

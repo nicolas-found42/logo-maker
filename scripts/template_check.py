@@ -62,8 +62,10 @@ def sections(text: str) -> list[Section]:
     lines = clean.split("\n")
     headings = []
     stack: list[tuple[int, str]] = []
-    for index, line in enumerate(noncode_prose(clean).split("\n")):
-        match = HEADING.match(line)
+    for index, masked_line in enumerate(noncode_prose(clean).split("\n")):
+        if not HEADING.match(masked_line):
+            continue
+        match = HEADING.match(lines[index])
         if not match:
             continue
         level, title = len(match[1]), match[2].strip()
@@ -89,16 +91,101 @@ def own_body(text: str) -> str:
     return clean
 
 
-def noncode_prose(text: str, *, marker: str = "") -> str:
+def _scan_inline_and_html_code(text: str, *, marker: str = "") -> tuple[str, list[str]]:
+    """Mask backtick spans and <pre>/<code> blocks in linear time, returning (prose, code_chunks)."""
+    backtick_runs = [(match.start(), match.end()) for match in re.finditer(r"`+", text)]
+    inline_spans: list[tuple[int, int, str]] = []
+    unmatched_lengths: set[int] = set()
+    index = 0
+    while index < len(backtick_runs):
+        open_start, open_end = backtick_runs[index]
+        run_len = open_end - open_start
+        if run_len in unmatched_lengths:
+            index += 1
+            continue
+        close_index = next(
+            (
+                candidate
+                for candidate in range(index + 1, len(backtick_runs))
+                if backtick_runs[candidate][1] - backtick_runs[candidate][0] == run_len
+            ),
+            None,
+        )
+        if close_index is None:
+            unmatched_lengths.add(run_len)
+            index += 1
+        else:
+            close_start, close_end = backtick_runs[close_index]
+            inline_spans.append((open_start, close_end, text[open_end:close_start]))
+            index = close_index + 1
+    prose_parts: list[str] = []
+    code_chunks: list[str] = []
+    cursor = 0
+    span_index = 0
+    tag_pattern = re.compile(r"(?is)<(/?)(pre|code)\b")
+    while cursor < len(text):
+        while span_index < len(inline_spans) and inline_spans[span_index][1] <= cursor:
+            span_index += 1
+        next_inline = inline_spans[span_index] if span_index < len(inline_spans) else None
+        tag_match = tag_pattern.search(text, cursor)
+        tag_gt = text.find(">", tag_match.end()) if tag_match and tag_match.group(1) == "" else -1
+        if next_inline and (
+            tag_match is None or tag_gt == -1 or next_inline[0] < tag_match.start()
+        ):
+            start, end, inner = next_inline
+            prose_parts.append(text[cursor:start])
+            prose_parts.append("\n".join(marker for _ in range(text[start:end].count("\n") + 1)))
+            code_chunks.append(inner)
+            cursor = end
+            span_index += 1
+            continue
+        if tag_match is None:
+            prose_parts.append(text[cursor:])
+            break
+        if tag_match.group(1) == "/":
+            prose_parts.append(text[cursor : tag_match.end()])
+            cursor = tag_match.end()
+            continue
+        if tag_gt == -1:
+            prose_parts.append(text[cursor:])
+            break
+        open_start = tag_match.start()
+        prose_parts.append(text[cursor:open_start])
+        tag_name = tag_match.group(2).casefold()
+        inner_start = tag_gt + 1
+        depth = 1
+        scan = inner_start
+        inner_end = len(text)
+        block_end = len(text)
+        while scan < len(text):
+            sub_match = tag_pattern.search(text, scan)
+            if sub_match is None:
+                break
+            sub_gt = text.find(">", sub_match.end())
+            if sub_gt == -1:
+                break
+            if sub_match.group(2).casefold() == tag_name:
+                if sub_match.group(1) == "":
+                    depth += 1
+                else:
+                    depth -= 1
+                    if depth == 0:
+                        inner_end = sub_match.start()
+                        block_end = sub_gt + 1
+                        break
+            scan = sub_gt + 1
+        prose_parts.append(
+            "\n".join(marker for _ in range(text[open_start:block_end].count("\n") + 1))
+        )
+        code_chunks.append(re.sub(r"(?is)</?(?:pre|code)\b[^>]*>", "", text[inner_start:inner_end]))
+        cursor = block_end
+    return "".join(prose_parts), code_chunks
+
+
+def noncode_prose(text: str, *, marker: str = "\x00") -> str:
     """Replace fenced/indented code, HTML pre/code blocks and inline code while keeping lines."""
-
-    def replace_span(match: re.Match[str]) -> str:
-        return "\n".join(marker for _ in range(match.group(0).count("\n") + 1))
-
-    clean = outside_code(text)
-    clean = re.sub(r"(?s)(`+).*?\1", replace_span, clean)
-    clean = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", replace_span, clean)
-    return re.sub(r"(?is)<code\b[^>]*>.*?(?:</code\s*>|\Z)", replace_span, clean)
+    prose, _ = _scan_inline_and_html_code(outside_code(text), marker=marker)
+    return prose
 
 
 def field_values(text: str, field: str) -> list[str]:
@@ -123,24 +210,16 @@ def field_values(text: str, field: str) -> list[str]:
 
 def answer(text: str, *, allow_none: bool = False) -> bool:
     text = COMMENT.sub("", text)
-    prose = noncode_prose(text)
+    unmasked_text = outside_code(text)
+    prose, html_and_inline_chunks = _scan_inline_and_html_code(unmasked_text, marker="")
     prose = re.sub(r"^\s*#{1,6}\s+.*$", "", prose, flags=re.MULTILINE)
     prose = re.sub(r"<[^>]*>", "", prose)
     code_chunks = [
         line
-        for line, unmasked in zip(text.split("\n"), outside_code(text).split("\n"), strict=False)
+        for line, unmasked in zip(text.split("\n"), unmasked_text.split("\n"), strict=False)
         if not unmasked
     ]
-    unmasked_text = outside_code(text)
-    code_chunks.extend(match.group(2) for match in re.finditer(r"(?s)(`+)(.*?)\1", unmasked_text))
-    without_inline = re.sub(r"(?s)(`+).*?\1", "", unmasked_text)
-    for match in re.finditer(r"(?is)<pre\b[^>]*>(.*?)(?:</pre\s*>|\Z)", without_inline):
-        code_chunks.append(re.sub(r"(?is)</?code\b[^>]*>", "", match.group(1)))
-    without_pre = re.sub(r"(?is)<pre\b[^>]*>.*?(?:</pre\s*>|\Z)", "", without_inline)
-    code_chunks.extend(
-        match.group(1)
-        for match in re.finditer(r"(?is)<code\b[^>]*>(.*?)(?:</code\s*>|\Z)", without_pre)
-    )
+    code_chunks.extend(html_and_inline_chunks)
     code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
     text = prose + "\n" + code
     text = IMAGE.sub("", text)
@@ -215,9 +294,10 @@ class Images(HTMLParser):
 
 
 def image_urls(text: str, whole_body: str) -> set[str]:
-    clean = noncode_prose(text)
+    clean = noncode_prose(text, marker="")
     references = {
-        key.casefold(): value for key, value in REFERENCE.findall(outside_code(whole_body))
+        key.casefold(): value
+        for key, value in REFERENCE.findall(noncode_prose(whole_body, marker="\x00"))
     }
     urls = IMAGE.findall(clean)
     for alt, reference in REFERENCE_IMAGE.findall(clean):
