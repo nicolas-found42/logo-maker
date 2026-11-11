@@ -303,7 +303,13 @@ def _contact_sheet(
 
 
 def _export_all(
-    concept_dir: Path, out_dir: Path, *, name: str, palette: dict[str, str], motif_svg: Path
+    concept_dir: Path,
+    out_dir: Path,
+    *,
+    name: str,
+    palette: dict[str, str],
+    motif_svg: Path,
+    expected_sampling_sha256: str | None = None,
 ) -> dict:
     """Validate provenance and build the export set inside the owned worker."""
     concept_dir, out, motif = Path(concept_dir), Path(out_dir), Path(motif_svg)
@@ -317,6 +323,12 @@ def _export_all(
     if provenance_path.exists():
         raw = provenance_path.read_bytes()
         provenance = json.loads(raw)
+        if expected_sampling_sha256 is not None and (
+            hashlib.sha256(raw).hexdigest() != expected_sampling_sha256
+            or provenance.get("profile", {}).get("state") != "qualified"
+            or provenance.get("outcomes", {}).get("sampling") != "profile_baseline"
+        ):
+            raise ExportError("qualified sampling snapshot changed; prior exports retained")
         if not provenance.get("published") or provenance.get("delivered_sha256") != _sha256(
             final_snapshot
         ):
@@ -324,6 +336,8 @@ def _export_all(
                 "sampling provenance does not match final image; prior exports retained"
             )
         sampling = {"record_sha256": hashlib.sha256(raw).hexdigest(), "record": provenance}
+    elif expected_sampling_sha256 is not None:
+        raise ExportError("qualified sampling snapshot missing; prior exports retained")
     if not motif.is_file():
         raise ExportError(f"no motif svg at {motif}")
     paper, ink = _paper(palette), _ink(palette)
@@ -401,6 +415,7 @@ def export_all(
     motif_svg: Path,
     budget: Budget | None = None,
     publication_log: RunLog | None = None,
+    expected_sampling_sha256: str | None = None,
 ) -> dict[str, Path]:
     """Build under the whole-job deadline, then replace the export set as a unit.
 
@@ -421,6 +436,7 @@ def export_all(
         "name": name,
         "palette": palette,
         "motif_svg": str(Path(motif_svg).absolute()),
+        "expected_sampling_sha256": expected_sampling_sha256,
     }
     try:
         proc = owned_process.run(

@@ -552,13 +552,23 @@ def render_many(
 
 
 def artifact_current(
-    concept_dir: Path, quality: str, *, check_machine: bool = True, budget: Budget | None = None
+    concept_dir: Path,
+    quality: str,
+    *,
+    check_machine: bool = True,
+    budget: Budget | None = None,
+    expected_record_sha256: str | None = None,
 ) -> bool:
     """Content freshness includes source, code, devices, seed, execution and delivered bytes."""
     budget = budget or Budget()
     budget.check()
     snapshot = _host_work(
-        {"operation": "artifact_current", "concept_dir": str(concept_dir), "quality": quality},
+        {
+            "operation": "artifact_current",
+            "concept_dir": str(concept_dir),
+            "quality": quality,
+            "expected_record_sha256": expected_record_sha256,
+        },
         budget,
         [],
     )
@@ -572,10 +582,11 @@ def artifact_current(
     return True
 
 
-def _artifact_current_local(concept_dir: Path, quality: str) -> bool:
+def _artifact_current_local(concept_dir: Path, quality: str, *, record: dict | None = None) -> bool:
     """Disk/hash work only; called by the owned host worker."""
     try:
-        record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
+        if record is None:
+            record = json.loads((concept_dir / ".build" / f"{quality}.sampling.json").read_text())
         if "custom_scene_sha256" in record.get("context", {}):
             return False
         if (

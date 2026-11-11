@@ -49,8 +49,13 @@ def main(payload: dict) -> dict:
         _record(Path(payload["path"]), payload["data"])
         return {}
     if operation == "read_json":
+        import hashlib
+
         path = Path(payload["path"])
-        return {"data": json.loads(path.read_text()) if path.exists() else payload.get("default")}
+        if not path.exists():
+            return {"data": payload.get("default"), "sha256": None}
+        raw = path.read_bytes()
+        return {"data": json.loads(raw), "sha256": hashlib.sha256(raw).hexdigest()}
     if operation == "append_jsonl":
         path = Path(payload["path"])
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -118,11 +123,15 @@ def main(payload: dict) -> dict:
 
         path = Path(payload["path"])
         if path.exists():
+            if json.loads(path.read_text()).get("published"):
+                failed = path.with_name(path.stem + ".failed-" + uuid.uuid4().hex + ".json")
+                _record(failed, payload["record"])
+                return {"path": str(failed)}
             shutil.copyfile(
                 path, path.with_name(path.stem + ".prior-" + uuid.uuid4().hex + ".json")
             )
         _record(path, payload["record"])
-        return {}
+        return {"path": str(path)}
     if operation == "load_config":
         from logo_maker.scene import load_scene
 
@@ -223,15 +232,23 @@ def main(payload: dict) -> dict:
             "delivered_sha256": sha256(png),
         }
     if operation == "artifact_current":
+        import hashlib
+
         from logo_maker.render import _artifact_current_local
 
         folder = Path(payload["concept_dir"])
-        current = _artifact_current_local(folder, payload["quality"])
-        record = (
-            json.loads((folder / ".build" / f"{payload['quality']}.sampling.json").read_text())
-            if current
-            else {}
-        )
+        try:
+            raw = (folder / ".build" / f"{payload['quality']}.sampling.json").read_bytes()
+            digest = hashlib.sha256(raw).hexdigest()
+            if (
+                payload.get("expected_record_sha256")
+                and payload["expected_record_sha256"] != digest
+            ):
+                return {"current": False}
+            record = json.loads(raw)
+        except (OSError, ValueError):
+            return {"current": False}
+        current = _artifact_current_local(folder, payload["quality"], record=record)
         return {"current": current, "context": record.get("context", {})}
     if operation == "qa_checks":
         from logo_maker import checks

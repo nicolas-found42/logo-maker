@@ -94,6 +94,7 @@ def apply(payload: dict) -> dict:
                 **entry,
                 "pending": str(target.with_name(".publishing-" + token + "-" + target.name)),
                 "backup": str(target.with_name(".prior-" + token + "-" + target.name)),
+                "quarantine": str(target.with_name(".interrupted-" + token + "-" + target.name)),
                 "existed": target.exists(),
             }
         )
@@ -131,14 +132,10 @@ def recover(journal: Path, lock: Path | None = None) -> dict:
             target, backup, pending = map(Path, (row["target"], row["backup"], row["pending"]))
             if backup.exists():
                 if target.exists():
-                    target.rename(
-                        target.with_name(".interrupted-" + target.name + "-" + uuid.uuid4().hex)
-                    )
+                    target.rename(row["quarantine"])
                 backup.rename(target)
             elif not row["existed"] and not pending.exists() and target.exists():
-                target.rename(
-                    target.with_name(".interrupted-" + target.name + "-" + uuid.uuid4().hex)
-                )
+                target.rename(row["quarantine"])
     _record(journal, {**record, "state": "recovered"})
     if record.get("lock"):
         Path(record["lock"]).unlink(missing_ok=True)
@@ -150,7 +147,7 @@ def clean(journal: Path) -> dict:
     if journal.exists():
         record = json.loads(journal.read_text())
         for row in record["entries"]:
-            for key in ("pending", "backup"):
+            for key in ("pending", "backup", "quarantine"):
                 _remove(Path(row[key]))
         if record.get("lock"):
             Path(record["lock"]).unlink(missing_ok=True)

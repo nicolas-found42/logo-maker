@@ -285,3 +285,50 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
             if group is not None:
                 with contextlib.suppress(ChildProcessError):
                     os.waitpid(group, 0)
+
+
+@pytest.mark.parametrize("replacement", ["unqualified", "missing"])
+def test_pipeline_export_rejects_concurrent_qualification_replacement(
+    tmp_path, monkeypatch, replacement
+):
+    from logo_maker import export, pipeline, render
+    from logo_maker.paths import LogoDir
+
+    logo = LogoDir(tmp_path / "logo")
+    pipeline.new(logo, "Test")
+    logo.brief.write_text(
+        'name="Test"\nsummary="Test mark"\ntone=["calm"]\n[palette]\nprimary="#245846"\n[fonts]\ndisplay="Test font"\n'
+    )
+    folder = logo.concept("a|b|c")
+    image = Image.new("RGBA", (1200, 900))
+    _disc(ImageDraw.Draw(image))
+    image.save(folder / "final.png")
+    (folder / "motif.svg").write_text(MOTIF)
+    (folder / ".build").mkdir()
+    sidecar = folder / ".build/final.sampling.json"
+    record = {
+        "published": True,
+        "delivered_sha256": hashlib.sha256((folder / "final.png").read_bytes()).hexdigest(),
+        "profile": {"state": "qualified"},
+        "outcomes": {"sampling": "profile_baseline"},
+    }
+    sidecar.write_text(json.dumps(record))
+    (logo.ideation / "winner.json").write_text('{"winner":"a|b|c"}')
+    prior = logo.exports / "prior.txt"
+    prior.write_text("approved prior exports")
+    monkeypatch.setattr(render, "artifact_current", lambda *a, **kw: True)
+    real_export = export.export_all
+
+    def race_after_qualification(*args, **kwargs):
+        if replacement == "missing":
+            sidecar.unlink()
+        else:
+            record["profile"]["state"] = "profile_unqualified"
+            sidecar.write_text(json.dumps(record))
+        return real_export(*args, **kwargs)
+
+    monkeypatch.setattr(export, "export_all", race_after_qualification)
+    with pytest.raises(ExportError, match="qualified sampling snapshot"):
+        pipeline.export(logo)
+    assert prior.read_text() == "approved prior exports"
+    assert {p.name for p in logo.exports.iterdir()} == {"prior.txt"}

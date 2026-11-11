@@ -586,11 +586,10 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     folder = logo.root / "concepts" / concept_slug(setup["winner"])
     from logo_maker.render import artifact_current
 
-    if not artifact_current(folder, "final", budget=budget):
-        raise AuthoringNeeded("final provenance changed; finalize again", [folder / "scene.toml"])
-    sampling = host.run(
+    snapshot = host.run(
         {"operation": "read_json", "path": str(folder / ".build/final.sampling.json")}, budget, []
-    )["data"]
+    )
+    sampling = snapshot["data"] or {}
     if (
         sampling.get("profile", {}).get("state") != "qualified"
         or sampling.get("outcomes", {}).get("sampling") != "profile_baseline"
@@ -599,6 +598,10 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
             "sampling qualification unresolved; prior exports retained",
             [folder / ".build/final.sampling.json"],
         )
+    if not artifact_current(
+        folder, "final", budget=budget, expected_record_sha256=snapshot["sha256"]
+    ):
+        raise AuthoringNeeded("final provenance changed; finalize again", [folder / "scene.toml"])
     manifest = export_mod.export_all(
         folder,
         logo.root / "exports",
@@ -607,6 +610,7 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
         motif_svg=folder / "motif.svg",
         budget=budget,
         publication_log=runlog(logo.run_json, budget=budget),
+        expected_sampling_sha256=snapshot["sha256"],
     )
     return manifest
 

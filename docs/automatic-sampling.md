@@ -59,7 +59,9 @@ cannot both retain parent-process side effects and run in a killable worker. Dir
 `scene.compile` still supports caller-managed callbacks. Export provenance loading and
 delivered-image hashing run inside the owned export worker. A private final-image snapshot
 is both hashed and decoded into the hero, so a concurrent final replacement cannot substitute
-unverified pixels after the provenance check. The manifest embeds the exact parsed record.
+unverified pixels after the provenance check. Pipeline export additionally pins the exact
+qualified record hash through freshness validation and into that worker; missing, replaced
+or unqualified records stop publication. The manifest embeds the exact parsed record.
 
 Final QA and its tournament bind a `JevClient.with_budget` view to the same job deadline.
 HTTP retries/backoff/response decoding, image loading/encoding, tiny-image preparation,
@@ -84,7 +86,9 @@ completion/usage, and interrupted log IO may leave an in-memory charge without a
 
 Render setup, candidate JSON and execution reads, prior-record archival and failure-report
 writing are also owned. Two seconds of the original render deadline are reserved for failure
-reporting. Render artifacts and sampling provenance are staged together. Publication owns
+reporting. A failed retry retains an existing published active record, placing its failure
+report in a distinct `.sampling.failed-<id>.json` instead. Render artifacts and sampling
+provenance are staged together. Publication owns
 blocking copies/renames under a journal and reserves three seconds of the same deadline for
 recovery; a competing publisher fails explicitly. On interruption, recovery restores prior
 paths before cleanup. A failed recovery reports cleanup-unconfirmed and retains its journal

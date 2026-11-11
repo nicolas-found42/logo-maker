@@ -207,3 +207,30 @@ Identity/source claims retain review confidence0.76/0.50; check counts0.80.
 Independent source comparison, Git-blob verification, the public integration tests
 and both reasoning reviews support these narrow facts. This is not a new broad
 approval of the complete sampling feature or its incomplete qualification.
+
+## Whole-job filesystem follow-up from 8261315
+
+Fresh code-review skill agents reviewed `8261315...b0b79ab` separately.
+Standards found one hard breach: recovery's random quarantine destinations were absent
+from the journal, contrary to the documented discoverability contract. Recovery now uses
+predeclared journal paths, and cleanup includes them. The dictionary transaction protocol
+was also flagged as a possible Primitive Obsession; this is an optional heuristic, not a
+hard repository rule.
+
+Spec found two P1 issues. Failed-render finalization replaced restored active provenance
+with a `published=false` failure record, leaving the old PNG present but unusable through
+normal currency/export checks. Failure evidence now uses a separate report when a published
+active record exists. A public render/retry regression checks byte-identical prior pixels
+and active provenance, a separate failure report, and successful current-artifact validation.
+
+The second finding was a qualification race beyond the final-image byte race: pipeline
+qualification could precede a concurrent unqualified or missing sidecar, which low-level
+export allowed as inspection/legacy data. Pipeline now pins the exact qualified record hash
+through current-artifact validation and into the snapshot export worker. Public pipeline
+regressions substitute unqualified/missing records after the check and verify rejection and
+preserved prior exports. The original hash/decode regression still exercises a concurrent
+live-final replacement after hashing.
+
+Seven focused review-fix/publication tests passed in 21.64 s. Fresh re-review and final
+current-source checks remain pending. The earlier 249-test run and three GPU regression
+checks retain their original source scope; new glass studies use archived 8261315.

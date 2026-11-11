@@ -206,6 +206,9 @@ verdict.
 The final passes through the real 4000→2000 Lanczos path and optional alpha cleanup before
 publication.
 A failed/device-unverified/over-budget attempt does not replace prior output.
+Its failure report uses a separate `.sampling.failed-<id>.json` when an active
+published sampling record already exists; normal freshness/export validation can
+still use that prior record.
 `RenderResult.publication` reports committed publication and completed/pending cleanup;
 the retained journal identifies backup/quarantine paths when cleanup is pending.
 `RenderResult.sampling`
@@ -264,6 +267,9 @@ export manifest. Unqualified sampling returns an authoring/review stop and canno
 The owned export worker loads and hashes sampling provenance, checks the delivered final
 image hash against a private byte snapshot, and builds the hero from that same snapshot.
 A concurrent replacement of `final.png` cannot change the bytes after verification.
+Pipeline export pins the exact qualified sampling-record hash through currency
+validation and into the export worker. A missing/replaced/unqualified snapshot
+fails before publication; legacy unattested exports remain low-level inspection only.
 A blocked provenance read therefore consumes
 the same deadline as image and adapter work, before export publication.
 Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a

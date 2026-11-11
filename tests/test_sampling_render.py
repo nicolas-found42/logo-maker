@@ -855,3 +855,34 @@ def test_finalize_blocked_input_terminates_and_keeps_winner(tmp_path, blocked):
         pipeline.finalize(logo, object(), budget=Budget(wall_seconds=5))
     assert time.monotonic() - started < 7
     assert winner_path.read_text() == '{"winner":"approved prior"}'
+
+
+def test_failed_retry_preserves_usable_active_image_and_provenance(tmp_path, monkeypatch):
+    compiled(tmp_path)
+    monkeypatch.setattr(render, "machine_context", lambda *a: {})
+
+    def builder(path, *args, budget):
+        budget.begin_attempt()
+        target = Path(json.loads(path.read_text())["output_dir"])
+        Image.new("RGBA", (64, 64), (30, 40, 50, 255)).save(target / "final.png")
+        (target / "final.execution.json").write_text('{"status":"verified"}')
+
+    monkeypatch.setattr(render, "_run_builder", builder)
+    first = render.render(tmp_path, "final")
+    assert first.sampling is not None
+    prior_image = first.png.read_bytes()
+    prior_record = first.sampling.read_bytes()
+    assert render.artifact_current(tmp_path, "final", check_machine=False)
+
+    def fail(*args, **kwargs):
+        raise RuntimeError("GPU-only denoising unverified")
+
+    monkeypatch.setattr(render, "_run_builder", fail)
+    with pytest.raises(RuntimeError, match="GPU-only"):
+        render.render(tmp_path, "final")
+    assert first.png.read_bytes() == prior_image
+    assert first.sampling.read_bytes() == prior_record
+    assert render.artifact_current(tmp_path, "final", check_machine=False)
+    failures = list((tmp_path / ".build").glob("final.sampling.failed-*.json"))
+    assert len(failures) == 1
+    assert not json.loads(failures[0].read_text())["published"]
