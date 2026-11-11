@@ -499,12 +499,11 @@ def verify_execution(concept_dir: Path, quality: str) -> dict:
         if report["log_sha256"] != _sha256(log):
             raise ValueError("changed runtime log")
         verify_denoiser_log(log.read_text())
+        compiled = evidence.parent / ("scene.json" if sampling else f"{quality}.json")
+        compiled_scene = json.loads(compiled.read_text())
+        build_dir = Path(compiled_scene.get("build_dir", evidence.parent))
         for name, digest in report["inputs_sha256"].items():
-            path = evidence.parent / (
-                ("scene.json" if sampling else f"{quality}.json")
-                if name == "compiled_scene"
-                else name
-            )
+            path = compiled if name == "compiled_scene" else build_dir / name
             if _sha256(path) != digest:
                 raise ValueError(f"changed render input: {name}")
         if not report.get("sampling"):

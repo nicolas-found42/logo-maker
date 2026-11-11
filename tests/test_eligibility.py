@@ -940,3 +940,31 @@ def test_repeated_reference_bytes_keep_each_declared_comparison(tmp_path):
     assert proof["status"] == "pass"
     assert len(proof["craft"]) == 4
     require_current(logo, brief, cid, proof)
+
+
+def test_sampling_execution_resolves_meshes_against_compiled_build_directory(tmp_path):
+    from logo_maker.eligibility import sha256
+    from logo_maker.proc import ToolError
+    from logo_maker.render import verify_execution
+
+    logo, cid, _ = candidate_logo(tmp_path)
+    folder = logo.concept(cid)
+    build = folder / ".build"
+    meshes = build / "meshes"
+    meshes.mkdir()
+    mesh = meshes / "part.ply"
+    mesh.write_bytes(b"exact compiled mesh bytes")
+    (build / "scene.json").write_text(json.dumps({"build_dir": str(build)}))
+    execution = build / "final.execution.json"
+    report = json.loads(execution.read_text())
+    report["inputs_sha256"].update(compiled_scene=sha256(build / "scene.json"))
+    report["inputs_sha256"]["meshes/part.ply"] = sha256(mesh)
+    execution.write_text(json.dumps(report))
+    sidecar = build / "final.sampling.json"
+    sampling = json.loads(sidecar.read_text())
+    sampling["execution_sha256"] = sha256(execution)
+    sidecar.write_text(json.dumps(sampling))
+    assert verify_execution(folder, "final")["status"] == "verified"
+    mesh.write_bytes(b"changed mesh")
+    with pytest.raises(ToolError, match="changed render input"):
+        verify_execution(folder, "final")
