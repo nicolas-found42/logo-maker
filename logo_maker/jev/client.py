@@ -183,6 +183,16 @@ def _store_image_assets(logo: LogoDir, assets: dict[str, dict[str, Any]]) -> dic
     return _asset_metadata(assets)
 
 
+def _append_log_line(path: Path, line: dict[str, Any]) -> None:
+    with path.open("a") as handle:
+        if os.name == "posix":
+            import fcntl
+
+            fcntl.flock(handle, fcntl.LOCK_EX)
+        # Closing flushes the complete line before releasing the process file lock.
+        handle.write(json.dumps(line, sort_keys=True) + "\n")
+
+
 def _finish_asset_storage(logo: LogoDir, assets: dict, request_path: Path) -> None:
     _store_image_assets(logo, assets)
     record = json.loads(request_path.read_text())
@@ -387,9 +397,10 @@ class JevClient:
         seq: int | None = None,
         pending_assets: dict | None = None,
     ) -> Path:
+        from logo_maker.runlog import runlog
+
         if self.logo is None:
             raise JevError("logging needs a LogoDir client")
-
         if budget is None:
             self._lock.acquire()
         elif not self._lock.acquire(timeout=budget.remaining):
@@ -400,84 +411,55 @@ class JevClient:
             if seq is None:
                 seq = self._seq
                 self._seq += 1
-            return self._publish_log(
-                seq,
-                label,
-                state,
-                questions,
-                stripped_assets,
-                response,
-                assets_status,
-                budget,
-                pending_assets,
-            )
+            record = {
+                "seq": seq,
+                "label": label,
+                "model": self.model,
+                "state": state,
+                "questions": questions,
+                "assets": stripped_assets,
+                "assets_status": assets_status,
+                "status": response.get("_status", "response_received"),
+                "answers": response.get("answers", {}),
+                "usage": response.get("_usage", {}),
+                "provider_usage": response.get("usage"),
+            }
+            if "_error" in response:
+                record["error"] = response["_error"]
+            req_dir = self.logo.root / "qa" / "jev" / "requests"
+            request_path = req_dir / f"{seq:04d}-{_slug_label(label)}.json"
+            line = {
+                "seq": seq,
+                "label": label,
+                "model": response.get("model", self.model),
+                "questions": sorted(questions),
+                "status": record["status"],
+                "usage": response.get("_usage", {}),
+                "answers": response.get("answers", {}),
+            }
+            publication = {
+                "operation": "publish_log",
+                "path": str(request_path),
+                "record": record,
+                "line": line,
+                "assets": pending_assets,
+            }
+            log = runlog(self.logo.run_json, budget=budget)
+            # Account for a received charge in the parent before persistence can time out.
+            # The worker owns only file IO, never the client's sequence/lock/HTTP state.
+            if budget is not None:
+                log.jev_usage(
+                    response.get("_usage", {}), budget=budget, request_id=request_path.name
+                )
+            else:
+                req_dir.mkdir(parents=True, exist_ok=True)
+                request_path.write_text(json.dumps(record, indent=2))
+                _append_log_line(self.logo.qa / "jev" / "answers.jsonl", line)
+                log.jev_usage(response.get("_usage", {}))
         finally:
             self._lock.release()
-
-    def _publish_log(
-        self,
-        seq,
-        label,
-        state,
-        questions,
-        stripped_assets,
-        response,
-        assets_status,
-        budget,
-        pending_assets,
-    ):
-        from logo_maker.runlog import runlog
-
-        if self.logo is None:
-            raise JevError("logging needs a LogoDir client")
-
-        record = {
-            "seq": seq,
-            "label": label,
-            "model": self.model,
-            "state": state,
-            "questions": questions,
-            "assets": stripped_assets,
-            "assets_status": assets_status,
-            "status": response.get("_status", "response_received"),
-            "answers": response.get("answers", {}),
-            "usage": response.get("_usage", {}),
-            "provider_usage": response.get("usage"),
-        }
-        if "_error" in response:
-            record["error"] = response["_error"]
-        req_dir = self.logo.root / "qa" / "jev" / "requests"
-        request_path = req_dir / f"{seq:04d}-{_slug_label(label)}.json"
-        line = {
-            "seq": seq,
-            "label": label,
-            "model": response.get("model", self.model),
-            "questions": sorted(questions),
-            "status": record["status"],
-            "usage": response.get("_usage", {}),
-            "answers": response.get("answers", {}),
-        }
-        log = runlog(self.logo.run_json, budget=budget)
-        # Account for a received charge in the parent before persistence can time out.
-        # The worker owns only file IO, never the client's sequence/lock/HTTP state.
         if budget is not None:
-            log.jev_usage(response.get("_usage", {}), budget=budget, request_id=request_path.name)
-            self._worker(
-                {
-                    "operation": "publish_log",
-                    "path": str(request_path),
-                    "record": record,
-                    "line": line,
-                    "assets": pending_assets,
-                },
-                budget,
-            )
-        else:
-            req_dir.mkdir(parents=True, exist_ok=True)
-            request_path.write_text(json.dumps(record, indent=2))
-            with (self.logo.qa / "jev" / "answers.jsonl").open("a") as fh:
-                fh.write(json.dumps(line, sort_keys=True) + "\n")
-            log.jev_usage(response.get("_usage", {}))
+            self._worker(publication, budget)
         return request_path
 
     # -- public API -------------------------------------------------------

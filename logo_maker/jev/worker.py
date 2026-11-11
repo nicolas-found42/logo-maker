@@ -17,13 +17,13 @@ def main(payload: dict) -> dict:
         reader.logo = LogoDir(Path(payload["logo"]))
         return {"seq": reader._first_seq()}
     if payload["operation"] == "publish_log":
+        from logo_maker.jev.client import _append_log_line
         from logo_maker.publication import _record
 
         path = Path(payload["path"])
         path.parent.mkdir(parents=True, exist_ok=True)
         _record(path, payload["record"])
-        with (path.parent.parent / "answers.jsonl").open("a") as handle:
-            handle.write(json.dumps(payload["line"], sort_keys=True) + "\n")
+        _append_log_line(path.parent.parent / "answers.jsonl", payload["line"])
         if payload.get("assets") is not None:
             from logo_maker.jev.client import _finish_asset_storage
             from logo_maker.paths import LogoDir

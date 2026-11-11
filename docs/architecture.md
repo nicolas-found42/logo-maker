@@ -658,6 +658,10 @@ exact image-asset verification run together in one owned worker, before dispatch
 the response. The parent still allocates sequence IDs and accounts received usage before file IO;
 the record stays `assets_status=pending` until that worker verifies the retained bytes. This avoids
 an extra process startup at each persistence boundary without extending the shared deadline.
+The client lock protects sequence allocation and parent accounting, then releases before the
+owned persistence worker runs. Journal appends use a process file lock scoped only to the append;
+slow asset storage cannot serialize independent image requests. Dispatch still waits for that
+request's exact assets to be retained and verified.
 If the shared deadline expires, the unresolved
 attempt stays visible with unknown cost. Failed provider envelopes and missing telemetry use the
 bounded client and RunLog path; they retain unknown costs, not estimated zero charges.
