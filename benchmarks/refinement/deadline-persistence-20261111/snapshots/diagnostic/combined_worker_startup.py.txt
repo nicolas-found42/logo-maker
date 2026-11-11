@@ -1,0 +1,24 @@
+import os
+import subprocess
+import time
+
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def controlled_jev_worker_startup(monkeypatch):
+    original = subprocess.Popen
+    delay = float(os.environ.get('LOGO_TEST_WORKER_START_DELAY', '0'))
+    launches = 0
+
+    def popen(command, *args, **kwargs):
+        nonlocal launches
+        if isinstance(command, (list, tuple)) and 'logo_maker.jev.worker' in command:
+            launches += 1
+            if delay:
+                time.sleep(delay)
+        return original(command, *args, **kwargs)
+
+    monkeypatch.setattr(subprocess, 'Popen', popen)
+    yield
+    print(f'controlled_jev_worker_launches={launches}, startup_delay_seconds={delay}')

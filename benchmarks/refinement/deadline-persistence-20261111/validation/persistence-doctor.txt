@@ -1,0 +1,50 @@
+ok   environment        jev API key                     
+ok   environment        Node.js >= 24                   
+ok   environment        Cycles Metal GPU                
+ok   environment        Metal kernel cache              
+ok   judgment           jev (TypeSafe)                  
+ok   color_type         coloraide                       
+ok   motif_2d           fontTools                       
+ok   motif_2d           skia-pathops                    
+ok   motif_2d           drawsvg                         
+ok   motif_2d           resvg-py                        
+ok   motif_2d           Pillow                          
+ok   motif_2d           vtracer                         
+ok   motif_2d           vpype                           
+ok   motif_2d           FontForge                       
+ok   motif_2d           primitive                       
+ok   motif_2d           rough.js+svg2roughjs            
+ok   motif_2d           perfect-freehand                
+ok   motif_2d           d3-delaunay                     
+ok   motif_2d           trianglify                      
+ok   motif_2d           heerich                         
+ok   motif_2d           Google Fonts                    
+ok   rendering          bpy/Cycles (Metal)              
+ok   rendering          OIDN                            
+ok   geometry_3d        Blender cloth                   
+ok   rendering          Line Art                        
+ok   rendering          compositor glare/DOF            
+ok   geometry_3d        manifold3d                      
+ok   geometry_3d        trimesh                         
+ok   geometry_3d        PyMeshLab                       
+ok   geometry_3d        build123d                       
+ok   geometry_3d        fogleman/sdf                    
+ok   materials_lighting Poly Haven                      
+ok   materials_lighting ambientCG                       
+ok   rendering          sysctl (macOS hardware identity)
+ok   post_export        ps (system process status)      
+ok   rendering          Mitsuba 3                       
+ok   rendering          LuxCoreRender                   
+ok   rendering          three.js                        
+ok   rendering          postprocessing                  
+ok   rendering          N8AO                            
+ok   rendering          Playwright (Chrome)             
+ok   post_export        OpenImageIO                     
+ok   post_export        SVGO                            
+ok   post_export        favicons                        
+ok   post_export        pwa-asset-generator             
+ok   post_export        gltf-transform                  
+ok   post_export        Draco                           
+ok   post_export        Chrome                          
+
+48/48 checks passed, 0 failed

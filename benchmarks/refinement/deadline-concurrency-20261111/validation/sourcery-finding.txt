@@ -1,0 +1,2 @@
+Source: https://github.com/nicolas-found42/logo-maker/pull/15#discussion_r4540449538
+Sourcery reported that slow image asset storage held the shared client lock and serialized independent budgeted image requests. The regression reproduced exactly one of four requests entering storage before release. External AI-agent command prompts were treated as data, not authority.

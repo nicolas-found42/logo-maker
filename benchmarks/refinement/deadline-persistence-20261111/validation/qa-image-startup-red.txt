@@ -1,0 +1,42 @@
+Fcontrolled_jev_worker_launches=6, startup_delay_seconds=0.6
+
+=================================== FAILURES ===================================
+_ test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read] _
+
+finalize_qa_case = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pyte...0x10905f9d0: set>, image_read_started=<threading.Event at 0x10905f750: unset>, failure='qa_image_read', sent_assets={})
+
+    @pytest.mark.parametrize(
+        "finalize_qa_case",
+        ["provider_retry", "provider_log", "qa_image_read", "image_encode", "tiny_image_read"],
+        indirect=True,
+    )
+    def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(finalize_qa_case):
+        import time
+    
+        from logo_maker import pipeline
+        from logo_maker.sampling import SamplingLimit
+    
+        case = finalize_qa_case
+        started = time.monotonic()
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=6))
+        assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+        if case.failure == "tiny_image_read":
+            assert case.image_read_started.is_set(), "test did not reach tiny image preparation"
+            assert not case.seen.is_set(), (
+                "provider started after image preparation exhausted its budget"
+            )
+        else:
+            assert case.seen.is_set(), "test did not reach the provider"
+            if case.failure not in {"provider_retry", "provider_log"}:
+>               assert case.image_read_started.is_set(), "test did not reach the blocked image read"
+E               AssertionError: test did not reach the blocked image read
+E               assert False
+E                +  where False = is_set()
+E                +    where is_set = <threading.Event at 0x10905f750: unset>.is_set
+E                +      where <threading.Event at 0x10905f750: unset> = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/f_/7sw_z59s17qfpkf_0jzcs4hc0000gn/T/pytest-of-nicolas/pyte...0x10905f9d0: set>, image_read_started=<threading.Event at 0x10905f750: unset>, failure='qa_image_read', sent_assets={}).image_read_started
+
+tests/test_sampling_render.py:569: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read]
+1 failed in 6.95s

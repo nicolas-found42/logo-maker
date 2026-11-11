@@ -1,0 +1,122 @@
+{
+  "seq": 1,
+  "label": "qa-sampling-typography--embossed-plate--polished-metal",
+  "model": "typesafe/jev-1.14",
+  "state": {
+    "brief": {
+      "name": "OPTICS",
+      "summary": "A precise green directional instrument mark with metal lettering",
+      "tone": [
+        "precise",
+        "calm"
+      ],
+      "palette": {
+        "primary": "#245846",
+        "background": "#F4F1EA",
+        "ink": "#131D18"
+      },
+      "fonts": {
+        "display": "Open Sans:wght=700"
+      }
+    },
+    "concept_id": "sampling-typography|embossed_plate|polished_metal",
+    "render": "2de7fea67000488098d529f289911c85",
+    "tiny": "f86faa9f9a2b41b1bf9f23afc8ab5953"
+  },
+  "questions": {
+    "motif_readable": {
+      "type": "noul",
+      "instructions": "Does the mark in `render` read as one clear motif?",
+      "criteria": {
+        "true": "The mark reads as a single clear shape.",
+        "false": "The mark is muddled, doubled, or falls apart visually."
+      }
+    },
+    "nothing_cut_off": {
+      "type": "noul",
+      "instructions": "Is the whole mark in `render` inside the frame with margin to spare?",
+      "criteria": {
+        "true": "The full mark is visible with clear margin around it.",
+        "false": "An edge of the mark is cropped by the frame."
+      }
+    },
+    "clean_edges": {
+      "type": "noul",
+      "instructions": "Are the mark's edges in `render` clean?",
+      "criteria": {
+        "true": "Edges are crisp with no jaggies, halos, or smears.",
+        "false": "Edges show jaggies, halos, noise, or compression smears."
+      }
+    },
+    "no_veil_or_box": {
+      "type": "noul",
+      "instructions": "Is the render in `render` free of fog, veils, dark boxes, and backdrop seams over the mark?",
+      "criteria": {
+        "true": "The mark sits cleanly with no veil, box, or seam across it.",
+        "false": "A fog patch, dark box, or seam crosses or frames the mark."
+      }
+    },
+    "recognizable_at_32px": {
+      "type": "noul",
+      "instructions": "Is the mark in `tiny` still recognizable as the same mark?",
+      "criteria": {
+        "true": "The tiny mark is still recognizable as the same design.",
+        "false": "The tiny mark is an unrecognizable blur or blob."
+      }
+    }
+  },
+  "assets": {
+    "2de7fea67000488098d529f289911c85": {
+      "type": "image",
+      "format": "png",
+      "sha256": "3d76d137a0bc61e8d699ce13a2d79e8a88614be2d7d81a8329ac9ff96a9f21b3",
+      "bytes": 315082
+    },
+    "f86faa9f9a2b41b1bf9f23afc8ab5953": {
+      "type": "image",
+      "format": "png",
+      "sha256": "0f393257673e2bd1e95278f7e7bb4b0a67c5cb024b021ef9a20acb025f74f0c2",
+      "bytes": 16526
+    }
+  },
+  "assets_status": "ready",
+  "status": "response_received",
+  "answers": {
+    "motif_readable": {
+      "type": "noul",
+      "noul": 0.87
+    },
+    "nothing_cut_off": {
+      "type": "noul",
+      "noul": 0.85
+    },
+    "clean_edges": {
+      "type": "noul",
+      "noul": 0.78
+    },
+    "no_veil_or_box": {
+      "type": "noul",
+      "noul": 0.75
+    },
+    "recognizable_at_32px": {
+      "type": "noul",
+      "noul": 0.76
+    }
+  },
+  "usage": {
+    "input_tokens": 6275,
+    "output_tokens": 103,
+    "cost": 0.00026355
+  },
+  "provider_usage": {
+    "input_tokens": 6275,
+    "output_tokens": 103,
+    "cost": 0.00026355,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.00026355,
+      "upstream_inference_prompt_cost": 0.00026355,
+      "upstream_inference_completions_cost": 0
+    }
+  }
+}
