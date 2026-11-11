@@ -36,7 +36,7 @@ class Section:
 
 def outside_code(text: str) -> str:
     """Blank fenced/indented code while keeping line positions for heading parsing."""
-    lines = COMMENT.sub("", text).splitlines()
+    lines = COMMENT.sub("", text).split("\n")
     fence = ""
     output = []
     for line in lines:
@@ -59,10 +59,10 @@ def outside_code(text: str) -> str:
 
 def sections(text: str) -> list[Section]:
     clean = COMMENT.sub("", text)
-    lines = clean.splitlines()
+    lines = clean.split("\n")
     headings = []
     stack: list[tuple[int, str]] = []
-    for index, line in enumerate(outside_code(clean).splitlines()):
+    for index, line in enumerate(noncode_prose(clean).split("\n")):
         match = HEADING.match(line)
         if not match:
             continue
@@ -82,8 +82,8 @@ def sections(text: str) -> list[Section]:
 def own_body(text: str) -> str:
     """Return a section's content before child headings, ignoring headings in code."""
     clean = COMMENT.sub("", text)
-    lines = clean.splitlines()
-    for index, line in enumerate(outside_code(clean).splitlines()):
+    lines = clean.split("\n")
+    for index, line in enumerate(noncode_prose(clean).split("\n")):
         if HEADING.match(line):
             return "\n".join(lines[:index])
     return clean
@@ -103,13 +103,12 @@ def noncode_prose(text: str, *, marker: str = "") -> str:
 
 def field_values(text: str, field: str) -> list[str]:
     """Extract bold-labeled field values declared outside code while preserving code answers."""
-    lines = COMMENT.sub("", text).splitlines()
+    lines = COMMENT.sub("", text).split("\n")
     masked = noncode_prose(text, marker="\x00").split("\n")
-    outside_headings = outside_code(text).split("\n")
     label = re.compile(r"^\*\*([^*\n\x00]+):\*\*\s*(.*)$")
     starts: list[tuple[int, str, str]] = []
-    for index, (line, heading_line) in enumerate(zip(masked, outside_headings, strict=False)):
-        if HEADING.match(heading_line):
+    for index, line in enumerate(masked):
+        if HEADING.match(line):
             break
         if match := label.match(line):
             starts.append((index, match[1], lines[index].split(":**", 1)[1].lstrip()))
@@ -126,13 +125,10 @@ def answer(text: str, *, allow_none: bool = False) -> bool:
     text = COMMENT.sub("", text)
     prose = noncode_prose(text)
     prose = re.sub(r"^\s*#{1,6}\s+.*$", "", prose, flags=re.MULTILINE)
-    prose = IMAGE.sub("", prose)
-    prose = REFERENCE_IMAGE.sub("", prose)
-    prose = REFERENCE.sub("", prose)
     prose = re.sub(r"<[^>]*>", "", prose)
     code_chunks = [
         line
-        for line, unmasked in zip(text.splitlines(), outside_code(text).splitlines(), strict=False)
+        for line, unmasked in zip(text.split("\n"), outside_code(text).split("\n"), strict=False)
         if not unmasked
     ]
     unmasked_text = outside_code(text)
@@ -147,6 +143,9 @@ def answer(text: str, *, allow_none: bool = False) -> bool:
     )
     code = re.sub(r"^\s*(?:`{3,}|~{3,}).*$", "", "\n".join(code_chunks), flags=re.MULTILINE)
     text = prose + "\n" + code
+    text = IMAGE.sub("", text)
+    text = REFERENCE_IMAGE.sub("", text)
+    text = REFERENCE.sub("", text)
     text = re.sub(r"[*_`>#\[\]()-]", " ", html.unescape(text))
     text = " ".join(text.split()).casefold().strip(" .:;!?")
     if not re.search(r"\w", text):
@@ -301,8 +300,8 @@ def validate(body: str, kind: str, root: Path = ROOT) -> list[str]:
             declarations = [
                 line.split(":**", 1)[1].strip()
                 for line, masked_line in zip(
-                    COMMENT.sub("", introduction).splitlines(),
-                    noncode_prose(introduction, marker="\x00").splitlines(),
+                    COMMENT.sub("", introduction).split("\n"),
+                    noncode_prose(introduction, marker="\x00").split("\n"),
                     strict=False,
                 )
                 if re.match(r"^\*\*Visible app change:\*\*\s*\S", masked_line)

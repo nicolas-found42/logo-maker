@@ -313,6 +313,45 @@ def test_declaration_reason_with_only_inline_code_is_accepted():
 
 
 @pytest.mark.parametrize(
+    "code_image",
+    [
+        "`![before](https://example.com/before.png)`",
+        "\n```markdown\n![before](https://example.com/before.png)\n```",
+        "<pre>![before][ref]\n[ref]: https://example.com/before.png</pre>",
+    ],
+)
+def test_code_wrapped_image_alone_does_not_satisfy_proof_field(code_image):
+    body = nonvisual_pr().replace("Invalid input exits 0.\n\n```text\nexit=0\n```", code_image)
+    assert any("Before / Observed result" in error for error in check.validate(body, "pr"))
+
+
+@pytest.mark.parametrize(
+    "code_heading",
+    [
+        "<pre>\n#### In pre\n</pre>",
+        "<code>\n#### In code\n</code>",
+        "`first line\n#### In inline code`",
+    ],
+)
+def test_heading_inside_html_or_multiline_inline_code_does_not_truncate_later_proof_fields(
+    code_heading,
+):
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        f"**Revision:** 1111111\n\n{code_heading}",
+    )
+    assert check.validate(body, "pr") == []
+
+
+def test_unicode_line_separator_in_proof_field_does_not_misalign_or_crash():
+    body = nonvisual_pr().replace(
+        "**Revision:** 1111111",
+        "**Revision:** 1111\u2028111 `inline\u2028code` <pre>\u2028</pre>",
+    )
+    assert check.validate(body, "pr") == []
+
+
+@pytest.mark.parametrize(
     "snippet",
     [
         '\n```\n<response status="ok"/>\n```',
