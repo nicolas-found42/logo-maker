@@ -80,6 +80,8 @@ jobs:
         run: uv sync --locked
       - name: Type check
         run: uv run --no-sync ty check
+      - name: Verify retained refinement evidence
+        run: uv run --no-sync python scripts/verify_reconciled_refinement.py
       - name: Offline tests
         env:
           PAG_USE_LOCAL_REV: "1"

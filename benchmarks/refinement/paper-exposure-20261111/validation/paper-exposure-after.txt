@@ -1,0 +1,8 @@
+{
+  "revision": "0009-18d06068d23e-preview",
+  "image": "qa/revisions/open-commons--extruded-solid--paper/0009-18d06068d23e-preview/render.png",
+  "evidence": "qa/revisions/open-commons--extruded-solid--paper/0009-18d06068d23e-preview",
+  "reuse_scope": "supported_runtime_scope",
+  "custom_dependency_inventory": "catalog",
+  "host_total_seconds": 5.541098540998064
+}

@@ -1,0 +1,5 @@
+/Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/trimesh/triangles.py:302: RuntimeWarning: invalid value encountered in divide
+  center_mass = integrated[1:4] / volume
+/Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/trimesh/triangles.py:302: RuntimeWarning: divide by zero encountered in divide
+  center_mass = integrated[1:4] / volume
+{"plan_status": "unsettled", "missing": ["plan plan_construction: unsettled"], "proof": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/authoring-history/continuous-core-probe-20261111/geometry-checks.json"}

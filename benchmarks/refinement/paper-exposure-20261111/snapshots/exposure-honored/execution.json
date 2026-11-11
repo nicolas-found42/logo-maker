@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "policy": "metal-gpu-only",
+  "status": "verified",
+  "inputs_sha256": {
+    "compiled_scene": "4dfd57e210bad5ae044d6154077712009065d1b50948a61d13bac364c737eb49",
+    "meshes/east-folded-card.ply": "3b0762cdf5b2130c7fb395cd2f992456a1db0daeb891c7eb13afed9e0569a590",
+    "meshes/common-core.ply": "1c7f030adee49983c95a88641d15c5436d64494f86deea34d69ab7756ac3d793",
+    "meshes/shelf-core.ply": "76846a1efa0161b39f4dc2ccd2ad99bd255b082b7bff559108f9bece089f971c",
+    "meshes/shelf-back.ply": "94543d8afbac9982e5f01dd052ce43304de52901078f61d8a636fe258d74da47",
+    "meshes/west-folded-card.ply": "f901e6698007acd80307db68afd009835aab426242ba67d4b45480d1ed9d475e",
+    "meshes/east-face.ply": "7482570d1179701ceac5a06bc88c26a9e87740bd17a9cc3f6c0886a197aa3768",
+    "meshes/west-face.ply": "525d792c66eb70c9ac298a99d1718f234cfb95b0bc0fe87d765ea1a36f26e96d",
+    "meshes/shared-shelf.ply": "626ab342db0d705bfc71fcf68a7d9d7afc1a5a3679d439e3e8178e678d8ed4b3",
+    "meshes/shelf-face.ply": "acf9a107fcfbb29870173beb3220455a2877fdcbacea23a51d84323bcd03b7d5",
+    "meshes/west-core.ply": "63534a6ec5c3ec3793d389ceca4ff059d43053a8fdd70d4758423174c0ade1e4",
+    "meshes/east-back.ply": "121e1c980b2706b9e54fd5fd62bb9603a07815e0151ff1580036633ee1f5a73f",
+    "meshes/west-back.ply": "a790afb64978e7f6e68ad08bf7550909890bb2cc0cdc609d040280ae6e5619f8",
+    "meshes/east-core.ply": "19a8d2d9943351cf0d68b97dea52af2e2e19519743f99df20928273f15cf9a60"
+  },
+  "blender": "5.2.3 LTS",
+  "build": "e13b728c6880",
+  "os": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "devices": [
+    {
+      "name": "Apple M5 Pro",
+      "id": "CPU",
+      "type": "CPU",
+      "use": false
+    },
+    {
+      "name": "Apple M5 Pro (GPU - 20 cores)",
+      "id": "METAL_Apple M5 Pro (GPU - 20 cores)",
+      "type": "METAL",
+      "use": true
+    }
+  ],
+  "device_override": "METAL",
+  "metalrt": "AUTO",
+  "sampling": {
+    "samples": 256,
+    "use_adaptive_sampling": false,
+    "adaptive_threshold": 0.009999999776482582,
+    "adaptive_min_samples": 0,
+    "seed": 1820117,
+    "use_animated_seed": false
+  },
+  "resolution": [
+    1000,
+    1000
+  ],
+  "resolution_percentage": 100,
+  "denoiser_requested": {
+    "name": "OPENIMAGEDENOISE",
+    "gpu": true,
+    "input_passes": "RGB_ALBEDO_NORMAL"
+  },
+  "timing_scope": "render, denoise and PNG write; excludes prior scene setup and verification",
+  "kernel_cache_state": "unknown",
+  "log": "preview.execution.log",
+  "seconds": 3.081981249997625,
+  "process_cpu_seconds": 1.30599,
+  "log_sha256": "10ec638802f106ab6a7c9841779ec1b9ad5edecb47a20ece318e22720deafa54",
+  "denoiser_effective": {
+    "device_type": "Metal",
+    "oidn_version": "2.5.0",
+    "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+  },
+  "diagnostics": {
+    "status": "retained",
+    "path": "/Users/nicolas/.codex/worktrees/logo-creative-refinement/logo-maker/benchmarks/refinement/local/paper/concepts/open-commons--extruded-solid--paper/.build/attempt-c64e6ac6d370404ca944851bc05b5ddf/preview.execution.exr",
+    "bytes": 9749590,
+    "sha256": "37f2d6f3591515dfc7631f43f5fb530645069a12117b8f9bfc907b93c36b742c",
+    "seconds": 0.028771374985808507,
+    "scope": "lossless 32-bit multilayer EXR write and hash, after render"
+  },
+  "png_sha256": "2ae86213602a45206ef805f21fbd698789a8257d1411a055ed1c035e9e4073cc"
+}

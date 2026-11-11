@@ -1,0 +1,19 @@
+/Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/trimesh/triangles.py:302: RuntimeWarning: invalid value encountered in divide
+  center_mass = integrated[1:4] / volume
+/Users/nicolas/Documents/github/logo-maker/.venv/lib/python3.13/site-packages/trimesh/triangles.py:302: RuntimeWarning: divide by zero encountered in divide
+  center_mass = integrated[1:4] / volume
+Traceback (most recent call last):
+  File "/tmp/paper_bonded_lap_probe.py", line 72, in <module>
+    result=briefing.review_plan(logo,cid,JevClient(logo));(probe/'plan-result.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'plan_status':result['status'],'missing':result['missing'],'proof':str(probe/'geometry-checks.json')}),flush=True)
+                                                                                                ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/nicolas/.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/json/__init__.py", line 242, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "/Users/nicolas/.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/json/encoder.py", line 202, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/Users/nicolas/.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/json/encoder.py", line 263, in iterencode
+    return _iterencode(o, 0)
+  File "/Users/nicolas/.local/share/uv/python/cpython-3.13.16-macos-aarch64-none/lib/python3.13/json/encoder.py", line 182, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+                    f'is not JSON serializable')
+TypeError: Object of type PosixPath is not JSON serializable

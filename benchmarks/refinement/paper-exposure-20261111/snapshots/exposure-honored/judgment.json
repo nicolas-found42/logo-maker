@@ -1,0 +1,21 @@
+{
+  "answers": {
+    "brief_fit": {
+      "noul": 0.59,
+      "type": "noul"
+    },
+    "craftsmanship": {
+      "noul": 0.35,
+      "type": "noul"
+    },
+    "description_match": {
+      "noul": 0.68,
+      "type": "noul"
+    },
+    "material_intent": {
+      "noul": 0.52,
+      "type": "noul"
+    }
+  },
+  "binding": "bfda4ed78b9af4cae91c86b4085853654a0e0d0b819cb08e401d9f12d450c786"
+}

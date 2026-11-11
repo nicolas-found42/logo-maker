@@ -1,0 +1,1 @@
+{"status": "pass", "missing": [], "answers": {"plan_grounded": {"type": "noul", "noul": 0.96}, "plan_mandates": {"type": "noul", "noul": 0.74}, "plan_shared_identity": {"type": "noul", "noul": 0.94}, "plan_construction": {"type": "noul", "noul": 0.77}, "plan_detail_0": {"type": "noul", "noul": 0.99}, "plan_detail_1": {"type": "noul", "noul": 0.98}}}

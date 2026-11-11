@@ -1,0 +1,43 @@
+{
+  "seconds": 61.853924208000535,
+  "render_seconds": 53.14970708399778,
+  "export_seconds": 4.162734040990472,
+  "finalize_seconds": 3.572736583009828,
+  "budget": {
+    "wall_seconds": 1800,
+    "attempt_limit": 4,
+    "attempts": 1,
+    "elapsed_seconds": 61.85392262498499,
+    "remaining_seconds": 1738.1460770840058,
+    "scope": "whole host job including setup, probes, denoise and output"
+  },
+  "request_count": 1,
+  "usage": {
+    "cost_usd": 0.000263634,
+    "input_tokens": 6277,
+    "output_tokens": 103,
+    "requests": 1,
+    "reported_cost_usd": 0.000263634,
+    "unpriced_requests": 0,
+    "reported_input_tokens": 6277,
+    "uncounted_input_requests": 0,
+    "reported_output_tokens": 103,
+    "uncounted_output_requests": 0,
+    "request_usage": {
+      "0001-qa-sampling-typography--embossed-plate--polished-metal.json": {
+        "input_tokens": 6277,
+        "output_tokens": 103,
+        "cost": 0.000263634
+      }
+    }
+  },
+  "qa_result": "sampling_review_needed",
+  "stop": "sampling qualification unresolved; creative validity cannot replace #5's profile gate\n  - /Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/exposure-final-runtime-18d06068/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json\n  - /Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/exposure-final-runtime-18d06068/concepts/sampling-typography--embossed-plate--polished-metal/scene.toml",
+  "execution": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/exposure-final-runtime-18d06068/concepts/sampling-typography--embossed-plate--polished-metal/.build/attempt-376af3a75174452c88f986a9678dc697/final.execution.json",
+  "sampling": "/Users/nicolas/Documents/github/logo-maker/benchmarks/refinement/local/exposure-final-runtime-18d06068/concepts/sampling-typography--embossed-plate--polished-metal/.build/final.sampling.json",
+  "verified_exports": 31,
+  "qualification": "incomplete",
+  "timing_scope": "fixture and job setup, motif, native render/denoise/diagnostics, delivery, full export and actual final QA/provider work; excludes pytest/import startup and later evidence copy/review",
+  "kernel_cache_state": "unknown",
+  "owner_acceptance": "not inferred"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "open-commons|extruded_solid|paper",
+  "metaphor": "open-commons",
+  "metaphor_text": "A shared library gives independent team contributions one accessible common place",
+  "description": "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border.",
+  "treatment": "extruded_solid",
+  "material": "paper"
+}

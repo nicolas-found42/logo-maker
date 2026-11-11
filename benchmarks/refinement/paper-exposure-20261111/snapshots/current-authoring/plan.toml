@@ -1,0 +1,20 @@
+schema = 1
+requirements_revision = "8bf3d59cbaf1b50ad5e8ff50df28c46af8a9b901ad561e674653338c09a3f128"
+hypothesis = "Independent contributions become reusable team capability through one open shared library"
+visual_mechanism = "One open U-shaped card has a dark-green upright on the left, a pale-green upright on the right, and a terracotta lower dock. Its two outer upright edges curve outward along broad scores; the lower dock curls forward along a third score. One pale paper core runs continuously through the three colored regions, visible at cut edges. The shared center stays open across the full top, without a backing plate or enclosing border. This develops the open-space territory; retained joined-index and folio studies preserve the other two territories. The SVG uses the exact front projection of these same three assemblies. Dark green, pale green and terracotta follow the supplied palette. No lettering enters the symbol; supplied Manrope and DM Sans remain for adjacent naming. The core contour serves app icons and mono marks, while stock and fold detail belongs to hero views."
+requirement_ids = ["material", "meaning", "territories", "style", "avoid_0", "avoid_1", "avoid_2", "avoid_3", "avoid_4", "avoid_5", "avoid_6", "avoid_7", "avoid_8", "uses", "palette", "fonts", "tone", "initials", "owner_structure_scope"]
+assumptions = ["These are authored alternatives for visual evaluation; owner artistic acceptance remains unknown"]
+
+[[details]]
+feature = "Continuous shared paper core"
+purpose = "Join three contribution regions through one visible shared sheet"
+intended_scale = "Broad junctions at app-icon scale; seams and cut edges at hero scale"
+construction = "Cut one U-shaped blank from laminated paperboard. Its pale paper core is unbroken through the two upright feet and the lower crossbar. Dark-green, pale-green and terracotta paper-skin regions meet edge-to-edge on the same core; these colors do not denote separate fitted structural parts. Score and bend only the two free outer upright edges and the free bottom edge. Leave both upright-to-crossbar junctions flat and uncut. The three score lines are separate, never crossing each other or those junctions. Every bend carries the same paper stock through a broad curve. The resulting object is one folded card, without joined slabs, floating parts, a top bridge or a backing panel."
+deletion_test = "Cutting the core across either upright foot disconnects that region from the shared dock. A visible gap or an unjoined core would disprove this construction."
+
+[[details]]
+feature = "Broad rounded paper scores and exposed stock"
+purpose = "Show a deliberate paper change of plane without treating the sheets as inflated solids"
+intended_scale = "Hero and native detail, subordinate to the shared silhouette"
+construction = "The two upright returns and the lower forward return are folds of this same blank. Each score has a broad bend radius, leaving visibly substantial stock at its cut edges. The lower junctions remain flat and continuous. Matte fiber-textured paper skins carry the supplied colors; the pale paper core remains visible at cuts. No rigid insert or separate support is added."
+deletion_test = "Removing the scores loses the paper construction; removing the open center loses the accessible shared-space hypothesis."
