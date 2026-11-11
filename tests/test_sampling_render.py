@@ -112,6 +112,70 @@ def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(
         releaser.join(timeout=1)
 
 
+@pytest.mark.parametrize("control", ["profile", "diagnosis"])
+def test_stalled_sampling_control_read_keeps_prior_final_within_deadline(
+    tmp_path, monkeypatch, control
+):
+    import contextlib
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded host workers target macOS/Linux")
+    compiled(tmp_path)
+    recipe = tmp_path / "scene.toml"
+    recipe.write_text(
+        recipe.read_text().replace(
+            "diagnostic_bytes=0", f'diagnostic_bytes=0\n{control}="blocked-control.json"'
+        )
+    )
+    source = tmp_path / "blocked-control.json"
+    os.mkfifo(source)
+    prior = tmp_path / "final.png"
+    prior.write_bytes(b"approved prior final")
+    stop = threading.Event()
+
+    def release_old_unbounded_call():
+        delayed = False
+        while not stop.is_set():
+            try:
+                descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+            except OSError:
+                stop.wait(0.01)
+                continue
+            try:
+                if not delayed:
+                    delayed = True
+                    if stop.wait(10):
+                        return
+                with contextlib.suppress(BrokenPipeError):
+                    os.write(descriptor, b"{}")
+            finally:
+                os.close(descriptor)
+            stop.wait(0.01)
+
+    releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+    releaser.start()
+    monkeypatch.setattr(render, "machine_context", lambda *args: {"machine": "test"})
+    monkeypatch.setattr(render, "_run_builder", lambda *a, **kw: pytest.fail("GPU attempt started"))
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            render.render(tmp_path, "final", budget=Budget(wall_seconds=6))
+        assert time.monotonic() - started < 9, "sampling control read overran the wall budget"
+        assert prior.read_bytes() == b"approved prior final"
+        report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
+        assert report["outcomes"]["time"] == "time_limit"
+        assert report["published"] is False
+        assert not report["attempts"]
+    finally:
+        stop.set()
+        releaser.join(timeout=1)
+
+
 def test_successful_final_binds_delivered_hash_after_real_downsample(tmp_path, monkeypatch):
     from logo_maker.sampling_diagnostics import sha256
 
@@ -239,24 +303,9 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
         + "\n[render]\nmax_samples=1\n"
     )
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
-    monkeypatch.setattr(
-        render, "qualify_profile", lambda *a: ("qualified", "test reviewed profile")
-    )
-    profile = {
-        "settings": {
-            "samples": 4096,
-            "adaptive_threshold": 0.01,
-            "min_samples": 0,
-            "adaptive": True,
-        }
-    }
-    monkeypatch.setattr(
-        render, "_load_optional", lambda folder, name: profile if name == "profile" else None
-    )
+    (tmp_path / "profile").write_text("{}")
     review = tmp_path / "owner-reviewed-case.json"
-    review.write_text('{"sampling":"approved"}')
-    profile["cases"] = [{"evidence": {"path": str(review)}}]
-    (tmp_path / "profile").write_text("test profile")
+    review.write_text('{"sampling":"approved synthetic test fixture"}')
 
     def builder(path, *args, budget):
         budget.begin_attempt()
@@ -267,6 +316,30 @@ def test_override_keeps_values_but_cannot_inherit_unmatched_profile_acceptance(
         (folder / "final.execution.json").write_text('{"status":"verified"}')
 
     monkeypatch.setattr(render, "_run_builder", builder)
+    first = render.render(tmp_path, "final", budget=Budget())
+    assert first.sampling is not None
+    context = json.loads(first.sampling.read_text())["context"]
+    from logo_maker.sampling_diagnostics import sha256
+
+    evidence = {"path": str(review), "sha256": sha256(review)}
+    profile = {
+        "schema": 1,
+        "context": {k: v for k, v in context.items() if k != "material_presets"},
+        "material_presets": ["wax"],
+        "owner_review": "approved",
+        "coverage": ["matte", "metal", "glass", "dark", "typography", "alpha"],
+        "cases": [
+            {"role": role, "evidence": evidence} for role in ("positive", "degraded", "held_out")
+        ],
+        "job_costs": [{"baseline_seconds": 40, "candidate_seconds": 35}],
+        "settings": {
+            "samples": 4096,
+            "adaptive_threshold": 0.01,
+            "min_samples": 0,
+            "adaptive": True,
+        },
+    }
+    (tmp_path / "profile").write_text(json.dumps(profile))
     result = render.render(tmp_path, "final", budget=Budget())
     assert result.sampling is not None
     report = json.loads(result.sampling.read_text())

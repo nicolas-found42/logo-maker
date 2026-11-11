@@ -226,11 +226,15 @@ still supports callbacks for caller-managed work. Light
 orchestration checks the shared deadline between operations. Native render work is interrupted
 at the remaining deadline.
 Configuration loading and cached-image/dependency validation also run in owned workers.
+Profile/control JSON loading and qualification evidence reads use the same owned-worker
+deadline. The worker returns effective settings with explicit overrides preserved, the
+qualification result, diagnosis and hashes of the control bytes it loaded. A timeout
+retains prior output and cannot start a GPU attempt.
 Configuration uses the caller's deadline or the default 1800 s bootstrap ceiling until
 its settings are known; the scene deadline then includes that elapsed setup time.
 `render_many` has no compilation prepass outside those concept budgets. Host-phase timings
 and the execution paths of interrupted attempts remain available in the sampling record.
-Profile/control JSON work, light publication/orchestration and QA/provider work remain
+Light publication/orchestration and QA/provider work remain
 cooperative and are not yet qualified as a hard whole-job bound.
 Creative refinement's caller-side source/image hashing, construction validation and revision
 archival also remain cooperative. They can overrun the shared deadline during an operation;
@@ -241,6 +245,9 @@ is restricted to previews and never permits custom final or production reuse.
 Finalize shares a budget across candidates/QA, and export shares it when invoked by `run`.
 Standalone export starts its own explicit budget and retains the final's sampling provenance in the
 export manifest. Unqualified sampling returns an authoring/review stop and cannot advance to winner.
+The owned export worker loads and hashes sampling provenance, checks the delivered final
+image hash, and builds the export manifest. A blocked provenance read therefore consumes
+the same deadline as image and adapter work, before export publication.
 Issue #2 must independently enforce craftsmanship, brief fit and preference, including for a
 technically
 accepted or capped image. A capped image is never described as proven convergence.

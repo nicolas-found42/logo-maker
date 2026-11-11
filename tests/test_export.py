@@ -99,6 +99,60 @@ def test_export_deadline_keeps_prior_exports(tmp_path):
     assert (out / "prior.txt").read_text() == "last approved export"
 
 
+def test_stalled_sampling_provenance_read_keeps_prior_exports_within_deadline(tmp_path):
+    import os
+    import threading
+    import time
+
+    from logo_maker.sampling import Budget, SamplingLimit
+
+    if os.name != "posix":
+        pytest.skip("bounded workers target macOS/Linux")
+    concept, motif = _concept(tmp_path, _disc)
+    (concept / ".build").mkdir()
+    source = concept / ".build/final.sampling.json"
+    os.mkfifo(source)
+    out = tmp_path / "exports"
+    out.mkdir()
+    (out / "prior.txt").write_text("last approved export")
+    stop = threading.Event()
+
+    def release_old_unbounded_call():
+        descriptor = None
+        try:
+            while not stop.is_set():
+                try:
+                    descriptor = os.open(source, os.O_WRONLY | os.O_NONBLOCK)
+                    break
+                except OSError:
+                    stop.wait(0.01)
+            if descriptor is not None and not stop.wait(10):
+                with contextlib.suppress(BrokenPipeError):
+                    os.write(descriptor, b"{}")
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+
+    releaser = threading.Thread(target=release_old_unbounded_call, daemon=True)
+    releaser.start()
+    started = time.monotonic()
+    try:
+        with pytest.raises(SamplingLimit, match="time_limit"):
+            export_all(
+                concept,
+                out,
+                name="Sample",
+                palette=PALETTE,
+                motif_svg=motif,
+                budget=Budget(wall_seconds=6),
+            )
+        assert time.monotonic() - started < 9, "provenance read overran the wall budget"
+        assert (out / "prior.txt").read_text() == "last approved export"
+    finally:
+        stop.set()
+        releaser.join(timeout=1)
+
+
 @pytest.mark.parametrize("failure", ["deadline", "inner_error", "denied_live"])
 def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypatch, failure):
     """A browser launcher cleans its detached child only when it receives termination."""

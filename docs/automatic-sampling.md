@@ -40,7 +40,8 @@ launcher cleanup and final SIGKILL/reaping. A budget too small for that reserve 
 launch the worker. The supported browser launchers use termination hooks to close detached
 browsers; arbitrary processes escaping the session without cleanup are unsupported. Render
 subprocesses get min(900 s, remaining deadline). Configuration loading, compilation and
-dependency hashing, final downsampling/alpha cleanup/EXR analysis/image hashing, and cache
+dependency hashing, profile/control loading and qualification evidence reads,
+final downsampling/alpha cleanup/EXR analysis/image hashing, and cache
 validation now run in owned CPU workers using the same process cleanup. Their startup,
 output transfer and cleanup count toward the deadline. Normal CPU host work is permitted;
 the verified GPU rendering/denoising boundary is unchanged.
@@ -55,8 +56,9 @@ are retained in the sampling report.
 Asset-use events return as `RenderResult.assets` records and in the sampling sidecar.
 An arbitrary `on_asset` callback now returns an explicit `budget_conflict`, because it
 cannot both retain parent-process side effects and run in a killable worker. Direct
-`scene.compile` still supports caller-managed callbacks. Profile/control JSON handling,
-light publication/orchestration and final QA/provider work still use cooperative checks;
+`scene.compile` still supports caller-managed callbacks. Export provenance loading and
+delivered-image hashing run inside the owned export worker, bound to the exact parsed
+provenance bytes. Light publication/orchestration and final QA/provider work still use cooperative checks;
 complete whole-job hard-bound qualification remains open.
 
 Job timing includes scene compilation, environment probing, attempts, denoise, diagnostic

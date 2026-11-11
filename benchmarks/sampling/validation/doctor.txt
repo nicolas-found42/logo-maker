@@ -1,3 +1,4 @@
+uv run --locked logo-maker doctor
 ok   environment        jev API key
 ok   environment        Node.js >= 24
 ok   environment        Cycles Metal GPU
@@ -31,6 +32,7 @@ ok   geometry_3d        build123d
 ok   geometry_3d        fogleman/sdf
 ok   materials_lighting Poly Haven
 ok   materials_lighting ambientCG
+ok   rendering          sysctl (macOS hardware identity)
 ok   post_export        ps (system process status)
 ok   rendering          Mitsuba 3
 ok   rendering          LuxCoreRender
@@ -46,4 +48,4 @@ ok   post_export        gltf-transform
 ok   post_export        Draco
 ok   post_export        Chrome
 
-47/47 checks passed, 0 failed
+48/48 checks passed, 0 failed

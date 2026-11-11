@@ -300,9 +300,21 @@ def _contact_sheet(
 
 def _export_all(
     concept_dir: Path, out_dir: Path, *, name: str, palette: dict[str, str], motif_svg: Path
-) -> dict[str, Path]:
-    """Build the full export set; return a manifest dict and write manifest.json."""
+) -> dict:
+    """Validate provenance and build the export set inside the owned worker."""
     concept_dir, out, motif = Path(concept_dir), Path(out_dir), Path(motif_svg)
+    provenance_path = concept_dir / ".build/final.sampling.json"
+    sampling: dict = {"state": "unattested_legacy_image"}
+    if provenance_path.exists():
+        raw = provenance_path.read_bytes()
+        provenance = json.loads(raw)
+        if not provenance.get("published") or provenance.get("delivered_sha256") != _sha256(
+            concept_dir / "final.png"
+        ):
+            raise ExportError(
+                "sampling provenance does not match final image; prior exports retained"
+            )
+        sampling = {"record_sha256": hashlib.sha256(raw).hexdigest(), "record": provenance}
     out.mkdir(parents=True, exist_ok=True)
     if not motif.is_file():
         raise ExportError(f"no motif svg at {motif}")
@@ -362,13 +374,13 @@ def _export_all(
             with Image.open(path) as im:
                 entry["width"], entry["height"] = im.size
         files[key] = entry
-    record = {"name": name, "palette": dict(palette), "files": files}
+    record = {"name": name, "palette": dict(palette), "files": files, "sampling": sampling}
     (out / "manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True))
 
     # The flat motif is not a product SVG; keep the folder to the contract set.
     for extra in (".mark-color.src.svg", ".mark-mono.src.svg"):
         (out / extra).unlink(missing_ok=True)
-    return manifest
+    return record
 
 
 def export_all(
@@ -391,13 +403,6 @@ def export_all(
     started = time.monotonic()
     concept_dir, out_dir = Path(concept_dir).resolve(), Path(out_dir).resolve()
     out_dir.parent.mkdir(parents=True, exist_ok=True)
-    provenance_path = concept_dir / ".build/final.sampling.json"
-    provenance = json.loads(provenance_path.read_text()) if provenance_path.exists() else None
-    if provenance and (
-        not provenance.get("published")
-        or provenance.get("delivered_sha256") != _sha256(concept_dir / "final.png")
-    ):
-        raise ExportError("sampling provenance does not match final image; prior exports retained")
     with TemporaryDirectory(prefix=".export-pending-", dir=out_dir.parent) as temp:
         pending = Path(temp) / "exports"
         payload = {
@@ -416,12 +421,7 @@ def export_all(
         if proc.returncode:
             raise ExportError((proc.stderr or proc.stdout)[-2000:])
         budget.check()
-        record = json.loads((pending / "manifest.json").read_text())
-        record["sampling"] = (
-            {"state": "unattested_legacy_image"}
-            if provenance is None
-            else {"record_sha256": _sha256(provenance_path), "record": provenance}
-        )
+        record = json.loads(proc.stdout.strip().splitlines()[-1])
         record["export_seconds"] = time.monotonic() - started
         record["whole_job_budget"] = budget.record()
         (pending / "manifest.json").write_text(json.dumps(record, indent=2, sort_keys=True))
@@ -444,4 +444,4 @@ def export_all(
 
 
 if __name__ == "__main__":
-    _export_all(**json.loads(sys.stdin.read()))
+    print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)

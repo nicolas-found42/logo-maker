@@ -136,3 +136,27 @@ The separate invocation-measurement delta gate verified its narrow claim at conf
 but escalated (composite0.85875, safe-to-apply0.58) for low-confidence test coverage. Its
 actual measurement files, source fingerprints and timer scope are retained. It does not
 replace any earlier gate or supply performance/visual qualification.
+
+## Owned sampling controls / export provenance follow-up
+
+Fixed point remains owner-approved `38ba86b9ccff305cb453c46920824509ae989f76`.
+Fresh parallel Standards and Spec agents reviewed the branch and working increment.
+Standards found a missing sysctl adapter and stale sampling documentation; both
+were repaired, and its follow-up found no unresolved finding. A repeated settings
+key tuple was reduced to one local declaration during review.
+Spec found no new incremental regression; it independently ran the real synthetic
+profile override and stalled-export-provenance checks (2 passed in 6.64 s).
+It noted the existing concurrent-final-input read/hash race. That is retained as
+an unresolved qualification gap, along with parent publication/QA/provider bounds.
+Offline tests and synthetic owner labels do not prove Metal execution or actual
+owner/held-out qualification. No full-issue completion or merge approval is claimed.
+
+Jev follow-up: composite 0.336, safe-to-apply 0.09; two factual claims were labeled
+contradicted at confidence 0.44 / 0.48; override support was labeled unsupported at 0.67.
+The independent Spec reviewer audited actual raw logs and current source without
+rerunning tests. It confirmed 235 offline / 3 render / 48 doctor, lint/types/hooks;
+red timed calls 10.665 / 10.015 seconds; green *test-suite* times 5.12 / 5.22 seconds.
+It confirmed synthetic max_samples=1 survives a reviewed-profile cap4096 request,
+with override_conflict/review_needed and stale-review invalidation assertions.
+The factual contradictions are inconsistent with direct records. Precise render-time
+claims were corrected to test-suite durations. Broad review escalation remains open.
