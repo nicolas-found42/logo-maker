@@ -1,0 +1,1315 @@
+test	Set up job	﻿2026-11-11T15:47:20.8661850Z Current runner version: '2.338.2'
+test	Set up job	2026-11-11T15:47:20.8688180Z ##[group]Runner Image Provisioner
+test	Set up job	2026-11-11T15:47:20.8688900Z Hosted Compute Agent
+test	Set up job	2026-11-11T15:47:20.8689790Z Version: 20261028.624
+test	Set up job	2026-11-11T15:47:20.8690200Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+test	Set up job	2026-11-11T15:47:20.8690690Z Build Date: 2026-10-28T21:51:42Z
+test	Set up job	2026-11-11T15:47:20.8691680Z Worker ID: {43342572-4f38-4087-ba4b-d7f21a091908}
+test	Set up job	2026-11-11T15:47:20.8693300Z Region: westus
+test	Set up job	2026-11-11T15:47:20.8694260Z Cloud: MacCloud
+test	Set up job	2026-11-11T15:47:20.8695250Z ##[endgroup]
+test	Set up job	2026-11-11T15:47:20.8696500Z ##[group]Operating System
+test	Set up job	2026-11-11T15:47:20.8696940Z macOS
+test	Set up job	2026-11-11T15:47:20.8697320Z 26.7.2
+test	Set up job	2026-11-11T15:47:20.8697670Z 25G332
+test	Set up job	2026-11-11T15:47:20.8698020Z ##[endgroup]
+test	Set up job	2026-11-11T15:47:20.8698400Z ##[group]Runner Image
+test	Set up job	2026-11-11T15:47:20.8698860Z Image: macos-26-arm64
+test	Set up job	2026-11-11T15:47:20.8699250Z Version: 20261102.0473.1
+test	Set up job	2026-11-11T15:47:20.8700010Z Included Software: https://github.com/actions/runner-images/blob/macos-26-arm64/20261102.0473/images/macos/macos-26-arm64-Readme.md
+test	Set up job	2026-11-11T15:47:20.8701400Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-26-arm64%2F20261102.0473
+test	Set up job	2026-11-11T15:47:20.8702100Z ##[endgroup]
+test	Set up job	2026-11-11T15:47:20.8703030Z ##[group]GITHUB_TOKEN Permissions
+test	Set up job	2026-11-11T15:47:20.8704660Z Contents: read
+test	Set up job	2026-11-11T15:47:20.8705040Z Metadata: read
+test	Set up job	2026-11-11T15:47:20.8705400Z ##[endgroup]
+test	Set up job	2026-11-11T15:47:20.8707850Z Secret source: Actions
+test	Set up job	2026-11-11T15:47:20.8708460Z Cache mode: write
+test	Set up job	2026-11-11T15:47:20.8709010Z Prepare workflow directory
+test	Set up job	2026-11-11T15:47:20.9061470Z Prepare all required actions
+test	Set up job	2026-11-11T15:47:20.9137060Z Getting action download info
+test	Set up job	2026-11-11T15:47:21.3402710Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+test	Set up job	2026-11-11T15:47:21.6942600Z Download action repository 'astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7' (SHA:c18668ad3cf93ea998bef934396af7bb5c839dc7)
+test	Set up job	2026-11-11T15:47:22.2117710Z Download action repository 'actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+test	Set up job	2026-11-11T15:47:22.4679090Z Complete job name: test
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T15:47:22.5416820Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5417600Z with:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5417940Z   persist-credentials: false
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5418320Z   repository: nicolas-found42/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5421360Z   token: ***
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5421670Z   ssh-strict: true
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5421970Z   ssh-user: git
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5422280Z   clean: true
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5422600Z   sparse-checkout-cone-mode: true
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5422980Z   fetch-depth: 1
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5423340Z   fetch-tags: false
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5423710Z   show-progress: true
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5424030Z   lfs: false
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5424330Z   submodules: false
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5424660Z   set-safe-directory: true
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5425160Z   allow-unsafe-pr-checkout: false
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:22.5425930Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0287690Z Syncing repository: nicolas-found42/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0290170Z ##[group]Getting Git version info
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0291150Z Working directory is '/Users/runner/work/logo-maker/logo-maker'
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0292580Z [command]/opt/homebrew/bin/git version
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0781440Z git version 2.56.0
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0796350Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0808840Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/4feea659-493b-44de-8ca7-76fb14bfe1f3/.gitconfig'
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0821930Z Temporarily overriding HOME='/Users/runner/work/_temp/4feea659-493b-44de-8ca7-76fb14bfe1f3' before making global git config changes
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0823660Z Adding repository directory to the temporary git global config as a safe directory
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.0830230Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/logo-maker/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1014660Z Deleting the contents of '/Users/runner/work/logo-maker/logo-maker'
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1018370Z ##[group]Determining repository object format
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1020460Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1022160Z ##[group]Initializing the repository
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1022980Z [command]/opt/homebrew/bin/git init /Users/runner/work/logo-maker/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1369890Z hint: Using 'master' as the name for the initial branch. This default branch name
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1378260Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1381390Z hint: to use in all of your new repositories, which will suppress this warning,
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1386450Z hint: call:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1389000Z hint:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1389790Z hint: 	git config --global init.defaultBranch <name>
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1390560Z hint:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1391240Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1393770Z hint: 'development'. The just-created branch can be renamed via this command:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1396450Z hint:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1398510Z hint: 	git branch -m <name>
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1400560Z hint:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1401440Z hint: Disable this message with "git config set advice.defaultBranchName false"
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1402660Z Initialized empty Git repository in /Users/runner/work/logo-maker/logo-maker/.git/
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1404900Z [command]/opt/homebrew/bin/git remote add origin https://github.com/nicolas-found42/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1516320Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1518670Z ##[group]Disabling automatic garbage collection
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1519840Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1626200Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1627000Z ##[group]Setting up auth
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1627520Z Removing SSH command configuration
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1637680Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.1745840Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.3380980Z Removing HTTP extra header
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.3385040Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.3489760Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.5160230Z Removing includeIf entries pointing to credentials config files
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.5261560Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.5439250Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7174520Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7490540Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/logo-maker/logo-maker/.git.path /Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7504270Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/logo-maker/logo-maker/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7519130Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7532380Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7539690Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7540960Z ##[group]Fetching the repository
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:23.7543840Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +64bcb70b22f58bb1db2362355c0f1ed1a957abb1:refs/remotes/origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2554570Z From https://github.com/nicolas-found42/logo-maker
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2575380Z  * [new ref]         64bcb70b22f58bb1db2362355c0f1ed1a957abb1 -> origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2594220Z [command]/opt/homebrew/bin/git branch --list --remote origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2710550Z   origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2723290Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2839770Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2868780Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2870910Z ##[group]Determining the checkout info
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2887950Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2889550Z [command]/opt/homebrew/bin/git sparse-checkout disable
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.2969400Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.3153710Z ##[group]Checking out the ref
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:29.3183100Z [command]/opt/homebrew/bin/git checkout --progress --force -B main refs/remotes/origin/main
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4091620Z Updating files:  86% (2231/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4165310Z Updating files:  87% (2246/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4300500Z Updating files:  88% (2272/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4366160Z Updating files:  89% (2298/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4416520Z Updating files:  90% (2323/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4474850Z Updating files:  91% (2349/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4563040Z Updating files:  92% (2375/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4621970Z Updating files:  93% (2401/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4687130Z Updating files:  94% (2427/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.4854450Z Updating files:  95% (2452/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5178560Z Updating files:  96% (2478/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5577860Z Updating files:  97% (2504/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5637620Z Updating files:  98% (2530/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5718350Z Updating files:  99% (2556/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5721490Z Updating files: 100% (2581/2581)
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5722390Z Updating files: 100% (2581/2581), done.
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5836450Z Switched to a new branch 'main'
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5858310Z branch 'main' set up to track 'origin/main'.
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.5880340Z ##[endgroup]
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6103710Z [command]/opt/homebrew/bin/git log -1 --format=%H
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6243290Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6259900Z ##[group]Removing auth
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6260350Z Removing SSH command configuration
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6263880Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.6377960Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.7901720Z Removing HTTP extra header
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.7908440Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:30.8006360Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0126610Z Removing includeIf entries pointing to credentials config files
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0227720Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0330460Z includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0432570Z includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0452930Z includeif.gitdir:/github/workspace/.git.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0453660Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0455200Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0456020Z /Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0457820Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-12d8f81e\-4d27\-44a3\-96b0\-8d0d3162e11d\.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0459570Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0479620Z /Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0490470Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/logo-maker/logo-maker/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-12d8f81e\-4d27\-44a3\-96b0\-8d0d3162e11d\.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0593520Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0665470Z /github/runner_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0672550Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-12d8f81e\-4d27\-44a3\-96b0\-8d0d3162e11d\.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0816530Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0915780Z /github/runner_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.0928020Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-12d8f81e\-4d27\-44a3\-96b0\-8d0d3162e11d\.config
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.1037610Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.2686740Z Removing credentials config '/Users/runner/work/_temp/git-credentials-12d8f81e-4d27-44a3-96b0-8d0d3162e11d.config'
+test	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:31.2745020Z ##[endgroup]
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	﻿2026-11-11T15:47:31.3222410Z ##[group]Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3222860Z with:
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3223060Z   enable-cache: true
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3223340Z   activate-environment: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3223590Z   no-project: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3223980Z   working-directory: /Users/runner/work/logo-maker/logo-maker
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3226320Z   github-token: ***
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3226910Z   cache-dependency-glob: **/*requirements*.txt
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*requirements*.in
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*constraints*.txt
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*constraints*.in
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/pyproject.toml
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/uv.lock
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*.py.lock
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3227610Z   restore-cache: true
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3227830Z   save-cache: auto
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3228070Z   prune-cache: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3261750Z   cache-python: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3262210Z   ignore-nothing-to-cache: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3262480Z   ignore-empty-workdir: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3262680Z   download-from-astral-mirror: true
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3262890Z   add-problem-matchers: true
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3263180Z   quiet: false
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3263340Z   resolution-strategy: highest
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.3263530Z ##[endgroup]
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.6770630Z Trying to find version for uv in: /Users/runner/work/logo-maker/logo-maker/uv.toml
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.6771210Z Could not find file: /Users/runner/work/logo-maker/logo-maker/uv.toml
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.6771670Z Trying to find version for uv in: /Users/runner/work/logo-maker/logo-maker/pyproject.toml
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.6820520Z Could not determine uv version from uv.toml or pyproject.toml. Falling back to latest.
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.6825270Z Fetching manifest data from https://raw.githubusercontent.com/astral-sh/versions/main/v1/uv.ndjson ...
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:31.8100940Z Downloading uv from "https://releases.astral.sh/github/uv/releases/download/0.13.7/uv-aarch64-apple-darwin.tar.gz" ...
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.1106670Z [command]/usr/bin/tar xz -C /Users/runner/work/_temp/a2f37180-3fa0-4a85-af4f-b467ec85f468 -f /Users/runner/work/_temp/1775ccda-7e93-4815-9de7-b50e8dfd6ca1
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3037790Z Added /Users/runner/.local/bin to the path
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3119060Z Added /Users/runner/hostedtoolcache/uv/0.13.7/aarch64 to the path
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3131900Z Set UV_PYTHON_INSTALL_DIR to /Users/runner/work/_temp/uv-python-dir
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3169160Z Added /Users/runner/work/_temp/uv-python-dir to the path
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3225550Z Set UV_CACHE_DIR to /Users/runner/work/_temp/setup-uv-cache
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:32.3226480Z Successfully installed uv version 0.13.7
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:33.4115910Z Searching files using cache dependency glob: /Users/runner/work/logo-maker/logo-maker/**/*requirements*.txt,/Users/runner/work/logo-maker/logo-maker/**/*requirements*.in,/Users/runner/work/logo-maker/logo-maker/**/*constraints*.txt,/Users/runner/work/logo-maker/logo-maker/**/*constraints*.in,/Users/runner/work/logo-maker/logo-maker/**/pyproject.toml,/Users/runner/work/logo-maker/logo-maker/**/uv.lock,/Users/runner/work/logo-maker/logo-maker/**/*.py.lock
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:33.8483870Z /Users/runner/work/logo-maker/logo-maker/pyproject.toml
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:33.8548380Z /Users/runner/work/logo-maker/logo-maker/uv.lock
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:33.8558740Z Found 2 files to hash.
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:33.8568920Z Trying to restore cache from GitHub Actions cache with key: setup-uv-2-aarch64-apple-darwin-macos-16-3.13.17-fbda6a04447daa87de80ccb7e3f8ee11cd0e70f4156760f3beef0bab44f55225
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:34.1157350Z Cache hit for: setup-uv-2-aarch64-apple-darwin-macos-16-3.13.17-fbda6a04447daa87de80ccb7e3f8ee11cd0e70f4156760f3beef0bab44f55225
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:35.4092580Z Received 0 of 707113112 (0.0%), 0.0 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:36.4134870Z Received 50331648 of 707113112 (7.1%), 23.9 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:37.4237060Z Received 130023424 of 707113112 (18.4%), 41.2 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:38.4174690Z Received 188743680 of 707113112 (26.7%), 44.9 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:39.4182800Z Received 264241152 of 707113112 (37.4%), 50.3 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:40.4195450Z Received 327155712 of 707113112 (46.3%), 51.9 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:41.4279730Z Received 398458880 of 707113112 (56.4%), 54.2 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:42.4279070Z Received 448790528 of 707113112 (63.5%), 53.4 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:43.4227810Z Received 524288000 of 707113112 (74.1%), 55.5 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:44.4243960Z Received 574619648 of 707113112 (81.3%), 54.7 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:45.4251450Z Received 645922816 of 707113112 (91.3%), 55.9 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:46.4273110Z Received 696254464 of 707113112 (98.5%), 55.2 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:46.5883490Z Received 707113112 of 707113112 (100.0%), 55.4 MBs/sec
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:46.6006750Z Cache Size: ~674 MB (707113112 B)
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:46.6232730Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/5fca5f1a-ef17-4e36-9795-5a4cd7a76b87/cache.tzst -P -C /Users/runner/work/logo-maker/logo-maker --delay-directory-restore --use-compress-program unzstd
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:56.7717360Z Cache restored successfully
+test	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:56.7928510Z cache restored from GitHub Actions cache with key: setup-uv-2-aarch64-apple-darwin-macos-16-3.13.17-fbda6a04447daa87de80ccb7e3f8ee11cd0e70f4156760f3beef0bab44f55225
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	﻿2026-11-11T15:47:56.9504830Z ##[group]Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9505820Z with:
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9506500Z   node-version: 24
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9506960Z   check-latest: false
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9509920Z   token: ***
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9510130Z   package-manager-cache: true
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9511360Z env:
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9511570Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9511890Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:56.9512130Z ##[endgroup]
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:57.2865460Z Found in cache @ /Users/runner/hostedtoolcache/node/24.22.2/arm64
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:57.4995100Z ##[group]Environment details
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:58.0834470Z node: v24.22.2
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:58.0858580Z npm: 11.19.1
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:58.0858850Z yarn: 1.22.22
+test	Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1	2026-11-11T15:47:58.0859510Z ##[endgroup]
+test	Install node-canvas build libraries	﻿2026-11-11T15:47:58.0970850Z ##[group]Run brew install pkgconf cairo pango libpng jpeg-turbo giflib librsvg pixman
+test	Install node-canvas build libraries	2026-11-11T15:47:58.0971500Z ^[[36;1mbrew install pkgconf cairo pango libpng jpeg-turbo giflib librsvg pixman^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:47:58.1192470Z shell: /bin/bash -e {0}
+test	Install node-canvas build libraries	2026-11-11T15:47:58.1192730Z env:
+test	Install node-canvas build libraries	2026-11-11T15:47:58.1193130Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Install node-canvas build libraries	2026-11-11T15:47:58.1193700Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Install node-canvas build libraries	2026-11-11T15:47:58.1194080Z ##[endgroup]
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0697380Z ^[[33mWarning:^[[0m pkgconf 3.0.10 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0699000Z To reinstall 3.0.10, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0699410Z   brew reinstall pkgconf
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0748020Z ^[[33mWarning:^[[0m cairo 1.18.6 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0749040Z To reinstall 1.18.6, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.0749650Z   brew reinstall cairo
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1161330Z ^[[33mWarning:^[[0m libpng 1.6.59 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1162630Z To reinstall 1.6.59, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1163240Z   brew reinstall libpng
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1255580Z ^[[33mWarning:^[[0m jpeg-turbo 3.2.1 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1257920Z To reinstall 3.2.1, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1258960Z   brew reinstall jpeg-turbo
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1444300Z ^[[33mWarning:^[[0m giflib 6.1.3 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1445070Z To reinstall 6.1.3, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1445510Z   brew reinstall giflib
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1483520Z ^[[33mWarning:^[[0m pixman 0.46.4 is already installed and up-to-date.
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1484590Z To reinstall 0.46.4, run:
+test	Install node-canvas build libraries	2026-11-11T15:48:01.1485200Z   brew reinstall pixman
+test	Install node-canvas build libraries	2026-11-11T15:48:02.2580400Z ^[[32m==>^[[0m ^[[1mDownloading bottle manifests^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:02.2666180Z ✔︎ Bottle Manifest pango (1.58.2)
+test	Install node-canvas build libraries	2026-11-11T15:48:02.2667180Z ✔︎ Bottle Manifest librsvg (2.63.4)
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5443820Z ^[[34m==>^[[0m ^[[1mWould install 2 formulae:^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5445310Z pango    1.58.2
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5446090Z librsvg  2.63.4
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5471830Z ^[[34m==>^[[0m ^[[1mWould install 3 dependencies for pango:^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5472400Z fribidi    1.0.18
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5472790Z libdatrie  0.2.14
+test	Install node-canvas build libraries	2026-11-11T15:48:02.5473050Z libthai    0.1.30
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6939190Z ^[[34m==>^[[0m ^[[1mWould install 5 dependencies for librsvg:^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6940430Z gdk-pixbuf  2.44.8
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6941230Z fribidi     1.0.18
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6941920Z libdatrie   0.2.14
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6942680Z libthai     0.1.30
+test	Install node-canvas build libraries	2026-11-11T15:48:02.6943470Z pango       1.58.2
+test	Install node-canvas build libraries	2026-11-11T15:48:02.9489070Z ^[[32m==>^[[0m ^[[1mFetching downloads for: ^[[32mpango^[[39m and ^[[32mlibrsvg^[[39m^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:03.2230110Z ✔︎ Bottle Manifest fribidi (1.0.18)
+test	Install node-canvas build libraries	2026-11-11T15:48:03.3272990Z ✔︎ Bottle Manifest libdatrie (0.2.14)
+test	Install node-canvas build libraries	2026-11-11T15:48:03.3374740Z ✔︎ Bottle Manifest libthai (0.1.30)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.5146610Z ✔︎ Bottle pango (1.58.2)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.5213820Z ✔︎ Bottle Manifest gdk-pixbuf (2.44.8)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.6727770Z ✔︎ Bottle gdk-pixbuf (2.44.8)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.6930070Z ✔︎ Bottle fribidi (1.0.18)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.7131840Z ✔︎ Bottle libthai (0.1.30)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.7224150Z ✔︎ Bottle libdatrie (0.2.14)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.7621980Z ✔︎ Bottle librsvg (2.63.4)
+test	Install node-canvas build libraries	2026-11-11T15:48:06.8717090Z ^[[32m==>^[[0m ^[[1mInstalling dependencies for pango:^[[0m ^[[32mfribidi^[[39m, ^[[32mlibdatrie^[[39m and ^[[32mlibthai^[[39m^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:06.8817080Z ^[[32m==>^[[0m ^[[1mInstalling pango dependency: ^[[32mfribidi^[[39m (1.0.18)^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:06.8919370Z ^[[34m==>^[[0m ^[[1mPouring fribidi--1.0.18.arm64_tahoe.bottle.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:08.6962360Z 🍺  /opt/homebrew/Cellar/fribidi/1.0.18: 69 files, 763.1KB
+test	Install node-canvas build libraries	2026-11-11T15:48:08.6999990Z ^[[32m==>^[[0m ^[[1mInstalling pango dependency: ^[[32mlibdatrie^[[39m (0.2.14)^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:08.7028690Z ^[[34m==>^[[0m ^[[1mPouring libdatrie--0.2.14.arm64_tahoe.bottle.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:10.1428190Z 🍺  /opt/homebrew/Cellar/libdatrie/0.2.14: 20 files, 276.1KB
+test	Install node-canvas build libraries	2026-11-11T15:48:10.1442620Z ^[[32m==>^[[0m ^[[1mInstalling pango dependency: ^[[32mlibthai^[[39m (0.1.30)^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:10.1581970Z ^[[34m==>^[[0m ^[[1mPouring libthai--0.1.30.arm64_tahoe.bottle.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:11.8803310Z 🍺  /opt/homebrew/Cellar/libthai/0.1.30: 30 files, 955KB
+test	Install node-canvas build libraries	2026-11-11T15:48:11.8813720Z ^[[32m==>^[[0m ^[[1mInstalling ^[[32mpango^[[39m^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:11.8820240Z ^[[34m==>^[[0m ^[[1mPouring pango--1.58.2.arm64_tahoe.bottle.1.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:13.7984340Z 🍺  /opt/homebrew/Cellar/pango/1.58.2: 69 files, 3.7MB
+test	Install node-canvas build libraries	2026-11-11T15:48:13.9529240Z ^[[32m==>^[[0m ^[[1mInstalling librsvg dependency: ^[[32mgdk-pixbuf^[[39m (2.44.8)^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:14.0572400Z ^[[34m==>^[[0m ^[[1mPouring gdk-pixbuf--2.44.8.arm64_tahoe.bottle.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:16.8658920Z 🍺  /opt/homebrew/Cellar/gdk-pixbuf/2.44.8: 152 files, 4MB
+test	Install node-canvas build libraries	2026-11-11T15:48:16.8664900Z ^[[32m==>^[[0m ^[[1mInstalling ^[[32mlibrsvg^[[39m^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:16.8666820Z ^[[34m==>^[[0m ^[[1mPouring librsvg--2.63.4.arm64_tahoe.bottle.tar.gz^[[0m
+test	Install node-canvas build libraries	2026-11-11T15:48:19.6228350Z 🍺  /opt/homebrew/Cellar/librsvg/2.63.4: 21 files, 13.3MB
+test	Install npm packages	﻿2026-11-11T15:48:19.6453620Z ##[group]Run npm ci --prefix js
+test	Install npm packages	2026-11-11T15:48:19.6454160Z ^[[36;1mnpm ci --prefix js^[[0m
+test	Install npm packages	2026-11-11T15:48:19.6507870Z shell: /bin/bash -e {0}
+test	Install npm packages	2026-11-11T15:48:19.6508210Z env:
+test	Install npm packages	2026-11-11T15:48:19.6508610Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Install npm packages	2026-11-11T15:48:19.6509110Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Install npm packages	2026-11-11T15:48:19.6509490Z ##[endgroup]
+test	Install npm packages	2026-11-11T15:48:21.3699720Z npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+test	Install npm packages	2026-11-11T15:48:21.5752220Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+test	Install npm packages	2026-11-11T15:48:21.6681860Z npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+test	Install npm packages	2026-11-11T15:48:21.9360210Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+test	Install npm packages	2026-11-11T15:48:22.1302240Z npm warn deprecated gauge@3.0.2: This package is no longer supported.
+test	Install npm packages	2026-11-11T15:48:22.2742930Z npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+test	Install npm packages	2026-11-11T15:48:22.4712760Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+test	Install npm packages	2026-11-11T15:48:22.7458440Z npm warn deprecated tar@6.2.1: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+test	Install npm packages	2026-11-11T15:48:23.5619500Z npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+test	Install npm packages	2026-11-11T15:49:12.8616430Z 
+test	Install npm packages	2026-11-11T15:49:12.8627070Z added 345 packages, and audited 346 packages in 53s
+test	Install npm packages	2026-11-11T15:49:12.8633250Z 
+test	Install npm packages	2026-11-11T15:49:12.8677050Z 75 packages are looking for funding
+test	Install npm packages	2026-11-11T15:49:12.8680860Z   run `npm fund` for details
+test	Install npm packages	2026-11-11T15:49:12.8766590Z 
+test	Install npm packages	2026-11-11T15:49:12.8769660Z 12 vulnerabilities (6 moderate, 5 high, 1 critical)
+test	Install npm packages	2026-11-11T15:49:12.8779830Z 
+test	Install npm packages	2026-11-11T15:49:12.8782770Z To address issues that do not require attention, run:
+test	Install npm packages	2026-11-11T15:49:12.8783960Z   npm audit fix
+test	Install npm packages	2026-11-11T15:49:12.8784410Z 
+test	Install npm packages	2026-11-11T15:49:12.8785230Z To address all issues possible (including breaking changes), run:
+test	Install npm packages	2026-11-11T15:49:12.8786240Z   npm audit fix --force
+test	Install npm packages	2026-11-11T15:49:12.8786700Z 
+test	Install npm packages	2026-11-11T15:49:12.8787280Z Some issues need review, and may require choosing
+test	Install npm packages	2026-11-11T15:49:12.8788270Z a different dependency.
+test	Install npm packages	2026-11-11T15:49:12.8788570Z 
+test	Install npm packages	2026-11-11T15:49:12.8789310Z Run `npm audit` for details.
+test	Provision and check PWA browser	﻿2026-11-11T15:49:13.0251110Z ##[group]Run node --input-type=module <<'JS'
+test	Provision and check PWA browser	2026-11-11T15:49:13.0251670Z ^[[36;1mnode --input-type=module <<'JS'^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0252010Z ^[[36;1mimport { createRequire } from 'node:module';^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0252610Z ^[[36;1mimport installer from './js/node_modules/pwa-asset-generator/dist/helpers/installer.js';^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0253380Z ^[[36;1mconst require = createRequire(new URL('./js/node_modules/pwa-asset-generator/package.json', import.meta.url));^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0253960Z ^[[36;1mconst { launch } = require('puppeteer-core');^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0254490Z ^[[36;1mconst info = await installer.installPreferredBrowserRevision();^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0255100Z ^[[36;1mconsole.log(`PWA headless Chrome ${info.revision}: ${info.executablePath}`);^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0255700Z ^[[36;1mconst browser = await launch({ executablePath: info.executablePath, headless: true });^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0256260Z ^[[36;1mawait browser.close();^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0256700Z ^[[36;1mJS^[[0m
+test	Provision and check PWA browser	2026-11-11T15:49:13.0668090Z shell: /bin/bash -e {0}
+test	Provision and check PWA browser	2026-11-11T15:49:13.0668760Z env:
+test	Provision and check PWA browser	2026-11-11T15:49:13.0669860Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Provision and check PWA browser	2026-11-11T15:49:13.0671210Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Provision and check PWA browser	2026-11-11T15:49:13.0671530Z ##[endgroup]
+test	Provision and check PWA browser	2026-11-11T15:49:13.5685900Z ^[[7m3:49:13 PM^[[27m ^[[90minstaller^[[39m ^[[33mChrome build 156.0.8078.47 will be downloaded for you^[[39m 🤔
+test	Provision and check PWA browser	2026-11-11T15:49:18.5925060Z ^[[7m3:49:18 PM^[[27m ^[[90minstaller^[[39m Chrome downloaded to /Users/runner/.cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47
+test	Provision and check PWA browser	2026-11-11T15:49:18.5926860Z PWA headless Chrome 156.0.8078.47: /Users/runner/.cache/puppeteer/chrome-headless-shell/mac_arm-156.0.8078.47/chrome-headless-shell-mac-arm64/chrome-headless-shell
+test	Install Python packages	﻿2026-11-11T15:49:19.0902670Z ##[group]Run uv sync --locked
+test	Install Python packages	2026-11-11T15:49:19.0903040Z ^[[36;1muv sync --locked^[[0m
+test	Install Python packages	2026-11-11T15:49:19.0958740Z shell: /bin/bash -e {0}
+test	Install Python packages	2026-11-11T15:49:19.0959160Z env:
+test	Install Python packages	2026-11-11T15:49:19.0959470Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Install Python packages	2026-11-11T15:49:19.0959940Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Install Python packages	2026-11-11T15:49:19.0960480Z ##[endgroup]
+test	Install Python packages	2026-11-11T15:49:19.2497580Z Using CPython 3.13.17 interpreter at: /usr/local/bin/python3.13
+test	Install Python packages	2026-11-11T15:49:19.2499600Z Creating virtual environment at: .venv
+test	Install Python packages	2026-11-11T15:49:19.3165340Z Resolved 136 packages in 46ms
+test	Install Python packages	2026-11-11T15:49:19.3898300Z    Building logo-maker @ file:///Users/runner/work/logo-maker/logo-maker
+test	Install Python packages	2026-11-11T15:49:21.2161500Z       Built logo-maker @ file:///Users/runner/work/logo-maker/logo-maker
+test	Install Python packages	2026-11-11T15:49:21.2226620Z Prepared 1 package in 1.84s
+test	Install Python packages	2026-11-11T15:49:22.4080120Z Installed 134 packages in 1.18s
+test	Install Python packages	2026-11-11T15:49:22.4081860Z  + annotated-types==0.8.0
+test	Install Python packages	2026-11-11T15:49:22.4082250Z  + anyio==4.16.0
+test	Install Python packages	2026-11-11T15:49:22.4083890Z  + anytree==2.13.0
+test	Install Python packages	2026-11-11T15:49:22.4084690Z  + asteval==1.0.10
+test	Install Python packages	2026-11-11T15:49:22.4085310Z  + asttokens==3.0.2
+test	Install Python packages	2026-11-11T15:49:22.4086060Z  + attrs==26.1.0
+test	Install Python packages	2026-11-11T15:49:22.4086640Z  + bd-materials==0.2.5
+test	Install Python packages	2026-11-11T15:49:22.4087280Z  + bpy==5.2.3
+test	Install Python packages	2026-11-11T15:49:22.4087820Z  + build123d==0.13.0
+test	Install Python packages	2026-11-11T15:49:22.4089650Z  + cachetools==8.0.0
+test	Install Python packages	2026-11-11T15:49:22.4090730Z  + cadquery-ocp-novtk==8.0.1.1.0
+test	Install Python packages	2026-11-11T15:49:22.4091180Z  + cadquery-ocp-proxy==8.0.1.1.0
+test	Install Python packages	2026-11-11T15:49:22.4091460Z  + cattrs==26.2.1
+test	Install Python packages	2026-11-11T15:49:22.4091690Z  + certifi==2026.10.23
+test	Install Python packages	2026-11-11T15:49:22.4091930Z  + cffi==2.1.1
+test	Install Python packages	2026-11-11T15:49:22.4092110Z  + charset-normalizer==3.5.2
+test	Install Python packages	2026-11-11T15:49:22.4092330Z  + click==8.5.1
+test	Install Python packages	2026-11-11T15:49:22.4092510Z  + cloudpickle==3.1.2
+test	Install Python packages	2026-11-11T15:49:22.4092940Z  + coloraide==8.14.1
+test	Install Python packages	2026-11-11T15:49:22.4093200Z  + contourpy==1.4.0
+test	Install Python packages	2026-11-11T15:49:22.4093450Z  + cryptography==50.0.2
+test	Install Python packages	2026-11-11T15:49:22.4093770Z  + cycler==0.12.1
+test	Install Python packages	2026-11-11T15:49:22.4094080Z  + cython==3.3.1
+test	Install Python packages	2026-11-11T15:49:22.4094330Z  + dataclasses-json==0.6.7
+test	Install Python packages	2026-11-11T15:49:22.4094570Z  + deprecated==3.0.1
+test	Install Python packages	2026-11-11T15:49:22.4094870Z  + dill==0.4.1
+test	Install Python packages	2026-11-11T15:49:22.4095080Z  + drawsvg==2.4.2
+test	Install Python packages	2026-11-11T15:49:22.4095300Z  + drjit==1.5.0
+test	Install Python packages	2026-11-11T15:49:22.4095520Z  + executing==2.3.0
+test	Install Python packages	2026-11-11T15:49:22.4095760Z  + ezdxf==1.4.5
+test	Install Python packages	2026-11-11T15:49:22.4096600Z  + fonttools==4.68.0
+test	Install Python packages	2026-11-11T15:49:22.4097430Z  + h11==0.16.0
+test	Install Python packages	2026-11-11T15:49:22.4098010Z  + httpcore==1.0.9
+test	Install Python packages	2026-11-11T15:49:22.4098630Z  + httpcore2==2.16.0
+test	Install Python packages	2026-11-11T15:49:22.4099360Z  + httpx==0.28.1
+test	Install Python packages	2026-11-11T15:49:22.4099640Z  + httpx2==2.16.0
+test	Install Python packages	2026-11-11T15:49:22.4099880Z  + idna==3.20
+test	Install Python packages	2026-11-11T15:49:22.4100080Z  + imageio==2.38.1
+test	Install Python packages	2026-11-11T15:49:22.4100290Z  + iniconfig==2.3.1
+test	Install Python packages	2026-11-11T15:49:22.4100480Z  + ipython==9.18.1
+test	Install Python packages	2026-11-11T15:49:22.4100690Z  + ipython-pygments-lexers==1.1.1
+test	Install Python packages	2026-11-11T15:49:22.4100930Z  + jedi==0.20.1
+test	Install Python packages	2026-11-11T15:49:22.4101100Z  + joblib==1.6.0
+test	Install Python packages	2026-11-11T15:49:22.4101270Z  + jsonschema==4.26.0
+test	Install Python packages	2026-11-11T15:49:22.4101520Z  + jsonschema-specifications==2025.9.1
+test	Install Python packages	2026-11-11T15:49:22.4102290Z  + kiwisolver==1.5.1
+test	Install Python packages	2026-11-11T15:49:22.4102540Z  + lazy-loader==0.6
+test	Install Python packages	2026-11-11T15:49:22.4102760Z  + lib3mf==2.5.0
+test	Install Python packages	2026-11-11T15:49:22.4103090Z  + logo-maker==0.1.0 (from file:///Users/runner/work/logo-maker/logo-maker)
+test	Install Python packages	2026-11-11T15:49:22.4103440Z  + manifold3d==3.5.4
+test	Install Python packages	2026-11-11T15:49:22.4103630Z  + markdown-it-py==4.2.0
+test	Install Python packages	2026-11-11T15:49:22.4103830Z  + marshmallow==3.26.2
+test	Install Python packages	2026-11-11T15:49:22.4104020Z  + matplotlib==3.11.2
+test	Install Python packages	2026-11-11T15:49:22.4104210Z  + matplotlib-inline==0.2.2
+test	Install Python packages	2026-11-11T15:49:22.4104420Z  + mcp==2.3.0
+test	Install Python packages	2026-11-11T15:49:22.4104590Z  + mcp-types==2.3.0
+test	Install Python packages	2026-11-11T15:49:22.4104760Z  + mdurl==0.1.2
+test	Install Python packages	2026-11-11T15:49:22.4104950Z  + meshio==5.3.5
+test	Install Python packages	2026-11-11T15:49:22.4105130Z  + mitsuba==3.9.1
+test	Install Python packages	2026-11-11T15:49:22.4105330Z  + mpmath==1.3.0
+test	Install Python packages	2026-11-11T15:49:22.4105560Z  + multiprocess==0.70.19
+test	Install Python packages	2026-11-11T15:49:22.4105800Z  + mypy-extensions==1.2.0
+test	Install Python packages	2026-11-11T15:49:22.4107030Z  + narwhals==2.28.0
+test	Install Python packages	2026-11-11T15:49:22.4107210Z  + networkx==3.7
+test	Install Python packages	2026-11-11T15:49:22.4107550Z  + numpy==2.5.4
+test	Install Python packages	2026-11-11T15:49:22.4107840Z  + ocp-gordon==0.3.1
+test	Install Python packages	2026-11-11T15:49:22.4108020Z  + ocpsvg==0.7.0
+test	Install Python packages	2026-11-11T15:49:22.4108280Z  + openimageio==3.2.2.0
+test	Install Python packages	2026-11-11T15:49:22.4108520Z  + opentelemetry-api==1.45.2
+test	Install Python packages	2026-11-11T15:49:22.4108780Z  + packaging==26.3
+test	Install Python packages	2026-11-11T15:49:22.4108970Z  + parso==0.8.7
+test	Install Python packages	2026-11-11T15:49:22.4109160Z  + pexpect==4.9.0
+test	Install Python packages	2026-11-11T15:49:22.4109380Z  + pillow==13.0.0
+test	Install Python packages	2026-11-11T15:49:22.4109580Z  + platformdirs==4.14.5
+test	Install Python packages	2026-11-11T15:49:22.4109760Z  + pluggy==1.7.0
+test	Install Python packages	2026-11-11T15:49:22.4109980Z  + pnoise==0.2.0
+test	Install Python packages	2026-11-11T15:49:22.4110210Z  + prompt-toolkit==3.0.53
+test	Install Python packages	2026-11-11T15:49:22.4110390Z  + psutil==7.2.2
+test	Install Python packages	2026-11-11T15:49:22.4110570Z  + ptyprocess==0.7.0
+test	Install Python packages	2026-11-11T15:49:22.4110920Z  + pure-eval==0.2.4
+test	Install Python packages	2026-11-11T15:49:22.4111870Z  + pycparser==3.12
+test	Install Python packages	2026-11-11T15:49:22.4112470Z  + pydantic==2.14.3
+test	Install Python packages	2026-11-11T15:49:22.4113020Z  + pydantic-core==2.50.4
+test	Install Python packages	2026-11-11T15:49:22.4113600Z  + pygltflib==1.16.5
+test	Install Python packages	2026-11-11T15:49:22.4114090Z  + pygments==2.21.0
+test	Install Python packages	2026-11-11T15:49:22.4114520Z  + pyjwt==2.15.1
+test	Install Python packages	2026-11-11T15:49:22.4114730Z  + pyluxcore==2.11.2
+test	Install Python packages	2026-11-11T15:49:22.4114920Z  + pymeshlab==2025.7.post1
+test	Install Python packages	2026-11-11T15:49:22.4115120Z  + pyparsing==3.3.3
+test	Install Python packages	2026-11-11T15:49:22.4115300Z  + pyphen==0.15.0
+test	Install Python packages	2026-11-11T15:49:22.4115720Z  + pytest==9.2.0
+test	Install Python packages	2026-11-11T15:49:22.4116330Z  + python-dateutil==4.0.0
+test	Install Python packages	2026-11-11T15:49:22.4116570Z  + python-multipart==0.0.33
+test	Install Python packages	2026-11-11T15:49:22.4116770Z  + referencing==0.37.0
+test	Install Python packages	2026-11-11T15:49:22.4116950Z  + requests==2.34.2
+test	Install Python packages	2026-11-11T15:49:22.4117150Z  + resvg-py==0.5.0
+test	Install Python packages	2026-11-11T15:49:22.4117310Z  + rich==15.0.0
+test	Install Python packages	2026-11-11T15:49:22.4117480Z  + rpds-py==2026.9.1
+test	Install Python packages	2026-11-11T15:49:22.4117690Z  + ruff==0.17.4
+test	Install Python packages	2026-11-11T15:49:22.4117890Z  + scikit-image==0.26.0
+test	Install Python packages	2026-11-11T15:49:22.4118170Z  + scikit-learn==1.9.1
+test	Install Python packages	2026-11-11T15:49:22.4118440Z  + scipy==1.18.1
+test	Install Python packages	2026-11-11T15:49:22.4118910Z  + sdf==0.1 (from git+https://github.com/fogleman/sdf@d58a6fc63b75fc1cf1ebb71e0b42bf552319c8f1)
+test	Install Python packages	2026-11-11T15:49:22.4119580Z  + shapely==2.2.0
+test	Install Python packages	2026-11-11T15:49:22.4119940Z  + skia-pathops==0.9.2
+test	Install Python packages	2026-11-11T15:49:22.4120340Z  + sse-starlette==3.7.0
+test	Install Python packages	2026-11-11T15:49:22.4120710Z  + stack-data==0.6.3
+test	Install Python packages	2026-11-11T15:49:22.4121070Z  + starlette==1.10.0
+test	Install Python packages	2026-11-11T15:49:22.4121370Z  + svgelements==1.9.6
+test	Install Python packages	2026-11-11T15:49:22.4121650Z  + svgpathtools==1.8.0
+test	Install Python packages	2026-11-11T15:49:22.4121950Z  + svgwrite==1.4.3
+test	Install Python packages	2026-11-11T15:49:22.4122270Z  + sympy==1.14.0
+test	Install Python packages	2026-11-11T15:49:22.4123140Z  + threadpoolctl==3.8.0
+test	Install Python packages	2026-11-11T15:49:22.4123410Z  + threejs-materials==1.2.5
+test	Install Python packages	2026-11-11T15:49:22.4123760Z  + tifffile==2026.11.8
+test	Install Python packages	2026-11-11T15:49:22.4123940Z  + tomli==2.5.0
+test	Install Python packages	2026-11-11T15:49:22.4124110Z  + tomlkit==0.15.2
+test	Install Python packages	2026-11-11T15:49:22.4124280Z  + traitlets==5.16.1
+test	Install Python packages	2026-11-11T15:49:22.4124460Z  + trianglesolver==1.2
+test	Install Python packages	2026-11-11T15:49:22.4125040Z  + trimesh==5.2.0
+test	Install Python packages	2026-11-11T15:49:22.4147450Z  + truststore==0.10.5
+test	Install Python packages	2026-11-11T15:49:22.4147870Z  + ty==0.0.100
+test	Install Python packages	2026-11-11T15:49:22.4148040Z  + typing-extensions==4.16.0
+test	Install Python packages	2026-11-11T15:49:22.4149220Z  + typing-inspect==0.9.0
+test	Install Python packages	2026-11-11T15:49:22.4150070Z  + typing-inspection==0.4.5
+test	Install Python packages	2026-11-11T15:49:22.4150770Z  + tzdata==2026.6
+test	Install Python packages	2026-11-11T15:49:22.4151250Z  + urllib3==2.8.0
+test	Install Python packages	2026-11-11T15:49:22.4151720Z  + uvicorn==0.54.0
+test	Install Python packages	2026-11-11T15:49:22.4152260Z  + vpype==1.15.0
+test	Install Python packages	2026-11-11T15:49:22.4152730Z  + vtracer==0.6.15
+test	Install Python packages	2026-11-11T15:49:22.4153240Z  + wcwidth==0.9.4
+test	Install Python packages	2026-11-11T15:49:22.4153730Z  + webcolors==24.8.0
+test	Install Python packages	2026-11-11T15:49:22.4154180Z  + wrapt==2.5.2
+test	Install Python packages	2026-11-11T15:49:22.4154620Z  + zstandard==0.25.0
+test	Type check	﻿2026-11-11T15:49:22.4557910Z ##[group]Run uv run --no-sync ty check
+test	Type check	2026-11-11T15:49:22.4558250Z ^[[36;1muv run --no-sync ty check^[[0m
+test	Type check	2026-11-11T15:49:22.4610710Z shell: /bin/bash -e {0}
+test	Type check	2026-11-11T15:49:22.4611120Z env:
+test	Type check	2026-11-11T15:49:22.4611390Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Type check	2026-11-11T15:49:22.4611780Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Type check	2026-11-11T15:49:22.4612040Z ##[endgroup]
+test	Type check	2026-11-11T15:49:23.6206680Z All checks passed!
+test	Verify retained refinement evidence	﻿2026-11-11T15:49:23.6330560Z ##[group]Run uv run --no-sync python scripts/verify_reconciled_refinement.py
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6331250Z ^[[36;1muv run --no-sync python scripts/verify_reconciled_refinement.py^[[0m
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6380030Z shell: /bin/bash -e {0}
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6380350Z env:
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6380640Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6382080Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Verify retained refinement evidence	2026-11-11T15:49:23.6382810Z ##[endgroup]
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2899330Z Checking reconciliation
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2902170Z Verified 3 rendered cases, 243 source bindings, 164 retained files, Metal/OIDN evidence and 1 final QA request(s).
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2903380Z Artistic qualification remains authoring_needed; no production approval is inferred.
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2904030Z Checking review-followup
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2904940Z Verified 3 rendered cases, 260 source bindings, 91 retained files, Metal/OIDN evidence and 1 final QA request(s).
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2906020Z Artistic qualification remains authoring_needed; no production approval is inferred.
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2906560Z Checking artwork-probe-20261111
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2907190Z Verified 2 rendered cases, 179 source bindings, 168 retained files, Metal/OIDN evidence and 1 final QA request(s).
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2907980Z Artistic qualification remains authoring_needed; no production approval is inferred.
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2916020Z Checking paper-exposure-20261111
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2916680Z Verified 2 rendered cases, 194 source bindings, 105 retained files, Metal/OIDN evidence and 1 final QA request(s).
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2917480Z Artistic qualification remains authoring_needed; no production approval is inferred.
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2918020Z Checking current-concept-20261111
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2918710Z Verified 3 rendered cases, 263 source bindings, 127 retained files, Metal/OIDN evidence and 1 final QA request(s).
+test	Verify retained refinement evidence	2026-11-11T15:49:24.2919530Z Artistic qualification remains authoring_needed; no production approval is inferred.
+test	Offline tests	﻿2026-11-11T15:49:24.3110940Z ##[group]Run uv run --no-sync python -m pytest -q -m "not render and not live"
+test	Offline tests	2026-11-11T15:49:24.3111430Z ^[[36;1muv run --no-sync python -m pytest -q -m "not render and not live"^[[0m
+test	Offline tests	2026-11-11T15:49:24.3148270Z shell: /bin/bash -e {0}
+test	Offline tests	2026-11-11T15:49:24.3148520Z env:
+test	Offline tests	2026-11-11T15:49:24.3148760Z   UV_PYTHON_INSTALL_DIR: /Users/runner/work/_temp/uv-python-dir
+test	Offline tests	2026-11-11T15:49:24.3149080Z   UV_CACHE_DIR: /Users/runner/work/_temp/setup-uv-cache
+test	Offline tests	2026-11-11T15:49:24.3149320Z   PAG_USE_LOCAL_REV: 1
+test	Offline tests	2026-11-11T15:49:24.3149480Z ##[endgroup]
+test	Offline tests	2026-11-11T15:51:03.2300190Z ........................................................................ [ 15%]
+test	Offline tests	2026-11-11T15:52:18.7807050Z ........................................................................ [ 31%]
+test	Offline tests	2026-11-11T15:54:13.5592480Z ........................................................................ [ 47%]
+test	Offline tests	2026-11-11T15:57:14.4278950Z ........................................................................ [ 63%]
+test	Offline tests	2026-11-11T16:00:39.2836710Z ............................................................F........... [ 79%]
+test	Offline tests	2026-11-11T16:00:49.3745210Z ........................................................................ [ 94%]
+test	Offline tests	2026-11-11T16:00:52.3320060Z ....................ss.                                                  [100%]
+test	Offline tests	2026-11-11T16:00:52.3346650Z =================================== FAILURES ===================================
+test	Offline tests	2026-11-11T16:00:52.3347500Z _ test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read] _
+test	Offline tests	2026-11-11T16:00:52.3348970Z 
+test	Offline tests	2026-11-11T16:00:52.3350200Z finalize_qa_case = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytes...0x12918f950: set>, image_read_started=<threading.Event at 0x12918e0f0: unset>, failure='qa_image_read', sent_assets={})
+test	Offline tests	2026-11-11T16:00:52.3351280Z 
+test	Offline tests	2026-11-11T16:00:52.3351430Z     @pytest.mark.parametrize(
+test	Offline tests	2026-11-11T16:00:52.3351790Z         "finalize_qa_case",
+test	Offline tests	2026-11-11T16:00:52.3352240Z         ["provider_retry", "provider_log", "qa_image_read", "image_encode", "tiny_image_read"],
+test	Offline tests	2026-11-11T16:00:52.3352880Z         indirect=True,
+test	Offline tests	2026-11-11T16:00:52.3353190Z     )
+test	Offline tests	2026-11-11T16:00:52.3353630Z     def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(finalize_qa_case):
+test	Offline tests	2026-11-11T16:00:52.3357580Z         import time
+test	Offline tests	2026-11-11T16:00:52.3362880Z     
+test	Offline tests	2026-11-11T16:00:52.3363320Z         from logo_maker import pipeline
+test	Offline tests	2026-11-11T16:00:52.3368810Z         from logo_maker.sampling import SamplingLimit
+test	Offline tests	2026-11-11T16:00:52.3369250Z     
+test	Offline tests	2026-11-11T16:00:52.3369560Z         case = finalize_qa_case
+test	Offline tests	2026-11-11T16:00:52.3370020Z         started = time.monotonic()
+test	Offline tests	2026-11-11T16:00:52.3370830Z         with pytest.raises(SamplingLimit, match="time_limit"):
+test	Offline tests	2026-11-11T16:00:52.3371280Z             pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=6))
+test	Offline tests	2026-11-11T16:00:52.3376300Z         assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+test	Offline tests	2026-11-11T16:00:52.3379980Z         if case.failure == "tiny_image_read":
+test	Offline tests	2026-11-11T16:00:52.3383930Z             assert case.image_read_started.is_set(), "test did not reach tiny image preparation"
+test	Offline tests	2026-11-11T16:00:52.3384760Z             assert not case.seen.is_set(), (
+test	Offline tests	2026-11-11T16:00:52.3399540Z                 "provider started after image preparation exhausted its budget"
+test	Offline tests	2026-11-11T16:00:52.3400440Z             )
+test	Offline tests	2026-11-11T16:00:52.3404450Z         else:
+test	Offline tests	2026-11-11T16:00:52.3405010Z             assert case.seen.is_set(), "test did not reach the provider"
+test	Offline tests	2026-11-11T16:00:52.3408650Z             if case.failure not in {"provider_retry", "provider_log"}:
+test	Offline tests	2026-11-11T16:00:52.3414840Z >               assert case.image_read_started.is_set(), "test did not reach the blocked image read"
+test	Offline tests	2026-11-11T16:00:52.3415780Z E               AssertionError: test did not reach the blocked image read
+test	Offline tests	2026-11-11T16:00:52.3416170Z E               assert False
+test	Offline tests	2026-11-11T16:00:52.3420240Z E                +  where False = is_set()
+test	Offline tests	2026-11-11T16:00:52.3427060Z E                +    where is_set = <threading.Event at 0x12918e0f0: unset>.is_set
+test	Offline tests	2026-11-11T16:00:52.3428770Z E                +      where <threading.Event at 0x12918e0f0: unset> = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytes...0x12918f950: set>, image_read_started=<threading.Event at 0x12918e0f0: unset>, failure='qa_image_read', sent_assets={}).image_read_started
+test	Offline tests	2026-11-11T16:00:52.3430710Z 
+test	Offline tests	2026-11-11T16:00:52.3434720Z tests/test_sampling_render.py:569: AssertionError
+test	Offline tests	2026-11-11T16:00:52.3435420Z =============================== warnings summary ===============================
+test	Offline tests	2026-11-11T16:00:52.3439440Z tests/test_geometry.py: 48 warnings
+test	Offline tests	2026-11-11T16:00:52.3440530Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:237: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T16:00:52.3441860Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T16:00:52.3442360Z     ar.shape = shape
+test	Offline tests	2026-11-11T16:00:52.3442530Z 
+test	Offline tests	2026-11-11T16:00:52.3443250Z tests/test_geometry.py::test_sweeps_and_solids_watertight
+test	Offline tests	2026-11-11T16:00:52.3444380Z   /Users/runner/work/logo-maker/logo-maker/.venv/lib/python3.13/site-packages/skimage/measure/_marching_cubes_lewiner.py:213: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+test	Offline tests	2026-11-11T16:00:52.3445920Z   As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+test	Offline tests	2026-11-11T16:00:52.3449830Z     faces.shape = -1, 3
+test	Offline tests	2026-11-11T16:00:52.3456770Z 
+test	Offline tests	2026-11-11T16:00:52.3458410Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test	Offline tests	2026-11-11T16:00:52.3459260Z =========================== short test summary info ============================
+test	Offline tests	2026-11-11T16:00:52.3460310Z FAILED tests/test_sampling_render.py::test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner[qa_image_read] - AssertionError: test did not reach the blocked image read
+test	Offline tests	2026-11-11T16:00:52.3464670Z assert False
+test	Offline tests	2026-11-11T16:00:52.3465080Z  +  where False = is_set()
+test	Offline tests	2026-11-11T16:00:52.3468280Z  +    where is_set = <threading.Event at 0x12918e0f0: unset>.is_set
+test	Offline tests	2026-11-11T16:00:52.3469880Z  +      where <threading.Event at 0x12918e0f0: unset> = namespace(logo=LogoDir(root=PosixPath('/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/pytest-of-runner/pytes...0x12918f950: set>, image_read_started=<threading.Event at 0x12918e0f0: unset>, failure='qa_image_read', sent_assets={}).image_read_started
+test	Offline tests	2026-11-11T16:00:52.3471740Z 1 failed, 452 passed, 2 skipped, 6 deselected, 49 warnings in 686.50s (0:11:26)
+test	Offline tests	2026-11-11T16:00:54.2184390Z ##[error]Process completed with exit code 1.
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T16:00:54.3521680Z Post job cleanup.
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1488870Z [command]/opt/homebrew/bin/git version
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1766710Z git version 2.56.0
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1791530Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/20c875a5-e7e9-42f8-8235-1d0e6c0568a7/.gitconfig'
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1807170Z Temporarily overriding HOME='/Users/runner/work/_temp/20c875a5-e7e9-42f8-8235-1d0e6c0568a7' before making global git config changes
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1811380Z Adding repository directory to the temporary git global config as a safe directory
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1813640Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/logo-maker/logo-maker
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1966610Z Removing SSH command configuration
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.1972300Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.2080250Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.4050390Z Removing HTTP extra header
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.4067800Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.4193760Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.5481490Z Removing includeIf entries pointing to credentials config files
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.5487150Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+test	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T16:00:55.5600340Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+test	Complete job	﻿2026-11-11T16:00:55.7320820Z Cleaning up orphan processes
+lint	Set up job	﻿2026-11-11T15:47:19.5861117Z Current runner version: '2.338.2'
+lint	Set up job	2026-11-11T15:47:19.5881391Z ##[group]Runner Image Provisioner
+lint	Set up job	2026-11-11T15:47:19.5882102Z Hosted Compute Agent
+lint	Set up job	2026-11-11T15:47:19.5882852Z Version: 20261028.624
+lint	Set up job	2026-11-11T15:47:19.5883440Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+lint	Set up job	2026-11-11T15:47:19.5884030Z Build Date: 2026-10-28T21:51:42Z
+lint	Set up job	2026-11-11T15:47:19.5884701Z Worker ID: {72fc1513-c62a-4c13-8b43-44ceeff673c1}
+lint	Set up job	2026-11-11T15:47:19.5885277Z Region: westus2
+lint	Set up job	2026-11-11T15:47:19.5885689Z Cloud: Azure
+lint	Set up job	2026-11-11T15:47:19.5886490Z ##[endgroup]
+lint	Set up job	2026-11-11T15:47:19.5887604Z ##[group]Operating System
+lint	Set up job	2026-11-11T15:47:19.5888196Z Ubuntu
+lint	Set up job	2026-11-11T15:47:19.5888640Z 26.04.1
+lint	Set up job	2026-11-11T15:47:19.5889056Z LTS
+lint	Set up job	2026-11-11T15:47:19.5889515Z ##[endgroup]
+lint	Set up job	2026-11-11T15:47:19.5889966Z ##[group]Runner Image
+lint	Set up job	2026-11-11T15:47:19.5890586Z Image: ubuntu-26.04
+lint	Set up job	2026-11-11T15:47:19.5891057Z Version: 20261101.186.1
+lint	Set up job	2026-11-11T15:47:19.5891902Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+lint	Set up job	2026-11-11T15:47:19.5893620Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+lint	Set up job	2026-11-11T15:47:19.5894491Z ##[endgroup]
+lint	Set up job	2026-11-11T15:47:19.5895366Z ##[group]GITHUB_TOKEN Permissions
+lint	Set up job	2026-11-11T15:47:19.5896931Z Contents: read
+lint	Set up job	2026-11-11T15:47:19.5897437Z Metadata: read
+lint	Set up job	2026-11-11T15:47:19.5897930Z ##[endgroup]
+lint	Set up job	2026-11-11T15:47:19.5899540Z Secret source: Actions
+lint	Set up job	2026-11-11T15:47:19.5900311Z Cache mode: write
+lint	Set up job	2026-11-11T15:47:19.5900967Z Prepare workflow directory
+lint	Set up job	2026-11-11T15:47:19.6157562Z Prepare all required actions
+lint	Set up job	2026-11-11T15:47:19.6196071Z Getting action download info
+lint	Set up job	2026-11-11T15:47:19.9876028Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+lint	Set up job	2026-11-11T15:47:20.1055399Z Download action repository 'astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7' (SHA:c18668ad3cf93ea998bef934396af7bb5c839dc7)
+lint	Set up job	2026-11-11T15:47:20.4971058Z Complete job name: lint
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T15:47:20.5696425Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5697349Z with:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5697756Z   persist-credentials: false
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5698232Z   repository: nicolas-found42/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5701486Z   token: ***
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5701878Z   ssh-strict: true
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5702529Z   ssh-user: git
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5702923Z   clean: true
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5703321Z   sparse-checkout-cone-mode: true
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5703779Z   fetch-depth: 1
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5704156Z   fetch-tags: false
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5704552Z   show-progress: true
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5704944Z   lfs: false
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5705312Z   submodules: false
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5705760Z   set-safe-directory: true
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5706211Z   allow-unsafe-pr-checkout: false
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.5706907Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8356824Z Syncing repository: nicolas-found42/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8358939Z ##[group]Getting Git version info
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8360144Z Working directory is '/home/runner/work/logo-maker/logo-maker'
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8361739Z [command]/usr/bin/git version
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8362743Z git version 2.56.0
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8380013Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8388305Z Temporarily overriding HOME='/home/runner/work/_temp/dcaf85d0-307c-4613-9da6-3288e96da39d' before making global git config changes
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8390589Z Adding repository directory to the temporary git global config as a safe directory
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8392452Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/logo-maker/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8457742Z Deleting the contents of '/home/runner/work/logo-maker/logo-maker'
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8460205Z ##[group]Determining repository object format
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8461522Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8462807Z ##[group]Initializing the repository
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8464850Z [command]/usr/bin/git init /home/runner/work/logo-maker/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8557172Z hint: Using 'master' as the name for the initial branch. This default branch name
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8558872Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8560654Z hint: to use in all of your new repositories, which will suppress this warning,
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8562051Z hint: call:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8562974Z hint:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8564078Z hint: 	git config --global init.defaultBranch <name>
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8564923Z hint:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8565498Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8566375Z hint: 'development'. The just-created branch can be renamed via this command:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8567186Z hint:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8567583Z hint: 	git branch -m <name>
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8568028Z hint:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8568612Z hint: Disable this message with "git config set advice.defaultBranchName false"
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8571660Z Initialized empty Git repository in /home/runner/work/logo-maker/logo-maker/.git/
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8581585Z [command]/usr/bin/git remote add origin https://github.com/nicolas-found42/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8628939Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8630063Z ##[group]Disabling automatic garbage collection
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8631958Z [command]/usr/bin/git config --local gc.auto 0
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8662647Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8663994Z ##[group]Setting up auth
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8664922Z Removing SSH command configuration
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8667047Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8696652Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9106440Z Removing HTTP extra header
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9111018Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9140161Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9368418Z Removing includeIf entries pointing to credentials config files
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9373097Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9403402Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9633078Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9664816Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path /home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9691720Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9723607Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9750663Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9775811Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9776478Z ##[group]Fetching the repository
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9780543Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +64bcb70b22f58bb1db2362355c0f1ed1a957abb1:refs/remotes/origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6880456Z From https://github.com/nicolas-found42/logo-maker
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6883275Z  * [new ref]         64bcb70b22f58bb1db2362355c0f1ed1a957abb1 -> origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6888019Z [command]/usr/bin/git branch --list --remote origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6911395Z   origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6917778Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6937863Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6941897Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6943018Z ##[group]Determining the checkout info
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6944043Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6945000Z [command]/usr/bin/git sparse-checkout disable
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.6991349Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.7020776Z ##[group]Checking out the ref
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.7022309Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1383187Z Switched to a new branch 'main'
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1387222Z branch 'main' set up to track 'origin/main'.
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1409375Z ##[endgroup]
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1458914Z [command]/usr/bin/git log -1 --format=%H
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1483710Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1493721Z ##[group]Removing auth
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1493976Z Removing SSH command configuration
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1497635Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1529868Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1774415Z Removing HTTP extra header
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1777507Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1814124Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2038073Z Removing includeIf entries pointing to credentials config files
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2040445Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2063897Z includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2064600Z includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2065224Z includeif.gitdir:/github/workspace/.git.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2065758Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2071560Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2091828Z /home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2099967Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-983724c1\-4ffb\-497e\-bc6d\-d37ec1cac7bc\.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2131802Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2152265Z /home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2158521Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-983724c1\-4ffb\-497e\-bc6d\-d37ec1cac7bc\.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2189566Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2210173Z /github/runner_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2216236Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-983724c1\-4ffb\-497e\-bc6d\-d37ec1cac7bc\.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2244084Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2264199Z /github/runner_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2270910Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-983724c1\-4ffb\-497e\-bc6d\-d37ec1cac7bc\.config
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2299847Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2527050Z Removing credentials config '/home/runner/work/_temp/git-credentials-983724c1-4ffb-497e-bc6d-d37ec1cac7bc.config'
+lint	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.2534971Z ##[endgroup]
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	﻿2026-11-11T15:47:26.2834377Z ##[group]Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2834713Z with:
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2834889Z   enable-cache: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2835099Z   activate-environment: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2835307Z   no-project: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2835547Z   working-directory: /home/runner/work/logo-maker/logo-maker
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2837515Z   github-token: ***
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2837946Z   cache-dependency-glob: **/*requirements*.txt
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*requirements*.in
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*constraints*.txt
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*constraints*.in
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/pyproject.toml
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/uv.lock
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	**/*.py.lock
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2838422Z   restore-cache: true
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2838606Z   save-cache: auto
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2838779Z   prune-cache: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2838967Z   cache-python: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2839154Z   ignore-nothing-to-cache: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2839366Z   ignore-empty-workdir: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2839584Z   download-from-astral-mirror: true
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2839810Z   add-problem-matchers: true
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2840047Z   quiet: false
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2840233Z   resolution-strategy: highest
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.2840439Z ##[endgroup]
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4295210Z Trying to find version for uv in: /home/runner/work/logo-maker/logo-maker/uv.toml
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4295998Z Could not find file: /home/runner/work/logo-maker/logo-maker/uv.toml
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4296794Z Trying to find version for uv in: /home/runner/work/logo-maker/logo-maker/pyproject.toml
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4301844Z Could not determine uv version from uv.toml or pyproject.toml. Falling back to latest.
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4323811Z Fetching manifest data from https://raw.githubusercontent.com/astral-sh/versions/main/v1/uv.ndjson ...
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.4945172Z Downloading uv from "https://releases.astral.sh/github/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-gnu.tar.gz" ...
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:26.6502604Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/84181c53-1349-4253-a40a-07e961fb70cb -f /home/runner/work/_temp/4eef753b-3ea4-4338-9fb2-f5b3a48ab2df
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:27.0106928Z Added /home/runner/.local/bin to the path
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:27.0109321Z Added /opt/hostedtoolcache/uv/0.13.7/x86_64 to the path
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:27.0110347Z Set UV_PYTHON_INSTALL_DIR to /home/runner/work/_temp/uv-python-dir
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:27.0110965Z Added /home/runner/work/_temp/uv-python-dir to the path
+lint	Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:27.0130140Z Successfully installed uv version 0.13.7
+lint	Lockfile is current	﻿2026-11-11T15:47:27.2067304Z ##[group]Run uv lock --check
+lint	Lockfile is current	2026-11-11T15:47:27.2067652Z ^[[36;1muv lock --check^[[0m
+lint	Lockfile is current	2026-11-11T15:47:27.2118754Z shell: /usr/bin/bash -e {0}
+lint	Lockfile is current	2026-11-11T15:47:27.2118976Z env:
+lint	Lockfile is current	2026-11-11T15:47:27.2119214Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+lint	Lockfile is current	2026-11-11T15:47:27.2119497Z ##[endgroup]
+lint	Lockfile is current	2026-11-11T15:47:27.3124831Z Downloading cpython-3.13.18-linux-x86_64-gnu (download) (33.8MiB)
+lint	Lockfile is current	2026-11-11T15:47:27.7331625Z  Downloaded cpython-3.13.18-linux-x86_64-gnu (download)
+lint	Lockfile is current	2026-11-11T15:47:27.8492531Z Using CPython 3.13.18
+lint	Lockfile is current	2026-11-11T15:47:27.8520252Z Resolved 136 packages in 1ms
+lint	Install dev tools	﻿2026-11-11T15:47:27.8584621Z ##[group]Run uv sync --locked --only-group dev
+lint	Install dev tools	2026-11-11T15:47:27.8585099Z ^[[36;1muv sync --locked --only-group dev^[[0m
+lint	Install dev tools	2026-11-11T15:47:27.8630930Z shell: /usr/bin/bash -e {0}
+lint	Install dev tools	2026-11-11T15:47:27.8631141Z env:
+lint	Install dev tools	2026-11-11T15:47:27.8631375Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+lint	Install dev tools	2026-11-11T15:47:27.8631648Z ##[endgroup]
+lint	Install dev tools	2026-11-11T15:47:27.9878231Z Using CPython 3.13.18
+lint	Install dev tools	2026-11-11T15:47:27.9878651Z Creating virtual environment at: .venv
+lint	Install dev tools	2026-11-11T15:47:27.9908936Z Resolved 136 packages in 0.89ms
+lint	Install dev tools	2026-11-11T15:47:28.0584890Z Downloading pygments (1.2MiB)
+lint	Install dev tools	2026-11-11T15:47:28.0669421Z Downloading ruff (10.1MiB)
+lint	Install dev tools	2026-11-11T15:47:28.0671068Z Downloading ty (16.0MiB)
+lint	Install dev tools	2026-11-11T15:47:28.1733323Z  Downloaded pygments
+lint	Install dev tools	2026-11-11T15:47:28.3142665Z  Downloaded ruff
+lint	Install dev tools	2026-11-11T15:47:28.3473601Z  Downloaded ty
+lint	Install dev tools	2026-11-11T15:47:28.3475043Z Prepared 7 packages in 356ms
+lint	Install dev tools	2026-11-11T15:47:28.3549608Z Installed 7 packages in 7ms
+lint	Install dev tools	2026-11-11T15:47:28.3549968Z  + iniconfig==2.3.1
+lint	Install dev tools	2026-11-11T15:47:28.3550311Z  + packaging==26.3
+lint	Install dev tools	2026-11-11T15:47:28.3550612Z  + pluggy==1.7.0
+lint	Install dev tools	2026-11-11T15:47:28.3550868Z  + pygments==2.21.0
+lint	Install dev tools	2026-11-11T15:47:28.3551120Z  + pytest==9.2.0
+lint	Install dev tools	2026-11-11T15:47:28.3551370Z  + ruff==0.17.4
+lint	Install dev tools	2026-11-11T15:47:28.3551621Z  + ty==0.0.100
+lint	Ruff check	﻿2026-11-11T15:47:28.3602414Z ##[group]Run uv run --no-sync ruff check .
+lint	Ruff check	2026-11-11T15:47:28.3602832Z ^[[36;1muv run --no-sync ruff check .^[[0m
+lint	Ruff check	2026-11-11T15:47:28.3646504Z shell: /usr/bin/bash -e {0}
+lint	Ruff check	2026-11-11T15:47:28.3646721Z env:
+lint	Ruff check	2026-11-11T15:47:28.3646950Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+lint	Ruff check	2026-11-11T15:47:28.3647221Z ##[endgroup]
+lint	Ruff check	2026-11-11T15:47:28.5205313Z All checks passed!
+lint	Ruff format	﻿2026-11-11T15:47:28.5257175Z ##[group]Run uv run --no-sync ruff format --check .
+lint	Ruff format	2026-11-11T15:47:28.5257523Z ^[[36;1muv run --no-sync ruff format --check .^[[0m
+lint	Ruff format	2026-11-11T15:47:28.5301575Z shell: /usr/bin/bash -e {0}
+lint	Ruff format	2026-11-11T15:47:28.5301799Z env:
+lint	Ruff format	2026-11-11T15:47:28.5302026Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+lint	Ruff format	2026-11-11T15:47:28.5302497Z ##[endgroup]
+lint	Ruff format	2026-11-11T15:47:28.5708172Z 189 files already formatted
+lint	Post Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	﻿2026-11-11T15:47:28.5831602Z Post job cleanup.
+lint	Post Run astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7	2026-11-11T15:47:28.6700840Z UV_PYTHON_INSTALL_DIR is already set to /home/runner/work/_temp/uv-python-dir
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T15:47:28.6968394Z Post job cleanup.
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7684595Z [command]/usr/bin/git version
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7721174Z git version 2.56.0
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7751205Z Temporarily overriding HOME='/home/runner/work/_temp/b376113f-32c2-45af-9032-98b6bf02fba1' before making global git config changes
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7752383Z Adding repository directory to the temporary git global config as a safe directory
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7755595Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/logo-maker/logo-maker
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7785087Z Removing SSH command configuration
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7790047Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.7822329Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8071051Z Removing HTTP extra header
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8076481Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8108188Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8416323Z Removing includeIf entries pointing to credentials config files
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8422501Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+lint	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:28.8453592Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+lint	Complete job	﻿2026-11-11T15:47:28.8859323Z Cleaning up orphan processes
+prek	Set up job	﻿2026-11-11T15:47:19.7167345Z Current runner version: '2.338.2'
+prek	Set up job	2026-11-11T15:47:19.7193026Z ##[group]Runner Image Provisioner
+prek	Set up job	2026-11-11T15:47:19.7193992Z Hosted Compute Agent
+prek	Set up job	2026-11-11T15:47:19.7194696Z Version: 20261028.624
+prek	Set up job	2026-11-11T15:47:19.7195298Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+prek	Set up job	2026-11-11T15:47:19.7196020Z Build Date: 2026-10-28T21:51:42Z
+prek	Set up job	2026-11-11T15:47:19.7197030Z Worker ID: {a15c70b7-11bf-4abd-8fb7-fbbda5df3a24}
+prek	Set up job	2026-11-11T15:47:19.7197799Z Region: westus2
+prek	Set up job	2026-11-11T15:47:19.7198397Z Cloud: Azure
+prek	Set up job	2026-11-11T15:47:19.7198913Z ##[endgroup]
+prek	Set up job	2026-11-11T15:47:19.7200403Z ##[group]Operating System
+prek	Set up job	2026-11-11T15:47:19.7201008Z Ubuntu
+prek	Set up job	2026-11-11T15:47:19.7201495Z 26.04.1
+prek	Set up job	2026-11-11T15:47:19.7202037Z LTS
+prek	Set up job	2026-11-11T15:47:19.7202867Z ##[endgroup]
+prek	Set up job	2026-11-11T15:47:19.7203503Z ##[group]Runner Image
+prek	Set up job	2026-11-11T15:47:19.7204090Z Image: ubuntu-26.04
+prek	Set up job	2026-11-11T15:47:19.7204671Z Version: 20261101.186.1
+prek	Set up job	2026-11-11T15:47:19.7205697Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+prek	Set up job	2026-11-11T15:47:19.7207747Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+prek	Set up job	2026-11-11T15:47:19.7208690Z ##[endgroup]
+prek	Set up job	2026-11-11T15:47:19.7209775Z ##[group]GITHUB_TOKEN Permissions
+prek	Set up job	2026-11-11T15:47:19.7212028Z Contents: read
+prek	Set up job	2026-11-11T15:47:19.7212650Z Metadata: read
+prek	Set up job	2026-11-11T15:47:19.7213187Z ##[endgroup]
+prek	Set up job	2026-11-11T15:47:19.7215347Z Secret source: Actions
+prek	Set up job	2026-11-11T15:47:19.7216342Z Cache mode: write
+prek	Set up job	2026-11-11T15:47:19.7217334Z Prepare workflow directory
+prek	Set up job	2026-11-11T15:47:19.7548021Z Prepare all required actions
+prek	Set up job	2026-11-11T15:47:19.7598718Z Getting action download info
+prek	Set up job	2026-11-11T15:47:20.1148848Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+prek	Set up job	2026-11-11T15:47:20.2156903Z Download action repository 'j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece' (SHA:4e14d07f9231acabce116ccfca13b13dd9755ece)
+prek	Set up job	2026-11-11T15:47:20.5233302Z Complete job name: prek
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T15:47:20.6051633Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6052786Z with:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6053315Z   persist-credentials: false
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6054191Z   repository: nicolas-found42/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6058610Z   token: ***
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6059163Z   ssh-strict: true
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6059702Z   ssh-user: git
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6060194Z   clean: true
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6060704Z   sparse-checkout-cone-mode: true
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6061349Z   fetch-depth: 1
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6061876Z   fetch-tags: false
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6062423Z   show-progress: true
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6062961Z   lfs: false
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6063456Z   submodules: false
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6064036Z   set-safe-directory: true
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6064639Z   allow-unsafe-pr-checkout: false
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.6065447Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8811467Z Syncing repository: nicolas-found42/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8814401Z ##[group]Getting Git version info
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8815656Z Working directory is '/home/runner/work/logo-maker/logo-maker'
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8817137Z [command]/usr/bin/git version
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8818116Z git version 2.56.0
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8835671Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8847476Z Temporarily overriding HOME='/home/runner/work/_temp/cf1a9ba6-b8b0-416f-94cc-57a6c29e7ab1' before making global git config changes
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8849798Z Adding repository directory to the temporary git global config as a safe directory
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8857290Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/logo-maker/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8929392Z Deleting the contents of '/home/runner/work/logo-maker/logo-maker'
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8933741Z ##[group]Determining repository object format
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8935408Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8936589Z ##[group]Initializing the repository
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.8940506Z [command]/usr/bin/git init /home/runner/work/logo-maker/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9074229Z hint: Using 'master' as the name for the initial branch. This default branch name
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9076075Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9077902Z hint: to use in all of your new repositories, which will suppress this warning,
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9078972Z hint: call:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9079708Z hint:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9080697Z hint: 	git config --global init.defaultBranch <name>
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9081575Z hint:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9083674Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9085320Z hint: 'development'. The just-created branch can be renamed via this command:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9087626Z hint:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9088697Z hint: 	git branch -m <name>
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9089618Z hint:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9090841Z hint: Disable this message with "git config set advice.defaultBranchName false"
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9092731Z Initialized empty Git repository in /home/runner/work/logo-maker/logo-maker/.git/
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9106570Z [command]/usr/bin/git remote add origin https://github.com/nicolas-found42/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9154871Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9156387Z ##[group]Disabling automatic garbage collection
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9158338Z [command]/usr/bin/git config --local gc.auto 0
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9193646Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9195574Z ##[group]Setting up auth
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9196973Z Removing SSH command configuration
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9199608Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9231255Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9668922Z Removing HTTP extra header
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9670640Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9699122Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9921579Z Removing includeIf entries pointing to credentials config files
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9927286Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:20.9963104Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0188220Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0225631Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path /home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0436098Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0477467Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0510397Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0538985Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0540326Z ##[group]Fetching the repository
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:21.0547354Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +64bcb70b22f58bb1db2362355c0f1ed1a957abb1:refs/remotes/origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4138984Z From https://github.com/nicolas-found42/logo-maker
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4141523Z  * [new ref]         64bcb70b22f58bb1db2362355c0f1ed1a957abb1 -> origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4148163Z [command]/usr/bin/git branch --list --remote origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4176531Z   origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4184755Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4211410Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4216290Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4218614Z ##[group]Determining the checkout info
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4220952Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4222817Z [command]/usr/bin/git sparse-checkout disable
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4279579Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4313970Z ##[group]Checking out the ref
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:25.4316927Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0130121Z Switched to a new branch 'main'
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0134130Z branch 'main' set up to track 'origin/main'.
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0153237Z ##[endgroup]
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0207135Z [command]/usr/bin/git log -1 --format=%H
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0235954Z 64bcb70b22f58bb1db2362355c0f1ed1a957abb1
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0251167Z ##[group]Removing auth
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0251740Z Removing SSH command configuration
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0252378Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0283424Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0531417Z Removing HTTP extra header
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0534683Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0565871Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0802015Z Removing includeIf entries pointing to credentials config files
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0805395Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0838007Z includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0839318Z includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0840216Z includeif.gitdir:/github/workspace/.git.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0841006Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0854433Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0867538Z /home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0877530Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-69548331\-46c8\-4c19\-baaa\-890e400d1a2d\.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0911787Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0938732Z /home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0947259Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/logo-maker/logo-maker/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-69548331\-46c8\-4c19\-baaa\-890e400d1a2d\.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.0989948Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1018004Z /github/runner_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1020836Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-69548331\-46c8\-4c19\-baaa\-890e400d1a2d\.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1052249Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1070856Z /github/runner_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1078171Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-69548331\-46c8\-4c19\-baaa\-890e400d1a2d\.config
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1110534Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1341870Z Removing credentials config '/home/runner/work/_temp/git-credentials-69548331-46c8-4c19-baaa-890e400d1a2d.config'
+prek	Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:26.1354087Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	﻿2026-11-11T15:47:26.1585268Z ##[group]Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1585885Z with:
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1586324Z   extra-args: --all-files
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1586887Z   cache: true
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1587288Z   install-only: false
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1587655Z   prek-version: latest
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1588046Z   show-verbose-logs: true
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1588458Z   working-directory: .
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.1588842Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.2749607Z ##[group]Resolving prek version
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.2751104Z Downloading version manifest from https://raw.githubusercontent.com/j178/prek-action/main/version-manifest.json
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3489350Z Resolving prek version from input "latest"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3490933Z Resolved "latest" to latest stable release 0.5.10
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3492366Z Using prek 0.5.10
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3493761Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3505421Z ##[group]Installing prek 0.5.10
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3506899Z Selected release asset prek-x86_64-unknown-linux-gnu.tar.gz for runner linux/x64 (tool-cache arch x64)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3509143Z Looking up asset prek-x86_64-unknown-linux-gnu.tar.gz for 0.5.10
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.3510902Z Downloading prek from https://github.com/j178/prek/releases/download/v0.5.10/prek-x86_64-unknown-linux-gnu.tar.gz
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.4717603Z Downloaded archive to /home/runner/work/_temp/86a220ea-49ec-4d59-84d7-0fbb4e12f263
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.4802461Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/c1b5bb01-21b8-45fe-805e-83e68655f6e0 -f /home/runner/work/_temp/86a220ea-49ec-4d59-84d7-0fbb4e12f263
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5533465Z Extracted tar.gz archive to /home/runner/work/_temp/c1b5bb01-21b8-45fe-805e-83e68655f6e0
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5536451Z Resolved binary path to /home/runner/work/_temp/c1b5bb01-21b8-45fe-805e-83e68655f6e0/prek-x86_64-unknown-linux-gnu/prek
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5628077Z Cached prek binary at /opt/hostedtoolcache/prek/0.5.10/x64
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5629237Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5630131Z ##[group]Restore prek cache
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:26.5689864Z Using prek cache dir /home/runner/.cache/prek
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:27.0948862Z No cache found for key prek-v1|Linux|X64||9e470afdfd88afa29063a14fa810c5917284f21bee74edd1385eb0d0f524bf8a
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:27.0950310Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:27.0962682Z [command]/opt/hostedtoolcache/prek/0.5.10/x64/prek run --show-diff-on-failure --color=always --all-files
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8663975Z check for added large files^[[32m..............................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8665473Z check for merge conflicts^[[32m................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8666238Z check toml^[[32m...............................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8667364Z check yaml^[[32m...............................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8668330Z fix end of files^[[32m.........................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8669293Z trim trailing whitespace^[[32m.................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8670763Z ruff check^[[32m...............................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8671684Z ruff format^[[32m..............................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8672687Z typos^[[32m....................................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8673648Z rumdl check^[[32m..............................................................^[[39m^[[32;7mPassed^[[0m
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8681361Z ##[group]Prek verbose logs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8735719Z Using prek cache dir /home/runner/.cache/prek
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8739010Z 2026-11-11T15:47:27.100713Z DEBUG prek: 0.5.10
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8740581Z 2026-11-11T15:47:27.100741Z DEBUG Args: ["/opt/hostedtoolcache/prek/0.5.10/x64/prek", "run", "--show-diff-on-failure", "--color=always", "--all-files"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8743415Z 2026-11-11T15:47:27.102156Z DEBUG discover{cwd="/home/runner/work/logo-maker/logo-maker"}: Git repository state state=Repo { root: Ok("/home/runner/work/logo-maker/logo-maker"), git_dir: "/home/runner/work/logo-maker/logo-maker/.git", common_dir: "/home/runner/work/logo-maker/logo-maker/.git", hooks_dir: "/home/runner/work/logo-maker/logo-maker/.git/hooks" }
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8746245Z 2026-11-11T15:47:27.102189Z TRACE discover{cwd="/home/runner/work/logo-maker/logo-maker"}: close time.busy=1.43ms time.idle=1.99µs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8747740Z 2026-11-11T15:47:27.102203Z TRACE Searching for global config path=/home/runner/.config/prek/prek.toml
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8748583Z 2026-11-11T15:47:27.102215Z TRACE Global config not found or inaccessible, skipping path=/home/runner/.config/prek/prek.toml
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8749401Z 2026-11-11T15:47:27.102235Z DEBUG Found workspace root at `/home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8750038Z 2026-11-11T15:47:27.102237Z TRACE Include selectors: ``
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8750527Z 2026-11-11T15:47:27.102239Z TRACE Skip selectors: ``
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8751393Z 2026-11-11T15:47:27.102254Z DEBUG discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}: Performing fresh workspace discovery
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8753079Z 2026-11-11T15:47:27.102267Z TRACE discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}:list_submodules{git_root="/home/runner/work/logo-maker/logo-maker"}: close time.busy=3.04µs time.idle=424ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8754369Z 2026-11-11T15:47:27.102942Z DEBUG discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}: Loading project configuration path=.pre-commit-config.yaml
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8755561Z 2026-11-11T15:47:27.103931Z DEBUG discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}: opened gitignore file: /home/runner/work/logo-maker/logo-maker/.gitignore
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8756978Z 2026-11-11T15:47:27.103978Z DEBUG discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}: opened gitignore file: /home/runner/work/logo-maker/logo-maker/.git/info/exclude
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8758231Z 2026-11-11T15:47:27.104089Z DEBUG opened gitignore file: /home/runner/work/logo-maker/logo-maker/benchmarks/refinement/.gitignore
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8759389Z 2026-11-11T15:47:27.105880Z TRACE discover{root="/home/runner/work/logo-maker/logo-maker" config=None refresh=false}: close time.busy=3.63ms time.idle=1.17µs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8760305Z 2026-11-11T15:47:27.106078Z TRACE Checking lock resource="store" path=/home/runner/.cache/prek/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8761171Z 2026-11-11T15:47:27.106091Z DEBUG Acquired lock resource="store"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8762271Z 2026-11-11T15:47:27.106249Z DEBUG Cloning repo target=/home/runner/.cache/prek/scratch/.tmphrhoAz repo=https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c terminal_prompt=Disabled
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8763784Z 2026-11-11T15:47:27.106265Z TRACE Executing `/usr/bin/git -c core.useBuiltinFSMonitor=false -c init.defaultObjectFormat= init --template= /home/runner/.cache/prek/scratch/.tmphrhoAz`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8765364Z 2026-11-11T15:47:27.106840Z DEBUG Cloning repo target=/home/runner/.cache/prek/scratch/.tmpltbaA6 repo=https://github.com/astral-sh/ruff-pre-commit@f12be1ebaa5351c1fc76472de98db2c3446c8253 terminal_prompt=Disabled
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8766801Z 2026-11-11T15:47:27.106855Z TRACE Executing `/usr/bin/git -c core.useBuiltinFSMonitor=false -c init.defaultObjectFormat= init --template= /home/runner/.cache/prek/scratch/.tmpltbaA6`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8768147Z 2026-11-11T15:47:27.107279Z DEBUG Cloning repo target=/home/runner/.cache/prek/scratch/.tmpwwY0W4 repo=https://github.com/crate-ci/typos@00f422f3b19c57bc6338715ebfe3316d38768461 terminal_prompt=Disabled
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8769442Z 2026-11-11T15:47:27.107291Z TRACE Executing `/usr/bin/git -c core.useBuiltinFSMonitor=false -c init.defaultObjectFormat= init --template= /home/runner/.cache/prek/scratch/.tmpwwY0W4`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8770883Z 2026-11-11T15:47:27.107732Z DEBUG Cloning repo target=/home/runner/.cache/prek/scratch/.tmpU0IjYz repo=https://github.com/rvben/rumdl-pre-commit@83cecb6b523a053d7d3dfdc4798d705b505a88f9 terminal_prompt=Disabled
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8772691Z 2026-11-11T15:47:27.107745Z TRACE Executing `/usr/bin/git -c core.useBuiltinFSMonitor=false -c init.defaultObjectFormat= init --template= /home/runner/.cache/prek/scratch/.tmpU0IjYz`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8774010Z 2026-11-11T15:47:27.109636Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmphrhoAz && /usr/bin/git -c core.useBuiltinFSMonitor=false remote add origin https://github.com/pre-commit/pre-commit-hooks`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8775328Z 2026-11-11T15:47:27.116705Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpU0IjYz && /usr/bin/git -c core.useBuiltinFSMonitor=false remote add origin https://github.com/rvben/rumdl-pre-commit`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8777081Z 2026-11-11T15:47:27.117093Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpltbaA6 && /usr/bin/git -c core.useBuiltinFSMonitor=false remote add origin https://github.com/astral-sh/ruff-pre-commit`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8778417Z 2026-11-11T15:47:27.117480Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpwwY0W4 && /usr/bin/git -c core.useBuiltinFSMonitor=false remote add origin https://github.com/crate-ci/typos`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8779787Z 2026-11-11T15:47:27.117811Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmphrhoAz && /usr/bin/git -c core.useBuiltinFSMonitor=false -c protocol.version=2 fetch origin 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c --depth=1`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8781251Z 2026-11-11T15:47:27.119408Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpU0IjYz && /usr/bin/git -c core.useBuiltinFSMonitor=false -c protocol.version=2 fetch origin 83cecb6b523a053d7d3dfdc4798d705b505a88f9 --depth=1`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8782733Z 2026-11-11T15:47:27.119979Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpltbaA6 && /usr/bin/git -c core.useBuiltinFSMonitor=false -c protocol.version=2 fetch origin f12be1ebaa5351c1fc76472de98db2c3446c8253 --depth=1`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8784150Z 2026-11-11T15:47:27.120316Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpwwY0W4 && /usr/bin/git -c core.useBuiltinFSMonitor=false -c protocol.version=2 fetch origin 00f422f3b19c57bc6338715ebfe3316d38768461 --depth=1`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8785424Z 2026-11-11T15:47:27.461880Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpU0IjYz && /usr/bin/git -c core.useBuiltinFSMonitor=false checkout FETCH_HEAD`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8786453Z 2026-11-11T15:47:27.462235Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpltbaA6 && /usr/bin/git -c core.useBuiltinFSMonitor=false checkout FETCH_HEAD`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8787668Z 2026-11-11T15:47:27.464684Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpU0IjYz && /usr/bin/git -c core.useBuiltinFSMonitor=false ls-files -z -s`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8788695Z 2026-11-11T15:47:27.465288Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpltbaA6 && /usr/bin/git -c core.useBuiltinFSMonitor=false ls-files -z -s`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8789899Z 2026-11-11T15:47:27.553167Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmphrhoAz && /usr/bin/git -c core.useBuiltinFSMonitor=false checkout FETCH_HEAD`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8790973Z 2026-11-11T15:47:27.558615Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmphrhoAz && /usr/bin/git -c core.useBuiltinFSMonitor=false ls-files -z -s`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8791989Z 2026-11-11T15:47:30.071266Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpwwY0W4 && /usr/bin/git -c core.useBuiltinFSMonitor=false checkout FETCH_HEAD`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8793070Z 2026-11-11T15:47:30.215454Z TRACE Executing `cd /home/runner/.cache/prek/scratch/.tmpwwY0W4 && /usr/bin/git -c core.useBuiltinFSMonitor=false ls-files -z -s`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8794073Z 2026-11-11T15:47:30.218814Z TRACE No requires-python found in pyproject.toml hook=check-added-large-files
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8795240Z 2026-11-11T15:47:30.218859Z TRACE Failed to extract metadata from entry for hook `check-added-large-files`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/check-added-large-files`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8797071Z 2026-11-11T15:47:30.218892Z TRACE No requires-python found in pyproject.toml hook=check-merge-conflict
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8798249Z 2026-11-11T15:47:30.218918Z TRACE Failed to extract metadata from entry for hook `check-merge-conflict`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/check-merge-conflict`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8799397Z 2026-11-11T15:47:30.218946Z TRACE No requires-python found in pyproject.toml hook=check-toml
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8800469Z 2026-11-11T15:47:30.218974Z TRACE Failed to extract metadata from entry for hook `check-toml`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/check-toml`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8801483Z 2026-11-11T15:47:30.219000Z TRACE No requires-python found in pyproject.toml hook=check-yaml
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8802517Z 2026-11-11T15:47:30.219032Z TRACE Failed to extract metadata from entry for hook `check-yaml`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/check-yaml`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8803518Z 2026-11-11T15:47:30.219060Z TRACE No requires-python found in pyproject.toml hook=end-of-file-fixer
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8804657Z 2026-11-11T15:47:30.219086Z TRACE Failed to extract metadata from entry for hook `end-of-file-fixer`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/end-of-file-fixer`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8805755Z 2026-11-11T15:47:30.219114Z TRACE No requires-python found in pyproject.toml hook=trailing-whitespace
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8807085Z 2026-11-11T15:47:30.219139Z TRACE Failed to extract metadata from entry for hook `trailing-whitespace`: failed to read from file `/home/runner/.cache/prek/repos/7fa7ca4169c8decf/trailing-whitespace-fixer`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8808393Z 2026-11-11T15:47:30.219188Z TRACE No requires-python found in pyproject.toml hook=ruff-check
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8809408Z 2026-11-11T15:47:30.219214Z TRACE Failed to extract metadata from entry for hook `ruff-check`: failed to read from file `/home/runner/.cache/prek/repos/e9e4ac81f599e3b7/ruff`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8810470Z 2026-11-11T15:47:30.219245Z TRACE No requires-python found in pyproject.toml hook=ruff-format
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8811471Z 2026-11-11T15:47:30.219270Z TRACE Failed to extract metadata from entry for hook `ruff-format`: failed to read from file `/home/runner/.cache/prek/repos/e9e4ac81f599e3b7/ruff`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8812420Z 2026-11-11T15:47:30.219306Z TRACE No requires-python found in pyproject.toml hook=typos
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8813483Z 2026-11-11T15:47:30.219330Z TRACE Failed to extract metadata from entry for hook `typos`: failed to read from file `/home/runner/.cache/prek/repos/56c384ee23a9ec74/typos`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8814507Z 2026-11-11T15:47:30.219393Z TRACE Using pyproject.toml-derived language_version hook=rumdl version=>=3.9
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8815545Z 2026-11-11T15:47:30.219420Z TRACE Failed to extract metadata from entry for hook `rumdl`: failed to read from file `/home/runner/.cache/prek/repos/597216ace51b1caf/rumdl`: No such file or directory (os error 2)
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8816833Z 2026-11-11T15:47:30.219430Z TRACE Released lock path=/home/runner/.cache/prek/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8817970Z 2026-11-11T15:47:30.219437Z DEBUG Hooks going to run: ["check-added-large-files", "check-merge-conflict", "check-toml", "check-yaml", "end-of-file-fixer", "trailing-whitespace", "ruff-check", "ruff-format", "typos", "rumdl"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8819917Z 2026-11-11T15:47:30.219456Z TRACE ls_files{cwd="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false --literal-pathspecs ls-files -z -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8821869Z 2026-11-11T15:47:30.221852Z TRACE ls_files{cwd="/home/runner/work/logo-maker/logo-maker"}: close time.busy=851µs time.idle=1.55ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8822630Z 2026-11-11T15:47:30.221869Z DEBUG All files in the workspace: 2581
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8823213Z 2026-11-11T15:47:30.223747Z TRACE Checking lock resource="store" path=/home/runner/.cache/prek/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8823787Z 2026-11-11T15:47:30.223761Z DEBUG Acquired lock resource="store"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8824400Z 2026-11-11T15:47:30.224160Z TRACE Checking lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8824992Z 2026-11-11T15:47:30.224165Z DEBUG Acquired lock resource="uv"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8825685Z 2026-11-11T15:47:30.224167Z TRACE Checking lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8826493Z 2026-11-11T15:47:30.224171Z  INFO Waiting to acquire lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8827614Z 2026-11-11T15:47:30.224182Z TRACE Checking lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8828657Z 2026-11-11T15:47:30.224201Z  INFO Waiting to acquire lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8829623Z 2026-11-11T15:47:30.224247Z TRACE Checking lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8830729Z 2026-11-11T15:47:30.224253Z  INFO Waiting to acquire lock resource="uv" path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8832050Z 2026-11-11T15:47:30.224502Z DEBUG Downloading url=https://releases.astral.sh/github/uv/releases/download/0.13.5/uv-x86_64-unknown-linux-gnu.tar.gz
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8833216Z 2026-11-11T15:47:30.394029Z DEBUG Downloaded filename=uv-x86_64-unknown-linux-gnu.tar.gz
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8834374Z 2026-11-11T15:47:30.426485Z DEBUG Extracting archive path=/home/runner/.cache/prek/scratch/.tmpq85p3v/uv-x86_64-unknown-linux-gnu.tar.gz
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8835705Z 2026-11-11T15:47:30.591579Z DEBUG Extracted archive target=/home/runner/.cache/prek/scratch/.tmpq85p3v/extract/uv-x86_64-unknown-linux-gnu
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8837533Z 2026-11-11T15:47:30.596803Z DEBUG Moving uv to target source="/home/runner/.cache/prek/scratch/.tmpq85p3v/extract/uv-x86_64-unknown-linux-gnu/uv" target=/home/runner/.cache/prek/tools/uv/uv
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8838816Z 2026-11-11T15:47:30.604256Z TRACE Successfully installed uv version=0.13.5
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8839823Z 2026-11-11T15:47:30.604284Z TRACE Released lock path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8840687Z 2026-11-11T15:47:30.604307Z TRACE Acquired lock resource="uv"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8841854Z 2026-11-11T15:47:30.604351Z DEBUG Installing environment hook=check-added-large-files target=/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8844271Z 2026-11-11T15:47:30.604365Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S --no-project --project / --python-preference only-managed --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8846055Z 2026-11-11T15:47:30.609467Z TRACE Found compatible managed uv uv=/home/runner/.cache/prek/tools/uv/uv
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8847289Z 2026-11-11T15:47:30.609503Z TRACE Released lock path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8848258Z 2026-11-11T15:47:30.609520Z TRACE Acquired lock resource="uv"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8849458Z 2026-11-11T15:47:30.609583Z DEBUG Installing environment hook=ruff-check target=/home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8851694Z 2026-11-11T15:47:30.609598Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO --no-project --project / --python-preference only-managed --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8853823Z 2026-11-11T15:47:30.615881Z TRACE Found compatible managed uv uv=/home/runner/.cache/prek/tools/uv/uv
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8854985Z 2026-11-11T15:47:30.615916Z TRACE Released lock path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8856101Z 2026-11-11T15:47:30.615941Z TRACE Acquired lock resource="uv"
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8857522Z 2026-11-11T15:47:30.615982Z DEBUG Installing environment hook=typos target=/home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8859628Z 2026-11-11T15:47:30.616000Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4 --no-project --project / --python-preference only-managed --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8861542Z 2026-11-11T15:47:30.622657Z TRACE Found compatible managed uv uv=/home/runner/.cache/prek/tools/uv/uv
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8862727Z 2026-11-11T15:47:30.622706Z TRACE Released lock path=/home/runner/.cache/prek/tools/uv/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8864241Z 2026-11-11T15:47:30.622788Z DEBUG Installing environment hook=rumdl target=/home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8866453Z 2026-11-11T15:47:30.622808Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc --no-project --project / --python-preference only-managed --no-python-downloads --python >=3.9`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8869064Z 2026-11-11T15:47:30.663473Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO --no-project --project / --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8871270Z 2026-11-11T15:47:30.665515Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S --no-project --project / --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8873476Z 2026-11-11T15:47:30.673697Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4 --no-project --project / --no-python-downloads`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8875641Z 2026-11-11T15:47:30.676598Z TRACE Executing `/home/runner/.cache/prek/tools/uv/uv venv /home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc --no-project --project / --no-python-downloads --python >=3.9`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8877611Z 2026-11-11T15:47:30.742950Z DEBUG Created Python virtual environment: `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S` attempt=External
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8879054Z 2026-11-11T15:47:30.742982Z TRACE Installing dependencies from repo path: /home/runner/.cache/prek/repos/7fa7ca4169c8decf
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8880831Z 2026-11-11T15:47:30.743054Z TRACE Executing `cd /home/runner/.cache/prek/repos/7fa7ca4169c8decf && /home/runner/.cache/prek/tools/uv/uv pip install --project / --directory /home/runner/.cache/prek/repos/7fa7ca4169c8decf .`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8882661Z 2026-11-11T15:47:30.745457Z DEBUG Created Python virtual environment: `/home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO` attempt=External
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8884354Z 2026-11-11T15:47:30.745483Z TRACE Installing dependencies from repo path: /home/runner/.cache/prek/repos/e9e4ac81f599e3b7
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8886035Z 2026-11-11T15:47:30.745489Z TRACE Executing `cd /home/runner/.cache/prek/repos/e9e4ac81f599e3b7 && /home/runner/.cache/prek/tools/uv/uv pip install --project / --directory /home/runner/.cache/prek/repos/e9e4ac81f599e3b7 .`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8887893Z 2026-11-11T15:47:30.752751Z DEBUG Created Python virtual environment: `/home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4` attempt=External
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8889226Z 2026-11-11T15:47:30.752778Z TRACE Installing dependencies from repo path: /home/runner/.cache/prek/repos/56c384ee23a9ec74
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8890855Z 2026-11-11T15:47:30.752784Z TRACE Executing `cd /home/runner/.cache/prek/repos/56c384ee23a9ec74 && /home/runner/.cache/prek/tools/uv/uv pip install --project / --directory /home/runner/.cache/prek/repos/56c384ee23a9ec74 .`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8893251Z 2026-11-11T15:47:30.756742Z DEBUG Created Python virtual environment: `/home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc` attempt=External
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8894643Z 2026-11-11T15:47:30.756767Z TRACE Installing dependencies from repo path: /home/runner/.cache/prek/repos/597216ace51b1caf
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8896301Z 2026-11-11T15:47:30.756773Z TRACE Executing `cd /home/runner/.cache/prek/repos/597216ace51b1caf && /home/runner/.cache/prek/tools/uv/uv pip install --project / --directory /home/runner/.cache/prek/repos/597216ace51b1caf .`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8898170Z 2026-11-11T15:47:32.145796Z TRACE Executing `/home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc/bin/python -I -S -c import sys
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8899353Z info = ".".join(map(str, sys.version_info[:3])) + "\n" + sys.base_exec_prefix
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8900100Z sys.stdout.buffer.write(info.encode("utf-8"))
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8900643Z `
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8901364Z 2026-11-11T15:47:32.158188Z DEBUG Installed hook `rumdl` in `/home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8902613Z 2026-11-11T15:47:32.219194Z TRACE Executing `/home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO/bin/python -I -S -c import sys
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8903751Z info = ".".join(map(str, sys.version_info[:3])) + "\n" + sys.base_exec_prefix
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8904460Z sys.stdout.buffer.write(info.encode("utf-8"))
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8904989Z `
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8905719Z 2026-11-11T15:47:32.231562Z DEBUG Installed hook `ruff-check` in `/home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8907175Z 2026-11-11T15:47:32.231586Z DEBUG Found installed environment for hook `ruff-format` at `/home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8908605Z 2026-11-11T15:47:32.243721Z TRACE Executing `/home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4/bin/python -I -S -c import sys
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8909696Z info = ".".join(map(str, sys.version_info[:3])) + "\n" + sys.base_exec_prefix
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8910365Z sys.stdout.buffer.write(info.encode("utf-8"))
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8910840Z `
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8911599Z 2026-11-11T15:47:32.252405Z DEBUG Installed hook `typos` in `/home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8912870Z 2026-11-11T15:47:32.319303Z TRACE Executing `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S/bin/python -I -S -c import sys
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8913904Z info = ".".join(map(str, sys.version_info[:3])) + "\n" + sys.base_exec_prefix
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8914609Z sys.stdout.buffer.write(info.encode("utf-8"))
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8915102Z `
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8915967Z 2026-11-11T15:47:32.328122Z DEBUG Installed hook `check-added-large-files` in `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8917676Z 2026-11-11T15:47:32.328136Z DEBUG Found installed environment for hook `check-merge-conflict` at `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8919450Z 2026-11-11T15:47:32.328139Z DEBUG Found installed environment for hook `check-toml` at `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8920895Z 2026-11-11T15:47:32.328141Z DEBUG Found installed environment for hook `check-yaml` at `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8922481Z 2026-11-11T15:47:32.328143Z DEBUG Found installed environment for hook `end-of-file-fixer` at `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8924185Z 2026-11-11T15:47:32.328145Z DEBUG Found installed environment for hook `trailing-whitespace` at `/home/runner/.cache/prek/hooks/python-U2ck1gXTqai0kqu8Qu8S`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8925348Z 2026-11-11T15:47:32.328229Z TRACE Released lock path=/home/runner/.cache/prek/.lock
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8926343Z 2026-11-11T15:47:32.328352Z TRACE Files for project `.` after filtered: 2581
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8927440Z 2026-11-11T15:47:32.328357Z DEBUG Running priority group with priority 0: ["check-added-large-files"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8928870Z 2026-11-11T15:47:32.328580Z TRACE matching_filenames{hook="check-added-large-files"}: close time.busy=212µs time.idle=2.05µs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8930217Z 2026-11-11T15:47:32.328591Z TRACE Files for hook `check-added-large-files` after filtering matched=true filenames=2571
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8932924Z 2026-11-11T15:47:32.328616Z DEBUG run{hook_id=check-added-large-files language=python}: Running hook `check-added-large-files` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8936373Z 2026-11-11T15:47:32.328673Z TRACE run{hook_id=check-added-large-files language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --no-ext-diff --cached --relative --name-only --diff-filter=A -z`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8938736Z 2026-11-11T15:47:32.330721Z  INFO run{hook_id=check-added-large-files language=python}: close time.busy=405µs time.idle=1.71ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8939874Z 2026-11-11T15:47:32.330739Z DEBUG Running priority group with priority 1: ["check-merge-conflict"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8941218Z 2026-11-11T15:47:32.330770Z TRACE matching_filenames{hook="check-merge-conflict"}: close time.busy=25.9µs time.idle=367ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8942257Z 2026-11-11T15:47:32.330776Z TRACE Files for hook `check-merge-conflict` after filtering matched=true filenames=2081
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8944322Z 2026-11-11T15:47:32.330792Z DEBUG run{hook_id=check-merge-conflict language=python}: Running hook `check-merge-conflict` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8946225Z 2026-11-11T15:47:32.330810Z  INFO run{hook_id=check-merge-conflict language=python}: close time.busy=27.7µs time.idle=510ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8947135Z 2026-11-11T15:47:32.330820Z DEBUG Running priority group with priority 2: ["check-toml"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8947929Z 2026-11-11T15:47:32.330835Z TRACE matching_filenames{hook="check-toml"}: close time.busy=11.8µs time.idle=326ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8948614Z 2026-11-11T15:47:32.330838Z TRACE Files for hook `check-toml` after filtering matched=true filenames=114
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8950164Z 2026-11-11T15:47:32.330847Z DEBUG run{hook_id=check-toml language=python}: Running hook `check-toml` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8952004Z 2026-11-11T15:47:32.334784Z  INFO run{hook_id=check-toml language=python}: close time.busy=30.0µs time.idle=3.91ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8952727Z 2026-11-11T15:47:32.334818Z DEBUG Running priority group with priority 3: ["check-yaml"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8953461Z 2026-11-11T15:47:32.334853Z TRACE matching_filenames{hook="check-yaml"}: close time.busy=27.6µs time.idle=410ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8954156Z 2026-11-11T15:47:32.334859Z TRACE Files for hook `check-yaml` after filtering matched=true filenames=6
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8955780Z 2026-11-11T15:47:32.334877Z DEBUG run{hook_id=check-yaml language=python}: Running hook `check-yaml` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8957734Z 2026-11-11T15:47:32.335240Z  INFO run{hook_id=check-yaml language=python}: close time.busy=45.1µs time.idle=329µs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8958558Z 2026-11-11T15:47:32.335270Z DEBUG Running priority group with priority 4: ["end-of-file-fixer"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8959375Z 2026-11-11T15:47:32.335613Z TRACE matching_filenames{hook="end-of-file-fixer"}: close time.busy=335µs time.idle=433ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8960115Z 2026-11-11T15:47:32.335619Z TRACE Files for hook `end-of-file-fixer` after filtering matched=true filenames=421
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8961776Z 2026-11-11T15:47:32.335644Z DEBUG run{hook_id=end-of-file-fixer language=python}: Running hook `end-of-file-fixer` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8963655Z 2026-11-11T15:47:32.336494Z  INFO run{hook_id=end-of-file-fixer language=python}: close time.busy=73.9µs time.idle=787µs
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8964508Z 2026-11-11T15:47:32.336518Z DEBUG Running priority group with priority 5: ["trailing-whitespace"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8965384Z 2026-11-11T15:47:32.336878Z TRACE matching_filenames{hook="trailing-whitespace"}: close time.busy=355µs time.idle=362ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8966151Z 2026-11-11T15:47:32.336886Z TRACE Files for hook `trailing-whitespace` after filtering matched=true filenames=421
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8967981Z 2026-11-11T15:47:32.336901Z DEBUG run{hook_id=trailing-whitespace language=python}: Running hook `trailing-whitespace` with prek's bundled Rust implementation instead of `https://github.com/pre-commit/pre-commit-hooks@3e8a8703264a2f4a69428a0aa4dcb512790b2c8c` (fast path); behavior and defaults may differ. Set `language: python` for this hook or `PREK_NO_FAST_PATH=1` to run the pinned implementation
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8969828Z 2026-11-11T15:47:32.338208Z  INFO run{hook_id=trailing-whitespace language=python}: close time.busy=53.5µs time.idle=1.26ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8971286Z 2026-11-11T15:47:32.338236Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --full-index --no-ext-diff --no-textconv --ignore-submodules -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8972788Z 2026-11-11T15:47:32.344290Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: close time.busy=368µs time.idle=5.69ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8973512Z 2026-11-11T15:47:32.344306Z DEBUG Running priority group with priority 6: ["ruff-check"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8974296Z 2026-11-11T15:47:32.344347Z TRACE matching_filenames{hook="ruff-check"}: close time.busy=33.9µs time.idle=358ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8975072Z 2026-11-11T15:47:32.344352Z TRACE Files for hook `ruff-check` after filtering matched=true filenames=157
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8975942Z 2026-11-11T15:47:32.344435Z TRACE run{hook_id=ruff-check language=python}: Running ruff-check total_files=157 concurrency=1
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8977297Z 2026-11-11T15:47:32.344534Z TRACE run{hook_id=ruff-check language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO/bin/ruff check --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8978509Z 2026-11-11T15:47:32.381719Z  INFO run{hook_id=ruff-check language=python}: close time.busy=606µs time.idle=36.8ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8979857Z 2026-11-11T15:47:32.381759Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --full-index --no-ext-diff --no-textconv --ignore-submodules -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8981403Z 2026-11-11T15:47:32.387831Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: close time.busy=398µs time.idle=5.68ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8982262Z 2026-11-11T15:47:32.387879Z DEBUG Running priority group with priority 7: ["ruff-format"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8983081Z 2026-11-11T15:47:32.387928Z TRACE matching_filenames{hook="ruff-format"}: close time.busy=39.6µs time.idle=389ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8983792Z 2026-11-11T15:47:32.387934Z TRACE Files for hook `ruff-format` after filtering matched=true filenames=228
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8984592Z 2026-11-11T15:47:32.388027Z TRACE run{hook_id=ruff-format language=python}: Running ruff-format total_files=228 concurrency=1
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8985720Z 2026-11-11T15:47:32.388137Z TRACE run{hook_id=ruff-format language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-EiKv0jnSMorIvTMgLyYO/bin/ruff format --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8987143Z 2026-11-11T15:47:32.423597Z  INFO run{hook_id=ruff-format language=python}: close time.busy=663µs time.idle=35.0ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8988556Z 2026-11-11T15:47:32.423634Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --full-index --no-ext-diff --no-textconv --ignore-submodules -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8990142Z 2026-11-11T15:47:32.429939Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: close time.busy=411µs time.idle=5.90ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8990919Z 2026-11-11T15:47:32.429986Z DEBUG Running priority group with priority 8: ["typos"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8991633Z 2026-11-11T15:47:32.430038Z TRACE matching_filenames{hook="typos"}: close time.busy=42.0µs time.idle=436ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8992327Z 2026-11-11T15:47:32.430044Z TRACE Files for hook `typos` after filtering matched=true filenames=2081
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8993020Z 2026-11-11T15:47:32.430199Z TRACE run{hook_id=typos language=python}: Running typos total_files=2081 concurrency=4
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8994127Z 2026-11-11T15:47:32.430343Z TRACE run{hook_id=typos language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4/bin/typos --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8995531Z 2026-11-11T15:47:32.430859Z TRACE run{hook_id=typos language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4/bin/typos --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8997005Z 2026-11-11T15:47:32.431317Z TRACE run{hook_id=typos language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4/bin/typos --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8998394Z 2026-11-11T15:47:32.431929Z TRACE run{hook_id=typos language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-JSXEs7L7gZXTv24frZX4/bin/typos --force-exclude`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.8999433Z 2026-11-11T15:47:34.807563Z  INFO run{hook_id=typos language=python}: close time.busy=3.04ms time.idle=2.37s
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9000812Z 2026-11-11T15:47:34.807615Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --full-index --no-ext-diff --no-textconv --ignore-submodules -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9002441Z 2026-11-11T15:47:34.813939Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: close time.busy=574µs time.idle=5.76ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9003159Z 2026-11-11T15:47:34.813986Z DEBUG Running priority group with priority 9: ["rumdl"]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9003884Z 2026-11-11T15:47:34.814024Z TRACE matching_filenames{hook="rumdl"}: close time.busy=30.1µs time.idle=383ns
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9004556Z 2026-11-11T15:47:34.814031Z TRACE Files for hook `rumdl` after filtering matched=true filenames=71
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9005307Z 2026-11-11T15:47:34.814136Z TRACE run{hook_id=rumdl language=python}: Running rumdl total_files=71 concurrency=1
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9006390Z 2026-11-11T15:47:34.814229Z TRACE run{hook_id=rumdl language=python}: Executing `cd /home/runner/work/logo-maker/logo-maker && /home/runner/.cache/prek/hooks/python-cvdzdzeCT5MvFFnSDwfc/bin/rumdl check`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9007615Z 2026-11-11T15:47:34.859196Z  INFO run{hook_id=rumdl language=python}: close time.busy=617µs time.idle=44.5ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9008951Z 2026-11-11T15:47:34.859257Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: Executing `cd /home/runner/work/logo-maker/logo-maker && /usr/bin/git -c core.useBuiltinFSMonitor=false diff --full-index --no-ext-diff --no-textconv --ignore-submodules -- /home/runner/work/logo-maker/logo-maker`
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9010441Z 2026-11-11T15:47:34.865687Z TRACE diff_worktree{path="/home/runner/work/logo-maker/logo-maker"}: close time.busy=499µs time.idle=5.96ms
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9011458Z ##[endgroup]
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9012031Z ##[group]Pruning prek cache
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9012539Z [command]/opt/hostedtoolcache/prek/0.5.10/x64/prek cache gc -v
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9012994Z Nothing to clean
+prek	Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:34.9013547Z ##[endgroup]
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	﻿2026-11-11T15:47:34.9129577Z Post job cleanup.
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:35.0335303Z ##[group]Save prek cache
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:35.0542804Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/logo-maker/logo-maker --files-from manifest.txt --use-compress-program zstdmt
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:36.7905520Z Sent 15597568 of 52582410 (29.7%), 14.9 MBs/sec
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:37.7402820Z Sent 52582410 of 52582410 (100.0%), 25.7 MBs/sec
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:38.0477367Z Saved prek cache with key prek-v1|Linux|X64||9e470afdfd88afa29063a14fa810c5917284f21bee74edd1385eb0d0f524bf8a
+prek	Post Run j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece	2026-11-11T15:47:38.0479054Z ##[endgroup]
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-11T15:47:38.0646484Z Post job cleanup.
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1502737Z [command]/usr/bin/git version
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1546881Z git version 2.56.0
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1583272Z Temporarily overriding HOME='/home/runner/work/_temp/eaea804b-92bc-4674-8d8e-04e257db2f22' before making global git config changes
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1584649Z Adding repository directory to the temporary git global config as a safe directory
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1587702Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/logo-maker/logo-maker
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1623495Z Removing SSH command configuration
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1631009Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1666201Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1914946Z Removing HTTP extra header
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1920836Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.1960761Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.2230116Z Removing includeIf entries pointing to credentials config files
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.2240299Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+prek	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-11T15:47:38.2270299Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+prek	Complete job	﻿2026-11-11T15:47:38.2643522Z Cleaning up orphan processes
