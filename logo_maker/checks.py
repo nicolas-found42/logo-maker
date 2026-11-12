@@ -9,7 +9,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
-from coloraide import Color
 from PIL import Image, ImageFilter
 
 # A pixel counts as object body (as opposed to haze, glow, or shadow).
@@ -146,6 +145,8 @@ def color_report(png: Path, palette: dict[str, str]) -> dict:
     Dominant colors are compared in OKLab; distance is deltaE2000 via
     coloraide (which converts to Lab internally for the 2000 formula).
     """
+    from coloraide import Color  # lazy: 27 ms, and export workers never compare colors
+
     with Image.open(png) as im:
         rgba = np.asarray(im.convert("RGBA"))
     opaque = rgba[rgba[:, :, 3] >= 128][:, :3]

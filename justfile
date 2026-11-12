@@ -35,15 +35,15 @@ type:
 
 # Offline tests (no renders, no jev). Extra pytest arguments pass through.
 test *args:
-    uv run --locked python -m pytest -q -m "not render and not live" {{ args }}
+    uv run --locked python -m pytest -q -m "not render and not live" -n auto --dist worksteal {{ args }}
 
 # The regression render of the bundled example (GPU; about a minute after kernels are warm).
 render-example:
     uv run --locked python -m pytest -q -m render
 
-# Every local hook over all files.
+# Every local hook over all files (includes ruff, ty, the skill check and the evidence verifier).
 hooks:
     uvx prek run --all-files
 
 # Everything CI runs, plus the regression render.
-check: hooks lint type test render-example
+check: hooks test render-example

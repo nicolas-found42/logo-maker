@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-import numpy as np
+if TYPE_CHECKING:
+    import numpy as np
 
 
 def sha256(path: Path) -> str:
@@ -18,6 +20,8 @@ def sha256(path: Path) -> str:
 
 def summarize(counts: np.ndarray, rgba: np.ndarray, cap: int) -> dict:
     """Cycles Debug Sample Count is normalized by configured cap, including adaptive runs."""
+    import numpy as np  # lazy: render.py imports sha256 from here and never needs numpy
+
     counts = counts.astype(np.float32) * cap
     if not np.isfinite(counts).all() or counts.min() < 0 or counts.max() > cap * 1.001:
         return {"status": "unknown", "reason": "invalid normalized sample counts"}
@@ -67,6 +71,7 @@ def summarize(counts: np.ndarray, rgba: np.ndarray, cap: int) -> dict:
 
 def analyze_exr(path: Path, *, cap: int, max_bytes: int) -> dict:
     """Read relevant channels across subimages with bounded decoded memory and file I/O."""
+    import numpy as np
     import OpenImageIO as oiio
 
     unknown = {"status": "unknown", "reason": "missing, over-budget or unsupported diagnostics"}

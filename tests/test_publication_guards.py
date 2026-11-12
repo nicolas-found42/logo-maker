@@ -214,7 +214,7 @@ def test_publication_guard_read_uses_same_deadline_and_recovers(tmp_path, monkey
         publish(
             [{"target": str(target), "text": "next"}],
             tmp_path / "journal.json",
-            Budget(wall_seconds=8),
+            Budget(wall_seconds=5),
             [],
             preconditions=[
                 {

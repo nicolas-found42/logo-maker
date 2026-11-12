@@ -82,7 +82,7 @@ def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(
         pytest.skip("bounded host workers target macOS/Linux")
     (tmp_path / "scene.toml").write_text(
         '[meta]\nconcept="test|plate|wax"\ntreatment="embossed_plate"\nseed=0\n'
-        '[lighting]\nhdri="none"\n[sampling]\nwall_seconds=6\n'
+        '[lighting]\nhdri="none"\n[sampling]\nwall_seconds=4.5\n'
         '[materials.surface]\npreset="wax"\n'
         '[[components]]\nkind="plate"\nmaterial="surface"\n'
     )
@@ -119,7 +119,7 @@ def test_stalled_compilation_stops_at_wall_budget_and_keeps_prior_final(
     try:
         with pytest.raises(SamplingLimit, match="time_limit"):
             render.render(
-                tmp_path, "final", budget=Budget(wall_seconds=6) if explicit_budget else None
+                tmp_path, "final", budget=Budget(wall_seconds=4.5) if explicit_budget else None
             )
         assert time.monotonic() - started < 9, "compile overran the caller's wall budget"
         assert prior.read_bytes() == b"approved prior final"
@@ -184,7 +184,7 @@ def test_stalled_sampling_control_read_keeps_prior_final_within_deadline(
     started = time.monotonic()
     try:
         with pytest.raises(SamplingLimit, match="time_limit"):
-            render.render(tmp_path, "final", budget=Budget(wall_seconds=6))
+            render.render(tmp_path, "final", budget=Budget(wall_seconds=4.5))
         assert time.monotonic() - started < 9, "sampling control read overran the wall budget"
         assert prior.read_bytes() == b"approved prior final"
         report = json.loads((tmp_path / ".build/final.sampling.json").read_text())
@@ -250,6 +250,7 @@ def test_stalled_image_hash_stops_at_wall_budget_and_keeps_prior_result(tmp_path
         image = folder / "preview.png"
         os.mkfifo(image)
         (folder / "preview.execution.json").write_text('{"status":"verified"}')
+        budget.deadline = min(budget.deadline, time.monotonic() + 3)
 
         def release_old_unbounded_call():
             descriptor = None
@@ -556,7 +557,7 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(final
     case = finalize_qa_case
     started = time.monotonic()
     with pytest.raises(SamplingLimit, match="time_limit"):
-        pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=6))
+        pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=5))
     assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
     if case.failure == "tiny_image_read":
         assert case.image_read_started.is_set(), "test did not reach tiny image preparation"
@@ -767,7 +768,7 @@ def test_stalled_cached_image_check_stops_at_its_shared_budget(tmp_path):
     try:
         with pytest.raises(SamplingLimit, match="time_limit"):
             render.artifact_current(
-                tmp_path, "final", check_machine=False, budget=Budget(wall_seconds=6)
+                tmp_path, "final", check_machine=False, budget=Budget(wall_seconds=3)
             )
         assert time.monotonic() - started < 9
         assert record.read_bytes() == prior_record
@@ -973,7 +974,7 @@ def test_finalize_blocked_input_terminates_and_keeps_winner(tmp_path, blocked):
     log_module._OPEN.pop(logo.run_json.resolve(), None)
     started = time.monotonic()
     with pytest.raises(SamplingLimit, match="time_limit"):
-        pipeline.finalize(logo, object(), budget=Budget(wall_seconds=5))
+        pipeline.finalize(logo, object(), budget=Budget(wall_seconds=3))
     assert time.monotonic() - started < 7
     assert winner_path.read_text() == '{"winner":"approved prior"}'
 
