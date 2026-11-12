@@ -146,7 +146,7 @@ def test_provider_timeout_keeps_pending_attempt_unknown_and_prior_output(tmp_pat
             # Only shorten the shared deadline; never replace it with a fresh budget.
             phase_started.append(time.monotonic())
             budget = kwargs["budget"]
-            budget.deadline = min(budget.deadline, phase_started[-1] + 6)
+            budget.deadline = min(budget.deadline, phase_started[-1] + 4)
         return original(*args, **kwargs)
 
     monkeypatch.setattr(owned_process, "run", bounded_post)

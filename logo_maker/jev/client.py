@@ -29,7 +29,6 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Protocol
 
-import httpx
 from PIL import Image as _PILImage
 from PIL import ImageOps as _ImageOps
 
@@ -73,9 +72,19 @@ class Image:
 
 def is_retryable(status: int | None, exc: BaseException | None = None) -> bool:
     """Whether to retry: rate limits, 5xx, 529, and network errors. All else raises."""
-    if exc is not None and isinstance(exc, httpx.TransportError):
-        return True
+    if exc is not None:
+        import httpx
+
+        if isinstance(exc, httpx.TransportError):
+            return True
     return status in RETRYABLE_STATUS
+
+
+def _http_client():
+    """Built lazily: CPU host workers import this module but never send a request."""
+    import httpx
+
+    return httpx.Client(timeout=REQUEST_TIMEOUT)
 
 
 def _load_image(path: Path) -> tuple[Any, str]:
@@ -245,7 +254,7 @@ class JevClient:
         self.logo = logo
         self.concurrency = concurrency
         self._lock = threading.Lock()
-        self._http = httpx.Client(timeout=REQUEST_TIMEOUT) if budget is None else None
+        self._http = _http_client() if budget is None else None
         self._seq = (
             self._worker({"operation": "first_seq", "logo": str(logo.root)}, budget)["seq"]
             if budget is not None and logo is not None
@@ -326,8 +335,10 @@ class JevClient:
                 },
                 budget,
             )
+        import httpx
+
         if self._http is None:
-            self._http = httpx.Client(timeout=REQUEST_TIMEOUT)
+            self._http = _http_client()
         headers = {"Authorization": f"Bearer {self._key}"}
         if has_images:
             headers["TypeSafe-Danger-Zone-Images"] = "true"

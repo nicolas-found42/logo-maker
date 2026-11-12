@@ -6,13 +6,18 @@ import json
 import sys
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from logo_maker import owned_process
-from logo_maker.proc import ToolError
-from logo_maker.sampling import Budget
+if TYPE_CHECKING:
+    from logo_maker.sampling import Budget
 
 
 def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
+    # Parent-side only: the worker (`python -m logo_maker.host`) never spawns workers,
+    # so these imports stay off its startup path.
+    from logo_maker import owned_process
+    from logo_maker.proc import ToolError
+
     started = time.monotonic()
     status = "failed"
     try:

@@ -47,6 +47,9 @@ jobs:
       - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
         with:
           extra-args: --all-files
+        env:
+          # These hooks need the project environment; the lint and test jobs run them there.
+          SKIP: uv-lock-check,skill-check,ty-check,verify-refinement-evidence
 
   test:
     name: test
@@ -88,4 +91,4 @@ jobs:
       - name: Offline tests
         env:
           PAG_USE_LOCAL_REV: "1"
-        run: uv run --no-sync python -m pytest -q -m "not render and not live"
+        run: uv run --no-sync python -m pytest -q -m "not render and not live" -n auto --dist worksteal

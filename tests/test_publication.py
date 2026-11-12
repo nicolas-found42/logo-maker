@@ -58,7 +58,7 @@ def test_publication_stall_terminates_and_restores_whole_prior_set(tmp_path, mon
                 {"text": '{"next":true}', "target": str(sidecar)},
             ],
             tmp_path / "journal.json",
-            Budget(wall_seconds=8),
+            Budget(wall_seconds=5),
             [],
         )
     assert marker.exists(), "fault was not reached"
@@ -76,7 +76,7 @@ def test_committed_cleanup_stall_is_bounded_and_keeps_recovery_evidence(tmp_path
     result = publish(
         [{"text": "next", "target": str(prior)}],
         tmp_path / "journal.json",
-        Budget(wall_seconds=8),
+        Budget(wall_seconds=5),
         [],
     )
     assert marker.exists()
@@ -110,7 +110,7 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
         # Allow cold preparation on hosted Macs, then shorten the same job budget
         # at the publication boundary whose rollback this test exercises.
         phase_started.append(time.monotonic())
-        budget.deadline = min(budget.deadline, phase_started[-1] + 12)
+        budget.deadline = min(budget.deadline, phase_started[-1] + 6)
         return original(entries, journal, budget, stages, **kwargs)
 
     monkeypatch.setattr(publication, "publish", bounded_publication)
