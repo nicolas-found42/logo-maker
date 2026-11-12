@@ -215,12 +215,12 @@ Serial baseline before any change: 294.7 s.
 | Iter | Change | pytest wall (s) | Slowest test (s) | Verdict |
 | ---: | --- | ---: | ---: | --- |
 | 0 | baseline: `pytest-xdist` `-n auto`, default `--dist load` | 39.05 | 18.05 | reference |
-| 1 | export deadline test `Budget(20)` to `Budget(6)` | 36.69 | 17.08 | kept |
+| 1 | export deadline test `Budget(20)` to `Budget(6)` | 36.69 | 17.08 | reverted in iteration 18: failed 3 times on the hosted runner |
 | 2 | stalled image-hash test: `min`-only deadline patch, `+3` s after the FIFO exists | 37.09 | 12.39 | kept |
 | 3 | publication stall budgets `8` to `5` s, `+12` to `+6` s (3 s and `+4` broke 4 tests: `publish()` needs more than 4 s) | 33.48 | 10.83 | kept |
 | 4 | `test_sampling_render.py` stall budgets `6`/`5` to `3`/`4.5` s (3 s broke 3 render stalls; 4.5 s is the floor) | 33.30 | 10.87 | kept |
 | 5 | `--dist worksteal` (A/B: `load` 32.9, `worksteal` 25.5, `loadfile` 54.4); also blocked-QA budget back to 5 s after a 3 s flake | 26.96 | 11.37 | kept |
-| 6 | longest-first ordering from pytest's cache (`tests/conftest.py`) | 25.64 | 11.37 | kept, about 1.3 s |
+| 6 | longest-first ordering from pytest's cache (`tests/conftest.py`) | 25.64 | 11.37 | superseded by iteration 19 |
 | 7 | `conftest` works under `-p no:cacheprovider`; publication guard read stall `8` to `5` s | 24.00 | 10.66 | kept |
 | 8 | exclude benchmark data from `typos` | prek 0.39 s, unchanged | n/a | reverted: typos runs in parallel chunks, no gain in `prek` |
 | 9 | `just check` no longer re-runs `lint` and `type` after `hooks` | n/a: 1.35 s to 0.98 s | n/a | kept |
@@ -232,6 +232,8 @@ Serial baseline before any change: 294.7 s.
 | 15 | 1000 px instead of 4000 px synthetic final in the blocked-QA fixture | n/a | n/a | rejected: `asset_corrupt` expects the edge-QA outcome of the 4000 px image |
 | 16 | host worker no longer imports `owned_process`, `proc`, `sampling` (parent-only) | 20.74 | 6.83 | kept (`read_json` 26 to 18 ms, `refinement` 48 to 42 ms) |
 | 17 | lazy `tomlkit` in `pipeline` | 22.13 | 6.32 | reverted: no measurable change |
+| 18 | first hosted run (PR #19, `macos-latest`): `Offline tests` step 157.6 s versus 10m11s before; 3 failures, all `test_export_deadline_stops_tool_and_its_detached_browser`, whose 6 s budget the slower runner could not meet. Restored the original `Budget(20)` | hosted 157.6 | n/a | iteration 1 rolled back |
+| 19 | `conftest` deals the slowest tests across xdist worker blocks (with 20 s export budget: sorted-only 37.9 s, dealt 24.5 s) | 24.5 | 18.05 | kept; explains the 39 s baseline |
 
 Findings behind the table:
 
@@ -249,5 +251,11 @@ Findings behind the table:
 - Editing `logo_maker/` while the suite runs fails tests (a source fingerprint changes mid-judgment). One of eight
   back-to-back runs failed 8 tests exactly when a source file was edited; the other seven passed.
 
-Caveat: the numbers are one machine. Hosted-runner speed and the flake rate of the shortened deadlines on slower CPUs are
-measured separately (below, if recorded).
+Why iteration 19 matters: `--dist worksteal` hands each worker one contiguous block of the collected items. The two 18 s
+export-deadline cases are adjacent parametrizations, so they landed on one worker and ran back to back (18.1 s then 17.3 s,
+finishing at 38.0 s). That, not total CPU, was the 39 s baseline. Dealing the longest tests across blocks puts them on
+different workers. On a cold checkout there is no duration cache, so adjacent slow cases can still collide.
+
+Caveat: the numbers are one machine plus one hosted run. The shortened budgets that remain (publication 5 s, render stalls
+3-4.5 s, Jev post `+4` s, guard read 5 s) passed on that hosted run but its flake rate is unmeasured. Iteration 1 shows the
+risk is real on a slower CPU.

@@ -249,7 +249,6 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
     out = tmp_path / "exports"
     out.mkdir()
     (out / "prior.txt").write_text("approved prior export")
-    budget = Budget(wall_seconds=6)
     try:
         expected_error = ExportError if failure == "inner_error" else SamplingLimit
         with pytest.raises(
@@ -263,7 +262,7 @@ def test_export_deadline_stops_tool_and_its_detached_browser(tmp_path, monkeypat
                 motif_svg=motif,
                 # Include cold imports/format setup on the slower hosted Mac before
                 # the external-tool lifecycle this regression is intended to reach.
-                budget=budget,
+                budget=Budget(wall_seconds=20),
             )
         assert heartbeat.exists(), "did not reach external-tool/browser lifecycle"
         if failure != "denied_live":
