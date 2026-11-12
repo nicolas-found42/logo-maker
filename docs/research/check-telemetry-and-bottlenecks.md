@@ -234,6 +234,7 @@ Serial baseline before any change: 294.7 s.
 | 17 | lazy `tomlkit` in `pipeline` | 22.13 | 6.32 | reverted: no measurable change |
 | 18 | first hosted run (PR #19, `macos-latest`): `Offline tests` step 157.6 s versus 10m11s before; 3 failures, all `test_export_deadline_stops_tool_and_its_detached_browser`, whose 6 s budget the slower runner could not meet. Restored the original `Budget(20)` | hosted 157.6 | n/a | iteration 1 rolled back |
 | 19 | `conftest` deals the slowest tests across xdist worker blocks (with 20 s export budget: sorted-only 37.9 s, dealt 24.5 s) | 24.5 | 18.05 | kept; explains the 39 s baseline |
+| 20 | second hosted run (same PR, commit `78a02dc`): all four required checks pass; `Offline tests` 203.1 s (522 passed, 2 skipped, cold cache), `test` job 5m31s versus 12m25s | hosted 203.1 | n/a | confirmed |
 
 Findings behind the table:
 
