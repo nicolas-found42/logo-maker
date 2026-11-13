@@ -118,3 +118,50 @@ def test_trace_geometry_and_style_guard(tmp_path):
         tr.trace(img, mode="style")
     with pytest.raises(MotifError):
         parse_d("m0 0 l10 10")
+
+
+@pytest.mark.parametrize("cell_size", [0, -4, float("nan"), True])
+def test_low_poly_rejects_unusable_cell_size(cell_size):
+    with pytest.raises(MotifError, match="cell_size"):
+        T.low_poly(100, 100, cell_size=cell_size)
+
+
+def test_low_poly_bounds_the_point_count():
+    with pytest.raises(MotifError, match="raise cell_size"):
+        T.low_poly(100_000, 100_000, cell_size=1)
+
+
+def test_voxels_spec_must_be_a_mapping():
+    with pytest.raises(MotifError, match="must be a mapping"):
+        T.voxels("cells")  # ty: ignore[invalid-argument-type]
+
+
+def test_primitive_path_ignores_an_empty_gopath(monkeypatch, tmp_path):
+    import subprocess
+
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "bin").mkdir()
+    (tmp_path / "bin" / "primitive").write_text("#!/bin/sh\n")
+    (tmp_path / "bin" / "primitive").chmod(0o755)
+    monkeypatch.setenv("PATH", "")
+    monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        lambda *a, **k: subprocess.CompletedProcess(a, 0, stdout="\n", stderr=""),
+    )
+    assert T.primitive_path() is None
+
+
+@pytest.mark.parametrize(
+    ("ops", "match"),
+    [
+        ([5], "want one of"),
+        ([{"add": {"into": "a"}}], "from = None"),
+        ([{"add": {"from": "a", "into": "b", "dx": "x"}}], "dx = 'x'"),
+        ([{"advance": {"glyph": "a", "width": float("nan")}}], "width = nan"),
+    ],
+)
+def test_fontforge_ops_are_validated_before_fontforge_runs(ops, match):
+    with pytest.raises(MotifError, match=match):
+        T._fontforge_script("font.ttf", ops)

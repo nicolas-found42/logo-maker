@@ -9,6 +9,7 @@ export see byte-identical geometry.
 from __future__ import annotations
 
 import math
+import re
 import tempfile
 from collections.abc import Sequence
 from contextlib import suppress
@@ -33,9 +34,9 @@ def to3(x: float, y: float) -> tuple[float, float]:
 
 def hex_to_linear(hexstr: str) -> tuple[float, float, float, float]:
     """sRGB `#RRGGBB` -> linear RGBA for Blender color inputs."""
-    h = hexstr.strip().lstrip("#")
-    if len(h) != 6:
+    if not re.fullmatch(r"#[0-9A-Fa-f]{6}", hexstr.strip()):
         raise ValueError(f"expected #RRGGBB, got {hexstr!r}")
+    h = hexstr.strip()[1:]
     rgb = [int(h[i : i + 2], 16) / 255.0 for i in (0, 2, 4)]
     lin = [((v + 0.055) / 1.055) ** 2.4 if v > 0.04045 else v / 12.92 for v in rgb]
     return (lin[0], lin[1], lin[2], 1.0)

@@ -14,8 +14,9 @@ def test_hex_to_linear_known_values():
     assert g.hex_to_linear("#FFFFFF") == (1.0, 1.0, 1.0, 1.0)
     r = g.hex_to_linear("#808080")[0]
     assert r == pytest.approx(0.2158, abs=1e-3)
-    with pytest.raises(ValueError, match="expected #RRGGBB"):
-        g.hex_to_linear("#12345")
+    for bad in ("#12345", "#GG0000", "FFFFFF", "##FFFFF"):
+        with pytest.raises(ValueError, match="expected #RRGGBB"):
+            g.hex_to_linear(bad)
 
 
 def test_motif_mapping():

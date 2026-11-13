@@ -26,7 +26,8 @@ hdri = "none"                  # polyhaven:<slug> | ambientcg:<id> | none | abso
 hdri_strength = 0.45
 
 [render]
-renderer = "cycles"            # cycles | mitsuba | luxcore | three
+renderer = "cycles"            # keep cycles: mitsuba | luxcore | three load, but the pipeline
+                               # refuses to render them (GPU-only policy)
 look = "photoreal"             # photoreal | toon | lineart
 glare = 0.0                    # compositor bloom mix, 0 = off (unavailable in
                                # headless pip bpy: renders without it, loudly)

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import time
 from collections.abc import Callable
@@ -89,17 +90,31 @@ def _fonts_dir() -> Path:
     return cache_dir("fonts")
 
 
+def _replace(dest: Path, write: Callable[[Path], object]) -> None:
+    """Write through a sibling temp file, so an interrupted write never leaves a cached file."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    part = dest.with_name(f".{dest.name}.{os.getpid()}.part")
+    try:
+        write(part)
+        part.replace(dest)
+    finally:
+        part.unlink(missing_ok=True)
+
+
 def _get(url: str, dest: Path, *, timeout: float = 60) -> Path:
     if dest.exists():
         return dest
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    try:
+
+    def download(part: Path) -> None:
         with httpx.stream("GET", url, timeout=timeout, follow_redirects=True) as resp:
             if resp.status_code != 200:
                 raise FontSpecError(f"download failed ({resp.status_code}): {url}")
-            with open(dest, "wb") as fh:
+            with open(part, "wb") as fh:
                 for chunk in resp.iter_bytes():
                     fh.write(chunk)
+
+    try:
+        _replace(dest, download)
     except httpx.HTTPError as exc:
         raise ToolError(f"could not download {url}: {exc}") from exc
     return dest
@@ -110,17 +125,22 @@ def _norm(name: str) -> str:
 
 
 def _load_index() -> dict[str, list[str]]:
+    """The cached family directory index; a damaged one is a cache miss."""
     path = _fonts_dir() / "index.json"
-    if path.exists():
-        try:
-            return json.loads(path.read_text())
-        except (ValueError, OSError):
-            pass
-    return {}
+    try:
+        index = json.loads(path.read_text())
+    except (ValueError, OSError):
+        return {}
+    valid = isinstance(index, dict) and all(
+        isinstance(dirs, list) and dirs and all(isinstance(d, str) and "/" in d for d in dirs)
+        for dirs in index.values()
+    )
+    return index if valid else {}
 
 
 def _save_index(index: dict[str, list[str]]) -> None:
-    (_fonts_dir() / "index.json").write_text(json.dumps(index, indent=1, sort_keys=True))
+    text = json.dumps(index, indent=1, sort_keys=True)
+    _replace(_fonts_dir() / "index.json", lambda part: part.write_text(text))
 
 
 def _refresh_index() -> dict[str, list[str]]:
@@ -222,11 +242,14 @@ def _metadata(top: str, dirname: str) -> tuple[list[dict], list[dict], str]:
 def _pick_file(files: list[dict], spec: FontSpec) -> dict:
     italic = spec.axes.get("ital", 0.0) >= 0.5
     style = "italic" if italic else "normal"
-    same = [f for f in files if f["style"] == style] or files
+    same = [f for f in files if f["style"] == style]
+    if not same and italic:
+        raise FontSpecError(f"{spec.family} has no italic; drop ital=1 or pick another family")
+    same = same or files
     variable = [f for f in same if "[" in f["filename"]]
     if variable:
         return variable[0]
-    if spec.axes:
+    if set(spec.axes) - {"ital"}:
         names = sorted({f["filename"] for f in same})
         raise FontSpecError(
             f"{spec.family} has no variable font (only {names}); drop the axes from the spec"
@@ -250,13 +273,17 @@ def resolve(spec: str, on_asset: OnAsset | None = None) -> Path:
     raw = _fonts_dir() / "raw" / top / dirname / picked["filename"]
     _get(raw_url, raw)
 
-    digest = hashlib.sha1(
-        str(FontSpec(parsed.family, dict(sorted(parsed.axes.items())))).encode(),
-        usedforsecurity=False,
-    ).hexdigest()[:12]
+    canonical = str(FontSpec(parsed.family, dict(sorted(parsed.axes.items()))))
+    digest = hashlib.sha1(canonical.encode(), usedforsecurity=False).hexdigest()[:12]
     static = _fonts_dir() / "static" / f"{slugify(parsed.family)}-{digest}.ttf"
     if not static.exists():
-        font = TTFont(raw)
+        try:
+            font = TTFont(raw)
+        except Exception as exc:  # fontTools raises TTLibError, struct.error, ... on bad bytes
+            raw.unlink(missing_ok=True)  # the next run downloads it again
+            raise ToolError(
+                f"cached font {raw} was not a font ({exc}); removed it, run again"
+            ) from exc
         if "fvar" in font:
             ranges = {a.axisTag: (a.minValue, a.maxValue) for a in font["fvar"].axes}
             for tag, value in parsed.axes.items():
@@ -271,26 +298,44 @@ def resolve(spec: str, on_asset: OnAsset | None = None) -> Path:
             pin = {k: v for k, v in parsed.axes.items() if k != "ital" and k in ranges}
             if pin:
                 instantiateVariableFont(font, pin, inplace=True, updateFontNames=True)
-        elif parsed.axes:
+        elif set(parsed.axes) - {"ital"}:
             raise FontSpecError(f"{parsed.family} is a static font; drop the axes from the spec")
-        static.parent.mkdir(parents=True, exist_ok=True)
-        font.save(static)
-    if on_asset is not None:
-        on_asset(f"font:{parsed.family}", raw_url, spdx, str(static))
+        _replace(static, font.save)
+    if on_asset is not None:  # one record per spec: two weights of a family are two files
+        on_asset(f"font:{canonical}", raw_url, spdx, str(static))
     return static
+
+
+def _catalog(data: object) -> list[dict] | None:
+    entries = data.get("familyMetadataList") if isinstance(data, dict) else None
+    if isinstance(entries, list) and all(
+        isinstance(e, dict) and isinstance(e.get("family"), str) for e in entries
+    ):
+        return entries
+    return None
 
 
 def _families_data() -> list[dict]:
     path = _fonts_dir() / "families.json"
     if path.exists() and time.time() - path.stat().st_mtime < METADATA_TTL:
-        return json.loads(path.read_text())["familyMetadataList"]
+        try:
+            cached = _catalog(json.loads(path.read_text()))
+        except (ValueError, OSError):  # a damaged cache is a miss
+            cached = None
+        if cached is not None:
+            return cached
     try:
         resp = httpx.get(GF_METADATA, timeout=60)
         resp.raise_for_status()
-        data = resp.json()["familyMetadataList"]
+        data = _catalog(resp.json())
     except httpx.HTTPError as exc:
         raise ToolError(f"could not fetch the Google Fonts catalog: {exc}") from exc
-    path.write_text(json.dumps({"familyMetadataList": data}))
+    except ValueError as exc:
+        raise ToolError(f"the Google Fonts catalog at {GF_METADATA} is not JSON: {exc}") from exc
+    if data is None:
+        raise ToolError(f"the Google Fonts catalog at {GF_METADATA} has no family list")
+    text = json.dumps({"familyMetadataList": data})
+    _replace(path, lambda part: part.write_text(text))
     return data
 
 
@@ -418,13 +463,17 @@ def text_path(
     Y-down, baseline at ``y``; ``tracking`` adds px after every glyph but the
     last. Empty text returns ``('', 0.0)``.
     """
-    font = _font(spec)
     if not text:
         return "", 0.0
+    font = _font(spec)
     upm = _upm(font)
     scale = size / upm
     glyphset = font.getGlyphSet()
     names, advs = _glyph_advances_em(font, text)
+    missing = sorted({ch for ch, name in zip(text, names, strict=True) if name == ".notdef"})
+    if missing:
+        shown = ", ".join(f"U+{ord(ch):04X}" for ch in missing)
+        raise FontSpecError(f"{spec} has no glyph for {shown}; choose a font that covers the text")
     parts: list[str] = []
     cursor = 0.0
     for i, (name, adv) in enumerate(zip(names, advs, strict=True)):
