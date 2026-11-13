@@ -35,3 +35,12 @@ lights = [
   { name = "Top", type = "area", energy = 350.0, location = [0.0, 0.0, 6.0], size = 5.0 },
   { name = "Fill", type = "area", energy = 150.0, location = [0.0, -4.0, 2.5], size = 4.0 },
 ]
+
+[studio_45]
+description = "Broad studio illumination with the main key aimed at the origin at 45 degrees to the +Z face normal, plus gentle fill and an edge light."
+hdri_strength = 0.45
+lights = [
+  { name = "Key45", type = "area", energy = 380.0, location = [-3.0, -3.0, 4.242640687119285], target = [0.0, 0.0, 0.0], size = 3.0 },
+  { name = "Rim", type = "area", energy = 300.0, location = [3.2, 3.2, 2.6], size = 2.5 },
+  { name = "Fill", type = "area", energy = 60.0, location = [3.0, -4.0, 2.0], size = 6.0 },
+]
