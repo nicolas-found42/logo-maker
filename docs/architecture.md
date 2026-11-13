@@ -66,6 +66,9 @@ run.json              seeds, versions, stage status, jev usage and cost, asset l
 ```
 
 Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment--material`.
+The CLI and MCP resolve targets through `paths.resolve_logo`. Stage preparation uses
+`LogoDir.concept()` to create concept directories. Proof and artifact checks use
+`LogoDir.concept_path()` to locate the same directories without creating them.
 
 ## Contracts
 
@@ -658,6 +661,12 @@ exact image-asset verification run together in one owned worker, before dispatch
 the response. The parent still allocates sequence IDs and accounts received usage before file IO;
 the record stays `assets_status=pending` until that worker verifies the retained bytes. This avoids
 an extra process startup at each persistence boundary without extending the shared deadline.
+
+Publication accepts only selection and export preconditions. It calls the corresponding proof
+checks directly inside its worker before and after the target renames. Refinement checks the
+selection's creative and visual proof, and export checks its sampling record and winner proof.
+Publication owns the journal, lock, deadline reserve, and rollback for both.
+
 The client lock protects sequence allocation and parent accounting, then releases before the
 owned persistence worker runs. Journal appends use a process file lock scoped only to the append;
 slow asset storage cannot serialize independent image requests. Dispatch still waits for that

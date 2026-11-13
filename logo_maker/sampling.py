@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import asdict, dataclass, replace
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -130,9 +133,7 @@ def qualify_profile(profile: dict | None, context: dict) -> tuple[str, str]:
     that an image metric measures craft. File hashes make missing/mutated reviews
     visible. Profile creators are responsible for truthful owner labels.
     """
-    import hashlib
     import math
-    from pathlib import Path
 
     if not profile or profile.get("schema") != 1:
         return "profile_unqualified", "no qualified replacement; retain baseline"
@@ -177,6 +178,63 @@ def qualify_profile(profile: dict | None, context: dict) -> tuple[str, str]:
     except (KeyError, TypeError, ValueError):
         return "profile_unqualified", "invalid profile settings"
     return "qualified", "reviewed profile matches this execution scope"
+
+
+def resolve_controls(concept_dir: Path, config: dict, context: dict, quality: dict) -> dict:
+    """Resolve reviewed controls in the owned worker and update the compiled quality in place."""
+    hashes = {}
+
+    def load(name):
+        if not name:
+            return None
+        path = Path(name)
+        if not path.is_absolute():
+            path = concept_dir / path
+        raw = path.read_bytes()
+        hashes[str(path.resolve())] = hashlib.sha256(raw).hexdigest()
+        data = json.loads(raw)
+        for case in data.get("cases", []):
+            evidence = case.get("evidence", {})
+            if evidence.get("path"):
+                review = Path(evidence["path"])
+                evidence["path"] = str(
+                    review if review.is_absolute() else (path.parent / review).resolve()
+                )
+        return data
+
+    profile = load(config.get("profile"))
+    state, reason = qualify_profile(profile, context)
+    overrides = quality.get("overrides", {})
+    if state == "qualified" and profile:
+        selected = profile["settings"]
+        settings_keys = ("samples", "adaptive_threshold", "min_samples", "adaptive")
+        for key in settings_keys:
+            override_name = "max_samples" if key == "samples" else key
+            if override_name not in overrides:
+                quality[key] = selected[key]
+        conflicts = [
+            key
+            for key in settings_keys
+            if quality.get(key, 0 if key == "min_samples" else None)
+            != selected.get(key, 0 if key == "min_samples" else None)
+        ]
+        if conflicts:
+            state, reason = (
+                "override_conflict",
+                "explicit controls outside qualified settings: " + ", ".join(conflicts),
+            )
+        # qualify_profile verified these exact expected hashes against the review files.
+        for case in profile["cases"]:
+            evidence = case["evidence"]
+            hashes[evidence["path"]] = evidence["sha256"]
+    validate_settings(Settings.from_quality(quality))
+    diagnosis = load(config.get("diagnosis"))
+    return {
+        "profile": [state, reason],
+        "quality": quality,
+        "hashes": hashes,
+        "diagnosis": diagnosis,
+    }
 
 
 def validate_settings(settings: Settings) -> None:

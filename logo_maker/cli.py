@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 from logo_maker import __version__
-from logo_maker.paths import LogoDir, slugify
+from logo_maker.paths import resolve_logo as resolve_logo
 
 STAGES = (
     "brief",
@@ -24,15 +24,6 @@ STAGES = (
     "run",
     "improve",
 )
-
-
-def resolve_logo(target: str, out: Path | None = None) -> LogoDir:
-    if out is not None:
-        return LogoDir(out.resolve())
-    path = Path(target)
-    if path.is_dir() and (path / "brief.toml").exists():
-        return LogoDir(path.resolve())
-    return LogoDir.default(slugify(target))
 
 
 def _print(result: object) -> None:

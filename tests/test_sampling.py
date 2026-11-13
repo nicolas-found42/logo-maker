@@ -1,6 +1,70 @@
 """Sampling decisions are image-bound technical outcomes, never craft judgments."""
 
-from logo_maker.sampling import Settings, decide
+import hashlib
+import json
+
+import pytest
+
+from logo_maker import host
+from logo_maker.sampling import Budget, Settings, decide
+
+
+@pytest.mark.parametrize("explicit", [False, True])
+def test_owned_controls_bind_review_bytes_and_preserve_explicit_settings(tmp_path, explicit):
+    records = tmp_path / "records"
+    records.mkdir()
+    evidence = records / "review.json"
+    evidence.write_text('{"sampling":"approved"}')
+    digest = hashlib.sha256(evidence.read_bytes()).hexdigest()
+    context = {"stage": "final"}
+    profile = {
+        "schema": 1,
+        "context": context,
+        "owner_review": "approved",
+        "coverage": ["matte", "metal", "glass", "dark", "typography", "alpha"],
+        "cases": [
+            {"role": role, "evidence": {"path": "review.json", "sha256": digest}}
+            for role in ("positive", "degraded", "held_out")
+        ],
+        "job_costs": [{"baseline_seconds": 40, "candidate_seconds": 35}],
+        "settings": Settings(cap=128, minimum=16, seed=24).quality(),
+    }
+    profile_path = records / "profile.json"
+    profile_path.write_text(json.dumps(profile))
+    diagnosis_path = tmp_path / "diagnosis.json"
+    diagnosis = {"kind": "sampling_noise", "image_sha256": "candidate"}
+    diagnosis_path.write_text(json.dumps(diagnosis))
+    quality = Settings(cap=512, seed=42, adaptive=not explicit).quality()
+    quality["overrides"] = {"adaptive": False} if explicit else {}
+    stages = []
+
+    result = host.run(
+        {
+            "operation": "sampling_controls",
+            "concept_dir": str(tmp_path),
+            "config": {"profile": "records/profile.json", "diagnosis": str(diagnosis_path)},
+            "context": context,
+            "quality": quality,
+        },
+        Budget(wall_seconds=8),
+        stages,
+    )
+
+    assert result["profile"][0] == ("override_conflict" if explicit else "qualified")
+    assert result["quality"] == {
+        **profile["settings"],
+        "adaptive": not explicit,
+        "seed": 42,
+        "overrides": quality["overrides"],
+    }
+    assert result["diagnosis"] == diagnosis
+    assert result["hashes"] == {
+        str(path.resolve()): hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in (profile_path, evidence, diagnosis_path)
+    }
+    assert [(stage["operation"], stage["status"]) for stage in stages] == [
+        ("sampling_controls", "completed")
+    ]
 
 
 def test_cap_limited_noise_changes_only_cap():

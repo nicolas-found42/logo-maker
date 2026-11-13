@@ -230,6 +230,26 @@ def test_publication_guard_read_uses_same_deadline_and_recovers(tmp_path, monkey
     assert target.read_text() == "approved prior"
 
 
+def test_publication_rejects_other_worker_operations_before_mutating_targets(tmp_path):
+    from logo_maker.publication import PublicationConflict, publish
+
+    target = tmp_path / "published.txt"
+    target.write_bytes(b"prior publication")
+    unrelated = tmp_path / "unrelated.txt"
+    unrelated.write_bytes(b"unrelated data")
+    with pytest.raises(PublicationConflict, match="unsupported publication precondition"):
+        publish(
+            [{"target": str(target), "text": "next"}],
+            tmp_path / "journal.json",
+            Budget(wall_seconds=8),
+            [],
+            preconditions=[{"operation": "remove_path", "path": str(unrelated)}],
+        )
+    assert target.read_bytes() == b"prior publication"
+    assert unrelated.read_bytes() == b"unrelated data"
+    assert not (tmp_path / ".publication.lock").exists()
+
+
 def test_preview_never_rebinds_edited_inspection_after_refinement(tmp_path, monkeypatch):
     from test_eligibility import EligibilityClient, finalize_logo
 
