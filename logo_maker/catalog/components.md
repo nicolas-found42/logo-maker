@@ -45,6 +45,9 @@ marks are built: one copy per role, each in its own material).
   `height` 0.14, `base` 0.0.
 - `cad` — a build123d primitive. `op` box|rounded_box|cylinder, plus
   `size`|`radius`+`height`, `center`.
+- `lathe` — an editable turned solid from a simple `profile` of `[radius, z]` pairs.
+  `sections` 96 (16–256). End both sides of the profile on the axis to cap a solid,
+  or keep every point off the axis for a hollow section.
 - `mesh` — an imported OBJ/STL/PLY/GLB. `path` (relative to the concept),
   `scale` 1.0, `location` [0,0,0], `smooth` true. Set `smooth = false` for planar
   folded or machined faces whose normals must not be averaged across the solid.

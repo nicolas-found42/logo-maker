@@ -1,0 +1,704 @@
+{
+  "sampling": {
+    "cap": 8192,
+    "noise_threshold": 0.01,
+    "minimum": 0,
+    "profile_sha256": "e5c4b8593e3a824d9ea6d89881d95ebec2640095870e9c1b20ac51e678a8ff00",
+    "production_scope": "packed scenes outside reviewed production transfer scope"
+  },
+  "study_id": "study-3cba9381198b",
+  "archive_sha256": "59f2a998a306ba2b5bc787715ea4844cfb117a8894e94b4f11886b6e53c5bf97",
+  "manifest_sha256": "98035a7a4b9c16f0fc323edc761cc532cde5b6cac95417f830ca1a975033f53a",
+  "review_sha256": "6ed7f005f216cff10c8d4deab722eda90d0d477e83c1f25a67ef9d9af69d6876",
+  "verified_archive_entries": 300,
+  "assets": {
+    "08-notebook": {
+      "status": "unsettled",
+      "fit": {
+        "appearance": "unsettled",
+        "brand_specificity": "unsettled",
+        "communicative_clarity": "unsettled",
+        "constraint_fidelity": "pass",
+        "meaningful_synthesis": "pass",
+        "small_flat": "pass",
+        "small_hero": "pass",
+        "symbol": "pass"
+      },
+      "technical": {
+        "noise_free": "pass",
+        "detail_preserved": "pass",
+        "aliasing_free": "pass",
+        "structure_correct": "pass"
+      },
+      "scene_sha256": "4cee3ac991ec1f99103542e9d57651e2b5dff9002d41b9492c6361c84fa66c56",
+      "reference_count": 40,
+      "renders": {
+        "hero-transparent": {
+          "execution_sha256": "e855d6fe2e17c64090823d56e40823f080679cac441a992634cbfa1376f7e74c",
+          "metal_log_sha256": "d0ce79c1bbf8fae1c9e0a8ef40d7440c4e72c97973f1ca250e3ff711d4a081ff",
+          "resolution": [
+            4000,
+            4000
+          ],
+          "sha256": "7e05201bf996b69136f2eeef06ccad333570af1ef6aaf0804db587428ed373a9"
+        },
+        "front": {
+          "execution_sha256": "f3c367f5f08d1c755e4f064ac378ef3a8eb68bdebb802591b97eeaa567e5a941",
+          "metal_log_sha256": "587922270540508f865eeaceddc8e164d2a4cc3463692f70be28081c5f653580",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "9b16142fc69bc6e7e29fd952472f037901bd8be3f53bf49904f21f7dc6bf9e7f"
+        },
+        "grazing": {
+          "execution_sha256": "43972a217d8bf25d95f3a13385662f9d5b9591e7e5d9eb0dc434ffbcbb406ea6",
+          "metal_log_sha256": "dc94b75e427d3b1550cafdbe71d89265da5c51b8a730ddef52dab0c38768c1a4",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "baddd566c7f2eeff65893e92c2dac3c09f6b027f14726b58a4faa2152c6b2ab2"
+        },
+        "rear": {
+          "execution_sha256": "cfa32c8625418c159b17f38231e227984d64ce2865147bc9114ad265f5ff47fe",
+          "metal_log_sha256": "cf2024cee136300e92ddfc841b0c80e6c52453238310bb7e3f2c5c9f5d8dab7f",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "56b178eedf9e85a4ac4ae5a5f05f06abea4899f204476a9905b2988caf1fbbae"
+        },
+        "underside": {
+          "execution_sha256": "2fe541877de5bb049802b23d6f05a8d939c317ddddc7f0e46118f6c4745f98c9",
+          "metal_log_sha256": "161ac2c35d743d45971d4b29162bfad3a53d092596d6e7eb068f12c10f47d518",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "753c82fb3218a30853d5d6ad593831c8b5c3b09e7e236685b74b101dfdcf7e37"
+        }
+      },
+      "flats": {
+        "mark-color.svg": "5d091796b3a8d76283802e7025ab649212e4cd61f73f0ae5b49b47d4d792d760",
+        "mark-mono.svg": "26186b2f2806d643cc4f03a3477ad2d5eeefbdaa0893e7868b419d5deec40bf4",
+        "mark-compact.svg": "9b4bb93594d392f55459f6c7c5d21037f7ce337a94b15d946500963fce91c47a",
+        "mark-flat-1024.png": "907765aa03f99550a8eee8a1c4908ee8c96641373f5a24141dac420ea80b934b",
+        "favicon.ico": "390c6767d190214069ed22c0b7439cd2631834a53998a8a85f79ef1b2b62564c"
+      },
+      "matched_craft": [
+        {
+          "feature": "join",
+          "view": "front",
+          "reference_role": "craft",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.93
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.25
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.94
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.41
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        },
+        {
+          "feature": "edge",
+          "view": "grazing",
+          "reference_role": "holdout",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.93
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.4
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.92
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.49
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "16-side-label": {
+      "status": "unsettled",
+      "fit": {
+        "adaptation_treatment": "pass",
+        "appearance": "unsettled",
+        "constraint_fidelity": "unsettled",
+        "small_flat": "pass",
+        "small_hero": "pass",
+        "source_identity": "pass"
+      },
+      "technical": {
+        "noise_free": "pass",
+        "detail_preserved": "pass",
+        "aliasing_free": "pass",
+        "structure_correct": "pass"
+      },
+      "scene_sha256": "fa9cd3449e07b7ee16f41031b2f48d54729a7a9dc8ef3bb648ebb1052e7f35aa",
+      "reference_count": 40,
+      "renders": {
+        "hero-transparent": {
+          "execution_sha256": "c9606b3dca82197a941a66edc377ed1474b2d2fce01762a03e1f3d7707009b61",
+          "metal_log_sha256": "3183cb9bc9dba19d9e3371c3f67d1e65bda152200818a3a585be7aca3e43b3f8",
+          "resolution": [
+            4000,
+            4000
+          ],
+          "sha256": "138f722401d030e0ae822d385fa7fd248b3acbbf69178c97112dfa35adde068c"
+        },
+        "front": {
+          "execution_sha256": "048ff112db6d6054dc0731e38608c8cf229cb87a34e40c6e7058cf9ea0f53ef7",
+          "metal_log_sha256": "1b0aadaae1dd763a38ca358393fd2bc30c657f5d1b810f1547d8563b84f32ee8",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "ed35a736f1753bb7e8dc572412d44677c254b7bfec3999afc43d2cb213bf3b99"
+        },
+        "grazing": {
+          "execution_sha256": "5c20431867ed38e37a6d474ff720879f0965ce3e76ac7eead42fe5c8c55f31ee",
+          "metal_log_sha256": "63fa6bbd4735e83777ad501be7d07a45173ac38b0934f1fc308b35f9424297b9",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "652076cbef39b1d2a55a067424229fa01b1cf25859dd90b079c36147fc759e82"
+        },
+        "rear": {
+          "execution_sha256": "a4850acd550f11908c585de3f0241aa5ee8bf265b8d923db40522596ebfd8ff1",
+          "metal_log_sha256": "c0f1a9563e1572a0cf0b26c4bb6ad57cb48a74b3b4cacec46ea74293994a07bf",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "21cfa5aa77411a73cb717da5103ddcbfdd6c50ca0c077ba7a7d57059d2fe2e74"
+        },
+        "underside": {
+          "execution_sha256": "0f47a6ed201846909059ffb3cf7ca2a635d821e2f513dd0565b2b2b82cc2c048",
+          "metal_log_sha256": "02e1128557758c0b675d5923a9e62bce6399f3aa3a3ff57221ca856f2c9362d3",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "214a2c8d544ff2dd7bbf80f25dc99b9c1dd9d5f2dc061ec7096165b046f56cfe"
+        }
+      },
+      "flats": {
+        "mark-color.svg": "067465c55733424aa97b1850cd073c7b7f0294af24e61e215e282751412388a3",
+        "mark-mono.svg": "4c59b88c2cbf41be08fa3db6a17ad5e4c0302b83d361fb1c1bee0edc33115c0f",
+        "mark-compact.svg": "b727d710a81d7bca677d4dbe975499ea075d1a813f9877f8fa64dc6d5026938e",
+        "mark-flat-1024.png": "cb4f570404f01ff089987d64ad6982650c9b2861c7cab1e85159e7f148a97408",
+        "favicon.ico": "66775c9ce05bcaad0891586c23216ce431837e3665b271c60217425d1274f980"
+      },
+      "matched_craft": [
+        {
+          "feature": "edge",
+          "view": "grazing",
+          "reference_role": "holdout",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.94
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.48
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.91
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.52
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        },
+        {
+          "feature": "edge",
+          "view": "front",
+          "reference_role": "craft",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.9
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.55
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.91
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.57
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "17-split-badge": {
+      "status": "unsettled",
+      "fit": {
+        "adaptation_treatment": "unsettled",
+        "appearance": "unsettled",
+        "constraint_fidelity": "unsettled",
+        "small_flat": "pass",
+        "small_hero": "pass",
+        "source_identity": "pass"
+      },
+      "technical": {
+        "noise_free": "pass",
+        "detail_preserved": "pass",
+        "aliasing_free": "pass",
+        "structure_correct": "pass"
+      },
+      "scene_sha256": "2bd337289f1b993dd3c96c061187e46e088864800da4726111e79cd1b3a65d84",
+      "reference_count": 40,
+      "renders": {
+        "hero-transparent": {
+          "execution_sha256": "f29db425171ef4b3a46d319def47874dd28f737bf53d084405c8cb6de12b98dd",
+          "metal_log_sha256": "bc2799ba463e35a859a71a636215e9bb1a3ae1f910ecb38ee5fabf55c7931aa7",
+          "resolution": [
+            4000,
+            4000
+          ],
+          "sha256": "582209dac92cc5c2c15bd25e16c7c5bda0b25466fd1535d30ad3cc080b52fe80"
+        },
+        "front": {
+          "execution_sha256": "3f8c817c77fe8e59d5927ab71919e28404414c4ee65dffaebb02920061afac03",
+          "metal_log_sha256": "256ccb13c2d1e949a028ee31d597c2058b0c69e7a8ccb23cbf20a3e50f783d63",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "8b1941fac8b8bb419df8539db1d38db2b5c71f9d4e9f5073a56e32faaf34eed8"
+        },
+        "grazing": {
+          "execution_sha256": "65220d4bd47c863b859b347cb4eaa51b1a8167f5701b62a91a8f94a2ef8ab9db",
+          "metal_log_sha256": "a56f4158c5b8c70b491491f9937a6e09db0bc66e62ade5bc4a495eeecd55651b",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "efa7c6645b61311455852f665dbad58ff008b6698c64a51f7767219262380f31"
+        },
+        "rear": {
+          "execution_sha256": "7b27c897f7fcf5194346f83da9e0f46db6b1e62bae6565cd4e45b41e8e65922e",
+          "metal_log_sha256": "dd292bf7ae715e4b91e0ca9e31cb06a7b472016627901d623d5a1e36fe6be943",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "28e463ae1ae1e6d80314b758249410c8dca1b6c2c9f32a61e4d3bcc6a5d3a327"
+        },
+        "underside": {
+          "execution_sha256": "d3a810c395be2ba97daf3b887684ef1d11176f9bd9a0f3c8b08335a9a5fd7bf3",
+          "metal_log_sha256": "b1e06f1fd242189e12e514ad96f5a96241db397d2ee018dac0dbd12e3e4d15f2",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "0787fb84d7b31b74e39cb8581c68d0f9cf4350295f4c5712c8f049e3f74da256"
+        }
+      },
+      "flats": {
+        "mark-color.svg": "9ef1480355b8bac03cd6df8218388b38e9a796975178009e825ebfa6fd9d598a",
+        "mark-mono.svg": "b73eef86b9e79352ca8696ca17013c9dd31b4a3945e8bee5f0e6355746f17f87",
+        "mark-compact.svg": "7f3cce53e6b01384cf0f459b1a5a42ae109c395c4a14d956831a078436e59225",
+        "mark-flat-1024.png": "058b55b42bc283f075433ea60e784d8d40bd6add89079bf535b46a5223312022",
+        "favicon.ico": "979a0969aa3effe68e754e714ca150952a353ae8eb554260818072195d01f1f6"
+      },
+      "matched_craft": [
+        {
+          "feature": "surface",
+          "view": "front",
+          "reference_role": "craft",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.79
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.25
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.81
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.38
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        },
+        {
+          "feature": "edge",
+          "view": "grazing",
+          "reference_role": "holdout",
+          "status": "unsettled",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.49
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.39
+                }
+              },
+              "checks": {
+                "feature_visible": "unsettled",
+                "feature_execution": "unsettled"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.67
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.45
+                }
+              },
+              "checks": {
+                "feature_visible": "unsettled",
+                "feature_execution": "unsettled"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "06-whiteboard": {
+      "status": "fail",
+      "fit": {
+        "appearance": "unsettled",
+        "brand_specificity": "unsettled",
+        "communicative_clarity": "unsettled",
+        "constraint_fidelity": "unsettled",
+        "meaningful_synthesis": "unsettled",
+        "small_flat": "pass",
+        "small_hero": "pass",
+        "symbol": "pass"
+      },
+      "technical": {
+        "noise_free": "pass",
+        "detail_preserved": "unsettled",
+        "aliasing_free": "pass",
+        "structure_correct": "pass"
+      },
+      "scene_sha256": "7bc2a618c76109bfad3257b282c7ecb2d3303bdabc216e4e1803370908043be0",
+      "reference_count": 40,
+      "renders": {
+        "hero-transparent": {
+          "execution_sha256": "0a22c4557d49456942b711320ee9e8681ffe90bd2a7c1f28d06f36eac588386c",
+          "metal_log_sha256": "8cdd926ec0f218666e8ad539e1617aefed19a1ec019d1f2999dc9920b245a052",
+          "resolution": [
+            4000,
+            4000
+          ],
+          "sha256": "b51b932ea9273381beec7fd6e980f097991c0f47a17f285e1c55a4c62592e220"
+        },
+        "front": {
+          "execution_sha256": "c49a8c4370160e1cfd0026e8a3909f86e3ae676d928b4794e17896c8dba1528e",
+          "metal_log_sha256": "91465954a8ed5d73c6adcf3924fd6c6587b404d8be0aa805c35ddeb8c595cd73",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "6ebdc3375aa10af7b0c754effc115e04b13f9a6de9e9c9337e3efaddf18438a6"
+        },
+        "grazing": {
+          "execution_sha256": "0021c5597d5e4215e19d3c94f16dd3a2ed4bc6d0268ce76f0d0ed6b9630dfbdd",
+          "metal_log_sha256": "c9e39ed998c29d9bc40f05f8a42dc30c5024e619922d3d21a73e4f23c66faa24",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "0e5328f0b5c8c7755c32d800ce94c036128776cb34040967a0fe17fb1239a191"
+        },
+        "rear": {
+          "execution_sha256": "1af56db20bbcce764ef9b28a1075817c2eeb965b90df1f38b5aa5f6d5de394a2",
+          "metal_log_sha256": "1668abfed23237418c6771008c9c4ca29d9263ed6c05f455dd3e18576eba8cac",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "be3518115c1f9c8e5b76da73c9531104e6ed7203d4894866d92c2ff91faf03d7"
+        },
+        "underside": {
+          "execution_sha256": "5e37531d5dfa800142f5d1ba9c39d32b55a82c5dfefefde2e4fbba487faee5fe",
+          "metal_log_sha256": "f8155299080758ce9bcd6dc4693c270dc36defb6205f755e4408b1364504d910",
+          "resolution": [
+            1000,
+            1000
+          ],
+          "sha256": "a46835c922e8e9e3720659c1b4b6884f229b4d5a12d7099c322431996960f902"
+        }
+      },
+      "flats": {
+        "mark-color.svg": "79d5b96df14e2a597b71bebe563361dca1782b6744fe9281eb10aff59c571d6c",
+        "mark-mono.svg": "f1b55e0bb8a5a95a3150dd49fd01c91452835d4a0e989e7bf4ddfd5088846bfa",
+        "mark-compact.svg": "d0816bc1b9cf76a2e5d062adb39afd142a94f8d9dfd217a4a67c24a238b67f67",
+        "mark-flat-1024.png": "0d9a3043fd63328c516b629b66bdcf7abd946b634e4c85efe77198271b5a9996",
+        "favicon.ico": "7e9aa5e98db59d47213de6b935328f4608dec650d19ed197dc799efd83922189"
+      },
+      "matched_craft": [
+        {
+          "feature": "join",
+          "view": "grazing",
+          "reference_role": "holdout",
+          "status": "fail",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.91
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.2
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.85
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.23
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            }
+          ]
+        },
+        {
+          "feature": "join",
+          "view": "front",
+          "reference_role": "craft",
+          "status": "fail",
+          "comparisons": [
+            {
+              "order": [
+                "candidate_detail",
+                "reference_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.79
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.19
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            },
+            {
+              "order": [
+                "reference_detail",
+                "candidate_detail"
+              ],
+              "answers": {
+                "feature_visible": {
+                  "type": "noul",
+                  "noul": 0.76
+                },
+                "feature_execution": {
+                  "type": "noul",
+                  "noul": 0.2
+                }
+              },
+              "checks": {
+                "feature_visible": "pass",
+                "feature_execution": "fail"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

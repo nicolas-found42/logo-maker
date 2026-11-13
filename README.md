@@ -15,13 +15,27 @@ Requires macOS on Apple silicon (Metal GPU), [uv](https://docs.astral.sh/uv/), N
 just setup                                  # go, fontforge, primitive, Python env, npm, Metal kernels
 uv run python scripts/install.py --agent claude   # or codex | omp | skills --destination DIR
 logo-maker doctor
-export OPENROUTER_API_KEY=...               # Jev via OpenRouter (or TYPESAFE_API_KEY)
 ```
 
 ## Use
 
+The local 3D study workflow works without Jev. Fill `brief.toml`, author the named concepts and
+their vector artwork and scenes, then render the selected designs together.
+
 ```sh
-logo-maker new acme --name "Acme"   # writes logos/acme/brief.toml and templates
+logo-maker new acme --name "Acme"
+logo-maker study acme --concept first --concept second --preview
+logo-maker study acme --concept first --concept second
+logo-maker review-study acme <study-id>
+```
+
+The ZIP includes transparent heroes, editable Blender scenes, flat marks, favicons, and visual
+inspection views. Review resumes using the returned study ID. Set `OPENROUTER_API_KEY` or
+`TYPESAFE_API_KEY` when using Jev. See the [3D study guide](skills/logo-maker/references/studies.md).
+
+For production-qualified output, use the judged workflow with a matching sampling profile.
+
+```sh
 logo-maker brief acme               # review supplied evidence and freeze requirements
 logo-maker run acme                 # runs every stage; stops where the agent must author files
 logo-maker improve acme             # new round; replaces the logo only if it wins head-to-head

@@ -24,10 +24,12 @@ from logo_maker.paths import resolve_logo
 
 INSTRUCTIONS = (
     "Read the logo-maker skill first. For flat logos, icons and favicon-only work, "
-    "use its flat asset recipe. These tools run the full 3D pipeline. "
+    "use its flat asset recipe. 3D rendering runs on Apple Silicon macOS. "
     "Start new work with logo_doctor and logo_new. Reuse the returned absolute logo_dir as target. "
     "For existing work, start with logo_status on the folder containing brief.toml. "
-    "Author the brief and its evidence, then use logo_brief, logo_intake and logo_ideate. "
+    "For 3D studies, author the brief and named concepts, run logo_study, and use "
+    "logo_review_study on the returned ID when Jev is available. For qualified 3D, "
+    "author the brief and its evidence, then use logo_brief, logo_intake and logo_ideate. "
     "Follow the skill through concept authoring, inspection, selection and export. "
     "When a stage returns authoring_needed, open the named files or artifacts, do the requested "
     "work, and rerun that stage or the prerequisite it names. For an active improvement, "
@@ -218,6 +220,54 @@ async def logo_export(target: str, out: str | None = None) -> dict[str, Any]:
     from logo_maker import pipeline
 
     return await _stage(pipeline.export, target, out)
+
+
+@server.tool()
+async def logo_study(
+    target: str,
+    concepts: list[str],
+    out: str | None = None,
+    preview: bool = False,
+    compare_seed: bool = False,
+    wall_seconds: float = 1800,
+    calibrate: bool = False,
+) -> dict[str, Any]:
+    """Preview or deliver named 3D designs on Apple Silicon. Jev access is optional."""
+    from logo_maker import study
+
+    return await _stage(
+        lambda logo: study.build(
+            logo,
+            concepts,
+            preview=preview,
+            compare_seed=compare_seed,
+            wall_seconds=wall_seconds,
+            calibrate=calibrate,
+        ),
+        target,
+        out,
+    )
+
+
+@server.tool()
+async def logo_review_study(
+    target: str,
+    study_id: str,
+    out: str | None = None,
+    accepted: list[str] | None = None,
+    owner_note: str = "",
+    visual: bool = True,
+) -> dict[str, Any]:
+    """Review the delivered study's exact files with Jev or record explicit owner acceptance."""
+    from logo_maker import study
+
+    return await _stage(
+        lambda logo: study.review(
+            logo, study_id, accepted=accepted, owner_note=owner_note, visual=visual
+        ),
+        target,
+        out,
+    )
 
 
 @server.tool()

@@ -12,7 +12,12 @@ from typing import Any
 
 
 def eligibility_decision(
-    *, craft: list[str], fit: dict[str, str], technical: str, evidence: str
+    *,
+    craft: list[str],
+    fit: dict[str, str],
+    technical: str,
+    evidence: str,
+    fit_keys: set[str] | None = None,
 ) -> str:
     """Essential visual gates; preference and execution policy are deliberately absent.
 
@@ -22,7 +27,11 @@ def eligibility_decision(
     rows = [*craft, *fit.values(), technical, evidence]
     if "api_error" in rows:
         return "api_error"
-    if not craft or set(fit) != set(fit_questions()) or "missing_evidence" in rows:
+    if (
+        not craft
+        or set(fit) != (fit_keys if fit_keys is not None else set(fit_questions()))
+        or "missing_evidence" in rows
+    ):
         return "missing_evidence"
     if "fail" in rows:
         return "fail"
@@ -772,7 +781,7 @@ def fit_questions() -> dict[str, dict[str, Any]]:
             "type": "noul",
             "instructions": "Does `flat_32px` preserve the intended core motif shown in `candidate`?",
             "criteria": {
-                "true": "The flat master preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
+                "true": "The supplied flat artwork preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
                 "false": "The shared core collapses, merges or becomes a different mark at 32 px.",
             },
         },
@@ -782,6 +791,63 @@ def fit_questions() -> dict[str, dict[str, Any]]:
             "criteria": {
                 "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
                 "false": "The core motif becomes unreadable or loses its identity at 32 px.",
+            },
+        },
+    }
+
+
+MATCHED_FEATURES = {
+    "join": "the attachment or transition between the visible parts",
+    "edge": "the exposed edge profile, thickness or layering",
+    "surface": "the material surface and its response to light",
+}
+
+
+def matched_craft_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "feature_visible": {
+            "type": "noul",
+            "instructions": "Do `candidate_detail` and `reference_detail` both clearly show `feature`?",
+            "criteria": {
+                "true": "The corresponding feature is visible in both images at a useful scale and can be assessed despite differences in object shape and lighting.",
+                "false": "A different feature is shown, or framing, angle, lighting, resolution or occlusion prevents comparison.",
+            },
+        },
+        "feature_execution": {
+            "type": "noul",
+            "instructions": "Does the visible `feature` in `candidate_detail` meet the finish demonstrated by `reference_detail`?",
+            "criteria": {
+                "true": "The named feature is at least as resolved for the candidate's stated finish. Equally controlled execution meets the floor.",
+                "false": "A visible defect or implausible transition in the named candidate feature puts it below the demonstrated finish. Differences in brand, framing, shape, or gloss alone are irrelevant.",
+            },
+        },
+    }
+
+
+def matched_craft_decision(visibility: list[str], execution: list[str]) -> str:
+    if visibility == ["fail", "fail"]:
+        return "missing_evidence"
+    if visibility == ["pass", "pass"] and execution in (["pass", "pass"], ["fail", "fail"]):
+        return execution[0]
+    return "unsettled"
+
+
+def adaptation_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "source_identity": {
+            "type": "noul",
+            "instructions": "Does `candidate` retain the recognizable identity from `identity_source` under the changes allowed in `identity_note`?",
+            "criteria": {
+                "true": "The specified lettering or mark remains recognizable with the stated permitted changes to layout, finish or depth.",
+                "false": "A required letter, figure, recognizable shape or other specified identity feature is missing or changed beyond the stated adaptation.",
+            },
+        },
+        "adaptation_treatment": {
+            "type": "noul",
+            "instructions": "Is the specific visual treatment requested in `identity_note` visible in `candidate`?",
+            "criteria": {
+                "true": "The specified arrangement or treatment is apparent in the visible object.",
+                "false": "The visible arrangement contradicts the specified treatment or it is absent.",
             },
         },
     }
@@ -1070,7 +1136,9 @@ def describe() -> list[dict[str, Any]]:
     )
     built.update(preview_screen_questions())
     built.update(craft_questions())
+    built.update(matched_craft_questions())
     built.update(fit_questions())
+    built.update(adaptation_questions())
     built.update(technical_questions())
     built.update(qa_questions())
     built.update(creative_questions())
@@ -1112,6 +1180,9 @@ def describe() -> list[dict[str, Any]]:
         **dict.fromkeys(
             (*craft_questions(), *fit_questions(), *technical_questions()),
             "eligibility_decision -> qa/eligibility.jsonl (only pass advances)",
+        ),
+        **dict.fromkeys(
+            (*matched_craft_questions(), *adaptation_questions()), "study visual review"
         ),
     }
     feeds.update(

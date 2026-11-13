@@ -18,7 +18,8 @@ and light. Jev judges supplied evidence.
 | User asks for | Start here |
 |---|---|
 | A logo, favicon, flat icon, avatar, a quick concept, or another size of an existing mark | [Flat assets](references/flat-assets.md). Use this for an underspecified logo request and show a visible result early. |
-| A 3D hero, editable 3D model, or the full judged export set | [Full 3D workflow](#full-3d-workflow). Start with the shared flat symbol, then build the 3D object. |
+| A 3D hero, editable Blender scene, or a set of selected 3D designs | [3D studies](references/studies.md). Author from the brief, compare concepts, and deliver the selected designs on Apple Silicon. |
+| The production-qualified judged export set | [Qualified 3D workflow](#qualified-3d-workflow). Start with the shared flat symbol, then build the 3D object. |
 | Continue or fix an existing job | Find its logo folder and run `status`. Use [recovery and delivery](references/recovery.md) to identify the next stage. |
 | Try to beat a previously exported logo | Use [the improvement workflow](references/recovery.md#improve-a-published-logo) in that logo folder. |
 
@@ -30,7 +31,9 @@ neither design ideas nor a quality floor.
 ## Find the tools and keep one target
 
 Read [setup](references/setup.md) when tools or dependencies are missing, or when changing hosts.
-For full 3D, run `logo_doctor` or `logo-maker doctor` in the environment that will run the job.
+For 3D, use Apple Silicon macOS and run `logo_doctor` or `logo-maker doctor` in the environment
+that will run the job. A missing Jev key leaves study review pending. You can start the design,
+render, and delivery using the [study workflow](references/studies.md).
 Before investing in a production 3D job, locate a matching reviewed sampling profile and an
 independent craft reference. Doctor checks tools and devices. Use [qualification
 preflight](references/recovery.md#qualify-the-render) to check profile scope and
@@ -52,7 +55,7 @@ or the prerequisite it names. Some paths name files to create. Others are eviden
 such as a sampling sidecar. CLI exit `2` and MCP tool errors carry actionable failures. Read their
 cause before retrying. Keep one stage running per logo folder.
 
-## Full 3D workflow
+## Qualified 3D workflow
 
 Use the stage name with `logo-maker <stage> "$logo_dir"`, or its `logo_<stage>` MCP tool with
 `target` set to the absolute folder. Use the individual stages to locate stops and keep expensive
@@ -93,9 +96,8 @@ An active improvement follows `improve` throughout.
 
 ## Show the result
 
-Give the user a visible image and direct links to the files they asked for. State the design
-choice and what you checked at the intended sizes or on the intended backgrounds. For a completed
-3D set, link the export folder, contact sheet and main assets. Use `ideation/winner.json` for the
-selection reason and `run.json` for reported Jev usage. Report unknown cost when telemetry is
-missing. If qualification stops, show the best usable flat asset or render study, label its state,
-and name the concrete missing evidence or runtime capability. Keep current published exports intact.
+Give the user a visible image and direct links to the requested files. For a 3D study, show the
+overview and link the ZIP, then state the visual, owner, and qualification outcomes that apply.
+For a qualified 3D set, link the export folder, contact sheet and main assets. Use
+`ideation/winner.json` for the selection reason and `run.json` for reported Jev usage. Report
+unknown cost when telemetry is missing. Keep earlier renders and published exports available.

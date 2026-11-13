@@ -24,6 +24,8 @@ STAGES = (
     "preview",
     "finalize",
     "export",
+    "study",
+    "review-study",
     "run",
     "improve",
 )
@@ -79,7 +81,9 @@ def cmd_new(args: argparse.Namespace) -> int:
         return 2
     target = shlex.quote(str(logo.root))
     print(
-        f"created {logo.root}\nnext: fill {logo.brief} and {logo.root / 'brief-evidence.toml'} "
+        f"created {logo.root}\nfill {logo.brief} and use logo-maker study with "
+        "--concept <id> --preview for 3D concept authoring. For production qualification, "
+        f"also fill {logo.root / 'brief-evidence.toml'} "
         f"from project/owner evidence; run `logo-maker brief {target}`, "
         f"then author {logo.metaphors} and run `logo-maker run {target}`"
     )
@@ -99,6 +103,26 @@ def cmd_stage(args: argparse.Namespace) -> int:
             result = pipeline.export(logo)
         elif args.command == "brief":
             result = pipeline.review_brief(logo, revision_reason=args.revision_reason)
+        elif args.command in {"study", "review-study"}:
+            from logo_maker import study
+
+            if args.command == "study":
+                result = study.build(
+                    logo,
+                    args.concept,
+                    preview=args.preview,
+                    compare_seed=args.compare_seed,
+                    calibrate=args.calibrate,
+                    wall_seconds=args.wall_seconds,
+                )
+            else:
+                result = study.review(
+                    logo,
+                    args.study_id,
+                    accepted=args.accept,
+                    owner_note=args.note,
+                    visual=not args.owner_only,
+                )
         else:
             fn = {
                 "intake": pipeline.intake,
@@ -148,6 +172,8 @@ def build_parser() -> argparse.ArgumentParser:
         "preview": "render previews on the GPU, keep 3 finalists",
         "finalize": "retained final renders, scoped diagnosis and creative QA, pick the winner",
         "export": "write the export set for the winner",
+        "study": "preview or deliver named 3D designs on Apple Silicon with or without Jev",
+        "review-study": "run Jev on a delivered study or record the owner's acceptance",
         "run": "run every remaining stage",
         "improve": "new round of ideas; replace the logo only if a new winner beats it",
     }
@@ -158,6 +184,37 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "brief":
             stage.add_argument(
                 "--revision-reason", default="", help="reason for reopening changed requirements"
+            )
+        elif name == "study":
+            stage.add_argument(
+                "--concept", action="append", required=True, help="concept ID, repeatable"
+            )
+            stage.add_argument(
+                "--preview", action="store_true", help="render a concept comparison sheet"
+            )
+            stage.add_argument(
+                "--compare-seed",
+                action="store_true",
+                help="render an independent seed for technical comparison",
+            )
+            stage.add_argument(
+                "--calibrate",
+                action="store_true",
+                help="compare seeds and a lower adaptive threshold",
+            )
+            stage.add_argument(
+                "--wall-seconds", type=float, default=1800, help="whole study render budget"
+            )
+        elif name == "review-study":
+            stage.add_argument("study_id", help="ID returned by study")
+            stage.add_argument(
+                "--accept", action="append", help="owner-accepted concept ID, repeatable"
+            )
+            stage.add_argument("--note", default="", help="owner feedback on the named designs")
+            stage.add_argument(
+                "--owner-only",
+                action="store_true",
+                help="record owner feedback without calling Jev",
             )
         stage.set_defaults(func=cmd_stage)
 

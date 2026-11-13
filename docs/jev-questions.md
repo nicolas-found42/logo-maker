@@ -54,6 +54,8 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `proportion_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `visual_hierarchy` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `lighting_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `feature_visible` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
+| `feature_execution` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
 | `symbol` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `appearance` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
@@ -62,6 +64,8 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `communicative_clarity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `small_flat` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `small_hero` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `source_identity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
+| `adaptation_treatment` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
 | `noise_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `detail_preserved` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `aliasing_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |

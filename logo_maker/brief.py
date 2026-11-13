@@ -115,9 +115,9 @@ def _table(data: dict, key: str, problems: list[str]) -> dict:
     return dict(value)
 
 
-def load(path: Path) -> Brief:
+def load(path: Path, *, content: bytes | None = None) -> Brief:
     try:
-        data = tomllib.loads(path.read_text())
+        data = tomllib.loads(path.read_text() if content is None else content.decode())
     except FileNotFoundError as exc:
         raise BriefError(f"no brief at {path}; run `logo-maker new <slug>` first") from exc
     except UnicodeDecodeError as exc:

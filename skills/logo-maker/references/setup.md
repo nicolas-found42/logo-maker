@@ -44,10 +44,11 @@ uv run --locked logo-maker doctor
 
 The first Metal kernel compilation can be quiet for 1.5–5 minutes. Allow up to 900 seconds for
 that setup step. A failed check has a `problem` and suggested `fix`. Interpret them in context.
-A missing Jev key requires `OPENROUTER_API_KEY` or `TYPESAFE_API_KEY` in the process that runs the
-pipeline. If a user must supply a key, name the variable and the local environment or host settings
-where it goes. Keep credentials out of chat and job files. Restart the MCP host after changing its
-environment. Doctor checks key presence. A real `brief` call checks provider access.
+3D study rendering and packaging can proceed without Jev credentials. Jev review and the
+qualified workflow require `OPENROUTER_API_KEY` or `TYPESAFE_API_KEY` in the tool process. If the
+user wants to configure access, name the variable and local environment or host settings where
+it goes. Keep credentials out of chat and job files. Restart the MCP host after changing its
+environment. Doctor checks key presence. A real `review-study` or `brief` call checks access.
 
 The project-local CLI works without registering an MCP server. For a permanent host install, use
 the project's `uv run --locked python scripts/install.py --help`, then its `--agent codex`,

@@ -42,10 +42,65 @@ flowchart LR
 | plan | `plan` | current requirements, `concept.json`, `plan.toml` | `plan-review.json`, `qa/plan-reviews.jsonl` |
 | finalize | `finalize` | finalists | `final.png`, `scene.blend`, `model.glb`, `qa/rounds.jsonl`, `ideation/winner.json` |
 | export | `export` | winner | `exports/*` |
+| 3D study | `study` / `logo_study` | brief, explicitly named concepts, motif and scene | preview sheet or downloadable `studies/<id>/` |
+| Study review | `review-study` / `logo_review_study` | verified study manifest and its exact assets | per-design craft, fit, technical and owner review records |
 
 Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
 rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains
 the stages and stops with a clear message where agent authoring is needed.
+
+### Owner-selected 3D studies
+
+The study workflow runs locally on Apple Silicon with Cycles Metal and GPU Open Image Denoise.
+The agent can author concepts from a plain-language brief, render the named concepts together,
+show a contact sheet, and package the designs the user selects. This path can start with no
+provider credentials. It uses the brief and authored concepts directly. It records unavailable
+or incomplete Jev evidence and keeps the qualified winner workflow independent.
+
+A concept uses the usual motif and scene recipe. For bespoke construction the agent can author a
+self-contained `source.blend` and use the same motif. The worker opens that scene with automatic
+script execution disabled and rejects linked libraries and unpacked external data. It packages
+the saved editable scene used for the hero, and records the source and output digests with the
+verified GPU execution. A failed proof or interrupted render cannot replace a delivered study.
+Compiled studies retain a recipe digest, source artwork and adapter provenance alongside the
+packed scene.
+
+Each selected design has a transparent hero, editable Blender scene, color and mono full-size
+marks, flat PNGs, a compact SVG, favicon sizes, a contact sheet and views for inspecting construction.
+`compact.svg`, when present, is an optical variant of the shared motif. It supplies the favicon
+silhouette while the full artwork remains the flat master. Optional `mono.svg` preserves an
+authored one-ink version with intentional negative space. Craft photos carry source URLs,
+coverage notes and hashes. Use the research role to retain supplementary photos outside the
+paired Jev review. The compact review sheet shows 16 px and 32 px on light and dark
+surfaces. An optional `compact-dark.svg` provides the dark-surface variant and corresponding
+favicons. A concept can override the shared brief's intended appearance for its own construction.
+Additional matched camera views and close-ups are included as review evidence when the agent
+authors them. Related-object photographs support a craft comparison.
+Exact-object claims require corresponding reference evidence.
+
+Study manifests bind delivered files and review inputs to their bytes. Review uses the archived
+hero, actual compact icon, brief and photos, with craft, brand fit and technical outcomes recorded
+independently. An authored craft or holdout photo can select a verified render view and normalized
+photo and render regions for one aspect of finish. Review first checks that both regions show
+the comparable feature, then checks execution in both image orders. It retains both judgments,
+the original image hashes and the crop hashes. Other photos can still use the general craft floor.
+For an adaptation with a supplied `identity.png` and `identity_note`, fit checks preservation
+and the requested treatment against that source artwork. Concepts without an identity source
+use the original-mark fit checks. Owner acceptance attaches to
+the exact study and retains failed and pending findings. Review receipts update separately
+from the immutable study ZIP. Review reuse binds the question code, review implementation and
+judge identity. Provider errors remain pending. A sampling comparison can render a second seed
+with the same settings and report timing and per-region variation. Local calibration renders a stricter
+adaptive threshold with the hero's seed and cap held fixed. Qualification still requires the
+reviewed evidence and scope described in the sampling contract.
+
+`status` lists study overviews, archives and review receipts. A missing or duplicate holdout is
+visible in the study's evidence. An authored matched photo and render can be inspected alongside
+the generated survey. Owner decisions bind to the delivered hero and whole manifest.
+
+A `lathe` scene component revolves a radial/height profile around the Z axis.
+It accepts closed profiles above the axis and axis-ended profiles for solid caps, and is useful
+for turned knobs, collars and vessel walls. Its output is an editable solid mesh.
 
 ## Logo folder
 
@@ -290,7 +345,7 @@ render; its adjacent `.log` retains native denoiser diagnostics. Host postproces
 delivered pixels and source files to that evidence. Alternate renderers currently lack equivalent
 verified GPU tracing/denoising and are rejected operationally at the public render boundary.
 
-| quality | resolution | samples | use |
+| quality | resolution | default samples | use |
 |---|---|---|---|
 | `test` | 256 px | 64 + denoise | regression test |
 | `preview` | 1000 px | 256 + denoise | jev preview screen |
@@ -308,7 +363,8 @@ independent
 of craftsmanship, fidelity, brief fit and aesthetic preference.
 First runs compile Metal kernels (1.5-5 min, no output); a builder attempt is limited to 900 s
 and the remaining job deadline. Crash retries consume the same attempt and wall-clock budget.
-Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
+The final row is the comparator. A matching profile can supply different final controls
+within its qualified scope (see #5).
 Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
 timing scope; #5 can consume it without changing numeric defaults.
 The alternate renderer modules remain available for development, but cannot supply production
@@ -326,8 +382,9 @@ not zero error. `meta.seed` supplies the deterministic seed unless explicitly ov
 `[sampling]` exposes `profile` (optional JSON path), `diagnosis` (optional JSON path),
 `wall_seconds` (default 1800), `attempt_limit` (default 2, maximum 4), and
 `diagnostic_bytes` (default 2147483648, maximum 2147483648 per attempt).
-The retained 4096 / 0.01 comparator has a scoped owner-reviewed M5 Pro final profile in
-`benchmarks/sampling/profiles/apple-m5-pro-final.json`; no faster numeric default is enabled.
+The owner-reviewed M5 Pro final profile in `benchmarks/sampling/profiles/apple-m5-pro-final.json`
+uses an adaptive threshold of 0.01 and a cap of 8192 samples per pixel. Its approval applies to
+those sampling settings. A different cap requires its own qualification evidence.
 Missing/stale/out-of-scope profiles retain the
 4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
 A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,

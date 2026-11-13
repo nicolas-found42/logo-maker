@@ -6,6 +6,8 @@ Run `status` on the absolute logo folder. It reports text combinations, authored
 variants and completed refinement comparisons separately. Use its revision paths and the last
 stage's stop to resume. Keep sources, prior renders, and published exports. A count or a
 `run.json` stage flag records progress. Current eligibility is checked by the stage itself.
+For a study, look up its immutable ID in `studies/` and its review in `qa/studies/`. Resume
+Jev review of that ID or create a new study after changing inputs. See [3D studies](studies.md).
 
 | Stop or change | What to do |
 |---|---|
@@ -103,8 +105,8 @@ missing craft evidence, current qualification stop, or runtime requirement and h
 After a successful export on current evidence, link the contact sheet and requested assets
 such as SVGs, favicon set, avatar, transparent hero, editable Blender scene or GLB.
 
-For a pair of objects, a single campaign's `export` delivers its one selected winner. If the user
-needs a qualified package for each object, start a campaign for each. Keep the exact request in the
+For several objects, `study` packages the named designs into one ZIP. For a qualified export of
+each object, start a qualified campaign for each. Keep the exact request in the
 parent project. In each campaign, add a source that states which object it covers and cite that
 source for the local subject requirement. Write the expected material, edge transitions and sheen
 for that object in `intended_appearance`. Carry the shared identity across both and qualify each

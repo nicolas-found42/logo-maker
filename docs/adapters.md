@@ -42,6 +42,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | Blender cloth | GPL-3.0-or-later | Physics drape for ribbon components (analytic wave fallback) | `logo_maker.blender.components:_drape_ribbon` | `uv sync (ships with bpy)` |
 | manifold3d | Apache-2.0 | Watertight extrusion triangulation and mesh booleans | `logo_maker.geometry:boolean_mesh` | `uv sync` |
 | trimesh | MIT | Mesh assembly, transforms, and PLY export | `logo_maker.geometry:save_ply` | `uv sync` |
+| Shapely | BSD-3-Clause | Validates radial profiles for turned solid components | `logo_maker.geometry:lathe_mesh` | `uv sync` |
 | PyMeshLab | GPL-3.0-or-later | Isotropic remeshing for inflated (SDF) meshes | `logo_maker.geometry:inflate_mesh` | `uv sync` |
 | build123d | Apache-2.0 | Parametric CAD solids for cad components | `logo_maker.geometry:cad_mesh` | `uv sync` |
 | fogleman/sdf | MIT | Signed-distance-field sampling for soft inflated forms | `logo_maker.geometry:inflate_mesh` | `uv sync` |

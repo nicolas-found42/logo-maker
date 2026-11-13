@@ -273,16 +273,20 @@ def _svgs(motif_svg: Path, out_dir: Path, ink: str) -> dict[str, Path]:
 
 
 def _contact_sheet(
-    entries: list[tuple[str, Path]], dst: Path, *, mono_background: str = "#FFFFFF"
+    entries: list[tuple[str, Path]],
+    dst: Path,
+    *,
+    mono_background: str = "#FFFFFF",
+    columns: int = 3,
 ) -> Path:
-    """One labeled sheet of the export set (thumbs at 384 px, three columns).
+    """One labeled sheet of the export set (thumbs at 384 px).
 
     The mono mark is a one-color silhouette in the brand ink, so its chip uses
     the brand background — the surface the ink is designed for.
     """
     thumbs: list[tuple[str, Image.Image]] = []
     for label, path in entries:
-        background = mono_background if label == "mark-mono" else "#FFFFFF"
+        background = mono_background if label in {"mark-mono", "Monochrome"} else "#FFFFFF"
         if path.suffix.lower() == ".svg":
             tmp = dst.parent / f".sheet-{len(thumbs)}.png"
             _rasterize_flat(path, 384, tmp, background=background)
@@ -296,7 +300,7 @@ def _contact_sheet(
             )
         thumb.thumbnail((384, 384), Image.Resampling.LANCZOS)
         thumbs.append((label, thumb))
-    cols = 3
+    cols = columns
     rows = (len(thumbs) + cols - 1) // cols
     cell_w, cell_h, caption = 400, 400, 28
     sheet = Image.new("RGB", (cols * cell_w, rows * (cell_h + caption)), "#FFFFFF")

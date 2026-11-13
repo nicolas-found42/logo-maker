@@ -617,10 +617,13 @@ def refine(logo: LogoDir, client=None, *, budget: Budget | None = None) -> dict[
 
 def status(logo: LogoDir) -> dict[str, Any]:
     """Separate ideation combinations, authored motifs, renders and refinement evidence."""
-    from logo_maker import refinement
+    from logo_maker import refinement, study
 
     ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
-    return refinement.report(logo, ids)
+    report = refinement.report(logo, ids)
+    if studies := study.summaries(logo):
+        report["studies"] = studies
+    return report
 
 
 def status_counts(logo: LogoDir) -> dict[str, Any]:

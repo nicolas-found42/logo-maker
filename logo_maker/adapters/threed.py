@@ -87,6 +87,15 @@ ADAPTERS: list[Adapter] = [
         "uv sync",
     ),
     Adapter(
+        "Shapely",
+        "geometry_3d",
+        "BSD-3-Clause",
+        "Validates radial profiles for turned solid components",
+        "logo_maker.geometry:lathe_mesh",
+        python_module("shapely"),
+        "uv sync",
+    ),
+    Adapter(
         "PyMeshLab",
         "geometry_3d",
         "GPL-3.0-or-later",

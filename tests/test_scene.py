@@ -83,6 +83,31 @@ def test_mesh_needs_path(tmp_path):
         load_scene(write(tmp_path, MINIMAL + comp))
 
 
+@pytest.mark.parametrize("inner", [0, 0.08])
+def test_lathe_component_compiles_a_solid(tmp_path, inner):
+    import trimesh
+
+    from logo_maker.scene import compile
+
+    component = f"""
+[[components]]
+name = "knob"
+kind = "lathe"
+material = "surface"
+profile = [[{inner}, 0.1], [0.2, 0.1], [0.18, 0.24], [{inner}, 0.24]]
+sections = 48
+"""
+    write(tmp_path, MINIMAL + component)
+    (tmp_path / "motif.json").write_text('{"layers": []}')
+    compiled = compile(tmp_path, "test")
+    mesh = trimesh.load_mesh(compiled.parent / "meshes" / "knob.ply")
+    assert mesh.is_volume
+    assert mesh.bounds[0, 2] == pytest.approx(0.1)
+    assert mesh.bounds[1, 2] == pytest.approx(0.24)
+    with pytest.raises(SceneError, match="lathe sections"):
+        load_scene(write(tmp_path, MINIMAL + component.replace("sections = 48", "sections = 0")))
+
+
 def test_cad_plate_edge_relief_modes(tmp_path):
     comp = '\n[[components]]\nkind = "cad"\nmaterial = "surface"\nop = "lathe"\n'
     with pytest.raises(SceneError, match="cad"):

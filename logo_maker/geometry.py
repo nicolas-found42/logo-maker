@@ -582,6 +582,26 @@ def _remesh_isotropic(mesh: trimesh.Trimesh, targetlen: float) -> trimesh.Trimes
         return mesh
 
 
+def lathe_mesh(profile: list[list[float]], sections: int) -> trimesh.Trimesh:
+    """Turn a simple radial section around Z, keeping its authored shoulder contours."""
+    from shapely.geometry import Polygon
+
+    section = Polygon(profile)
+    if not section.is_valid or section.area <= 0:
+        raise ValueError("lathe profile must enclose one simple nonzero area")
+    axis_points = [point for point in profile if point[0] == 0]
+    if axis_points and (profile[0][0] != 0 or profile[-1][0] != 0 or len(axis_points) != 2):
+        raise ValueError("lathe profile may touch the axis at its two endpoints only")
+    # Pass the closed outer contour in the winding required by trimesh.
+    contour = np.asarray(section.exterior.coords)
+    if not section.exterior.is_ccw:
+        contour = contour[::-1]
+    mesh = trimesh.creation.revolve(contour, sections=sections)
+    if not mesh.is_volume:
+        raise ValueError("lathe profile did not produce a closed solid")
+    return mesh
+
+
 def cad_mesh(spec: dict) -> trimesh.Trimesh:
     """A build123d solid from a primitive spec: {op, size/radius, center, ...}.
 

@@ -46,6 +46,7 @@ COMPONENT_KINDS = (
     "tube",
     "voxels",
     "cad",
+    "lathe",
     "mesh",
     "bpy",
 )
@@ -352,6 +353,25 @@ def _check_kind_fields(where: str, comp: dict) -> None:
         raise SceneError(f"scene.toml: [{where}] mesh needs a path to an OBJ/STL/PLY/GLB file")
     if kind == "cad" and comp.get("op", "box") not in ("box", "rounded_box", "cylinder"):
         raise SceneError(f"scene.toml: [{where}] cad op must be box|rounded_box|cylinder")
+    if kind == "lathe":
+        profile = comp.get("profile")
+        if (
+            not isinstance(profile, list)
+            or len(profile) < 3
+            or any(
+                not isinstance(point, list)
+                or len(point) != 2
+                or any(
+                    type(value) not in (int, float) or not math.isfinite(value) for value in point
+                )
+                or point[0] < 0
+                for point in profile
+            )
+        ):
+            raise SceneError(f"scene.toml: [{where}] lathe needs at least three [radius, z] points")
+        sections = comp.get("sections", 96)
+        if type(sections) is not int or not 16 <= sections <= 256:
+            raise SceneError(f"scene.toml: [{where}] lathe sections must be an integer in 16..256")
     if kind == "plate" and comp.get("edge", "smooth") not in ("smooth", "irregular"):
         raise SceneError(f"scene.toml: [{where}] plate edge must be smooth|irregular")
     if kind == "relief" and comp.get("mode", "raise") not in ("raise", "cut", "through"):
@@ -925,6 +945,11 @@ def _build_object(comp: dict, scene: dict, motif: dict, concept_dir: Path, mesh_
             if key in comp:
                 spec[key] = comp[key]
         mesh = geometry.cad_mesh(spec)
+    elif kind == "lathe":
+        try:
+            mesh = geometry.lathe_mesh(comp["profile"], comp.get("sections", 96))
+        except ValueError as exc:
+            raise SceneError(f"scene.toml: [{name}] {exc}") from exc
     elif kind == "mesh":
         src = Path(comp["path"])
         if not src.is_absolute():

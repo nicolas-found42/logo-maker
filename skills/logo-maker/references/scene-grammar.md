@@ -59,7 +59,7 @@ depth = 0.44                  # preset depth scaled by the group's layer height
 ```
 
 Component kinds: `plate`, `recess`, `rim`, `relief`, `extrude`, `inflate`,
-`layers`, `ring_text`, `ribbon`, `tube`, `voxels`, `cad`, `mesh`, `bpy`.
+`layers`, `ring_text`, `ribbon`, `tube`, `voxels`, `cad`, `lathe`, `mesh`, `bpy`.
 `ring_text` needs `text` and `font` (a font spec like the brief's, e.g.
 `"Inter:wght=700"`, or a TTF path); `from_treatment` leaves both blank for the
 agent to fill. A mark component with no `layers`
@@ -69,6 +69,10 @@ accept `height_scale`, a multiplier on their vertical params
 (height / step+slab / depth / puff) for readability fixes. `relief` with
 `mode = "cut"` or `"through"` punches the target plate and lays a floor;
 `recess` punches a round (`radius`) or motif-shaped (`layers`) pocket.
+
+For a turned knob, collar, or vessel wall, add a `lathe` component with a material and
+`profile = [[0, 0], [0.2, 0], [0.18, 0.12], [0, 0.12]]`. Each point is `[radius, z]`.
+Add more profile points where a shoulder curves. Use `sections` to tune the circular silhouette.
 
 Technical QA returns scoped diagnosis work; it does not guess sampling, lighting or height changes.
 Use [refinement.md](refinement.md) to retain critique and comparisons. Structural authoring may change
