@@ -1,0 +1,1303 @@
+{
+  "baseline_revision": "475406228d575a77bb6da2582ce9dcef4f372eba",
+  "conftest_sha256": "081dbd60bd9f437f12320f000ef102217b610e268a25516d048d4a651fabfcfd",
+  "command": "PAG_USE_LOCAL_REV=1 PYTHONPATH=/tmp/logo-test-perf PERF_OUTPUT=/tmp/logo-test-perf/<label>.json /usr/bin/time -p just test [--cache-clear] -p perf_probe --durations=20",
+  "runs": [
+    {
+      "label": "baseline-cold",
+      "wall_seconds": 32.98,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.19244750001234934,
+        "session_start": 0.22438958403654397,
+        "first_collection": 6.76334833400324,
+        "last_collection": 6.853876875014976,
+        "first_test": 6.86666158400476,
+        "last_report": 31.388099334028084,
+        "session_finish": 32.49851391703123
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 25.82424091658322,
+        "call": 354.55077520158375,
+        "teardown": 0.3429599973023869
+      },
+      "user_seconds": 204.07,
+      "sys_seconds": 64.47,
+      "pytest_summary": "524 passed, 49 warnings in 32.35s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.06777029199293
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.3997973750229
+        },
+        {
+          "nodeid": "tests/test_geometry.py::test_sweeps_and_solids_watertight",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 16.7015576249687
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 10.17680354201002
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 9.435112666978966
+        }
+      ]
+    },
+    {
+      "label": "baseline-cachecold",
+      "wall_seconds": 21.59,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.034389166976325214,
+        "session_start": 0.040660041966475546,
+        "first_collection": 0.9571954169659875,
+        "last_collection": 1.593214291962795,
+        "first_test": 1.5944678749656305,
+        "last_report": 20.077196582977194,
+        "session_finish": 20.854099041956943
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 20.04635658924235,
+        "call": 265.070034662378,
+        "teardown": 0.2729619577876292
+      },
+      "user_seconds": 169.54,
+      "sys_seconds": 54.84,
+      "pytest_summary": "524 passed, 49 warnings in 21.42s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.051949958025943
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.312968707992695
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.520577999996021
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.563561959017534
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.560782749962527
+        }
+      ]
+    },
+    {
+      "label": "baseline-cachecold2",
+      "wall_seconds": 21.65,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.04597404197556898,
+        "session_start": 0.05486350000137463,
+        "first_collection": 0.8448125830036588,
+        "last_collection": 1.312144041992724,
+        "first_test": 1.3157397080212831,
+        "last_report": 19.718202457996085,
+        "session_finish": 20.442736292025074
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.500399045296945,
+        "call": 254.73247070680372,
+        "teardown": 0.17878774629207328
+      },
+      "user_seconds": 153.16,
+      "sys_seconds": 52.13,
+      "pytest_summary": "524 passed, 49 warnings in 21.47s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.042547332996037
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.33159458398586
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.440646167029627
+        },
+        {
+          "nodeid": "tests/test_publication_guards.py::test_export_publication_input_edit_restores_prior_exports_and_run[winner-staging]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.968446666025557
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.958593290997669
+        }
+      ]
+    },
+    {
+      "label": "baseline-cachecold3",
+      "wall_seconds": 21.32,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.05373600003076717,
+        "session_start": 0.0641861250041984,
+        "first_collection": 0.918491916032508,
+        "last_collection": 1.3759060830343515,
+        "first_test": 1.3774862500140443,
+        "last_report": 19.879336207988672,
+        "session_finish": 20.575695457984693
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.388446920376737,
+        "call": 252.77695105667226,
+        "teardown": 0.17337670776760206
+      },
+      "user_seconds": 157.43,
+      "sys_seconds": 52.24,
+      "pytest_summary": "524 passed, 49 warnings in 21.10s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.04920091596432
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.331510166986845
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.699911624949891
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.100792374985758
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.077352042018902
+        }
+      ]
+    },
+    {
+      "label": "baseline-warm1",
+      "wall_seconds": 27.35,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.05524279200471938,
+        "session_start": 0.06566358398413286,
+        "first_collection": 1.3213299590279348,
+        "last_collection": 2.1980762500315905,
+        "first_test": 2.2012959999847226,
+        "last_report": 24.97934737498872,
+        "session_finish": 25.87591737502953
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 31.516697703744285,
+        "call": 306.1289865138242,
+        "teardown": 0.2403828363167122
+      },
+      "user_seconds": 189.76,
+      "sys_seconds": 60.92,
+      "pytest_summary": "524 passed, 49 warnings in 27.08s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.071455916040577
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.39571741700638
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 9.853795541042928
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.899597959010862
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.830863541981671
+        }
+      ]
+    },
+    {
+      "label": "baseline-warm2",
+      "wall_seconds": 23.48,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.0470395419979468,
+        "session_start": 0.056139125023037195,
+        "first_collection": 0.931572999979835,
+        "last_collection": 1.4180524590192363,
+        "first_test": 1.4189826250076294,
+        "last_report": 22.259032834030222,
+        "session_finish": 23.295648916973732
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 26.080494342953898,
+        "call": 269.6405376207549,
+        "teardown": 0.1351667584385723
+      },
+      "user_seconds": 170.37,
+      "sys_seconds": 55.29,
+      "pytest_summary": "524 passed, 49 warnings in 23.25s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.057801082963124
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.312264541978948
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.854521291039418
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.428995291993488
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.357264458027203
+        }
+      ]
+    },
+    {
+      "label": "baseline-warm3",
+      "wall_seconds": 30.11,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.048607041011564434,
+        "session_start": 0.06471179099753499,
+        "first_collection": 1.5024650410050526,
+        "last_collection": 2.0901914160349406,
+        "first_test": 2.098109957994893,
+        "last_report": 28.411752375017386,
+        "session_finish": 29.26422204100527
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 40.663722746656276,
+        "call": 313.2351780048921,
+        "teardown": 0.28088911826489493
+      },
+      "user_seconds": 184.88,
+      "sys_seconds": 58.91,
+      "pytest_summary": "524 passed, 49 warnings in 29.85s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.07057091698516
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.36426666600164
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 10.876010124979075
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 9.647159125015605
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 9.624960625020321
+        }
+      ]
+    },
+    {
+      "label": "lpt1",
+      "wall_seconds": 37.69,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.0329114580526948,
+        "session_start": 0.03882012504618615,
+        "first_collection": 0.9149223749991506,
+        "last_collection": 1.4555242080241442,
+        "first_test": 1.4575967920245603,
+        "last_report": 36.82333541702246,
+        "session_finish": 37.56569858302828
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.369858824298717,
+        "call": 260.1218439837685,
+        "teardown": 0.19065209105610847
+      },
+      "user_seconds": 161.13,
+      "sys_seconds": 51.52,
+      "pytest_summary": "524 passed, 49 warnings in 37.53s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.0544374579913
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.307913333002944
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.506022542016581
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.114899791020434
+        },
+        {
+          "nodeid": "tests/test_publication_guards.py::test_export_publication_input_edit_restores_prior_exports_and_run[inspection-staging]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.099740375007968
+        }
+      ]
+    },
+    {
+      "label": "lpt2",
+      "wall_seconds": 21.13,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.03397275001043454,
+        "session_start": 0.040671083028428257,
+        "first_collection": 0.9032226250274107,
+        "last_collection": 1.4214393330039456,
+        "first_test": 1.4236767499824055,
+        "last_report": 19.4737201249809,
+        "session_finish": 20.400958582991734
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 24.08580523962155,
+        "call": 278.1915894912672,
+        "teardown": 0.2168283787323162
+      },
+      "user_seconds": 170.95,
+      "sys_seconds": 56.65,
+      "pytest_summary": "524 passed, 49 warnings in 20.96s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.048265084042214
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.320865916030016
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.542806292010937
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.51076124998508
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.503479875042103
+        }
+      ]
+    },
+    {
+      "label": "lpt3",
+      "wall_seconds": 21.28,
+      "test_count": 524,
+      "outcomes": {
+        "passed": 524
+      },
+      "events_seconds": {
+        "configured": 0.03774125000927597,
+        "session_start": 0.04483204201096669,
+        "first_collection": 0.984779083984904,
+        "last_collection": 1.5640795839717612,
+        "first_test": 1.5652667089598253,
+        "last_report": 19.62123879196588,
+        "session_finish": 20.434280833986122
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 23.878884206933435,
+        "call": 272.61078594776336,
+        "teardown": 0.2212206571130082
+      },
+      "user_seconds": 170.0,
+      "sys_seconds": 54.98,
+      "pytest_summary": "524 passed, 49 warnings in 21.10s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.053298541984987
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.316130041028373
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.559751665976364
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.102321291982662
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.056870666972827
+        }
+      ]
+    },
+    {
+      "label": "final-cachecold1",
+      "wall_seconds": 23.1,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.032866833033040166,
+        "session_start": 0.03834308299701661,
+        "first_collection": 0.8386160000227392,
+        "last_collection": 1.3265569999930449,
+        "first_test": 1.327231292030774,
+        "last_report": 21.215000417025294,
+        "session_finish": 21.925428582995664
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.196889754093718,
+        "call": 251.7906982995919,
+        "teardown": 0.18989268084987998
+      },
+      "user_seconds": 152.11,
+      "sys_seconds": 51.75,
+      "pytest_summary": "534 passed, 49 warnings in 22.94s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.057271166006103
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.3286014579935
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.88051725004334
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.878839374985546
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.832479791017249
+        }
+      ]
+    },
+    {
+      "label": "final-cachecold2",
+      "wall_seconds": 22.73,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03172970801824704,
+        "session_start": 0.03708950005238876,
+        "first_collection": 0.8706422080285847,
+        "last_collection": 1.3844556670519523,
+        "first_test": 1.386789458047133,
+        "last_report": 21.28481008304516,
+        "session_finish": 21.99999433301855
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 19.7434328487725,
+        "call": 256.9821430494776,
+        "teardown": 0.17187103850301355
+      },
+      "user_seconds": 163.17,
+      "sys_seconds": 55.72,
+      "pytest_summary": "534 passed, 49 warnings in 22.58s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.061569041979965
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.338612833991647
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.1031418750062585
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.118580583017319
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.1066010419745
+        }
+      ]
+    },
+    {
+      "label": "final-cachecold3",
+      "wall_seconds": 22.64,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.04521825001575053,
+        "session_start": 0.05379387503489852,
+        "first_collection": 0.87239562504692,
+        "last_collection": 1.355925667041447,
+        "first_test": 1.3568947089952417,
+        "last_report": 21.22394841699861,
+        "session_finish": 21.904224209021777
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 19.12275202665478,
+        "call": 254.22505161195295,
+        "teardown": 0.1735886269598268
+      },
+      "user_seconds": 162.19,
+      "sys_seconds": 54.48,
+      "pytest_summary": "534 passed, 49 warnings in 22.45s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.065634791972116
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.344855749979615
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.0084276249981485
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.029540707997512
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.997559707961045
+        }
+      ]
+    },
+    {
+      "label": "final-warm1",
+      "wall_seconds": 21.11,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03152237494941801,
+        "session_start": 0.03676816599909216,
+        "first_collection": 0.8860322079854086,
+        "last_collection": 1.368178832984995,
+        "first_test": 1.37077145796502,
+        "last_report": 19.452166707953438,
+        "session_finish": 20.311422124970704
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 23.603389464493375,
+        "call": 265.64171441365033,
+        "teardown": 0.1701258586253971
+      },
+      "user_seconds": 162.82,
+      "sys_seconds": 54.41,
+      "pytest_summary": "534 passed, 49 warnings in 20.95s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.075631082989275
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.327988958975766
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.112246292002965
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.055260250053834
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.977644458995201
+        }
+      ]
+    },
+    {
+      "label": "final-warm2",
+      "wall_seconds": 21.91,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03384537500096485,
+        "session_start": 0.03925229195738211,
+        "first_collection": 0.9252799999667332,
+        "last_collection": 1.4808644999866374,
+        "first_test": 1.4828830829937942,
+        "last_report": 19.804862916993443,
+        "session_finish": 20.704203874978703
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 25.258134003495798,
+        "call": 293.18523658864433,
+        "teardown": 0.20998320955550298
+      },
+      "user_seconds": 174.34,
+      "sys_seconds": 60.05,
+      "pytest_summary": "534 passed, 49 warnings in 21.74s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.063259249960538
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.369429750018753
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.767781540984288
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.893611166044138
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.757490999996662
+        }
+      ]
+    },
+    {
+      "label": "final-warm3",
+      "wall_seconds": 20.99,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03216116601834074,
+        "session_start": 0.0385855829808861,
+        "first_collection": 0.9513765000156127,
+        "last_collection": 1.4885817500180565,
+        "first_test": 1.4895714580197819,
+        "last_report": 19.570861707965378,
+        "session_finish": 20.275243040989153
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 29.8294683980057,
+        "call": 271.17341747297905,
+        "teardown": 0.1887795825023204
+      },
+      "user_seconds": 170.26,
+      "sys_seconds": 55.19,
+      "pytest_summary": "534 passed, 49 warnings in 20.83s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.071250416978728
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.32400616700761
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 8.590332250052597
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.771305542031769
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.517118290998042
+        }
+      ]
+    },
+    {
+      "label": "delivered-cachecold1",
+      "wall_seconds": 20.65,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03321616700850427,
+        "session_start": 0.03960804198868573,
+        "first_collection": 0.8285226669977419,
+        "last_collection": 1.31302079197485,
+        "first_test": 1.316028125002049,
+        "last_report": 19.854101917007938,
+        "session_finish": 20.534041917009745
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 16.583678955154028,
+        "call": 243.1093762194505,
+        "teardown": 0.19965217227581888
+      },
+      "user_seconds": 149.95,
+      "sys_seconds": 49.53,
+      "pytest_summary": "534 passed, 49 warnings in 20.50s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.066088958003093
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.33599262498319
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.005077209032606
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.5888751249876805
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.587388292013202
+        }
+      ]
+    },
+    {
+      "label": "delivered-cachecold2",
+      "wall_seconds": 21.66,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.032599041995126754,
+        "session_start": 0.03820141701726243,
+        "first_collection": 0.8249588750186376,
+        "last_collection": 1.3061849999940023,
+        "first_test": 1.308844625018537,
+        "last_report": 20.84142641699873,
+        "session_finish": 21.545766499999445
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.344311842753086,
+        "call": 252.06667295790976,
+        "teardown": 0.22117108502425253
+      },
+      "user_seconds": 159.05,
+      "sys_seconds": 52.81,
+      "pytest_summary": "534 passed, 49 warnings in 21.51s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.106625207990874
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.34353045898024
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.672103916993365
+        },
+        {
+          "nodeid": "tests/test_publication_guards.py::test_export_publication_input_edit_restores_prior_exports_and_run[sampling-staging]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.846177625004202
+        },
+        {
+          "nodeid": "tests/test_publication_guards.py::test_export_publication_input_edit_restores_prior_exports_and_run[sampling-renamed]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 5.84454579098383
+        }
+      ]
+    },
+    {
+      "label": "delivered-cachecold3",
+      "wall_seconds": 22.84,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.04644520895089954,
+        "session_start": 0.055087124987039715,
+        "first_collection": 0.8915014999802224,
+        "last_collection": 1.363965249969624,
+        "first_test": 1.3650549169979058,
+        "last_report": 21.353179792000446,
+        "session_finish": 22.093209874990862
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 18.928594285272993,
+        "call": 257.427486161876,
+        "teardown": 0.24143792688846588
+      },
+      "user_seconds": 164.66,
+      "sys_seconds": 54.38,
+      "pytest_summary": "534 passed, 49 warnings in 22.65s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.074369916983414
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.330236750014592
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.969772958953399
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.031379082996864
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.023940125014633
+        }
+      ]
+    },
+    {
+      "label": "delivered-warm1",
+      "wall_seconds": 20.93,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.046727332985028625,
+        "session_start": 0.05537004198413342,
+        "first_collection": 0.8760868330136873,
+        "last_collection": 1.3813630000222474,
+        "first_test": 1.382300249999389,
+        "last_report": 19.458405749988742,
+        "session_finish": 20.185362874995917
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 23.86138382490026,
+        "call": 258.55782326625194,
+        "teardown": 0.20265745680080727
+      },
+      "user_seconds": 165.23,
+      "sys_seconds": 54.65,
+      "pytest_summary": "534 passed, 49 warnings in 20.73s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.070566750015132
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.337756374967285
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.161558250023518
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.696151125011966
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.586853833985515
+        }
+      ]
+    },
+    {
+      "label": "delivered-warm2",
+      "wall_seconds": 20.85,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.03262529196217656,
+        "session_start": 0.037814666982740164,
+        "first_collection": 0.85523041698616,
+        "last_collection": 1.3734713339945301,
+        "first_test": 1.3749009169987403,
+        "last_report": 19.45331679197261,
+        "session_finish": 20.15091179200681
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 24.744811951357406,
+        "call": 261.43738891225075,
+        "teardown": 0.20996154501335695
+      },
+      "user_seconds": 167.58,
+      "sys_seconds": 55.93,
+      "pytest_summary": "534 passed, 49 warnings in 20.70s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.074078541016206
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.345943375024945
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.324458374991082
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.82364850002341
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.705990750051569
+        }
+      ]
+    },
+    {
+      "label": "delivered-warm3",
+      "wall_seconds": 20.9,
+      "test_count": 534,
+      "outcomes": {
+        "passed": 534
+      },
+      "events_seconds": {
+        "configured": 0.0312546250061132,
+        "session_start": 0.036433415953069925,
+        "first_collection": 0.8561884579830803,
+        "last_collection": 1.3769556249608286,
+        "first_test": 1.3784749999758787,
+        "last_report": 19.43941424996592,
+        "session_finish": 20.166939415968955
+      },
+      "aggregate_worker_phase_seconds": {
+        "setup": 24.287608426297083,
+        "call": 261.17166854435345,
+        "teardown": 0.20385086524765939
+      },
+      "user_seconds": 165.98,
+      "sys_seconds": 54.6,
+      "pytest_summary": "534 passed, 49 warnings in 20.74s",
+      "slowest_phases": [
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[deadline]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 18.05959179101046
+        },
+        {
+          "nodeid": "tests/test_export.py::test_export_deadline_stops_tool_and_its_detached_browser[denied_live]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 17.32486237498233
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[missing_usage]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 7.217933957988862
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[overall_rejection]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.716777666006237
+        },
+        {
+          "nodeid": "tests/test_combined_stack.py::test_combined_selection_keeps_errors_costs_and_eligibility_independent[stale_inputs]",
+          "when": "call",
+          "outcome": "passed",
+          "duration": 6.7148652079631574
+        }
+      ]
+    }
+  ],
+  "baseline-warm": {
+    "median_seconds": 27.35,
+    "min_seconds": 23.48,
+    "max_seconds": 30.11,
+    "runs": 3,
+    "range_seconds": 6.63
+  },
+  "delivered-warm": {
+    "median_seconds": 20.9,
+    "min_seconds": 20.85,
+    "max_seconds": 20.93,
+    "runs": 3,
+    "range_seconds": 0.08
+  },
+  "baseline-cachecold": {
+    "median_seconds": 21.59,
+    "min_seconds": 21.32,
+    "max_seconds": 21.65,
+    "runs": 3,
+    "range_seconds": 0.33
+  },
+  "delivered-cachecold": {
+    "median_seconds": 21.66,
+    "min_seconds": 20.65,
+    "max_seconds": 22.84,
+    "runs": 3,
+    "range_seconds": 2.19
+  },
+  "environment": {
+    "machine": "Apple M5 Pro",
+    "logical_cpus": 18,
+    "memory_bytes": 51539607552,
+    "system": "Darwin 27.0.0 arm64",
+    "python": "3.13.16",
+    "uv": "0.13.6",
+    "pytest": "9.2.0",
+    "xdist": "3.8.0",
+    "worker_count": 18,
+    "dependency_setup_seconds": 1.37,
+    "npm_setup_seconds": 12.48,
+    "shared_dependency_browser_gpu_caches": "warm"
+  }
+}
