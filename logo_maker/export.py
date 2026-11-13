@@ -435,6 +435,19 @@ def _verify_eligibility(expected: dict) -> None:
     require_current(logo, load(logo.brief), expected["concept_id"], expected["proof"])
 
 
+def verify_publication(condition: dict) -> None:
+    """Verify pinned export inputs locally inside the publication worker."""
+    from logo_maker.refinement import digest, read
+
+    expected = condition.get("sampling_sha256")
+    if expected is not None:
+        path = Path(condition["sampling_path"])
+        if digest(path) != expected or not sampling_qualified(read(path)):
+            raise ExportError("qualified sampling snapshot changed during publication")
+    if condition.get("eligibility") is not None:
+        _verify_eligibility(condition["eligibility"])
+
+
 def export_all(
     concept_dir: Path,
     out_dir: Path,

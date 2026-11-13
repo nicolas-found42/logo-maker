@@ -970,6 +970,19 @@ def final_bindings(logo, campaign_binding, results, *, check_machine=True):
     selection_bindings(logo, campaign_binding, results, "final", check_machine=check_machine)
 
 
+def verify_selection(
+    logo: LogoDir, binding: str, proofs: dict, quality: str, eligibility: dict
+) -> None:
+    """Verify staged selection proofs locally inside the publication worker."""
+    from logo_maker.brief import load
+    from logo_maker.eligibility import require_current
+
+    selection_bindings(logo, binding, proofs, quality, check_machine=False)
+    brief = load(logo.brief)
+    for cid, proof in eligibility.items():
+        require_current(logo, brief, cid, proof, stage=quality)
+
+
 def verify_winner(logo, data, *, check_machine=True):
     from logo_maker.pipeline import AuthoringNeeded
 

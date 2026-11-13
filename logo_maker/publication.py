@@ -86,10 +86,27 @@ def _record(path: Path, data: dict) -> None:
 
 def _validate(preconditions: list[dict]) -> None:
     for condition in preconditions:
-        if condition.get("operation") not in {"selection_guard", "export_guard"}:
-            raise PublicationConflict("unsupported publication precondition")
         try:
-            host.main(condition)
+            match condition.get("operation"):
+                case "selection_guard":
+                    from logo_maker.paths import LogoDir
+                    from logo_maker.refinement import verify_selection
+
+                    verify_selection(
+                        LogoDir(Path(condition["root"])),
+                        condition["binding"],
+                        condition["proofs"],
+                        condition["quality"],
+                        condition["eligibility"],
+                    )
+                case "export_guard":
+                    from logo_maker.export import verify_publication
+
+                    verify_publication(condition)
+                case _:
+                    raise PublicationConflict("unsupported publication precondition")
+        except PublicationConflict:
+            raise
         except (OSError, ValueError, RuntimeError) as exc:
             raise PublicationConflict(f"publication inputs changed: {exc}") from exc
 

@@ -48,33 +48,6 @@ def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
 
 def main(payload: dict) -> dict:
     operation = payload["operation"]
-    if operation == "selection_guard":
-        from logo_maker import refinement
-        from logo_maker.brief import load
-        from logo_maker.eligibility import require_current
-        from logo_maker.paths import LogoDir
-
-        logo = LogoDir(Path(payload["root"]))
-        refinement.selection_bindings(
-            logo, payload["binding"], payload["proofs"], payload["quality"], check_machine=False
-        )
-        brief = load(logo.brief)
-        for cid, proof in payload["eligibility"].items():
-            require_current(logo, brief, cid, proof, stage=payload["quality"])
-        return {}
-    if operation == "export_guard":
-        from logo_maker.export import ExportError, _verify_eligibility
-        from logo_maker.refinement import digest, read
-        from logo_maker.sampling import sampling_qualified
-
-        expected = payload.get("sampling_sha256")
-        if expected is not None:
-            path = Path(payload["sampling_path"])
-            if digest(path) != expected or not sampling_qualified(read(path)):
-                raise ExportError("qualified sampling snapshot changed during publication")
-        if payload.get("eligibility") is not None:
-            _verify_eligibility(payload["eligibility"])
-        return {}
     if operation == "concept_states":
         from logo_maker.brief import load
         from logo_maker.judging import _concept_states
