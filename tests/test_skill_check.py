@@ -87,3 +87,34 @@ def test_broken_relative_link_outside_code_fails_while_code_examples_pass(tmp_pa
 
     errors = skill_check.validate_skill(skill)
     assert errors == [f"{skill}: broken relative link target 'references/missing.md'"]
+
+
+def test_link_text_wrapped_across_lines_is_still_checked(tmp_path: Path) -> None:
+    skill = _write_skill(
+        tmp_path,
+        "---\nname: wrapped\ndescription: Valid.\n---\n\nSee [the long\nlink text](../../docs/gone.md).\n",
+        folder="wrapped",
+    )
+    assert any("broken relative link target" in err for err in skill_check.validate_skill(skill))
+
+
+SKILL_HEAD = "---\nname: logo-maker\ndescription: Logos.\n---\n\n# logo-maker\n\n"
+
+
+def test_malformed_skill_files_are_reported_not_raised(tmp_path: Path) -> None:
+    long_link = _write_skill(
+        tmp_path, SKILL_HEAD + "[x](" + "a" * 5000 + ".md) and [y]( ) and [z](a%00.md)\n"
+    )
+    errors = skill_check.validate_skill(long_link)
+    assert len(errors) == 2
+    assert all("unusable relative link target" in error for error in errors)
+    binary = tmp_path / "skills" / "other" / "SKILL.md"
+    binary.parent.mkdir(parents=True)
+    binary.write_bytes(b"\xff\xfe---\n")
+    assert "cannot read file" in skill_check.validate_skill(binary)[0]
+
+
+def test_angle_bracket_and_percent_encoded_links_resolve(tmp_path: Path) -> None:
+    skill = _write_skill(tmp_path, SKILL_HEAD + "[x](<a b.md>) [y](a%20b.md#part)\n")
+    (skill.parent / "a b.md").write_text("target")
+    assert skill_check.validate_skill(skill) == []

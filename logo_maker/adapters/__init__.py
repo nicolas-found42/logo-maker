@@ -11,6 +11,7 @@ import importlib.util
 import shutil
 from collections.abc import Callable
 from dataclasses import dataclass
+from pathlib import Path
 
 STAGES = (
     "judgment",
@@ -49,16 +50,25 @@ def binary(name: str) -> Callable[[], str | None]:
     return check
 
 
-def node_package(package: str) -> Callable[[], str | None]:
-    def check() -> str | None:
+class NodePackage:
+    """Check that one npm package is installed under js/; `package` lets tests read its manifest."""
+
+    def __init__(self, package: str) -> None:
+        self.package = package
+
+    def manifest(self) -> Path:
         from logo_maker.paths import JS_DIR
 
-        manifest = JS_DIR / "node_modules" / package / "package.json"
+        return JS_DIR / "node_modules" / self.package / "package.json"
+
+    def __call__(self) -> str | None:
         if shutil.which("node") is None:
             return "node not on PATH"
-        return None if manifest.exists() else f"js/node_modules/{package} missing"
+        return None if self.manifest().exists() else f"js/node_modules/{self.package} missing"
 
-    return check
+
+def node_package(package: str) -> Callable[[], str | None]:
+    return NodePackage(package)
 
 
 def all_adapters() -> list[Adapter]:

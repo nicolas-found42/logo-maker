@@ -32,6 +32,6 @@ ADAPTERS: list[Adapter] = [
         summary="WCAG 2.1 contrast ratios that gate palettes before jev ever sees them",
         entry="logo_maker.palette:contrast",
         check=python_module("coloraide"),
-        fix="uv add coloraide",
+        fix="uv sync",
     ),
 ]

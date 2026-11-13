@@ -8,6 +8,7 @@ import re
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 import yaml
 import yaml.resolver
@@ -76,7 +77,7 @@ def validate_skill(path: Path) -> list[str]:
     label = str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
     try:
         raw = path.read_text(encoding="utf-8")
-    except OSError as exc:
+    except (OSError, UnicodeDecodeError) as exc:
         return [f"{label}: cannot read file: {exc}"]
 
     text = raw.replace("\r\n", "\n").replace("\r", "\n")
@@ -124,15 +125,24 @@ def validate_skill(path: Path) -> list[str]:
     if not body.strip():
         errors.append(f"{label}: skill body after frontmatter must not be empty")
 
-    for line in _outside_code_lines(body):
-        for link_match in MARKDOWN_LINK.finditer(line):
-            target = link_match.group(1).strip().split()[0].strip("<>")
-            target_path = target.split("#", 1)[0].split("?", 1)[0]
-            if not target_path or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target_path):
-                continue
-            resolved = (path.parent / target_path).resolve()
-            if not resolved.exists():
-                errors.append(f"{label}: broken relative link target {target!r}")
+    # Link text may wrap across lines, so match over the joined prose.
+    prose = "\n".join(_outside_code_lines(body))
+    for link_match in MARKDOWN_LINK.finditer(prose):
+        raw_target = link_match.group(1).strip()
+        if raw_target.startswith("<"):  # CommonMark <...> destinations may hold spaces
+            target = raw_target[1:].split(">", 1)[0]
+        else:
+            target = raw_target.split()[0] if raw_target else ""
+        target_path = unquote(target.split("#", 1)[0].split("?", 1)[0])
+        if not target_path or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target_path):
+            continue
+        try:
+            exists = (path.parent / target_path).resolve().exists()
+        except (OSError, ValueError) as exc:  # a name too long, or a decoded NUL byte
+            errors.append(f"{label}: unusable relative link target {target!r}: {exc}")
+            continue
+        if not exists:
+            errors.append(f"{label}: broken relative link target {target!r}")
 
     return errors
 

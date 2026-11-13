@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shlex
 import shutil
 import subprocess
@@ -28,6 +29,7 @@ import tomlkit
 
 ROOT = Path(__file__).resolve().parents[1]
 NAME = "logo-maker"
+REPO_URL = "https://github.com/nicolas-found42/logo-maker"
 MARKETPLACE = "logo-maker-plugins"
 OMP_MCP = Path.home() / ".omp/agent/mcp.json"
 CLAUDE_JSON = Path.home() / ".claude.json"
@@ -60,6 +62,38 @@ def run(cmd: list[str], *, dry_run: bool) -> None:
         subprocess.run(cmd, check=True)
 
 
+def copy_skill(destination: Path) -> None:
+    """Copy the skill folder and make its links to `docs/` resolve without the checkout.
+
+    Skill files reach the sampling policy through `../../docs/automatic-sampling.md`, which only
+    resolves beside the repo (or through a symlink). A copy ships the policy inside the skill
+    and re-points those links; the policy's own link to a benchmark file becomes a repo URL.
+    """
+    source = ROOT / "skills" / NAME
+    if destination.is_symlink():
+        destination.unlink()  # a prior linked install; the copy replaces it
+    if destination.resolve() == source.resolve():
+        raise ValueError(f"destination {destination} is the plugin's own skill folder")
+    shutil.copytree(
+        ROOT / "skills" / NAME,
+        destination,
+        dirs_exist_ok=True,
+        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+    )
+    bundled = destination / "references" / "automatic-sampling.md"
+    text = (ROOT / "docs" / "automatic-sampling.md").read_text()
+    bundled.write_text(text.replace("(../benchmarks/", f"({REPO_URL}/blob/main/benchmarks/"))
+    for markdown in destination.rglob("*.md"):
+        if markdown == bundled:
+            continue
+        depth = len(markdown.relative_to(destination).parts) - 1
+        target = "/".join([*([".."] * depth), "references/automatic-sampling.md"])
+        body = markdown.read_text()
+        updated = re.sub(r"(?:\.\./)+docs/automatic-sampling\.md", target, body)
+        if updated != body:
+            markdown.write_text(updated)
+
+
 def install_cli(*, dry_run: bool) -> None:
     run(
         ["uv", "tool", "install", "--force", "--python", "3.13", "--editable", str(ROOT)],
@@ -69,17 +103,18 @@ def install_cli(*, dry_run: bool) -> None:
 
 def link_skill(destination: Path, *, dry_run: bool) -> None:
     source = ROOT / "skills" / NAME
-    if destination.is_symlink():
-        if destination.resolve() == source.resolve():
-            print(f"already installed: {destination} -> {source}")
-            return
-        destination.unlink()
-    if destination.exists():
+    replace_link = destination.is_symlink()
+    if replace_link and destination.resolve() == source.resolve():
+        print(f"already installed: {destination} -> {source}")
+        return
+    if not replace_link and destination.exists():
         raise ValueError(f"destination exists and is not a link to this plugin: {destination}")
     print(shlex.join(["ln", "-s", str(source), str(destination)]), flush=True)
     if dry_run:
         return
     destination.parent.mkdir(parents=True, exist_ok=True)
+    if replace_link:
+        destination.unlink()
     destination.symlink_to(source)
 
 
@@ -88,10 +123,24 @@ def mcp_entry() -> dict:
     return {"type": "stdio", "command": command, "args": args, "timeout": TOOL_TIMEOUT_S * 1000}
 
 
+def _host_config(path: Path, parse, servers_key: str) -> tuple[dict, dict]:
+    """A host config mapping and its MCP server table; damage names the file, not a traceback."""
+    if not path.exists():
+        return {}, {}
+    try:
+        data = parse(path.read_text())
+    except (OSError, UnicodeDecodeError, ValueError) as exc:  # unreadable, or JSON/TOML errors
+        raise ValueError(f"{path}: cannot read ({exc}); fix or move it") from exc
+    servers = data.get(servers_key, {}) if isinstance(data, dict) else None
+    if not isinstance(servers, dict) or not isinstance(servers.get(NAME, {}), dict):
+        raise ValueError(f"{path}: expected an object of {servers_key} entries; fix or move it")
+    return data, servers
+
+
 def register_omp_mcp(*, dry_run: bool) -> None:
-    data = json.loads(OMP_MCP.read_text()) if OMP_MCP.exists() else {"mcpServers": {}}
+    data, servers = _host_config(OMP_MCP, json.loads, "mcpServers")
     entry = mcp_entry()
-    if data.get("mcpServers", {}).get(NAME) == entry:
+    if servers.get(NAME) == entry:
         print(f"already registered: {NAME} in {OMP_MCP}")
         return
     print(f"register {NAME} MCP server in {OMP_MCP}", flush=True)
@@ -111,8 +160,8 @@ def register_claude_mcp(*, dry_run: bool) -> None:
     Claude loads it as a second server (doubled tools) rather than deduplicating it.
     """
     entry = mcp_entry()
-    data = json.loads(CLAUDE_JSON.read_text()) if CLAUDE_JSON.exists() else {}
-    if data.get("mcpServers", {}).get(NAME) == entry:
+    _data, servers = _host_config(CLAUDE_JSON, json.loads, "mcpServers")
+    if servers.get(NAME) == entry:
         print(f"already registered: {NAME} in {CLAUDE_JSON}")
         return
     print(f"register {NAME} MCP server in {CLAUDE_JSON}", flush=True)
@@ -124,8 +173,8 @@ def register_claude_mcp(*, dry_run: bool) -> None:
 
 def register_codex_mcp(*, dry_run: bool) -> None:
     command, *args = mcp_command()
-    doc = tomlkit.parse(CODEX_CONFIG.read_text()) if CODEX_CONFIG.exists() else tomlkit.document()
-    servers = doc.get("mcp_servers", {})
+    doc, servers = _host_config(CODEX_CONFIG, tomlkit.parse, "mcp_servers")
+    doc = doc or tomlkit.document()
     want = {
         "command": command,
         "args": args,
@@ -172,13 +221,11 @@ def main(argv: list[str] | None = None) -> int:
                 raise ValueError("claude is not on PATH; install the host first, or use --dry-run")
             target = SKILL_DIRS[args.agent] / NAME
             if args.copy:
-                if target.is_symlink():
-                    target.unlink()
                 print(
                     shlex.join(["cp", "-R", str(ROOT / "skills" / NAME), str(target)]), flush=True
                 )
                 if not args.dry_run:
-                    shutil.copytree(ROOT / "skills" / NAME, target, dirs_exist_ok=True)
+                    copy_skill(target)
             else:
                 link_skill(target, dry_run=args.dry_run)
             if args.agent == "omp":
@@ -195,12 +242,7 @@ def main(argv: list[str] | None = None) -> int:
                 flush=True,
             )
             if not args.dry_run:
-                shutil.copytree(
-                    ROOT / "skills" / NAME,
-                    args.destination,
-                    dirs_exist_ok=True,
-                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
-                )
+                copy_skill(args.destination)
         else:
             if not args.dry_run and shutil.which(args.agent) is None:
                 raise ValueError(
@@ -212,7 +254,10 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f"Installation stopped: {exc}", file=sys.stderr)
         return 1
-    print("Installed. Check the toolchain with `logo-maker doctor`.")
+    if args.dry_run:
+        print("Dry run complete.")
+    else:
+        print("Installed. Check the toolchain with `logo-maker doctor`.")
     return 0
 
 

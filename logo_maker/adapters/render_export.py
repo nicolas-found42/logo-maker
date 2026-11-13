@@ -9,11 +9,13 @@ from logo_maker.adapters import Adapter, binary, node_package, python_module
 
 
 def _chrome() -> str | None:
-    if shutil.which("google-chrome") or shutil.which("chrome") or shutil.which("chromium"):
+    # js/three-render.mjs launches Playwright's `chrome` channel, which finds Google Chrome only;
+    # a `chromium` or bare `chrome` binary on PATH would pass here and fail at render time.
+    if shutil.which("google-chrome") or shutil.which("google-chrome-stable"):
         return None
     if Path("/Applications/Google Chrome.app").exists():
         return None
-    return "chrome not found (checked PATH and /Applications)"
+    return "Google Chrome not found (checked google-chrome on PATH and /Applications)"
 
 
 def _playwright_chrome() -> str | None:
@@ -73,7 +75,7 @@ ADAPTERS: list[Adapter] = [
     Adapter(
         "postprocessing",
         "rendering",
-        "MIT",
+        "Zlib",
         "EffectComposer grading for the three.js renderer",
         "logo_maker.renderers.three:render",
         node_package("postprocessing"),
@@ -82,7 +84,7 @@ ADAPTERS: list[Adapter] = [
     Adapter(
         "N8AO",
         "rendering",
-        "MIT",
+        "ISC",
         "screen-space ambient occlusion pass for the three.js renderer",
         "logo_maker.renderers.three:render",
         node_package("n8ao"),
@@ -127,8 +129,8 @@ ADAPTERS: list[Adapter] = [
     Adapter(
         "pwa-asset-generator",
         "post_export",
-        "Apache-2.0",
-        "app icons + splash screens (drives Chrome itself)",
+        "MIT",
+        "app icons, no splash screens (drives Chrome itself)",
         "logo_maker.export:pwa_assets",
         node_package("pwa-asset-generator"),
         "just setup (runs npm ci in js/)",
@@ -136,7 +138,7 @@ ADAPTERS: list[Adapter] = [
     Adapter(
         "gltf-transform",
         "post_export",
-        "Apache-2.0",
+        "MIT",
         "glb pipeline (dedup/prune/draco)",
         "logo_maker.export:draco_compress",
         node_package("@gltf-transform/functions"),

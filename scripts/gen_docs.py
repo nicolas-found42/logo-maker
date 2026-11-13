@@ -6,6 +6,7 @@ Run `uv run python scripts/gen_docs.py`; `--check` exits 1 when a doc is stale (
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -61,6 +62,9 @@ def jev_md() -> str:
 
 
 def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="fail if a doc is stale; write none")
+    check = parser.parse_args(argv).check
     targets = {
         ROOT / "docs" / "adapters.md": adapters_md(),
         ROOT / "docs" / "jev-questions.md": jev_md(),
@@ -68,7 +72,7 @@ def main(argv: list[str]) -> int:
     stale = [
         path for path, text in targets.items() if not path.exists() or path.read_text() != text
     ]
-    if "--check" in argv:
+    if check:
         for path in stale:
             print(f"stale: {path.relative_to(ROOT)}; run scripts/gen_docs.py")
         return 1 if stale else 0

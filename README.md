@@ -32,16 +32,15 @@ facts, mandates and assumptions separate. Each shortlisted concept gets a `plan.
 hypothesis and purposeful detail; `logo-maker plan acme` reviews intent before preview rendering.
 Actual pixels still require independent craft, fit and technical passes.
 
-Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `preview`, `finalize`, `export`
-(each resumable), `run`,
-`improve`, `doctor`,
+Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `refine`, `status`, `preview`, `finalize`,
+`export` (each resumable), `run`, `improve`, `doctor`,
 `mcp`. The skill in [skills/logo-maker/SKILL.md](skills/logo-maker/SKILL.md) walks an agent through the
 authoring steps.
 
 ## Exports
 
 `exports/`: transparent hero (2000 px), hero on paper, 1024 px circle-safe avatar, favicons
-16/32/48/180/512 + `.ico`, color and mono SVG, PWA icons and splash screens, Draco-compressed `.glb`,
+16/32/48/180/512 + `.ico`, color and mono SVG, PWA icons (no splash screens), Draco-compressed `.glb`,
 `.blend`, and a contact sheet.
 
 ## Docs

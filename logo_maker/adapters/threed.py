@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import shutil
-
 from logo_maker.adapters import Adapter, python_module
 
 
@@ -15,9 +13,8 @@ def _cycles_gpu() -> str | None:
     return None
 
 
-def _poly_haven() -> str | None:
-    if shutil.which("curl") is None and shutil.which("wget") is None:
-        return "needs network access to api.polyhaven.com"
+def _httpx() -> str | None:
+    """HDRI downloads use httpx; reachability is not probed (a scene falls back to none)."""
     try:
         import httpx  # noqa: F401
     except ImportError:
@@ -122,8 +119,8 @@ ADAPTERS: list[Adapter] = [
         "CC0-1.0",
         "HDRI environment maps via api.polyhaven.com",
         "logo_maker.hdri:_polyhaven",
-        _poly_haven,
-        'needs network; scenes fall back to hdri = "none"',
+        _httpx,
+        'uv sync (httpx); downloads need network, scenes fall back to hdri = "none"',
     ),
     Adapter(
         "ambientCG",
@@ -131,7 +128,7 @@ ADAPTERS: list[Adapter] = [
         "CC0-1.0",
         "HDRI environment maps via the ambientCG API v3",
         "logo_maker.hdri:_ambientcg",
-        _poly_haven,
-        'needs network; scenes fall back to hdri = "none"',
+        _httpx,
+        'uv sync (httpx); downloads need network, scenes fall back to hdri = "none"',
     ),
 ]
