@@ -1,0 +1,919 @@
+{
+  "revision": "b381d0543803a3956541967cf11d4c564c6c53e5",
+  "review_date": "2026-11-12",
+  "owner_answer_verbatim": "Approve 0.01 and reject 0.02",
+  "scope": "Technical sampling detail of the shown current-main material, typography and held-out orbit/prism controls. Independent creative and technical eligibility gates still apply to production images.",
+  "positive": [
+    "Typography \u00b7 0.01 \u00b7 seed 0",
+    "Typography repeat \u00b7 0.01 \u00b7 seed 0",
+    "Matte \u00b7 0.01 \u00b7 seed 0",
+    "Metal \u00b7 0.01 \u00b7 seed 0",
+    "Glass \u00b7 0.01 \u00b7 seed 0"
+  ],
+  "degraded": [
+    "Typography \u00b7 0.02 \u00b7 seed 0",
+    "Glass \u00b7 0.02 \u00b7 seed 0"
+  ],
+  "held_out": [
+    "Orbit \u00b7 0.01 \u00b7 seed 47",
+    "Orbit \u00b7 0.01 \u00b7 seed 57",
+    "Prism \u00b7 0.01 \u00b7 seed 48",
+    "Prism \u00b7 0.01 \u00b7 seed 58"
+  ],
+  "review_artifacts_sha256": {
+    "controls-review.png": "fa733f38bde9d6ecf9163432484bb16fb88d1e25874c6845f52e3f8ea8876926",
+    "heldout-review.png": "c513b87cba977b95e26b8f475a3548417727ddf42678c076f79c1ad7758abcdc",
+    "native-crops.json": "c4008d26034de4e2a6938cff1ba02f7c335cf7c184820e0528e18f3e0401100c"
+  },
+  "replay_audit": [
+    {
+      "case": "Typography \u00b7 0.01 \u00b7 seed 0",
+      "directory": "controls/typography-current-seed0-t0.01-runpositive",
+      "historical_final_sha256": "601babccf156d1e4e5e7e5845cd4814502ca2a40f5f5d7220ae96648fc92f6c3",
+      "current_final_sha256": "e61fa0bc22c915613a7b4274566af4d3f3ab99c29e0fbaa2a91e9729c3de83e5",
+      "native_log_sha256": "98234421d720ebbbab6a3ebc0dbab6cc2f88af07db8e150fbcaf913979bc9978",
+      "sampling_sha256": "7e81ea6c5493eb9ccb2129736618898177606fb78769e906ffbc3b214d43891d",
+      "export_manifest_sha256": "aae85d07ab1d43fd3a5ae98aa6127d47f90fe31a07811a085ab5f7cf902a3972",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "4b1b2702d23cec3dbe724afd2e6fe9bb2c61988827c521acd0577bd6c1bb0167",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 256.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0007205845376951834,
+        "at_cap_fraction": 0.0005498484604393669
+      },
+      "measurement": 58.31644874997437,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.00607975,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999046789342142
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.006080416666666666,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999042032491513
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.0060795833333333335,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999043790379472
+        }
+      },
+      "historical_job": "typography-current-seed0-t0.01-runfinal",
+      "dark_region": {
+        "pixels": 6525626,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.00011201990429730419,
+        "at_cap_fraction": 8.106501966248142e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Typography \u00b7 0.02 \u00b7 seed 0",
+      "directory": "controls/typography-current-seed0-t0.02-rundegraded",
+      "historical_final_sha256": "a1a69ed1221513fe5b38e23a2458102e11f8a9ee93987931744adf83295cc39e",
+      "current_final_sha256": "711aecb4901741ece8c10a323b2d8bfcccda22413acbbff4f30528827db4e58b",
+      "native_log_sha256": "57f2f99d5f89afd8847a1da6694112762aceb9938af88f1062e046c2ca6a3dcb",
+      "sampling_sha256": "ff43788302f6352ce9c6ed1f92599cadd036c6eef9d847afbb0baae83e542c7b",
+      "export_manifest_sha256": "172eb95dde2437564a1eaeb7eec6c1555ddc6c5c68121c06df31d9dbb38dc70d",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.02,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.02,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "5e6c74d7931830aa0e9b138ba6e38ed0ec5953c26708a9e8d1137f761d438eb5",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 80.0,
+        "max": 4096.0,
+        "near_cap_fraction": 4.516770996548735e-05,
+        "at_cap_fraction": 3.5080254739861844e-05
+      },
+      "measurement": 54.10120041697519,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.005957083333333333,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999064642803163
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.005956833333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999060047369369
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.005957416666666666,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999061674298186
+        }
+      },
+      "historical_job": "typography-current-seed0-t0.02-runfinal",
+      "dark_region": {
+        "pixels": 6525833,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 4096.0,
+        "near_cap_fraction": 7.661857114639617e-06,
+        "at_cap_fraction": 4.597114268783771e-06
+      },
+      "alpha_boundary": {
+        "pixels": 18330,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 96.0,
+        "max": 256.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Typography repeat \u00b7 0.01 \u00b7 seed 0",
+      "directory": "controls/typography-current-seed0-t0.01-runrepeat",
+      "historical_final_sha256": "601babccf156d1e4e5e7e5845cd4814502ca2a40f5f5d7220ae96648fc92f6c3",
+      "current_final_sha256": "39975e1758ef1d9765f4dba40066821e7a8fcb40367b7fc041821acbe6dbdb22",
+      "native_log_sha256": "8d7bf8053f3217d6e301f1d17e3532ce02a350034b0dafbbf6d26bfbbbd93fe4",
+      "sampling_sha256": "d617d37a36214dc7511ad06b162f6f3e69bfe6d1f57eb46ddb54f785600049db",
+      "export_manifest_sha256": "15249c9bdf6c1df8cfe5940d443ff80b64f73e492c5dbf7f7142fab2cb42d3f5",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "81f40f9335d8b3bd555a3762ad20e5a7d7f681eb089834b0a263968d9352013c",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 256.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0007205845376951834,
+        "at_cap_fraction": 0.0005498484604393669
+      },
+      "measurement": 64.95495895802742,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.006060916666666667,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999049384379498
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.006060833333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999044777240241
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.006060333333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999046300498592
+        }
+      },
+      "historical_job": "typography-current-seed0-t0.01-runfinal",
+      "dark_region": {
+        "pixels": 6525627,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0001120198871311523,
+        "at_cap_fraction": 8.106500723991734e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Glass \u00b7 0.02 \u00b7 seed 0",
+      "directory": "controls/glass-current-seed0-t0.02-rundegraded",
+      "historical_final_sha256": "0309b875f5ecb65c334d3c02b8cec0e5ea8cc90e749c94d460eae84b09ec1727",
+      "current_final_sha256": "b9cd041a3c27be124b642d1b395230c721ab546aa91574d66b3c6b3e51d16f4f",
+      "native_log_sha256": "afa6d97daf194f6e50ccab915e788c68fa1607fbbfc12243ed2d90cd428ce8fa",
+      "sampling_sha256": "2f958ceded200c7ac3b36bc1a9f65e0ae61865ae1a60e71af0d3a0793811b502",
+      "export_manifest_sha256": "e7d938dc1ecd9a5f38d31e553f6053abe9426d0291217d69d96237ef0f62781b",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.02,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.02,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "f6f59156c645a7c6efb8a9592a695cf0c601e10666f0704dd28cd5325a772330",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641913,
+        "p50": 64.0,
+        "p90": 96.0,
+        "p99": 1760.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0010849283933710063,
+        "at_cap_fraction": 0.000780799146270058
+      },
+      "measurement": 59.55853679100983,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.005894416666666667,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999042997608146
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.00589575,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999037891680674
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.005894,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999039817213274
+        }
+      },
+      "historical_job": "glass-current-seed0-t0.02-run2",
+      "dark_region": {
+        "pixels": 6533186,
+        "p50": 64.0,
+        "p90": 80.0,
+        "p99": 240.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.00012092109424100278,
+        "at_cap_fraction": 9.352251719145911e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18330,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 96.0,
+        "max": 256.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Matte \u00b7 0.01 \u00b7 seed 0",
+      "directory": "controls/matte-current-seed0-t0.01-runpositive",
+      "historical_final_sha256": "be4fb62c04d8fe36c4a42dada16dee9e55d2fb70200714647311dfc1b4cae88f",
+      "current_final_sha256": "e0a1c81655794428c61ce9f3fd5b19175d9f55d9d1c0cf16ab2568bc8e2ac990",
+      "native_log_sha256": "c2bf5a411a744a8b75843bedc8058afde0ca415126af46ab76ec4f45d0c7c7a3",
+      "sampling_sha256": "3764dc4a7a7a9c3d7c21339d103976091fff93218e1d6c59a2ab47fe36b2adcd",
+      "export_manifest_sha256": "5a5361bacc21f81151accd290df22083554476f0d1d152de87bd4066e135a016",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "5dc2ee8f177b76d77e71ba28a475e673b0fe2936cd8696374f58147d8cd8628f",
+      "cap": "not_near_cap",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 96.0,
+        "p99": 160.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "measurement": 31.973710375023074,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.006589,
+          "max_8bit_delta": 1,
+          "ssim": 0.9998913579132916
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.00658875,
+          "max_8bit_delta": 2,
+          "ssim": 0.9998908770010253
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.006589083333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.999891041480493
+        }
+      },
+      "historical_job": "matte-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 5628282,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 144.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 784.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Metal \u00b7 0.01 \u00b7 seed 0",
+      "directory": "controls/metal-current-seed0-t0.01-runpositive",
+      "historical_final_sha256": "143ff972113127ffab65e0630d7a6a9a73eb759f008871281f7033282a5e737a",
+      "current_final_sha256": "c229e67696e979f822c4a13d6746e5448036c9e0b22e1e38f102453a6511f8c3",
+      "native_log_sha256": "afdaa2524043f10c1ef011a3d780c35f095e32f5a1a1dd897a41329d71d5d42f",
+      "sampling_sha256": "419051e368cf3d32ee29d637b674090669fbb66e656111d5887c9c434fb01fd2",
+      "export_manifest_sha256": "3c8bf964249df129049b49bfeb85433c85c95c6d5aef4a2c7af2dec0c0aae298",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "a7b1e77a1e91816d645ab98988e1dd2e7b5a1292c8cdeab0cccb04a7b2298a09",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 6.760185069476334e-05,
+        "at_cap_fraction": 4.6071639894426685e-05
+      },
+      "measurement": 57.50086020800518,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.0059419166666666665,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999036703995631
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.005942583333333334,
+          "max_8bit_delta": 2,
+          "ssim": 0.999903187496194
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.005942333333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999033587899991
+        }
+      },
+      "historical_job": "metal-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 6572444,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 144.0,
+        "max": 4096.0,
+        "near_cap_fraction": 1.4302137834875429e-05,
+        "at_cap_fraction": 8.216121734928438e-06
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Glass \u00b7 0.01 \u00b7 seed 0",
+      "directory": "controls/glass-current-seed0-t0.01-runpositive",
+      "historical_final_sha256": "0f9bd2acdc8d902288f4e1e047e22e72b966f56bf6df153d6c0dd884375cca40",
+      "current_final_sha256": "890a1c4bde80446dc47105ad911a825dfffd1a38f73cc0c7610ce20f38475d47",
+      "native_log_sha256": "9d5fae97c6dbaec77f4334578e69d5ed70e84990a38920d2c07b06c57eaf210d",
+      "sampling_sha256": "c4c5d3b0903d2535302de1797f353053bff92e731a8104a8f56bcc10402bba2f",
+      "export_manifest_sha256": "eebf9c8e0b7ce08b9fb5e66e3bbc5c0af82a4811c9ae7a2f89864f6cc13300ac",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 0,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "ff1b6c1b682d543672027daf22dca2c37fbbd02d3ac7413cb684d59de640fe66",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 6641830,
+        "p50": 80.0,
+        "p90": 304.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.015606993855609071,
+        "at_cap_fraction": 0.013746211510984171
+      },
+      "measurement": 83.47467712499201,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.0057968333333333335,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999058008732299
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.005798,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999052872105635
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.005796666666666667,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999054805478794
+        }
+      },
+      "historical_job": "glass-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 6533124,
+        "p50": 80.0,
+        "p90": 288.0,
+        "p99": 896.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.002164048929731014,
+        "at_cap_fraction": 0.0018787336655480594
+      },
+      "alpha_boundary": {
+        "pixels": 18300,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      }
+    },
+    {
+      "case": "Orbit \u00b7 0.01 \u00b7 seed 47",
+      "directory": "heldout/orbit-three-point",
+      "historical_final_sha256": "9010e5e107ff2f0cd81aedc8b276d64c2bfdce950c541f214b268670f29823ea",
+      "current_final_sha256": "bd0c02f320e222e3cb5538323be79eabce5bebc18b361b66740da7d7ae2d59d2",
+      "native_log_sha256": "6f23bfd47bebe34836cb1d5c4bd1d540108273b066cdebe4d6fa8bff266e3861",
+      "sampling_sha256": "457a264700c4e7e06cf8257efe0a7d434b82e2b97474d0f3d7b770fc5b3eee17",
+      "export_manifest_sha256": "1735c6e4b8f9e5820585452af0df460da0e9d1de50859e684841b7203d571e68",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 47,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "a087ae7f950f4037d574760d1b1dc6d87e27737fc027f6e0a3c884d1e617428f",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 3183263,
+        "p50": 80.0,
+        "p90": 912.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.023475911352596378,
+        "at_cap_fraction": 0.02044788633549914
+      },
+      "measurement": 91.2742184579838,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.005803083333333334,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999195392717996
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.005802333333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999196318878512
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.005804,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999193300085519
+        }
+      },
+      "historical_job": "glass-shape-lighting-20261110/orbit-three-point",
+      "dark_region": {
+        "pixels": 16648,
+        "p50": 1328.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.14356078808265257,
+        "at_cap_fraction": 0.12055502162421912
+      },
+      "alpha_boundary": {
+        "pixels": 20061,
+        "p50": 608.0,
+        "p90": 2976.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08190020437665121,
+        "at_cap_fraction": 0.0742734659289168
+      }
+    },
+    {
+      "case": "Orbit \u00b7 0.01 \u00b7 seed 57",
+      "directory": "heldout/orbit-three-point-seed57",
+      "historical_final_sha256": "64e6ad74639a638f52d195902d8fac05dafef06635099e3ef1bda20a05509c72",
+      "current_final_sha256": "8a1a840d8d44005cd3f94af59da804a084e3ea8ba2a6e4d196ecc0634e94af17",
+      "native_log_sha256": "e4f220f27bcbf8e2d5b1951e9e0e5ca95233c6fd648b84ecc916a32b8adccade",
+      "sampling_sha256": "63a90b4c096186f21cb560457ca7dd247ac3fa8e449e8857d7c4d9903e0aa7d5",
+      "export_manifest_sha256": "18ff264bb13e8455ffc20b35da1ec1a92e745c6a4d060a7d872f56637208e820",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 57,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "9bb30572a916913d62b1ffd4257f17872f2b175edbe08b29cb0a06eb920bc7f6",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 3183253,
+        "p50": 80.0,
+        "p90": 912.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.023102153677385995,
+        "at_cap_fraction": 0.020075061580088042
+      },
+      "measurement": 84.32101720798528,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.0053895,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999230144840036
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.0053894166666666665,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999230825978596
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.00538975,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999228583799763
+        }
+      },
+      "historical_job": "glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57",
+      "dark_region": {
+        "pixels": 16662,
+        "p50": 1376.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.137618533189293,
+        "at_cap_fraction": 0.11487216420597768
+      },
+      "alpha_boundary": {
+        "pixels": 20054,
+        "p50": 608.0,
+        "p90": 3024.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08362421462052458,
+        "at_cap_fraction": 0.07489777600478707
+      }
+    },
+    {
+      "case": "Prism \u00b7 0.01 \u00b7 seed 48",
+      "directory": "heldout/prism-raking",
+      "historical_final_sha256": "0de1be9b13c19771b3d4b9885e1dbad8f0ce2f2ee2aa5cd6e8158c7eb18a8b2c",
+      "current_final_sha256": "0ca9114f3982330216b64bbb2fe62010995f4caca03deecff19afd0129d9e6a5",
+      "native_log_sha256": "4ab2cbcf4fb49397dc1c7daeed074460f9c8dedb046cd739fd6528b0b499af33",
+      "sampling_sha256": "cbff817e24c913b76905b751b4182a4454f453f5d258cdde62a43275cc1a13fe",
+      "export_manifest_sha256": "66d51e013269346399146597e73c3264466b64a6a2952e24c1f0663d6deaad2e",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 48,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "f78724b019c032fb914f1041c327773737e78056aeb2d6db6502e1d83569df9b",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 2546845,
+        "p50": 80.0,
+        "p90": 1440.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.03885631045469983,
+        "at_cap_fraction": 0.0330236037136143
+      },
+      "measurement": 101.9482477499987,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.0045645,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999390145524867
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.0045618333333333335,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999390743953178
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.004565333333333334,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999388047517977
+        }
+      },
+      "historical_job": "glass-shape-lighting-20261110/prism-raking",
+      "dark_region": {
+        "pixels": 64012,
+        "p50": 1696.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.12708554646003875,
+        "at_cap_fraction": 0.10401174779728802
+      },
+      "alpha_boundary": {
+        "pixels": 20799,
+        "p50": 608.0,
+        "p90": 3360.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08442713591999615,
+        "at_cap_fraction": 0.07082071253425645
+      }
+    },
+    {
+      "case": "Prism \u00b7 0.01 \u00b7 seed 58",
+      "directory": "heldout/prism-raking-seed58",
+      "historical_final_sha256": "e0e1c37b47e2282624a5c06c98072c459a7965cebde047baa0cff95de8be9892",
+      "current_final_sha256": "3ce1a17c927086e215c64f5faf8815d46a8a2224ae57cc8b80b5bfe043fda92b",
+      "native_log_sha256": "939a61bc8b1b91d5c07ecbb4f887435b340c694054ff8e40eb3747c7b64d57e7",
+      "sampling_sha256": "7dc792b2d65032a42c23dc9e6e8e7dd8423a05910db21d635cbb380c2d8a62d9",
+      "export_manifest_sha256": "0738e2c72fa85f3d026b14475b76e5992aa6daad54a7c0d2f2e441f703ccadcb",
+      "export_count": 31,
+      "settings": {
+        "name": "final",
+        "resolution": 4000,
+        "samples": 4096,
+        "adaptive": true,
+        "adaptive_threshold": 0.01,
+        "min_samples": 0,
+        "seed": 58,
+        "overrides": {
+          "adaptive_threshold": 0.01,
+          "max_samples": 4096.0
+        },
+        "exposure": 0.0
+      },
+      "device": "METAL",
+      "denoising": {
+        "device_type": "Metal",
+        "oidn_version": "2.5.0",
+        "evidence": "OIDN_VERBOSE=2 created device and executed RT filters"
+      },
+      "diagnostic_exr_sha256": "a7bb5277ebbd3f37027d91d920dbfc87f3a36ed0e6ec4d3de464752b4b50d681",
+      "cap": "capped",
+      "foreground": {
+        "pixels": 2546848,
+        "p50": 80.0,
+        "p90": 1424.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.03831598901858297,
+        "at_cap_fraction": 0.03255671323926673
+      },
+      "measurement": 95.97653379198164,
+      "composite_difference": {
+        "white": {
+          "mean_8bit_delta": 0.00440425,
+          "max_8bit_delta": 1,
+          "ssim": 0.9999414526310426
+        },
+        "#17191f": {
+          "mean_8bit_delta": 0.004400916666666667,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999415078841117
+        },
+        "#005686": {
+          "mean_8bit_delta": 0.004403833333333333,
+          "max_8bit_delta": 2,
+          "ssim": 0.9999412609261297
+        }
+      },
+      "historical_job": "glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58",
+      "dark_region": {
+        "pixels": 64083,
+        "p50": 1648.0,
+        "p90": 4080.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.125025357739182,
+        "at_cap_fraction": 0.0999797138086544
+      },
+      "alpha_boundary": {
+        "pixels": 20809,
+        "p50": 640.0,
+        "p90": 3488.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08481906867220915,
+        "at_cap_fraction": 0.0735258782257677
+      }
+    }
+  ],
+  "historical_review_records": [
+    "owner-review.json",
+    "owner-review-followup.json",
+    "glass-heldout-confirmation.json"
+  ],
+  "coverage_evidence": {
+    "matte": {
+      "case": "Matte \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Matte green relief and dark plate under studio lighting."
+    },
+    "metal": {
+      "case": "Metal \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Reflective green relief and narrow highlights."
+    },
+    "glass": {
+      "case": "Glass \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Transmissive relief plus held-out glass on two shapes, rigs and seed pairs."
+    },
+    "typography": {
+      "case": "Typography \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Raised silver ring lettering, inspected counters and stroke highlights in native EXR detail."
+    },
+    "dark": {
+      "case": "Typography \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Dark matte plate under the lettering and its shadow gradients, included in full-image and native noisy/denoised crops. See dark_region for counts."
+    },
+    "alpha": {
+      "case": "Orbit \u00b7 0.01 \u00b7 seed 47",
+      "observed": "Inner opening and outer edge against light, dark and saturated backgrounds. See alpha_boundary for counts and composite_difference for each background."
+    }
+  }
+}

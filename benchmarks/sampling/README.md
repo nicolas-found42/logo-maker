@@ -533,3 +533,18 @@ consumption check: **51.75 s complete / 51.62 s body**, one native attempt and 3
 qualified exports. The preceding 51.29 s invocation is retained as its own epoch. All 15
 complete invocations plus two body-only checks now total 1152.67 s known job latency;
 the inventory preserves both rather than overwriting spent qualification cost.
+
+## Current-main requalification
+
+The November 12, 2026 requalification used `b381d05` on Apple M5 Pro. The shipped
+record returned `profile_stale` because the lockfile, package hashes and render settings
+key had changed. Eleven current-main 4000→2000 jobs repeated the material, fine type,
+dark and alpha controls, the 0.02 comparisons, and the held-out orbit and prism on seeds
+47/57 and 48/58. Each verified exclusive Metal tracing and OIDN Metal denoising.
+All 341 inspection export file hashes matched their manifests.
+
+The owner approved the shown 4096 / 0.01 controls and held-out replays and rejected
+0.02. The [current review record](validation/m5-pro-main-b381d05.json) binds that decision
+to the render, diagnostic and export evidence. The bundled profile retains its existing
+three-material scope, automatic minimum and job seed. This qualification covers sampling.
+Live creative, technical and export eligibility still apply to each production job.
