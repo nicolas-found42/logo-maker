@@ -1,0 +1,148 @@
+[
+  {
+    "case": "cold",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "worksteal",
+      "--cache-clear"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 0
+  },
+  {
+    "case": "warm",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "worksteal"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 0
+  },
+  {
+    "case": "no-cache",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "worksteal",
+      "-p",
+      "no:cacheprovider"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 0
+  },
+  {
+    "case": "load",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "load"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 0
+  },
+  {
+    "case": "serial",
+    "options": [
+      "-n",
+      "0"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 0
+  },
+  {
+    "case": "failure",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "worksteal"
+    ],
+    "executed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exitstatus": 1
+  },
+  {
+    "case": "one-test",
+    "options": [
+      "-n",
+      "3",
+      "--dist",
+      "worksteal"
+    ],
+    "executed": [
+      0
+    ],
+    "exitstatus": 0
+  }
+]
