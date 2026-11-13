@@ -274,7 +274,7 @@ def current(
         from logo_maker.render import artifact_current, inspection_artifact_current
 
         check = inspection_artifact_current if quality == "preview" else artifact_current
-        folder = logo.root / "concepts" / concept_slug(cid)
+        folder = logo.concept_path(cid)
         return record if check(folder, quality, budget=budget or _ACTIVE_BUDGET.get()) else None
 
 
@@ -289,7 +289,7 @@ def capture(logo: LogoDir, cid: str, quality: str, *, budget: Budget | None = No
     cached = current(logo, cid, quality, budget=budget)
     if cached:
         return cached
-    folder = logo.root / "concepts" / concept_slug(cid)
+    folder = logo.concept_path(cid)
     hashes = _capture_inputs(logo, folder)
     result = render.render(folder, quality, budget=budget)
     if result.execution is None:
@@ -413,7 +413,7 @@ def require_current(
 
     check_image(logo, record)
     active = current(logo, cid, record["quality"], budget=budget)
-    inspection = (logo.root / "concepts" / concept_slug(cid)) / (
+    inspection = logo.concept_path(cid) / (
         "inspection-final.json" if record["quality"] == "final" else "inspection.json"
     )
     inspection_changed = inspection_sha256 is not None and (
@@ -945,14 +945,14 @@ def selection_bindings(logo, campaign_binding, results, quality, *, check_machin
 
             active = _current_record(logo, cid, quality)
             if active and not _artifact_current_local(
-                logo.root / "concepts" / concept_slug(cid),
+                logo.concept_path(cid),
                 quality,
                 inspection_only=quality == "preview",
             ):
                 active = None
         if active is not None:
             check_image(logo, active)
-        inspection = (logo.root / "concepts" / concept_slug(cid)) / (
+        inspection = logo.concept_path(cid) / (
             "inspection-final.json" if quality == "final" else "inspection.json"
         )
         judgment = logo.root / result["evidence"] / "judgment.json"

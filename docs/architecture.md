@@ -66,6 +66,9 @@ run.json              seeds, versions, stage status, jev usage and cost, asset l
 ```
 
 Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment--material`.
+The CLI and MCP resolve targets through `paths.resolve_logo`. Stage preparation uses
+`LogoDir.concept()` to create concept directories. Proof and artifact checks use
+`LogoDir.concept_path()` to locate the same directories without creating them.
 
 ## Contracts
 

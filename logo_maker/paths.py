@@ -76,7 +76,13 @@ class LogoDir:
         return self._dir("concepts")
 
     def concept(self, concept_id: str) -> Path:
-        return self._dir("concepts", concept_slug(concept_id))
+        path = self.concept_path(concept_id)
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+
+    def concept_path(self, concept_id: str) -> Path:
+        """Locate a concept directory without creating it."""
+        return self.root / "concepts" / concept_slug(concept_id)
 
     @property
     def qa(self) -> Path:
@@ -85,3 +91,12 @@ class LogoDir:
     @property
     def exports(self) -> Path:
         return self._dir("exports")
+
+
+def resolve_logo(target: str, out: Path | None = None) -> LogoDir:
+    if out is not None:
+        return LogoDir(out.resolve())
+    path = Path(target)
+    if path.is_dir() and (path / "brief.toml").exists():
+        return LogoDir(path.resolve())
+    return LogoDir.default(slugify(target))

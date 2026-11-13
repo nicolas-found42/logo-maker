@@ -16,7 +16,7 @@ import anyio
 from mcp.server.mcpserver import MCPServer
 
 from logo_maker import __version__
-from logo_maker.cli import resolve_logo
+from logo_maker.paths import resolve_logo
 
 INSTRUCTIONS = (
     "logo-maker turns a brief into a judged, rendered 3D logo and export set. Read the logo-maker skill "

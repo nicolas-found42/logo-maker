@@ -21,7 +21,7 @@ import tomlkit
 from logo_maker import brief as brief_mod
 from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
-from logo_maker.paths import LogoDir, concept_slug
+from logo_maker.paths import LogoDir
 from logo_maker.refinement import bounded_entry
 from logo_maker.runlog import runlog
 from logo_maker.sampling import Budget, sampling_qualified
@@ -529,7 +529,7 @@ def preview(
     log = runlog(logo.run_json, budget=budget)
     client = client or _client(logo, budget=budget)
     brief = _bounded_inputs(logo, budget, reviewed=True, plans=ids)[0]
-    previews = {cid: (logo.root / "concepts" / concept_slug(cid)) / "preview.png" for cid in ids}
+    previews = {cid: logo.concept_path(cid) / "preview.png" for cid in ids}
     if budget is not None:
         client = _budgeted_client(client, budget)
     try:
@@ -540,7 +540,7 @@ def preview(
     except ValueError as exc:  # no preview survived screening
         raise AuthoringNeeded(
             f"revise the motifs and scenes: {exc}",
-            [(logo.root / "concepts" / concept_slug(cid)) / "motif.py" for cid in ids],
+            [logo.concept_path(cid) / "motif.py" for cid in ids],
         ) from exc
     if refinement.campaign_key(logo, ids) != binding:
         raise AuthoringNeeded(
@@ -554,7 +554,7 @@ def preview(
         if active is None:
             raise AuthoringNeeded(
                 "inputs changed while judging previews; refresh refinement",
-                [(logo.root / "concepts" / concept_slug(cid)) / "inspection.json"],
+                [logo.concept_path(cid) / "inspection.json"],
             )
         qualification[cid] = {
             "creative": "ready",
@@ -625,7 +625,7 @@ def qa_concept(
     budget.check()
     client = _budgeted_client(client, budget)
     brief = _bounded_inputs(logo, budget, reviewed=True, plans=[concept_id])[0]
-    folder = logo.root / "concepts" / concept_slug(concept_id)
+    folder = logo.concept_path(concept_id)
     record = refinement.capture(logo, concept_id, "final", budget=budget)
     final = folder / "final.png"
     verdicts = judging.qa_judgments(logo, brief, concept_id, final, client, budget=budget)
@@ -752,7 +752,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
         )
         files = []
         for cid, result in results.items():
-            folder = logo.root / "concepts" / concept_slug(cid)
+            folder = logo.concept_path(cid)
             if result["result"] == "sampling_review_needed":
                 files.extend([folder / ".build/final.sampling.json", folder / "scene.toml"])
             elif result["result"] == "refinement_needed":
@@ -767,7 +767,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
         refinement.final_bindings(logo, campaign_binding, {cid: results[cid] for cid in passed})
         winner_record = judging.final_tournament_record(
             brief,
-            {cid: (logo.root / "concepts" / concept_slug(cid)) / "final.png" for cid in passed},
+            {cid: logo.concept_path(cid) / "final.png" for cid in passed},
             _budgeted_client(client, budget),
             logo=logo,
             budget=budget,
@@ -781,7 +781,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             str(exc),
             [
                 logo.brief,
-                *[logo.root / "concepts" / concept_slug(cid) / "scene.toml" for cid in passed],
+                *[logo.concept_path(cid) / "scene.toml" for cid in passed],
             ],
         ) from exc
     _publish_selection(
@@ -858,7 +858,7 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     brief, brand_, setup = _bounded_inputs(
         logo, budget, brand_required=True, winner=True, reviewed=True
     )
-    folder = logo.root / "concepts" / concept_slug(setup["winner"])
+    folder = logo.concept_path(setup["winner"])
     from logo_maker.render import artifact_current
 
     snapshot = host.run(
