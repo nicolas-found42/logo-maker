@@ -29,7 +29,6 @@
     {
       "case": "Typography \u00b7 0.01 \u00b7 seed 0",
       "directory": "controls/typography-current-seed0-t0.01-runpositive",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runfinal",
       "historical_final_sha256": "601babccf156d1e4e5e7e5845cd4814502ca2a40f5f5d7220ae96648fc92f6c3",
       "current_final_sha256": "e61fa0bc22c915613a7b4274566af4d3f3ab99c29e0fbaa2a91e9729c3de83e5",
       "native_log_sha256": "98234421d720ebbbab6a3ebc0dbab6cc2f88af07db8e150fbcaf913979bc9978",
@@ -84,12 +83,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999043790379472
         }
+      },
+      "historical_job": "typography-current-seed0-t0.01-runfinal",
+      "dark_region": {
+        "pixels": 6525626,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.00011201990429730419,
+        "at_cap_fraction": 8.106501966248142e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Typography \u00b7 0.02 \u00b7 seed 0",
       "directory": "controls/typography-current-seed0-t0.02-rundegraded",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.02-runfinal",
       "historical_final_sha256": "a1a69ed1221513fe5b38e23a2458102e11f8a9ee93987931744adf83295cc39e",
       "current_final_sha256": "711aecb4901741ece8c10a323b2d8bfcccda22413acbbff4f30528827db4e58b",
       "native_log_sha256": "57f2f99d5f89afd8847a1da6694112762aceb9938af88f1062e046c2ca6a3dcb",
@@ -144,12 +161,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999061674298186
         }
+      },
+      "historical_job": "typography-current-seed0-t0.02-runfinal",
+      "dark_region": {
+        "pixels": 6525833,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 64.0,
+        "max": 4096.0,
+        "near_cap_fraction": 7.661857114639617e-06,
+        "at_cap_fraction": 4.597114268783771e-06
+      },
+      "alpha_boundary": {
+        "pixels": 18330,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 96.0,
+        "max": 256.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Typography repeat \u00b7 0.01 \u00b7 seed 0",
       "directory": "controls/typography-current-seed0-t0.01-runrepeat",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/typography-current-seed0-t0.01-runfinal",
       "historical_final_sha256": "601babccf156d1e4e5e7e5845cd4814502ca2a40f5f5d7220ae96648fc92f6c3",
       "current_final_sha256": "39975e1758ef1d9765f4dba40066821e7a8fcb40367b7fc041821acbe6dbdb22",
       "native_log_sha256": "8d7bf8053f3217d6e301f1d17e3532ce02a350034b0dafbbf6d26bfbbbd93fe4",
@@ -204,12 +239,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999046300498592
         }
+      },
+      "historical_job": "typography-current-seed0-t0.01-runfinal",
+      "dark_region": {
+        "pixels": 6525627,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 160.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.0001120198871311523,
+        "at_cap_fraction": 8.106500723991734e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Glass \u00b7 0.02 \u00b7 seed 0",
       "directory": "controls/glass-current-seed0-t0.02-rundegraded",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-current-seed0-t0.02-run2",
       "historical_final_sha256": "0309b875f5ecb65c334d3c02b8cec0e5ea8cc90e749c94d460eae84b09ec1727",
       "current_final_sha256": "b9cd041a3c27be124b642d1b395230c721ab546aa91574d66b3c6b3e51d16f4f",
       "native_log_sha256": "afa6d97daf194f6e50ccab915e788c68fa1607fbbfc12243ed2d90cd428ce8fa",
@@ -264,12 +317,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999039817213274
         }
+      },
+      "historical_job": "glass-current-seed0-t0.02-run2",
+      "dark_region": {
+        "pixels": 6533186,
+        "p50": 64.0,
+        "p90": 80.0,
+        "p99": 240.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.00012092109424100278,
+        "at_cap_fraction": 9.352251719145911e-05
+      },
+      "alpha_boundary": {
+        "pixels": 18330,
+        "p50": 64.0,
+        "p90": 64.0,
+        "p99": 96.0,
+        "max": 256.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Matte \u00b7 0.01 \u00b7 seed 0",
       "directory": "controls/matte-current-seed0-t0.01-runpositive",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/matte-current-seed0-t0.01-run3",
       "historical_final_sha256": "be4fb62c04d8fe36c4a42dada16dee9e55d2fb70200714647311dfc1b4cae88f",
       "current_final_sha256": "e0a1c81655794428c61ce9f3fd5b19175d9f55d9d1c0cf16ab2568bc8e2ac990",
       "native_log_sha256": "c2bf5a411a744a8b75843bedc8058afde0ca415126af46ab76ec4f45d0c7c7a3",
@@ -324,12 +395,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.999891041480493
         }
+      },
+      "historical_job": "matte-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 5628282,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 144.0,
+        "max": 816.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 784.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Metal \u00b7 0.01 \u00b7 seed 0",
       "directory": "controls/metal-current-seed0-t0.01-runpositive",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/metal-current-seed0-t0.01-run3",
       "historical_final_sha256": "143ff972113127ffab65e0630d7a6a9a73eb759f008871281f7033282a5e737a",
       "current_final_sha256": "c229e67696e979f822c4a13d6746e5448036c9e0b22e1e38f102453a6511f8c3",
       "native_log_sha256": "afdaa2524043f10c1ef011a3d780c35f095e32f5a1a1dd897a41329d71d5d42f",
@@ -384,12 +473,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999033587899991
         }
+      },
+      "historical_job": "metal-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 6572444,
+        "p50": 80.0,
+        "p90": 80.0,
+        "p99": 144.0,
+        "max": 4096.0,
+        "near_cap_fraction": 1.4302137834875429e-05,
+        "at_cap_fraction": 8.216121734928438e-06
+      },
+      "alpha_boundary": {
+        "pixels": 18302,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Glass \u00b7 0.01 \u00b7 seed 0",
       "directory": "controls/glass-current-seed0-t0.01-runpositive",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-current-seed0-t0.01-run3",
       "historical_final_sha256": "0f9bd2acdc8d902288f4e1e047e22e72b966f56bf6df153d6c0dd884375cca40",
       "current_final_sha256": "890a1c4bde80446dc47105ad911a825dfffd1a38f73cc0c7610ce20f38475d47",
       "native_log_sha256": "9d5fae97c6dbaec77f4334578e69d5ed70e84990a38920d2c07b06c57eaf210d",
@@ -444,12 +551,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999054805478794
         }
+      },
+      "historical_job": "glass-current-seed0-t0.01-run3",
+      "dark_region": {
+        "pixels": 6533124,
+        "p50": 80.0,
+        "p90": 288.0,
+        "p99": 896.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.002164048929731014,
+        "at_cap_fraction": 0.0018787336655480594
+      },
+      "alpha_boundary": {
+        "pixels": 18300,
+        "p50": 96.0,
+        "p90": 176.0,
+        "p99": 384.0,
+        "max": 960.0,
+        "near_cap_fraction": 0.0,
+        "at_cap_fraction": 0.0
       }
     },
     {
       "case": "Orbit \u00b7 0.01 \u00b7 seed 47",
       "directory": "heldout/orbit-three-point",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/orbit-three-point",
       "historical_final_sha256": "9010e5e107ff2f0cd81aedc8b276d64c2bfdce950c541f214b268670f29823ea",
       "current_final_sha256": "bd0c02f320e222e3cb5538323be79eabce5bebc18b361b66740da7d7ae2d59d2",
       "native_log_sha256": "6f23bfd47bebe34836cb1d5c4bd1d540108273b066cdebe4d6fa8bff266e3861",
@@ -504,12 +629,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999193300085519
         }
+      },
+      "historical_job": "glass-shape-lighting-20261110/orbit-three-point",
+      "dark_region": {
+        "pixels": 16648,
+        "p50": 1328.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.14356078808265257,
+        "at_cap_fraction": 0.12055502162421912
+      },
+      "alpha_boundary": {
+        "pixels": 20061,
+        "p50": 608.0,
+        "p90": 2976.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08190020437665121,
+        "at_cap_fraction": 0.0742734659289168
       }
     },
     {
       "case": "Orbit \u00b7 0.01 \u00b7 seed 57",
       "directory": "heldout/orbit-three-point-seed57",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57",
       "historical_final_sha256": "64e6ad74639a638f52d195902d8fac05dafef06635099e3ef1bda20a05509c72",
       "current_final_sha256": "8a1a840d8d44005cd3f94af59da804a084e3ea8ba2a6e4d196ecc0634e94af17",
       "native_log_sha256": "e4f220f27bcbf8e2d5b1951e9e0e5ca95233c6fd648b84ecc916a32b8adccade",
@@ -564,12 +707,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999228583799763
         }
+      },
+      "historical_job": "glass-heldout-current-confirmation-3d19e4a/orbit-three-point-seed57",
+      "dark_region": {
+        "pixels": 16662,
+        "p50": 1376.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.137618533189293,
+        "at_cap_fraction": 0.11487216420597768
+      },
+      "alpha_boundary": {
+        "pixels": 20054,
+        "p50": 608.0,
+        "p90": 3024.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08362421462052458,
+        "at_cap_fraction": 0.07489777600478707
       }
     },
     {
       "case": "Prism \u00b7 0.01 \u00b7 seed 48",
       "directory": "heldout/prism-raking",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-shape-lighting-20261110/prism-raking",
       "historical_final_sha256": "0de1be9b13c19771b3d4b9885e1dbad8f0ce2f2ee2aa5cd6e8158c7eb18a8b2c",
       "current_final_sha256": "0ca9114f3982330216b64bbb2fe62010995f4caca03deecff19afd0129d9e6a5",
       "native_log_sha256": "4ab2cbcf4fb49397dc1c7daeed074460f9c8dedb046cd739fd6528b0b499af33",
@@ -624,12 +785,30 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999388047517977
         }
+      },
+      "historical_job": "glass-shape-lighting-20261110/prism-raking",
+      "dark_region": {
+        "pixels": 64012,
+        "p50": 1696.0,
+        "p90": 4096.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.12708554646003875,
+        "at_cap_fraction": 0.10401174779728802
+      },
+      "alpha_boundary": {
+        "pixels": 20799,
+        "p50": 608.0,
+        "p90": 3360.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08442713591999615,
+        "at_cap_fraction": 0.07082071253425645
       }
     },
     {
       "case": "Prism \u00b7 0.01 \u00b7 seed 58",
       "directory": "heldout/prism-raking-seed58",
-      "historical_directory": "/Users/nicolas/Documents/logo-maker-evidence/2026-11-10-issue5/glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58",
       "historical_final_sha256": "e0e1c37b47e2282624a5c06c98072c459a7965cebde047baa0cff95de8be9892",
       "current_final_sha256": "3ce1a17c927086e215c64f5faf8815d46a8a2224ae57cc8b80b5bfe043fda92b",
       "native_log_sha256": "939a61bc8b1b91d5c07ecbb4f887435b340c694054ff8e40eb3747c7b64d57e7",
@@ -684,6 +863,25 @@
           "max_8bit_delta": 2,
           "ssim": 0.9999412609261297
         }
+      },
+      "historical_job": "glass-heldout-current-confirmation-3d19e4a/prism-raking-seed58",
+      "dark_region": {
+        "pixels": 64083,
+        "p50": 1648.0,
+        "p90": 4080.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.125025357739182,
+        "at_cap_fraction": 0.0999797138086544
+      },
+      "alpha_boundary": {
+        "pixels": 20809,
+        "p50": 640.0,
+        "p90": 3488.0,
+        "p99": 4096.0,
+        "max": 4096.0,
+        "near_cap_fraction": 0.08481906867220915,
+        "at_cap_fraction": 0.0735258782257677
       }
     }
   ],
@@ -691,5 +889,31 @@
     "owner-review.json",
     "owner-review-followup.json",
     "glass-heldout-confirmation.json"
-  ]
+  ],
+  "coverage_evidence": {
+    "matte": {
+      "case": "Matte \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Matte green relief and dark plate under studio lighting."
+    },
+    "metal": {
+      "case": "Metal \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Reflective green relief and narrow highlights."
+    },
+    "glass": {
+      "case": "Glass \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Transmissive relief plus held-out glass on two shapes, rigs and seed pairs."
+    },
+    "typography": {
+      "case": "Typography \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Raised silver ring lettering, inspected counters and stroke highlights in native EXR detail."
+    },
+    "dark": {
+      "case": "Typography \u00b7 0.01 \u00b7 seed 0",
+      "observed": "Dark matte plate under the lettering and its shadow gradients, included in full-image and native noisy/denoised crops. See dark_region for counts."
+    },
+    "alpha": {
+      "case": "Orbit \u00b7 0.01 \u00b7 seed 47",
+      "observed": "Inner opening and outer edge against light, dark and saturated backgrounds. See alpha_boundary for counts and composite_difference for each background."
+    }
+  }
 }

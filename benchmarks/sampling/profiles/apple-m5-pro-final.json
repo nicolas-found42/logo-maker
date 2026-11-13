@@ -135,7 +135,7 @@
       "role": "positive",
       "evidence": {
         "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "cab4240519b2d7b09fe321c22153e8f8f05111c05332293e188c6ffd50001f21"
+        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
       },
       "scope": "Current main: matte, metal, glass, and typography at 4096 / 0.01"
     },
@@ -143,7 +143,7 @@
       "role": "degraded",
       "evidence": {
         "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "cab4240519b2d7b09fe321c22153e8f8f05111c05332293e188c6ffd50001f21"
+        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
       },
       "scope": "Current main: 4096 / 0.02 detail-loss control replays"
     },
@@ -151,7 +151,7 @@
       "role": "held_out",
       "evidence": {
         "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "cab4240519b2d7b09fe321c22153e8f8f05111c05332293e188c6ffd50001f21"
+        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
       },
       "scope": "Current main: orbit 47/57 and prism 48/58 at 4096 / 0.01"
     }
