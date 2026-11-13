@@ -427,9 +427,15 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
             missing.append("supplied brief differs from the frozen source brief")
     except (OSError, ValueError) as exc:
         missing.append(str(exc))
-    description = reviewed_plan.get("state", {}).get("concept", {}).get("description")
+    authored = reviewed_plan.get("state", {}).get("concept", {})
+    description = authored.get("description")
     if not isinstance(description, str) or not description.strip():
         missing.append("current description required in concept.json")
+    for field in ("treatment_text", "material_text"):
+        if field in authored and (
+            not isinstance(authored[field], str) or not authored[field].strip()
+        ):
+            missing.append(f"{field} must be nonempty text in concept.json")
     if not refs:
         missing.append("craft reference required (use = 'craft')")
     if not brief.intended_appearance:
@@ -487,8 +493,8 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
     concept = Q.concept_state(
         brief,
         metaphor=reviewed_plan["state"]["plan"]["hypothesis"],
-        treatment=c.treatment_desc,
-        material=c.material_desc,
+        treatment=authored.get("treatment_text", c.treatment_desc),
+        material=authored.get("material_text", c.material_desc),
         treatment_id=c.treatment,
         material_id=c.material,
     )["concept"]
@@ -568,7 +574,15 @@ def _finish_assessment(logo, brief, concept_id, candidate, record, execution):
             ]
             stale = [row for row in same_image if row not in matching]
         except (OSError, KeyError, TypeError, ValueError) as exc:
-            record.update(status="missing_evidence", missing=[f"invalid owner feedback: {exc}"])
+            problem = f"missing key {exc}" if isinstance(exc, KeyError) else str(exc)
+            record.update(
+                status="missing_evidence",
+                missing=[
+                    f"{feedback}: invalid owner feedback ({problem}); each record needs "
+                    "candidate_sha256, brief_sha256, concept, and labels from "
+                    "pass/fail/unknown/uncertain/unsettled"
+                ],
+            )
         else:
             record["owner_feedback"] = matching
             record["owner_review_scope"] = scope

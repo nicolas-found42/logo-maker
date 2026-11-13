@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from logo_maker.brief import Brief, load
+from logo_maker.brief import PALETTE_ROLES, Brief, BriefError, load
 from logo_maker.jev.client import Image, JevAsker
 from logo_maker.jev.questions import (
     NOUL_NO,
@@ -37,7 +37,12 @@ def judge_references(logo: LogoDir, brief: Brief, client: JevAsker) -> dict[str,
     for ref in brief.references:
         record: dict[str, Any] = {"path": str(ref.path), "use": ref.use, "note": ref.note}
         if ref.use == "style":
-            colors = extract_colors(ref.path)
+            try:
+                colors = extract_colors(ref.path)
+            except (OSError, ValueError) as exc:  # not an image Pillow can read
+                raise BriefError(
+                    f"reference {ref.path} (use=style) is not a readable image: {exc}"
+                ) from exc
             hexes = [normalize(h) for h, _ in colors]
             state = {"brief": brief.as_state(), "reference": Image(ref.path)}
             questions = dict(intake_style_questions())
@@ -60,6 +65,12 @@ def judge_references(logo: LogoDir, brief: Brief, client: JevAsker) -> dict[str,
 
 
 def _norm_proposals(proposals: list[dict[str, str]]) -> list[dict[str, str]]:
+    for i, proposal in enumerate(proposals):
+        unknown = sorted(set(proposal) - set(PALETTE_ROLES))
+        if unknown:
+            raise ValueError(
+                f"palette proposal {i}: role {unknown[0]!r} is not one of {', '.join(PALETTE_ROLES)}"
+            )
     return [{role: normalize(hexcode) for role, hexcode in p.items()} for p in proposals]
 
 
@@ -93,7 +104,11 @@ def pick_palette(
     doc = {
         "palette": winner,
         "any_fits_p": fits_p,
-        "dropped_wcag": [dropped[i] for i, p in enumerate(normed) if dropped[i]],
+        "dropped_wcag": [
+            {"proposal": i, "palette": p, "problems": dropped[i]}
+            for i, p in enumerate(normed)
+            if dropped[i]
+        ],
     }
     (logo.ideation / "palette.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
     return winner

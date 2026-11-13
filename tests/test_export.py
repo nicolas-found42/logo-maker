@@ -319,3 +319,16 @@ def test_pipeline_export_rejects_concurrent_qualification_replacement(
         pipeline.export(logo)
     assert prior.read_text() == "approved prior exports"
     assert {p.name for p in logo.exports.iterdir()} == {"prior.txt"}
+
+
+@pytest.mark.parametrize("content", ["null", "[1]", '"x"'])
+def test_export_rejects_sampling_provenance_that_is_not_a_record(tmp_path, content):
+    from logo_maker import export
+
+    concept, motif = _concept(tmp_path, _disc)
+    (concept / ".build").mkdir()
+    (concept / ".build/final.sampling.json").write_text(content)
+    with pytest.raises(ExportError, match="not a record"):
+        export._export_all(
+            concept, tmp_path / "out", name="Sample", palette=PALETTE, motif_svg=motif
+        )

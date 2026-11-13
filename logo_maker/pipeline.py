@@ -10,18 +10,19 @@ import json
 import shutil
 import time
 import tomllib
+import uuid
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeGuard
 
 import tomlkit
 
 from logo_maker import brief as brief_mod
 from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
-from logo_maker.paths import LogoDir
+from logo_maker.paths import LogoDir, concept_slug
 from logo_maker.refinement import bounded_entry
 from logo_maker.runlog import runlog
 from logo_maker.sampling import Budget, sampling_qualified
@@ -125,7 +126,20 @@ def _read_json(path: Path) -> Any:
 
 def _write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2))
+    tmp = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")  # a kill leaves no torn file
+    tmp.write_text(json.dumps(data, indent=2))
+    tmp.replace(path)
+
+
+def _motif_receipt(path: Path) -> dict[str, Any]:
+    """The last motif derivation; a missing, torn or wrong-shaped receipt just forces a rerun."""
+    try:
+        previous = _read_json(path) if path.exists() else {}
+    except (ValueError, OSError):
+        return {}
+    if not isinstance(previous, dict) or not isinstance(previous.get("sources", {}), dict):
+        return {}
+    return previous
 
 
 # ---------------------------------------------------------------- new / intake
@@ -158,9 +172,9 @@ def brand(logo: LogoDir) -> Brand:
     picked_palette = logo.ideation / "palette.json"
     picked_fonts = logo.ideation / "fonts.json"
     if not palette and picked_palette.exists():
-        palette = _read_json(picked_palette)["palette"]
+        palette = _picked(picked_palette, "palette", logo.slug)
     if not fonts and picked_fonts.exists():
-        fonts = _read_json(picked_fonts)["fonts"]
+        fonts = _picked(picked_fonts, "fonts", logo.slug)
     if not palette or not fonts:
         raise RuntimeError(
             f"{logo.slug}: palette or fonts missing; run `logo-maker intake {logo.slug}`"
@@ -168,10 +182,41 @@ def brand(logo: LogoDir) -> Brand:
     return Brand(palette, fonts)
 
 
+def _picked(path: Path, key: str, slug: str) -> dict[str, str]:
+    """Intake's pick: a `{key: {role: value}}` object of strings, else a named error."""
+    fix = f"delete it and rerun `logo-maker intake {slug}`"
+    try:
+        picked = _read_json(path)
+    except (ValueError, OSError) as exc:  # invalid JSON or UTF-8, unreadable
+        raise RuntimeError(f"{path}: cannot read ({exc}); {fix}") from exc
+    table = picked.get(key) if isinstance(picked, dict) else None
+    if not isinstance(table, dict) or not all(
+        isinstance(k, str) and isinstance(v, str) for k, v in table.items()
+    ):
+        raise RuntimeError(f"{path}: missing a {key!r} object of strings; {fix}")
+    if key == "palette":
+        for role, value in table.items():
+            if not brief_mod.HEX.match(value):
+                raise RuntimeError(f"{path}: palette {role}={value!r} is not #RRGGBB; {fix}")
+    return table
+
+
 def _proposals(logo: LogoDir, key: str) -> list[dict[str, str]]:
     path = logo.ideation / "proposals.toml"
-    data = tomllib.loads(path.read_text()) if path.exists() else {}
-    return [dict(p) for p in data.get(key, [])]
+    try:
+        data = tomllib.loads(path.read_text()) if path.exists() else {}
+    except (OSError, UnicodeDecodeError, tomllib.TOMLDecodeError) as exc:
+        raise AuthoringNeeded(f"{path.name}: cannot read ({exc}); rewrite it", [path]) from exc
+    rows = data.get(key, [])
+    if not isinstance(rows, list) or not all(
+        isinstance(row, dict) and row and all(isinstance(value, str) for value in row.values())
+        for row in rows
+    ):
+        raise AuthoringNeeded(
+            f"{path.name}: write each proposal as a non-empty [[{key}]] table of string values",
+            [path],
+        )
+    return [dict(row) for row in rows]
 
 
 def review_brief(logo: LogoDir, client=None, *, revision_reason: str = "") -> dict[str, Any]:
@@ -199,14 +244,25 @@ def review_plans(logo: LogoDir, client=None) -> dict[str, dict]:
     from logo_maker import briefing
 
     _require_brief(logo)
-    records = {}
+    # Review every concept so one stop lists all the authoring work; a provider failure on one
+    # concept is raised only when no concept needs authoring, which needs no provider.
+    records: dict[str, dict] = {}
+    error: RuntimeError | None = None
     for cid in shortlist(logo):
-        record = briefing.review_plan(logo, cid, client)
-        if record["status"] != "pass":
-            raise AuthoringNeeded(
-                "; ".join(record["missing"]), record["files"], questions=record["questions"]
-            )
-        records[cid] = record
+        try:
+            records[cid] = briefing.review_plan(logo, cid, client)
+        except RuntimeError as exc:  # JevError, budget limits
+            error = error or exc
+    failed = [record for record in records.values() if record["status"] != "pass"]
+    if failed:
+        files = list(dict.fromkeys(f for record in failed for f in record["files"]))
+        raise AuthoringNeeded(
+            "; ".join(m for record in failed for m in record["missing"]),
+            files,
+            questions=[q for record in failed for q in record["questions"]],
+        )
+    if error is not None:
+        raise error
     return records
 
 
@@ -229,7 +285,10 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
     log = runlog(logo.run_json)
     result: dict[str, Any] = {}
     if brief.references and not (logo.ideation / "intake.json").exists():
-        result["references"] = intake_mod.judge_references(logo, brief, client)
+        try:
+            result["references"] = intake_mod.judge_references(logo, brief, client)
+        except brief_mod.BriefError as exc:
+            raise AuthoringNeeded(f"fix brief.toml: {exc}", [logo.brief]) from exc
     if not brief.palette and not (logo.ideation / "palette.json").exists():
         proposals = _proposals(logo, "palette")
         if len(proposals) < 2:
@@ -245,14 +304,13 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
             ) from exc
     if not brief.fonts and not (logo.ideation / "fonts.json").exists():
         proposals = _proposals(logo, "fonts")
-        missing = sorted(
-            {
-                spec.split(":")[0]
-                for p in proposals
-                for spec in p.values()
-                if not fonts_mod.family_exists(spec.split(":")[0])
-            }
-        )
+        try:  # a spec that cannot resolve must not be picked and persisted to fonts.json
+            families = {fonts_mod.parse_spec(spec).family for p in proposals for spec in p.values()}
+        except fonts_mod.FontSpecError as exc:
+            raise AuthoringNeeded(
+                f"proposals.toml: fix the [[fonts]] spec: {exc}", [logo.ideation / "proposals.toml"]
+            ) from exc
+        missing = sorted(family for family in families if not fonts_mod.family_exists(family))
         if len(proposals) < 2 or missing:
             note = f" (not in google/fonts: {', '.join(missing)})" if missing else ""
             raise AuthoringNeeded(
@@ -266,7 +324,19 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
                 f"write new [[fonts]] proposals: {exc}", [logo.ideation / "proposals.toml"]
             ) from exc
     for role, spec in brand(logo).fonts.items():
-        path = fonts_mod.resolve(spec, on_asset=log.asset)
+        try:
+            path = fonts_mod.resolve(spec, on_asset=log.asset)
+        except fonts_mod.FontSpecError as exc:  # e.g. an axis value outside the font's range
+            if brief.fonts:
+                raise AuthoringNeeded(
+                    f"fix brief.toml [fonts].{role}: {exc}", [logo.brief]
+                ) from exc
+            picked = logo.ideation / "fonts.json"
+            raise AuthoringNeeded(
+                f"picked font {role} = {spec!r} cannot be used ({exc}); fix proposals.toml, "
+                f"delete {picked.name} and run intake again",
+                [logo.ideation / "proposals.toml", picked],
+            ) from exc
         result.setdefault("font_files", {})[role] = str(path)
     log.stage("intake", "done")
     return result
@@ -279,9 +349,11 @@ def ideate(logo: LogoDir, client=None) -> list[str]:
     from logo_maker import ideate as ideate_mod
 
     _require_brief(logo)
-    if not logo.metaphors.exists() or "[[metaphor]]" not in logo.metaphors.read_text().replace(
-        "# [[", ""
-    ):
+    try:
+        metaphors = logo.metaphors.read_text() if logo.metaphors.exists() else ""
+    except (OSError, UnicodeDecodeError) as exc:
+        raise ValueError(f"{logo.metaphors}: cannot read ({exc}); rewrite it") from exc
+    if "[[metaphor]]" not in metaphors.replace("# [[", ""):
         raise AuthoringNeeded(
             "write 8-40 [[metaphor]] entries derived from the brief", [logo.metaphors]
         )
@@ -310,8 +382,28 @@ def shortlist(logo: LogoDir) -> list[str]:
     path = logo.ideation / "shortlist.json"
     if not path.exists():
         raise RuntimeError(f"{logo.slug}: no shortlist; run `logo-maker ideate {logo.slug}`")
-    data = _read_json(path)
-    return list(data["ids"])
+    return concept_ids(path, f"rerun `logo-maker ideate {logo.slug}`")
+
+
+def concept_ids(path: Path, rerun: str) -> list[str]:
+    """`{"ids": [...]}` from shortlist.json or finalists.json; a damaged file names itself."""
+    try:
+        data = _read_json(path)
+    except (ValueError, OSError) as exc:
+        raise RuntimeError(f"{path}: cannot read ({exc}); {rerun}") from exc
+    ids = data.get("ids") if isinstance(data, dict) else None
+    if not isinstance(ids, list) or not all(is_concept_id(cid) for cid in ids):
+        raise RuntimeError(f"{path}: 'ids' must be a list of concept ids; {rerun}")
+    if len({concept_slug(cid) for cid in ids}) != len(ids):  # each id owns one concept folder
+        raise RuntimeError(f"{path}: 'ids' name the same concept folder twice; {rerun}")
+    return list(ids)
+
+
+def is_concept_id(cid: object) -> TypeGuard[str]:
+    try:
+        return isinstance(cid, str) and bool(concept_slug(cid))
+    except ValueError:  # a part with nothing to slug
+        return False
 
 
 # ---------------------------------------------------------------- motifs + preview
@@ -331,7 +423,7 @@ def prepare_motif(concept_dir: Path) -> Path:
     if not script.exists() and not svg.exists():
         raise AuthoringNeeded("author a motif", [script])
     receipt = concept_dir / ".motif-state.json"
-    previous = _read_json(receipt) if receipt.exists() else {}
+    previous = _motif_receipt(receipt)
     dependencies = {
         name: digest(path)
         for name, path in concept_sources(concept_dir, exclude={"motif.json", "motif.svg"}).items()
@@ -377,13 +469,29 @@ def _starter_scene(logo: LogoDir, concept_id: str, folder: Path) -> Path:
     """Write the treatment's layer-aware starting scene for a concept whose motif exists."""
     from logo_maker import scene as scene_mod
 
-    info = _read_json(folder / "concept.json")
+    info_path = folder / "concept.json"
+    try:
+        info = _read_json(info_path)
+    except (OSError, ValueError) as exc:
+        raise ValueError(f"{info_path}: cannot read ({exc}); rerun `logo-maker ideate`") from exc
+    treatment = info.get("treatment") if isinstance(info, dict) else None
+    material = info.get("material") if isinstance(info, dict) else None
+    if not (
+        isinstance(treatment, str)
+        and isinstance(material, str)
+        and treatment in scene_mod.treatments_catalog()
+        and material in scene_mod.materials_catalog()
+    ):
+        raise ValueError(
+            f"{info_path}: treatment {treatment!r} and material {material!r} must name catalog "
+            "entries; restore them or rerun `logo-maker ideate`"
+        )
     doc = tomlkit.parse(
         scene_mod.from_treatment(
-            info["treatment"],
+            treatment,
             motif_json=folder / "motif.json",
             palette=brand(logo).palette,
-            material_id=info["material"],
+            material_id=material,
             seed=runlog(logo.run_json).seed(concept_id),
         )
     )
@@ -515,6 +623,15 @@ def status(logo: LogoDir) -> dict[str, Any]:
     return refinement.report(logo, ids)
 
 
+def status_counts(logo: LogoDir) -> dict[str, Any]:
+    """The progress counts sent with an authoring stop; a damaged state file must not hide the stop."""
+    try:
+        report = status(logo)
+    except (RuntimeError, ValueError, OSError) as exc:
+        return {"unavailable": str(exc)}
+    return {k: v for k, v in report.items() if k not in {"revisions", "comparisons"}}
+
+
 @bounded_entry
 def preview(
     logo: LogoDir, client=None, *, keep: int = 3, budget: Budget | None = None
@@ -537,6 +654,9 @@ def preview(
             logo, brief, previews, client, keep=keep, budget=budget
         )
         finalists = doc["ids"]
+    except judging.EligibilityStop as exc:
+        details = exc.authoring_details(logo, "preview")
+        raise AuthoringNeeded(str(exc), [Path(details["journal"])], details=details) from exc
     except ValueError as exc:  # no preview survived screening
         raise AuthoringNeeded(
             f"revise the motifs and scenes: {exc}",
@@ -775,6 +895,10 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
         winner = winner_record["winner"]
         refinement.final_bindings(logo, campaign_binding, {cid: results[cid] for cid in passed})
         winner_record.update(binding=campaign_binding, creative=results[winner])
+    except judging.EligibilityStop as exc:
+        log.stage("finalize", "review_needed", budget=budget, reason=str(exc))
+        details = exc.authoring_details(logo, "final")
+        raise AuthoringNeeded(str(exc), [Path(details["journal"])], details=details) from exc
     except ValueError as exc:
         log.stage("finalize", "review_needed", budget=budget, reason=str(exc))
         raise AuthoringNeeded(
@@ -835,7 +959,15 @@ def winner(logo: LogoDir) -> str:
     path = logo.root / "ideation" / "winner.json"
     if not path.exists():
         raise RuntimeError(f"{logo.slug}: no winner; run `logo-maker finalize {logo.slug}`")
-    return _read_json(path)["winner"]
+    rerun = f"rerun `logo-maker finalize {logo.slug}`"
+    try:
+        data = _read_json(path)
+    except (ValueError, OSError) as exc:
+        raise RuntimeError(f"{path}: cannot read ({exc}); {rerun}") from exc
+    chosen = data.get("winner") if isinstance(data, dict) else None
+    if not is_concept_id(chosen):
+        raise RuntimeError(f"{path}: 'winner' must be a concept id; {rerun}")
+    return chosen
 
 
 # ---------------------------------------------------------------- export, run, improve
@@ -854,7 +986,9 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
     winner_snapshot = host.run(
         {"operation": "read_json", "path": str(logo.root / "ideation/winner.json")}, budget, []
     )
-    refinement.verify_winner(logo, winner_snapshot["data"] or {})
+    if winner_snapshot["sha256"] is None:  # no file; a damaged one is a stale proof below
+        raise RuntimeError(f"{logo.slug}: no winner; run `logo-maker finalize {logo.slug}` first")
+    refinement.verify_winner(logo, winner_snapshot["data"])
     brief, brand_, setup = _bounded_inputs(
         logo, budget, brand_required=True, winner=True, reviewed=True
     )
@@ -983,7 +1117,8 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
         }
     # The floor held: keep its exports and winner; file the challenger beside the archive.
     shutil.move(logo.ideation / "winner.json", archive / "challenger-winner.json")
-    shutil.copy2(archive / "winner.json", logo.ideation / "winner.json")
+    if (archive / "winner.json").exists():  # exports made without a recorded winner stay so
+        shutil.copy2(archive / "winner.json", logo.ideation / "winner.json")
     shutil.rmtree(floor_dir)
     log.stage("improve", "floor_held", detail=detail)
     return {"result": "floor_held", "detail": detail}

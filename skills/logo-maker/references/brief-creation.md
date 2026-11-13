@@ -26,7 +26,16 @@ Keep the readback short: real activity, primary audience encounter, communicatio
 mandates, latitude and consequential unknowns. Before asking the owner, check existing evidence and
 write down two plausible answers and the different design decisions they would cause. Defer a
 question whose answer would not change the next action. Resolve contradictions explicitly; keep
-optional design choices open. A short sufficient brief can proceed.
+optional design choices open. A short sufficient brief can proceed. In the generated brief, fill
+`summary`, `tone` and actual
+`uses`. Replace the example app, avatar and favicon uses when they differ from the request.
+An exact owner statement can go in `inputs/owner.txt` with an `owner` source row. Record the
+activity it establishes in a fact row, and give any requested constraint an owner-origin
+requirement with that source ID. Treat inferred tone and styling as proposals or latitude.
+For an agent-authored exercise, keep the exact test prompt in a local project source and explicitly
+identify it as fictional. Use project authority for its constraints. If source coverage is
+unsettled, compare the exact excerpt with the recorded directions and preserve its wording where
+possible. Split a sentence only when its parts carry different priorities or authority.
 
 `logo-maker brief <slug>` reviews evidence and freezes requirements before authoring. Reopen changed
 inputs with `--revision-reason`; the previous freeze remains in history. A passed brief does not

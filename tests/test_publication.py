@@ -121,3 +121,27 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
     assert time.monotonic() - phase_started[0] < 14
     assert json.loads(prior.read_text()) == {"winner": "approved-prior"}
     assert json.loads(logo.run_json.read_text()) == previous_state
+
+
+def test_rejected_publication_restores_prior_and_leaves_no_staged_copy(tmp_path):
+    from logo_maker.publication import PublicationConflict
+
+    target = tmp_path / "final.png"
+    target.write_bytes(b"approved prior pixels")
+    source = tmp_path / "next.bin"
+    source.write_bytes(b"next pixels")
+    guard = {
+        "operation": "export_guard",
+        "sampling_sha256": "0",
+        "sampling_path": str(tmp_path / "missing.json"),
+    }
+    with pytest.raises(PublicationConflict):
+        publish(
+            [{"source": str(source), "target": str(target), "move": True}],
+            tmp_path / "journal.json",
+            Budget(wall_seconds=30),
+            [],
+            preconditions=[guard],
+        )
+    assert target.read_bytes() == b"approved prior pixels"
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["final.png"]

@@ -8,23 +8,30 @@ from __future__ import annotations
 
 import contextlib
 import io
-from collections.abc import Callable
+import sys
+import threading
+from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
 import anyio
 from mcp.server.mcpserver import MCPServer
+from mcp.server.mcpserver.exceptions import ToolError as McpToolError
 
 from logo_maker import __version__
+from logo_maker.cli import require_brief
 from logo_maker.paths import resolve_logo
 
 INSTRUCTIONS = (
-    "logo-maker turns a brief into a judged, rendered 3D logo and export set. Read the logo-maker skill "
-    "first. Order: logo_new -> gather project/owner evidence into brief.toml and brief-evidence.toml -> "
-    "logo_brief freezes reviewed requirements -> write ideation/metaphors.toml -> logo_run. "
-    "Before previews, author each concept's plan.toml, motif and scene; logo_plan reviews intent. "
-    "When a tool returns authoring_needed, consult evidence first, resolve consequential unknowns, "
-    "write the listed files and call again. Plan approval never establishes actual-image quality."
+    "Read the logo-maker skill first. For flat logos, icons and favicon-only work, "
+    "use its flat asset recipe. These tools run the full 3D pipeline. "
+    "Start new work with logo_doctor and logo_new. Reuse the returned absolute logo_dir as target. "
+    "For existing work, start with logo_status on the folder containing brief.toml. "
+    "Author the brief and its evidence, then use logo_brief, logo_intake and logo_ideate. "
+    "Follow the skill through concept authoring, inspection, selection and export. "
+    "When a stage returns authoring_needed, open the named files or artifacts, do the requested "
+    "work, and rerun that stage or the prerequisite it names. For an active improvement, "
+    "publish only through logo_improve so the challenger is compared with the current floor."
 )
 
 server = MCPServer(name="logo-maker", version=__version__, instructions=INSTRUCTIONS)
@@ -40,31 +47,77 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
-async def _stage(fn: Callable[..., Any], target: str, out: str | None) -> dict[str, Any]:
-    from logo_maker.pipeline import AuthoringNeeded, status
+class _StdoutToBuffer:
+    """Keep stage progress off the MCP transport while any stage thread runs.
 
-    logo = resolve_logo(target, Path(out) if out else None)
+    `sys.stdout` is process-global, so overlapping tool calls share one redirect: the first
+    entry installs it and the last exit restores the original stream.
+    """
 
-    def call() -> Any:
-        # Stage code prints progress; stdout belongs to the MCP transport.
-        with contextlib.redirect_stdout(io.StringIO()):
-            return fn(logo)
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._depth = 0
+        self._saved: Any = None
 
+    def __enter__(self) -> None:
+        with self._lock:
+            if self._depth == 0:
+                self._saved, sys.stdout = sys.stdout, io.StringIO()
+            self._depth += 1
+
+    def __exit__(self, *_: object) -> None:
+        with self._lock:
+            self._depth -= 1
+            if self._depth == 0:
+                sys.stdout, self._saved = self._saved, None
+
+
+_progress = _StdoutToBuffer()
+
+
+@contextlib.contextmanager
+def _agent_errors() -> Generator[None]:
+    """The framework hides the text of unexpected exceptions; domain errors carry the fix."""
     try:
-        result = await anyio.to_thread.run_sync(call)
-    except AuthoringNeeded as exc:
-        return {
-            "status": "authoring_needed",
-            "message": str(exc).splitlines()[0],
-            "files": [str(f) for f in exc.files],
-            "questions": exc.questions,
-            "logo_dir": str(logo.root),
-            "details": exc.details,
-            "counts": {
-                k: v for k, v in status(logo).items() if k not in {"revisions", "comparisons"}
-            },
-        }
-    return {"status": "done", "result": _jsonable(result), "logo_dir": str(logo.root)}
+        yield
+    except McpToolError:
+        raise
+    except (RuntimeError, ValueError, OSError) as exc:  # OSError text names the path
+        raise McpToolError(str(exc)) from exc
+
+
+def _out(out: str | None) -> Path | None:
+    if out is None:
+        return None
+    if not out.strip():
+        raise ValueError("out must be a folder path; omit it to use logos/<slug>")
+    return Path(out)
+
+
+async def _stage(fn: Callable[..., Any], target: str, out: str | None) -> dict[str, Any]:
+    from logo_maker.pipeline import AuthoringNeeded, status_counts
+
+    with _agent_errors():
+        logo = require_brief(target, _out(out))
+
+        def call() -> Any:
+            # Stage code prints progress; stdout belongs to the MCP transport.
+            with _progress:
+                return fn(logo)
+
+        try:
+            result = await anyio.to_thread.run_sync(call)
+        except AuthoringNeeded as exc:
+            return {
+                "status": "authoring_needed",
+                "message": str(exc).splitlines()[0],
+                "files": [str(f) for f in exc.files],
+                "questions": exc.questions,
+                "logo_dir": str(logo.root),
+                "details": exc.details,
+                "counts": status_counts(logo),
+            }
+        return {"status": "done", "result": _jsonable(result), "logo_dir": str(logo.root)}
 
 
 @server.tool()
@@ -72,8 +125,10 @@ async def logo_new(slug: str, name: str, out: str | None = None) -> dict[str, An
     """Create a logo folder with brief.toml, metaphors and proposals templates."""
     from logo_maker import pipeline
 
-    logo = resolve_logo(slug, Path(out) if out else None)
-    await anyio.to_thread.run_sync(lambda: pipeline.new(logo, name))
+    with _agent_errors():
+        logo = resolve_logo(slug, _out(out))
+        title = name.strip() or slug.replace("-", " ").title()  # as the CLI does
+        await anyio.to_thread.run_sync(lambda: pipeline.new(logo, title))
     return {
         "status": "done",
         "logo_dir": str(logo.root),
@@ -183,7 +238,7 @@ async def logo_improve(target: str, out: str | None = None) -> dict[str, Any]:
 
 @server.tool()
 async def logo_doctor() -> dict[str, Any]:
-    """Check the jev API key, Node, the Metal GPU and kernel cache, and every adapter; same rows as `logo-maker doctor`."""
+    """Check the jev API key, Node, the Metal GPU and kernel cache, the download cache, and every adapter; same rows as `logo-maker doctor`."""
     from logo_maker.doctor import checks
 
     rows = await anyio.to_thread.run_sync(checks)

@@ -77,17 +77,26 @@ def content_key(data: object) -> str:
 def machine_context(budget: Budget) -> dict:
     """Probe the installed bpy/device/library identity; no persistent timing cache."""
     budget.check()
-    proc = subprocess.run(
-        [sys.executable, "-m", "logo_maker.blender.profile"],
-        capture_output=True,
-        text=True,
-        timeout=min(900, budget.remaining),
-        check=False,
-    )
+    try:
+        proc = subprocess.run(
+            [sys.executable, "-m", "logo_maker.blender.profile"],
+            capture_output=True,
+            text=True,
+            timeout=min(900, budget.remaining),
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise SamplingLimit("time_limit: GPU profile preflight exceeded the budget") from exc
     if proc.returncode:
         raise ToolError(f"GPU-only profile preflight failed: {proc.stderr[-2000:]}")
     budget.check()
-    return json.loads(proc.stdout.strip().splitlines()[-1])
+    lines = proc.stdout.strip().splitlines()
+    try:
+        return json.loads(lines[-1])
+    except (IndexError, ValueError) as exc:
+        raise ToolError(
+            f"GPU-only profile preflight printed no profile: {proc.stdout[-500:]!r}"
+        ) from exc
 
 
 def control_paths(concept_dir: Path, config: dict) -> dict[str, Path]:
@@ -484,7 +493,13 @@ def verify_execution(concept_dir: Path, quality: str) -> dict:
     from logo_maker.blender.execution import verify_denoiser_log
 
     sampling_path = concept_dir / ".build" / f"{quality}.sampling.json"
-    sampling = json.loads(sampling_path.read_text()) if sampling_path.is_file() else None
+    try:
+        sampling = json.loads(sampling_path.read_text()) if sampling_path.is_file() else None
+    except (OSError, ValueError) as exc:
+        raise ToolError(
+            f"GPU-only execution evidence unreadable for {quality}: {sampling_path} ({exc}); "
+            "render again"
+        ) from exc
     if sampling is not None and not _artifact_current_local(concept_dir, quality, record=sampling):
         raise ToolError(
             f"GPU-only execution evidence unavailable/invalid for {quality}: stale render provenance"
@@ -730,5 +745,5 @@ def _artifact_current_local(
         if sha256(evidence) != record["execution_sha256"]:
             return False
         return json.loads(evidence.read_text()).get("status") == "verified"
-    except (OSError, KeyError, ValueError, ToolError):
+    except (OSError, KeyError, ValueError, AttributeError, TypeError, ToolError):
         return False

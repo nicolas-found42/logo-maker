@@ -8,8 +8,9 @@ import math
 import re
 import tomllib
 from pathlib import Path
+from typing import Any
 
-from logo_maker.brief import load
+from logo_maker.brief import BriefError, load
 from logo_maker.jev import client as client_module
 from logo_maker.jev import questions as Q
 from logo_maker.jev.client import Image, JevAsker, JevClient, JevError
@@ -304,8 +305,30 @@ def _source_ids(row: dict, sources: dict, *, required: bool) -> None:
         raise ValueError(f"{row['id']}: valid supporting source IDs required")
 
 
+def _required(row: dict, key: str, kind: str) -> Any:
+    """A row field the snapshot needs, failing with the row id rather than a bare KeyError."""
+    if key not in row:
+        raise ValueError(f"{kind} {row.get('id', '?')}: missing {key!r}")
+    return row[key]
+
+
+def _row_file(logo: LogoDir, row: dict, kind: str, key: str = "path") -> Path:
+    """A row's file field, relative to the logo folder, that must name an existing file."""
+    relative = _required(row, key, kind)
+    if not isinstance(relative, str):
+        raise ValueError(f"{kind} {row.get('id', '?')}: {key} must be a string")
+    path = (logo.root / relative).resolve()
+    if not path.is_file():
+        raise ValueError(f"{kind} {row.get('id', '?')}: {key} {path} is not a file")
+    return path
+
+
 def _snapshot(logo: LogoDir) -> tuple[dict, dict]:
     brief = load(logo.brief)
+    for ref in brief.references:
+        # brief.load allows a craft reference that is not yet on disk; review needs its pixels.
+        if not ref.path.is_file():
+            raise BriefError(f"reference {ref.path} ({ref.use}) is not a file")
     evidence_path = logo.root / "brief-evidence.toml"
     evidence = tomllib.loads(evidence_path.read_text())
     if (
@@ -323,8 +346,8 @@ def _snapshot(logo: LogoDir) -> tuple[dict, dict]:
     for source in _rows(evidence, "sources"):
         if source.get("kind") not in {"owner", "project", "fixture"}:
             raise ValueError(f"source {source['id']}: invalid source kind")
-        path = (logo.root / source["path"]).resolve()
-        excerpt = source["excerpt"]
+        path = _row_file(logo, source, "source")
+        excerpt = _required(source, "excerpt", "source")
         if not isinstance(excerpt, str) or not excerpt.strip() or excerpt not in path.read_text():
             raise ValueError(f"source {source['id']}: exact nonempty excerpt required")
         sources[source["id"]] = {**source, "sha256": _sha(path)}
@@ -371,11 +394,14 @@ def _snapshot(logo: LogoDir) -> tuple[dict, dict]:
         if obligation["priority"] != "must":
             raise ValueError("workflow obligations must retain mandatory scope")
         if obligation["kind"] == "brief":
-            baseline = (logo.root / obligation["baseline"]).resolve()
-            previous_briefs[obligation["id"]] = load(baseline).as_state()
+            baseline = _row_file(logo, obligation, "obligation", "baseline")
+            try:
+                previous_briefs[obligation["id"]] = load(baseline).as_state()
+            except BriefError as exc:  # the baseline, not brief.toml, needs the fix
+                raise ValueError(f"obligation {obligation['id']}: baseline {exc}") from exc
             baseline_hashes[str(baseline)] = _sha(baseline)
         if obligation["kind"] == "authoring" and obligation.get("baseline_image"):
-            baseline = (logo.root / obligation["baseline_image"]).resolve()
+            baseline = _row_file(logo, obligation, "obligation", "baseline_image")
             baseline_hashes[str(baseline)] = _sha(baseline)
         if obligation["kind"] == "validation":
             minimum = obligation.get("minimum_references")
@@ -395,7 +421,7 @@ def _snapshot(logo: LogoDir) -> tuple[dict, dict]:
                     or not target["label"].strip()
                 ):
                     raise ValueError("reference identity needs a descriptive label")
-                target_path = (logo.root / target["path"]).resolve()
+                target_path = _row_file(logo, target, "expected_references")
                 digest = _sha(target_path)
                 if digest != target.get("sha256") or digest not in actual:
                     raise ValueError(
@@ -451,7 +477,10 @@ def current(logo: LogoDir) -> dict:
     """Require current frozen inputs without performing a provider call or changing outputs."""
     try:
         state, inputs = _snapshot(logo)
-        frozen = json.loads((logo.ideation / "requirements.json").read_text())
+        frozen_path = logo.ideation / "requirements.json"
+        if not frozen_path.exists():
+            raise ValueError("the brief has not been reviewed yet")
+        frozen = json.loads(frozen_path.read_text())
         if (
             not isinstance(frozen, dict)
             or frozen.get("status") != "pass"
@@ -483,6 +512,10 @@ def review(logo: LogoDir, client: JevAsker | None = None, *, revision_reason: st
     }
     try:
         state, inputs = _snapshot(logo)
+    except BriefError as exc:
+        record["missing"] = [f"fix brief.toml: {exc}"]
+        record["files"] = [logo.brief]
+        return _record(logo, record)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         record["missing"] = [
             f"fill brief-evidence.toml from available project/owner evidence: {exc}"

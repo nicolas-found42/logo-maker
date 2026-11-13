@@ -734,3 +734,92 @@ def test_direction_review_excludes_craft_style_but_keeps_inspiration_roles(tmp_p
         "style",
         "geometry",
     }
+
+
+def test_never_reviewed_brief_says_so_instead_of_an_errno(tmp_path):
+    from logo_maker import briefing
+
+    logo = business_brief(tmp_path)
+    evidence_record(logo)
+    with pytest.raises(ValueError, match="has not been reviewed yet") as raised:
+        briefing.current(logo)
+    assert "Errno" not in str(raised.value)
+
+
+@pytest.mark.parametrize("line", ["path = 5", 'path = "inputs"'])
+def test_unusable_source_path_names_the_source(tmp_path, line):
+    logo = business_brief(tmp_path)
+    evidence_record(logo)
+    evidence = logo.root / "brief-evidence.toml"
+    evidence.write_text(evidence.read_text().replace('path = "inputs/project.txt"', line))
+    judge = BriefJudge()
+    with pytest.raises(pipeline.AuthoringNeeded, match=r"source project: .*(string|not a file)"):
+        pipeline.review_brief(logo, judge)
+    assert not judge.states
+
+
+def test_plan_lists_every_concept_that_needs_a_plan(tmp_path):
+    logo = business_brief(tmp_path)
+    freeze_for_stage_test(logo)
+    ids = ["first|layered_cutout|concrete", "second|layered_cutout|concrete"]
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": ids}))
+    with pytest.raises(pipeline.AuthoringNeeded) as raised:
+        pipeline.review_plans(logo, BriefJudge())
+    assert raised.value.files == [logo.concept(cid) / "plan.toml" for cid in ids]
+    assert all((logo.concept(cid) / "plan.toml").is_file() for cid in ids)
+
+
+def test_export_before_finalize_says_to_finalize(tmp_path):
+    logo = business_brief(tmp_path)
+    freeze_for_stage_test(logo)
+    with pytest.raises(RuntimeError, match=r"no winner; run `logo-maker finalize") as raised:
+        pipeline.export(logo)
+    assert not isinstance(raised.value, pipeline.AuthoringNeeded)
+
+
+def test_provider_failure_on_one_plan_does_not_hide_another_plans_authoring(tmp_path, monkeypatch):
+    from logo_maker import briefing
+    from logo_maker.jev.client import JevError
+
+    logo = business_brief(tmp_path)
+    freeze_for_stage_test(logo)
+    ids = ["first|layered_cutout|concrete", "second|layered_cutout|concrete"]
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": ids}))
+    review = briefing.review_plan
+
+    def flaky(target, cid, client):
+        if cid == ids[1]:
+            raise JevError("plan review failed: provider down")
+        return review(target, cid, client)
+
+    monkeypatch.setattr(briefing, "review_plan", flaky)
+    with pytest.raises(pipeline.AuthoringNeeded) as raised:
+        pipeline.review_plans(logo, BriefJudge())
+    assert raised.value.files == [logo.concept(ids[0]) / "plan.toml"]
+    (logo.ideation / "shortlist.json").write_text(json.dumps({"ids": ids[1:]}))
+    with pytest.raises(JevError, match="provider down"):
+        pipeline.review_plans(logo, BriefJudge())
+
+
+def test_damaged_winner_record_is_a_stale_proof_not_a_missing_winner(tmp_path):
+    logo = business_brief(tmp_path)
+    freeze_for_stage_test(logo)
+    (logo.ideation / "winner.json").write_text("null")
+    with pytest.raises(pipeline.AuthoringNeeded, match="stale creative winner proof") as raised:
+        pipeline.export(logo)
+    assert raised.value.files == [logo.ideation / "winner.json"]
+
+
+def test_broken_obligation_baseline_is_not_reported_as_brief_toml(tmp_path):
+    logo = business_brief(tmp_path)
+    evidence_record(logo)
+    (logo.inputs / "earlier.toml").write_text('name = "Earlier"\n')
+    with (logo.root / "brief-evidence.toml").open("a") as handle:
+        handle.write(
+            '\n[[obligations]]\nid = "keep-earlier"\nkind = "brief"\nclaim = "c"\n'
+            'origin = "proposal"\npriority = "must"\nsources = []\nbaseline = "inputs/earlier.toml"\n'
+        )
+    with pytest.raises(pipeline.AuthoringNeeded) as raised:
+        pipeline.review_brief(logo, BriefJudge())
+    assert "obligation keep-earlier: baseline" in str(raised.value)
+    assert logo.brief not in raised.value.files

@@ -259,6 +259,8 @@ def test_structural_review_uses_current_description_instead_of_ideation_text(tmp
     info_path = folder / "concept.json"
     info = json.loads(info_path.read_text())
     info["description"] = "Two broad paper S initials share one scored lower foot"
+    info["treatment_text"] = "Two folded initials with a shared foot"
+    info["material_text"] = "Heavy scored cardstock"
     info_path.write_text(json.dumps(info))
     plan_path = folder / "plan.toml"
     plan = tomlkit.parse(plan_path.read_text())
@@ -278,6 +280,8 @@ def test_structural_review_uses_current_description_instead_of_ideation_text(tmp
     assert len(literal) == 2
     assert all(c["description"] == info["description"] for c in literal)
     assert all(c["metaphor"] == plan["hypothesis"] for c in literal)
+    assert all(c["treatment"] == info["treatment_text"] for c in literal)
+    assert all(c["material"] == info["material_text"] for c in literal)
 
 
 def test_description_edit_during_context_preparation_never_reaches_provider(tmp_path, monkeypatch):
@@ -1121,3 +1125,17 @@ def prepare_creative_final(logo, cid):
     (logo.ideation / "finalists.json").write_text(
         json.dumps({"ids": [cid], "binding": refinement.campaign_key(logo, [cid])})
     )
+
+
+def test_damaged_owner_feedback_names_the_file_and_the_missing_key(tmp_path):
+    from logo_maker.pipeline import AuthoringNeeded, finalize
+
+    logo, cid = finalize_logo(tmp_path)
+    (logo.qa / "owner-feedback.json").write_text(json.dumps([{"concept": cid}]))
+    with pytest.raises(AuthoringNeeded):
+        finalize(logo, EligibilityClient())
+    record = json.loads((logo.qa / "eligibility.jsonl").read_text().splitlines()[-1])
+    assert record["status"] == "missing_evidence"
+    (missing,) = [m for m in record["missing"] if "owner feedback" in m]
+    assert "owner-feedback.json" in missing
+    assert "missing key 'candidate_sha256'" in missing

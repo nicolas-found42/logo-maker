@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import sys
 from pathlib import Path
 
 from logo_maker import __version__
+from logo_maker.brief import BriefError
+from logo_maker.paths import LogoDir
 from logo_maker.paths import resolve_logo as resolve_logo
 
 STAGES = (
@@ -24,6 +27,17 @@ STAGES = (
     "run",
     "improve",
 )
+
+
+def require_brief(target: str, out: Path | None = None) -> LogoDir:
+    """The logo a stage runs on; only a logo `new` created qualifies, so a typo creates no folder."""
+    logo = resolve_logo(target, out)
+    if not logo.brief.exists():
+        fix = f"logo-maker new {shlex.quote(target)}"
+        if out is not None:
+            fix += f" --out {shlex.quote(str(logo.root))}"
+        raise BriefError(f"no brief at {logo.brief}; run `{fix}` first")
+    return logo
 
 
 def _print(result: object) -> None:
@@ -57,12 +71,17 @@ def cmd_mcp(_: argparse.Namespace) -> int:
 def cmd_new(args: argparse.Namespace) -> int:
     from logo_maker import pipeline
 
-    logo = resolve_logo(args.slug, args.out)
-    pipeline.new(logo, args.name or args.slug.replace("-", " ").title())
+    try:
+        logo = resolve_logo(args.slug, args.out)
+        pipeline.new(logo, args.name or args.slug.replace("-", " ").title())
+    except (ValueError, OSError) as exc:  # unusable slug or path, BriefError: logo exists
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    target = shlex.quote(str(logo.root))
     print(
         f"created {logo.root}\nnext: fill {logo.brief} and {logo.root / 'brief-evidence.toml'} "
-        f"from project/owner evidence; run `logo-maker brief {args.out or logo.slug}`, "
-        f"then author {logo.metaphors} and run `logo-maker run {args.out or logo.slug}`"
+        f"from project/owner evidence; run `logo-maker brief {target}`, "
+        f"then author {logo.metaphors} and run `logo-maker run {target}`"
     )
     return 0
 
@@ -70,11 +89,10 @@ def cmd_new(args: argparse.Namespace) -> int:
 def cmd_stage(args: argparse.Namespace) -> int:
     from logo_maker import pipeline
 
-    logo = resolve_logo(args.target, args.out)
-    if not logo.brief.exists():
-        print(
-            f"no brief at {logo.brief}; run `logo-maker new {args.target}` first", file=sys.stderr
-        )
+    try:
+        logo = require_brief(args.target, args.out)
+    except (ValueError, OSError) as exc:  # unusable slug or path, BriefError: no such logo
+        print(exc, file=sys.stderr)
         return 2
     try:
         if args.command == "export":
@@ -99,20 +117,11 @@ def cmd_stage(args: argparse.Namespace) -> int:
         print(f"AUTHORING NEEDED: {exc}", file=sys.stderr)
         if exc.details:
             print(json.dumps(exc.details, indent=2), file=sys.stderr)
-        print(
-            json.dumps(
-                {
-                    "counts": {
-                        k: v
-                        for k, v in pipeline.status(logo).items()
-                        if k not in {"revisions", "comparisons"}
-                    }
-                },
-                default=str,
-            ),
-            file=sys.stderr,
-        )
+        print(json.dumps({"counts": pipeline.status_counts(logo)}, default=str), file=sys.stderr)
         return 3
+    except (RuntimeError, ValueError, OSError) as exc:  # ToolError, BriefError, file errors
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     _print(result)
     return 0
 

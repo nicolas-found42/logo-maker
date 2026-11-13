@@ -1141,7 +1141,11 @@ def describe() -> list[dict[str, Any]]:
                 }
             )
             continue
-        if qid.startswith("brand_"):
+        if (
+            qid.startswith("brand_")
+            and qid[6:]
+            and all(c in "0123456789abcdefABCDEF" for c in qid[6:])
+        ):
             feed, thresh = "intake.json brand_colors (brand p >= 0.7)", thresholds["noul"]
             options: Any = ["true", "false"]
         elif qid.startswith("fits_"):

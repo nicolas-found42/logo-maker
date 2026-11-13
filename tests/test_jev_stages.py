@@ -300,3 +300,16 @@ def test_tiny_version_nearest(tmp_path):
     dest = tmp_path / "tiny.png"
     tiny_version(src, dest)
     assert _PILImage.open(dest).size == (256, 256)
+
+
+def test_tiny_version_keeps_a_transparent_background(tmp_path):
+    src = tmp_path / "final.png"
+    image = _PILImage.new("RGBA", (200, 200), (0, 0, 0, 0))
+    image.paste((20, 20, 20, 255), (50, 50, 150, 150))
+    image.save(src)
+    dest = tmp_path / "tiny.png"
+    tiny_version(src, dest)
+    with _PILImage.open(dest) as tiny:
+        assert tiny.mode == "RGBA"
+        assert tiny.getpixel((2, 2)) == (0, 0, 0, 0)
+        assert tiny.getpixel((128, 128)) == (20, 20, 20, 255)

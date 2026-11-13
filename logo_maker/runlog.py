@@ -34,9 +34,68 @@ def runlog(path: Path, *, budget: Budget | None = None) -> RunLog:
     """The one RunLog per run.json in this process, so concurrent stages never clobber each other."""
     key = path.absolute() if budget else path.resolve()
     with _locked(budget):
-        if key not in _OPEN:
-            _OPEN[key] = RunLog(key, budget=budget)
-        return _OPEN[key]
+        cached = _OPEN.get(key)
+        # A log that already wrote its file but finds it gone (folder deleted or recreated, run.json
+        # moved aside as the error text advises) must not resurrect that state.
+        if cached is not None and cached._saved and not key.exists():
+            cached = None
+        if cached is None:
+            _OPEN[key] = cached = RunLog(key, budget=budget)
+        return cached
+
+
+# (usage field, total, reported subtotal, requests missing that field) as jev_usage keeps them.
+TELEMETRY_FIELDS = (
+    ("cost", "cost_usd", "reported_cost_usd", "unpriced_requests"),
+    ("input_tokens", "input_tokens", "reported_input_tokens", "uncounted_input_requests"),
+    ("output_tokens", "output_tokens", "reported_output_tokens", "uncounted_output_requests"),
+)
+TELEMETRY_KEYS = tuple(key for _, _, *keys in TELEMETRY_FIELDS for key in keys)
+
+
+def _load(path: Path) -> dict[str, Any]:
+    fresh: dict[str, Any] = {
+        "seeds": {},
+        "stages": {},
+        "jev": {"requests": 0, "cost_usd": 0.0, "input_tokens": 0, "output_tokens": 0},
+        "assets": {},
+        "versions": {},
+        "events": [],
+    }
+    if not path.exists():
+        return fresh
+    try:
+        data = json.loads(path.read_text())
+        for key, value in fresh.items():
+            if not isinstance(data.setdefault(key, value), type(value)):
+                raise ValueError(f"{key} has the wrong type")
+        for key, value in fresh["jev"].items():
+            data["jev"].setdefault(key, value)
+        for name, stage in data["stages"].items():
+            if not isinstance(stage, dict) or not isinstance(stage.get("status", ""), str):
+                raise ValueError(f"stages.{name} must be an object with a string status")
+        for name, seed in data["seeds"].items():
+            if isinstance(seed, bool) or not isinstance(seed, int):
+                raise ValueError(f"seeds.{name} must be an integer")
+        for key, default in fresh["jev"].items():
+            value = data["jev"].setdefault(key, default)
+            if value is None and key != "requests":
+                continue  # jev_usage records an unknown total as null when telemetry is missing
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise ValueError(f"jev.{key} must be a number")
+        if "reported_cost_usd" in data["jev"]:  # the per-field telemetry jev_usage keeps
+            for key in TELEMETRY_KEYS:
+                value = data["jev"].get(key)
+                if isinstance(value, bool) or not isinstance(value, (int, float)):
+                    raise ValueError(f"jev.{key} must be a number")
+        entries = data["jev"].get("request_usage", {})
+        if not isinstance(entries, dict) or not all(isinstance(e, dict) for e in entries.values()):
+            raise ValueError("jev.request_usage must map request ids to objects")
+    except (ValueError, AttributeError) as exc:  # truncated save, hand edit, not an object
+        raise RuntimeError(
+            f"{path} is not a valid run record ({exc}); move it aside to start a new one"
+        ) from exc
+    return data
 
 
 class RunLog:
@@ -44,6 +103,7 @@ class RunLog:
 
     def __init__(self, path: Path, *, budget: Budget | None = None):
         self.path = path
+        self._saved = path.exists()
         if budget is not None:
             from logo_maker import host
 
@@ -51,18 +111,7 @@ class RunLog:
                 "data"
             ]
             return
-        self.data: dict[str, Any] = (
-            json.loads(path.read_text())
-            if path.exists()
-            else {
-                "seeds": {},
-                "stages": {},
-                "jev": {"requests": 0, "cost_usd": 0.0, "input_tokens": 0, "output_tokens": 0},
-                "assets": {},
-                "versions": {},
-                "events": [],
-            }
-        )
+        self.data: dict[str, Any] = _load(path)
 
     def _save(self, budget: Budget | None = None) -> None:
         if budget is not None:
@@ -71,10 +120,12 @@ class RunLog:
             host.run(
                 {"operation": "write_json", "path": str(self.path), "data": self.data}, budget, []
             )
+            self._saved = True
             return
         tmp = self.path.with_suffix(".json.tmp")
         tmp.write_text(json.dumps(self.data, indent=2, sort_keys=True))
         tmp.replace(self.path)
+        self._saved = True
 
     def seed(self, name: str) -> int:
         """Stable seed per name: derived once from the folder and name, then read back from run.json."""
@@ -133,21 +184,7 @@ class RunLog:
     ) -> None:
         with _locked(budget):
             jev = self.data["jev"]
-            fields = (
-                ("cost", "cost_usd", "reported_cost_usd", "unpriced_requests"),
-                (
-                    "input_tokens",
-                    "input_tokens",
-                    "reported_input_tokens",
-                    "uncounted_input_requests",
-                ),
-                (
-                    "output_tokens",
-                    "output_tokens",
-                    "reported_output_tokens",
-                    "uncounted_output_requests",
-                ),
-            )
+            fields = TELEMETRY_FIELDS
             if "reported_cost_usd" not in jev:
                 # Old clients filled absent telemetry with zero/estimated prices. Preserve
                 # the historical claims without asserting that those totals were complete.

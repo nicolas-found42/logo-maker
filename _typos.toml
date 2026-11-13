@@ -15,5 +15,6 @@ vor = "vor"
 threed = "threed"
 PN = "PN"
 PNGs = "PNGs"
+RGBa = "RGBa" # Pillow's premultiplied RGBA mode.
 # NumPy API retained in exact measured Python-source snapshots (.py.txt).
 arange = "arange"

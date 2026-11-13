@@ -112,3 +112,12 @@ def test_inactive_group_proof_is_not_repeated_after_signal_denial(tmp_path, monk
     assert result.returncode == 0
     assert marker.exists()
     assert len(probes) == 1
+
+
+def test_non_utf8_tool_output_is_decoded_not_raised():
+    result = owned_process.run(
+        [sys.executable, "-c", "import sys;sys.stderr.buffer.write(b'\\xff\\xfe bad')"],
+        budget=Budget(wall_seconds=5),
+    )
+    assert result.returncode == 0
+    assert "bad" in result.stderr

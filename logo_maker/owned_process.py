@@ -33,6 +33,7 @@ def run(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
+        errors="replace",
         start_new_session=True,
         cwd=cwd,
     )

@@ -70,6 +70,19 @@ The CLI and MCP resolve targets through `paths.resolve_logo`. Stage preparation 
 `LogoDir.concept()` to create concept directories. Proof and artifact checks use
 `LogoDir.concept_path()` to locate the same directories without creating them.
 
+The CLI's `new` handoff prints shell-quoted follow-up commands that target the created folder,
+including when its path contains spaces or shell punctuation.
+
+Entry points: the CLI and the MCP server resolve the target with `logo_maker.paths.resolve_logo`, and
+every stage except `new`/`logo_new` first requires that logo's `brief.toml` through
+`require_brief`, so a mistyped target creates no folder. CLI errors exit 2 with one line on
+stderr (3 for `AUTHORING NEEDED`). MCP stage tools return `{"status": "authoring_needed", ...}`
+for authoring work, with progress `counts` (or `{"unavailable": <why>}` when a damaged state file
+stops `status`); every other `RuntimeError`/`ValueError`/`OSError` becomes an MCP tool error
+carrying its message, because the framework hides the text of unexpected exceptions. An empty
+`out` is rejected rather than read as "unset". Stage progress printed to stdout is held off the
+MCP transport by one process-wide redirect shared by overlapping calls.
+
 ## Contracts
 
 ### Brief evidence, review and frozen requirements (#2)
@@ -180,7 +193,10 @@ export
   - `data-height`: relief height multiplier for 3D (default `1`).
   - `data-layer`: integer stacking order for layered treatments (default `0`).
 - The agent writes `motif.py` (preferred; uses `logo_maker.motif` to place glyphs, shapes, booleans,
-  and 2D tool output, then calls `save()`), or writes `motif.svg` directly in this format.
+  and 2D tool output, then calls `save()`), or writes `motif.svg` directly in this format. When
+  `motif.py` exists, `motif.svg` and `motif.json` are its outputs: each run sets the previous ones
+  aside, so a run that does not call `save()` fails instead of reusing them, and a failed run puts
+  them back unchanged.
 
 `motif.json` is derived by `logo_maker.motif.flatten()`:
 
@@ -216,7 +232,8 @@ hdri = "polyhaven:studio_small_09"   # or "none"
 hdri_strength = 0.45
 
 [render]
-renderer = "cycles"              # cycles | mitsuba | luxcore | three
+renderer = "cycles"              # only cycles renders; mitsuba | luxcore | three validate but
+                                 # render() refuses them (GPU-only policy, see Render)
 look = "photoreal"               # photoreal | toon | lineart
 glare = 0.0                      # compositor glare mix (0 = off)
 dof_fstop = 0.0                  # 0 = no depth of field
@@ -231,12 +248,20 @@ kind = "plate"                   # see catalog/components.md for every kind and 
 material = "surface"
 ```
 
+The optional catalog rig `studio_45` aims its main area-light axis at the origin at 45 degrees
+to the +Z face normal. It preserves gentle fill and edge lighting; existing rig defaults remain unchanged.
+
 Mesh components can set `smooth = false` to retain planar facet normals on authored folded or
 machined assets. The default remains smooth shading; this is a per-concept geometry decision,
 not a material or sampling repair. The flag is boolean and participates in compiled dependency keys.
 Materials may also declare a finite nonzero three-component `tangent` vector for an explicit
 brushing direction. Without it Blender retains its existing tangent behavior. This authored
 material orientation is inventoried in the scene and never selected by sampling QA.
+
+A `[materials.<name>]` table accepts only `preset`, `color`, `emission_color`, `tangent` and the
+numeric parameters of `catalog/materials.toml`; any other key is a `SceneError` listing the known
+ones, so a misspelled parameter cannot silently render as the preset default. Component numbers
+must be finite, and `radius`, `major` and `minor` must be positive.
 
 Cycles scenes may author finite `[render].exposure` in Blender's supported -32 to 32 EV range.
 The default is 0 EV. Compilation forwards it in both `render.exposure` and `quality.exposure`,
@@ -480,9 +505,11 @@ Both true and false craft criteria compare execution against the demonstrated re
 including its imperfections. An absolute defect judgment cannot silently replace that relative task.
 Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
 position cannot establish eligibility. Literal concept match and structural technical checks receive
-the current `concept.json.description` and reviewed plan hypothesis, bound by the plan receipt and
-eligibility revision. Original ideation text remains history rather than the current depiction after
-structural authoring. A missing current description returns `missing_evidence` before provider calls.
+the current `concept.json.description`, the authored `treatment_text` and `material_text` when
+present, and the reviewed plan hypothesis. The plan receipt and eligibility revision bind these
+inputs. Legacy records without authored treatment or material text use the catalog descriptions.
+The original pool remains the source of concept IDs. A missing current description returns
+`missing_evidence` before provider calls.
 The admitted concept and plan hashes must match the revision before image queries; edits during
 context preparation cannot bind old depiction text to new source bytes.
 Own-brief fit receives the frozen business context, communication priority and identity
@@ -506,6 +533,9 @@ encoded pixels/model/questions. Render-policy failures are operational errors an
 labels. Final eligibility must bind the current pixels and inputs; export rejects stale winner
 evidence. Failed selection leaves existing winner, exports and same-brand improvement floor
 untouched. `improve` still separately requires beating that brand's previous winner.
+If no candidate passes image eligibility, preview and finalize expose the unresolved or failed
+checks, the stage image paths, and the eligibility journal in their authoring response. The
+journal retains the underlying probabilities and both comparison orders.
 An optional `qa/owner-feedback.json` array binds explicit owner feedback to candidate image,
 brief SHA-256 and concept ID. An explicit `overall = "fail"`, craft rejection or fit rejection
 vetoes advancement while preserving model answers. An overall rejection does not imply either
@@ -530,6 +560,10 @@ model `typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/syst
 `TypeSafe-Danger-Zone-Images: true`. Every request is logged to `qa/jev/requests/` with each image
 replaced by its sha256, and each image is stored once in `qa/jev/assets/`. 429/5xx retry with
 backoff; any other failure raises `JevError` and never reads as "no".
+Every answer is validated against its question before use: a Noul must be a number in [0, 1], a
+Score finite, and a Choice one of the question's options; otherwise the request is an `api_error`
+and raises `JevError`. A stored judgment that is reused on resume (stage 1, stage 2, tournament
+rows) carries the hash of the exact state and questions it answered.
 Provider failures and malformed response envelopes retain the submitted state, questions and
 sent-image assets with an explicit `api_error` request status. They cannot disappear from the
 audit because no answer was returned. Provider usage is retained as reported; absent prices or
@@ -546,7 +580,8 @@ one-line
 summary, the callable that runs it, a health check, and the exact fix command. See
 [adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the
 environment
-checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns one row per check:
+checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache, download cache) and returns
+one row per check:
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
 Every check is required: there are no optional tools.

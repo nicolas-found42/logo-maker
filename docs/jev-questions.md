@@ -56,7 +56,7 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `lighting_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `symbol` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `appearance` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
-| `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | intake.json brand_colors (brand p >= 0.7) |
+| `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `meaningful_synthesis` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `constraint_fidelity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `communicative_clarity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |

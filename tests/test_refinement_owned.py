@@ -98,5 +98,5 @@ def test_unpublished_archive_stages_never_enter_revision_history(tmp_path):
     for name in ("0001-published-preview", ".archiving-interrupted", ".publishing-interrupted"):
         path = root / name / "revision.json"
         path.parent.mkdir(parents=True)
-        path.write_text(json.dumps({"revision": name}))
-    assert refinement.history(logo, cid) == [{"revision": "0001-published-preview"}]
+        path.write_text(json.dumps({"revision": name, "evidence": f"qa/revisions/x/{name}"}))
+    assert [r["revision"] for r in refinement.history(logo, cid)] == ["0001-published-preview"]
