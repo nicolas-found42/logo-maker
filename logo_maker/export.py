@@ -25,7 +25,7 @@ from logo_maker import owned_process
 from logo_maker.checks import OBJECT_ALPHA, alpha_report, margin_report
 from logo_maker.imageops import downsample, pad_square, soft_shadow
 from logo_maker.proc import node
-from logo_maker.sampling import Budget
+from logo_maker.sampling import Budget, sampling_qualified
 
 if TYPE_CHECKING:
     from logo_maker.runlog import RunLog
@@ -326,8 +326,7 @@ def _export_all(
         provenance = json.loads(raw)
         if expected_sampling_sha256 is not None and (
             hashlib.sha256(raw).hexdigest() != expected_sampling_sha256
-            or provenance.get("profile", {}).get("state") != "qualified"
-            or provenance.get("outcomes", {}).get("sampling") != "profile_baseline"
+            or not sampling_qualified(provenance)
         ):
             raise ExportError("qualified sampling snapshot changed; prior exports retained")
         if not provenance.get("published") or provenance.get("delivered_sha256") != _sha256(

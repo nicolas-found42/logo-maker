@@ -225,66 +225,11 @@ def main(payload: dict) -> dict:
             "assets": assets,
         }
     if operation == "sampling_controls":
-        import hashlib
+        from logo_maker.sampling import resolve_controls
 
-        from logo_maker.sampling import Settings, qualify_profile, validate_settings
-
-        folder = Path(payload["concept_dir"])
-        config = payload["config"]
-        hashes = {}
-
-        def load(name):
-            if not name:
-                return None
-            path = Path(name)
-            if not path.is_absolute():
-                path = folder / path
-            raw = path.read_bytes()
-            hashes[str(path.resolve())] = hashlib.sha256(raw).hexdigest()
-            data = json.loads(raw)
-            for case in data.get("cases", []):
-                evidence = case.get("evidence", {})
-                if evidence.get("path"):
-                    review = Path(evidence["path"])
-                    evidence["path"] = str(
-                        review if review.is_absolute() else (path.parent / review).resolve()
-                    )
-            return data
-
-        profile = load(config.get("profile"))
-        state, reason = qualify_profile(profile, payload["context"])
-        effective = payload["quality"]
-        overrides = effective.get("overrides", {})
-        if state == "qualified" and profile:
-            selected = profile["settings"]
-            settings_keys = ("samples", "adaptive_threshold", "min_samples", "adaptive")
-            for key in settings_keys:
-                override_name = "max_samples" if key == "samples" else key
-                if override_name not in overrides:
-                    effective[key] = selected[key]
-            conflicts = [
-                key
-                for key in settings_keys
-                if effective.get(key, 0 if key == "min_samples" else None)
-                != selected.get(key, 0 if key == "min_samples" else None)
-            ]
-            if conflicts:
-                state, reason = (
-                    "override_conflict",
-                    "explicit controls outside qualified settings: " + ", ".join(conflicts),
-                )
-            # qualify_profile verified these exact expected hashes against the review files.
-            for case in profile["cases"]:
-                evidence = case["evidence"]
-                hashes[evidence["path"]] = evidence["sha256"]
-        validate_settings(Settings.from_quality(effective))
-        diagnosis = load(config.get("diagnosis"))
-        return {
-            "profile": [state, reason],
-            "quality": effective,
-            "hashes": hashes,
-            "diagnosis": diagnosis,
-        }
+        return resolve_controls(
+            Path(payload["concept_dir"]), payload["config"], payload["context"], payload["quality"]
+        )
     if operation == "process_image":
         from logo_maker.render import _alpha_cleanup_png, _downsample_final
         from logo_maker.sampling_diagnostics import analyze_exr, sha256

@@ -865,10 +865,7 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
         {"operation": "read_json", "path": str(folder / ".build/final.sampling.json")}, budget, []
     )
     sampling = snapshot["data"] or {}
-    if (
-        sampling.get("profile", {}).get("state") != "qualified"
-        or sampling.get("outcomes", {}).get("sampling") != "profile_baseline"
-    ):
+    if not sampling_qualified(sampling):
         raise AuthoringNeeded(
             "sampling qualification unresolved; prior exports retained",
             [folder / ".build/final.sampling.json"],

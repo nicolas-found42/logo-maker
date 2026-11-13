@@ -123,9 +123,12 @@ Before a normal final job, select a retained profile matching the actual runtime
 and reviewed material/stage scope. The M5 Pro profile is
 [`apple-m5-pro-final.json`](../benchmarks/sampling/profiles/apple-m5-pro-final.json).
 Set `[sampling] profile` to its absolute path (or a path relative to that concept).
-The host validates context and review hashes before rendering, fills only unspecified
-controls, and records `qualified`, `profile_stale`, `profile_out_of_scope` or an explicit
-conflict. No matching record means the unchanged comparator and a review stop.
+`sampling.resolve_controls` runs in the owned host worker. It loads the profile and
+diagnosis, resolves and binds the review files, fills only unspecified controls, and
+records `qualified`, `profile_stale`, `profile_out_of_scope` or an explicit conflict.
+No matching record means the unchanged comparator and a review stop.
+Final QA, export staging and the publication guard use the same
+`sampling.sampling_qualified` predicate for the recorded profile and sampling outcome.
 
 This profile retains 4096 / 0.01; it enables a reviewed starting policy without a
 per-concept candidate search. Its positive, rejected-detail and held-out labels are
