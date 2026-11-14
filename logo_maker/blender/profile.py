@@ -8,10 +8,13 @@ import subprocess
 from importlib.metadata import distribution, version
 from pathlib import Path
 
+from logo_maker.blender.metal import binary_archive_override, require_metal_device
 from logo_maker.sampling_diagnostics import sha256
 
 
 def environment() -> dict:
+    require_metal_device()
+
     import bpy
 
     from logo_maker.blender.settings import apply_cycles_gpu
@@ -57,6 +60,7 @@ def environment() -> dict:
         "oidn_libraries_sha256": libraries,
         "oidn_version": "runtime log required",
         "backend": "METAL",
+        **binary_archive_override(),
         "metalrt": cp.metalrt,
         "devices": [{"name": d.name, "id": d.id, "type": d.type} for d in cp.devices if d.use],
         "denoiser": "OPENIMAGEDENOISE",

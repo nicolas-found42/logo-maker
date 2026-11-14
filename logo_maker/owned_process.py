@@ -7,6 +7,7 @@ import os
 import signal
 import subprocess
 import time
+from collections.abc import Mapping
 from pathlib import Path
 
 from logo_maker.proc import ToolError
@@ -21,6 +22,7 @@ def run(
     label: str = "tool",
     timeout: float | None = None,
     cwd: Path | None = None,
+    env: Mapping[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Reserve cleanup inside the shared deadline; never leave owned work running."""
     if os.name != "posix":
@@ -36,6 +38,7 @@ def run(
         errors="replace",
         start_new_session=True,
         cwd=cwd,
+        env=env,
     )
     try:
         try:

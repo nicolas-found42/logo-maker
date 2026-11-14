@@ -187,6 +187,9 @@ def compare_visual(
 
 def _matched_rows(client, ref, match, candidate_hash, label):
     questions = Q.matched_craft_questions()
+    feature = Q.MATCHED_FEATURES[match["feature"]]
+    if match.get("feature_name"):
+        feature += " Inspect " + match["feature_name"] + "."
     rows: list[dict[str, Any]] = []
     for order in (
         ("candidate_detail", "reference_detail"),
@@ -196,7 +199,7 @@ def _matched_rows(client, ref, match, candidate_hash, label):
         answers = client.ask(
             {
                 **images,
-                "feature": Q.MATCHED_FEATURES[match["feature"]],
+                "feature": feature,
                 "intended_appearances": match["intended_appearances"],
             },
             questions,

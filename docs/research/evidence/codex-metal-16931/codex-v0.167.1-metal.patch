@@ -1,0 +1,116 @@
+diff --git a/codex-rs/cli/src/debug_sandbox.rs b/codex-rs/cli/src/debug_sandbox.rs
+index c0efcdb..406b7ea 100644
+--- a/codex-rs/cli/src/debug_sandbox.rs
++++ b/codex-rs/cli/src/debug_sandbox.rs
+@@ -45,6 +45,14 @@ use crate::exit_status::handle_exit_status;
+ #[cfg(target_os = "macos")]
+ use seatbelt::DenialLogger;
+
++#[cfg(target_os = "macos")]
++const METAL_COMPUTE_POLICY: &str = r#"
++(allow iokit-open
++    (iokit-user-client-class "AGXDeviceUserClient")
++    (iokit-user-client-class "IOSurfaceRootUserClient"))
++(allow mach-lookup (global-name "com.apple.MTLCompilerService"))
++"#;
++
+ #[cfg(target_os = "macos")]
+ pub async fn run_command_under_seatbelt(
+     command: SeatbeltCommand,
+@@ -58,10 +66,14 @@ pub async fn run_command_under_seatbelt(
+         cwd,
+         include_managed_config,
+         allow_unix_sockets,
++        allow_metal,
+         log_denials,
+         config_overrides,
+         command,
+     } = command;
++    if allow_metal && !cfg!(target_arch = "aarch64") {
++        anyhow::bail!("--allow-metal requires Apple Silicon");
++    }
+     let managed_requirements_mode = ManagedRequirementsMode::for_profile_invocation(
+         &permissions_profile,
+         include_managed_config,
+@@ -80,6 +92,7 @@ pub async fn run_command_under_seatbelt(
+         SandboxType::Seatbelt,
+         log_denials,
+         &allow_unix_sockets,
++        allow_metal,
+     )
+     .await
+ }
+@@ -125,6 +138,7 @@ pub async fn run_command_under_landlock(
+         SandboxType::Landlock,
+         /*log_denials*/ false,
+         &[],
++        /*allow_metal*/ false,
+     )
+     .await
+ }
+@@ -161,6 +175,7 @@ pub async fn run_command_under_windows_sandbox(
+         SandboxType::Windows,
+         /*log_denials*/ false,
+         &[],
++        /*allow_metal*/ false,
+     )
+     .await
+ }
+@@ -209,6 +224,7 @@ async fn run_command_under_sandbox(
+     log_denials: bool,
+     #[cfg_attr(not(target_os = "macos"), allow(unused_variables))]
+     allow_unix_sockets: &[AbsolutePathBuf],
++    #[cfg_attr(not(target_os = "macos"), allow(unused_variables))] allow_metal: bool,
+ ) -> anyhow::Result<()> {
+     let sandbox_state = config_options
+         .sandbox_state
+@@ -303,6 +319,24 @@ async fn run_command_under_sandbox(
+         config.effective_local_windows_sandbox_type()
+     };
+
++    #[cfg(target_os = "macos")]
++    if allow_metal {
++        let fs = permission_profile.file_system_sandbox_policy();
++        let workspace = std::fs::canonicalize(cwd.as_path())?;
++        let roots = fs.get_writable_roots_with_cwd(&workspace);
++        if permission_profile.enforcement() != SandboxEnforcement::Managed
++            || fs.has_full_disk_write_access()
++            || roots.is_empty()
++            || roots
++                .iter()
++                .any(|root| !root.root.as_path().starts_with(&workspace))
++        {
++            anyhow::bail!(
++                "--allow-metal requires an enforced profile with all writable roots inside the workspace"
++            );
++        }
++    }
++
+     match permission_profile.enforcement() {
+         SandboxEnforcement::Managed => {}
+         SandboxEnforcement::Disabled | SandboxEnforcement::External => {
+@@ -414,6 +448,9 @@ async fn run_command_under_sandbox(
+             // for the unsandboxed shell that resumes when Codex exits.
+             match args.as_mut_slice() {
+                 [flag, policy, ..] if flag.as_str() == "-p" => {
++                    if allow_metal {
++                        policy.push_str(METAL_COMPUTE_POLICY);
++                    }
+                     // Older macOS policy compilers do not define the TIOCSTI symbol.
+                     policy.push_str(&format!(
+                         "\n(deny file-ioctl (ioctl-command {}))",
+diff --git a/codex-rs/cli/src/lib.rs b/codex-rs/cli/src/lib.rs
+index cc91f5b..745140d 100644
+--- a/codex-rs/cli/src/lib.rs
++++ b/codex-rs/cli/src/lib.rs
+@@ -87,6 +87,10 @@ pub struct SeatbeltCommand {
+     #[arg(long = "allow-unix-socket", value_parser = parse_absolute_path)]
+     pub allow_unix_sockets: Vec<AbsolutePathBuf>,
+
++    /// Enable Apple Silicon Metal compute with writes restricted to the selected workspace.
++    #[arg(long, requires = "permissions_profile")]
++    pub allow_metal: bool,
++
+     /// While the command runs, capture macOS sandbox denials via `log stream` and print them after exit
+     #[arg(long = "log-denials", default_value_t = false)]
+     pub log_denials: bool,

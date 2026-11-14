@@ -33,7 +33,18 @@ The ZIP includes transparent heroes, editable Blender scenes, flat marks, favico
 inspection views. Review resumes using the returned study ID. Set `OPENROUTER_API_KEY` or
 `TYPESAFE_API_KEY` when using Jev. See the [3D study guide](skills/logo-maker/references/studies.md).
 
-For production-qualified output, use the judged workflow with a matching sampling profile.
+For modeled branding in Codex on Apple Silicon, use the
+[branding campaign](skills/logo-maker/references/campaign.md). It retains approval, budget,
+render and review state across sessions. It packages the editable scene and branding assets
+with the current qualification status.
+
+Install the matching tool and skill into a new Codex project from this checkout:
+
+```sh
+uv run --locked python scripts/install.py --agent codex --destination /absolute/project
+```
+
+For the declarative production workflow, use the judged pipeline with a matching sampling profile.
 
 ```sh
 logo-maker brief acme               # review supplied evidence and freeze requirements

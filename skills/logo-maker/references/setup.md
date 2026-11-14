@@ -1,5 +1,34 @@
 # Tool setup
 
+## Codex project installation
+
+Use `uv run --locked python scripts/install.py --agent codex --destination /absolute/project`
+from the tool checkout to install into a fresh Codex project. For modeled campaigns, add
+`--metal-runtime /absolute/path/to/verified/patched/codex`. The installer checks the pinned
+binary digest and stages the runtime inside the project. Start Codex in that project
+so it loads `.agents/skills/logo-maker` and the MCP registration in `.codex/config.toml`.
+These files come from one tool snapshot. Verify the server with `logo_doctor`. If using
+the CLI in that project, run `uv run --locked --project "$PWD/.codex/logo-maker" logo-maker`
+with the stage arguments. This selects the installed tool even if an older executable is
+on PATH. Blender authoring can use that snapshot's Python environment and bundled `bpy`.
+Use `--upgrade` with the same project destination to stage a new tool and skill. The installer
+retains the prior snapshot and restores it if the new installation or Metal preflight fails.
+Select the installed MCP server or the absolute project-local executable before any campaign
+call. If a shell is already confined and cannot start the launcher, use the configured MCP
+server. A preflight failure stops modeled work.
+Run `logo_campaign` with action `preflight` on the logo folder, or use the installed CLI's
+`campaign <logo-dir> preflight`. Proceed after it verifies Seatbelt, Cycles Metal and GPU OIDN.
+Report a failing check and stop modeled work until preflight passes. The launcher applies the
+verified binary archive workaround and confines its scratch and cache files to the project.
+Run scene generators through the campaign's `author` action, using the locked `bpy` module.
+It checks Metal before importing `bpy`. If preflight fails, stop before attempting any
+Blender executable, alternate launch flags, or direct `bpy` imports. Retain the failing result.
+
+If [Codex #16931](https://github.com/openai/codex/issues/16931) reproduces, consult
+`docs/research/codex-metal-primary-sources-20261113.md` in the tool checkout for the local CLI
+patch, build provenance and boundary checks. The patched runtime is installed alongside
+the project and the installed Blender and Codex applications remain separate.
+
 ## Use what already works
 
 - For full 3D, prefer MCP when `logo_doctor` is available and the server shares the files you can

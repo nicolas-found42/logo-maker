@@ -5,14 +5,6 @@ from __future__ import annotations
 from logo_maker.adapters import Adapter, python_module
 
 
-def _cycles_gpu() -> str | None:
-    try:
-        import bpy  # noqa: F401
-    except ImportError:
-        return "python module bpy not installed"
-    return None
-
-
 def _httpx() -> str | None:
     """HDRI downloads use httpx; reachability is not probed (a scene falls back to none)."""
     try:
@@ -29,7 +21,7 @@ ADAPTERS: list[Adapter] = [
         "GPL-3.0-or-later (Blender) / Apache-2.0 (Metal backend use)",
         "Renders every scene on the Apple Silicon GPU",
         "logo_maker.render:_run_builder",
-        _cycles_gpu,
+        python_module("bpy"),
         "uv sync (installs bpy==5.2.3)",
     ),
     Adapter(

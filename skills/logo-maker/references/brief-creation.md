@@ -37,6 +37,10 @@ identify it as fictional. Use project authority for its constraints. If source c
 unsettled, compare the exact excerpt with the recorded directions and preserve its wording where
 possible. Split a sentence only when its parts carry different priorities or authority.
 
+In a branding campaign, record this research in `research.md` and freeze the brief and medium
+with `campaign approve-brief`. The [campaign recipe](campaign.md) owns its subsequent approvals.
+The declarative pipeline uses the brief and plan stages below.
+
 `logo-maker brief <slug>` reviews evidence and freezes requirements before authoring. Reopen changed
 inputs with `--revision-reason`; the previous freeze remains in history. A passed brief does not
 establish that an image is good.

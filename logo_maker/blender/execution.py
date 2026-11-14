@@ -16,6 +16,8 @@ import sys
 import time
 from pathlib import Path
 
+from logo_maker.blender.metal import binary_archive_override
+
 
 def verify_denoiser_log(log: str) -> dict:
     """Require actual OIDN Metal device initialization and filter execution."""
@@ -90,6 +92,7 @@ def render_verified(
                 "machine": platform.machine(),
                 "devices": devices,
                 "device_override": "METAL",
+                **binary_archive_override(),
                 "metalrt": cp.metalrt,
                 "sampling": {
                     key: getattr(sc.cycles, key)

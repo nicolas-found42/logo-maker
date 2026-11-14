@@ -173,8 +173,29 @@ def _source(
 
 
 def _render(
-    source: Path, compiled: bool, out: Path, name: str, budget: Budget, *, diagnostics=False
+    source: Path,
+    compiled: bool,
+    out: Path,
+    name: str,
+    budget: Budget,
+    *,
+    diagnostics=False,
+    options=None,
+    cache=None,
 ) -> dict:
+    if options is not None:
+        from logo_maker.study_render import render
+
+        return render(
+            source,
+            compiled,
+            out,
+            name,
+            budget,
+            options=options,
+            cache=cache,
+            diagnostics=diagnostics,
+        )
     budget.begin_attempt()
     large = name in {"hero-transparent", "independent-seed", "lower-threshold"}
     payload = {
@@ -213,7 +234,8 @@ def _flat(folder: Path, work: Path, out: Path, brief: Brief) -> dict[str, Path]:
     mono = folder / "mono.svg"
     if mono.is_file():
         copy = work / mono.name
-        shutil.copyfile(mono, copy)
+        if mono != copy:
+            shutil.copyfile(mono, copy)
         if problems := motif.validate(copy):
             raise pipeline.AuthoringNeeded("Fix mono.svg: " + "; ".join(problems), [mono])
         optimize_svg(copy, paths["mark-mono"])
@@ -226,7 +248,8 @@ def _flat(folder: Path, work: Path, out: Path, brief: Brief) -> dict[str, Path]:
         source = master
         if compact.is_file():
             source = work / compact.name
-            shutil.copyfile(compact, source)
+            if compact != source:
+                shutil.copyfile(compact, source)
             if problems := motif.validate(source):
                 raise pipeline.AuthoringNeeded(
                     f"Fix {compact.name}: " + "; ".join(problems), [compact]
@@ -309,6 +332,19 @@ def _references(logo: LogoDir, brief: Brief, folder: Path, out: Path) -> list[di
                     )
         rows.append(
             {
+                **{
+                    k: row[k]
+                    for k in (
+                        "capture_id",
+                        "features",
+                        "angle",
+                        "lighting",
+                        "license",
+                        "redistribution",
+                        "review_allowed",
+                    )
+                    if k in row
+                },
                 "path": str(_safe(logo.root, row["path"])),
                 "url": row["url"],
                 "note": row["note"],
@@ -408,7 +444,23 @@ def _seed_check(hero: Path, alternate: Path, folder: Path) -> dict:
     }
 
 
-def _package_design(logo, brief, cid, folder, work, out, source, compare_seed, calibrate, budget):
+def _package_design(
+    logo,
+    brief,
+    cid,
+    folder,
+    work,
+    out,
+    source,
+    compare_seed,
+    calibrate,
+    budget,
+    render_options=None,
+    render_cache=None,
+):
+    from functools import partial
+
+    render = partial(_render, options=render_options, cache=render_cache)
     info = _read(folder / "concept.json")
     identity = folder / "identity.png"
     identity_note = info.get("identity_note", "")
@@ -430,7 +482,7 @@ def _package_design(logo, brief, cid, folder, work, out, source, compare_seed, c
     paths = _flat(folder, work, out, brief)
     _compact_sheet(paths, out / "compact-light-dark.png")
     references = _references(logo, brief, folder, out)
-    hero_report = _render(*source, out, "hero-transparent", budget, diagnostics=calibrate)
+    hero_report = render(*source, out, "hero-transparent", budget, diagnostics=calibrate)
     blend = out / "scene.blend"
     if hero_report.get("inputs_sha256", {}).get("editable_scene") != _sha256(blend):
         raise RuntimeError("the editable scene does not match the hero execution evidence")
@@ -441,7 +493,7 @@ def _package_design(logo, brief, cid, folder, work, out, source, compare_seed, c
     hero = out / "hero-transparent.png"
     report = _local_checks(hero)
     for view in VIEWS:
-        _render(blend, False, out, view, budget)
+        render(blend, False, out, view, budget)
     _contact_sheet(
         [(label, out / f"{label}.png") for label in VIEWS],
         out / "inspection-views.png",
@@ -474,7 +526,7 @@ def _package_design(logo, brief, cid, folder, work, out, source, compare_seed, c
             mono_background=_paper(brief.palette),
         )
     if compare_seed or calibrate:
-        other = _render(blend, False, out, "independent-seed", budget)
+        other = render(blend, False, out, "independent-seed", budget)
         if hero_report["sampling"]["seed"] == other["sampling"]["seed"]:
             raise RuntimeError("seed comparison used the same seed twice")
         comparison = _seed_check(hero, out / "independent-seed.png", folder)
@@ -482,7 +534,7 @@ def _package_design(logo, brief, cid, folder, work, out, source, compare_seed, c
             {"sampling": row["sampling"], "seconds": row["seconds"]} for row in (hero_report, other)
         ]
         if calibrate:
-            control = _render(blend, False, out, "lower-threshold", budget, diagnostics=True)
+            control = render(blend, False, out, "lower-threshold", budget, diagnostics=True)
             settings = hero_report["sampling"]
             control_settings = dict(control["sampling"])
             threshold = control_settings.pop("adaptive_threshold")
@@ -555,6 +607,8 @@ def build(
     calibrate=False,
     wall_seconds=1800,
     budget: Budget | None = None,
+    render_options: dict | None = None,
+    render_cache: Path | None = None,
 ) -> dict:
     """Render named concepts from the brief, with no model credentials required."""
     if platform.system() != "Darwin" or platform.machine() != "arm64":
@@ -594,11 +648,22 @@ def build(
             prepared.append((cid, folder, work, out, source))
         for cid, folder, work, out, source in prepared:
             if preview:
-                _render(*source, out, "preview", budget)
+                _render(*source, out, "preview", budget, options=render_options, cache=render_cache)
                 label, png = _read(folder / "concept.json").get("label") or cid, out / "preview.png"
             else:
                 label = _package_design(
-                    logo, brief, cid, folder, work, out, source, compare_seed, calibrate, budget
+                    logo,
+                    brief,
+                    cid,
+                    folder,
+                    work,
+                    out,
+                    source,
+                    compare_seed,
+                    calibrate,
+                    budget,
+                    render_options,
+                    render_cache,
                 )
                 png = out / "hero-transparent.png"
             sheet_entries.append((label, png))
@@ -631,7 +696,7 @@ def build(
     }
 
 
-def _verify_manifest(root: Path, study_id: str) -> tuple[dict, str]:
+def _verify_manifest(root: Path, study_id: str, *, kind: str = "3d-study") -> tuple[dict, str]:
     manifest_file = root / "manifest.json"
     data = manifest_file.read_bytes()
     manifest = json.loads(data)
@@ -639,9 +704,9 @@ def _verify_manifest(root: Path, study_id: str) -> tuple[dict, str]:
         not isinstance(manifest, dict)
         or manifest.get("schema") != 1
         or manifest.get("study_id") != study_id
-        or manifest.get("kind") != "3d-study"
+        or manifest.get("kind") != kind
     ):
-        raise ValueError("review requires a delivered 3D study")
+        raise ValueError(f"expected a verified {kind} manifest")
     concepts, files = manifest.get("concepts"), manifest.get("files")
     if not isinstance(files, dict) or not isinstance(concepts, dict) or not concepts:
         raise ValueError("study manifest needs concepts and a file inventory")
@@ -649,9 +714,12 @@ def _verify_manifest(root: Path, study_id: str) -> tuple[dict, str]:
     for cid, slug in concepts.items():
         if not pipeline.is_concept_id(cid) or concept_slug(cid) != slug:
             raise ValueError("study manifest contains an invalid concept path")
-        required.update(
-            f"{slug}/{name}" for name in ("design.json", "hero-transparent.png", "mark-color.svg")
+        names = (
+            ("preview.png", "preview-execution.json")
+            if kind == "preview"
+            else ("design.json", "hero-transparent.png", "mark-color.svg")
         )
+        required.update(f"{slug}/{name}" for name in names)
     if not required.issubset(files):
         raise ValueError("study manifest is missing required review inputs")
     for name, record in manifest["files"].items():
@@ -739,6 +807,7 @@ def _review_evidence(folder: Path, design: dict, files: dict, brief: Brief, dest
             raise ValueError(f"review view lacks matching render evidence: {view}")
         entry = {
             "feature": match["feature"],
+            "feature_name": (row.get("features") or [""])[0],
             "view": match["view"],
             "view_sha256": _sha256(view),
             "regions": {},
@@ -776,6 +845,8 @@ def review(
     owner_note: str = "",
     visual=True,
     budget: Budget | None = None,
+    matched_only: bool = False,
+    diagnostic: bool = False,
 ) -> dict:
     """Run the unchanged visual rubric, or record owner acceptance of named designs."""
     import fcntl
@@ -786,16 +857,49 @@ def review(
     if not (root / "manifest.json").is_file():
         raise ValueError(f"study {study_id} is missing its manifest")
     directory = logo.root / "qa" / "studies" / study_id
+    if diagnostic:
+        directory /= "diagnostic"
     directory.mkdir(parents=True, exist_ok=True)
     with (directory / ".review.lock").open("a") as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as exc:
             raise RuntimeError(f"review is already running for {study_id}") from exc
-        return _review(root, study_id, directory, accepted, owner_note, visual, budget or Budget())
+        return _review(
+            root,
+            study_id,
+            directory,
+            accepted,
+            owner_note,
+            visual,
+            budget or Budget(),
+            matched_only=matched_only,
+            diagnostic=diagnostic,
+        )
 
 
-def _review(root, study_id, directory, accepted, owner_note, visual, budget):
+def review_rubric(matched_only: bool = False) -> str:
+    from logo_maker import eligibility
+    from logo_maker.jev import client, questions
+
+    files = (__file__, questions.__file__, eligibility.__file__, client.__file__)
+    return sha256(
+        ("".join(_sha256(Path(path)) for path in files) + str(matched_only)).encode()
+    ).hexdigest()
+
+
+def _review(
+    root,
+    study_id,
+    directory,
+    accepted,
+    owner_note,
+    visual,
+    budget,
+    *,
+    matched_only=False,
+    diagnostic=False,
+):
     from logo_maker.eligibility import compare_visual
     from logo_maker.jev import questions
     from logo_maker.jev.client import BudgetedJevClient, JevClient, JevError
@@ -813,15 +917,7 @@ def _review(root, study_id, directory, accepted, owner_note, visual, budget):
         raise ValueError("owner acceptance must name concepts in this study")
     record_path = directory / "review.json"
     previous = _read(record_path) if record_path.exists() else {}
-    from logo_maker import eligibility
-    from logo_maker.jev import client as transport
-
-    rubric = sha256(
-        "".join(
-            _sha256(Path(path))
-            for path in (__file__, questions.__file__, eligibility.__file__, transport.__file__)
-        ).encode()
-    ).hexdigest()
+    rubric = review_rubric(matched_only)
     if previous.get("manifest_sha256", binding) != binding:
         raise ValueError("study manifest changed since review")
     if previous.get("archive_sha256") not in (None, archive_hash):
@@ -848,11 +944,24 @@ def _review(root, study_id, directory, accepted, owner_note, visual, budget):
             }
         if not visual:
             continue
-        brief = _brief_for_review(root, folder, design, manifest["files"])
-        if not brief.intended_appearance or not any(
+        approved_design = design
+        if matched_only:
+            approved_design = {
+                **design,
+                "references": [
+                    ref
+                    for ref in design["references"]
+                    if ref.get("match")
+                    and ref.get("review_allowed") is True
+                    and (not diagnostic or ref["use"] == "craft")
+                ],
+            }
+        brief = _brief_for_review(root, folder, approved_design, manifest["files"])
+        has_craft = any(
             ref["state"] == "available" and ref["use"] == "craft" and ref["note"].strip()
-            for ref in design["references"]
-        ):
+            for ref in approved_design["references"]
+        )
+        if not brief.intended_appearance or (not has_craft and not matched_only):
             row["visual"] = {
                 "status": "missing_evidence",
                 "message": "Supply intended appearance and a craft photo with a finish note.",
@@ -886,7 +995,14 @@ def _review(root, study_id, directory, accepted, owner_note, visual, budget):
                     else "mark-color.svg"
                 )
                 with TemporaryDirectory(prefix="logo-study-review-") as tmp:
-                    evidence = _review_evidence(folder, design, manifest["files"], brief, Path(tmp))
+                    evidence = _review_evidence(
+                        folder, approved_design, manifest["files"], brief, Path(tmp)
+                    )
+                    if diagnostic:
+                        crops = directory / slug / "crops"
+                        crops.mkdir(parents=True, exist_ok=True)
+                        for path in Path(tmp).glob("*.png"):
+                            shutil.copyfile(path, crops / path.name)
                     result = compare_visual(
                         brief,
                         concept,
@@ -910,6 +1026,11 @@ def _review(root, study_id, directory, accepted, owner_note, visual, budget):
                 }
                 for comparison in result["craft"]:
                     comparison["reference_role"] = photo_roles[comparison["reference_sha256"]]
+                if matched_only and not has_craft:
+                    result["status"] = "missing_evidence"
+                    result["message"] = (
+                        "Fit and technical review completed. Matched craft evidence is missing."
+                    )
                 row["visual"] = {**result, "rubric_sha256": rubric, "judge": judge}
         except JevError as exc:
             provider_error = str(exc)
@@ -927,6 +1048,7 @@ def _review(root, study_id, directory, accepted, owner_note, visual, budget):
         raise ValueError("study ZIP changed during review")
     record = {
         "study_id": study_id,
+        "diagnostic": diagnostic,
         "manifest_sha256": binding,
         "archive_sha256": archive_hash,
         "designs": rows,

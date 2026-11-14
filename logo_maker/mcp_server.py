@@ -27,6 +27,7 @@ INSTRUCTIONS = (
     "use its flat asset recipe. 3D rendering runs on Apple Silicon macOS. "
     "Start new work with logo_doctor and logo_new. Reuse the returned absolute logo_dir as target. "
     "For existing work, start with logo_status on the folder containing brief.toml. "
+    "For end-to-end 3D branding in Codex, follow the campaign recipe and call logo_campaign. "
     "For 3D studies, author the brief and named concepts, run logo_study, and use "
     "logo_review_study on the returned ID when Jev is available. For qualified 3D, "
     "author the brief and its evidence, then use logo_brief, logo_intake and logo_ideate. "
@@ -220,6 +221,25 @@ async def logo_export(target: str, out: str | None = None) -> dict[str, Any]:
     from logo_maker import pipeline
 
     return await _stage(pipeline.export, target, out)
+
+
+@server.tool()
+async def logo_campaign(
+    target: str,
+    action: str,
+    concepts: list[str] | None = None,
+    note: str = "",
+    record: dict[str, Any] | None = None,
+    out: str | None = None,
+) -> dict[str, Any]:
+    """Run a durable Apple Silicon branding campaign. Read the campaign recipe in the skill."""
+    from logo_maker.campaign_runtime import dispatch
+
+    return await _stage(
+        lambda logo: dispatch(logo, action, concepts=concepts, note=note, record=record),
+        target,
+        out,
+    )
 
 
 @server.tool()

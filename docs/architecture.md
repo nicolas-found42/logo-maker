@@ -1,5 +1,9 @@
 # Architecture
 
+Codex branding campaigns follow [the campaign contract](campaigns.md) and
+[ADR 0002](adr/0002-codex-brand-campaigns.md). This adds packed-scene qualification
+without changing the existing declarative profile scope.
+
 logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the
 work:
 
@@ -44,6 +48,7 @@ flowchart LR
 | export | `export` | winner | `exports/*` |
 | 3D study | `study` / `logo_study` | brief, explicitly named concepts, motif and scene | preview sheet or downloadable `studies/<id>/` |
 | Study review | `review-study` / `logo_review_study` | verified study manifest and its exact assets | per-design craft, fit, technical and owner review records |
+| Codex campaign | `campaign` / `logo_campaign` | researched brief, selected designs, packed scenes and reference coverage | resumable verified renders, sampling and review records, branding and evidence archives |
 
 Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
 rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains
@@ -101,6 +106,34 @@ the generated survey. Owner decisions bind to the delivered hero and whole manif
 A `lathe` scene component revolves a radial/height profile around the Z axis.
 It accepts closed profiles above the axis and axis-ended profiles for solid caps, and is useful
 for turned knobs, collars and vessel walls. Its output is an editable solid mesh.
+
+### Codex campaign execution and release evidence
+
+The [campaign contract](campaigns.md) governs the research, approval, authoring and delivery
+workflow. A campaign chooses its medium from the researched brief. Modeled campaigns require
+Apple Silicon and a project-local pinned Codex runtime. Native operations use the same launcher
+from CLI and MCP. The launcher checks the installed runtime bytes and applies a Codex workspace
+profile before running the operation. The worker verifies workspace writes, outside write and
+network denials, and child inheritance. The offline render profile must prove a real Cycles Metal
+and GPU OIDN render before it can open authored scenes or run a construction generator. The
+worker denies access to installed Blender application bundles and checks GPU visibility before
+importing the pinned `bpy` module. Reference acquisition and Jev calls use
+separate restricted network profiles without Metal access. An unavailable runtime or a failed
+boundary or GPU check stops the corresponding operation.
+
+Approval records bind the research and brief, proposed directions, rendered preview selection,
+and exact final artwork. A brief or direction edit invalidates dependent decisions by digest.
+Explicit delegations are recorded with their scope. Modeled designs require forty distinct photos,
+including development and independent held-out comparisons for each critical feature. Flat and
+typographic work uses evidence appropriate to its medium. Bounded construction prototypes may
+establish feasibility before committing to a modeled direction.
+
+Diagnostic reviews bind the actual views and crops, preserve independent holdouts until formal
+review, and distinguish insufficient evidence from observed defects. Production qualification
+requires a separately validated evaluator and current scoped sampling evidence in addition to
+technical and artwork checks. Control packets and delivery archives are verified from their
+contents. The release record links the exact installed tool and skill, blinded human labels and
+frozen evaluator tolerances, and three fresh campaign trials with exact-artwork approval.
 
 ## Logo folder
 
@@ -353,6 +386,12 @@ verified GPU tracing/denoising and are rejected operationally at the public rend
 
 GPU contract (#4, shared with #5): the actual bpy process refreshes devices, disables all CPU
 tracing selections, selects one available Metal device, and forces the Cycles Metal device override.
+Before loading bpy, the doctor, profile and render workers check whether the current Apple Silicon
+process can obtain a Metal device. A missing device stops the operation with a diagnostic.
+Run this check under the same Codex workspace sandbox as the trial.
+Before starting a first trial on that host policy, verify a small Cycles render and actual OIDN
+Metal execution there. If Cycles' binary archive cache must be disabled, bind that setting to the
+render fingerprint and evidence so those results cannot be reused across different settings.
 MetalRT stays `AUTO`. GPU denoising is a separate requirement: support/request flags alone do not
 prove execution. Each render must retain effective OIDN Metal runtime evidence or fail
 operationally;

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 import scripts.skill_check as skill_check
 
 BROKEN_MAIN_SKILL = """---
@@ -72,7 +74,11 @@ def test_duplicate_or_unknown_frontmatter_keys_and_mismatched_name_fail(tmp_path
     assert any("'disable-model-invocation' must be a boolean" in err for err in errors)
 
 
-def test_broken_relative_link_outside_code_fails_while_code_examples_pass(tmp_path: Path) -> None:
+def test_broken_relative_link_outside_code_fails_while_code_examples_pass(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Keep the fixture outside ROOT even when the sandbox places temp files in the workspace.
+    monkeypatch.setattr(skill_check, "ROOT", tmp_path / "repository")
     skill = _write_skill(
         tmp_path,
         "---\nname: link-skill\ndescription: Valid.\n---\n\n"

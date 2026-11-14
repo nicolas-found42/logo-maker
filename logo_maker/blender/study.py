@@ -4,14 +4,15 @@ from __future__ import annotations
 
 import json
 import math
-import platform
 from pathlib import Path
 
 from logo_maker.blender.execution import render_verified
+from logo_maker.blender.metal import require_metal_device
 from logo_maker.host import serve
 
 
 def _open_scene(source: Path, compiled: bool):
+    require_metal_device()
     import bpy
 
     if compiled:
@@ -27,6 +28,19 @@ def _open_scene(source: Path, compiled: bool):
     scene = bpy.context.scene
     if bpy.data.libraries:
         raise ValueError("make linked objects and libraries local before rendering a study")
+    for block in bpy.data.texts:
+        if block.use_module:
+            raise ValueError("disable registered scripts in the packed scene")
+    for collection in (bpy.data.objects, bpy.data.materials, bpy.data.node_groups, bpy.data.scenes):
+        for block in collection:
+            animation = getattr(block, "animation_data", None)
+            if animation and animation.drivers:
+                raise ValueError(f"bake drivers before packing the scene: {block.name}")
+    for tree in [m.node_tree for m in bpy.data.materials if m.use_nodes] + list(
+        bpy.data.node_groups
+    ):
+        if any(node.bl_idname == "ShaderNodeScript" for node in tree.nodes):
+            raise ValueError("bake external shader scripts before packing the scene")
     for collection, internal in (
         (bpy.data.images, {"GENERATED", "VIEWER"}),
         (bpy.data.fonts, {"<builtin>"}),
@@ -53,6 +67,45 @@ def _open_scene(source: Path, compiled: bool):
     if scene.camera is None or not _corners(scene):
         raise ValueError("the scene needs an active camera and visible geometry")
     return scene
+
+
+def _campaign_static(scene) -> None:
+    """Reject external or frame-dependent inputs from the packed campaign contract."""
+    import bpy
+
+    for obj in scene.objects:
+        for modifier in obj.modifiers:
+            if modifier.type in {
+                "CLOTH",
+                "FLUID",
+                "DYNAMIC_PAINT",
+                "OCEAN",
+                "MESH_CACHE",
+                "MESH_SEQUENCE_CACHE",
+                "SOFT_BODY",
+                "PARTICLE_SYSTEM",
+            }:
+                raise ValueError(f"apply dynamic or cached modifier {obj.name}/{modifier.name}")
+    if scene.rigidbody_world:
+        raise ValueError("apply rigid body transforms before saving the logo scene")
+    trees = list(bpy.data.node_groups)
+    trees.extend(
+        block.node_tree
+        for block in (*bpy.data.materials, *bpy.data.worlds, *bpy.data.lights, *bpy.data.scenes)
+        if getattr(block, "node_tree", None)
+    )
+    for tree in trees:
+        for node in tree.nodes:
+            if node.bl_idname in {
+                "GeometryNodeSimulationInput",
+                "GeometryNodeBake",
+                "ShaderNodeScript",
+                "CompositorNodeMovieClip",
+                "CompositorNodeImageSequence",
+            }:
+                raise ValueError(f"apply dynamic or external node {tree.name}/{node.name}")
+            if node.bl_idname == "ShaderNodeTexIES" and node.mode == "EXTERNAL":
+                raise ValueError(f"pack the IES profile {tree.name}/{node.name}")
 
 
 def _corners(scene):
@@ -135,25 +188,44 @@ def _render_settings(scene, resolution, samples):
 
 
 def render(payload: dict) -> dict:
+    if payload.get("operation") == "environment":
+        from logo_maker.blender.profile import environment
+
+        return environment()
+    if payload.get("operation") == "inspect_packed_scene":
+        scene = _open_scene(Path(payload["source"]), False)
+        _campaign_static(scene)
+        return {"camera": scene.camera.name, "editable_objects": len(scene.objects)}
+    require_metal_device()
+
     import bpy
 
     from logo_maker.blender.settings import apply_cycles_gpu
 
-    if platform.system() != "Darwin" or platform.machine() != "arm64":
-        raise ValueError("3D studies require Apple Silicon macOS")
     source, output = Path(payload["source"]), Path(payload["output"])
     compiled = payload["compiled"]
     scene = _open_scene(source, compiled)
+    if payload.get("authored_cameras"):
+        _campaign_static(scene)
     apply_cycles_gpu()
     bpy.context.view_layer.update()
     _render_settings(scene, payload["resolution"], payload["samples"])
+    if "adaptive_threshold" in payload:
+        scene.cycles.adaptive_threshold = payload["adaptive_threshold"]
+        scene.cycles.adaptive_min_samples = payload.get("min_samples", 0)
     name = payload["view"]
     if name in {"front", "grazing", "rear", "underside"}:
-        _angle(scene, name, _corners(scene))
+        authored = bpy.data.objects.get(f"Study {name} camera")
+        if payload.get("authored_cameras") and authored and authored.type == "CAMERA":
+            scene.camera = authored
+        else:
+            _angle(scene, name, _corners(scene))
     if name == "independent-seed":
         scene.cycles.seed = (scene.cycles.seed + 42017) % 2147483647
     if name == "lower-threshold":
-        scene.cycles.adaptive_threshold = 0.004
+        scene.cycles.adaptive_threshold = payload.get("adaptive_threshold", 0.008) / 2
+    if name == "degraded-threshold":
+        scene.cycles.adaptive_threshold = 0.02
     png = output / f"{name}.png"
     inputs = {"source": source}
     if compiled:
@@ -174,10 +246,26 @@ def render(payload: dict) -> dict:
         inputs=inputs,
         diagnostic_bytes=400 * 1024**2 if payload.get("diagnostics") else 0,
     )
+    report["scene_inventory"] = {
+        "schema": 1,
+        "contract": "packed-static-v1",
+        "objects": [{"name": obj.name, "type": obj.type} for obj in scene.objects],
+        "materials": [mat.name for mat in bpy.data.materials],
+        "images": [{"name": im.name, "source": im.source} for im in bpy.data.images],
+        "source_sha256": report["inputs_sha256"]["source"],
+    }
+    if payload.get("downsample"):
+        from logo_maker.render import _downsample_final
+        from logo_maker.sampling_diagnostics import sha256
+
+        report["native_png_sha256"] = report["png_sha256"]
+        _downsample_final(png)
+        report["png_sha256"] = sha256(png)
+        report["delivery_resolution"] = 2000
     diagnostics = report.get("diagnostics", {})
     if diagnostics.get("status") == "retained":
         diagnostics["path"] = Path(diagnostics["path"]).name
-        evidence.write_text(json.dumps(report, indent=2) + "\n")
+    evidence.write_text(json.dumps(report, indent=2) + "\n")
     return report
 
 

@@ -552,6 +552,8 @@ class JevClient:
 
         raw: dict[str, Any] = {}
         error: JevError | None = None
+        if budget is not None:
+            budget.reserve_request(MAX_TRIES)
         try:
             response = (
                 self._post(body, has_images=bool(assets))
@@ -577,6 +579,8 @@ class JevClient:
             error = exc
             raw.update(_status="api_error", _error=str(exc).replace(self._key, "<REDACTED>"))
         raw["_usage"] = self._usage(raw)
+        if budget is not None:
+            budget.record_usage(raw["_usage"])
         if self.logo is not None:
             if budget is None:
                 stripped = self._store_assets(assets)

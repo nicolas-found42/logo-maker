@@ -318,6 +318,13 @@ class Budget:
         self.attempts += 1
         return self.attempts
 
+    def reserve_request(self, maximum_attempts: int) -> None:
+        """Campaign subclasses persist provider reservations before dispatch."""
+        self.check()
+
+    def record_usage(self, usage: dict) -> None:
+        """Campaign subclasses account for reported charges without inventing prices."""
+
     def record(self) -> dict:
         return {
             "wall_seconds": self.wall_seconds,

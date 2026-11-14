@@ -19,6 +19,8 @@ free/open-source tooling. Each note records its date and evidence limits; older 
 | `logo-3d-render.md` | Blender/Cycles rendering: bpy, Metal, HDRIs, transparent output |
 | `logo-3d-stylized.md` | Stylized and toon looks, 3D text options |
 | `logo-gpu-render.md` | Headless Cycles Metal hang on pip `bpy` 5.2.3: investigation and fixes |
+| `codex-metal-primary-sources-20261113.md` | Codex #16931: Metal GPU permissions, local ablation, and workspace enforcement |
+| [Campaign validation handoff](codex-branding-campaign-validation-20261113.md#stop-point-november-14-2026) | Offline results and remaining 3D production checks |
 | `logo-github-tools.md` | Open-source SVG, path, trace and optimize libraries |
 | `logo-github-topics.md` | GitHub topic sweeps for logo generators |
 | `logo-awesome-mined.md` | Libraries mined from awesome-lists |

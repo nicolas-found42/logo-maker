@@ -832,6 +832,52 @@ def matched_craft_decision(visibility: list[str], execution: list[str]) -> str:
     return "unsettled"
 
 
+def matched_craft_calibration_questions() -> dict[str, dict[str, Any]]:
+    """Development variant. Keep it out of production until independently evaluated."""
+    return {
+        "candidate_visible": {
+            "type": "noul",
+            "instructions": "Is the named feature visible clearly enough in `candidate_detail` to inspect its construction?",
+            "criteria": {
+                "true": "The feature has visible edges or surface detail at a scale suitable for inspection.",
+                "false": "The feature is outside the crop, hidden, or lacks enough visible detail to inspect.",
+            },
+        },
+        "reference_visible": {
+            "type": "noul",
+            "instructions": "Is the corresponding feature visible clearly enough in `reference_detail` to inspect its construction?",
+            "criteria": {
+                "true": "The corresponding feature has visible edges or surface detail at a scale suitable for inspection.",
+                "false": "The feature is outside the crop, hidden, or lacks enough visible detail to inspect.",
+            },
+        },
+        "candidate_defect": {
+            "type": "noul",
+            "instructions": "Does the named feature in `candidate_detail` show a visible construction or finish defect?",
+            "criteria": {
+                "true": "A visible defect affects the named feature, such as intersecting parts, a broken edge, an unsupported joint, or a rough transition inconsistent with the intended finish.",
+                "false": "Visible parts of the feature look consistently formed and finished for their purpose.",
+            },
+        },
+    }
+
+
+def construction_triage_question() -> dict[str, dict[str, Any]]:
+    """Development comparison of specific observable alternatives."""
+    return {
+        "construction_observation": {
+            "type": "choice",
+            "instructions": "Which observation describes the named feature in `candidate_detail` compared with `reference_detail`?",
+            "criteria": {
+                "visible_intact_feature": "Both images show the feature. The candidate has a continuous shape or a clean connection appropriate to the feature and finish.",
+                "visible_damage_or_construction_error": "A visible break, chip, open seam, overlap or malformed area affects the named candidate feature.",
+                "feature_outside_inspectable_area": "The feature is outside the crop, obscured, or too small in either image.",
+                "comparison_unclear": "Both views contain the feature but the angle, reflections or dissimilar construction prevent a definite judgment.",
+            },
+        },
+    }
+
+
 def adaptation_questions() -> dict[str, dict[str, Any]]:
     return {
         "source_identity": {
@@ -1125,6 +1171,8 @@ def describe() -> list[dict[str, Any]]:
     built.update(material_fit_questions(dict(list(materials.items())[:1])))
     built.update(stage1_questions())
     built.update(stage2_questions())
+    built.update(matched_craft_calibration_questions())
+    built.update(construction_triage_question())
     built.update(
         head_to_head_questions(
             "sample_alpha",
@@ -1184,6 +1232,11 @@ def describe() -> list[dict[str, Any]]:
         **dict.fromkeys(
             (*matched_craft_questions(), *adaptation_questions()), "study visual review"
         ),
+        **dict.fromkeys(
+            matched_craft_calibration_questions(),
+            "development calibration comparison",
+        ),
+        **dict.fromkeys(construction_triage_question(), "development calibration comparison"),
     }
     feeds.update(
         dict.fromkeys(CREATIVE_SPECS, "creative_ready -> scoped refinement authoring stop")

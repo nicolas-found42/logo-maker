@@ -17,10 +17,12 @@ and light. Jev judges supplied evidence.
 
 | User asks for | Start here |
 |---|---|
-| A logo, favicon, flat icon, avatar, a quick concept, or another size of an existing mark | [Flat assets](references/flat-assets.md). Use this for an underspecified logo request and show a visible result early. |
-| A 3D hero, editable Blender scene, or a set of selected 3D designs | [3D studies](references/studies.md). Author from the brief, compare concepts, and deliver the selected designs on Apple Silicon. |
+| An idea or project that needs a logo, with no medium specified | Research the project and intended uses. Present flat, typographic, and modeled directions when each fits the brief. Record the chosen medium and approved direction or explicit delegation before detailed authoring. |
+| A favicon, flat icon, avatar, quick flat concept, typographic mark, or another size of an existing mark | [Flat assets](references/flat-assets.md). Use visual and usage references appropriate to the requested medium. |
+| A complete 3D brand or modeled logo adaptation in Codex | [Branding campaign](references/campaign.md). Research, present physical directions, and deliver every selected design on Apple Silicon. |
+| A 3D comparison or an explicit study | [3D studies](references/studies.md). Compare named designs and package results for review. |
 | The production-qualified judged export set | [Qualified 3D workflow](#qualified-3d-workflow). Start with the shared flat symbol, then build the 3D object. |
-| Continue or fix an existing job | Find its logo folder and run `status`. Use [recovery and delivery](references/recovery.md) to identify the next stage. |
+| Continue or fix an existing job | Run `campaign status` if the logo folder has `campaign.json`. Otherwise run `status`. Use [recovery and delivery](references/recovery.md) to identify the next stage. |
 | Try to beat a previously exported logo | Use [the improvement workflow](references/recovery.md#improve-a-published-logo) in that logo folder. |
 
 Keep exact artwork, spelling, colors and geometry when the user asks to preserve them. Ask which
@@ -31,9 +33,10 @@ neither design ideas nor a quality floor.
 ## Find the tools and keep one target
 
 Read [setup](references/setup.md) when tools or dependencies are missing, or when changing hosts.
-For 3D, use Apple Silicon macOS and run `logo_doctor` or `logo-maker doctor` in the environment
-that will run the job. A missing Jev key leaves study review pending. You can start the design,
-render, and delivery using the [study workflow](references/studies.md).
+For a modeled campaign, use the project-local install on Apple Silicon macOS and run the
+campaign's `preflight`. For a standalone 3D study, run `logo_doctor` or `logo-maker doctor` in
+the environment that will run the job. A missing Jev key leaves study review pending.
+You can start the design, render, and delivery using the [study workflow](references/studies.md).
 Before investing in a production 3D job, locate a matching reviewed sampling profile and an
 independent craft reference. Doctor checks tools and devices. Use [qualification
 preflight](references/recovery.md#qualify-the-render) to check profile scope and

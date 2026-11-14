@@ -26,6 +26,7 @@ STAGES = (
     "export",
     "study",
     "review-study",
+    "campaign",
     "run",
     "improve",
 )
@@ -103,6 +104,13 @@ def cmd_stage(args: argparse.Namespace) -> int:
             result = pipeline.export(logo)
         elif args.command == "brief":
             result = pipeline.review_brief(logo, revision_reason=args.revision_reason)
+        elif args.command == "campaign":
+            from logo_maker.campaign_runtime import dispatch
+
+            record = json.loads(args.record.read_text()) if args.record else None
+            result = dispatch(
+                logo, args.action, concepts=args.concept, note=args.note, record=record
+            )
         elif args.command in {"study", "review-study"}:
             from logo_maker import study
 
@@ -174,6 +182,7 @@ def build_parser() -> argparse.ArgumentParser:
         "export": "write the export set for the winner",
         "study": "preview or deliver named 3D designs on Apple Silicon with or without Jev",
         "review-study": "run Jev on a delivered study or record the owner's acceptance",
+        "campaign": "run a persistent Codex branding campaign on Apple Silicon",
         "run": "run every remaining stage",
         "improve": "new round of ideas; replace the logo only if a new winner beats it",
     }
@@ -185,6 +194,13 @@ def build_parser() -> argparse.ArgumentParser:
             stage.add_argument(
                 "--revision-reason", default="", help="reason for reopening changed requirements"
             )
+        elif name == "campaign":
+            from logo_maker.campaign import ACTIONS
+
+            stage.add_argument("action", choices=ACTIONS)
+            stage.add_argument("--concept", action="append", help="concept ID, repeatable")
+            stage.add_argument("--note", default="", help="explicit owner decision or delegation")
+            stage.add_argument("--record", type=Path, help="JSON data for the action")
         elif name == "study":
             stage.add_argument(
                 "--concept", action="append", required=True, help="concept ID, repeatable"
