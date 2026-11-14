@@ -31,6 +31,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
+- Finalize timeout regressions now allow cold setup before their selected QA fault, while
+  retaining the five-second fault deadline and prior-winner checks. The publication rollback
+  test includes guard validation and its recovery reserve before the injected rename stall.
 - LuxCoreRender renders on macOS arm64. The hang blamed on pyluxcore's OpenMP runtime was
   logo-maker calling `RenderSession.WaitForDone()` without `UpdateStats()`: LuxCore checks
   `batch.haltspp`/`batch.halttime` only inside `UpdateStats()`, so the render never halted. The
