@@ -26,6 +26,8 @@ free/open-source tooling. Each note records its date and evidence limits; older 
 | `logo-awesome-mined.md` | Libraries mined from awesome-lists |
 | `logo-maker-install-facts.md` | Verified install facts, licenses and plugin formats |
 | `local-precommit-vs-github-actions-ci.md` | Measured CI vs local check times, prek hook stages, ruleset constraints and pytest wall-clock stalls |
+| `peer-readmes-20261114.md` | Peer GitHub READMEs (Manim, BlenderProc, trimesh, primitive, vtracer, sdf): opening, hero, first-result paths and patterns for logo-maker's README |
+| `readme-positioning-20261114.md` | Local capability and setup evidence, README image provenance, and first-run smoke checks |
 | `check-telemetry-and-bottlenecks.md` | Per-iteration pytest and prek telemetry, bottlenecks found and fixed, and rejected experiments |
 
 The next proposed manual pilot is to resolve one consequential encounter or naming decision,

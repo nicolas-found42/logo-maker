@@ -8,6 +8,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Screenshot-led README with real render examples, a study contact sheet, agent and CLI
+  onboarding, and a separate GPU-free flat-assets path.
 - Beginner instructions for flat assets and staged 3D qualification, including profile
   preflight and recovery. The [November walkthrough](docs/research/beginner-workflow-validation-20261113.md)
   records the checks and open qualification work.

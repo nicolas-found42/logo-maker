@@ -1,81 +1,162 @@
 # logo-maker
 
-Turn an idea, a reference image, a repository, or a brainstorm into a rendered 3D logo and a complete
-export set. An agent writes the brief, metaphors, and each concept's motif;
-logo-maker builds up to 1000
-concepts, judges them with [Jev](https://docs.typesafe.ai), renders the best on the GPU with Blender Cycles,
-runs a QA loop, and exports everything a brand needs. No AI image generation: every pixel comes from
-geometry, fonts, materials, and light.
+**From a brief to a logo—and the files to use it.**
 
-## Install
+Turn a brief, an existing logo, or a repository into flat brand assets and rendered 3D designs.
+Work with your coding agent or the CLI; keep the vectors, geometry, and editable scenes.
+**No AI image generation:** the agent authors the design, renderers make the pixels, and
+[Jev](https://docs.typesafe.ai) can judge the results.
 
-Requires macOS on Apple silicon (Metal GPU), [uv](https://docs.astral.sh/uv/), Node 24, and Homebrew.
+![Three real logo-maker renders: a luminous geometric mark, a Found42 field notebook, and a Field Kettle ceramic mug.](docs/assets/readme/showcase.png)
+
+*Actual logo-maker output: a geometric identity, a modeled notebook, and a branded mug.
+These are rendered examples, not photographs.*
+
+[**Get started →**](#get-started) · [Flat assets, no GPU](#just-need-a-logo-or-favicon) ·
+[3D study guide](skills/logo-maker/references/studies.md) · [MIT license](LICENSE)
+
+## From a mark to the whole set
+
+- **For your app:** SVG marks, favicons, avatars, and PWA icons.
+- **For your brand:** explore distinct directions, compare renders, and refine the one that fits.
+- **For your next revision:** keep editable `.blend` scenes and vector artwork, not just a PNG.
+- **For your agent:** use the skill and MCP tools in Claude Code, Codex, or omp.
+
+Start with your project's name, audience, and intended use. An agent writes the brief and
+concepts; logo-maker builds, renders, and packages them. Studies let you compare named designs.
+The judged pipeline adds brief review, visual QA, and head-to-head selection.
+
+![Seedwell study: 3D hero, flat mark, monochrome, and compact icon.][seedwell-sheet]
+
+[seedwell-sheet]: docs/assets/readme/seedwell-contact-sheet.png
+
+*One identity across a 3D hero, a flat mark, monochrome artwork, and a small icon.
+This contact sheet is from a real study delivery.*
+
+Depending on the workflow, deliverables include:
+
+| Use | Files |
+| --- | --- |
+| Launch page and social | Transparent hero PNG, hero on a background, avatar |
+| Website and app | Color and monochrome SVG, PNG favicons, `.ico`, PWA icons |
+| Keep designing | Editable Blender `.blend`, with `.glb` in the judged export workflow |
+| Review and handoff | Contact sheets; study ZIPs or an export manifest |
+
+See the [export specifications](docs/render-export.md) for exact sizes and workflow differences.
+
+## Get started
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then clone the project:
 
 ```sh
-just setup                                  # go, fontforge, primitive, Python env, npm, Metal kernels
-uv run python scripts/install.py --agent claude   # or codex | omp | skills --destination DIR
-logo-maker doctor
+git clone https://github.com/nicolas-found42/logo-maker.git
+cd logo-maker
 ```
 
-## Use
+### Try a flat export—no GPU or API key
 
-The local 3D study workflow works without Jev. Fill `brief.toml`, author the named concepts and
-their vector artwork and scenes, then render the selected designs together.
+Turn the bundled Seedwell vector artwork into four favicon sizes without installing the 3D stack:
 
 ```sh
-logo-maker new acme --name "Acme"
-logo-maker study acme --concept first --concept second --preview
-logo-maker study acme --concept first --concept second
-logo-maker review-study acme <study-id>
+uv run --no-project --python 3.13 \
+  --with drawsvg --with skia-pathops --with resvg-py --with pillow \
+  --with fonttools --with httpx --with vtracer python - <<'PY'
+from pathlib import Path
+from logo_maker.motif import rasterize
+
+out = Path("demo-output")
+out.mkdir(exist_ok=True)
+for size in (16, 32, 180, 512):
+    rasterize(Path("docs/assets/readme/seedwell.svg"), size, out / f"favicon-{size}.png")
+print(f"Open {out.resolve() / 'favicon-512.png'}")
+PY
 ```
 
-The ZIP includes transparent heroes, editable Blender scenes, flat marks, favicons, and visual
-inspection views. Review resumes using the returned study ID. Set `OPENROUTER_API_KEY` or
-`TYPESAFE_API_KEY` when using Jev. See the [3D study guide](skills/logo-maker/references/studies.md).
+Open `demo-output/favicon-512.png` to see the result. This exports existing artwork; to design
+your own mark or resize your own SVG, follow the [flat-assets recipe](skills/logo-maker/references/flat-assets.md).
 
-For modeled branding in Codex on Apple Silicon, use the
-[branding campaign](skills/logo-maker/references/campaign.md). It retains approval, budget,
-render and review state across sessions. It packages the editable scene and branding assets
-with the current qualification status.
+### Set up 3D on your Mac
 
-Install the matching tool and skill into a new Codex project from this checkout:
+**Full 3D rendering requires Apple silicon macOS with a Metal GPU.**
+Install [Homebrew](https://brew.sh), Node 24, and
+[just](https://just.systems/man/en/packages.html), then run from this checkout:
+
+```sh
+just setup
+uv run --locked logo-maker doctor
+```
+
+Setup installs the rendering and artwork tools and warms the Metal kernels. The first kernel
+compile can be silent for **1.5–5 minutes**; let it finish.
+
+**No API key yet?** You can render and package 3D studies without one. Doctor will flag the
+missing key; Jev review and the judged pipeline need `OPENROUTER_API_KEY` or `TYPESAFE_API_KEY`.
+See [setup and troubleshooting](skills/logo-maker/references/setup.md).
+
+### Connect your agent
+
+From this checkout, install the skill and MCP server for your host:
+
+```sh
+uv run --locked python scripts/install.py --agent claude
+```
+
+Replace `claude` with `omp` for omp. For a project-scoped Codex install:
 
 ```sh
 uv run --locked python scripts/install.py --agent codex --destination /absolute/project
 ```
 
-For the declarative production workflow, use the judged pipeline with a matching sampling profile.
+Refresh or restart your agent host, then try a concrete brief:
+
+> Use logo-maker to create an identity for Trailnote, a hiking journal app.
+> It should feel warm, capable, and easy to recognize at favicon size.
+> Start with three distinct flat directions and show them at small sizes.
+> After I choose one, make a 3D study and package the editable scene and web assets.
+
+The agent handles the authored files and tool calls. This is an iterative design workflow,
+not a one-command image generator.
+
+### Prefer the CLI?
 
 ```sh
-logo-maker brief acme               # review supplied evidence and freeze requirements
-logo-maker run acme                 # runs every stage; stops where the agent must author files
-logo-maker improve acme             # new round; replaces the logo only if it wins head-to-head
+uv run --locked logo-maker new trailnote --name "Trailnote"
+uv run --locked logo-maker study trailnote --concept cairn --concept trail --preview
 ```
 
-Fill `brief.toml` and `brief-evidence.toml` from project/owner sources before review. Keep business
-facts, mandates and assumptions separate. Each shortlisted concept gets a `plan.toml` for its visual
-hypothesis and purposeful detail; `logo-maker plan acme` reviews intent before preview rendering.
-Actual pixels still require independent craft, fit and technical passes.
+The preview command first stops for you or your agent to author the named concepts and scenes.
+Follow the [3D study walkthrough](skills/logo-maker/references/studies.md), then rerun it to
+compare your designs. Render and package the selected concept with:
 
-Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `refine`, `status`, `preview`, `finalize`,
-`export` (each resumable), `run`, `improve`, `doctor`,
-`mcp`. The skill in [skills/logo-maker/SKILL.md](skills/logo-maker/SKILL.md) walks an agent through the
-authoring steps.
+```sh
+uv run --locked logo-maker study trailnote --concept cairn
+```
 
-## Exports
+Keep the returned study ID to [review that exact delivery](skills/logo-maker/references/studies.md#render-inspect-and-deliver).
 
-`exports/`: transparent hero (2000 px), hero on paper, 1024 px circle-safe avatar, favicons
-16/32/48/180/512 + `.ico`, color and mono SVG, PWA icons (no splash screens), Draco-compressed `.glb`,
-`.blend`, and a contact sheet.
+## Just need a logo or favicon?
 
-## Docs
+Skip the 3D stack. The [flat-assets recipe](skills/logo-maker/references/flat-assets.md) creates or
+reuses SVG artwork, checks the silhouette at small sizes, and exports PNG favicons and `.ico`.
+The [minimal Python setup](skills/logo-maker/references/setup.md#when-a-working-checkout-is-missing)
+skips Blender dependencies, Node packages, and GPU warm-up. No Jev key required.
 
-- [Architecture and contracts](docs/architecture.md)
-- [Adapters (every tool and its license)](docs/adapters.md)
-- [Rendering, pixel QA, export set, tool notes](docs/render-export.md)
-- [Jev questions and truth tables](docs/jev-questions.md)
-- [ADR 0001: motif + treatment model](docs/adr/0001-motif-plus-treatment.md)
+## Go deeper
+
+- [Agent skill](skills/logo-maker/SKILL.md) — briefing, authoring, inspection, and delivery.
+- [3D studies](skills/logo-maker/references/studies.md) — compare and package selected designs.
+- [Branding campaigns in Codex](skills/logo-maker/references/campaign.md) — persistent modeled
+  projects with approval, budget, and render state; requires the documented Metal preflight.
+- [Architecture](docs/architecture.md) — resumable stages and file contracts.
+- [Rendering and exports](docs/render-export.md) — renderers, pixel QA, and deliverables.
+- [Adapters and licenses](docs/adapters.md) — external tools and their requirements.
+- [Jev questions](docs/jev-questions.md) — what the model judges and how code uses its answers.
+
+**Current scope:** early-stage software. Study delivery is not the same as production
+qualification; review and qualification states remain explicit. The verified 3D target is
+Apple silicon macOS, not Windows, Linux, or Intel Macs.
 
 ## License
 
-MIT. Some dependencies carry other licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[MIT](LICENSE). Dependencies retain their own licenses;
+see [third-party notices](THIRD_PARTY_NOTICES.md).
