@@ -49,11 +49,41 @@ MIN_IMAGE_SIDE = 280
 #: Statuses worth retrying with backoff.
 RETRYABLE_STATUS = frozenset({429, 502, 503, 504, 529})
 MAX_TRIES = 6
+#: A server `Retry-After` longer than this is not honored: sleeping for hours is a hang.
+MAX_RETRY_WAIT = 60
 REQUEST_TIMEOUT = 300.0
 
 
 class JevError(RuntimeError):
     """A jev request failed (no key, bad request, API error, retries exhausted)."""
+
+
+def _answer_problem(question: Any, answer: dict[str, Any]) -> str | None:
+    """Why an answer cannot be used for its question, or None.
+
+    Decision code downstream compares these values with thresholds and indexes tables by the
+    chosen option; NaN, booleans, out-of-range probabilities and unknown options would pass
+    silently or fail far from the provider boundary.
+    """
+    kind = question.get("type") if isinstance(question, dict) else None
+    if kind == "noul":
+        value = answer.get("noul")
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 1:
+            return f"has noul={value!r}, not a probability in [0, 1]"
+    elif kind == "score":
+        value = answer.get("score")
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+        ):
+            return f"has score={value!r}, not a finite number"
+    elif kind == "choice":
+        options = question.get("criteria")
+        choice = answer.get("choice")
+        if isinstance(options, dict) and (not isinstance(choice, str) or choice not in options):
+            return f"chose {choice!r}, not one of {sorted(options)}"
+    return None
 
 
 class Image:
@@ -362,7 +392,7 @@ class JevClient:
                 wait = 2**attempt
                 retry_after = resp.headers.get("retry-after")
                 if retry_after and retry_after.isdigit():
-                    wait = max(wait, int(retry_after))
+                    wait = min(max(wait, int(retry_after)), MAX_RETRY_WAIT)
                 if attempt < MAX_TRIES - 1:
                     time.sleep(wait)
                     continue
@@ -522,6 +552,8 @@ class JevClient:
 
         raw: dict[str, Any] = {}
         error: JevError | None = None
+        if budget is not None:
+            budget.reserve_request(MAX_TRIES)
         try:
             response = (
                 self._post(body, has_images=bool(assets))
@@ -531,12 +563,24 @@ class JevClient:
             if not isinstance(response, dict):
                 raise JevError("jev response must be an object")
             raw = response
-            if not isinstance(raw.get("answers"), dict):
+            answers = raw.get("answers")
+            if not isinstance(answers, dict):
                 raise JevError("jev response has no answers object")
+            missing = sorted(set(ser_questions) - set(answers))
+            if missing or not all(isinstance(answer, dict) for answer in answers.values()):
+                raise JevError(
+                    f"jev response lacks an answer object for: {', '.join(missing) or 'a question'}"
+                )
+            for qid, answer in answers.items():
+                problem = _answer_problem(ser_questions.get(qid), answer)
+                if problem:
+                    raise JevError(f"jev answer {qid!r} {problem}")
         except JevError as exc:
             error = exc
             raw.update(_status="api_error", _error=str(exc).replace(self._key, "<REDACTED>"))
         raw["_usage"] = self._usage(raw)
+        if budget is not None:
+            budget.record_usage(raw["_usage"])
         if self.logo is not None:
             if budget is None:
                 stripped = self._store_assets(assets)

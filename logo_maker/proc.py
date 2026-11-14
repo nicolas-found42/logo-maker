@@ -37,6 +37,7 @@ def run(
             input=input_text,
             capture_output=True,
             text=True,
+            errors="replace",
             timeout=timeout,
             env=env,
             check=False,

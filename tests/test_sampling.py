@@ -268,3 +268,31 @@ def test_noise_below_cap_uses_its_region_not_unrelated_saturated_pixels():
         estimated_seconds=20,
     )
     assert result.settings == Settings(cap=4096, threshold=0.005, seed=42)
+
+
+def test_malformed_diagnosis_and_profile_never_raise():
+    from logo_maker.sampling import qualify_profile, sampling_qualified
+
+    diagnosis = {
+        "kind": "sampling_noise",
+        "source_key": "s",
+        "image_sha256": "i",
+        "independent_seeds": 3,
+    }
+    decision = decide(
+        Settings(seed=42),
+        diagnosis,
+        source_key="s",
+        image_sha256="i",
+        diagnostics={"status": "available", "regions": {}},
+        overrides={},
+        attempts_left=1,
+        seconds_left=100,
+        estimated_seconds=20,
+    )
+    assert decision.settings is None
+    scoped = {"schema": 1, "context": {}, "owner_review": "approved", "coverage": 5}
+    for profile in (["x"], scoped):
+        assert qualify_profile(profile, {})[0] == "profile_unqualified"  # ty: ignore[invalid-argument-type]
+    assert sampling_qualified(None) is False
+    assert sampling_qualified([1]) is False

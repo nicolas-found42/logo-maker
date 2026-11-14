@@ -39,6 +39,10 @@ def resolve(concept_dir: Path, rel: str) -> Path:
 def scaled_size(data: dict, resolution: int) -> tuple[int, int]:
     """Export resolution scaled so the long edge is `resolution` px."""
     width, height = (int(v) for v in data.get("resolution", (resolution, resolution)))
+    if resolution <= 0 or width <= 0 or height <= 0:
+        raise ValueError(
+            f"render size must be positive (resolution={resolution}, export {width}x{height})"
+        )
     scale = resolution / max(width, height)
     return max(1, round(width * scale)), max(1, round(height * scale))
 

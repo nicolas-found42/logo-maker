@@ -26,6 +26,7 @@ import xml.etree.ElementTree as ET
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from itertools import pairwise
+from numbers import Real
 from pathlib import Path
 
 import drawsvg as dw
@@ -192,7 +193,12 @@ def parse_d(d: str) -> list[Segment]:
             raise MotifError(
                 f"bad path data: expected a number near {toks[max(0, i - 3) : i + 2]!r}"
             )
-        v = float(toks[i])
+        try:
+            v = float(toks[i])
+        except ValueError:
+            v = math.nan
+        if not math.isfinite(v):
+            raise MotifError(f"bad path data: {toks[i]!r} is not a finite number")
         i += 1
         return v
 
@@ -397,6 +403,8 @@ def stroke_d(d: str, width: float, cap: str = "round", join: str = "round") -> s
         raise MotifError(f"bad cap {cap!r}; want one of {sorted(caps)}")
     if join not in joins:
         raise MotifError(f"bad join {join!r}; want one of {sorted(joins)}")
+    if isinstance(width, bool) or not isinstance(width, Real) or not 0 < width < math.inf:
+        raise MotifError(f"bad stroke width {width!r}; want a finite number above 0")
     path = d_to_pathops(d)
     path.stroke(width, caps[cap], joins[join], 4.0)
     return pathops_to_d(path)
@@ -440,7 +448,9 @@ def fit(d: str, box: tuple[float, float, float, float] | None = None) -> str:
     bx, by, bw, bh = box
     x0, y0, x1, y1 = bbox_of_d(d)
     w, h = x1 - x0, y1 - y0
-    s = min(bw / w, bh / h) if w > 0 and h > 0 else 1.0
+    # A line has one zero extent: scale by the other axis instead of leaving the path unscaled.
+    scales = [limit / extent for limit, extent in ((bw, w), (bh, h)) if extent > 0]
+    s = min(scales) if scales else 1.0
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     return transform_d(d, scale=s, translate=(bx + bw / 2 - s * cx, by + bh / 2 - s * cy))
 
@@ -634,6 +644,11 @@ class Motif:
         """Set text as path-d plus its advance in px; ``anchor`` centers the block at (x, y)."""
         if anchor not in ("baseline", "center"):
             raise MotifError(f"bad anchor {anchor!r}; want 'baseline' or 'center'")
+        for name, value in {"size": size, "x": x, "y": y, "tracking": tracking}.items():
+            if isinstance(value, bool) or not isinstance(value, Real) or not math.isfinite(value):
+                raise MotifError(f"glyphs {name} = {value!r}; want a finite number")
+        if size <= 0:
+            raise MotifError(f"glyphs size = {size!r}; want a size above 0 (it is not a flip)")
         from logo_maker.fonts import advances, metrics, text_path
 
         if anchor == "center":
@@ -811,7 +826,8 @@ def validate(svg: Path) -> list[str]:
         if role not in ROLES:
             problems.append(f"path {pid!r}: data-role {role!r} is not one of {ROLES}")
         try:
-            float(child.get("data-height", "1"))
+            if not math.isfinite(float(child.get("data-height", "1"))):
+                raise ValueError("not finite")
         except ValueError:
             problems.append(
                 f"path {pid!r}: data-height {child.get('data-height')!r} is not a number"
@@ -853,8 +869,11 @@ def flatten(svg: Path, out: Path | None = None) -> dict:
         pid = child.get("id", "")
         path = d_to_pathops(child.get("d", ""))
         clean = pathops.op(path, d_to_pathops(child.get("d", "")), pathops.PathOp.UNION)
+        clean_d = pathops_to_d(clean)
+        if not clean_d:
+            raise MotifError(f"path {pid!r} has no area (zero-size or self-cancelling shape)")
         contours = []
-        for contour in flatten_d(pathops_to_d(clean)):
+        for contour in flatten_d(clean_d):
             contours.append([[round(x, 3), round(y, 3)] for x, y in contour])
         layers.append(
             {
@@ -917,20 +936,46 @@ def silhouette(motif_json: dict) -> list[list[list[float]]]:
 def run_motif_script(concept_dir: Path, *, timeout: float = 120) -> Path:
     """Run concept_dir/motif.py (as the agent wrote it), then validate and flatten.
 
-    Raises MotifError carrying the script's stderr; returns the svg path.
+    motif.svg and motif.json are this run's outputs: the previous ones are set aside so a run
+    that saves nothing cannot pass with them, and put back if the run fails. Raises MotifError
+    carrying the script's stderr; returns the svg path.
     """
     concept_dir = Path(concept_dir)
     script = concept_dir / "motif.py"
     if not script.exists():
         raise MotifError(f"no motif.py in {concept_dir}")
+    outputs = (concept_dir / "motif.svg", concept_dir / "motif.json")
+    previous: dict[Path, Path] = {}
+    for output in outputs:
+        if output.is_file() or output.is_symlink():
+            previous[output] = output.with_name(f".{output.name}.previous")
+            output.replace(previous[output])
+    try:
+        svg = _run_motif(concept_dir, script, timeout)
+    except BaseException:
+        for output in outputs:
+            if output.is_file() or output.is_symlink():
+                output.unlink()
+        for output, kept in previous.items():
+            with contextlib.suppress(OSError):  # a directory the script made there stays visible
+                kept.replace(output)
+        raise
+    for kept in previous.values():
+        kept.unlink(missing_ok=True)
+    return svg
+
+
+def _run_motif(concept_dir: Path, script: Path, timeout: float) -> Path:
     env = dict(os.environ, PYTHONPATH=str(REPO_ROOT))
+    svg = concept_dir / "motif.svg"
     try:
         proc = subprocess.run(
             [sys.executable, str(script)],
             cwd=concept_dir,
             env=env,
             capture_output=True,
-            text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
             check=False,
         )
@@ -939,8 +984,7 @@ def run_motif_script(concept_dir: Path, *, timeout: float = 120) -> Path:
     if proc.returncode != 0:
         tail = (proc.stderr or proc.stdout or "").strip()[-2000:]
         raise MotifError(f"motif.py exited {proc.returncode}: {tail}")
-    svg = concept_dir / "motif.svg"
-    if not svg.exists():
+    if not svg.is_file():
         raise MotifError("motif.py ran but wrote no motif.svg (call Motif.save)")
     problems = validate(svg)
     if problems:

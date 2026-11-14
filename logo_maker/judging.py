@@ -92,6 +92,49 @@ def screen_previews(logo, brief, previews, client, *, keep=3):
     return doc["ids"]
 
 
+class EligibilityStop(ValueError):
+    """No image met the gate. Keep its individual checks available to the caller."""
+
+    def __init__(self, message: str, records: dict[str, dict]):
+        super().__init__(f"{message}: {_eligibility_detail(records)}")
+        self.records = records
+
+    def authoring_details(self, logo: LogoDir, stage: str) -> dict:
+        candidates = {}
+        for cid, record in self.records.items():
+            candidates[cid] = {
+                "status": record["status"],
+                "artifact": f"concepts/{concept_slug(cid)}/{stage}.png",
+                "fit": {k: v for k, v in record.get("fit", {}).items() if v != "pass"},
+                "technical": {k: v for k, v in record.get("technical", {}).items() if v != "pass"},
+                "craft": [
+                    {
+                        "order": row["order"],
+                        "reference_sha256": row["reference_sha256"],
+                        "checks": {k: v for k, v in row["checks"].items() if v != "pass"},
+                    }
+                    for row in record.get("craft", [])
+                    if row["status"] != "pass"
+                ],
+                "missing": record.get("missing", []),
+            }
+        return {
+            "dimension": "image_eligibility",
+            "stage": stage,
+            "candidates": candidates,
+            "journal": str(logo.root / "qa/eligibility.jsonl"),
+        }
+
+
+def _eligibility_detail(records: dict[str, dict]) -> str:
+    """Status plus the recorded reasons, so stale evidence is not reported as a design failure."""
+    parts = []
+    for cid, record in records.items():
+        reasons = "; ".join(str(reason) for reason in record.get("missing") or [])
+        parts.append(f"{cid}: {record['status']}" + (f" ({reasons})" if reasons else ""))
+    return "; ".join(parts)
+
+
 def screen_previews_record(
     logo: LogoDir,
     brief: Brief,
@@ -110,8 +153,7 @@ def screen_previews_record(
     }
     previews = {cid: p for cid, p in previews.items() if eligibility[cid]["status"] == "pass"}
     if not previews:
-        detail = "; ".join(f"{cid}: {r['status']}" for cid, r in eligibility.items())
-        raise ValueError(f"no preview survived eligibility: {detail}")
+        raise EligibilityStop("no preview survived eligibility", eligibility)
     questions = preview_screen_questions()
     if budget is not None:
         from logo_maker import host
@@ -167,9 +209,13 @@ def tiny_version(final_png: Path, dest: Path, *, budget: Budget | None = None) -
 
         run({"operation": "tiny_image", "png": str(final_png), "dest": str(dest)}, budget, [])
         return dest
-    im = _PILImage.open(final_png).convert("RGB")
+    # Keep transparency as the full `render` has it: flattening to RGB drops the alpha and leaves
+    # the color stored under transparent pixels (usually black) as the background.
+    with _PILImage.open(final_png) as source:
+        im = source.convert("RGBA").convert("RGBa")  # premultiplied, so edges don't bleed
     tiny = im.resize((TINY_PX, TINY_PX), _PILImage.Resampling.LANCZOS)
-    tiny.resize((TINY_VIEW_PX, TINY_VIEW_PX), _PILImage.Resampling.NEAREST).save(dest, "PNG")
+    view = tiny.resize((TINY_VIEW_PX, TINY_VIEW_PX), _PILImage.Resampling.NEAREST)
+    view.convert("RGBA").save(dest, "PNG")
     return dest
 
 
@@ -279,8 +325,7 @@ def final_tournament_record(
         cid: path for cid, path in finalists.items() if eligibility[cid]["status"] == "pass"
     }
     if not finalists:
-        detail = "; ".join(f"{cid}: {row['status']}" for cid, row in eligibility.items())
-        raise ValueError(f"no final candidate meets the floor: {detail}")
+        raise EligibilityStop("no final candidate meets the floor", eligibility)
     slugs = {cid: concept_slug(cid) for cid in finalists}
     images = {slugs[cid]: Image(p) for cid, p in finalists.items()}
     descs = {slugs[cid]: f"The final render of {cid}." for cid in finalists}

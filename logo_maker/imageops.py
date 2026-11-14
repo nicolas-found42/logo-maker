@@ -23,6 +23,8 @@ def downsample(src: Path, dst: Path, size: int) -> Path:
     halos do not creep in around transparent edges.
     """
     src, dst = Path(src), Path(dst)
+    if size <= 0:
+        raise ValueError(f"downsample size must be positive, got {size}")
     buf = _oiio_read(src)
     spec = buf.spec()
     width, height, channels = spec.width, spec.height, spec.nchannels
@@ -48,6 +50,8 @@ def pad_square(
     src: Path, dst: Path, size: int, *, fill: tuple[int, int, int, int] = (0, 0, 0, 0)
 ) -> Path:
     src, dst = Path(src), Path(dst)
+    if size <= 0:
+        raise ValueError(f"pad_square size must be positive, got {size}")
     with Image.open(src) as im:
         rgba = im.convert("RGBA")
     rgba.thumbnail((size, size), Image.Resampling.LANCZOS)

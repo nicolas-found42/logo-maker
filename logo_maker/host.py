@@ -12,6 +12,50 @@ if TYPE_CHECKING:
     from logo_maker.sampling import Budget
 
 
+ERROR_MARK = "logo-maker worker error: "
+
+
+MESSAGE_LIMIT = 2000
+
+
+def serve(work) -> None:
+    """Worker `__main__`: JSON payload on stdin, JSON result on stdout. A failure keeps its
+    traceback on stderr for debugging and ends with one marked line carrying the JSON-encoded
+    `Type: message`, so marker text or newlines inside the message cannot split it."""
+    try:
+        result = work(json.loads(sys.stdin.read()))
+    except Exception as exc:
+        import traceback
+
+        traceback.print_exc()
+        message = json.dumps(f"{type(exc).__name__}: {exc}")
+        print(f"\n{ERROR_MARK}{message}", file=sys.stderr, flush=True)
+        sys.exit(1)
+    print(json.dumps(result), flush=True)
+
+
+def failure(output: str) -> str:
+    """The worker's marked message, or the output tail when the worker died before marking."""
+    for line in reversed(output.splitlines()):
+        if line.startswith(ERROR_MARK):
+            try:
+                message = json.loads(line.removeprefix(ERROR_MARK))
+            except ValueError:
+                continue
+            if isinstance(message, str):
+                return _bounded(message)
+    return output[-MESSAGE_LIMIT:]
+
+
+def _bounded(message: str) -> str:
+    """Tool errors name the tool first and end with its cause: keep both ends of a long one."""
+    if len(message) <= MESSAGE_LIMIT:
+        return message
+    gap = " … "
+    head = MESSAGE_LIMIT // 4
+    return message[:head] + gap + message[-(MESSAGE_LIMIT - head - len(gap)) :]
+
+
 def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
     # Parent-side only: the worker (`python -m logo_maker.host`) never spawns workers,
     # so these imports stay off its startup path.
@@ -28,9 +72,8 @@ def run(payload: dict, budget: Budget, stages: list[dict]) -> dict:
             label=payload["operation"],
         )
         if proc.returncode:
-            raise ToolError(
-                f"host {payload['operation']} failed: {(proc.stderr or proc.stdout)[-2000:]}"
-            )
+            detail = failure(proc.stderr or proc.stdout)
+            raise ToolError(f"host {payload['operation']} failed: {detail}")
         result = json.loads(proc.stdout.strip().splitlines()[-1])
         status = "completed"
         return result
@@ -98,7 +141,10 @@ def main(payload: dict) -> dict:
         from logo_maker.paths import LogoDir
 
         logo = LogoDir(Path(payload["root"]))
-        data = asdict(brief.load(logo.brief))
+        try:
+            data = asdict(brief.load(logo.brief))
+        except brief.BriefError as exc:  # same stop as every other stage
+            return {"authoring_needed": f"fix brief.toml: {exc}", "files": [str(logo.brief)]}
         for reference in data["references"]:
             reference["path"] = str(reference["path"])
         result = {"brief": data}
@@ -112,7 +158,9 @@ def main(payload: dict) -> dict:
         if payload.get("brand"):
             result["brand"] = asdict(pipeline.brand(logo))
         if payload.get("finalists"):
-            result["finalists"] = json.loads((logo.ideation / "finalists.json").read_text())["ids"]
+            result["finalists"] = pipeline.concept_ids(
+                logo.ideation / "finalists.json", f"rerun `logo-maker preview {logo.slug}`"
+            )
             if payload.get("reviewed"):
                 try:
                     for cid in result["finalists"]:
@@ -263,4 +311,4 @@ def main(payload: dict) -> dict:
 
 
 if __name__ == "__main__":
-    print(json.dumps(main(json.loads(sys.stdin.read()))), flush=True)
+    serve(main)

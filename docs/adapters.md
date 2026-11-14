@@ -33,7 +33,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 
 | Tool | License | Use | Entry | Fix |
 |---|---|---|---|---|
-| coloraide | MIT | WCAG 2.1 contrast ratios that gate palettes before jev ever sees them | `logo_maker.palette:contrast` | `uv add coloraide` |
+| coloraide | MIT | WCAG 2.1 contrast ratios that gate palettes before jev ever sees them | `logo_maker.palette:contrast` | `uv sync` |
 
 ## Geometry 3d
 
@@ -42,6 +42,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | Blender cloth | GPL-3.0-or-later | Physics drape for ribbon components (analytic wave fallback) | `logo_maker.blender.components:_drape_ribbon` | `uv sync (ships with bpy)` |
 | manifold3d | Apache-2.0 | Watertight extrusion triangulation and mesh booleans | `logo_maker.geometry:boolean_mesh` | `uv sync` |
 | trimesh | MIT | Mesh assembly, transforms, and PLY export | `logo_maker.geometry:save_ply` | `uv sync` |
+| Shapely | BSD-3-Clause | Validates radial profiles for turned solid components | `logo_maker.geometry:lathe_mesh` | `uv sync` |
 | PyMeshLab | GPL-3.0-or-later | Isotropic remeshing for inflated (SDF) meshes | `logo_maker.geometry:inflate_mesh` | `uv sync` |
 | build123d | Apache-2.0 | Parametric CAD solids for cad components | `logo_maker.geometry:cad_mesh` | `uv sync` |
 | fogleman/sdf | MIT | Signed-distance-field sampling for soft inflated forms | `logo_maker.geometry:inflate_mesh` | `uv sync` |
@@ -50,8 +51,8 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 
 | Tool | License | Use | Entry | Fix |
 |---|---|---|---|---|
-| Poly Haven | CC0-1.0 | HDRI environment maps via api.polyhaven.com | `logo_maker.hdri:_polyhaven` | `needs network; scenes fall back to hdri = "none"` |
-| ambientCG | CC0-1.0 | HDRI environment maps via the ambientCG API v3 | `logo_maker.hdri:_ambientcg` | `needs network; scenes fall back to hdri = "none"` |
+| Poly Haven | CC0-1.0 | HDRI environment maps via api.polyhaven.com | `logo_maker.hdri:_polyhaven` | `uv sync (httpx); downloads need network, scenes fall back to hdri = "none"` |
+| ambientCG | CC0-1.0 | HDRI environment maps via the ambientCG API v3 | `logo_maker.hdri:_ambientcg` | `uv sync (httpx); downloads need network, scenes fall back to hdri = "none"` |
 
 ## Rendering
 
@@ -65,8 +66,8 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | Mitsuba 3 | BSD-3-Clause | alternate PBR renderer (principled BSDF, rect/point/sun lights) | `logo_maker.renderers.mitsuba:render` | `uv sync` |
 | LuxCoreRender | Apache-2.0 | alternate unbiased renderer (disney, PATHCPU, alpha film output) | `logo_maker.renderers.luxcore:render` | `uv sync` |
 | three.js | MIT | WebGL renderer for the glb (RoomEnvironment/HDRI, physical lights) | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
-| postprocessing | MIT | EffectComposer grading for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
-| N8AO | MIT | screen-space ambient occlusion pass for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
+| postprocessing | Zlib | EffectComposer grading for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
+| N8AO | ISC | screen-space ambient occlusion pass for the three.js renderer | `logo_maker.renderers.three:render` | `just setup (runs npm ci in js/)` |
 | Playwright (Chrome) | Apache-2.0 | headless Chrome screenshots for the three.js renderer | `logo_maker.renderers.three:render` | `install Google Chrome; just setup (runs npm ci in js/)` |
 
 ## Post export
@@ -77,7 +78,7 @@ Every external tool logo-maker runs, generated from `logo_maker/adapters/` by `s
 | OpenImageIO | Apache-2.0 | lanczos3 premultiplied-alpha-correct downsampling | `logo_maker.imageops:downsample` | `uv sync` |
 | SVGO | MIT | SVG optimization for the mark exports | `logo_maker.export:optimize_svg` | `just setup (runs npm ci in js/)` |
 | favicons | MIT | installability meta: manifest icons, ms tiles, browserconfig | `logo_maker.export:favicons_meta` | `just setup (runs npm ci in js/)` |
-| pwa-asset-generator | Apache-2.0 | app icons + splash screens (drives Chrome itself) | `logo_maker.export:pwa_assets` | `just setup (runs npm ci in js/)` |
-| gltf-transform | Apache-2.0 | glb pipeline (dedup/prune/draco) | `logo_maker.export:draco_compress` | `just setup (runs npm ci in js/)` |
+| pwa-asset-generator | MIT | app icons, no splash screens (drives Chrome itself) | `logo_maker.export:pwa_assets` | `just setup (runs npm ci in js/)` |
+| gltf-transform | MIT | glb pipeline (dedup/prune/draco) | `logo_maker.export:draco_compress` | `just setup (runs npm ci in js/)` |
 | Draco | Apache-2.0 | mesh compression codec for model.glb | `logo_maker.export:draco_compress` | `just setup (runs npm ci in js/)` |
 | Chrome | proprietary | browser driven by pwa-asset-generator | `logo_maker.export:pwa_assets` | `install Google Chrome` |

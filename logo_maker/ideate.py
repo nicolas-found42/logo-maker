@@ -63,13 +63,20 @@ def load_metaphors(logo: LogoDir) -> list[Metaphor]:
         raise ValueError(
             f"no metaphors at {path}; the agent writes 8-40 [[metaphor]] entries"
         ) from exc
+    except (OSError, UnicodeDecodeError, tomllib.TOMLDecodeError) as exc:
+        raise ValueError(f"{path}: cannot read ({exc}); rewrite it") from exc
     raw = data.get("metaphor", [])
+    if not isinstance(raw, list) or not all(isinstance(entry, dict) for entry in raw):
+        raise ValueError(f"{path}: write each metaphor as a [[metaphor]] table with id and text")
     if not 8 <= len(raw) <= 40:
         raise ValueError(f"{path} holds {len(raw)} metaphors; need 8-40")
     metaphors = []
     seen = set()
     for entry in raw:
-        mid, text = str(entry.get("id", "")), str(entry.get("text", "")).strip()
+        mid, text = entry.get("id", ""), entry.get("text", "")
+        if not isinstance(mid, str) or not isinstance(text, str):
+            raise ValueError(f"{path}: metaphor id and text must be strings, got {entry!r}")
+        text = text.strip()
         key = slugify(mid)
         if not mid or key != mid.lower().replace("_", "-"):
             raise ValueError(f"metaphor id {mid!r} is not a slug (use [a-z0-9_-]+)")
@@ -93,11 +100,28 @@ def _input_hash(payload: Any) -> str:
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
-    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    rows = []
+    try:
+        text = path.read_text()
+    except (OSError, UnicodeDecodeError) as exc:
+        raise ValueError(f"{path}: cannot read ({exc}); delete the file to redo the stage") from exc
+    for number, line in enumerate(text.splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError as exc:
+            raise ValueError(
+                f"{path}:{number}: not valid JSON ({exc.msg}); delete the file to redo the stage"
+            ) from exc
+    return rows
 
 
 def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.write_text("\n".join(json.dumps(r, sort_keys=True) for r in rows) + "\n" if rows else "")
+    text = "\n".join(json.dumps(r, sort_keys=True) for r in rows) + "\n" if rows else ""
+    pending = path.with_name(f".{path.name}.pending")
+    pending.write_text(text)
+    pending.replace(path)
 
 
 def select_pool(
@@ -199,10 +223,20 @@ def load_pool_concepts(logo: LogoDir, brief: Brief) -> list[Concept]:
     return concepts
 
 
-def _resume(path: Path) -> dict[str, dict[str, Any]]:
-    return {
-        row["id"]: row for row in _read_jsonl(path) if row.get("input_hash") and row.get("answers")
-    }
+def _cached_rows(path: Path, fields: dict[str, type | tuple[type, ...]]) -> list[dict[str, Any]]:
+    """Stored jev rows that still hold every field the stage reads; any other row is asked again."""
+    return [
+        row
+        for row in _read_jsonl(path)
+        if isinstance(row, dict)
+        and all(isinstance(row.get(name), kind) for name, kind in fields.items())
+        and row["answers"]
+    ]
+
+
+def _resume(path: Path, fields: dict[str, type | tuple[type, ...]]) -> dict[str, dict[str, Any]]:
+    need = {"id": str, "input_hash": str, "answers": dict, **fields}
+    return {row["id"]: row for row in _cached_rows(path, need)}
 
 
 def _concept_payload(brief: Brief, concept: Concept, questions: dict[str, Any]) -> Any:
@@ -227,7 +261,7 @@ def run_chain(
 
     # Stage 1: one bundled request per concept (fit + feasible + legible share state).
     s1_path = logo.ideation / "stage1.jsonl"
-    s1_done = _resume(s1_path)
+    s1_done = _resume(s1_path, {"keep": bool})
     s1_questions = stage1_questions()
     jobs, order = [], []
     for c in concepts:
@@ -253,7 +287,7 @@ def run_chain(
 
     # Stage 2: score survivors, keep the best per metaphor.
     s2_path = logo.ideation / "stage2.jsonl"
-    s2_done = _resume(s2_path)
+    s2_done = _resume(s2_path, {"composite": (int, float)})
     s2_questions = stage2_questions()
     jobs, order = [], []
     for c in survivors:
@@ -284,7 +318,13 @@ def run_chain(
 
     # Tournament: full round-robin, both option orders; a split scores half a win each.
     t_path = logo.ideation / "tournament.jsonl"
-    t_done = {(r["a"], r["b"]): r for r in _read_jsonl(t_path) if r.get("answers")}
+    stored = {
+        (r["a"], r["b"]): r
+        for r in _cached_rows(
+            t_path, {"a": str, "b": str, "pick": str, "input_hash": str, "answers": dict}
+        )
+    }
+    t_done: dict[tuple[str, str], dict[str, Any]] = {}
     brief_state = {"brief": brief.as_state()}
     wins: dict[str, float] = {c.id: 0.0 for c in contenders}
     jobs = []
@@ -296,8 +336,6 @@ def run_chain(
     for i, a in enumerate(contenders):
         for b in contenders[i + 1 :]:
             for first, second in ((a, b), (b, a)):
-                if (first.id, second.id) in t_done:
-                    continue
                 state = dict(
                     brief_state,
                     contenders={
@@ -305,23 +343,26 @@ def run_chain(
                         slugs[second.id]: descs[second.id],
                     },
                 )
-                jobs.append(
-                    (
-                        state,
-                        head_to_head_questions(
-                            slugs[first.id],
-                            descs[first.id],
-                            slugs[second.id],
-                            descs[second.id],
-                            "best fits the brand in `brief`",
-                        ),
-                        f"tournament-{slugs[first.id]}-vs-{slugs[second.id]}",
-                    )
+                questions = head_to_head_questions(
+                    slugs[first.id],
+                    descs[first.id],
+                    slugs[second.id],
+                    descs[second.id],
+                    "best fits the brand in `brief`",
                 )
-                pairs.append((first, second))
+                # A stored pick is reused only for the exact state and question it answered.
+                digest = _input_hash({"state": state, "questions": questions})
+                kept = stored.get((first.id, second.id))
+                if kept is not None and kept.get("input_hash") == digest:
+                    t_done[(first.id, second.id)] = kept
+                    continue
+                jobs.append(
+                    (state, questions, f"tournament-{slugs[first.id]}-vs-{slugs[second.id]}")
+                )
+                pairs.append((first, second, digest))
     answers_list = client.ask_many(jobs) if jobs else []
     rows = list(t_done.values())
-    for (first, second), answers in zip(pairs, answers_list, strict=True):
+    for (first, second, digest), answers in zip(pairs, answers_list, strict=True):
         pick = answers["preferred_mark"]["choice"]
         row = {
             "a": first.id,
@@ -329,6 +370,7 @@ def run_chain(
             "order": [slugs[first.id], slugs[second.id]],
             "pick": pick,
             "answers": answers,
+            "input_hash": digest,
         }
         rows.append(row)
         t_done[(first.id, second.id)] = row

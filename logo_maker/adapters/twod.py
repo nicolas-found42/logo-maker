@@ -15,23 +15,11 @@ def _rough() -> str | None:
 
 
 def _primitive() -> str | None:
-    import os
-    import shutil
-    import subprocess
+    from logo_maker.twod_tools import primitive_path
 
-    candidates = [shutil.which("primitive")]
-    try:
-        gopath = subprocess.run(
-            ["go", "env", "GOPATH"], capture_output=True, text=True, timeout=15
-        ).stdout.strip()
-        candidates.append(os.path.join(gopath, "bin", "primitive"))
-    except (OSError, subprocess.TimeoutExpired):
-        pass
-    candidates.append(os.path.join(os.path.expanduser("~"), "go", "bin", "primitive"))
-    for hit in candidates:
-        if hit and os.path.isfile(hit) and os.access(hit, os.X_OK):
-            return None
-    return "primitive not on PATH (nor in GOPATH/bin)"
+    if primitive_path() is not None:
+        return None
+    return "primitive not found (checked PATH, $(go env GOPATH)/bin and ~/go/bin)"
 
 
 ADAPTERS: list[Adapter] = [

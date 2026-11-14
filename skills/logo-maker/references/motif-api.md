@@ -1,9 +1,9 @@
-# motif.py reference (for agents authoring a concept's motif)
+# Motif authoring API
 
-Each concept folder has a `motif.py` you write. Running it must create a
-contract-clean `motif.svg` (and `motif.json`) in the same folder. Use only
-`logo_maker.motif` (+ `logo_maker.fonts` specs, `logo_maker.twod_tools`,
-`logo_maker.trace`); never hand-write path data.
+Write `motif.py` to build `motif.svg` and `motif.json` in the concept folder. Use the Motif
+builder to construct paths. Use `logo_maker.fonts` specs for type, `logo_maker.twod_tools` for
+generated shapes, and `logo_maker.trace` for authorized raster geometry. You can also supply
+a contract-clean SVG as the authoritative source in a folder without `motif.py`.
 
 ```python
 from logo_maker.motif import Motif
@@ -69,5 +69,5 @@ size_sheet("motif.svg", "sheet.png")  # 16/32/48/64/180 px side by side
 ```
 
 Open `sheet.png`: the mark must read at 16 px and hold together at 180 px.
-Fit problems, stray strokes, or out-of-circle geometry fail the build — fix the
-`motif.py`, never the `.svg` by hand.
+Fix geometry and path problems in the authoritative source. If `motif.py` generates the SVG,
+edit and rerun the script. If the SVG is the source, repair a working copy and preserve the original.

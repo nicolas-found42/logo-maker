@@ -42,6 +42,10 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `standout` | score | `0-4`, `Generic: could belong to any brand.`, `Familiar: a common idea with a small twist.`, `Distinctive: memorable among comparable marks.`, `Striking: immediately catches the eye.`, `Iconic: one of a kind.` | expected value vs the stage's named cutoff | stage2_composite -> stage2.jsonl |
 | `double_meaning` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | stage2_composite -> stage2.jsonl |
 | `memorable` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | stage2_composite -> stage2.jsonl |
+| `candidate_visible` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | development calibration comparison |
+| `reference_visible` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | development calibration comparison |
+| `candidate_defect` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | development calibration comparison |
+| `construction_observation` | choice | `comparison_unclear`, `feature_outside_inspectable_area`, `visible_damage_or_construction_error`, `visible_intact_feature` | top choice wins (a companion Noul guards the null case where one exists) | development calibration comparison |
 | `preferred_mark` | choice | `sample_alpha`, `sample_beta` | top choice wins (a companion Noul guards the null case where one exists) | head_to_head_table -> tournament.jsonl / winner.json |
 | `matches_concept` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | preview_decision -> finalists.json |
 | `readable_mark` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | preview_decision -> finalists.json |
@@ -54,14 +58,18 @@ Every question Jev answers, generated from `logo_maker/jev/questions.py` (`descr
 | `proportion_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `visual_hierarchy` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `lighting_control` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `feature_visible` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
+| `feature_execution` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
 | `symbol` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `appearance` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
-| `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | intake.json brand_colors (brand p >= 0.7) |
+| `brand_specificity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `meaningful_synthesis` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `constraint_fidelity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `communicative_clarity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `small_flat` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `small_hero` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
+| `source_identity` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
+| `adaptation_treatment` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | study visual review |
 | `noise_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `detail_preserved` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |
 | `aliasing_free` | noul | `true`, `false` | yes >= 0.7, no < 0.3, else unsettled | eligibility_decision -> qa/eligibility.jsonl (only pass advances) |

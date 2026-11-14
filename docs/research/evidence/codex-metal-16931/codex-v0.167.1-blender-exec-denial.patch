@@ -1,0 +1,12 @@
+diff --git a/codex-rs/sandboxing/src/seatbelt_base_policy.sbpl b/codex-rs/sandboxing/src/seatbelt_base_policy.sbpl
+index 2fca6a8..ac7d675 100644
+--- a/codex-rs/sandboxing/src/seatbelt_base_policy.sbpl
++++ b/codex-rs/sandboxing/src/seatbelt_base_policy.sbpl
+@@ -9,5 +9,7 @@
+
+ ; child processes inherit the policy of their parent
+ (allow process-exec)
++; Logo-maker uses the pinned Python module for native work.
++(deny process-exec (regex #"/[Bb]lender$"))
+ (allow process-fork)
+ (allow signal (target same-sandbox))

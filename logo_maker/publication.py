@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import shutil
@@ -59,6 +60,13 @@ def publish(
             raise SamplingLimit(
                 f"cleanup unconfirmed: publication recovery failed; retain {journal}; {recovery}"
             ) from original
+        if isinstance(original, PublicationConflict):
+            # A rejected build is deterministic, not an interruption: the prior set is back, so
+            # drop the staged copy (a `move` entry's only copy) instead of leaking it.
+            with contextlib.suppress(Exception):
+                host.run(
+                    {"operation": "clean_publication", "journal": str(journal)}, budget, stages
+                )
         raise
     try:
         host.run({"operation": "clean_publication", "journal": str(journal)}, budget, stages)

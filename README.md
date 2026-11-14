@@ -15,13 +15,38 @@ Requires macOS on Apple silicon (Metal GPU), [uv](https://docs.astral.sh/uv/), N
 just setup                                  # go, fontforge, primitive, Python env, npm, Metal kernels
 uv run python scripts/install.py --agent claude   # or codex | omp | skills --destination DIR
 logo-maker doctor
-export OPENROUTER_API_KEY=...               # Jev via OpenRouter (or TYPESAFE_API_KEY)
 ```
 
 ## Use
 
+The local 3D study workflow works without Jev. Fill `brief.toml`, author the named concepts and
+their vector artwork and scenes, then render the selected designs together.
+
 ```sh
-logo-maker new acme --name "Acme"   # writes logos/acme/brief.toml and templates
+logo-maker new acme --name "Acme"
+logo-maker study acme --concept first --concept second --preview
+logo-maker study acme --concept first --concept second
+logo-maker review-study acme <study-id>
+```
+
+The ZIP includes transparent heroes, editable Blender scenes, flat marks, favicons, and visual
+inspection views. Review resumes using the returned study ID. Set `OPENROUTER_API_KEY` or
+`TYPESAFE_API_KEY` when using Jev. See the [3D study guide](skills/logo-maker/references/studies.md).
+
+For modeled branding in Codex on Apple Silicon, use the
+[branding campaign](skills/logo-maker/references/campaign.md). It retains approval, budget,
+render and review state across sessions. It packages the editable scene and branding assets
+with the current qualification status.
+
+Install the matching tool and skill into a new Codex project from this checkout:
+
+```sh
+uv run --locked python scripts/install.py --agent codex --destination /absolute/project
+```
+
+For the declarative production workflow, use the judged pipeline with a matching sampling profile.
+
+```sh
 logo-maker brief acme               # review supplied evidence and freeze requirements
 logo-maker run acme                 # runs every stage; stops where the agent must author files
 logo-maker improve acme             # new round; replaces the logo only if it wins head-to-head
@@ -32,16 +57,15 @@ facts, mandates and assumptions separate. Each shortlisted concept gets a `plan.
 hypothesis and purposeful detail; `logo-maker plan acme` reviews intent before preview rendering.
 Actual pixels still require independent craft, fit and technical passes.
 
-Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `preview`, `finalize`, `export`
-(each resumable), `run`,
-`improve`, `doctor`,
+Stages: `brief`, `intake`, `ideate`, `plan`, `motifs`, `refine`, `status`, `preview`, `finalize`,
+`export` (each resumable), `run`, `improve`, `doctor`,
 `mcp`. The skill in [skills/logo-maker/SKILL.md](skills/logo-maker/SKILL.md) walks an agent through the
 authoring steps.
 
 ## Exports
 
 `exports/`: transparent hero (2000 px), hero on paper, 1024 px circle-safe avatar, favicons
-16/32/48/180/512 + `.ico`, color and mono SVG, PWA icons and splash screens, Draco-compressed `.glb`,
+16/32/48/180/512 + `.ico`, color and mono SVG, PWA icons (no splash screens), Draco-compressed `.glb`,
 `.blend`, and a contact sheet.
 
 ## Docs

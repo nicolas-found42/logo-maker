@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import tomllib
 from contextlib import suppress
 from pathlib import Path
@@ -24,6 +25,7 @@ if TYPE_CHECKING:
     import trimesh
 
 BUILD_DIRNAME = ".build"
+_HEX = re.compile(r"#[0-9A-Fa-f]{6}")
 
 QUALITY = {
     "test": {"resolution": 256, "samples": 64, "adaptive": False, "adaptive_threshold": 0.01},
@@ -44,6 +46,7 @@ COMPONENT_KINDS = (
     "tube",
     "voxels",
     "cad",
+    "lathe",
     "mesh",
     "bpy",
 )
@@ -82,8 +85,11 @@ def _field(
             raise SceneError(f"scene.toml: [{where}] missing required field {name!r}")
         return default
     value = data[name]
-    if types is not None and not isinstance(value, types):
-        want = getattr(types, "__name__", str(types))
+    allowed = types if isinstance(types, tuple) else (types,)
+    if types is not None and (
+        not isinstance(value, types) or (isinstance(value, bool) and bool not in allowed)
+    ):
+        want = " or ".join(t.__name__ for t in allowed if t is not None)
         raise SceneError(f"scene.toml: [{where}] {name}={value!r} must be {want}")
     return value
 
@@ -114,7 +120,7 @@ def load_scene(path: Path) -> dict:
     """Read and validate a scene.toml; returns plain data with defaults filled."""
     try:
         raw = tomllib.loads(Path(path).read_text())
-    except tomllib.TOMLDecodeError as exc:
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError) as exc:
         raise SceneError(f"scene.toml: cannot parse {path}: {exc}") from exc
     if not isinstance(raw, dict):
         raise SceneError("scene.toml: top level must hold tables")
@@ -235,10 +241,21 @@ def _validate_material(name: str, spec: Any) -> dict:
         raise SceneError(
             f"scene.toml: [{where}] preset={preset!r} is not in catalog/materials.toml"
         )
+    known = {"preset", "color", "tangent", "emission_color", *_MATERIAL_PARAMS}
+    unknown = sorted(set(spec) - known)
+    if unknown:
+        raise SceneError(
+            f"scene.toml: [{where}] unknown field {unknown[0]!r}; known: {', '.join(sorted(known))}"
+        )
     color = _field(where, spec, "color", str, None)
-    if color is not None and not color.startswith("#"):
+    if color is not None and not _HEX.fullmatch(color):
         raise SceneError(f"scene.toml: [{where}] color={color!r} must be #RRGGBB")
     out = {"preset": preset, "color": color}
+    emission = _field(where, spec, "emission_color", str, None)
+    if emission is not None:
+        if not _HEX.fullmatch(emission):
+            raise SceneError(f"scene.toml: [{where}] emission_color={emission!r} must be #RRGGBB")
+        out["emission_color"] = emission
     for key in _MATERIAL_PARAMS:
         if key == "texture":
             value = _field(where, spec, key, None)
@@ -315,8 +332,14 @@ def _check_kind_fields(where: str, comp: dict) -> None:
         "height_scale",
     )
     for key in nums:
-        if key in scalar and not isinstance(scalar[key], (int, float)):
+        if key in scalar and (
+            isinstance(scalar[key], bool) or not isinstance(scalar[key], (int, float))
+        ):
             raise SceneError(f"scene.toml: [{where}] {key}={scalar[key]!r} must be a number")
+        if key in scalar and not math.isfinite(scalar[key]):
+            raise SceneError(f"scene.toml: [{where}] {key}={scalar[key]!r} must be finite")
+        if key in ("radius", "major", "minor") and key in scalar and scalar[key] <= 0:
+            raise SceneError(f"scene.toml: [{where}] {key}={scalar[key]!r} must be > 0")
     if "smooth" in comp and type(comp["smooth"]) is not bool:
         raise SceneError(f"scene.toml: [{where}] smooth must be a boolean")
     if kind == "ring_text":
@@ -330,6 +353,25 @@ def _check_kind_fields(where: str, comp: dict) -> None:
         raise SceneError(f"scene.toml: [{where}] mesh needs a path to an OBJ/STL/PLY/GLB file")
     if kind == "cad" and comp.get("op", "box") not in ("box", "rounded_box", "cylinder"):
         raise SceneError(f"scene.toml: [{where}] cad op must be box|rounded_box|cylinder")
+    if kind == "lathe":
+        profile = comp.get("profile")
+        if (
+            not isinstance(profile, list)
+            or len(profile) < 3
+            or any(
+                not isinstance(point, list)
+                or len(point) != 2
+                or any(
+                    type(value) not in (int, float) or not math.isfinite(value) for value in point
+                )
+                or point[0] < 0
+                for point in profile
+            )
+        ):
+            raise SceneError(f"scene.toml: [{where}] lathe needs at least three [radius, z] points")
+        sections = comp.get("sections", 96)
+        if type(sections) is not int or not 16 <= sections <= 256:
+            raise SceneError(f"scene.toml: [{where}] lathe sections must be an integer in 16..256")
     if kind == "plate" and comp.get("edge", "smooth") not in ("smooth", "irregular"):
         raise SceneError(f"scene.toml: [{where}] plate edge must be smooth|irregular")
     if kind == "relief" and comp.get("mode", "raise") not in ("raise", "cut", "through"):
@@ -903,6 +945,11 @@ def _build_object(comp: dict, scene: dict, motif: dict, concept_dir: Path, mesh_
             if key in comp:
                 spec[key] = comp[key]
         mesh = geometry.cad_mesh(spec)
+    elif kind == "lathe":
+        try:
+            mesh = geometry.lathe_mesh(comp["profile"], comp.get("sections", 96))
+        except ValueError as exc:
+            raise SceneError(f"scene.toml: [{name}] {exc}") from exc
     elif kind == "mesh":
         src = Path(comp["path"])
         if not src.is_absolute():

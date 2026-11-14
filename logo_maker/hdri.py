@@ -7,6 +7,7 @@ local path. Both sources are CC0; the caller records the license via `on_asset`.
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from pathlib import Path
 
@@ -43,15 +44,17 @@ def _download(url: str, dest: Path, timeout: float) -> Path:
 
     if dest.exists() and dest.stat().st_size > 0:
         return dest
+    # A killed process must never leave a partial file under the name the cache trusts.
+    partial = dest.with_name(f".{dest.name}.{os.getpid()}.part")
     try:
         with httpx.stream("GET", url, timeout=timeout, follow_redirects=True) as resp:
             resp.raise_for_status()
-            with open(dest, "wb") as fh:
+            with open(partial, "wb") as fh:
                 for chunk in resp.iter_bytes():
                     fh.write(chunk)
+        partial.replace(dest)
     except Exception as exc:
-        if dest.exists():
-            dest.unlink(missing_ok=True)
+        partial.unlink(missing_ok=True)
         raise HdriError(f"could not download {url}: {exc}") from exc
     return dest
 

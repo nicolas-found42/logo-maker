@@ -13,20 +13,14 @@ import math
 import sys
 from pathlib import Path
 
+from logo_maker.blender.metal import require_metal_device
 from logo_maker.geometry import camera_distance, fov_from_lens
 
 
-def main(scene_json: str) -> None:
+def prepare_scene(scene: dict, build_dir: Path) -> list:
     import bpy
 
     from logo_maker.blender import components, lighting, materials, settings
-
-    scene_path = Path(scene_json)
-    build_dir = scene_path.parent
-    concept_dir = build_dir.parent
-    scene = json.loads(scene_path.read_text())
-    build_dir = Path(scene.get("build_dir", build_dir))
-    concept_dir = Path(scene.get("output_dir", concept_dir))
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -49,6 +43,19 @@ def main(scene_json: str) -> None:
 
     settings.apply_cycles_gpu()
     settings.apply_quality(scene["quality"])
+    return visible
+
+
+def main(scene_json: str) -> None:
+    require_metal_device()
+
+    import bpy
+
+    scene_path = Path(scene_json)
+    scene = json.loads(scene_path.read_text())
+    build_dir = Path(scene.get("build_dir", scene_path.parent))
+    concept_dir = Path(scene.get("output_dir", scene_path.parent.parent))
+    visible = prepare_scene(scene, build_dir)
 
     png = concept_dir / f"{scene['quality']['name']}.png"
     bpy.context.scene.render.filepath = str(png)

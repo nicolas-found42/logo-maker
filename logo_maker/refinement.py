@@ -154,7 +154,14 @@ def key(data: Any) -> str:
 
 @owned_io
 def read(path: Path) -> Any:
-    return json.loads(path.read_text())
+    try:
+        return json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        raise ValueError(
+            f"{path}: not valid JSON ({exc.msg} at line {exc.lineno}); rewrite or delete it"
+        ) from exc
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{path}: not valid UTF-8 ({exc.reason}); rewrite or delete it") from exc
 
 
 @owned_io
@@ -171,7 +178,9 @@ def construction(folder: Path) -> dict:
 
     path = folder / "construction.json"
     data = read(path) if path.exists() else {}
-    if any(not isinstance(data.get(k), str) or not data[k].strip() for k in CONSTRUCTION_FIELDS):
+    if not isinstance(data, dict) or any(
+        not isinstance(data.get(k), str) or not data[k].strip() for k in CONSTRUCTION_FIELDS
+    ):
         raise AuthoringNeeded("write the per-concept construction/meaning brief", [path])
     deps = data.get("dependencies")
     if not isinstance(deps, list) or any(
@@ -182,7 +191,7 @@ def construction(folder: Path) -> dict:
         )
     info_path = folder / "concept.json"
     info = read(info_path) if info_path.exists() else {}
-    if info.get("description") != data["current_description"]:
+    if not isinstance(info, dict) or info.get("description") != data["current_description"]:
         raise AuthoringNeeded(
             "update concept.description to the construction current_description", [info_path, path]
         )
@@ -206,7 +215,11 @@ def concept_sources(folder: Path, *, exclude: set[str] | None = None) -> dict[st
             files[f"concept/{relative}"] = path
     intent = folder / "construction.json"
     if intent.exists():
-        for i, name in enumerate(read(intent).get("dependencies", [])):
+        data = read(intent)
+        deps = data.get("dependencies", []) if isinstance(data, dict) else []
+        for i, name in enumerate(deps if isinstance(deps, list) else []):
+            if not isinstance(name, str):
+                continue  # construction() reports the malformed entry to the author
             path = (folder / name).resolve()
             if path.is_file():
                 files[f"dependency/{i}/{path.name}"] = path
@@ -246,7 +259,16 @@ def source_hashes(logo: LogoDir, folder: Path) -> dict[str, str]:
 @owned_io
 def history(logo: LogoDir, cid: str) -> list[dict]:
     root = logo.qa / "revisions" / concept_slug(cid)
-    return [read(p) for p in sorted(root.glob("[0-9]*/revision.json"))]
+    records = []
+    for path in sorted(root.glob("[0-9]*/revision.json")):
+        record = read(path)
+        if not isinstance(record, dict) or not isinstance(record.get("evidence"), str):
+            raise ValueError(
+                f"{path}: not a revision record (needs an 'evidence' folder); "
+                f"delete {path.parent} to drop that revision"
+            )
+        records.append(record)
+    return records
 
 
 @owned_io
@@ -255,11 +277,14 @@ def _current_record(logo, cid, quality):
     state = folder / "render-state.json"
     if not state.exists():
         return None
-    record = read(state).get(quality)
-    if not record or record["source_sha256"] != source_hashes(logo, folder):
+    states = read(state)
+    record = states.get(quality) if isinstance(states, dict) else None
+    if not isinstance(record, dict) or not isinstance(record.get("source_sha256"), dict):
+        return None  # absent or hand-damaged: not current, so the next render rewrites it
+    if record["source_sha256"] != source_hashes(logo, folder):
         return None
     image = folder / f"{quality}.png"
-    if not image.exists() or record["image_sha256"] != digest(image):
+    if not image.exists() or record.get("image_sha256") != digest(image):
         return None
     return record
 
@@ -338,6 +363,25 @@ def _archive(logo, cid, quality, hashes, png, execution_path, sampling_path, sec
     archive_target = dest
     dest = dest.with_name(".archiving-" + uuid.uuid4().hex)
     dest.mkdir(parents=True)
+    try:
+        return _fill_archive(
+            logo, cid, quality, hashes, png, execution_path, sampling_path, seconds,
+            execution=execution, prior=prior, revision=revision,
+            archive_target=archive_target, dest=dest,
+        )  # fmt: skip
+    except BaseException:
+        # The staging copy holds every source and render; a failed archive must not keep it.
+        shutil.rmtree(dest, ignore_errors=True)
+        raise
+
+
+def _fill_archive(
+    logo, cid, quality, hashes, png, execution_path, sampling_path, seconds,
+    *, execution, prior, revision, archive_target, dest,
+):  # fmt: skip
+    from logo_maker.proc import ToolError
+
+    folder = logo.concept(cid)
     for name, path in inputs(logo, folder).items():
         target = dest / "sources" / name
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -391,6 +435,8 @@ def _archive(logo, cid, quality, hashes, png, execution_path, sampling_path, sec
     }
     write(dest / "revision.json", record)
     state = read(folder / "render-state.json") if (folder / "render-state.json").exists() else {}
+    if not isinstance(state, dict):
+        state = {}  # a damaged state file is replaced by this record
     state[quality] = record
     return {
         "record": record,
@@ -441,11 +487,15 @@ def inspection_snapshot(logo: LogoDir, cid: str, record: dict) -> dict:
         "inspection-final.json" if record["quality"] == "final" else "inspection.json"
     )
     raw = path.read_bytes() if path.exists() else b"{}"
-    data = _inspected_data(logo, cid, record, json.loads(raw))
+    try:
+        parsed = json.loads(raw)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        parsed = None  # unreadable inspection: ask the author to rewrite it
+    data = _inspected_data(logo, cid, record, parsed)
     return {"data": data, "sha256": hashlib.sha256(raw).hexdigest()}
 
 
-def _inspected_data(logo: LogoDir, cid: str, record: dict, data: dict) -> dict:
+def _inspected_data(logo: LogoDir, cid: str, record: dict, data: Any) -> dict:
     from logo_maker.pipeline import AuthoringNeeded
 
     path = logo.concept(cid) / (
@@ -458,7 +508,8 @@ def _inspected_data(logo: LogoDir, cid: str, record: dict, data: dict) -> dict:
         "next_comparison": "open retained image and prior revision; record observations, critique and user direction",
     }
     if (
-        data.get("revision") != record["revision"]
+        not isinstance(data, dict)
+        or data.get("revision") != record["revision"]
         or not isinstance(data.get("observations"), str)
         or not data["observations"].strip()
         or not isinstance(data.get("critiques"), list)
@@ -473,7 +524,8 @@ def _inspected_data(logo: LogoDir, cid: str, record: dict, data: dict) -> dict:
     for critique in data["critiques"]:
         if (
             not isinstance(critique, dict)
-            or critique.get("kind") not in {"craftsmanship", "brief_fit", "preference", "technical"}
+            or not isinstance(critique.get("kind"), str)
+            or critique["kind"] not in {"craftsmanship", "brief_fit", "preference", "technical"}
             or any(
                 not isinstance(critique.get(k), str) or not critique[k].strip()
                 for k in ("dimension", "artifact", "evidence", "action", "comparison")
@@ -495,7 +547,7 @@ def report(logo: LogoDir, ids: list[str]) -> dict:
     pool = logo.ideation / "pool.jsonl"
     comparisons = logo.qa / "comparisons.json"
     return {
-        "text_combinations": sum(bool(line.strip()) for line in pool.read_text().splitlines())
+        "text_combinations": sum(bool(line.strip()) for line in pool.read_bytes().splitlines())
         if pool.exists()
         else 0,
         "authored_motifs": sum(
@@ -541,7 +593,7 @@ def _judge_revision(
         [getattr(client, "model", type(client).__name__), getattr(client, "url", None)],
     )
     binding, cached = prepared["binding"], prepared["cached"]
-    if cached.get("binding") == binding:
+    if _answered(cached, binding, creative_questions()):
         answers = cached["answers"]
     else:
         answers = client.ask(
@@ -747,10 +799,14 @@ def require_binding(logo: LogoDir, data: dict, stage: str) -> None:
 def comparison_complete(path: Path) -> bool:
     from logo_maker.jev.questions import noul_status
 
-    return (
-        path.exists()
-        and noul_status(float(read(path)["answers"]["critique_resolved"]["noul"])) == "yes"
-    )
+    if not path.exists():
+        return False
+    data = read(path)
+    try:
+        noul = float(data["answers"]["critique_resolved"]["noul"])
+    except (KeyError, TypeError, ValueError):
+        return False  # an incomplete or hand-damaged comparison does not resolve the critique
+    return noul_status(noul) == "yes"
 
 
 @owned_io
@@ -773,18 +829,21 @@ def diagnosis(logo: LogoDir, cid: str, record: dict, unknown: dict) -> dict:
         "alpha",
         "unknown",
     }
+    if not isinstance(data, dict):
+        return {**unknown, "invalid_diagnosis": "diagnosis.json must be an object"}
     evidence = data.get("evidence", [])
     if (
         data.get("revision") != record["revision"]
-        or data.get("cause") not in causes
+        or not isinstance(data.get("cause"), str)
+        or data["cause"] not in causes
         or not isinstance(evidence, list)
         or not evidence
     ):
         return {**unknown, "invalid_diagnosis": "missing/stale revision, cause or evidence"}
     for item in evidence:
-        if not isinstance(item, dict):
+        if not isinstance(item, dict) or not isinstance(item.get("artifact"), str):
             return {**unknown, "invalid_diagnosis": "malformed evidence"}
-        artifact = logo.root / item.get("artifact", "")
+        artifact = logo.root / item["artifact"]
         if (
             not artifact.is_file()
             or item.get("sha256") != digest(artifact)
@@ -879,8 +938,8 @@ def _comparison_inputs(logo, before, after, judge):
         }
     )
     path = logo.qa / "comparisons.json"
-    rows = read(path) if path.exists() else []
-    cached = next((r for r in rows if r["binding"] == binding), None)
+    rows = _comparison_rows(path)
+    cached = next((r for r in rows if _answered(r, binding, revision_questions())), None)
     return {
         "binding": binding,
         "cached": cached,
@@ -890,10 +949,30 @@ def _comparison_inputs(logo, before, after, judge):
     }
 
 
+def _comparison_rows(path: Path) -> list:
+    rows = read(path) if path.exists() else []
+    if not isinstance(rows, list):
+        raise ValueError(f"{path}: expected a list of comparison rows; delete it to compare again")
+    return rows
+
+
+def _answered(row: object, binding: str, questions: dict) -> bool:
+    """A cached jev row is reused only with the current binding and a noul for every question."""
+    if not isinstance(row, dict) or row.get("binding") != binding:
+        return False
+    answers = row.get("answers")
+    return isinstance(answers, dict) and all(
+        isinstance(answers.get(name), dict)
+        and isinstance(answers[name].get("noul"), (int, float))
+        and not isinstance(answers[name]["noul"], bool)
+        for name in questions
+    )
+
+
 @owned_io
 def _retain_comparison(logo, before, after, result):
     path = logo.qa / "comparisons.json"
-    rows = read(path) if path.exists() else []
+    rows = _comparison_rows(path)
     after_dir = logo.root / after["evidence"]
     binding = result["binding"]
     rows.append(result)
@@ -984,9 +1063,14 @@ def verify_selection(
 
 
 def verify_winner(logo, data, *, check_machine=True):
-    from logo_maker.pipeline import AuthoringNeeded
+    from logo_maker.pipeline import AuthoringNeeded, is_concept_id
 
-    if not isinstance(data.get("creative"), dict) or not data["creative"].get("evidence"):
+    if (
+        not isinstance(data, dict)
+        or not is_concept_id(data.get("winner"))
+        or not isinstance(data.get("creative"), dict)
+        or not data["creative"].get("evidence")
+    ):
         raise AuthoringNeeded(
             "stale creative winner proof; rerun finalize", [logo.root / "ideation/winner.json"]
         )

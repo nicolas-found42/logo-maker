@@ -24,13 +24,14 @@ ACCENT_MIN = 3.0
 
 def normalize(hexcode: str) -> str:
     """Any common hex spelling to uppercase `#RRGGBB`; raises `ValueError` otherwise."""
-    text = hexcode.strip().lstrip("#")
-    if len(text) == 3 and all(c in "0123456789abcdefABCDEF" for c in text):
-        text = "".join(c * 2 for c in text)
-    result = f"#{text.upper()}"
-    if not HEX.match(result):
+    if not isinstance(hexcode, str):
         raise ValueError(f"{hexcode!r} is not a hex color")
-    return result
+    text = hexcode.strip().removeprefix("#")
+    if not re.fullmatch(r"[0-9a-fA-F]{3}|[0-9a-fA-F]{6}", text, re.ASCII):
+        raise ValueError(f"{hexcode!r} is not a hex color")
+    if len(text) == 3:
+        text = "".join(c * 2 for c in text)
+    return f"#{text.upper()}"
 
 
 def extract_colors(image: Path, n: int = 8) -> list[tuple[str, float]]:

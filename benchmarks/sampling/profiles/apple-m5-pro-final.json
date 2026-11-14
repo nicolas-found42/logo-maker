@@ -20,7 +20,7 @@
       "kern.osversion": "26A434",
       "machdep.cpu.brand_string": "Apple M5 Pro"
     },
-    "lockfile_sha256": "f1e4de57319173161d4ff758402d78b400fabbe660a43513966b3282a01335a4",
+    "lockfile_sha256": "724def27119c3564c4248a9dd0a9d78360c7f8508340f63a960199f5a37e9609",
     "machine": "arm64",
     "metalrt": "AUTO",
     "oidn_libraries_sha256": {
@@ -49,14 +49,14 @@
     "settings_key": "48b10fe26697c4f5da5ee4438190a8bc568458439ed88ddb590642bebfd32bc4",
     "code_sha256": {
       "__init__.py": "abe3899d09dabb6f8fd5ef51c947a858075ba8f17008b71536baa76f9afb3635",
-      "adapters/__init__.py": "df06f641a82e78d74868a609bd172098d611c3e3f012588d39fafa8d93048a37",
-      "adapters/jev.py": "832f052aa65b8391395fdc8dc7b3c9a6e8a12b480e565312200c993e1dbb1880",
-      "adapters/render_export.py": "cbd7105ce29545958940923821600f596de407d5ac2d08bf6e0f2ec7e766d1a6",
-      "adapters/threed.py": "2527f715d58d780a8cd08c03fdef7adaae0531d1c2705bedcdb8b5c1addb26ec",
-      "adapters/twod.py": "4ae29e118c8300770e05562a477bf027b50b2cdb4353563d63c680355fdda8ec",
-      "benchmark.py": "b030556ad704c9ef4a5eb828bf22dd5ad52e5a3570c354997ef64e38239f3fac",
+      "adapters/__init__.py": "036dd304d4ffa14976696ac82191292757c3a0ae9d7b9754d1ac3e721887c385",
+      "adapters/jev.py": "9694678105b6b34030d5d14ebfe633ab7da13019ae347e439cc06a7b37d8736a",
+      "adapters/render_export.py": "7bab498c26d60b20f9e0bd76d573371de10adcdb0ac69def9d0b1725adad8b2f",
+      "adapters/threed.py": "f07eed23a4da40db947c36a70f37501ba3f5d8e697240319d4f98de3e55bc24c",
+      "adapters/twod.py": "bbac185b3fde00dd8cc4a22f9f687a0fd300c6762e41ec24a54dcc54302ae0bd",
+      "benchmark.py": "5765756c9a0407c700b8ba17474f04df7088852c0f195ba688b1ccbf113e6501",
       "blender/__init__.py": "928d31d8a96625a78d10d6d177b0924cdfc87723b1664fc887034f3509430d90",
-      "blender/build.py": "c91473748a21e5e32d90540808111797f5b6853afc0dc952d19c124515fc0216",
+      "blender/build.py": "0a27a367b332fd8578095d552fc5f1e09c755bc44d93f373707653bf2ccf8d3d",
       "blender/components.py": "8a5641eb6bcebdfd1285f07027746f420a32ff48fd37f994e34b7d9847e62ec6",
       "blender/execution.py": "aca1dd5af2b5c75f6b674e846e18eb4597387804c2dfaf3878b9d2a825e5f9db",
       "blender/lighting.py": "82c5d2b7c271fff891a155cae1ef5b9794be7eb1f1177863cb5d3571eb5e47f1",
@@ -64,53 +64,55 @@
       "blender/profile.py": "f98a88b5369497f8c482f133a54c4e52b6020ba7e696d4029dab57b32bffa3ec",
       "blender/replay.py": "1eb6c18ce47e3dff4a6c2f7bc7bdcf8b10824c27945bdd82e700fd741769fefc",
       "blender/settings.py": "10effd30086f7193ac083997273d0beae2169fd27b58ac8d02aab9b2b83d2c16",
-      "brief.py": "55d7b4e1342c7ab6cbf0e6c2cc1e7b94ecbe21692bbd222f7bc9b66874e2cab5",
-      "briefing.py": "9c03fe1e278ff656be93385dc4d38ebe8847c298dba4651aff1f0b315637dbd9",
+      "blender/study.py": "d6b735afd4e90d1a84d89011af9ecec2e73539131eee9511e8ca626cded712c7",
+      "brief.py": "3b14a3cd14be0aeb944fccb945f669b99fc5389b118eb40978d8cc691ed5fe6f",
+      "briefing.py": "5a31748d6428a04789cfa95bebe25a8434d3b5cbde8088de8b249b28100629c9",
       "catalog/__init__.py": "05fc0b71d0435cfbb9f6ed647dd1ef935ea2d1fc59edf599cfb177555ccb6be3",
-      "catalog/lighting.toml": "6fe1b64ffeb78d70e132f8dd5d0f654fb01354d7408cbc41b4901a611be7d253",
+      "catalog/lighting.toml": "e3f40b6ea86f7157be569e9a41b936780976836da6dd3fdc34ae302fa377978b",
       "catalog/materials.toml": "06d58af2bdfbdcf886c09e44ee749e46fed7c864d029092d5cbbec516b77dc4f",
       "catalog/treatments.toml": "af4721c02d9be038c50f4909e198771ed3214f043656804e3de53300612e4fc9",
       "checks.py": "d09b90c19071ceb0bb93b0b7e9078a8088e6e931a599f88177d0ebe45ecd5f2c",
-      "cli.py": "3755b9c2c6b6624f119967d81299644f8ff0ad1b9bba149472262c0b584baa57",
-      "doctor.py": "7d95313029735a77b2ce43d506ae883f64a70e076484ce56fe686b5d855869e8",
-      "eligibility.py": "cb12e593b6376b5c8a8f110ea6c1e88c6a4ba2835f5793a45a35fa1597b9793a",
-      "export.py": "4d2a4bcba81fb3a2b0d8374685c415301fca80d21dcf2ab4d0d0d04f39c52c9e",
-      "fonts.py": "28e638cfc3b6ea0689ecda8c353e5d80963c2288fa862904c34325c113fbc3fa",
-      "geometry.py": "57a2af0169a62f668288ad64d36706172455d9fb15f277ad853d8fa72d2b7081",
-      "hdri.py": "acd858f894ceff943c8ea9e37be544331df1265dab76fd407788ed85b29990e6",
-      "host.py": "69951d9341fa19e6f578b4eeb5441f03bc11ee0037bbbd767b69bc6060cd7b6b",
-      "ideate.py": "36651199f7499d2774580ffab0a98747123657068f1b1bdd880f50590534cf08",
-      "imageops.py": "9c8d6c02a18866979d7b5d4e89394c1f4831432a9114ebe1a05dfa4e2f569cb1",
-      "intake.py": "74332abbc59a92b686e349513d73b98637cd599f54321fb88e6b0b395ffa57d6",
+      "cli.py": "7ee3308f3214cc54d612fafb1dfbef7b5d4cfdffc5605aa9f61149fcf1457dbf",
+      "doctor.py": "f41bdc4d4d4e641d88556431c8c5563850472f81d5f5260534629cfb3fd9872b",
+      "eligibility.py": "dd548dae3fa96792f6e736363f3411973049217144215e1adab29728aa172437",
+      "export.py": "55d74f23f4857cd94d51193345fae46a51b796e5bd86aa6356fe8429c1e3ebb3",
+      "fonts.py": "b202f04cc007b1c0c0e5c3ed9826ea7b0ab5d19ad2883a20e27f3745536a56f2",
+      "geometry.py": "354ee90f85d44d51b1d3ea8d2840ae1a98f667c5d016ed3386b64b6da1ec10dc",
+      "hdri.py": "d6c2333769a46531d8304acbaf2a28ae591cc879f5319bdb8fcc25d2dfeee3f1",
+      "host.py": "38a6edd7c76669eb07f62e69844caf3c675a701bfa72cf181516f10cd837ceca",
+      "ideate.py": "51dfd42fc46885e3fa6b8ac42cec886e3db6ed2d6d4f59520419a6cdb918be5f",
+      "imageops.py": "824a2251d0607034a4562c16def2aa10b174765493e5e2b505881c20eb763725",
+      "intake.py": "7b38299f6976efc4d9f1c754e0c0a57e03de5b554202e8972d507963835468ce",
       "jev/__init__.py": "b9a6aebeec7ee34e3fd218c2926f547e7b1b53a13eb1809fe2e886757ff02ee8",
-      "jev/client.py": "78e16c721300a4d8333dde4f9ff44682d68a42c22870136f4d19c1c4df7bddbd",
-      "jev/questions.py": "115a7c071827dcb2438489830054eb592db5ba6c66856dc0387903f2c19e2f55",
+      "jev/client.py": "696934688debcdf4939e4efd7d8bbb79edbc81ae81d258686c30badce05dc5e1",
+      "jev/questions.py": "aee529ec172a3e06a5aafbc6d978944c0eb6ba57b8c30ab3523be5d83811c446",
       "jev/worker.py": "0d84b51aef0f2249f67d36a560d15b5c2bd0968ea8331a0ebd494b5be47cef7b",
-      "judging.py": "d6c22ce0aa279ac96a7a1cf689d882b44acb3d01fdb3a7ada8a9ba780a48125a",
-      "mcp_server.py": "3091023b80d74e8d46ddd73088cd0872a5e7785c796d016725dd374419f270a5",
-      "motif.py": "849a0cc17a67c820f8af9149a71ccd1c49cc8b394895fa4fa2ffef65317e3975",
-      "owned_process.py": "b1c6359356535658577b6f3e7c62dbc87a4cc53287a3ee5e2e61806040e9ab9f",
-      "palette.py": "3b796cdd0218c3ef18881c897743e38ef5726e0c0485adabfd830f398ddbf538",
-      "paths.py": "3a012b324971fa089e7752e84e231158e9f3e9c3e5468298d735521afd8de0df",
-      "pipeline.py": "771f463d9bde5da04de2d2dd6aca1c28b60da79f4ac7791ba45a30a944f212d4",
-      "proc.py": "1a122af06382de146e15b12f08fa9e3b314250b7fccd7bbe39050dc2b0b9a35a",
-      "publication.py": "f83f0c3f70dc6d697534f5a24af0bfa60a16b10f12e62490a8de018774bfd289",
-      "refinement.py": "21e95b0353356ad6f575bdb72a0b37ca5444caad7d8f07fc44e55369725bafd5",
-      "render.py": "2a290245ef0d525e5f30fc7413012671ee3d06fc594f0771b05b94ba8cad1d92",
-      "renderers/__init__.py": "123d9a4c4f6846c672bf459361e18d5699187e52ec0e6a29f94ea77ce55f2aff",
+      "judging.py": "943bc888b8ff637a8e3b3541b9c0200463dc2be3d98859e83d39adc90050fb73",
+      "mcp_server.py": "47b82c483315a20cc9af2719815a51c2e7ab7446002a24686d54ddf64e82c8c9",
+      "motif.py": "61537c2b2e97ab5bcd878b886a551ebf6b663d05dbef7922a8772207b46c5fe2",
+      "owned_process.py": "8a528536c8eb01410c7a32ae26fffa6af98d91929f9087069379c4eb8171366c",
+      "palette.py": "dc97b2b4c6a28115a97efcaba3686ad57830b1d71e0be020ab437db4d48cc2cf",
+      "paths.py": "af23678bc814ff93987afbbae89999d731113fec3c0246805cf82fd88760270d",
+      "pipeline.py": "3b2811899f82347053bf0c795d54ebd9a8354047e0b58eddb63aec460243881d",
+      "proc.py": "ba904e7af5848bd4b36449a3a107a4423a8e3bd8be1bc162cfc495cc23f63235",
+      "publication.py": "54238b963d5ef43dd51905d13c06565547e9f6ff6c6d4db9e66274cdb2473d2b",
+      "refinement.py": "794432da437e09ed76c8c6537862068bdfe7aff4e5dd9fa8974f8f6fbc8b9317",
+      "render.py": "531bd7617fa690caaa44cf1803655889ffabbba0be6e008ca6d8d51cc3bf5b86",
+      "renderers/__init__.py": "5cc2dcac62128e70d220eabc8b0532cb9d73a9f09d992b197788e667b939777c",
       "renderers/luxcore.py": "4d50d6ec4f46346267fce69f145b484d84dc91a1c4267216052918f1a40a9c62",
       "renderers/mitsuba.py": "4bd22ecc3eb5e28b2b81b552b889153c8a48d4a4f347515b29419b8695534ff1",
       "renderers/three.py": "efbbaafe5c2c04a65ef0f1b1951f713df576a3179a54f8914f0ad21c7536c8d5",
-      "runlog.py": "a15dfc64cc33518c03e138753038248b48734fa2badb03f00d4043a734380cb3",
-      "sampling.py": "de786a3732d16001e6dbc49f247b8202248c69dc57a1d4cb6dab3faaea21cadf",
+      "runlog.py": "3a69cfc6ec6006cf240ce6473b3decc7300beb2ecbf36025780a362200e7ee34",
+      "sampling.py": "9574e1cdf60840de078021975cfe54cecc564e544104c9e10fc3190fc06e2e0e",
       "sampling_diagnostics.py": "1101bc1d760f27fa51d1e712efba0f2dd264791eb50aabbe7077c33ce2cf5fe0",
-      "scene.py": "8c5ba7f5fc80dc564b7d3780da6023c9ac38591ff054a29564354927eb003ec8",
+      "scene.py": "c116fe90045a093fabf8f90f44b470a9fb860d87ae44784a16a562318ff15fec",
+      "study.py": "9e22e20625341b16cdc1d8815b5d5cb48023526e2445d84f4dd4a9e556899132",
       "trace.py": "2126f306692ae2c12564bf2df2cced65470d8564170da0f3bb5652a47381646c",
-      "twod_tools.py": "1655d6d8a7b3318db9c204c3744002d584f307e298c47ca1faa9c79b6add4ac3"
+      "twod_tools.py": "25b88fbe6ab7a9834b776f18897f554b8684d342ecba679579cf99b899362719"
     }
   },
   "settings": {
-    "samples": 4096,
+    "samples": 8192,
     "adaptive": true,
     "adaptive_threshold": 0.01,
     "min_samples": 0,
@@ -134,50 +136,84 @@
     {
       "role": "positive",
       "evidence": {
-        "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
+        "path": "../validation/m5-pro-20261113-8192.json",
+        "sha256": "1e457b24cf1af9b3916b8aa8675a90de48dabf0e525bff43646dec975a684999"
       },
-      "scope": "Current main: matte, metal, glass, and typography at 4096 / 0.01"
+      "scope": "Adaptive 8192 / 0.01 material and visible typography controls"
     },
     {
       "role": "degraded",
       "evidence": {
-        "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
+        "path": "../validation/m5-pro-20261113.json",
+        "sha256": "aefa845ac46cfe13a6bd8314c67f59b0b2e5aca2e3f273f3b3f6dbc834d95928"
       },
-      "scope": "Current main: 4096 / 0.02 detail-loss control replays"
+      "scope": "Current adaptive 4096 / 0.02 glass and typography controls"
     },
     {
       "role": "held_out",
       "evidence": {
-        "path": "../validation/m5-pro-main-b381d05.json",
-        "sha256": "645daef8f91fcfc68ac4ef4b6338a712fa774e117478643aad61b35ea3688a41"
+        "path": "../validation/m5-pro-20261113-8192.json",
+        "sha256": "1e457b24cf1af9b3916b8aa8675a90de48dabf0e525bff43646dec975a684999"
       },
-      "scope": "Current main: orbit 47/57 and prism 48/58 at 4096 / 0.01"
+      "scope": "Adaptive 8192 / 0.01 independent-seed orbit and prism"
     }
   ],
   "job_costs": [
     {
-      "baseline_seconds": 47.20010504199308,
-      "candidate_seconds": 58.31644874997437,
-      "scope": "Historical comparator and current-main full render/export at 4096 / 0.01, seed 0. No speedup claim."
+      "baseline_seconds": 150.37706995802,
+      "candidate_seconds": 102.15848120802548,
+      "scope": "controls/glass-current-seed0-t0.01-runpositive"
     },
     {
-      "baseline_seconds": 46.92934562500159,
-      "candidate_seconds": 64.95495895802742,
-      "scope": "Historical comparator and current-main full render/export at 4096 / 0.01, seed 0. No speedup claim."
+      "baseline_seconds": 71.10991904197726,
+      "candidate_seconds": 33.30386016698321,
+      "scope": "controls/matte-current-seed0-t0.01-runpositive"
+    },
+    {
+      "baseline_seconds": 104.30799875000957,
+      "candidate_seconds": 52.61460299999453,
+      "scope": "controls/metal-current-seed0-t0.01-runpositive"
+    },
+    {
+      "baseline_seconds": 182.97508404101245,
+      "candidate_seconds": 82.80442579096416,
+      "scope": "controls/typography-current-seed0-t0.01-runpositive"
+    },
+    {
+      "baseline_seconds": 207.59477283299202,
+      "candidate_seconds": 83.18606325000292,
+      "scope": "controls/typography-current-seed0-t0.01-runrepeat"
+    },
+    {
+      "baseline_seconds": 178.33109900000272,
+      "candidate_seconds": 122.65828733402304,
+      "scope": "heldout/orbit-three-point"
+    },
+    {
+      "baseline_seconds": 152.79310762503883,
+      "candidate_seconds": 119.27198100002715,
+      "scope": "heldout/orbit-three-point-seed57"
+    },
+    {
+      "baseline_seconds": 221.54626641597133,
+      "candidate_seconds": 129.44039837503806,
+      "scope": "heldout/prism-raking"
+    },
+    {
+      "baseline_seconds": 142.29249408398755,
+      "candidate_seconds": 124.39923541696044,
+      "scope": "heldout/prism-raking-seed58"
     }
   ],
-  "selection": "Retain reviewed adaptive 4096 / 0.01 on current main. The owner approved the shown positive and independent-seed held-out controls, and rejected 0.02. No faster setting is qualified.",
+  "selection": "Owner approved the 8192 / 0.01 controls and independent-seed holdouts. Use the automatic minimum and the job seed. The 0.02 threshold remains rejected for production.",
   "limits": [
-    "Technical sampling only. Image QA, craftsmanship, brief fit, and preference remain independent gates.",
-    "Owner approval covers the current-main controls and retained material scope.",
-    "Unreviewed presets, custom bpy, stale context, and differing explicit settings still require qualification."
+    "Sampling qualification covers the reviewed Apple M5 Pro runtime, final 4000 to 2000 px delivery, and the listed material presets.",
+    "Each production image requires current visual eligibility.",
+    "Different explicit sampling settings and custom packed scenes require their own qualification."
   ],
   "evidence": [
-    "../validation/m5-pro-main-b381d05.json",
-    "../validation/owner-review-followup.json",
-    "../validation/glass-heldout-confirmation.json"
+    "../validation/m5-pro-20261113-8192.json",
+    "../validation/m5-pro-20261113.json"
   ],
-  "source_revision": "b381d0543803a3956541967cf11d4c564c6c53e5"
+  "source_revision": "ff13e46 plus working-tree changes"
 }

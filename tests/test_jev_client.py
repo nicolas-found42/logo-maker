@@ -291,3 +291,53 @@ def test_small_image_upscaled_to_api_floor(tmp_path):
     im, fmt = _load_image(tiny)
     assert min(im.size) >= 280
     assert fmt == "png"
+
+
+def test_retry_after_is_capped_not_slept_for_hours(tmp_path, monkeypatch):
+    from logo_maker.jev.client import MAX_RETRY_WAIT
+
+    script = [FakeResponse(429, {"error": "slow"}, {"retry-after": "3600"})] * 6
+    client, _ = make_client(tmp_path, monkeypatch, script)
+    sleeps: list[float] = []
+    monkeypatch.setattr("logo_maker.jev.client.time.sleep", sleeps.append)
+    with pytest.raises(JevError, match="6 tries"):
+        client.ask({"t": "x"}, {"q": {"type": "noul"}}, label="probe")
+    assert sleeps
+    assert max(sleeps) == MAX_RETRY_WAIT
+
+
+@pytest.mark.parametrize("answers", [{}, {"q": "0.9"}])
+def test_partial_or_malformed_answers_are_a_jev_error(tmp_path, monkeypatch, answers):
+    script = [FakeResponse(200, {"model": "x", "answers": answers})]
+    client, _ = make_client(tmp_path, monkeypatch, script)
+    with pytest.raises(JevError, match="answer object"):
+        client.ask({"t": "x"}, {"q": {"type": "noul"}}, label="probe")
+
+
+@pytest.mark.parametrize(
+    ("question", "answer", "match"),
+    [
+        ({"type": "noul"}, {"noul": float("nan")}, "not a probability"),
+        ({"type": "noul"}, {"noul": True}, "not a probability"),
+        ({"type": "noul"}, {"noul": 1.7}, "not a probability"),
+        ({"type": "score"}, {"score": float("inf")}, "not a finite number"),
+        ({"type": "choice", "criteria": {"a": "A", "b": "B"}}, {"choice": "ghost"}, "not one of"),
+        ({"type": "choice", "criteria": {"a": "A", "b": "B"}}, {"choice": ["a"]}, "not one of"),
+    ],
+)
+def test_unusable_answer_values_are_a_jev_error(tmp_path, monkeypatch, question, answer, match):
+    script = [FakeResponse(200, {"model": "x", "answers": {"q": answer}})]
+    client, _ = make_client(tmp_path, monkeypatch, script)
+    with pytest.raises(JevError, match=match):
+        client.ask({"t": "x"}, {"q": question}, label="probe")
+
+
+def test_valid_answers_pass_value_validation(tmp_path, monkeypatch):
+    questions = {
+        "n": {"type": "noul"},
+        "c": {"type": "choice", "criteria": {"a": "A", "b": "B"}},
+        "s": {"type": "score"},
+    }
+    client, _ = make_client(tmp_path, monkeypatch, [FakeResponse(200, ok_response(questions))])
+    answers = client.ask({"t": "x"}, questions, label="probe")
+    assert answers["c"]["choice"] == "a"

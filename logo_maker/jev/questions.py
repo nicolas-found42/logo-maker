@@ -12,7 +12,12 @@ from typing import Any
 
 
 def eligibility_decision(
-    *, craft: list[str], fit: dict[str, str], technical: str, evidence: str
+    *,
+    craft: list[str],
+    fit: dict[str, str],
+    technical: str,
+    evidence: str,
+    fit_keys: set[str] | None = None,
 ) -> str:
     """Essential visual gates; preference and execution policy are deliberately absent.
 
@@ -22,7 +27,11 @@ def eligibility_decision(
     rows = [*craft, *fit.values(), technical, evidence]
     if "api_error" in rows:
         return "api_error"
-    if not craft or set(fit) != set(fit_questions()) or "missing_evidence" in rows:
+    if (
+        not craft
+        or set(fit) != (fit_keys if fit_keys is not None else set(fit_questions()))
+        or "missing_evidence" in rows
+    ):
         return "missing_evidence"
     if "fail" in rows:
         return "fail"
@@ -772,7 +781,7 @@ def fit_questions() -> dict[str, dict[str, Any]]:
             "type": "noul",
             "instructions": "Does `flat_32px` preserve the intended core motif shown in `candidate`?",
             "criteria": {
-                "true": "The flat master preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
+                "true": "The supplied flat artwork preserves a clear, recognizable shared core at 32 px. Secondary hero lettering and ornament need not be readable here.",
                 "false": "The shared core collapses, merges or becomes a different mark at 32 px.",
             },
         },
@@ -782,6 +791,109 @@ def fit_questions() -> dict[str, dict[str, Any]]:
             "criteria": {
                 "true": "The primary silhouette and core relationship remain recognizable at 32 px; secondary lettering and hero ornament may disappear.",
                 "false": "The core motif becomes unreadable or loses its identity at 32 px.",
+            },
+        },
+    }
+
+
+MATCHED_FEATURES = {
+    "join": "the attachment or transition between the visible parts",
+    "edge": "the exposed edge profile, thickness or layering",
+    "surface": "the material surface and its response to light",
+}
+
+
+def matched_craft_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "feature_visible": {
+            "type": "noul",
+            "instructions": "Do `candidate_detail` and `reference_detail` both clearly show `feature`?",
+            "criteria": {
+                "true": "The corresponding feature is visible in both images at a useful scale and can be assessed despite differences in object shape and lighting.",
+                "false": "A different feature is shown, or framing, angle, lighting, resolution or occlusion prevents comparison.",
+            },
+        },
+        "feature_execution": {
+            "type": "noul",
+            "instructions": "Does the visible `feature` in `candidate_detail` meet the finish demonstrated by `reference_detail`?",
+            "criteria": {
+                "true": "The named feature is at least as resolved for the candidate's stated finish. Equally controlled execution meets the floor.",
+                "false": "A visible defect or implausible transition in the named candidate feature puts it below the demonstrated finish. Differences in brand, framing, shape, or gloss alone are irrelevant.",
+            },
+        },
+    }
+
+
+def matched_craft_decision(visibility: list[str], execution: list[str]) -> str:
+    if visibility == ["fail", "fail"]:
+        return "missing_evidence"
+    if visibility == ["pass", "pass"] and execution in (["pass", "pass"], ["fail", "fail"]):
+        return execution[0]
+    return "unsettled"
+
+
+def matched_craft_calibration_questions() -> dict[str, dict[str, Any]]:
+    """Development variant. Keep it out of production until independently evaluated."""
+    return {
+        "candidate_visible": {
+            "type": "noul",
+            "instructions": "Is the named feature visible clearly enough in `candidate_detail` to inspect its construction?",
+            "criteria": {
+                "true": "The feature has visible edges or surface detail at a scale suitable for inspection.",
+                "false": "The feature is outside the crop, hidden, or lacks enough visible detail to inspect.",
+            },
+        },
+        "reference_visible": {
+            "type": "noul",
+            "instructions": "Is the corresponding feature visible clearly enough in `reference_detail` to inspect its construction?",
+            "criteria": {
+                "true": "The corresponding feature has visible edges or surface detail at a scale suitable for inspection.",
+                "false": "The feature is outside the crop, hidden, or lacks enough visible detail to inspect.",
+            },
+        },
+        "candidate_defect": {
+            "type": "noul",
+            "instructions": "Does the named feature in `candidate_detail` show a visible construction or finish defect?",
+            "criteria": {
+                "true": "A visible defect affects the named feature, such as intersecting parts, a broken edge, an unsupported joint, or a rough transition inconsistent with the intended finish.",
+                "false": "Visible parts of the feature look consistently formed and finished for their purpose.",
+            },
+        },
+    }
+
+
+def construction_triage_question() -> dict[str, dict[str, Any]]:
+    """Development comparison of specific observable alternatives."""
+    return {
+        "construction_observation": {
+            "type": "choice",
+            "instructions": "Which observation describes the named feature in `candidate_detail` compared with `reference_detail`?",
+            "criteria": {
+                "visible_intact_feature": "Both images show the feature. The candidate has a continuous shape or a clean connection appropriate to the feature and finish.",
+                "visible_damage_or_construction_error": "A visible break, chip, open seam, overlap or malformed area affects the named candidate feature.",
+                "feature_outside_inspectable_area": "The feature is outside the crop, obscured, or too small in either image.",
+                "comparison_unclear": "Both views contain the feature but the angle, reflections or dissimilar construction prevent a definite judgment.",
+            },
+        },
+    }
+
+
+def adaptation_questions() -> dict[str, dict[str, Any]]:
+    return {
+        "source_identity": {
+            "type": "noul",
+            "instructions": "Does `candidate` retain the recognizable identity from `identity_source` under the changes allowed in `identity_note`?",
+            "criteria": {
+                "true": "The specified lettering or mark remains recognizable with the stated permitted changes to layout, finish or depth.",
+                "false": "A required letter, figure, recognizable shape or other specified identity feature is missing or changed beyond the stated adaptation.",
+            },
+        },
+        "adaptation_treatment": {
+            "type": "noul",
+            "instructions": "Is the specific visual treatment requested in `identity_note` visible in `candidate`?",
+            "criteria": {
+                "true": "The specified arrangement or treatment is apparent in the visible object.",
+                "false": "The visible arrangement contradicts the specified treatment or it is absent.",
             },
         },
     }
@@ -1059,6 +1171,8 @@ def describe() -> list[dict[str, Any]]:
     built.update(material_fit_questions(dict(list(materials.items())[:1])))
     built.update(stage1_questions())
     built.update(stage2_questions())
+    built.update(matched_craft_calibration_questions())
+    built.update(construction_triage_question())
     built.update(
         head_to_head_questions(
             "sample_alpha",
@@ -1070,7 +1184,9 @@ def describe() -> list[dict[str, Any]]:
     )
     built.update(preview_screen_questions())
     built.update(craft_questions())
+    built.update(matched_craft_questions())
     built.update(fit_questions())
+    built.update(adaptation_questions())
     built.update(technical_questions())
     built.update(qa_questions())
     built.update(creative_questions())
@@ -1113,6 +1229,14 @@ def describe() -> list[dict[str, Any]]:
             (*craft_questions(), *fit_questions(), *technical_questions()),
             "eligibility_decision -> qa/eligibility.jsonl (only pass advances)",
         ),
+        **dict.fromkeys(
+            (*matched_craft_questions(), *adaptation_questions()), "study visual review"
+        ),
+        **dict.fromkeys(
+            matched_craft_calibration_questions(),
+            "development calibration comparison",
+        ),
+        **dict.fromkeys(construction_triage_question(), "development calibration comparison"),
     }
     feeds.update(
         dict.fromkeys(CREATIVE_SPECS, "creative_ready -> scoped refinement authoring stop")
@@ -1141,7 +1265,11 @@ def describe() -> list[dict[str, Any]]:
                 }
             )
             continue
-        if qid.startswith("brand_"):
+        if (
+            qid.startswith("brand_")
+            and qid[6:]
+            and all(c in "0123456789abcdefABCDEF" for c in qid[6:])
+        ):
             feed, thresh = "intake.json brand_colors (brand p >= 0.7)", thresholds["noul"]
             options: Any = ["true", "false"]
         elif qid.startswith("fits_"):

@@ -34,6 +34,9 @@ HERO_SIZE = 2000
 AVATAR_SIZE = 1024
 # The mark's bbox must fit inside this fraction of the avatar's inscribed circle.
 AVATAR_CIRCLE_FILL = 0.88
+# A mark spanning less than this fraction of the hero's diagonal cannot be framed: the avatar
+# resize grows with the inverse of the mark's size.
+MIN_MARK_FRACTION = 0.05
 PAPER_TONE = "#F4F1EA"
 FAVICON_SIZES = (16, 32, 48, 180, 512)
 
@@ -144,7 +147,7 @@ def pwa_assets(
     background: str = "transparent",
     opaque: bool = False,
 ) -> dict:
-    """App icons + splash screens via js/pwa.mjs; manifest srcs made relative."""
+    """App icons (no splash screens) via js/pwa.mjs; manifest srcs made relative."""
     out = Path(out_dir)
     result = node(
         "pwa",
@@ -202,9 +205,8 @@ def _hero_on_paper(hero: Path, out_dir: Path, paper: str, *, shadow: bool) -> Pa
         rgba = mark.convert("RGBA")
     canvas = Image.new("RGBA", rgba.size, paper)
     if shadow:
-        layer = soft_shadow(hero)
-        ox, oy = 0, 18
-        canvas.alpha_composite(layer, (ox, oy))
+        # soft_shadow already places the silhouette at its offset inside a same-size sprite.
+        canvas.alpha_composite(soft_shadow(hero), (0, 0))
     canvas.alpha_composite(rgba, (0, 0))
     canvas.convert("RGB").save(dst)
     return dst
@@ -223,8 +225,13 @@ def _avatar(hero: Path, out_dir: Path, paper: str) -> Path:
         raise ExportError("hero is fully transparent; cannot build avatar")
     x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
     half_diag = float(np.hypot(x1 - x0, y1 - y0) / 2)
+    if half_diag < MIN_MARK_FRACTION * float(np.hypot(rgba.width, rgba.height)) / 2:
+        raise ExportError(
+            f"hero mark spans only {x1 - x0}x{y1 - y0} px of {rgba.width}x{rgba.height}; "
+            "too small to frame as an avatar"
+        )
     radius = AVATAR_SIZE / 2 * AVATAR_CIRCLE_FILL
-    scale = radius / max(half_diag, 1e-6)
+    scale = radius / half_diag
     fitted = rgba.resize(
         (max(1, round(rgba.width * scale)), max(1, round(rgba.height * scale))),
         Image.Resampling.LANCZOS,
@@ -266,16 +273,20 @@ def _svgs(motif_svg: Path, out_dir: Path, ink: str) -> dict[str, Path]:
 
 
 def _contact_sheet(
-    entries: list[tuple[str, Path]], dst: Path, *, mono_background: str = "#FFFFFF"
+    entries: list[tuple[str, Path]],
+    dst: Path,
+    *,
+    mono_background: str = "#FFFFFF",
+    columns: int = 3,
 ) -> Path:
-    """One labeled sheet of the export set (thumbs at 384 px, three columns).
+    """One labeled sheet of the export set (thumbs at 384 px).
 
     The mono mark is a one-color silhouette in the brand ink, so its chip uses
     the brand background — the surface the ink is designed for.
     """
     thumbs: list[tuple[str, Image.Image]] = []
     for label, path in entries:
-        background = mono_background if label == "mark-mono" else "#FFFFFF"
+        background = mono_background if label in {"mark-mono", "Monochrome"} else "#FFFFFF"
         if path.suffix.lower() == ".svg":
             tmp = dst.parent / f".sheet-{len(thumbs)}.png"
             _rasterize_flat(path, 384, tmp, background=background)
@@ -289,7 +300,7 @@ def _contact_sheet(
             )
         thumb.thumbnail((384, 384), Image.Resampling.LANCZOS)
         thumbs.append((label, thumb))
-    cols = 3
+    cols = columns
     rows = (len(thumbs) + cols - 1) // cols
     cell_w, cell_h, caption = 400, 400, 28
     sheet = Image.new("RGB", (cols * cell_w, rows * (cell_h + caption)), "#FFFFFF")
@@ -318,12 +329,19 @@ def _export_all(
     # Hash and decode one private copy. Checking the live source then reopening it
     # lets a concurrent render substitute unverified pixels between those reads.
     final_snapshot = out / ".final-source.png"
-    shutil.copyfile(concept_dir / "final.png", final_snapshot)
+    try:
+        shutil.copyfile(concept_dir / "final.png", final_snapshot)
+    except FileNotFoundError as exc:
+        raise ExportError(
+            f"no final render at {concept_dir / 'final.png'}; run finalize first"
+        ) from exc
     provenance_path = concept_dir / ".build/final.sampling.json"
     sampling: dict = {"state": "unattested_legacy_image"}
     if provenance_path.exists():
         raw = provenance_path.read_bytes()
         provenance = json.loads(raw)
+        if not isinstance(provenance, dict):
+            raise ExportError("sampling provenance is not a record; prior exports retained")
         if expected_sampling_sha256 is not None and (
             hashlib.sha256(raw).hexdigest() != expected_sampling_sha256
             or not sampling_qualified(provenance)
@@ -490,7 +508,9 @@ def export_all(
             label="export",
         )
         if proc.returncode:
-            raise ExportError((proc.stderr or proc.stdout)[-2000:])
+            from logo_maker.host import failure
+
+            raise ExportError(f"export failed: {failure(proc.stderr or proc.stdout)}")
         work.check()
         record = json.loads(proc.stdout.strip().splitlines()[-1])
         from logo_maker import host
@@ -546,4 +566,6 @@ def export_all(
 
 
 if __name__ == "__main__":
-    print(json.dumps(_export_all(**json.loads(sys.stdin.read()))), flush=True)
+    from logo_maker.host import serve
+
+    serve(lambda payload: _export_all(**payload))

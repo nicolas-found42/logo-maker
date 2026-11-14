@@ -1,6 +1,7 @@
 # 0001: A concept is a 2D motif plus a 3D treatment
 
-Status: accepted, 2026-11-10
+Status: accepted, 2026-11-10. [ADR 0002](0002-codex-brand-campaigns.md) supersedes
+the shared-contour rule for Codex branding campaigns.
 
 ## Context
 

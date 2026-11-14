@@ -6,6 +6,9 @@ generated [adapter registry](adapters.md) has no room for.
 
 ## Alternate renderers (`logo_maker/renderers/`)
 
+The pipeline renders only Cycles: `render.render` refuses a scene whose `[render].renderer` is
+mitsuba, luxcore or three (GPU-only policy). These modules are development tools called directly.
+
 Each renderer implements `render(export_json, out_png, *, quality, resolution)`:
 `quality` maps to alternate-renderer sample counts (`test` 64, `preview` 256, `final` 1024+),
 `resolution` is the long edge in px, output is RGBA PNG, transparent when
@@ -71,13 +74,14 @@ Pure functions over PNG paths; thresholds are module constants.
 
 `export_all(concept_dir, out_dir, *, name, palette, motif_svg)` writes
 exactly: `hero-transparent.png` (2000², veil/margin-checked, else
-`ExportError`), `hero-paper.png` (paper bg + soft shadow), `avatar-1024.png`
-(bbox fit to 88% of the inscribed circle, on bg), `favicon-16/32/48/180/512.png`
+`ExportError`), `hero-paper.png` (paper bg + soft shadow 18 px below the mark), `avatar-1024.png`
+(bbox fit to 88% of the inscribed circle, on bg; a mark spanning under 5% of the hero's diagonal
+is an `ExportError`), `favicon-16/32/48/180/512.png`
 
 - `favicon.ico` (16/32/48, from the flat motif via `motif.rasterize` with a
 resvg fallback), `mark-color.svg` + `mark-mono.svg` (SVGO; mono recolors every
-fill to ink via `motif.mono` with a regex fallback), `pwa/` (icons + splash +
-`manifest.json` via `js/pwa.mjs`; manifest srcs rewritten relative),
+fill to ink via `motif.mono` with a regex fallback), `pwa/` (icons only: `js/pwa.mjs` passes
+`--icon-only`, so no splash screens; `manifest.json` srcs rewritten relative),
 `manifest.webmanifest` + `browserconfig.xml` + android/mstile sets via
 `js/favicons.mjs`, `model.glb` (Draco via `js/gltf.mjs`, when present),
 `scene.blend` (copied when present), `contact-sheet.png` (labeled thumbs).
@@ -93,8 +97,8 @@ Adapter entries: `export:optimize_svg`, `export:draco_compress`,
 - HDRIs come from Poly Haven / ambientCG (CC0) and cache under
   `~/.cache/logo-maker/hdri`; starter scenes use `polyhaven:poly_haven_studio`,
   and `hdri = "none"` renders offline with the rig lights only.
-- Font licenses are recorded per family in `run.json` assets (`font:<Family>`)
-  with the file's source URL; the cache lives under
+- Font licenses are recorded per spec in `run.json` assets (`font:<Family>` or
+  `font:<Family>:<axis>=<value>,...`) with the file's source URL; the cache lives under
   `$LOGO_MAKER_CACHE/fonts` (default `~/.cache/logo-maker/fonts`). The Google
   Fonts check only verifies the download transport; a family that vanishes
   upstream fails at `fonts.resolve()` with a `FontSpecError` naming the fix.

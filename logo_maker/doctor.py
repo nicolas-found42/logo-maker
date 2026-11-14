@@ -12,6 +12,13 @@ from pathlib import Path
 from logo_maker.adapters import doctor as adapter_doctor
 
 GPU_PROBE = """
+from logo_maker.blender.metal import require_metal_device
+
+try:
+    require_metal_device()
+except (RuntimeError, OSError) as exc:
+    raise SystemExit(str(exc)) from None
+
 import bpy
 prefs = bpy.context.preferences.addons["cycles"].preferences
 prefs.compute_device_type = "METAL"
@@ -33,9 +40,12 @@ def _gpu() -> str | None:
     except subprocess.TimeoutExpired:
         return "bpy GPU probe timed out after 120 s"
     line = next((ln for ln in proc.stdout.splitlines() if ln.startswith("METAL:")), None)
-    if line is None:
-        return f"bpy GPU probe failed: {(proc.stderr or proc.stdout).strip()[-300:]}"
-    return None if line[6:] else "no Metal GPU device visible to Cycles (renders fall back to CPU)"
+    if proc.returncode or line is None:
+        message = (proc.stderr or proc.stdout).strip()[-300:]
+        return f"bundled bpy Metal probe exited {proc.returncode}" + (
+            f": {message}" if message else ""
+        )
+    return None if line[6:] else "no Metal GPU device visible to Cycles"
 
 
 def _jev_key() -> str | None:
@@ -54,18 +64,38 @@ def _kernels() -> str | None:
 def _node() -> str | None:
     if shutil.which("node") is None:
         return "node not on PATH"
-    out = subprocess.run(
-        ["node", "--version"], capture_output=True, text=True, check=False
-    ).stdout.strip()
-    major = int(out.lstrip("v").split(".")[0]) if out.startswith("v") else 0
-    return None if major >= 24 else f"node {out} is older than 24"
+    try:
+        out = subprocess.run(
+            ["node", "--version"], capture_output=True, text=True, check=False, timeout=15
+        ).stdout.strip()
+    except subprocess.TimeoutExpired:
+        return "node --version timed out after 15 s"
+    major = out.lstrip("v").split(".")[0]
+    if not major.isdigit():
+        return f"cannot read a node version from {out!r}"
+    return None if int(major) >= 24 else f"node {out} is older than 24"
+
+
+def _cache() -> str | None:
+    from logo_maker.paths import cache_dir
+
+    try:
+        cache_dir()
+    except RuntimeError as exc:
+        return str(exc)
+    return None
 
 
 ENV_CHECKS: list[tuple[str, Callable[[], str | None], str]] = [
     ("jev API key", _jev_key, "export OPENROUTER_API_KEY=..."),
     ("Node.js >= 24", _node, "brew install node@24"),
-    ("Cycles Metal GPU", _gpu, "update macOS / use an Apple-silicon Mac"),
+    (
+        "Cycles Metal GPU",
+        _gpu,
+        "check Metal access in the same Apple Silicon environment as the render",
+    ),
     ("Metal kernel cache", _kernels, "just warm-gpu"),
+    ("download cache", _cache, "unset LOGO_MAKER_CACHE or point it at a writable folder"),
 ]
 
 

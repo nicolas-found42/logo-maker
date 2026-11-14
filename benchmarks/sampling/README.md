@@ -544,7 +544,29 @@ dark and alpha controls, the 0.02 comparisons, and the held-out orbit and prism 
 All 341 inspection export file hashes matched their manifests.
 
 The owner approved the shown 4096 / 0.01 controls and held-out replays and rejected
-0.02. The [current review record](validation/m5-pro-main-b381d05.json) binds that decision
+0.02. The [November 12 review record](validation/m5-pro-main-b381d05.json) binds that decision
 to the render, diagnostic and export evidence. The bundled profile retains its existing
 three-material scope, automatic minimum and job seed. This qualification covers sampling.
 Live creative, technical and export eligibility still apply to each production job.
+
+## November 13 Apple M5 Pro activation
+
+The owner approved the refreshed 4096 / 0.01 controls and held-out renders and rejected
+0.02 for production. The [November 13 review record](validation/m5-pro-20261113.json) binds
+that decision to 11 full render and export runs. All 341 export hashes matched. The
+4096 / 0.01 profile passed preflight on the measured host.
+A fresh seed-61 typography render used the profile's 4096 cap and 0.01 threshold in one
+verified Metal attempt. The qualified sampling record was bound to the 31 verified exports.
+
+The requested 8192 cap was tested at the same 0.01 threshold with automatic minimum,
+matched scenes and matched seeds. Nine full runs verified Metal rendering and denoising.
+All 279 export hashes matched. In the glass control, the median foreground sample count
+was 80 at both caps, and the 99th percentile rose from 4096 to 6656. Full images,
+native detail crops and the profile submitted for review are in the local
+`logos/workflow-validation/sampling-20261113/cap-8192/Apple-M5-Pro-8192-Sampling-Review.zip`.
+The owner approved these [8192 / 0.01 renders](validation/m5-pro-20261113-8192.json).
+The [production profile](profiles/apple-m5-pro-final.json) now sets that cap for the
+qualified Apple M5 Pro runtime and material presets. The 0.02 threshold remains rejected.
+A fresh seed-61 typography render inherited both settings from the profile, used Metal
+for tracing and denoising, and delivered a transparent 2000 px PNG. The sampling record
+was bound to the export manifest, and all 31 export hashes matched.

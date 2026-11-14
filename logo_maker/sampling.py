@@ -64,11 +64,13 @@ def decide(
     Observed near-cap pixels in the reviewed region warrant a cap hypothesis rather than changing
     threshold simultaneously. Visual acceptance is supplied independently.
     """
-    if not diagnosis:
+    if not diagnosis or not isinstance(diagnosis, dict):
         return Decision("unknown", "no image-bound diagnosis; generic edge failure is insufficient")
     if diagnosis.get("source_key") != source_key or diagnosis.get("image_sha256") != image_sha256:
         return Decision("unknown", "stale diagnosis: changed inputs, settings, seed or image")
     kind = diagnosis.get("kind")
+    if not isinstance(kind, str):
+        return Decision("unknown", "diagnosis kind must be one of the documented names")
     if kind in {
         "geometry",
         "typography",
@@ -82,7 +84,9 @@ def decide(
         return Decision("unknown", "uncertain diagnosis is not permission to increase sampling")
     seeds = diagnosis.get("independent_seeds", [])
     if (
-        len(set(seeds)) < 2
+        not isinstance(seeds, list)
+        or not all(type(seed) is int for seed in seeds)
+        or len(set(seeds)) < 2
         or current.seed not in seeds
         or diagnosis.get("noisy_and_denoised_reviewed") is not True
         or not diagnosis.get("basis")
@@ -131,8 +135,16 @@ def qualify_profile(profile: dict | None, context: dict) -> tuple[str, str]:
 
     A profile is a manually reviewed provenance artifact, not an automatic claim
     that an image metric measures craft. File hashes make missing/mutated reviews
-    visible. Profile creators are responsible for truthful owner labels.
+    visible. Profile creators are responsible for truthful owner labels. A profile whose
+    JSON has the wrong shape is unqualified, never an exception.
     """
+    try:
+        return _qualify_profile(profile, context)
+    except (AttributeError, TypeError) as exc:
+        return "profile_unqualified", f"malformed profile: {exc}"
+
+
+def _qualify_profile(profile: dict | None, context: dict) -> tuple[str, str]:
     import math
 
     if not profile or profile.get("schema") != 1:
@@ -306,6 +318,13 @@ class Budget:
         self.attempts += 1
         return self.attempts
 
+    def reserve_request(self, maximum_attempts: int) -> None:
+        """Campaign subclasses persist provider reservations before dispatch."""
+        self.check()
+
+    def record_usage(self, usage: dict) -> None:
+        """Campaign subclasses account for reported charges without inventing prices."""
+
     def record(self) -> dict:
         return {
             "wall_seconds": self.wall_seconds,
@@ -317,9 +336,14 @@ class Budget:
         }
 
 
-def sampling_qualified(report: dict) -> bool:
+def sampling_qualified(report: object) -> bool:
     """Production sampling eligibility is separate from creative acceptance."""
+    if not isinstance(report, dict):
+        return False
+    profile, outcomes = report.get("profile"), report.get("outcomes")
     return (
-        report.get("profile", {}).get("state") == "qualified"
-        and report.get("outcomes", {}).get("sampling") == "profile_baseline"
+        isinstance(profile, dict)
+        and profile.get("state") == "qualified"
+        and isinstance(outcomes, dict)
+        and outcomes.get("sampling") == "profile_baseline"
     )

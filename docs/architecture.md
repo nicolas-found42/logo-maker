@@ -1,5 +1,9 @@
 # Architecture
 
+Codex branding campaigns follow [the campaign contract](campaigns.md) and
+[ADR 0002](adr/0002-codex-brand-campaigns.md). This adds packed-scene qualification
+without changing the existing declarative profile scope.
+
 logo-maker turns a brief into a judged, rendered 3D logo and an export set. Three actors share the
 work:
 
@@ -42,10 +46,94 @@ flowchart LR
 | plan | `plan` | current requirements, `concept.json`, `plan.toml` | `plan-review.json`, `qa/plan-reviews.jsonl` |
 | finalize | `finalize` | finalists | `final.png`, `scene.blend`, `model.glb`, `qa/rounds.jsonl`, `ideation/winner.json` |
 | export | `export` | winner | `exports/*` |
+| 3D study | `study` / `logo_study` | brief, explicitly named concepts, motif and scene | preview sheet or downloadable `studies/<id>/` |
+| Study review | `review-study` / `logo_review_study` | verified study manifest and its exact assets | per-design craft, fit, technical and owner review records |
+| Codex campaign | `campaign` / `logo_campaign` | researched brief, selected designs, packed scenes and reference coverage | resumable verified renders, sampling and review records, branding and evidence archives |
 
 Every stage records its status in `run.json`. Creative/render eligibility uses content fingerprints
 rather than output existence or stage flags, so edited concepts can be resumed safely. `run` chains
 the stages and stops with a clear message where agent authoring is needed.
+
+### Owner-selected 3D studies
+
+The study workflow runs locally on Apple Silicon with Cycles Metal and GPU Open Image Denoise.
+The agent can author concepts from a plain-language brief, render the named concepts together,
+show a contact sheet, and package the designs the user selects. This path can start with no
+provider credentials. It uses the brief and authored concepts directly. It records unavailable
+or incomplete Jev evidence and keeps the qualified winner workflow independent.
+
+A concept uses the usual motif and scene recipe. For bespoke construction the agent can author a
+self-contained `source.blend` and use the same motif. The worker opens that scene with automatic
+script execution disabled and rejects linked libraries and unpacked external data. It packages
+the saved editable scene used for the hero, and records the source and output digests with the
+verified GPU execution. A failed proof or interrupted render cannot replace a delivered study.
+Compiled studies retain a recipe digest, source artwork and adapter provenance alongside the
+packed scene.
+
+Each selected design has a transparent hero, editable Blender scene, color and mono full-size
+marks, flat PNGs, a compact SVG, favicon sizes, a contact sheet and views for inspecting construction.
+`compact.svg`, when present, is an optical variant of the shared motif. It supplies the favicon
+silhouette while the full artwork remains the flat master. Optional `mono.svg` preserves an
+authored one-ink version with intentional negative space. Craft photos carry source URLs,
+coverage notes and hashes. Use the research role to retain supplementary photos outside the
+paired Jev review. The compact review sheet shows 16 px and 32 px on light and dark
+surfaces. An optional `compact-dark.svg` provides the dark-surface variant and corresponding
+favicons. A concept can override the shared brief's intended appearance for its own construction.
+Additional matched camera views and close-ups are included as review evidence when the agent
+authors them. Related-object photographs support a craft comparison.
+Exact-object claims require corresponding reference evidence.
+
+Study manifests bind delivered files and review inputs to their bytes. Review uses the archived
+hero, actual compact icon, brief and photos, with craft, brand fit and technical outcomes recorded
+independently. An authored craft or holdout photo can select a verified render view and normalized
+photo and render regions for one aspect of finish. Review first checks that both regions show
+the comparable feature, then checks execution in both image orders. It retains both judgments,
+the original image hashes and the crop hashes. Other photos can still use the general craft floor.
+For an adaptation with a supplied `identity.png` and `identity_note`, fit checks preservation
+and the requested treatment against that source artwork. Concepts without an identity source
+use the original-mark fit checks. Owner acceptance attaches to
+the exact study and retains failed and pending findings. Review receipts update separately
+from the immutable study ZIP. Review reuse binds the question code, review implementation and
+judge identity. Provider errors remain pending. A sampling comparison can render a second seed
+with the same settings and report timing and per-region variation. Local calibration renders a stricter
+adaptive threshold with the hero's seed and cap held fixed. Qualification still requires the
+reviewed evidence and scope described in the sampling contract.
+
+`status` lists study overviews, archives and review receipts. A missing or duplicate holdout is
+visible in the study's evidence. An authored matched photo and render can be inspected alongside
+the generated survey. Owner decisions bind to the delivered hero and whole manifest.
+
+A `lathe` scene component revolves a radial/height profile around the Z axis.
+It accepts closed profiles above the axis and axis-ended profiles for solid caps, and is useful
+for turned knobs, collars and vessel walls. Its output is an editable solid mesh.
+
+### Codex campaign execution and release evidence
+
+The [campaign contract](campaigns.md) governs the research, approval, authoring and delivery
+workflow. A campaign chooses its medium from the researched brief. Modeled campaigns require
+Apple Silicon and a project-local pinned Codex runtime. Native operations use the same launcher
+from CLI and MCP. The launcher checks the installed runtime bytes and applies a Codex workspace
+profile before running the operation. The worker verifies workspace writes, outside write and
+network denials, and child inheritance. The offline render profile must prove a real Cycles Metal
+and GPU OIDN render before it can open authored scenes or run a construction generator. The
+worker denies access to installed Blender application bundles and checks GPU visibility before
+importing the pinned `bpy` module. Reference acquisition and Jev calls use
+separate restricted network profiles without Metal access. An unavailable runtime or a failed
+boundary or GPU check stops the corresponding operation.
+
+Approval records bind the research and brief, proposed directions, rendered preview selection,
+and exact final artwork. A brief or direction edit invalidates dependent decisions by digest.
+Explicit delegations are recorded with their scope. Modeled designs require forty distinct photos,
+including development and independent held-out comparisons for each critical feature. Flat and
+typographic work uses evidence appropriate to its medium. Bounded construction prototypes may
+establish feasibility before committing to a modeled direction.
+
+Diagnostic reviews bind the actual views and crops, preserve independent holdouts until formal
+review, and distinguish insufficient evidence from observed defects. Production qualification
+requires a separately validated evaluator and current scoped sampling evidence in addition to
+technical and artwork checks. Control packets and delivery archives are verified from their
+contents. The release record links the exact installed tool and skill, blinded human labels and
+frozen evaluator tolerances, and three fresh campaign trials with exact-artwork approval.
 
 ## Logo folder
 
@@ -69,6 +157,19 @@ Concept ids are `metaphor|treatment|material`; folders are `metaphor--treatment-
 The CLI and MCP resolve targets through `paths.resolve_logo`. Stage preparation uses
 `LogoDir.concept()` to create concept directories. Proof and artifact checks use
 `LogoDir.concept_path()` to locate the same directories without creating them.
+
+The CLI's `new` handoff prints shell-quoted follow-up commands that target the created folder,
+including when its path contains spaces or shell punctuation.
+
+Entry points: the CLI and the MCP server resolve the target with `logo_maker.paths.resolve_logo`, and
+every stage except `new`/`logo_new` first requires that logo's `brief.toml` through
+`require_brief`, so a mistyped target creates no folder. CLI errors exit 2 with one line on
+stderr (3 for `AUTHORING NEEDED`). MCP stage tools return `{"status": "authoring_needed", ...}`
+for authoring work, with progress `counts` (or `{"unavailable": <why>}` when a damaged state file
+stops `status`); every other `RuntimeError`/`ValueError`/`OSError` becomes an MCP tool error
+carrying its message, because the framework hides the text of unexpected exceptions. An empty
+`out` is rejected rather than read as "unset". Stage progress printed to stdout is held off the
+MCP transport by one process-wide redirect shared by overlapping calls.
 
 ## Contracts
 
@@ -180,7 +281,10 @@ export
   - `data-height`: relief height multiplier for 3D (default `1`).
   - `data-layer`: integer stacking order for layered treatments (default `0`).
 - The agent writes `motif.py` (preferred; uses `logo_maker.motif` to place glyphs, shapes, booleans,
-  and 2D tool output, then calls `save()`), or writes `motif.svg` directly in this format.
+  and 2D tool output, then calls `save()`), or writes `motif.svg` directly in this format. When
+  `motif.py` exists, `motif.svg` and `motif.json` are its outputs: each run sets the previous ones
+  aside, so a run that does not call `save()` fails instead of reusing them, and a failed run puts
+  them back unchanged.
 
 `motif.json` is derived by `logo_maker.motif.flatten()`:
 
@@ -216,7 +320,8 @@ hdri = "polyhaven:studio_small_09"   # or "none"
 hdri_strength = 0.45
 
 [render]
-renderer = "cycles"              # cycles | mitsuba | luxcore | three
+renderer = "cycles"              # only cycles renders; mitsuba | luxcore | three validate but
+                                 # render() refuses them (GPU-only policy, see Render)
 look = "photoreal"               # photoreal | toon | lineart
 glare = 0.0                      # compositor glare mix (0 = off)
 dof_fstop = 0.0                  # 0 = no depth of field
@@ -231,12 +336,20 @@ kind = "plate"                   # see catalog/components.md for every kind and 
 material = "surface"
 ```
 
+The optional catalog rig `studio_45` aims its main area-light axis at the origin at 45 degrees
+to the +Z face normal. It preserves gentle fill and edge lighting; existing rig defaults remain unchanged.
+
 Mesh components can set `smooth = false` to retain planar facet normals on authored folded or
 machined assets. The default remains smooth shading; this is a per-concept geometry decision,
 not a material or sampling repair. The flag is boolean and participates in compiled dependency keys.
 Materials may also declare a finite nonzero three-component `tangent` vector for an explicit
 brushing direction. Without it Blender retains its existing tangent behavior. This authored
 material orientation is inventoried in the scene and never selected by sampling QA.
+
+A `[materials.<name>]` table accepts only `preset`, `color`, `emission_color`, `tangent` and the
+numeric parameters of `catalog/materials.toml`; any other key is a `SceneError` listing the known
+ones, so a misspelled parameter cannot silently render as the preset default. Component numbers
+must be finite, and `radius`, `major` and `minor` must be positive.
 
 Cycles scenes may author finite `[render].exposure` in Blender's supported -32 to 32 EV range.
 The default is 0 EV. Compilation forwards it in both `render.exposure` and `quality.exposure`,
@@ -265,7 +378,7 @@ render; its adjacent `.log` retains native denoiser diagnostics. Host postproces
 delivered pixels and source files to that evidence. Alternate renderers currently lack equivalent
 verified GPU tracing/denoising and are rejected operationally at the public render boundary.
 
-| quality | resolution | samples | use |
+| quality | resolution | default samples | use |
 |---|---|---|---|
 | `test` | 256 px | 64 + denoise | regression test |
 | `preview` | 1000 px | 256 + denoise | jev preview screen |
@@ -273,6 +386,12 @@ verified GPU tracing/denoising and are rejected operationally at the public rend
 
 GPU contract (#4, shared with #5): the actual bpy process refreshes devices, disables all CPU
 tracing selections, selects one available Metal device, and forces the Cycles Metal device override.
+Before loading bpy, the doctor, profile and render workers check whether the current Apple Silicon
+process can obtain a Metal device. A missing device stops the operation with a diagnostic.
+Run this check under the same Codex workspace sandbox as the trial.
+Before starting a first trial on that host policy, verify a small Cycles render and actual OIDN
+Metal execution there. If Cycles' binary archive cache must be disabled, bind that setting to the
+render fingerprint and evidence so those results cannot be reused across different settings.
 MetalRT stays `AUTO`. GPU denoising is a separate requirement: support/request flags alone do not
 prove execution. Each render must retain effective OIDN Metal runtime evidence or fail
 operationally;
@@ -283,7 +402,8 @@ independent
 of craftsmanship, fidelity, brief fit and aesthetic preference.
 First runs compile Metal kernels (1.5-5 min, no output); a builder attempt is limited to 900 s
 and the remaining job deadline. Crash retries consume the same attempt and wall-clock budget.
-Sampling remains the table's baseline until #5 qualifies replacement settings at 4000→2000 px.
+The final row is the comparator. A matching profile can supply different final controls
+within its qualified scope (see #5).
 Per-render evidence records build, device selections, effective sampling/seed, denoiser evidence and
 timing scope; #5 can consume it without changing numeric defaults.
 The alternate renderer modules remain available for development, but cannot supply production
@@ -301,8 +421,9 @@ not zero error. `meta.seed` supplies the deterministic seed unless explicitly ov
 `[sampling]` exposes `profile` (optional JSON path), `diagnosis` (optional JSON path),
 `wall_seconds` (default 1800), `attempt_limit` (default 2, maximum 4), and
 `diagnostic_bytes` (default 2147483648, maximum 2147483648 per attempt).
-The retained 4096 / 0.01 comparator has a scoped owner-reviewed M5 Pro final profile in
-`benchmarks/sampling/profiles/apple-m5-pro-final.json`; no faster numeric default is enabled.
+The owner-reviewed M5 Pro final profile in `benchmarks/sampling/profiles/apple-m5-pro-final.json`
+uses an adaptive threshold of 0.01 and a cap of 8192 samples per pixel. Its approval applies to
+those sampling settings. A different cap requires its own qualification evidence.
 Missing/stale/out-of-scope profiles retain the
 4096 / 0.01 final comparator and return `profile_unqualified`; they cannot certify completion.
 A qualified profile matches the actual machine/OS/build/Blender/OIDN library/backend/device,
@@ -480,9 +601,11 @@ Both true and false craft criteria compare execution against the demonstrated re
 including its imperfections. An absolute defect judgment cannot silently replace that relative task.
 Equality to the craft floor passes; a forced Choice, appeal, hardware provenance, or tournament
 position cannot establish eligibility. Literal concept match and structural technical checks receive
-the current `concept.json.description` and reviewed plan hypothesis, bound by the plan receipt and
-eligibility revision. Original ideation text remains history rather than the current depiction after
-structural authoring. A missing current description returns `missing_evidence` before provider calls.
+the current `concept.json.description`, the authored `treatment_text` and `material_text` when
+present, and the reviewed plan hypothesis. The plan receipt and eligibility revision bind these
+inputs. Legacy records without authored treatment or material text use the catalog descriptions.
+The original pool remains the source of concept IDs. A missing current description returns
+`missing_evidence` before provider calls.
 The admitted concept and plan hashes must match the revision before image queries; edits during
 context preparation cannot bind old depiction text to new source bytes.
 Own-brief fit receives the frozen business context, communication priority and identity
@@ -506,6 +629,9 @@ encoded pixels/model/questions. Render-policy failures are operational errors an
 labels. Final eligibility must bind the current pixels and inputs; export rejects stale winner
 evidence. Failed selection leaves existing winner, exports and same-brand improvement floor
 untouched. `improve` still separately requires beating that brand's previous winner.
+If no candidate passes image eligibility, preview and finalize expose the unresolved or failed
+checks, the stage image paths, and the eligibility journal in their authoring response. The
+journal retains the underlying probabilities and both comparison orders.
 An optional `qa/owner-feedback.json` array binds explicit owner feedback to candidate image,
 brief SHA-256 and concept ID. An explicit `overall = "fail"`, craft rejection or fit rejection
 vetoes advancement while preserving model answers. An overall rejection does not imply either
@@ -530,6 +656,10 @@ model `typesafe/jev-1.14`), or to TypeSafe `POST https://api.typesafe.ai/v1/syst
 `TypeSafe-Danger-Zone-Images: true`. Every request is logged to `qa/jev/requests/` with each image
 replaced by its sha256, and each image is stored once in `qa/jev/assets/`. 429/5xx retry with
 backoff; any other failure raises `JevError` and never reads as "no".
+Every answer is validated against its question before use: a Noul must be a number in [0, 1], a
+Score finite, and a Choice one of the question's options; otherwise the request is an `api_error`
+and raises `JevError`. A stored judgment that is reused on resume (stage 1, stage 2, tournament
+rows) carries the hash of the exact state and questions it answered.
 Provider failures and malformed response envelopes retain the submitted state, questions and
 sent-image assets with an explicit `api_error` request status. They cannot disappear from the
 audit because no answer was returned. Provider usage is retained as reported; absent prices or
@@ -546,7 +676,8 @@ one-line
 summary, the callable that runs it, a health check, and the exact fix command. See
 [adapters.md](adapters.md). `logo_maker.doctor.checks()` runs every adapter check plus the
 environment
-checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache) and returns one row per check:
+checks (jev API key, Node.js, Cycles Metal GPU, Metal kernel cache, download cache) and returns
+one row per check:
 `stage`, `name`, `ok`, `problem`, `fix`. `logo-maker doctor` prints those rows and exits 1 when any
 row is not ok; the MCP `logo_doctor` tool returns the same rows plus `passed` and `failed` counts.
 Every check is required: there are no optional tools.

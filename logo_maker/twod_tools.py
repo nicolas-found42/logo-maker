@@ -9,6 +9,7 @@ use :func:`logo_maker.motif.fit` to land them in the radius-470 circle.
 
 from __future__ import annotations
 
+import math
 import os
 import shutil
 import sys
@@ -22,6 +23,36 @@ from logo_maker.proc import ToolError, node, require, run
 
 INK = "#1A1A1A"  # neutral default fill; the caller recolors through Motif.add
 GRAYS = ("#1A1A1A", "#404040", "#6E6E6E", "#9A9A9A", "#C8C8C8")
+#: trianglify allocates one point per grid vertex; this bounds the Node child's memory.
+MAX_LOW_POLY_POINTS = 200_000
+
+
+def primitive_path() -> str | None:
+    """The Go ``primitive`` binary: PATH, ``GOBIN``, each ``GOPATH`` entry's bin, ``~/go/bin``."""
+    import subprocess
+
+    candidates = [shutil.which("primitive")]
+    try:
+        lines = subprocess.run(
+            ["go", "env", "GOBIN", "GOPATH"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
+        ).stdout.splitlines()
+        gobin, gopath = [*lines, "", ""][:2]
+        if gobin.strip():
+            candidates.append(os.path.join(gobin.strip(), "primitive"))
+        for entry in gopath.strip().split(os.pathsep):
+            if entry:  # an empty entry would resolve against the current directory
+                candidates.append(os.path.join(entry, "bin", "primitive"))
+    except (OSError, subprocess.TimeoutExpired):
+        pass
+    candidates.append(os.path.join(os.path.expanduser("~"), "go", "bin", "primitive"))
+    for hit in candidates:
+        if hit and os.path.isfile(hit) and os.access(hit, os.X_OK):
+            return hit
+    return None
 
 
 @dataclass(frozen=True)
@@ -43,6 +74,12 @@ def _close(d: str) -> str:
     return d if d.endswith(("Z", "z")) else d + " Z"
 
 
+def _positive(label: str, value: object) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 < value < math.inf:
+        raise MotifError(f"{label}={value!r} must be a finite number > 0")
+    return value
+
+
 def sketchy(
     d: str,
     *,
@@ -57,6 +94,7 @@ def sketchy(
     Returns the stroked sketchy outline plus the sketchy solid fill underneath.
     """
     fill = _check_fill(fill)
+    _positive("sketchy width", width)
     out = node(
         "rough",
         {
@@ -133,6 +171,14 @@ def low_poly(
     palette: list[str] | None = None,
 ) -> list[Shape]:
     """A trianglify triangle field, built from the pattern's points/polys data (no DOM)."""
+    for label, value in (("width", width), ("height", height), ("cell_size", cell_size)):
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 < value < 1e6:
+            raise MotifError(f"low_poly {label}={value!r} must be a number > 0")
+    if (width / cell_size + 4) * (height / cell_size + 4) > MAX_LOW_POLY_POINTS:
+        raise MotifError(
+            f"low_poly {width}x{height} at cell_size={cell_size} needs more than "
+            f"{MAX_LOW_POLY_POINTS} points; raise cell_size"
+        )
     payload: dict = {
         "width": width,
         "height": height,
@@ -159,6 +205,8 @@ def voxels(
     or ``{"ops": [...]}`` for full control (each op is one heerich
     ``applyGeometry`` argument; ``"test"`` may be ``"ball:..."``-style named tests).
     """
+    if not isinstance(spec, dict):
+        raise MotifError(f"voxels spec must be a mapping, got {type(spec).__name__}")
     ops: list[dict] = []
     if "ops" in spec:
         ops = list(spec["ops"])
@@ -234,11 +282,11 @@ def primitive_abstract(image: Path | str, *, shapes: int = 64, mode: int = 1) ->
     image = Path(image)
     if not image.is_file():
         raise MotifError(f"no image at {image}")
-    binary = shutil.which("primitive") or os.path.join(os.path.expanduser("~/go/bin"), "primitive")
-    if not shutil.which(binary) and not Path(binary).is_file():
-        require(
-            "primitive",
-            "go install github.com/fogleman/primitive@latest and add $(go env GOPATH)/bin to PATH",
+    binary = primitive_path()
+    if binary is None:
+        raise ToolError(
+            "primitive not found (checked PATH, $(go env GOPATH)/bin and ~/go/bin); "
+            "fix: go install github.com/fogleman/primitive@latest"
         )
     with tempfile.TemporaryDirectory() as tmp:
         out = Path(tmp) / "prim.svg"
@@ -353,6 +401,8 @@ def plotter_lines(
     fills because the motif contract forbids strokes.
     """
     fill = _check_fill(fill)
+    _positive("plotter_lines width", width)
+    _positive("plotter_lines epsilon", epsilon)
     if not paths:
         raise MotifError("plotter_lines needs 1+ paths")
     for d in paths:
@@ -381,6 +431,8 @@ def plotter_lines(
             ],
             timeout=120,
         )
+        if not dst.exists():  # e.g. only bare moveto paths: nothing for vpype to draw
+            raise ToolError("vpype wrote no lines; give plotter_lines paths with segments")
         root = svg_root(dst)
         out = []
         for d in _svg_centerlines(root):
@@ -459,17 +511,37 @@ def _fontforge_script(font_path: Path | str, ops: list[dict]) -> str:
         "scratch = 'uniE000_private_scratch'",
         "try:\n    font.createChar(-1, scratch)\nexcept Exception:\n    pass",
     ]
+
+    def bad(op: object, key: str, value: object, want: str) -> MotifError:
+        return MotifError(f"bad fontforge op {op!r}: {key} = {value!r}; want {want}")
+
+    def name(op: dict, spec: object, key: str) -> str:
+        value = spec.get(key) if isinstance(spec, dict) else None
+        if isinstance(value, str) and value:
+            return value
+        raise bad(op, key, value, "a glyph name")
+
+    def number(op: dict, spec: object, key: str, default: float | None = None) -> float:
+        value = spec.get(key, default) if isinstance(spec, dict) else None
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise bad(op, key, value, "a finite number")
+        if not math.isfinite(value):
+            raise bad(op, key, value, "a finite number")
+        return float(value)
+
     for op in ops:
+        if not isinstance(op, dict) or len(op) != 1:
+            raise MotifError(f"bad fontforge op {op!r}; want one of new/clear/add/advance")
         if "new" in op:
-            name = op["new"]
-            targets.append(name)
-            lines.append(f"font.createChar(-1, {name!r})")
+            glyph = name(op, op, "new")
+            targets.append(glyph)
+            lines.append(f"font.createChar(-1, {glyph!r})")
         elif "clear" in op:
-            lines.append(f"font.selection.select({op['clear']!r}); font.clear()")
+            lines.append(f"font.selection.select({name(op, op, 'clear')!r}); font.clear()")
         elif "add" in op:
             spec = op["add"]
-            src, dst = spec["from"], spec["into"]
-            dx, dy = float(spec.get("dx", 0)), float(spec.get("dy", 0))
+            src, dst = name(op, spec, "from"), name(op, spec, "into")
+            dx, dy = number(op, spec, "dx", 0.0), number(op, spec, "dy", 0.0)
             if dst not in targets:
                 targets.append(dst)
             lines.append(
@@ -483,7 +555,8 @@ def _fontforge_script(font_path: Path | str, ops: list[dict]) -> str:
             )
         elif "advance" in op:
             spec = op["advance"]
-            lines.append(f"font[{spec['glyph']!r}].width = {int(spec['width'])}")
+            glyph, width = name(op, spec, "glyph"), number(op, spec, "width")
+            lines.append(f"font[{glyph!r}].width = {round(width)}")
         else:
             raise MotifError(f"bad fontforge op {op!r}; want new/clear/add/advance")
     lines.append(

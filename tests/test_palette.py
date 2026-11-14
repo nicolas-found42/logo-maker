@@ -14,7 +14,7 @@ def test_normalize_spellings():
 
 
 def test_normalize_rejects():
-    for bad in ("#ab", "#gggggg", "red", "", "#12345"):
+    for bad in ("#ab", "#gggggg", "red", "", "#12345", "##000000", "#\ufb000000", "#00000\n"):
         with pytest.raises(ValueError, match="not a hex color"):
             normalize(bad)
 

@@ -83,6 +83,31 @@ def test_mesh_needs_path(tmp_path):
         load_scene(write(tmp_path, MINIMAL + comp))
 
 
+@pytest.mark.parametrize("inner", [0, 0.08])
+def test_lathe_component_compiles_a_solid(tmp_path, inner):
+    import trimesh
+
+    from logo_maker.scene import compile
+
+    component = f"""
+[[components]]
+name = "knob"
+kind = "lathe"
+material = "surface"
+profile = [[{inner}, 0.1], [0.2, 0.1], [0.18, 0.24], [{inner}, 0.24]]
+sections = 48
+"""
+    write(tmp_path, MINIMAL + component)
+    (tmp_path / "motif.json").write_text('{"layers": []}')
+    compiled = compile(tmp_path, "test")
+    mesh = trimesh.load_mesh(compiled.parent / "meshes" / "knob.ply")
+    assert mesh.is_volume
+    assert mesh.bounds[0, 2] == pytest.approx(0.1)
+    assert mesh.bounds[1, 2] == pytest.approx(0.24)
+    with pytest.raises(SceneError, match="lathe sections"):
+        load_scene(write(tmp_path, MINIMAL + component.replace("sections = 48", "sections = 0")))
+
+
 def test_cad_plate_edge_relief_modes(tmp_path):
     comp = '\n[[components]]\nkind = "cad"\nmaterial = "surface"\nop = "lathe"\n'
     with pytest.raises(SceneError, match="cad"):
@@ -208,4 +233,45 @@ def test_exposure_rejects_invalid_values(tmp_path, value):
 def test_other_backends_reject_exposure_they_cannot_honor(tmp_path, renderer):
     text = MINIMAL + f'\n[render]\nrenderer = "{renderer}"\nexposure = -1.5\n'
     with pytest.raises(SceneError, match=r"exposure.*only for cycles"):
+        load_scene(write(tmp_path, text))
+
+
+@pytest.mark.parametrize(("old", "new"), [("seed = 1", "seed = true")])
+def test_booleans_are_not_numbers(tmp_path, old, new):
+    assert old in MINIMAL
+    with pytest.raises(SceneError, match="seed"):
+        load_scene(write(tmp_path, MINIMAL.replace(old, new)))
+
+
+def test_unknown_material_key_is_rejected_with_the_known_ones(tmp_path):
+    text = MINIMAL.replace('preset = "wax"', 'preset = "wax"\nmetallic_factor = 1.0')
+    with pytest.raises(
+        SceneError, match=r"\[materials.surface\] unknown field 'metallic_factor'; known:"
+    ):
+        load_scene(write(tmp_path, text))
+
+
+def test_emission_color_is_validated_and_kept(tmp_path):
+    ok = MINIMAL.replace('preset = "wax"', 'preset = "wax"\nemission_color = "#FF8800"')
+    assert load_scene(write(tmp_path, ok))["materials"]["surface"]["emission_color"] == "#FF8800"
+    bad = MINIMAL.replace('preset = "wax"', 'preset = "wax"\nemission_color = "orange"')
+    with pytest.raises(SceneError, match="emission_color"):
+        load_scene(write(tmp_path, bad))
+
+
+@pytest.mark.parametrize("key", ["color", "emission_color"])
+@pytest.mark.parametrize("value", ["#GG0000", "#FFF", "#FF00001", "FF0000"])
+def test_material_colors_must_be_six_hex_digits(tmp_path, key, value):
+    text = MINIMAL.replace('preset = "wax"', f'preset = "wax"\n{key} = "{value}"')
+    with pytest.raises(SceneError, match=rf"\[materials.surface\] {key}=.* must be #RRGGBB"):
+        load_scene(write(tmp_path, text))
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "match"),
+    [("radius", "nan", "finite"), ("radius", "inf", "finite"), ("radius", "0", "> 0")],
+)
+def test_component_numbers_are_finite_and_radii_positive(tmp_path, field, value, match):
+    text = MINIMAL.replace('kind = "plate"', f'kind = "plate"\n{field} = {value}')
+    with pytest.raises(SceneError, match=match):
         load_scene(write(tmp_path, text))

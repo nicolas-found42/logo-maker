@@ -163,6 +163,7 @@ def compare_visual(
     flat_mark: Path | None = None,
     identity_context: dict | None = None,
     budget: Budget | None = None,
+    study_evidence: dict | None = None,
 ) -> dict:
     """Visual comparison only; historical CPU art is valid visual evidence.
 
@@ -171,8 +172,56 @@ def compare_visual(
     """
     with TemporaryDirectory(prefix="logo-eligibility-") as tmp:
         return _compare_views(
-            brief, concept, candidate, client, label, flat_mark, Path(tmp), identity_context, budget
+            brief,
+            concept,
+            candidate,
+            client,
+            label,
+            flat_mark,
+            Path(tmp),
+            identity_context,
+            budget,
+            study_evidence,
         )
+
+
+def _matched_rows(client, ref, match, candidate_hash, label):
+    questions = Q.matched_craft_questions()
+    feature = Q.MATCHED_FEATURES[match["feature"]]
+    if match.get("feature_name"):
+        feature += " Inspect " + match["feature_name"] + "."
+    rows: list[dict[str, Any]] = []
+    for order in (
+        ("candidate_detail", "reference_detail"),
+        ("reference_detail", "candidate_detail"),
+    ):
+        images = {name: Image(match[name]) for name in order}
+        answers = client.ask(
+            {
+                **images,
+                "feature": feature,
+                "intended_appearances": match["intended_appearances"],
+            },
+            questions,
+            label=f"{label}-{order[0]}-first",
+        )
+        rows.append(
+            {"order": list(order), "answers": answers, "checks": _statuses(answers, questions)}
+        )
+    return {
+        "candidate_sha256": candidate_hash,
+        "reference_sha256": sha256(ref.path),
+        "feature": match["feature"],
+        "view": match["view"],
+        "view_sha256": match["view_sha256"],
+        "regions": match["regions"],
+        "detail_sha256": {name: sha256(Path(match[name])) for name in order},
+        "comparisons": rows,
+        "status": Q.matched_craft_decision(
+            [row["checks"]["feature_visible"] for row in rows],
+            [row["checks"]["feature_execution"] for row in rows],
+        ),
+    }
 
 
 def _compare_views(
@@ -185,7 +234,9 @@ def _compare_views(
     dest: Path,
     identity_context: dict | None = None,
     budget: Budget | None = None,
+    study_evidence: dict | None = None,
 ) -> dict:
+    study_evidence = study_evidence or {}
     views = (
         _host_images(brief, candidate, flat_mark, dest, budget)
         if budget is not None
@@ -194,6 +245,13 @@ def _compare_views(
     craft_rows: list[dict[str, Any]] = []
     details = {k: Image(v) for k, v in views["candidate"].items()}
     for index, ref in enumerate(ref for ref in brief.references if ref.use == "craft"):
+        if match := study_evidence.get("matches", {}).get(views["reference_sha256"][index]):
+            craft_rows.append(
+                _matched_rows(
+                    client, ref, match, views["candidate_sha256"], f"{label}-matched-{index}"
+                )
+            )
+            continue
         ref_details = {k: Image(v) for k, v in views["references"][index].items()}
         for order in (("candidate", "reference"), ("reference", "candidate")):
             images = {"candidate": Image(candidate), "reference": Image(ref.path)}
@@ -228,6 +286,11 @@ def _compare_views(
         "intended_appearance": brief.intended_appearance,
     }
     symbol_questions = {"symbol": Q.fit_questions()["symbol"]}
+    if identity := study_evidence.get("identity"):
+        literal_state.update(
+            identity_source=Image(identity["path"]), identity_note=identity["note"]
+        )
+        symbol_questions = Q.adaptation_questions()
     symbol_answers = client.ask(literal_state, symbol_questions, label=f"{label}-symbol-fit")
     symbol = _statuses(symbol_answers, symbol_questions)
     fit_brief = brief.as_state()
@@ -250,15 +313,21 @@ def _compare_views(
     state["hero_32px"] = Image(dest / "hero-small.png")
     questions = Q.fit_questions()
     questions.pop("symbol")
+    if identity:
+        for qid in ("brand_specificity", "meaningful_synthesis", "communicative_clarity"):
+            questions.pop(qid)
+    fit_keys = set(questions) | set(symbol_questions)
     if views["flat_source_sha256"] is not None:
         state["flat_32px"] = Image(dest / "flat-small.png")
     else:
         questions.pop("small_flat")
     answers = client.ask(state, questions, label=f"{label}-fit")
     statuses = {**symbol, **_statuses(answers, questions)}
-    fit = {qid: statuses.get(qid, "missing_evidence") for qid in Q.fit_questions()}
+    fit = {qid: statuses.get(qid, "missing_evidence") for qid in sorted(fit_keys)}
     # Independent call: native detail evidence, no tiny thumbnails or craft-reference style.
     technical_state = dict(literal_state)
+    technical_state.pop("identity_source", None)
+    technical_state.pop("identity_note", None)
     technical_state["native_details"] = details
     questions = Q.technical_questions()
     technical_answers = client.ask(technical_state, questions, label=f"{label}-technical")
@@ -275,6 +344,7 @@ def _compare_views(
             fit=fit,
             technical=_combined(list(technical.values())),
             evidence="complete",
+            fit_keys=fit_keys,
         ),
     }
 
@@ -427,9 +497,15 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
             missing.append("supplied brief differs from the frozen source brief")
     except (OSError, ValueError) as exc:
         missing.append(str(exc))
-    description = reviewed_plan.get("state", {}).get("concept", {}).get("description")
+    authored = reviewed_plan.get("state", {}).get("concept", {})
+    description = authored.get("description")
     if not isinstance(description, str) or not description.strip():
         missing.append("current description required in concept.json")
+    for field in ("treatment_text", "material_text"):
+        if field in authored and (
+            not isinstance(authored[field], str) or not authored[field].strip()
+        ):
+            missing.append(f"{field} must be nonempty text in concept.json")
     if not refs:
         missing.append("craft reference required (use = 'craft')")
     if not brief.intended_appearance:
@@ -487,8 +563,8 @@ def _prepare_assessment(logo, brief, concept_id, candidate, stage):
     concept = Q.concept_state(
         brief,
         metaphor=reviewed_plan["state"]["plan"]["hypothesis"],
-        treatment=c.treatment_desc,
-        material=c.material_desc,
+        treatment=authored.get("treatment_text", c.treatment_desc),
+        material=authored.get("material_text", c.material_desc),
         treatment_id=c.treatment,
         material_id=c.material,
     )["concept"]
@@ -568,7 +644,15 @@ def _finish_assessment(logo, brief, concept_id, candidate, record, execution):
             ]
             stale = [row for row in same_image if row not in matching]
         except (OSError, KeyError, TypeError, ValueError) as exc:
-            record.update(status="missing_evidence", missing=[f"invalid owner feedback: {exc}"])
+            problem = f"missing key {exc}" if isinstance(exc, KeyError) else str(exc)
+            record.update(
+                status="missing_evidence",
+                missing=[
+                    f"{feedback}: invalid owner feedback ({problem}); each record needs "
+                    "candidate_sha256, brief_sha256, concept, and labels from "
+                    "pass/fail/unknown/uncertain/unsettled"
+                ],
+            )
         else:
             record["owner_feedback"] = matching
             record["owner_review_scope"] = scope
@@ -723,9 +807,12 @@ def _prepare_images(brief, candidate, flat_mark, dest):
     with PILImage.open(candidate) as source:
         _small_view(source, dest / "hero-small.png")
     if flat_mark is not None and flat_mark.is_file():
-        with PILImage.open(
+        source = (
             io.BytesIO(resvg_py.svg_to_bytes(svg_string=flat_mark.read_text(), width=32, height=32))
-        ) as flat:
+            if flat_mark.suffix.lower() == ".svg"
+            else flat_mark
+        )
+        with PILImage.open(source) as flat:
             _small_view(flat, dest / "flat-small.png")
     return {
         "candidate": {k: str(v.path) for k, v in details.items()},

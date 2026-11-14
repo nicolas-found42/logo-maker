@@ -13,6 +13,10 @@ import time
 from pathlib import Path
 
 SCENE = """
+from logo_maker.blender.metal import require_metal_device
+
+require_metal_device()
+
 import bpy
 
 bpy.ops.object.select_all(action="SELECT")

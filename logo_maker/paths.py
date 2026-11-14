@@ -14,9 +14,18 @@ CATALOG_DIR = Path(__file__).resolve().parent / "catalog"
 
 def cache_dir(*parts: str) -> Path:
     """Shared download cache (fonts, HDRIs, textures): $LOGO_MAKER_CACHE or ~/.cache/logo-maker."""
-    root = Path(os.environ.get("LOGO_MAKER_CACHE", Path.home() / ".cache" / "logo-maker"))
-    path = root.joinpath(*parts)
-    path.mkdir(parents=True, exist_ok=True)
+    configured = os.environ.get("LOGO_MAKER_CACHE")
+    try:
+        root = (
+            Path(configured).expanduser().resolve()
+            if configured
+            else Path.home() / ".cache" / "logo-maker"
+        )
+        path = root.joinpath(*parts)
+        path.mkdir(parents=True, exist_ok=True)
+    except (OSError, RuntimeError) as exc:  # a file in the way, ~user that does not exist
+        setting = f"LOGO_MAKER_CACHE={configured!r}" if configured else "the default ~/.cache"
+        raise RuntimeError(f"cannot use {setting} as the download cache: {exc}") from exc
     return path
 
 

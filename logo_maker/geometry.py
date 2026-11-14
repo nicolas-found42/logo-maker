@@ -9,6 +9,7 @@ export see byte-identical geometry.
 from __future__ import annotations
 
 import math
+import re
 import tempfile
 from collections.abc import Sequence
 from contextlib import suppress
@@ -33,9 +34,9 @@ def to3(x: float, y: float) -> tuple[float, float]:
 
 def hex_to_linear(hexstr: str) -> tuple[float, float, float, float]:
     """sRGB `#RRGGBB` -> linear RGBA for Blender color inputs."""
-    h = hexstr.strip().lstrip("#")
-    if len(h) != 6:
+    if not re.fullmatch(r"#[0-9A-Fa-f]{6}", hexstr.strip()):
         raise ValueError(f"expected #RRGGBB, got {hexstr!r}")
+    h = hexstr.strip()[1:]
     rgb = [int(h[i : i + 2], 16) / 255.0 for i in (0, 2, 4)]
     lin = [((v + 0.055) / 1.055) ** 2.4 if v > 0.04045 else v / 12.92 for v in rgb]
     return (lin[0], lin[1], lin[2], 1.0)
@@ -579,6 +580,26 @@ def _remesh_isotropic(mesh: trimesh.Trimesh, targetlen: float) -> trimesh.Trimes
         return remeshed if remeshed.is_watertight else mesh
     except Exception:
         return mesh
+
+
+def lathe_mesh(profile: list[list[float]], sections: int) -> trimesh.Trimesh:
+    """Turn a simple radial section around Z, keeping its authored shoulder contours."""
+    from shapely.geometry import Polygon
+
+    section = Polygon(profile)
+    if not section.is_valid or section.area <= 0:
+        raise ValueError("lathe profile must enclose one simple nonzero area")
+    axis_points = [point for point in profile if point[0] == 0]
+    if axis_points and (profile[0][0] != 0 or profile[-1][0] != 0 or len(axis_points) != 2):
+        raise ValueError("lathe profile may touch the axis at its two endpoints only")
+    # Pass the closed outer contour in the winding required by trimesh.
+    contour = np.asarray(section.exterior.coords)
+    if not section.exterior.is_ccw:
+        contour = contour[::-1]
+    mesh = trimesh.creation.revolve(contour, sections=sections)
+    if not mesh.is_volume:
+        raise ValueError("lathe profile did not produce a closed solid")
+    return mesh
 
 
 def cad_mesh(spec: dict) -> trimesh.Trimesh:
