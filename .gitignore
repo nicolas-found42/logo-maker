@@ -10,3 +10,7 @@ js/node_modules/
 *.blend1
 .DS_Store
 *.egg-info/
+
+# Private research kept in the local checkout.
+/docs/research/found42-identity.md
+/docs/research/README.local.md
