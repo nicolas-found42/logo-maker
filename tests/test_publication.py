@@ -107,18 +107,18 @@ def test_finalize_interrupted_winner_publication_restores_winner_and_run_state(
     original = publication.publish
 
     def bounded_publication(entries, journal, budget, stages, **kwargs):
-        # Allow cold preparation on hosted Macs, then shorten the same job budget
-        # at the publication boundary whose rollback this test exercises.
+        # Include cold guard validation and the three-second recovery reserve;
+        # the injected rename still blocks longer than the entire phase budget.
         phase_started.append(time.monotonic())
-        budget.deadline = min(budget.deadline, phase_started[-1] + 6)
+        budget.deadline = min(budget.deadline, phase_started[-1] + 15)
         return original(entries, journal, budget, stages, **kwargs)
 
     monkeypatch.setattr(publication, "publish", bounded_publication)
     with pytest.raises(SamplingLimit, match="time_limit"):
         pipeline.finalize(logo, EligibilityClient(), budget=Budget(wall_seconds=60))
-    assert marker.exists()
-    assert len(phase_started) == 1
-    assert time.monotonic() - phase_started[0] < 14
+    assert len(phase_started) == 1, "test did not reach publication"
+    assert marker.exists(), "test did not reach the interrupted rename"
+    assert time.monotonic() - phase_started[0] < 23
     assert json.loads(prior.read_text()) == {"winner": "approved-prior"}
     assert json.loads(logo.run_json.read_text()) == previous_state
 

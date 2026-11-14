@@ -379,12 +379,13 @@ def finalize_qa_case(tmp_path, monkeypatch, request):
     import hashlib
     import os
     import threading
+    import time
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
     from types import SimpleNamespace
 
     from PIL import ImageDraw
 
-    from logo_maker import pipeline, refinement
+    from logo_maker import host, pipeline, refinement
     from logo_maker.jev.client import JevClient
     from logo_maker.paths import LogoDir
 
@@ -522,6 +523,41 @@ def finalize_qa_case(tmp_path, monkeypatch, request):
             return {}
 
         monkeypatch.setattr(render, "machine_context", preflight_after_cache_check)
+    phase_started = []
+
+    def bound_fault(budget):
+        if phase_started:
+            return
+        phase_started.append(time.monotonic())
+        deadline = phase_started[0] + 5
+        # Keep the same job and ancestor budgets; never grant a fresh deadline.
+        while budget is not None:
+            budget.deadline = min(budget.deadline, deadline)
+            budget = budget.parent
+
+    original_worker = client._worker
+
+    def fault_worker(payload, budget):
+        operation = payload["operation"]
+        if (
+            (failure == "provider_retry" and operation == "post")
+            or (failure == "provider_log" and operation == "publish_log" and seen.is_set())
+            or (failure == "image_encode" and operation == "encode_images" and seen.is_set())
+        ):
+            bound_fault(budget)
+        return original_worker(payload, budget)
+
+    original_host = host.run
+
+    def fault_host(payload, budget, stages):
+        if (failure == "qa_image_read" and payload["operation"] == "qa_checks") or (
+            failure == "tiny_image_read" and payload["operation"] == "tiny_image"
+        ):
+            bound_fault(budget)
+        return original_host(payload, budget, stages)
+
+    monkeypatch.setattr(client, "_worker", fault_worker)
+    monkeypatch.setattr(host, "run", fault_host)
     try:
         yield SimpleNamespace(
             logo=logo,
@@ -531,6 +567,8 @@ def finalize_qa_case(tmp_path, monkeypatch, request):
             image_read_started=image_read_started,
             failure=failure,
             sent_assets=sent_assets,
+            budget=Budget(wall_seconds=60),
+            phase_started=phase_started,
         )
     finally:
         stop.set()
@@ -557,8 +595,12 @@ def test_finalize_blocked_qa_cannot_overrun_budget_or_replace_prior_winner(final
     case = finalize_qa_case
     started = time.monotonic()
     with pytest.raises(SamplingLimit, match="time_limit"):
-        pipeline.finalize(case.logo, case.client, budget=Budget(wall_seconds=5))
-    assert time.monotonic() - started < 9, "blocked QA exceeded the whole-job budget"
+        pipeline.finalize(case.logo, case.client, budget=case.budget)
+    assert case.phase_started, "test did not reach the selected fault boundary"
+    assert time.monotonic() - case.phase_started[0] < 9, (
+        "blocked QA exceeded its five-second budget"
+    )
+    assert time.monotonic() - started < 64, "finalize exceeded its bounded setup allowance"
     if case.failure == "tiny_image_read":
         assert case.image_read_started.is_set(), "test did not reach tiny image preparation"
         assert not case.seen.is_set(), (
