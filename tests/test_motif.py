@@ -91,6 +91,23 @@ def test_validate_catches_transform_and_stroke():
     assert any("stroke" in p for p in problems)
 
 
+def test_validate_rejects_root_transforms_and_path_styles():
+    svg = _svg(_path("a", CIRCLE, ' style="stroke:black"'))
+    svg.write_text(svg.read_text().replace("<svg ", '<svg transform="translate(25)" '))
+    problems = M.validate(svg)
+    assert any("transform" in problem for problem in problems)
+    assert any("style" in problem for problem in problems)
+    with pytest.raises(M.MotifError):
+        M.flatten(svg)
+
+
+def test_flatten_honors_authored_evenodd_fill():
+    outer = M.Motif.circle(500, 500, 200)
+    inner = M.Motif.circle(500, 500, 100)
+    evenodd = _svg(_path("mark", outer + " " + inner, ' fill-rule="evenodd"'))
+    assert len(M.flatten(evenodd)["layers"][0]["contours"]) == 2
+
+
 def test_validate_catches_duplicates_out_of_circle_and_viewbox():
     svg = _svg(
         _path("a", CIRCLE) + _path("a", SQUARE) + _path("big", M.Motif.circle(500, 500, 900)),

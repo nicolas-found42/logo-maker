@@ -1,7 +1,7 @@
 """Stage orchestration: intake -> ideate -> preview -> finalize -> export, plus improve.
 
-Each stage is resumable: it records its status in run.json and reuses outputs that already exist. When a
-stage needs the agent to author something, it raises `AuthoringNeeded` naming the exact files to write.
+Stages use current evidence to resume. When a stage needs the agent to author something, it
+raises `AuthoringNeeded` naming the files to write.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ import tomlkit
 from logo_maker import brief as brief_mod
 from logo_maker import host
 from logo_maker.jev.questions import qa_blocks
-from logo_maker.paths import LogoDir, concept_slug
+from logo_maker.paths import CATALOG_DIR, LogoDir, concept_slug
 from logo_maker.refinement import bounded_entry
 from logo_maker.runlog import runlog
 from logo_maker.sampling import Budget, sampling_qualified
@@ -173,8 +173,10 @@ def brand(logo: LogoDir) -> Brand:
     picked_fonts = logo.ideation / "fonts.json"
     if not palette and picked_palette.exists():
         palette = _picked(picked_palette, "palette", logo.slug)
+        _require_intake_pick(logo, picked_palette)
     if not fonts and picked_fonts.exists():
         fonts = _picked(picked_fonts, "fonts", logo.slug)
+        _require_intake_pick(logo, picked_fonts)
     if not palette or not fonts:
         raise RuntimeError(
             f"{logo.slug}: palette or fonts missing; run `logo-maker intake {logo.slug}`"
@@ -275,21 +277,50 @@ def _require_plan(logo: LogoDir, concept_id: str) -> dict:
         raise AuthoringNeeded(str(exc), [logo.concept(concept_id) / "plan.toml"]) from exc
 
 
+def _intake_inputs(logo: LogoDir, revision: str, kind: str) -> dict:
+    from logo_maker.refinement import digest
+
+    inputs = {"requirements_revision": revision}
+    if kind != "intake":
+        proposals = logo.ideation / "proposals.toml"
+        inputs["proposals_sha256"] = digest(proposals) if proposals.is_file() else ""
+    return inputs
+
+
+def _intake_current(path: Path, inputs: dict) -> bool:
+    try:
+        record = _read_json(path)
+    except (OSError, ValueError):
+        return False
+    return isinstance(record, dict) and record.get("inputs") == inputs
+
+
+def _require_intake_pick(logo: LogoDir, path: Path) -> None:
+    revision = _require_brief(logo)["requirements_revision"]
+    if not _intake_current(path, _intake_inputs(logo, revision, path.stem)):
+        raise AuthoringNeeded(f"{path.name} is stale; rerun logo-maker intake", [path])
+
+
 def intake(logo: LogoDir, client=None) -> dict[str, Any]:
     from logo_maker import fonts as fonts_mod
     from logo_maker import intake as intake_mod
 
-    review_brief(logo, client)
+    revision = review_brief(logo, client)["requirements_revision"]
     brief = brief_mod.load(logo.brief)
-    client = client or _client(logo)
     log = runlog(logo.run_json)
     result: dict[str, Any] = {}
-    if brief.references and not (logo.ideation / "intake.json").exists():
+    references = _intake_inputs(logo, revision, "intake")
+    palette = _intake_inputs(logo, revision, "palette") if not brief.palette else {}
+    fonts = _intake_inputs(logo, revision, "fonts") if not brief.fonts else {}
+    if brief.references and not _intake_current(logo.ideation / "intake.json", references):
+        client = client or _client(logo)
         try:
-            result["references"] = intake_mod.judge_references(logo, brief, client)
+            result["references"] = intake_mod.judge_references(
+                logo, brief, client, inputs=references
+            )
         except brief_mod.BriefError as exc:
             raise AuthoringNeeded(f"fix brief.toml: {exc}", [logo.brief]) from exc
-    if not brief.palette and not (logo.ideation / "palette.json").exists():
+    if not brief.palette and not _intake_current(logo.ideation / "palette.json", palette):
         proposals = _proposals(logo, "palette")
         if len(proposals) < 2:
             raise AuthoringNeeded(
@@ -297,12 +328,15 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
                 [logo.ideation / "proposals.toml"],
             )
         try:
-            result["palette"] = intake_mod.pick_palette(logo, brief, proposals, client)
+            client = client or _client(logo)
+            result["palette"] = intake_mod.pick_palette(
+                logo, brief, proposals, client, inputs=palette
+            )
         except ValueError as exc:  # every proposal failed WCAG, or jev says none fits
             raise AuthoringNeeded(
                 f"write new [[palette]] proposals: {exc}", [logo.ideation / "proposals.toml"]
             ) from exc
-    if not brief.fonts and not (logo.ideation / "fonts.json").exists():
+    if not brief.fonts and not _intake_current(logo.ideation / "fonts.json", fonts):
         proposals = _proposals(logo, "fonts")
         try:  # a spec that cannot resolve must not be picked and persisted to fonts.json
             families = {fonts_mod.parse_spec(spec).family for p in proposals for spec in p.values()}
@@ -318,7 +352,8 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
                 [logo.ideation / "proposals.toml"],
             )
         try:
-            result["fonts"] = intake_mod.pick_fonts(logo, brief, proposals, client)
+            client = client or _client(logo)
+            result["fonts"] = intake_mod.pick_fonts(logo, brief, proposals, client, inputs=fonts)
         except ValueError as exc:
             raise AuthoringNeeded(
                 f"write new [[fonts]] proposals: {exc}", [logo.ideation / "proposals.toml"]
@@ -345,10 +380,32 @@ def intake(logo: LogoDir, client=None) -> dict[str, Any]:
 # ---------------------------------------------------------------- ideate
 
 
+def _ideation_inputs(logo: LogoDir, revision: str) -> dict:
+    from logo_maker.refinement import digest
+
+    return {
+        "requirements_revision": revision,
+        "metaphors_sha256": digest(logo.metaphors) if logo.metaphors.is_file() else None,
+        "treatments_sha256": digest(CATALOG_DIR / "treatments.toml"),
+        "materials_sha256": digest(CATALOG_DIR / "materials.toml"),
+    }
+
+
+def _ideation_current(logo: LogoDir, revision: str) -> bool:
+    path = logo.ideation / "shortlist.json"
+    pool = logo.ideation / "pool.jsonl"
+    if not pool.is_file() or not _intake_current(path, _ideation_inputs(logo, revision)):
+        return False
+    from logo_maker.refinement import digest
+
+    return _read_json(path).get("pool_sha256") == digest(pool)
+
+
 def ideate(logo: LogoDir, client=None) -> list[str]:
     from logo_maker import ideate as ideate_mod
+    from logo_maker.refinement import digest
 
-    _require_brief(logo)
+    inputs = _ideation_inputs(logo, _require_brief(logo)["requirements_revision"])
     try:
         metaphors = logo.metaphors.read_text() if logo.metaphors.exists() else ""
     except (OSError, UnicodeDecodeError) as exc:
@@ -364,16 +421,35 @@ def ideate(logo: LogoDir, client=None) -> list[str]:
     shortlist = ideate_mod.run_chain(logo, client, shortlist=8)
     for concept in shortlist:
         folder = logo.concept(concept.id)
+        path = folder / "concept.json"
+        existing = _read_json(path) if path.is_file() else {}
+        if not isinstance(existing, dict):
+            raise ValueError(f"{path}: concept must be a JSON object")
         info = {
+            **existing,
             "id": concept.id,
             "metaphor": concept.metaphor,
             "metaphor_text": concept.metaphor_text,
             "treatment": concept.treatment,
-            "treatment_text": concept.treatment_desc,
+            "treatment_text": existing.get("treatment_text", concept.treatment_desc),
             "material": concept.material,
-            "material_text": concept.material_desc,
+            "material_text": existing.get("material_text", concept.material_desc),
         }
-        _write_json(folder / "concept.json", info)
+        if info != existing:
+            _write_json(path, info)
+    if inputs != _ideation_inputs(logo, _require_brief(logo)["requirements_revision"]):
+        raise AuthoringNeeded(
+            "ideation inputs changed during judging; rerun ideate", [logo.metaphors]
+        )
+    path = logo.ideation / "shortlist.json"
+    _write_json(
+        path,
+        {
+            **_read_json(path),
+            "inputs": inputs,
+            "pool_sha256": digest(logo.ideation / "pool.jsonl"),
+        },
+    )
     log.stage("ideate", "done", shortlist=[c.id for c in shortlist])
     return [c.id for c in shortlist]
 
@@ -382,7 +458,12 @@ def shortlist(logo: LogoDir) -> list[str]:
     path = logo.ideation / "shortlist.json"
     if not path.exists():
         raise RuntimeError(f"{logo.slug}: no shortlist; run `logo-maker ideate {logo.slug}`")
-    return concept_ids(path, f"rerun `logo-maker ideate {logo.slug}`")
+    ids = concept_ids(path, f"rerun `logo-maker ideate {logo.slug}`")
+    if "reasons" in _read_json(path) and not _ideation_current(
+        logo, _require_brief(logo)["requirements_revision"]
+    ):
+        raise AuthoringNeeded("shortlist is stale; rerun logo-maker ideate", [path])
+    return ids
 
 
 def concept_ids(path: Path, rerun: str) -> list[str]:
@@ -619,7 +700,8 @@ def status(logo: LogoDir) -> dict[str, Any]:
     """Separate ideation combinations, authored motifs, renders and refinement evidence."""
     from logo_maker import refinement, study
 
-    ids = shortlist(logo) if (logo.ideation / "shortlist.json").exists() else []
+    path = logo.ideation / "shortlist.json"
+    ids = concept_ids(path, f"rerun `logo-maker ideate {logo.slug}`") if path.exists() else []
     report = refinement.report(logo, ids)
     if studies := study.summaries(logo):
         report["studies"] = studies
@@ -866,25 +948,33 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
         started_at=job_started,
     )
     budget.check()
-    results = {cid: qa_concept(logo, cid, client, brand_, budget=budget) for cid in finalists}
-    passed = [cid for cid, r in results.items() if r["result"] == "pass"]
+    results = {}
+    stops = {}
+    for cid in finalists:
+        try:
+            results[cid] = qa_concept(logo, cid, client, brand_, budget=budget)
+        except AuthoringNeeded as exc:
+            stops[cid] = exc
+    qa = {
+        cid: results[cid]["result"] if cid in results else "authoring_needed" for cid in finalists
+    }
+    passed = [cid for cid, result in results.items() if result["result"] == "pass"]
     log = runlog(logo.run_json, budget=budget)
     if not passed:
-        log.stage(
-            "finalize", "failed", budget=budget, qa={k: v["result"] for k, v in results.items()}
-        )
-        files = []
-        for cid, result in results.items():
-            folder = logo.concept_path(cid)
-            if result["result"] == "sampling_review_needed":
-                files.extend([folder / ".build/final.sampling.json", folder / "scene.toml"])
-            elif result["result"] == "refinement_needed":
-                files.extend([folder / "scene.toml", folder / ".build/final.sampling.json"])
-            else:
-                files.append(folder / "motif.py")
+        log.stage("finalize", "review_needed", budget=budget, qa=qa)
+        if len(stops) == 1 and len(finalists) == 1:
+            raise next(iter(stops.values()))
+        files = list(dict.fromkeys(file for stop in stops.values() for file in stop.files))
         raise AuthoringNeeded(
             "no finalist qualified; inspect sampling/refinement outcomes in qa/rounds.jsonl",
             files,
+            questions=list(dict.fromkeys(q for stop in stops.values() for q in stop.questions)),
+            details={
+                "candidates": {
+                    cid: {"message": str(stop).splitlines()[0], "details": stop.details}
+                    for cid, stop in stops.items()
+                }
+            },
         )
     try:
         refinement.final_bindings(logo, campaign_binding, {cid: results[cid] for cid in passed})
@@ -931,7 +1021,7 @@ def finalize(logo: LogoDir, client=None, *, budget: Budget | None = None) -> str
             },
         },
         winner=winner,
-        qa={k: v["result"] for k, v in results.items()},
+        qa=qa,
     )
     return winner
 
@@ -1048,13 +1138,14 @@ def export(logo: LogoDir, *, budget: Budget | None = None) -> dict[str, Path]:
 
 
 def run(logo: LogoDir, client=None) -> dict[str, Path]:
-    review_brief(logo, client)
+    frozen = review_brief(logo, client)
     budget = Budget(attempt_limit=12)
     client = client or _client(logo, budget=budget)
     log = runlog(logo.run_json, budget=budget)
-    if log.stage_status("intake") != "done":
-        intake(logo, client)
-    if log.stage_status("ideate") != "done":
+    intake(logo, client)
+    if log.stage_status("ideate") != "done" or not _ideation_current(
+        logo, frozen["requirements_revision"]
+    ):
         ideate(logo, client)
     preview(logo, client, budget=budget)
     finalize(logo, client, budget=budget)
@@ -1070,7 +1161,7 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
     """
     from logo_maker import judging
 
-    _require_brief(logo)
+    frozen = _require_brief(logo)
     client = client or _client(logo)
     log = runlog(logo.run_json)
     floor_dir = logo.root / "floor"
@@ -1102,7 +1193,13 @@ def improve(logo: LogoDir, client=None) -> dict[str, Any]:
         for stage in ("ideate", "preview", "finalize"):
             log.stage(stage, "reset", by="improve")
         log.event("improve: archived current round as the floor", archive=str(archive))
-    for stage, fn in (("ideate", ideate), ("preview", preview), ("finalize", finalize)):
+    if log.stage_status("ideate") != "done" or not _ideation_current(
+        logo, frozen["requirements_revision"]
+    ):
+        ideate(logo, client)
+        for stage in ("preview", "finalize"):
+            log.stage(stage, "stale", by="ideate")
+    for stage, fn in (("preview", preview), ("finalize", finalize)):
         if log.stage_status(stage) != "done":
             fn(logo, client)
     candidate = logo.concept(winner(logo)) / "final.png"

@@ -43,6 +43,12 @@ def require_brief(target: str, out: Path | None = None) -> LogoDir:
     return logo
 
 
+def _out_path(value: str) -> Path:
+    if not value.strip():
+        raise argparse.ArgumentTypeError("out must be a folder path; omit it to use logos/<slug>")
+    return Path(value)
+
+
 def _print(result: object) -> None:
     if isinstance(result, dict):
         print(
@@ -82,8 +88,9 @@ def cmd_new(args: argparse.Namespace) -> int:
         return 2
     target = shlex.quote(str(logo.root))
     print(
-        f"created {logo.root}\nfill {logo.brief} and use logo-maker study with "
-        "--concept <id> --preview for 3D concept authoring. For production qualification, "
+        f"created {logo.root}\nfill {logo.brief} and run "
+        f"`logo-maker study {target} --concept '<id>' --preview` for 3D concept authoring. "
+        "For the judged declarative pipeline, "
         f"also fill {logo.root / 'brief-evidence.toml'} "
         f"from project/owner evidence; run `logo-maker brief {target}`, "
         f"then author {logo.metaphors} and run `logo-maker run {target}`"
@@ -166,7 +173,7 @@ def build_parser() -> argparse.ArgumentParser:
     new = sub.add_parser("new", help="create a logo folder with a brief template")
     new.add_argument("slug")
     new.add_argument("--name", help="brand or project name (default: from the slug)")
-    new.add_argument("--out", type=Path, help="folder to use instead of logos/<slug>")
+    new.add_argument("--out", type=_out_path, help="folder to use instead of logos/<slug>")
     new.set_defaults(func=cmd_new)
 
     helps = {
@@ -189,7 +196,9 @@ def build_parser() -> argparse.ArgumentParser:
     for name in STAGES:
         stage = sub.add_parser(name, help=helps[name])
         stage.add_argument("target", help="logo slug (logos/<slug>) or folder path")
-        stage.add_argument("--out", type=Path, help="logo folder (overrides the slug's default)")
+        stage.add_argument(
+            "--out", type=_out_path, help="logo folder (overrides the slug's default)"
+        )
         if name == "brief":
             stage.add_argument(
                 "--revision-reason", default="", help="reason for reopening changed requirements"

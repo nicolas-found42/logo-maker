@@ -399,6 +399,77 @@ def test_changed_source_requires_explicit_reopening_and_preserves_prior_freeze(t
     assert archive.read_bytes() == previous
 
 
+def test_intake_and_run_refresh_stale_stage_outputs_after_a_brief_revision(tmp_path, monkeypatch):
+    from logo_maker import fonts, intake, refinement
+    from logo_maker.jev.questions import palette_option_name
+    from logo_maker.runlog import runlog
+
+    logo = business_brief(tmp_path)
+    with logo.brief.open("a") as brief:
+        brief.write('\n[fonts]\ndisplay = "Inter"\n')
+    evidence_record(logo)
+    first = pipeline.review_brief(logo, BriefJudge())
+    (logo.ideation / "proposals.toml").write_text(
+        '[[palette]]\nprimary = "#112233"\n[[palette]]\nprimary = "#334455"\n'
+    )
+    monkeypatch.setattr(fonts, "resolve", lambda *a, **k: tmp_path / "font.ttf")
+    monkeypatch.setattr(intake, "wcag_problems", lambda *_: [])
+
+    class Judge(BriefJudge):
+        picks = 0
+
+        def ask(self, state, questions, *, label):
+            if label == "pick-palette":
+                self.picks += 1
+                chosen = state["proposals"][0]
+                return {
+                    "any_palette_fits": {"noul": 0.99},
+                    "palette_pick": {"choice": palette_option_name(chosen, set())},
+                }
+            return super().ask(state, questions, label=label)
+
+    judge = Judge()
+    pipeline.intake(logo, judge)
+    pipeline.intake(logo, judge)
+    assert judge.picks == 1
+
+    pool = logo.ideation / "pool.jsonl"
+    pool.write_text("{}\n")
+    shortlist = logo.ideation / "shortlist.json"
+    shortlist.write_text(
+        json.dumps(
+            {
+                "ids": ["sample|plate|wax"],
+                "reasons": {},
+                "inputs": pipeline._ideation_inputs(logo, first["requirements_revision"]),
+                "pool_sha256": refinement.digest(pool),
+            }
+        )
+    )
+    runlog(logo.run_json).stage("ideate", "done")
+    (logo.inputs / "project.txt").write_text(
+        (logo.inputs / "project.txt").read_text() + " New usage notes."
+    )
+    revised = pipeline.review_brief(logo, judge, revision_reason="Updated usage evidence")
+    with pytest.raises(pipeline.AuthoringNeeded, match=r"palette\.json is stale"):
+        pipeline.brand(logo)
+    with pytest.raises(pipeline.AuthoringNeeded, match="shortlist is stale"):
+        pipeline.shortlist(logo)
+
+    regenerated = []
+    monkeypatch.setattr(pipeline, "ideate", lambda *a, **kw: regenerated.append(True))
+    monkeypatch.setattr(pipeline, "preview", lambda *a, **kw: None)
+    monkeypatch.setattr(pipeline, "finalize", lambda *a, **kw: None)
+    monkeypatch.setattr(pipeline, "export", lambda *a, **kw: {})
+    pipeline.run(logo, judge)
+    assert regenerated == [True]
+    assert judge.picks == 2
+    assert (
+        json.loads((logo.ideation / "palette.json").read_text())["inputs"]["requirements_revision"]
+        == revised["requirements_revision"]
+    )
+
+
 @pytest.mark.parametrize(
     ("before", "after"),
     [

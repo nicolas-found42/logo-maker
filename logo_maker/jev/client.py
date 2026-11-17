@@ -216,6 +216,8 @@ def _store_image_assets(logo: LogoDir, assets: dict[str, dict[str, Any]]) -> dic
         pending = dest / (".pending-" + uuid.uuid4().hex)
         try:
             pending.write_bytes(base64.b64decode(asset["data_base64"]))
+            if hashlib.sha256(pending.read_bytes()).hexdigest() != digest:
+                raise JevError("retained image asset digest mismatch")
             pending.replace(target)
         finally:
             pending.unlink(missing_ok=True)

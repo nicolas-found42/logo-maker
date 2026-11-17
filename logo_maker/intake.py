@@ -9,7 +9,6 @@ clear error asking the agent for new proposals instead of silently picking.
 
 from __future__ import annotations
 
-import json
 from typing import Any
 
 from logo_maker.brief import PALETTE_ROLES, Brief, BriefError, load
@@ -31,7 +30,9 @@ BRAND_MIN = NOUL_YES
 FITS_FLOOR = NOUL_NO
 
 
-def judge_references(logo: LogoDir, brief: Brief, client: JevAsker) -> dict[str, Any]:
+def judge_references(
+    logo: LogoDir, brief: Brief, client: JevAsker, *, inputs: dict | None = None
+) -> dict[str, Any]:
     """Judge each style reference; write `ideation/intake.json`; return it."""
     records = []
     for ref in brief.references:
@@ -60,7 +61,7 @@ def judge_references(logo: LogoDir, brief: Brief, client: JevAsker) -> dict[str,
             ]
         records.append(record)
     doc = {"references": records}
-    (logo.ideation / "intake.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
+    _save_pick(logo, "intake", doc, inputs)
     return doc
 
 
@@ -75,7 +76,12 @@ def _norm_proposals(proposals: list[dict[str, str]]) -> list[dict[str, str]]:
 
 
 def pick_palette(
-    logo: LogoDir, brief: Brief, proposals: list[dict[str, str]], client: JevAsker
+    logo: LogoDir,
+    brief: Brief,
+    proposals: list[dict[str, str]],
+    client: JevAsker,
+    *,
+    inputs: dict | None = None,
 ) -> dict[str, str]:
     """Drop WCAG failures in code, let jev pick; write `ideation/palette.json`."""
     normed = _norm_proposals(proposals)
@@ -110,12 +116,17 @@ def pick_palette(
             if dropped[i]
         ],
     }
-    (logo.ideation / "palette.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
+    _save_pick(logo, "palette", doc, inputs)
     return winner
 
 
 def pick_fonts(
-    logo: LogoDir, brief: Brief, proposals: list[dict[str, str]], client: JevAsker
+    logo: LogoDir,
+    brief: Brief,
+    proposals: list[dict[str, str]],
+    client: JevAsker,
+    *,
+    inputs: dict | None = None,
 ) -> dict[str, str]:
     """Same pattern as palettes (no WCAG step); writes `ideation/fonts.json`.
 
@@ -139,8 +150,16 @@ def pick_fonts(
     names = [font_option_name(p, taken) for p in proposals]
     winner = proposals[names.index(answers["font_pick"]["choice"])]
     doc = {"fonts": winner, "any_fits_p": fits_p}
-    (logo.ideation / "fonts.json").write_text(json.dumps(doc, indent=2, sort_keys=True))
+    _save_pick(logo, "fonts", doc, inputs)
     return winner
+
+
+def _save_pick(logo: LogoDir, kind: str, record: dict, inputs: dict | None) -> None:
+    from logo_maker.pipeline import _write_json
+
+    if inputs is not None:
+        record["inputs"] = inputs
+    _write_json(logo.ideation / f"{kind}.json", record)
 
 
 def main_intake(
@@ -153,14 +172,10 @@ def main_intake(
     brief = load(logo.brief)
     judge_references(logo, brief, client)
     if brief.palette:
-        (logo.ideation / "palette.json").write_text(
-            json.dumps({"palette": brief.palette, "source": "brief"}, indent=2, sort_keys=True)
-        )
+        _save_pick(logo, "palette", {"palette": brief.palette, "source": "brief"}, None)
     else:
         pick_palette(logo, brief, palette_proposals, client)
     if brief.fonts:
-        (logo.ideation / "fonts.json").write_text(
-            json.dumps({"fonts": brief.fonts, "source": "brief"}, indent=2, sort_keys=True)
-        )
+        _save_pick(logo, "fonts", {"fonts": brief.fonts, "source": "brief"}, None)
     else:
         pick_fonts(logo, brief, font_proposals, client)

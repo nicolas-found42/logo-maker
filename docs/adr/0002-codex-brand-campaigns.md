@@ -9,6 +9,14 @@ sampling controls, inspection cameras, render reuse and delivery verification. T
 must own those operations. A valid archive, owner acceptance and visual qualification answer
 different questions.
 
+The shared-contour rule works for reliefs derived from a single flat mark. A modeled object
+or adapted identity can require physical joins, volumes and companion artwork whose outlines
+differ at favicon scale. The Found42 runner demonstrated those construction and inspection
+options in one project. Keeping its controls there would leave later campaigns to reproduce
+render provenance, repair history and archive verification themselves. Adopting packed scenes
+makes that construction possible while moving portability and identity consistency into the
+archive and review checks.
+
 ## Decision
 
 Codex on Apple Silicon runs a persistent campaign. Research precedes ideation. The owner decides

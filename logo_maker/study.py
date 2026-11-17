@@ -291,7 +291,9 @@ def _compact_sheet(paths: dict[str, Path], destination: Path) -> None:
     sheet.save(destination)
 
 
-def _references(logo: LogoDir, brief: Brief, folder: Path, out: Path) -> list[dict]:
+def _references(
+    logo: LogoDir, brief: Brief, folder: Path, out: Path, holdouts: Path | None = None
+) -> list[dict]:
     from logo_maker.jev.questions import MATCHED_FEATURES
 
     authored = folder / "references.json"
@@ -355,15 +357,15 @@ def _references(logo: LogoDir, brief: Brief, folder: Path, out: Path) -> list[di
         )
     photos = out / "references"
     photos.mkdir()
-    records, seen = [], {}
-    for row in rows:
+    records, seen = [], set()
+    for row in sorted(rows, key=lambda row: row["use"] == "holdout"):
         source = Path(row["path"])
         if not source.is_file():
             records.append({**row, "path": source.name, "state": "missing"})
             continue
         digest = _sha256(source)
         if digest in seen:
-            if row["use"] == "holdout" and seen[digest] != "holdout":
+            if row["use"] == "holdout":
                 records.append({**row, "path": source.name, "state": "duplicate", "sha256": digest})
             continue
         with Image.open(source) as photo:
@@ -371,16 +373,19 @@ def _references(logo: LogoDir, brief: Brief, folder: Path, out: Path) -> list[di
             if kind not in ("jpeg", "png", "webp"):
                 raise ValueError(f"reference must be a JPEG, PNG or WebP: {source}")
             photo.verify()
-        seen[digest] = row["use"]
-        destination = photos / f"{len(records) + 1:02d}.{kind}"
+        seen.add(digest)
+        relative = Path("references") / f"{len(records) + 1:02d}.{kind}"
+        withheld = holdouts is not None and row["use"] == "holdout"
+        destination = holdouts / relative if holdouts is not None and withheld else out / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, destination)
         if _sha256(destination) != digest:
             raise ValueError(f"reference changed during study: {source}")
         records.append(
             {
                 **row,
-                "path": destination.relative_to(out).as_posix(),
-                "state": "available",
+                "path": relative.as_posix(),
+                "state": "withheld" if withheld else "available",
                 "sha256": digest,
             }
         )
@@ -457,6 +462,7 @@ def _package_design(
     budget,
     render_options=None,
     render_cache=None,
+    holdouts: Path | None = None,
 ):
     from functools import partial
 
@@ -481,7 +487,7 @@ def _package_design(
         shutil.copyfile(identity, out / "identity.png")
     paths = _flat(folder, work, out, brief)
     _compact_sheet(paths, out / "compact-light-dark.png")
-    references = _references(logo, brief, folder, out)
+    references = _references(logo, brief, folder, out, holdouts)
     hero_report = render(*source, out, "hero-transparent", budget, diagnostics=calibrate)
     blend = out / "scene.blend"
     if hero_report.get("inputs_sha256", {}).get("editable_scene") != _sha256(blend):
@@ -609,6 +615,7 @@ def build(
     budget: Budget | None = None,
     render_options: dict | None = None,
     render_cache: Path | None = None,
+    defer_holdouts: bool = False,
 ) -> dict:
     """Render named concepts from the brief, with no model credentials required."""
     if platform.system() != "Darwin" or platform.machine() != "arm64":
@@ -664,6 +671,7 @@ def build(
                     budget,
                     render_options,
                     render_cache,
+                    staging / "holdouts" / out.name if defer_holdouts else None,
                 )
                 png = out / "hero-transparent.png"
             sheet_entries.append((label, png))
@@ -681,12 +689,16 @@ def build(
         if not preview:
             _zip(assets, staging / "study.zip")
             (staging / "study.zip").replace(assets / "study.zip")
-        publish(
-            [{"source": str(assets), "target": str(target), "move": True}],
-            root / f".{study_id}-publication.json",
-            budget,
-            [],
-        )
+        entries = [{"source": str(assets), "target": str(target), "move": True}]
+        if (staging / "holdouts").is_dir():
+            entries.append(
+                {
+                    "source": str(staging / "holdouts"),
+                    "target": str(logo.root / "qa" / "studies" / study_id / "holdouts"),
+                    "move": True,
+                }
+            )
+        publish(entries, root / f".{study_id}-publication.json", budget, [])
     return {
         "study_id": study_id,
         "directory": target,
@@ -764,7 +776,23 @@ def _verify_archive(path: Path, manifest: dict, binding: str) -> str | None:
     return before
 
 
-def _brief_for_review(root: Path, folder: Path, design: dict, files: dict) -> Brief:
+def _review_photo(folder: Path, row: dict, files: dict, holdouts: Path | None) -> Path | None:
+    if row["state"] == "withheld" and holdouts is not None:
+        path = _safe(holdouts, row["path"])
+        if not path.is_file() or _sha256(path) != row["sha256"]:
+            raise ValueError(f"withheld photo differs from the study inventory: {path}")
+        return path
+    if row["state"] == "available":
+        path = _safe(folder, row["path"])
+        if files.get(f"{folder.name}/{row['path']}", {}).get("sha256") != row["sha256"]:
+            raise ValueError(f"photo is outside the study inventory: {path}")
+        return path
+    return None
+
+
+def _brief_for_review(
+    root: Path, folder: Path, design: dict, files: dict, holdouts: Path | None = None
+) -> Brief:
     import tomlkit
 
     from logo_maker.brief import Reference
@@ -776,17 +804,17 @@ def _brief_for_review(root: Path, folder: Path, design: dict, files: dict) -> Br
     brief = load(root / "brief.toml", content=tomlkit.dumps(raw).encode())
     refs = []
     for row in design["references"]:
-        if row["state"] != "available" or row["use"] not in {"craft", "holdout"}:
+        if row["use"] not in {"craft", "holdout"}:
             continue
-        path = _safe(folder, row["path"])
-        if files.get(path.relative_to(root).as_posix(), {}).get("sha256") != row["sha256"]:
-            raise ValueError(f"photo is outside the study inventory: {path}")
-        refs.append(Reference(path, "craft", row["note"]))
+        if path := _review_photo(folder, row, files, holdouts):
+            refs.append(Reference(path, "craft", row["note"]))
     intended = design["concept"].get("intended_appearance") or brief.intended_appearance
     return replace(brief, references=tuple(refs), intended_appearance=intended)
 
 
-def _review_evidence(folder: Path, design: dict, files: dict, brief: Brief, dest: Path) -> dict:
+def _review_evidence(
+    folder: Path, design: dict, files: dict, brief: Brief, dest: Path, holdouts: Path | None = None
+) -> dict:
     from PIL import ImageOps
 
     def verified(relative):
@@ -799,7 +827,9 @@ def _review_evidence(folder: Path, design: dict, files: dict, brief: Brief, dest
     if note := design["concept"].get("identity_note"):
         evidence["identity"] = {"path": verified("identity.png"), "note": note}
     for row in design["references"]:
-        if row["state"] != "available" or not (match := row.get("match")):
+        if not (match := row.get("match")) or not (
+            photo := _review_photo(folder, row, files, holdouts)
+        ):
             continue
         view = verified(match["view"] + ".png")
         report = _read(verified(match["view"] + "-execution.json"))
@@ -818,7 +848,7 @@ def _review_evidence(folder: Path, design: dict, files: dict, brief: Brief, dest
         }
         for name, path, field in (
             ("candidate_detail", view, "render_region"),
-            ("reference_detail", verified(row["path"]), "photo_region"),
+            ("reference_detail", photo, "photo_region"),
         ):
             box = match.get(field, [0, 0, 1, 1])
             with Image.open(path) as original:
@@ -847,6 +877,7 @@ def review(
     budget: Budget | None = None,
     matched_only: bool = False,
     diagnostic: bool = False,
+    include_holdouts: bool = False,
 ) -> dict:
     """Run the unchanged visual rubric, or record owner acceptance of named designs."""
     import fcntl
@@ -857,6 +888,7 @@ def review(
     if not (root / "manifest.json").is_file():
         raise ValueError(f"study {study_id} is missing its manifest")
     directory = logo.root / "qa" / "studies" / study_id
+    holdouts = directory / "holdouts" if include_holdouts and not diagnostic else None
     if diagnostic:
         directory /= "diagnostic"
     directory.mkdir(parents=True, exist_ok=True)
@@ -875,6 +907,7 @@ def review(
             budget or Budget(),
             matched_only=matched_only,
             diagnostic=diagnostic,
+            holdouts=holdouts,
         )
 
 
@@ -899,6 +932,7 @@ def _review(
     *,
     matched_only=False,
     diagnostic=False,
+    holdouts=None,
 ):
     from logo_maker.eligibility import compare_visual
     from logo_maker.jev import questions
@@ -915,6 +949,8 @@ def _review(
         raise ValueError("an owner note requires at least one accepted concept")
     if set(accepted) - concepts.keys():
         raise ValueError("owner acceptance must name concepts in this study")
+    if accepted and not archive_hash:
+        raise ValueError("owner acceptance requires the verified study ZIP")
     record_path = directory / "review.json"
     previous = _read(record_path) if record_path.exists() else {}
     rubric = review_rubric(matched_only)
@@ -932,7 +968,8 @@ def _review(
         )
         row["reference_coverage"] = {
             role: sum(
-                ref["use"] == role and ref["state"] == "available" for ref in design["references"]
+                ref["use"] == role and ref["state"] in {"available", "withheld"}
+                for ref in design["references"]
             )
             for role in ("craft", "holdout", "research")
         }
@@ -945,6 +982,7 @@ def _review(
         if not visual:
             continue
         approved_design = design
+        design_holdouts = _safe(holdouts, slug) if holdouts is not None else None
         if matched_only:
             approved_design = {
                 **design,
@@ -956,7 +994,7 @@ def _review(
                     and (not diagnostic or ref["use"] == "craft")
                 ],
             }
-        brief = _brief_for_review(root, folder, approved_design, manifest["files"])
+        brief = _brief_for_review(root, folder, approved_design, manifest["files"], design_holdouts)
         has_craft = any(
             ref["state"] == "available" and ref["use"] == "craft" and ref["note"].strip()
             for ref in approved_design["references"]
@@ -996,7 +1034,12 @@ def _review(
                 )
                 with TemporaryDirectory(prefix="logo-study-review-") as tmp:
                     evidence = _review_evidence(
-                        folder, approved_design, manifest["files"], brief, Path(tmp)
+                        folder,
+                        approved_design,
+                        manifest["files"],
+                        brief,
+                        Path(tmp),
+                        design_holdouts,
                     )
                     if diagnostic:
                         crops = directory / slug / "crops"
@@ -1022,7 +1065,7 @@ def _review(
                 photo_roles = {
                     ref["sha256"]: ref["use"]
                     for ref in design["references"]
-                    if ref["state"] == "available"
+                    if ref["state"] in {"available", "withheld"}
                 }
                 for comparison in result["craft"]:
                     comparison["reference_role"] = photo_roles[comparison["reference_sha256"]]

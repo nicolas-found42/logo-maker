@@ -724,12 +724,13 @@ def _execute(logo, action, concepts, note, record):
         if _source_binding(logo, logo.concept_path(cid)) != item["sources"][cid]:
             _needed("Start the repair from the retained revision before editing its files.")
         repairs.append({**record, "study_id": item["study_id"], "before": item["sources"][cid]})
-        state["consumed_holdouts"] = sorted(
-            set(
-                state["consumed_holdouts"]
-                + [f"{cid}:{entry}" for entry in item.get("holdouts", {}).get(cid, [])]
+        if not item.get("holdouts_withheld") or item.get("formal_review_started"):
+            state["consumed_holdouts"] = sorted(
+                set(
+                    state["consumed_holdouts"]
+                    + [f"{cid}:{entry}" for entry in item.get("holdouts", {}).get(cid, [])]
+                )
             )
-        )
     elif action == "references":
         _current(logo, state)
         chosen = concepts or state["selected"]
@@ -959,6 +960,7 @@ def _work(logo, path, state, action, concepts, note, record):
                 render_options=environment,
                 render_cache=logo.root / ".render-cache",
                 calibrate=bool(record.get("calibrate")),
+                defer_holdouts=True,
             )
             if bindings != {cid: _source_binding(logo, logo.concept_path(cid)) for cid in chosen}:
                 raise ValueError(
@@ -977,6 +979,7 @@ def _work(logo, path, state, action, concepts, note, record):
                 "inspection_only": inspection_only,
                 "calibrate": bool(record.get("calibrate")),
                 "holdouts": {cid: row["holdouts"] for cid, row in coverage.items()},
+                "holdouts_withheld": True,
                 "coverage": coverage,
             }
             if action == "prototype":
@@ -1012,20 +1015,25 @@ def _work(logo, path, state, action, concepts, note, record):
     if action in {"review", "diagnose", "accept"}:
         if action == "accept":
             _note(note)
-            if state["schema"] >= 2:
-                directory = logo.root / "studies" / item["study_id"]
-                manifest, binding = study._verify_manifest(directory, item["study_id"])
-                archive = study._verify_archive(directory / "study.zip", manifest, binding)
-                if (
-                    record.get("study_id") != item["study_id"]
-                    or not archive
-                    or record.get("archive_sha256") != archive
-                ):
-                    _needed(
-                        "Record acceptance against the exact verified study and archive digest.",
-                        study_id=item["study_id"],
-                        archive_sha256=archive,
-                    )
+            directory = logo.root / "studies" / item["study_id"]
+            manifest, binding = study._verify_manifest(directory, item["study_id"])
+            if binding != item["manifest_sha256"] or set(manifest["concepts"]) != set(
+                state["selected"]
+            ):
+                raise ValueError("the study differs from the verified campaign revision")
+            archive = study._verify_archive(directory / "study.zip", manifest, binding)
+            if (
+                record.get("study_id") != item["study_id"]
+                or not archive
+                or record.get("archive_sha256") != archive
+            ):
+                _needed(
+                    "Record acceptance against the exact verified study and archive digest.",
+                    study_id=item["study_id"],
+                    archive_sha256=archive,
+                )
+        if action == "review":
+            item["formal_review_started"] = True
         budget = CampaignBudget(path, state)
         try:
             result = study.review(
@@ -1037,7 +1045,17 @@ def _work(logo, path, state, action, concepts, note, record):
                 budget=budget,
                 matched_only=True,
                 diagnostic=action == "diagnose",
+                include_holdouts=action == "review",
             )
+            if action == "accept":
+                if result["manifest_sha256"] != binding or result["archive_sha256"] != archive:
+                    raise ValueError("the study changed while recording campaign acceptance")
+                state["modeled_acceptance"] = {
+                    "study_id": item["study_id"],
+                    "manifest_sha256": binding,
+                    "archive_sha256": archive,
+                    "note": note,
+                }
             state["history"].append({"action": action, "study_id": item["study_id"], "note": note})
             return result
         finally:

@@ -29,6 +29,28 @@ class FakeResponse:
         return self._payload
 
 
+def test_judgment_log_stays_pending_when_new_asset_hash_is_wrong(tmp_path):
+    from hashlib import sha256
+
+    from logo_maker.jev.client import _finish_asset_storage
+
+    request = tmp_path / "request.json"
+    request.write_text('{"assets_status":"pending"}')
+    digest = sha256(b"expected").hexdigest()
+    assets = {
+        "image": {
+            "format": "png",
+            "_sha256": digest,
+            "data_base64": base64.b64encode(b"mismatched bytes").decode(),
+        }
+    }
+    logo = LogoDir(tmp_path)
+    with pytest.raises(JevError, match="digest"):
+        _finish_asset_storage(logo, assets, request)
+    assert json.loads(request.read_text())["assets_status"] == "pending"
+    assert not list((logo.qa / "jev/assets").iterdir())
+
+
 def ok_response(questions):
     answers = {}
     for qid, q in questions.items():

@@ -169,3 +169,34 @@ def test_flat_campaign_binds_selection_and_owner_approval_to_rendered_artwork(lo
         assert "pier/mark-color.svg" not in package.namelist()
     campaign.execute(logo, "select", concepts=["pier"], note="Owner selected the pier.")
     assert campaign.execute(logo, "flat-deliver")["status"] == "review_needed"
+
+
+def test_held_out_evaluator_cannot_ignore_false_acceptance(logo):
+    from logo_maker import campaign_calibration, study
+    from logo_maker.sampling_diagnostics import sha256
+
+    panel = logo.root / "panel"
+    panel.mkdir()
+    evidence = panel / "evidence.json"
+    labels = panel / "labels.json"
+    result = panel / "result.json"
+    errors = {"defect_as_sound": 1, "insufficient_as_sound": 1}
+    evidence.write_text('{"partition":"held_out","cases":{}}')
+    labels.write_text('{"tolerances":{"sound_as_defect":0}}')
+    result.write_text(
+        json.dumps(
+            {
+                "panel_sha256": sha256(evidence),
+                "labels_sha256": sha256(labels),
+                "rubric_sha256": study.review_rubric(True),
+                "partition": "held_out",
+                "variant": "baseline",
+                "labels_present": ["sound", "defect", "insufficient"],
+                "errors": errors,
+                "exceeded": {},
+                "comparisons": {"one": {"expected": "sound", "predicted": "sound"}},
+            }
+        )
+    )
+    state = {"evaluator": {"panel": panel.name, "result": result.name, "sha256": sha256(result)}}
+    assert campaign_calibration.qualification(logo, state) == "failed"

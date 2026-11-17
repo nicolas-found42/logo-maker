@@ -90,6 +90,16 @@ def _verify_delivery(directory, report, manifest, root, budget):
             inventory["files"]["review/review.json"]["sha256"] != report["review_sha256"]
         ):
             raise ValueError("private evidence differs from the review")
+        for slug in manifest["concepts"].values():
+            design = _read(root / slug / "design.json")
+            for photo in design["references"]:
+                if photo["state"] != "withheld":
+                    continue
+                member = f"review/holdouts/{slug}/{photo['path']}"
+                if inventory["files"].get(member, {}).get("sha256") != photo["sha256"]:
+                    raise ValueError(
+                        f"private evidence differs from the retained holdout: {member}"
+                    )
     study._verify_archive(
         directory / "evidence.zip", inventory, study_render.sha256(contents).hexdigest()
     )
@@ -101,12 +111,48 @@ def _verify_delivery(directory, report, manifest, root, budget):
     return checked
 
 
+def _accepted(state, study_id, binding, archive_hash, review, manifest) -> bool:
+    acceptance = state.get("modeled_acceptance")
+    if acceptance is not None:
+        return (
+            acceptance.get("study_id") == study_id
+            and acceptance.get("manifest_sha256") == binding
+            and acceptance.get("archive_sha256") == archive_hash
+            and bool(acceptance.get("note", "").strip())
+        )
+
+    # Schema 2 already checked the caller-supplied archive digest before recording
+    # an accept action. Recover its binding from the matching study receipt.
+    if state["schema"] < 2 or not review:
+        return False
+    notes = {
+        entry["note"]
+        for entry in state["history"]
+        if entry["action"] == "accept" and entry.get("study_id") == study_id and entry.get("note")
+    }
+    owners = {cid: row.get("owner", {}) for cid, row in review["designs"].items()}
+    return any(
+        all(
+            owners.get(cid, {}).get("status") == "accepted"
+            and owners[cid].get("note") == note
+            and owners[cid].get("hero_sha256")
+            == manifest["files"][f"{slug}/hero-transparent.png"]["sha256"]
+            for cid, slug in manifest["concepts"].items()
+        )
+        for note in notes
+    )
+
+
 def deliver(logo, state, item, record, budget):
     study_id = item["study_id"]
     root = logo.root / "studies" / study_id
     manifest, binding = study._verify_manifest(root, study_id)
     archive_hash = study._verify_archive(root / "study.zip", manifest, binding)
-    if not archive_hash or set(manifest["concepts"]) != set(state["selected"]):
+    if (
+        not archive_hash
+        or binding != item["manifest_sha256"]
+        or set(manifest["concepts"]) != set(state["selected"])
+    ):
         raise ValueError("delivery needs the verified archive for all selected designs")
     qa = logo.root / "qa" / "studies" / study_id
     review_path = qa / "review.json"
@@ -115,6 +161,7 @@ def deliver(logo, state, item, record, budget):
         review["manifest_sha256"] != binding or review["archive_sha256"] != archive_hash
     ):
         raise ValueError("the review belongs to different artwork")
+    owner_accepted = _accepted(state, study_id, binding, archive_hash, review, manifest)
     environment = study_render.environment(budget)
     sampling = campaign_qualification.status(logo, state, item, environment)
     evaluator = campaign_calibration.qualification(logo, state)
@@ -151,7 +198,6 @@ def deliver(logo, state, item, record, budget):
             for pair in visual.get("craft", [])
             if pair.get("status") == "pass"
         }
-        owner = row.get("owner", {})
         local = study._local_checks(folder / "hero-transparent.png")
         repairs = state["repairs"].get(cid, [])
         outcomes[cid] = {
@@ -167,10 +213,7 @@ def deliver(logo, state, item, record, budget):
             "repair": (
                 repairs[-1].get("after", {}).get("outcome", "pending") if repairs else "none"
             ),
-            "owner": "accepted"
-            if owner.get("hero_sha256") == sha256(folder / "hero-transparent.png")
-            and owner.get("status") == "accepted"
-            else "pending",
+            "owner": "accepted" if owner_accepted else "pending",
         }
     qualified = (
         not item.get("inspection_only")

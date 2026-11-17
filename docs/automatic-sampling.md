@@ -110,27 +110,29 @@ a deadline. Time, attempt, memory, device, cap, noise and visual outcomes have s
 
 ## Profiles and reuse
 
-The owner-reviewed M5 Pro profile uses 8192 / 0.01. Missing, invalid, stale or
-out-of-scope profiles retain the 4096 / 0.01 adaptive comparator and return a review stop at
-finalize. Low-level `render` and `export_all` can produce inspection artifacts explicitly
-labeled unqualified; they cannot become pipeline winners. Legacy direct image exports are
-marked `unattested_legacy_image` in the manifest.
+The historical owner-reviewed M5 Pro profile uses 8192 / 0.01. Its recorded package fingerprint
+is stale against the current checkout. Missing, invalid, stale and out-of-scope profiles retain
+the 4096 / 0.01 adaptive comparator unless the recipe contains explicit controls. Finalize
+returns a review stop in each of these cases. Low-level `render` and `export_all` can produce
+inspection artifacts labeled unqualified. Pipeline winners require qualified artifacts.
+Legacy direct image exports are marked `unattested_legacy_image` in the manifest.
 
 ### Profile activation
 
 Before a normal final job, select a retained profile matching the actual runtime context
-and reviewed material/stage scope. The M5 Pro profile is
+and reviewed material/stage scope. The historical M5 Pro profile is
 [`apple-m5-pro-final.json`](../benchmarks/sampling/profiles/apple-m5-pro-final.json).
 Set `[sampling] profile` to its absolute path (or a path relative to that concept).
 `sampling.resolve_controls` runs in the owned host worker. It loads the profile and
 diagnosis, resolves and binds the review files, fills only unspecified controls, and
-records `qualified`, `profile_stale`, `profile_out_of_scope` or an explicit conflict.
-No matching record means the unchanged comparator and a review stop.
+records `qualified`, `profile_unqualified`, `profile_stale`, `profile_out_of_scope` or an explicit conflict.
+Without a matching record the comparator supplies unspecified controls, and finalization
+returns a review stop.
 Final QA, export staging and the publication guard use the same
 `sampling.sampling_qualified` predicate for the recorded profile and sampling outcome.
 
-The active M5 Pro profile uses an adaptive threshold of 0.01 and a cap of 8192 samples per
-pixel. See the [owner review and current measurements](../benchmarks/sampling/validation/m5-pro-20261113-8192.json).
+The reviewed M5 Pro controls use an adaptive threshold of 0.01 and a cap of 8192 samples per
+pixel. See the [owner review and retained measurements](../benchmarks/sampling/validation/m5-pro-20261113-8192.json).
 The higher cap lets pixels that reach 4096 continue sampling if they still exceed the
 noise threshold. A different cap requires its own qualification evidence.
 Current-image QA, craftsmanship, brief fit and preference remain independent, including

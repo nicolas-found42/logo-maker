@@ -797,7 +797,9 @@ def test_shortlist_ids_sharing_a_folder_are_rejected(tmp_path, ids):
 def _font_logo(tmp_path: Path, monkeypatch, brief_fonts: str = "") -> LogoDir:
     from logo_maker import fonts, pipeline
 
-    monkeypatch.setattr(pipeline, "review_brief", lambda logo, client=None: {})
+    monkeypatch.setattr(
+        pipeline, "review_brief", lambda logo, client=None: {"requirements_revision": "fixture"}
+    )
     monkeypatch.setattr(fonts, "families", lambda category=None: ["Roboto", "Lora", "Inter"])
     root = tmp_path / "acme"
     (root / "ideation").mkdir(parents=True)

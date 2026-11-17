@@ -293,11 +293,23 @@ def test_cli_new_handoff_quotes_the_absolute_output_target(tmp_path, capsys):
     assert main(["new", "sample", "--out", str(out)]) == 0
     commands = re.findall(r"`(logo-maker [^`]+)`", capsys.readouterr().out)
     assert [shlex.split(command) for command in commands] == [
+        ["logo-maker", "study", str(out.resolve()), "--concept", "<id>", "--preview"],
         ["logo-maker", "brief", str(out.resolve())],
         ["logo-maker", "run", str(out.resolve())],
     ]
-    assert main(shlex.split(commands[0])[1:]) == 3
+    assert main(shlex.split(commands[1])[1:]) == 3
     assert "AUTHORING NEEDED" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("command", ["new", "status"])
+@pytest.mark.parametrize("out", ["", " "])
+def test_cli_rejects_blank_output(command, out, tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    with pytest.raises(SystemExit) as error:
+        main([command, "example", "--out", out])
+    assert error.value.code == 2
+    assert "out must be a folder path" in capsys.readouterr().err
+    assert list(tmp_path.iterdir()) == []
 
 
 def test_mcp_instructions_route_flat_work_and_resume_through_the_skill():
