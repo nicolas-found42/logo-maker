@@ -791,6 +791,8 @@ def validate(svg: Path) -> list[str]:
         return [f"{svg}: root is <{_local(root.tag)}>, want <svg>"]
     if root.get("viewBox", "").split() != ["0", "0", "1000", "1000"]:
         problems.append(f"viewBox is {root.get('viewBox')!r}, want '0 0 1000 1000'")
+    for attr in sorted(root.attrib.keys() - {"viewBox", "width", "height", "version", "id"}):
+        problems.append(f"<svg>: {attr} is forbidden")
     seen: set[str] = set()
     for child in root:
         tag = _local(child.tag)
@@ -808,12 +810,13 @@ def validate(svg: Path) -> list[str]:
         fill = child.get("fill", "")
         if not HEX_RE.match(fill):
             problems.append(f"path {pid!r}: fill {fill!r} is not #RRGGBB")
-        for attr in ("transform", "stroke", "stroke-width"):
-            if child.get(attr) is not None:
-                problems.append(
-                    f"path {pid!r}: {attr} is forbidden "
-                    f"({'outlines' if 'stroke' in attr else 'baked coordinates'} only)"
-                )
+        allowed = {"id", "d", "fill", "fill-rule", "data-role", "data-height", "data-layer"}
+        for attr in sorted(child.attrib.keys() - allowed):
+            problems.append(f"path {pid!r}: {attr} is forbidden")
+        if len(child):
+            problems.append(f"path {pid!r}: nested elements are forbidden")
+        if child.get("fill-rule", "nonzero") not in {"nonzero", "evenodd"}:
+            problems.append(f"path {pid!r}: fill-rule must be nonzero or evenodd")
         if child.get("d", "") == "":
             problems.append(f"path {pid!r}: empty d")
             continue
@@ -868,7 +871,9 @@ def flatten(svg: Path, out: Path | None = None) -> dict:
             continue
         pid = child.get("id", "")
         path = d_to_pathops(child.get("d", ""))
-        clean = pathops.op(path, d_to_pathops(child.get("d", "")), pathops.PathOp.UNION)
+        if child.get("fill-rule") == "evenodd":
+            path.fillType = pathops.FillType.EVEN_ODD
+        clean = pathops.op(path, path, pathops.PathOp.UNION)
         clean_d = pathops_to_d(clean)
         if not clean_d:
             raise MotifError(f"path {pid!r} has no area (zero-size or self-cancelling shape)")

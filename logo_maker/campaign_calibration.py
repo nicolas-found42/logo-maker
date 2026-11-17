@@ -14,6 +14,7 @@ from logo_maker.sampling_diagnostics import sha256
 from logo_maker.study_render import digest
 
 LABELS = ("sound", "defect", "insufficient")
+FALSE_ACCEPTANCES = ("defect_as_sound", "insufficient_as_sound")
 
 
 def prepare_panel(project: Path, specification: Path, output: Path) -> Path:
@@ -256,6 +257,8 @@ def evaluate(panel: Path, client, *, rubric: str, variant: str = "baseline") -> 
         for key, count in errors.items()
         if key in labels["tolerances"] and count > labels["tolerances"][key]
     }
+    if partition == "held_out":
+        exceeded.update({key: errors[key] for key in FALSE_ACCEPTANCES if key in errors})
     return {
         "panel_sha256": sha256(evidence_path),
         "labels_sha256": sha256(labels_path),
@@ -292,7 +295,7 @@ def qualification(logo, state) -> str:
             or set(report["labels_present"]) != set(LABELS)
         ):
             return "out_of_scope"
-        if report["exceeded"]:
+        if report["exceeded"] or any(report["errors"].get(key, 0) for key in FALSE_ACCEPTANCES):
             return "failed"
         # A judge that abstains on every labeled sound case cannot qualify any design.
         if not any(

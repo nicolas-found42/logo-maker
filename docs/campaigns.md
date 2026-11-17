@@ -11,8 +11,11 @@ Approve proposed directions before rendering previews. Selection binds the verif
 archive, concept directions and current brief. Geometry changes preserve direction approval but invalidate
 render/review/delivery evidence. Changed briefs require renewed approval. Owner notes record
 actual user direction or an explicit delegation; the tool never infers acceptance from a pass.
-Final acceptance names the exact study and its archive hash. Existing schema 1 campaigns keep
-their recorded decisions and can be opened under the current runtime.
+Final acceptance names the exact study and its archive hash. The accepted manifest, archive
+and owner note are recorded in `campaign.json`. Standalone study receipts record a separate
+decision. Existing campaigns can be opened under the current runtime. A legacy acceptance
+remains current when the schema 2 campaign action and verified study receipt have the same
+study, owner note and artwork. Earlier acceptances without that evidence remain in history.
 
 Every concept supplies `construction.json` with its critical features and construction sources.
 References identify distinct captures, angle, lighting, covered features and development/holdout
@@ -21,9 +24,17 @@ designs use visual, typography, and placement references. Each critical modeled 
 useful development and independent holdout coverage, with verified render and photo crops. Near
 duplicates are flagged for inspection. References used to diagnose a repair are consumed as
 development evidence; replacement holdouts are required for the next independent check.
-Development-only diagnosis retains exact crops and excludes held-out photos from the provider
-request. The formal review uses independent holdouts. An unmatched crop routes to evidence
-repair. Pair-level findings are interpreted alongside direct scene measurements.
+Campaign studies retain holdout photo bytes in private QA storage outside the study
+archive and contact sheets. Development-only diagnosis retains exact development crops.
+Formal campaign review admits the withheld photos by digest. An unmatched crop routes to
+evidence repair. Pair-level findings can be inspected with direct scene measurements.
+When a repair begins after formal review has started, the previous holdouts for that design
+are retired because their feedback may have reached the author. A development-only
+diagnosis leaves withheld holdouts available for formal review.
+`check-construction` runs 1–128 authored ray checks on the verified scene and retains a
+scene- and manifest-bound receipt in the study's QA directory. This optional diagnostic
+accompanies the evidence. Delivery's technical gate uses the native execution and image
+checks.
 
 ## Rendering and repairs
 
@@ -71,6 +82,13 @@ stay in a separate archive. Production requires current passing mandatory eviden
 acceptance. Review packages identify every unresolved dimension. No archive is called qualified
 because its files merely validate.
 
+The shareable ZIP omits the study's reference photos, private brief and review journal.
+Before packaging, the author checks materials packed in `scene.blend` and retained
+construction sources for private or third-party contents. Embed only assets licensed
+for the client handoff and retain permission records for any reference intended for
+redistribution. Opening a self-contained scene verifies portability. Redistribution
+permission and permission for a provider review are separate decisions.
+
 ## Release evidence
 
 Use a pinned matching Codex skill/tool install. Calibrate the evaluator against independent
@@ -89,5 +107,7 @@ contains the reviewed crops, their inventory in `evidence.json`, and independent
 `labels.json`. The worker uses the restricted Jev profile. It reports mistakes by actual
 and predicted label, includes unsettled results, and binds the exact model and rubric. The
 development panel can contain a single class. A held-out panel must contain all three classes.
-An evaluation that never recognizes a sound example cannot qualify the production evaluator.
+Production requires at least one correctly recognized sound example and zero defect or
+insufficient-evidence examples classified as sound. These two error limits apply to every
+held-out result.
 The observable-feature variant is available for development experiments.

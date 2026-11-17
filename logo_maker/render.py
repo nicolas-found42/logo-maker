@@ -418,6 +418,8 @@ def render(
                 effective.update(decision.settings.quality())
                 diagnosis = None
                 continue
+            if decision.state in {"attempt_limit", "time_limit"}:
+                raise SamplingLimit(f"{decision.state}: {decision.reason}")
             job.update(
                 published=True,
                 delivered_sha256=delivered_hash,

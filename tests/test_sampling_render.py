@@ -706,6 +706,37 @@ def test_finalize_sampling_stop_names_evidence_and_preserves_existing_winner(tmp
     assert prior.read_text() == '{"winner":"approved-prior"}'
 
 
+def test_finalize_tournaments_other_candidate_after_an_authoring_stop(tmp_path, monkeypatch):
+    from logo_maker import judging, pipeline, refinement
+    from logo_maker.paths import LogoDir
+
+    logo = LogoDir(tmp_path)
+    ids = ["blocked", "eligible"]
+    (logo.ideation / "finalists.json").write_text('{"binding":"inputs"}')
+    monkeypatch.setattr(refinement, "require_binding", lambda *a: None)
+    monkeypatch.setattr(refinement, "final_bindings", lambda *a: None)
+    monkeypatch.setattr(
+        pipeline, "_bounded_inputs", lambda *a, **kw: (None, None, {"finalists": ids})
+    )
+
+    def qa(_logo, cid, *a, **kw):
+        if cid == ids[0]:
+            raise pipeline.AuthoringNeeded("inspect the edge", [tmp_path / "diagnosis.json"])
+        return {"result": "pass"}
+
+    def tournament(_brief, images, *a, **kw):
+        assert list(images) == [ids[1]]
+        return {"winner": ids[1], "candidate_eligibility": {ids[1]: {"status": "pass"}}}
+
+    published = {}
+    monkeypatch.setattr(pipeline, "qa_concept", qa)
+    monkeypatch.setattr(pipeline, "_budgeted_client", lambda client, budget: client)
+    monkeypatch.setattr(judging, "final_tournament_record", tournament)
+    monkeypatch.setattr(pipeline, "_publish_selection", lambda *a, **kw: published.update(kw["qa"]))
+    assert pipeline.finalize(logo, client=object()) == ids[1]
+    assert published == {ids[0]: "authoring_needed", ids[1]: "pass"}
+
+
 def test_creative_sources_join_sampling_keys_without_diagnosis_self_dependency(tmp_path):
     import tomlkit
     from test_refinement import construction, job
@@ -1021,7 +1052,10 @@ def test_finalize_blocked_input_terminates_and_keeps_winner(tmp_path, blocked):
     assert winner_path.read_text() == '{"winner":"approved prior"}'
 
 
-def test_failed_retry_preserves_usable_active_image_and_provenance(tmp_path, monkeypatch):
+@pytest.mark.parametrize("comparison_stop", [None, "time_limit", "attempt_limit"])
+def test_failed_retry_preserves_usable_active_image_and_provenance(
+    tmp_path, monkeypatch, comparison_stop
+):
     compiled(tmp_path)
     monkeypatch.setattr(render, "machine_context", lambda *a: {})
 
@@ -1041,12 +1075,20 @@ def test_failed_retry_preserves_usable_active_image_and_provenance(tmp_path, mon
     def fail(*args, **kwargs):
         raise RuntimeError("GPU-only denoising unverified")
 
-    monkeypatch.setattr(render, "_run_builder", fail)
-    with pytest.raises(RuntimeError, match="GPU-only"):
+    if comparison_stop is None:
+        monkeypatch.setattr(render, "_run_builder", fail)
+    else:
+        from logo_maker.sampling import Decision
+
+        monkeypatch.setattr(render, "decide", lambda *a, **kw: Decision(comparison_stop, "test"))
+    with pytest.raises(RuntimeError, match=comparison_stop or "GPU-only"):
         render.render(tmp_path, "final")
     assert first.png.read_bytes() == prior_image
     assert first.sampling.read_bytes() == prior_record
     assert render.artifact_current(tmp_path, "final", check_machine=False)
     failures = list((tmp_path / ".build").glob("final.sampling.failed-*.json"))
     assert len(failures) == 1
-    assert not json.loads(failures[0].read_text())["published"]
+    receipt = json.loads(failures[0].read_text())
+    assert not receipt["published"]
+    if comparison_stop is not None:
+        assert receipt["outcomes"]["time"] == comparison_stop

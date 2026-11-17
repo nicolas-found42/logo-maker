@@ -86,11 +86,13 @@ def delivered(campaign, monkeypatch):
             (size // 4, size // 4, 3 * size // 4, 3 * size // 4), fill="red"
         )
         canvas.save(output / f"{name}.png")
+        report = {"status": "verified", "scene_inventory": {"contract": "packed-static-v1"}}
         if name == "hero-transparent":
             blend = output / "scene.blend"
             blend.write_bytes(source.read_bytes())
-            return {"inputs_sha256": {"editable_scene": sha256(blend.read_bytes()).hexdigest()}}
-        return {}
+            report["inputs_sha256"] = {"editable_scene": sha256(blend.read_bytes()).hexdigest()}
+        (output / f"{name}-execution.json").write_text(json.dumps(report))
+        return report
 
     monkeypatch.setattr(study, "_render", render)
     return study.build(campaign, ["plate", "collar"])
@@ -158,6 +160,92 @@ def test_review_rejects_changed_render_and_unnamed_acceptance(campaign, delivere
     hero.write_bytes(b"edited")
     with pytest.raises(ValueError, match="study file changed"):
         study.review(campaign, study_id, accepted=["plate"], visual=False)
+
+
+def test_study_acceptance_requires_a_verified_archive(campaign, delivered):
+    delivered["archive"].unlink()
+    with pytest.raises(ValueError, match="verified study ZIP"):
+        study.review(campaign, delivered["study_id"], accepted=["plate"], visual=False)
+
+
+def test_campaign_delivery_requires_campaign_acceptance(campaign, delivered, monkeypatch):
+    from logo_maker import campaign as workflow
+    from logo_maker import campaign_delivery, study_render
+    from logo_maker.sampling import Budget
+
+    selected = ["plate", "collar"]
+    study_id = delivered["study_id"]
+    archive_hash = sha256(delivered["archive"].read_bytes()).hexdigest()
+    study.review(campaign, study_id, accepted=selected, visual=False)
+    (campaign.root / "research.md").write_text("Fixture research")
+    workflow.execute(campaign, "init")
+    path = campaign.root / "campaign.json"
+    state = json.loads(path.read_text())
+    state["selected"] = selected
+    for cid in selected:
+        (campaign.concept(cid) / "construction.json").write_text('{"sources":[]}')
+    item = {
+        "study_id": study_id,
+        "manifest_sha256": sha256(delivered["manifest"].read_bytes()).hexdigest(),
+        "sources": {
+            cid: workflow._source_binding(campaign, campaign.concept(cid)) for cid in selected
+        },
+    }
+    monkeypatch.setattr(study_render, "environment", lambda *_: {})
+    monkeypatch.setattr(study_render, "verified_execution", lambda *_: True)
+    monkeypatch.setattr(campaign_delivery, "_verify_delivery", lambda *a: {})
+    monkeypatch.setattr(workflow, "_study_current", lambda *_: item)
+    report = campaign_delivery.deliver(campaign, state, item, {}, Budget())
+    assert {row["owner"] for row in report["designs"].values()} == {"pending"}
+    workflow._work(
+        campaign,
+        path,
+        state,
+        "accept",
+        [],
+        "Use the exact delivered artwork.",
+        {"study_id": study_id, "archive_sha256": archive_hash},
+    )
+    report = campaign_delivery.deliver(campaign, state, item, {}, Budget())
+    assert {row["owner"] for row in report["designs"].values()} == {"accepted"}
+    state.pop("modeled_acceptance")
+    legacy = campaign_delivery.deliver(campaign, state, item, {}, Budget())
+    assert {row["owner"] for row in legacy["designs"].values()} == {"accepted"}
+
+
+def test_campaign_holdout_pixels_stay_out_of_the_study_archive(campaign, delivered):
+    source = campaign.concept("plate") / "references.json"
+    photo_list = json.loads(source.read_text())
+    photo_list["photos"].append(photo_list["photos"][-1])
+    source.write_text(json.dumps(photo_list))
+    result = study.build(campaign, ["plate"], defer_holdouts=True)
+    manifest = json.loads(result["manifest"].read_text())
+    folder = result["directory"] / "plate"
+    refs = json.loads((folder / "design.json").read_text())["references"]
+    assert [ref["state"] for ref in refs] == ["available", "duplicate", "withheld", "duplicate"]
+    withheld = refs[2]
+    assert f"plate/{withheld['path']}" not in manifest["files"]
+    with ZipFile(result["archive"]) as archive:
+        assert f"plate/{withheld['path']}" not in archive.namelist()
+    private = campaign.root / "qa" / "studies" / result["study_id"] / "holdouts" / "plate"
+    assert sha256((private / withheld["path"]).read_bytes()).hexdigest() == withheld["sha256"]
+    standalone = study._brief_for_review(
+        result["directory"], folder, {"references": refs, "concept": {}}, manifest["files"]
+    )
+    formal = study._brief_for_review(
+        result["directory"], folder, {"references": refs, "concept": {}}, manifest["files"], private
+    )
+    assert len(standalone.references) == 1
+    assert len(formal.references) == 2
+    (private / withheld["path"]).write_bytes(b"changed photo")
+    with pytest.raises(ValueError, match="withheld photo differs"):
+        study._brief_for_review(
+            result["directory"],
+            folder,
+            {"references": refs, "concept": {}},
+            manifest["files"],
+            private,
+        )
 
 
 def test_matched_craft_distinguishes_missing_evidence_and_order_disagreement(tmp_path):
